@@ -40,7 +40,9 @@ dmypy.json
 
 # SmartBugs results
 results/
-results*
+# Anchored to this directory on purpose: the unanchored "results*" also matched
+# the source file sb/results2csv.py, which then never reached a commit.
+/results*
 results/*.*
 
 # Default remote datasets

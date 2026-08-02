@@ -49,8 +49,10 @@ Lizenzen und werden davon NICHT beruehrt:
                              gibt "MIT" an. Beides sind permissive Lizenzen; fuer
                              die Nutzung in dieser Arbeit macht der Unterschied
                              keinen Unterschied. Ausgenommen sind die oben
-                             genannten eigenen Verzeichnisse und der
-                             gekennzeichnete Patch in smartbugs/sb/docker.py
+                             genannten eigenen Verzeichnisse sowie die
+                             gekennzeichneten Patches in smartbugs/sb/:
+                             docker.py, tools.py, solidity.py, analysis.py
+                             und io.py
 
 Welche Datei zu welcher Kategorie gehoert, ist vollstaendig und mit Diff belegt
 in docs/BA-EIGENANTEIL.md aufgefuehrt.

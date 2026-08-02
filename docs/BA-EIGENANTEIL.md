@@ -6,7 +6,15 @@ sagt, welche Datei zu welcher Kategorie gehört — und wo eigener Code fremden
 verändert, **was** geändert wurde und **warum**.
 
 Die Aufstellung ist nicht geschätzt, sondern per Datei-Hash gegen die
-Upstream-Stände abgeglichen (Stand 2026-08-02):
+Upstream-Stände abgeglichen. Gezählt wird ausschließlich, was git in diesem
+Repository **trackt** — ignorierte oder ungetrackte Dateien erreichen den Leser
+nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
+
+| Komponente | Stand |
+|---|---|
+| GPTScan | `29a1747` (`main`) |
+| LLMSmartAuditTool | `c507fe4` (`main`) |
+| SmartBugs | Tag `v2.1.1` = `01c0e66` |
 
 | Fremdkomponente | Upstream | Lizenz |
 |---|---|---|
@@ -59,18 +67,39 @@ selbst geschrieben, je vier Dateien nach dem SmartBugs-Schema:
 | `LLMSmartAuditTool-main/.../Dockerfile.smartbugs`, `.dockerignore` | Containerisierung für SmartBugs |
 | `LLMSmartAuditTool-main/.../docs/coverage.md` | Welche Detektor-Kategorien `SmartContractTA` tatsächlich prüft |
 
+> **Zur Abgrenzung:** Von den 21 gegenüber dem Upstream neuen Dateien im
+> GPTScan-Baum sind 11 eigener Code bzw. eigene Dokumentation (die Tabelle
+> oben). Die übrigen 10 liegen unter `GPTScan/reports/` und sind **generierte
+> Auswertungen eigener Läufe** (CSV/HTML/PDF/Markdown), kein Werkzeugcode. Sie
+> werden hier ausgewiesen, weil sie in der Dateizählung als „neu" erscheinen.
+
 ---
 
 ## 2. Änderungen an Fremdcode
 
-### 2.1 SmartBugs — genau eine Änderung
+### 2.1 SmartBugs — 5 geänderte Dateien in `sb/`, dazu `.gitignore`
+
+Gegen den Upstream-Tag `v2.1.1` unterscheiden sich fünf Dateien in `sb/`. Zwei
+davon bilden zusammen den Mechanismus zur Schlüsselübergabe; drei sind kleinere
+Eingriffe. Hinzu kommt eine Korrektur an `smartbugs/.gitignore` (unten).
+
+#### Der Schlüssel-Mechanismus (zwei Dateien, funktional untrennbar)
+
+**`smartbugs/sb/tools.py`** (`FIELDS`, `class Tool`)
+
+*Was:* Das Feld `env` wird in das `FIELDS`-Tupel und in die `Tool`-Dataclass
+aufgenommen — eine kommaseparierte Liste von Namen von Host-Umgebungsvariablen.
+
+*Warum:* SmartBugs liest nur Felder aus einer `config.yaml`, die in `FIELDS`
+stehen. Ohne diesen Patch würde das `env:` in `tools/gptscan/config.yaml` und
+`tools/llmsmartaudit/config.yaml` schlicht ignoriert, und der Patch in
+`docker.py` liefe ins Leere.
 
 **`smartbugs/sb/docker.py`** (`__docker_args` und `execute`)
 
-*Was:* Zwei Ergänzungen. Erstens werden Host-Umgebungsvariablen, die die
-`config.yaml` des Werkzeugs unter `env:` auflistet, in den Container
-durchgereicht. Zweitens werden dieselben Werte unmittelbar vor der Rückgabe
-durch `<redacted>` ersetzt.
+*Was:* Zwei Ergänzungen. Erstens werden die unter `env:` aufgelisteten
+Host-Umgebungsvariablen in den Container durchgereicht. Zweitens werden
+dieselben Werte unmittelbar vor der Rückgabe durch `<redacted>` ersetzt.
 
 *Warum:* SmartBugs reicht keine Umgebungsvariablen in Tool-Container durch. Für
 zwei LLM-gestützte Werkzeuge gibt es damit keinen Weg, den API-Schlüssel zur
@@ -80,7 +109,25 @@ Docker-Argumente wörtlich in jede `results/**/smartbugs.json` geschrieben
 werden; ohne sie steht der Schlüssel im Klartext in den Messdaten. Beide
 Stellen sind im Quelltext kommentiert.
 
-*Nicht geändert:* Alles andere in `smartbugs/sb/`. Insbesondere
+#### Drei kleinere Eingriffe
+
+| Datei | Was | Warum |
+|---|---|---|
+| `sb/solidity.py` | `CONTRACT_NAMES`: `([A-Za-z0-9_]*)` → `([a-zA-Z$_][a-zA-Z0-9$_]*)` | Das Upstream-Muster akzeptiert einen mit einer Ziffer beginnenden Namen und kennt `$` nicht, das in Solidity-Bezeichnern zulässig ist. Betrifft, welche Contract-Namen SmartBugs in einer Datei findet |
+| `sb/analysis.py` | `os.makedirs(task.rdir)` in `try/except` gekapselt; das `time.sleep` zwischen den Wiederholungen aus dem Schleifenrumpf in den `except`-Zweig verschoben | Schlägt `makedirs` fehl, greift die unmittelbar folgende `isdir`-Prüfung und wirft SmartBugs' eigenen `SmartBugsError` mit klarer Meldung statt eines rohen `OSError`. Die Verschiebung des `sleep` ist eine Umstellung ohne Verhaltensänderung |
+| `sb/io.py` | `return(x)` → `return x`, ein Kommentar-Leerzeichen | Rein kosmetisch, keine Funktionsänderung |
+| `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` bleibt unverändert ignoriert |
+
+Die sechs durch die `.gitignore`-Korrektur zurückgewonnenen Dateien sind
+sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:
+
+| Datei | Bedeutung |
+|---|---|
+| `sb/results2csv.py` | Quelldatei. `README.md` schreibt `python -m sb.results2csv results` als Arbeitsschritt vor — in einem frischen Klon fehlte sie, der Ablauf war nicht durchführbar |
+| `templates/results.sql` | SQL-Schema für die Ergebnisausgabe |
+| `.github.off/results-ubuntu-{hx,rt,sol}.csv`, `.github.off/old/results-ubuntu.csv` | Referenzergebnisse der (upstream selbst deaktivierten) CI |
+
+*Nicht geändert:* Die übrigen 18 Dateien in `smartbugs/sb/`. Insbesondere
 `parse_utils.py`, `parsing.py`, `results2csv.py` und `reparse.py` sind
 unverändert — die Parser-Reparatur (siehe `docs/BA-ERRORS-VS-FAILS.md`) findet
 ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
@@ -89,7 +136,8 @@ ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
 
 ### 2.2 GPTScan — 7 geänderte Dateien
 
-38 Dateien sind unverändert, 22 neu (siehe oben), 7 geändert:
+Von den 66 getrackten Dateien sind 38 unverändert, 21 neu (siehe oben) und
+7 geändert; die Summe ergibt genau die 66:
 
 | Datei | Was | Warum |
 |---|---|---|
@@ -107,7 +155,12 @@ ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
 
 ### 2.3 LLMSmartAuditTool — 9 geänderte Dateien
 
-212 Dateien sind unverändert, 9 geändert:
+Von den 235 getrackten Dateien sind 212 unverändert, 14 neu und 9 geändert;
+die Summe ergibt genau die 235. Von den 14 neuen sind nur 4 eigener Code
+(`chatdev/audit_report.py`, `Dockerfile.smartbugs`, `.dockerignore`,
+`docs/coverage.md`); die übrigen 10 sind die drei umbenannten `misc/*.png`
+und der aufbewahrte Beispielreport unter `WareHouse/VaultDS5_sb_20260630223101/`
+(siehe 2.4):
 
 | Datei | Was | Warum |
 |---|---|---|
@@ -146,11 +199,26 @@ ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
 ## 3. Abgleich reproduzieren
 
 ```bash
-git clone --depth 1 https://github.com/GPTScan/GPTScan.git /tmp/up-gptscan
-git clone --depth 1 --filter=blob:none --sparse \
+git clone https://github.com/GPTScan/GPTScan.git /tmp/up-gptscan
+git -C /tmp/up-gptscan checkout 29a1747
+
+git clone --filter=blob:none --sparse \
     https://github.com/LLMAudit/LLMSmartAuditTool.git /tmp/up-llmsa
+# ohne --sparse und den evaluation-Ausschluss werden 3,7 GB geladen
 git -C /tmp/up-llmsa sparse-checkout set --no-cone '/*' '!/evaluation'
+git -C /tmp/up-llmsa checkout c507fe4
+
+git clone --depth 1 --branch v2.1.1 \
+    https://github.com/smartbugs/smartbugs.git /tmp/up-smartbugs
 
 diff -r -q --exclude=.git GPTScan /tmp/up-gptscan
 diff -r -q --exclude=.git LLMSmartAuditTool-main/LLMSmartAuditTool-main /tmp/up-llmsa
+diff -r -q --exclude=.git smartbugs/sb /tmp/up-smartbugs/sb
 ```
+
+In Git Bash unter Windows braucht das sparse-checkout-Muster
+`MSYS_NO_PATHCONV=1`, sonst wandelt MSYS das führende `/` in einen
+Windows-Pfad um.
+
+`diff -r` vergleicht den Arbeitsbaum und zeigt damit auch ungetrackte Dateien
+an. Für die Zählung oben ist `git ls-files` maßgeblich.
