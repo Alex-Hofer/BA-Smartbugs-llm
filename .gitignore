@@ -32,4 +32,17 @@ corpus_tools/llm4_clean.txt
 corpus_tools/c4_*.json
 corpus_tools/scan_missing.json
 corpus_tools/__pycache__/
+
+# --- Werkzeug-Artefakte im Repo-Root ---
+# .pytest_cache/ wuerde sonst nur durch die .gitignore ignoriert, die pytest
+# selbst hineinschreibt - das greift erst, nachdem pytest einmal gelaufen ist.
 __pycache__/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+*.egg-info/
+.venv/
+venv/
