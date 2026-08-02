@@ -1,0 +1,149 @@
+GPTScan: provider=deepseek model=deepseek-v4-flash dry_run=0
+
+
+  .oooooo.    ooooooooo.   ooooooooooooo  .oooooo..o                            
+ d8P'  `Y8b   `888   `Y88. 8'   888   `8 d8P'    `Y8                            
+888            888   .d88'      888      Y88bo.       .ooooo.   .oooo.   ooo. 
+.oo.   
+888            888ooo88P'       888       `"Y8888o.  d88' `"Y8 `P  )88b  
+`888P"Y88b  
+888     ooooo  888              888           `"Y88b 888        .oP"888   888   
+888  
+`88.    .88'   888              888      oo     .d8P 888   .o8 d8(  888   888   
+888  
+ `Y8bood8P'   o888o            o888o     8""88888P'  `Y8bod8P' `Y888""8o o888o 
+o888o                                                        
+
+
+                                                                   
+
+[20:28:55] Provider: deepseek  Model: deepseek-v4-flash  Mode: live tasks.py:167
+           Loaded 10 rules                                          tasks.py:172
+[07/05/26 20:28:55] INFO     CryticCompile: 'solc --version' running solc.py:374
+                    INFO     CryticCompile: 'solc                    solc.py:540
+                             /work/input/0xe894d54dca59cb53fe9cbc515            
+                             5093605c7068220.sol --combined-json                
+                             abi,ast,bin,bin-runtime,srcmap,srcmap-r            
+                             untime,userdoc,devdoc,hashes,compact-fo            
+                             rmat --allow-paths .,/work/input'                  
+                             running                                            
+                    INFO     CryticCompile: Compilation              solc.py:572
+                             warnings/errors on                                 
+                             /work/input/0xe894d54dca59cb53fe9cbc515            
+                             5093605c7068220.sol:                               
+                             /work/input/0xe894d54dca59cb53fe9cbc515            
+                             5093605c7068220.sol:17:13: Warning:                
+                             Return value of low-level calls not                
+                             used.                                              
+                                         caddress.call(id,from,_tos[            
+                             i],_value);                                        
+                                         ^--------------------------            
+                             ---------^                                         
+                                                                                
+╭───────────────────────── Multiple Choice Scenarios ──────────────────────────╮
+│ Knowledge: involve transfering token from an address different from message  │
+│ sender                                                                       │
+│ Code:                                                                        │
+│     function transfer(address from,address caddress,address[] _tos,uint v,   │
+│ uint _decimals)public returns (bool){                                        │
+│         require(_tos.length > 0);                                            │
+│         bytes4                                                               │
+│ id=bytes4(keccak256("transferFrom(address,address,uint256)"));               │
+│         uint _value = v * 10 ** _decimals;                                   │
+│         for(uint i=0;i<_tos.length;i++){                                     │
+│             // <yes> <report> UNCHECKED_LL_CALLS                             │
+│             caddress.call(id,from,_tos,_value);                              │
+│         }                                                                    │
+│         return true;                                                         │
+│     }                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"1": "Yes"}                                                                 │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────── Single Choice Scenario ───────────────────────────╮
+│ Knowledge: involve transfering token from an address different from message  │
+│ sender and there is no check of allowance/approval from the address owner    │
+│ Code:                                                                        │
+│     function transfer(address from,address caddress,address[] _tos,uint v,   │
+│ uint _decimals)public returns (bool){                                        │
+│         require(_tos.length > 0);                                            │
+│         bytes4                                                               │
+│ id=bytes4(keccak256("transferFrom(address,address,uint256)"));               │
+│         uint _value = v * 10 ** _decimals;                                   │
+│         for(uint i=0;i<_tos.length;i++){                                     │
+│             // <yes> <report> UNCHECKED_LL_CALLS                             │
+│             caddress.call(id,from,_tos,_value);                              │
+│         }                                                                    │
+│         return true;                                                         │
+│     }                                                                        │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ Yes                                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ VariableA:                                                                   │
+│ {"VariableA":{"Variable name":"from","Description":"The address of the       │
+│ sender in the transferFrom call"}}                                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+[07/05/26 20:29:08] ERROR    tasks: Static analysis failed: Invalid tasks.py:284
+                             args                                               
+                    ERROR    tasks: Current File:                   tasks.py:286
+                             /work/input/0xe894d54dca59cb53fe9cbc51             
+                             55093605c7068220.sol, current                      
+                             function: transfer, current vul:                   
+                             unauthorized-transfer                              
+                    ERROR    tasks: Traceback (most recent call     tasks.py:287
+                             last):                                             
+                               File "/opt/gptscan/src/tasks.py",                
+                             line 232, in simple_cli                            
+                                 answer, raw =                                  
+                             analyze_pipeline.ask_for_static_json(v             
+                             ul["static"]["prompt"],                            
+                             function1_text,                                    
+                             vul["static"]["output_keys"])                      
+                               File                                             
+                             "/opt/gptscan/src/analyze_pipeline.py"             
+                             , line 592, in ask_for_static_json                 
+                                 data =                                         
+                             json.loads(res[:res.rindex("}")+1])                
+                               File                                             
+                             "/usr/local/lib/python3.10/json/__init             
+                             __.py", line 346, in loads                         
+                                 return _default_decoder.decode(s)              
+                               File                                             
+                             "/usr/local/lib/python3.10/json/decode             
+                             r.py", line 337, in decode                         
+                                 obj, end = self.raw_decode(s,                  
+                             idx=_w(s, 0).end())                                
+                               File                                             
+                             "/usr/local/lib/python3.10/json/decode             
+                             r.py", line 355, in raw_decode                     
+                                 raise JSONDecodeError("Expecting               
+                             value", s, err.value) from None                    
+                             json.decoder.JSONDecodeError:                      
+                             Expecting value: line 1 column 1 (char             
+                             0)                                                 
+                                                                                
+             Scan Results              
+┏━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Type ┃ Description ┃ Affected Files ┃
+┡━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+└──────┴─────────────┴────────────────┘
+                     Summary                     
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━━┓
+┃ Key                      ┃ Value              ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━━┩
+│ Provider                 │ deepseek           │
+│ Model                    │ deepseek-v4-flash  │
+│ Mode                     │ live               │
+│ Files                    │ 1                  │
+│ Contracts                │ 1                  │
+│ Functions                │ 1                  │
+│ Lines of Code            │ 21                 │
+│ Used Time                │ 13.506928205490112 │
+│ LLM Calls                │ 3                  │
+│ Tokens (sent / received) │ 707 / 1148         │
+│ Estimated Cost (USD)     │ 0.0004             │
+└──────────────────────────┴────────────────────┘
+[20:29:08] JSON report: /output.json                                tasks.py:467
+GPTSCAN_META {    "files": 1,    "contracts": 1,    "functions": 1,    "loc": 21,    "files_after_filter": 1,    "files_after_step_1": 1,    "files_after_step_2": 1,    "files_after_static": 0,    "contracts_after_filter": 1,    "contracts_after_step_1": 1,    "contracts_after_step_2": 1,    "contracts_after_static": 0,    "functions_after_filter": 1,    "functions_after_step_1": 1,    "functions_after_step_2": 1,    "functions_after_static": 0,    "rules_loaded": 10,    "rules_types_for_step_1": 1,    "rules_types_for_step_2": 1,    "rules_types_for_static": 1,    "rules_types_after_static": 0,    "used_time": 13.506928205490112,    "vul_before_static": 1,    "vul_after_static": 0,    "vul_after_merge": 0,    "token_sent": 707.0,    "token_received": 1148.0,    "token_sent_gpt4": 0.0,    "token_received_gpt4": 0.0,    "estimated_cost": 0.00042042,    "provider": "deepseek",    "model": "deepseek-v4-flash",    "dry_run": false,    "llm_calls": 3,    "llm_calls_skipped_budget": 0,    "budget_exceeded": null}

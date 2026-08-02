@@ -13,6 +13,15 @@ smartbugs-curated/
 curated_results.csv
 evaluation_curated_*.csv
 
+# Detail-CSVs des Parser-Audits: mehrere MB gross und in ~25 s regenerierbar
+# (python analysis_tools/parser_audit.py --csv ...). Die Markdown-Berichte
+# docs/parser-audit-*.md bleiben getrackt, sie sind das Lieferobjekt.
+docs/parser-audit-*.csv
+# Pro-Lauf-Bilanzen, die run_curated.ps1 am Ende jedes Massenlaufs schreibt.
+# Die laufuebergreifende Auswertung docs/errors-fails.{md,csv} bleibt getrackt.
+docs/errors-fails-*.md
+docs/errors-fails-*.csv
+
 # corpus_tools: schwere/reproduzierbare Caches (Methode + JSON-Manifeste bleiben getrackt)
 corpus_tools/vendor/
 corpus_tools/vendor_old_flat/

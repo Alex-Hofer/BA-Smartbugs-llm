@@ -1,0 +1,872 @@
+GPTScan: provider=deepseek model=deepseek-v4-flash dry_run=0
+
+
+  .oooooo.    ooooooooo.   ooooooooooooo  .oooooo..o                            
+ d8P'  `Y8b   `888   `Y88. 8'   888   `8 d8P'    `Y8                            
+888            888   .d88'      888      Y88bo.       .ooooo.   .oooo.   ooo. 
+.oo.   
+888            888ooo88P'       888       `"Y8888o.  d88' `"Y8 `P  )88b  
+`888P"Y88b  
+888     ooooo  888              888           `"Y88b 888        .oP"888   888   
+888  
+`88.    .88'   888              888      oo     .d8P 888   .o8 d8(  888   888   
+888  
+ `Y8bood8P'   o888o            o888o     8""88888P'  `Y8bod8P' `Y888""8o o888o 
+o888o                                                        
+
+
+                                                                   
+
+[15:01:11] Provider: deepseek  Model: deepseek-v4-flash  Mode: live tasks.py:167
+           Loaded 10 rules                                          tasks.py:172
+[07/05/26 15:01:11] INFO     CryticCompile: 'solc --version' running solc.py:374
+[07/05/26 15:01:12] INFO     CryticCompile: 'solc                    solc.py:540
+                             /work/input/74_TimeswapPair.sol                    
+                             --combined-json                                    
+                             abi,ast,bin,bin-runtime,srcmap,srcmap-r            
+                             untime,userdoc,devdoc,hashes,compact-fo            
+                             rmat --allow-paths .,/work/input'                  
+                             running                                            
+                    INFO     CryticCompile: Compilation              solc.py:572
+                             warnings/errors on                                 
+                             /work/input/74_TimeswapPair.sol:                   
+                             Error: Expected ',' but got identifier             
+                               -->                                              
+                             /work/input/74_TimeswapPair.sol:51:80:             
+                                |                                               
+                             51 | function constantProduct(uint256              
+                             maturity)externalviewoverridereturns               
+                             (uint112 x,uint112 y,uint112 z){                   
+                                |                                               
+                             ^                                                  
+                                                                                
+                                                                                
+[15:01:12] Traceback (most recent call last):                       tasks.py:177
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 575, in _run_solc                            
+               ret: Dict = json.loads(stdout)                                   
+             File "/usr/local/lib/python3.10/json/__init__.py",                 
+           line 346, in loads                                                   
+               return _default_decoder.decode(s)                                
+             File "/usr/local/lib/python3.10/json/decoder.py", line             
+           337, in decode                                                       
+               obj, end = self.raw_decode(s, idx=_w(s, 0).end())                
+             File "/usr/local/lib/python3.10/json/decoder.py", line             
+           355, in raw_decode                                                   
+               raise JSONDecodeError("Expecting value", s,                      
+           err.value) from None                                                 
+           json.decoder.JSONDecodeError: Expecting value: line 1                
+           column 1 (char 0)                                                    
+                                                                                
+           During handling of the above exception, another                      
+           exception occurred:                                                  
+                                                                                
+           Traceback (most recent call last):                                   
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/falcon/falcon.p             
+           y", line 90, in __init__                                             
+               crytic_compile = CryticCompile(target, **kwargs)                 
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           crytic_compile.py", line 131, in __init__                            
+               self._compile(**kwargs)                                          
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           crytic_compile.py", line 553, in _compile                            
+               self._platform.compile(self, **kwargs)                           
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 149, in compile                              
+               targets_json = _get_targets_json(compilation_unit,               
+           self._target, **kwargs)                                              
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 278, in _get_targets_json                    
+               return _run_solc(                                                
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 579, in _run_solc                            
+               raise InvalidCompilation(f"Invalid solc compilation              
+           {stderr}")                                                           
+           crytic_compile.platform.exceptions.InvalidCompilation:               
+           Invalid solc compilation Error: Expected ',' but got                 
+           identifier                                                           
+             --> /work/input/74_TimeswapPair.sol:51:80:                         
+              |                                                                 
+           51 | function constantProduct(uint256                                
+           maturity)externalviewoverridereturns (uint112 x,uint112              
+           y,uint112 z){                                                        
+              |                                                                 
+           ^                                                                    
+                                                                                
+                                                                                
+                                                                                
+           During handling of the above exception, another                      
+           exception occurred:                                                  
+                                                                                
+           Traceback (most recent call last):                                   
+             File "/opt/gptscan/src/tasks.py", line 175, in                     
+           simple_cli                                                           
+               falcon_instance = compile_project(source_dir)                    
+             File "/opt/gptscan/src/tasks.py", line 104, in                     
+           compile_project                                                      
+               return falcon.Falcon(os.path.join(abs_path,                      
+           files[0]))                                                           
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/falcon/falcon.p             
+           y", line 94, in __init__                                             
+               raise FalconError(f"Invalid compilation:                         
+           \n{str(e)}")                                                         
+           falcon.exceptions.FalconError: Invalid compilation:                  
+           Invalid solc compilation Error: Expected ',' but got                 
+           identifier                                                           
+             --> /work/input/74_TimeswapPair.sol:51:80:                         
+              |                                                                 
+           51 | function constantProduct(uint256                                
+           maturity)externalviewoverridereturns (uint112 x,uint112              
+           y,uint112 z){                                                        
+              |                                                                 
+           ^                                                                    
+                                                                                
+                                                                                
+                                                                                
+           Compile failed.                                          tasks.py:178
+           Since the compilation is failed, some static analysis    tasks.py:179
+           tool may not be enabled, which may cause lower precision             
+           and recall.                                                          
+line 51:79 extraneous input 'x' expecting {RParen, Comma}
+line 51:89 extraneous input 'y' expecting {RParen, Comma}
+line 51:90 extraneous input ',' expecting {'error', 'external', 'from', 'global', 'internal', 'override', 'payable', 'private', 'public', 'pure', 'returns', 'revert', 'view', 'virtual', LBrace, Semicolon, Identifier}
+line 51:100 mismatched input ')' expecting {Semicolon, '='}
+line 52:6 extraneous input 'memory' expecting {'constant', 'error', 'from', 'global', 'immutable', 'internal', 'override', 'private', 'public', 'revert', Identifier}
+line 53:0 extraneous input 'return' expecting {'address', 'bool', 'bytes', 'constructor', 'enum', 'error', 'event', 'fallback', Fixed, FixedBytes, 'from', Function, 'global', 'mapping', 'modifier', 'receive', 'revert', SignedIntegerType, 'string', 'struct', 'type', Ufixed, UnsignedIntegerType, 'using', RBrace, Identifier}
+line 53:15 extraneous input ',' expecting {'constant', 'error', 'from', 'global', 'immutable', 'internal', 'override', 'private', 'public', 'revert', Identifier}
+line 53:22 mismatched input '.' expecting {Semicolon, '='}
+line 53:24 extraneous input ',' expecting {'constant', 'error', 'from', 'global', 'immutable', 'internal', 'override', 'private', 'public', 'revert', Identifier}
+line 53:31 mismatched input '.' expecting {Semicolon, '='}
+line 53:33 mismatched input ')' expecting {'constant', 'error', 'from', 'global', 'immutable', 'internal', 'override', 'private', 'public', 'revert', Identifier}
+line 55:41 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 55:55 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 58:42 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 58:56 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 61:54 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 61:68 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 64:39 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 64:53 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 67:51 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 67:65 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 70:44 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 70:58 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 73:60 extraneous input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 73:74 extraneous input 'override' expecting {'returns', LBrace, Semicolon}
+line 76:0 extraneous input 'constructor' expecting {<EOF>, 'abstract', 'address', 'bool', 'bytes', 'contract', 'enum', 'error', Fixed, FixedBytes, 'from', Function, 'global', 'import', 'interface', 'library', 'mapping', 'pragma', 'revert', SignedIntegerType, 'string', 'struct', 'type', Ufixed, UnsignedIntegerType, 'using', Identifier}
+line 76:19 missing 'constant' at '_asset'
+line 76:25 mismatched input ',' expecting {'constant', '[', Period}
+line 76:33 missing 'constant' at '_collateral'
+line 76:44 mismatched input ',' expecting {'constant', '[', Period}
+line 76:52 missing 'constant' at '_fee'
+line 76:56 mismatched input ',' expecting {'constant', '[', Period}
+line 76:64 missing 'constant' at '_protocolFee'
+line 76:76 mismatched input ')' expecting {'constant', '[', Period}
+line 77:8 mismatched input '=' expecting {'constant', '[', Period}
+line 77:18 mismatched input '(' expecting {'constant', '[', Period}
+line 77:29 mismatched input ')' expecting {'constant', '[', Period}
+line 78:6 mismatched input '=' expecting {'constant', '[', Period}
+line 78:14 mismatched input ';' expecting {'constant', '[', Period}
+line 79:11 mismatched input '=' expecting {'constant', '[', Period}
+line 79:24 mismatched input ';' expecting {'constant', '[', Period}
+line 80:4 mismatched input '=' expecting {'constant', '[', Period}
+line 80:10 mismatched input ';' expecting {'constant', '[', Period}
+line 81:12 mismatched input '=' expecting {'constant', '[', Period}
+line 81:26 mismatched input ';' expecting {'constant', '[', Period}
+line 83:13 mismatched input '(' expecting {'constant', '[', Period}
+line 84:7 mismatched input '(' expecting {'constant', '[', Period}
+line 84:15 mismatched input '==' expecting {'constant', '[', Period}
+line 85:7 mismatched input '=' expecting {'constant', '[', Period}
+line 86:1 mismatched input ';' expecting {'constant', '[', Period}
+line 87:7 mismatched input '=' expecting {'constant', '[', Period}
+line 89:139 mismatched input 'externaloverridelockreturns' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 89:167 mismatched input '(' expecting {RParen, Comma}
+line 89:176 missing 'constant' at 'liquidityOut'
+line 89:188 mismatched input ',' expecting {RParen, Comma}
+line 89:197 missing 'constant' at 'id'
+line 89:199 mismatched input ',' expecting {RParen, Comma}
+line 89:204 mismatched input 'memory' expecting {RParen, Comma}
+line 89:217 mismatched input ')' expecting {RParen, Comma}
+line 90:7 mismatched input '(' expecting {RParen, Comma}
+line 90:24 mismatched input '<' expecting {'constant', '[', Period}
+line 90:34 mismatched input ',' expecting {'constant', '[', Period}
+line 91:7 mismatched input '(' expecting {'constant', '[', Period}
+line 91:17 mismatched input '-' expecting {'constant', '[', Period}
+line 91:35 mismatched input '<' expecting {'constant', '[', Period}
+line 92:7 mismatched input '(' expecting {'constant', '[', Period}
+line 92:20 mismatched input '!=' expecting {'constant', '[', Period}
+line 92:30 mismatched input '(' expecting {'constant', '[', Period}
+line 92:43 mismatched input '!=' expecting {'constant', '[', Period}
+line 92:53 mismatched input '(' expecting {'constant', '[', Period}
+line 93:7 mismatched input '(' expecting {'constant', '[', Period}
+line 93:20 mismatched input '!=' expecting {'constant', '[', Period}
+line 93:30 mismatched input '(' expecting {'constant', '[', Period}
+line 93:35 mismatched input ')' expecting {'constant', '[', Period}
+line 93:46 mismatched input '!=' expecting {'constant', '[', Period}
+line 93:56 mismatched input '(' expecting {'constant', '[', Period}
+line 93:61 mismatched input ')' expecting {'constant', '[', Period}
+line 94:7 mismatched input '(' expecting {'constant', '[', Period}
+line 94:18 mismatched input '>' expecting {'constant', '[', Period}
+line 94:35 mismatched input '>' expecting {'constant', '[', Period}
+line 94:52 mismatched input '>' expecting {'constant', '[', Period}
+line 95:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 95:18 mismatched input '=' expecting {'constant', '[', Period}
+line 95:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 96:30 mismatched input '==' expecting {'constant', '[', Period}
+line 97:8 missing 'constant' at 'liquidityTotal'
+line 98:13 mismatched input '=' expecting {'constant', '[', Period}
+line 98:36 mismatched input '(' expecting {'constant', '[', Period}
+line 98:45 mismatched input ',' expecting {'constant', '[', Period}
+line 98:61 mismatched input ',' expecting {'constant', '[', Period}
+line 98:74 mismatched input ')' expecting {'constant', '[', Period}
+line 99:26 mismatched input '+=' expecting {'constant', '[', Period}
+line 99:43 mismatched input ';' expecting {'constant', '[', Period}
+line 100:34 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 100:52 mismatched input '-' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 100:66 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 103:8 missing 'constant' at 'liquidityTotal'
+line 104:13 mismatched input '=' expecting {'constant', '[', Period}
+line 104:36 mismatched input '(' expecting {'constant', '[', Period}
+line 104:45 mismatched input ',' expecting {'constant', '[', Period}
+line 104:61 mismatched input ',' expecting {'constant', '[', Period}
+line 104:74 mismatched input ')' expecting {'constant', '[', Period}
+line 105:26 mismatched input '+=' expecting {'constant', '[', Period}
+line 105:43 mismatched input ';' expecting {'constant', '[', Period}
+line 106:34 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 106:52 mismatched input '-' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 106:66 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 108:7 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 108:21 mismatched input '>' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 109:30 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 109:45 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 110:12 mismatched input '=' expecting {'constant', '[', Period}
+line 110:30 mismatched input '(' expecting {'constant', '[', Period}
+line 110:39 mismatched input ',' expecting {'constant', '[', Period}
+line 110:50 mismatched input ',' expecting {'constant', '[', Period}
+line 110:61 mismatched input ')' expecting {'constant', '[', Period}
+line 111:18 mismatched input '=' expecting {'constant', '[', Period}
+line 111:42 mismatched input '(' expecting {'constant', '[', Period}
+line 111:51 mismatched input ',' expecting {'constant', '[', Period}
+line 111:62 mismatched input ')' expecting {'constant', '[', Period}
+line 112:18 mismatched input '=' expecting {'constant', '[', Period}
+line 112:35 mismatched input '(' expecting {'constant', '[', Period}
+line 113:13 mismatched input '(' expecting {'constant', '[', Period}
+line 113:19 mismatched input ',' expecting {'constant', '[', Period}
+line 113:31 mismatched input ',' expecting {'constant', '[', Period}
+line 113:42 mismatched input ',' expecting {'constant', '[', Period}
+line 113:61 mismatched input ',' expecting {'constant', '[', Period}
+line 113:67 mismatched input ')' expecting {'constant', '[', Period}
+line 114:3 mismatched input '=' expecting {'constant', '[', Period}
+line 114:21 mismatched input '.' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 114:28 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 114:35 mismatched input ')' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 115:26 mismatched input '+=' expecting {'constant', '[', Period}
+line 115:38 mismatched input ';' expecting {'constant', '[', Period}
+line 116:31 mismatched input '+=' expecting {'constant', '[', Period}
+line 116:51 mismatched input ';' expecting {'constant', '[', Period}
+line 117:28 mismatched input '+=' expecting {'constant', '[', Period}
+line 117:42 mismatched input ';' expecting {'constant', '[', Period}
+line 118:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 118:25 mismatched input ';' expecting {'constant', '[', Period}
+line 119:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 119:25 mismatched input ';' expecting {'constant', '[', Period}
+line 120:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 120:25 mismatched input ';' expecting {'constant', '[', Period}
+line 121:9 mismatched input '(' expecting {'constant', '[', Period}
+line 121:18 mismatched input ',' expecting {'constant', '[', Period}
+line 121:32 mismatched input ',' expecting {'constant', '[', Period}
+line 121:46 mismatched input ',' expecting {'constant', '[', Period}
+line 121:60 mismatched input ')' expecting {'constant', '[', Period}
+line 122:9 mismatched input '(' expecting {'constant', '[', Period}
+line 122:18 mismatched input ',' expecting {'constant', '[', Period}
+line 122:30 mismatched input ',' expecting {'constant', '[', Period}
+line 122:43 mismatched input ',' expecting {'constant', '[', Period}
+line 122:50 mismatched input ',' expecting {'constant', '[', Period}
+line 122:61 mismatched input ',' expecting {'constant', '[', Period}
+line 122:75 mismatched input ',' expecting {'constant', '[', Period}
+line 122:79 mismatched input ',' expecting {'constant', '[', Period}
+line 122:87 mismatched input ')' expecting {'constant', '[', Period}
+line 124:89 mismatched input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 124:112 mismatched input 'returns' expecting {RParen, Comma}
+line 124:128 mismatched input 'memory' expecting {RParen, Comma}
+line 124:144 mismatched input ')' expecting {RParen, Comma}
+line 125:7 mismatched input '(' expecting {RParen, Comma}
+line 125:24 mismatched input '>=' expecting {'constant', '[', Period}
+line 125:35 mismatched input ',' expecting {'constant', '[', Period}
+line 126:7 mismatched input '(' expecting {'constant', '[', Period}
+line 126:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 126:26 mismatched input '(' expecting {'constant', '[', Period}
+line 126:46 mismatched input '!=' expecting {'constant', '[', Period}
+line 126:56 mismatched input '(' expecting {'constant', '[', Period}
+line 127:7 mismatched input '(' expecting {'constant', '[', Period}
+line 127:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 127:26 mismatched input '(' expecting {'constant', '[', Period}
+line 127:31 mismatched input ')' expecting {'constant', '[', Period}
+line 127:49 mismatched input '!=' expecting {'constant', '[', Period}
+line 127:59 mismatched input '(' expecting {'constant', '[', Period}
+line 127:64 mismatched input ')' expecting {'constant', '[', Period}
+line 128:7 mismatched input '(' expecting {'constant', '[', Period}
+line 128:20 mismatched input '>' expecting {'constant', '[', Period}
+line 129:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 129:18 mismatched input '=' expecting {'constant', '[', Period}
+line 129:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 130:16 mismatched input '=' expecting {'constant', '[', Period}
+line 130:35 mismatched input '(' expecting {'constant', '[', Period}
+line 130:46 mismatched input ',' expecting {'constant', '[', Period}
+line 130:59 mismatched input ')' expecting {'constant', '[', Period}
+line 131:21 mismatched input '=' expecting {'constant', '[', Period}
+line 131:45 mismatched input '(' expecting {'constant', '[', Period}
+line 131:56 mismatched input ',' expecting {'constant', '[', Period}
+line 131:69 mismatched input ')' expecting {'constant', '[', Period}
+line 132:26 mismatched input '-=' expecting {'constant', '[', Period}
+line 132:40 mismatched input ';' expecting {'constant', '[', Period}
+line 133:29 mismatched input '-=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 133:43 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 134:26 mismatched input '-=' expecting {'constant', '[', Period}
+line 134:44 mismatched input ';' expecting {'constant', '[', Period}
+line 135:31 mismatched input '-=' expecting {'constant', '[', Period}
+line 135:54 mismatched input ';' expecting {'constant', '[', Period}
+line 136:20 mismatched input '>' expecting {'constant', '[', Period}
+line 136:43 mismatched input '(' expecting {'constant', '[', Period}
+line 136:51 mismatched input ',' expecting {'constant', '[', Period}
+line 136:68 mismatched input ')' expecting {'constant', '[', Period}
+line 137:25 mismatched input '>' expecting {'constant', '[', Period}
+line 137:53 mismatched input '(' expecting {'constant', '[', Period}
+line 137:66 mismatched input ',' expecting {'constant', '[', Period}
+line 137:88 mismatched input ')' expecting {'constant', '[', Period}
+line 138:9 mismatched input '(' expecting {'constant', '[', Period}
+line 138:18 mismatched input ',' expecting {'constant', '[', Period}
+line 138:30 mismatched input ',' expecting {'constant', '[', Period}
+line 138:39 mismatched input ',' expecting {'constant', '[', Period}
+line 138:53 mismatched input ',' expecting {'constant', '[', Period}
+line 138:66 mismatched input ',' expecting {'constant', '[', Period}
+line 138:77 mismatched input ')' expecting {'constant', '[', Period}
+line 140:141 mismatched input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 140:164 mismatched input 'returns' expecting {RParen, Comma}
+line 140:180 mismatched input 'memory' expecting {RParen, Comma}
+line 140:196 mismatched input ')' expecting {RParen, Comma}
+line 141:7 mismatched input '(' expecting {RParen, Comma}
+line 141:24 mismatched input '<' expecting {'constant', '[', Period}
+line 141:34 mismatched input ',' expecting {'constant', '[', Period}
+line 142:7 mismatched input '(' expecting {'constant', '[', Period}
+line 142:15 mismatched input '!=' expecting {'constant', '[', Period}
+line 142:25 mismatched input '(' expecting {'constant', '[', Period}
+line 142:44 mismatched input '!=' expecting {'constant', '[', Period}
+line 142:54 mismatched input '(' expecting {'constant', '[', Period}
+line 143:7 mismatched input '(' expecting {'constant', '[', Period}
+line 143:15 mismatched input '!=' expecting {'constant', '[', Period}
+line 143:25 mismatched input '(' expecting {'constant', '[', Period}
+line 143:30 mismatched input ')' expecting {'constant', '[', Period}
+line 143:47 mismatched input '!=' expecting {'constant', '[', Period}
+line 143:57 mismatched input '(' expecting {'constant', '[', Period}
+line 143:62 mismatched input ')' expecting {'constant', '[', Period}
+line 144:7 mismatched input '(' expecting {'constant', '[', Period}
+line 144:18 mismatched input '>' expecting {'constant', '[', Period}
+line 145:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 145:18 mismatched input '=' expecting {'constant', '[', Period}
+line 145:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 146:7 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 146:34 mismatched input '>' expecting {'constant', '[', Period}
+line 147:14 mismatched input '(' expecting {'constant', '[', Period}
+line 147:25 mismatched input ',' expecting {'constant', '[', Period}
+line 147:36 mismatched input ',' expecting {'constant', '[', Period}
+line 147:47 mismatched input ',' expecting {'constant', '[', Period}
+line 147:58 mismatched input ',' expecting {'constant', '[', Period}
+line 147:63 mismatched input ')' expecting {'constant', '[', Period}
+line 148:15 mismatched input '=' expecting {'constant', '[', Period}
+line 148:33 mismatched input '(' expecting {'constant', '[', Period}
+line 148:42 mismatched input ',' expecting {'constant', '[', Period}
+line 148:53 mismatched input ',' expecting {'constant', '[', Period}
+line 148:64 mismatched input ')' expecting {'constant', '[', Period}
+line 149:20 mismatched input '=' expecting {'constant', '[', Period}
+line 149:43 mismatched input '(' expecting {'constant', '[', Period}
+line 149:52 mismatched input ',' expecting {'constant', '[', Period}
+line 149:64 mismatched input ',' expecting {'constant', '[', Period}
+line 149:75 mismatched input ',' expecting {'constant', '[', Period}
+line 149:86 mismatched input ')' expecting {'constant', '[', Period}
+line 150:13 mismatched input '(' expecting {'constant', '[', Period}
+line 150:19 mismatched input ',' expecting {'constant', '[', Period}
+line 150:30 mismatched input ',' expecting {'constant', '[', Period}
+line 150:36 mismatched input ')' expecting {'constant', '[', Period}
+line 151:28 mismatched input '+=' expecting {'constant', '[', Period}
+line 151:45 mismatched input ';' expecting {'constant', '[', Period}
+line 152:33 mismatched input '+=' expecting {'constant', '[', Period}
+line 152:55 mismatched input ';' expecting {'constant', '[', Period}
+line 153:19 mismatched input '.' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 153:25 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 153:42 mismatched input ';' expecting {'constant', '[', Period}
+line 154:24 mismatched input '.' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 154:35 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 154:57 mismatched input ';' expecting {'constant', '[', Period}
+line 155:26 mismatched input '+=' expecting {'constant', '[', Period}
+line 155:38 mismatched input ';' expecting {'constant', '[', Period}
+line 156:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 156:25 mismatched input ';' expecting {'constant', '[', Period}
+line 157:13 mismatched input '-=' expecting {'constant', '[', Period}
+line 157:25 mismatched input ';' expecting {'constant', '[', Period}
+line 158:13 mismatched input '-=' expecting {'constant', '[', Period}
+line 158:25 mismatched input ';' expecting {'constant', '[', Period}
+line 159:9 mismatched input '(' expecting {'constant', '[', Period}
+line 159:18 mismatched input ',' expecting {'constant', '[', Period}
+line 159:32 mismatched input ',' expecting {'constant', '[', Period}
+line 159:46 mismatched input ',' expecting {'constant', '[', Period}
+line 159:60 mismatched input ')' expecting {'constant', '[', Period}
+line 160:9 mismatched input '(' expecting {'constant', '[', Period}
+line 160:18 mismatched input ',' expecting {'constant', '[', Period}
+line 160:30 mismatched input ',' expecting {'constant', '[', Period}
+line 160:38 mismatched input ',' expecting {'constant', '[', Period}
+line 160:51 mismatched input ',' expecting {'constant', '[', Period}
+line 160:62 mismatched input ',' expecting {'constant', '[', Period}
+line 160:73 mismatched input ')' expecting {'constant', '[', Period}
+line 162:96 mismatched input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 162:119 mismatched input 'returns' expecting {RParen, Comma}
+line 162:135 mismatched input 'memory' expecting {RParen, Comma}
+line 162:151 mismatched input ')' expecting {RParen, Comma}
+line 163:7 mismatched input '(' expecting {RParen, Comma}
+line 163:24 mismatched input '>=' expecting {'constant', '[', Period}
+line 163:35 mismatched input ',' expecting {'constant', '[', Period}
+line 164:7 mismatched input '(' expecting {'constant', '[', Period}
+line 164:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 164:26 mismatched input '(' expecting {'constant', '[', Period}
+line 164:46 mismatched input '!=' expecting {'constant', '[', Period}
+line 164:56 mismatched input '(' expecting {'constant', '[', Period}
+line 165:7 mismatched input '(' expecting {'constant', '[', Period}
+line 165:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 165:26 mismatched input '(' expecting {'constant', '[', Period}
+line 165:31 mismatched input ')' expecting {'constant', '[', Period}
+line 165:49 mismatched input '!=' expecting {'constant', '[', Period}
+line 165:59 mismatched input '(' expecting {'constant', '[', Period}
+line 165:64 mismatched input ')' expecting {'constant', '[', Period}
+line 166:7 mismatched input '(' expecting {'constant', '[', Period}
+line 166:22 mismatched input '>' expecting {'constant', '[', Period}
+line 166:48 mismatched input '>' expecting {'constant', '[', Period}
+line 167:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 167:18 mismatched input '=' expecting {'constant', '[', Period}
+line 167:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 168:16 mismatched input '=' expecting {'constant', '[', Period}
+line 168:39 mismatched input '(' expecting {'constant', '[', Period}
+line 168:50 mismatched input ',' expecting {'constant', '[', Period}
+line 168:65 mismatched input ')' expecting {'constant', '[', Period}
+line 169:21 mismatched input '=' expecting {'constant', '[', Period}
+line 169:49 mismatched input '(' expecting {'constant', '[', Period}
+line 169:60 mismatched input ',' expecting {'constant', '[', Period}
+line 169:80 mismatched input ')' expecting {'constant', '[', Period}
+line 170:28 mismatched input '-=' expecting {'constant', '[', Period}
+line 170:44 mismatched input ';' expecting {'constant', '[', Period}
+line 171:33 mismatched input '-=' expecting {'constant', '[', Period}
+line 171:54 mismatched input ';' expecting {'constant', '[', Period}
+line 172:7 mismatched input 'storage' expecting {'constant', '[', Period}
+line 172:22 mismatched input '=' expecting {'constant', '[', Period}
+line 172:47 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 173:12 mismatched input '-=' expecting {'constant', '[', Period}
+line 173:28 mismatched input ';' expecting {'constant', '[', Period}
+line 174:17 mismatched input '-=' expecting {'constant', '[', Period}
+line 174:38 mismatched input ';' expecting {'constant', '[', Period}
+line 175:26 mismatched input '-=' expecting {'constant', '[', Period}
+line 175:44 mismatched input ';' expecting {'constant', '[', Period}
+line 176:31 mismatched input '-=' expecting {'constant', '[', Period}
+line 176:54 mismatched input ';' expecting {'constant', '[', Period}
+line 177:20 mismatched input '>' expecting {'constant', '[', Period}
+line 177:43 mismatched input '(' expecting {'constant', '[', Period}
+line 177:51 mismatched input ',' expecting {'constant', '[', Period}
+line 177:68 mismatched input ')' expecting {'constant', '[', Period}
+line 178:25 mismatched input '>' expecting {'constant', '[', Period}
+line 178:53 mismatched input '(' expecting {'constant', '[', Period}
+line 178:66 mismatched input ',' expecting {'constant', '[', Period}
+line 178:88 mismatched input ')' expecting {'constant', '[', Period}
+line 179:13 mismatched input '(' expecting {'constant', '[', Period}
+line 179:22 mismatched input ',' expecting {'constant', '[', Period}
+line 179:34 mismatched input ',' expecting {'constant', '[', Period}
+line 179:43 mismatched input ',' expecting {'constant', '[', Period}
+line 179:57 mismatched input ',' expecting {'constant', '[', Period}
+line 179:67 mismatched input ',' expecting {'constant', '[', Period}
+line 179:78 mismatched input ')' expecting {'constant', '[', Period}
+line 181:138 mismatched input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 181:161 mismatched input 'returns' expecting {RParen, Comma}
+line 181:178 missing 'constant' at 'id'
+line 181:180 mismatched input ',' expecting {RParen, Comma}
+line 181:186 mismatched input 'memory' expecting {RParen, Comma}
+line 181:199 mismatched input ')' expecting {RParen, Comma}
+line 182:7 mismatched input '(' expecting {RParen, Comma}
+line 182:24 mismatched input '<' expecting {'constant', '[', Period}
+line 182:34 mismatched input ',' expecting {'constant', '[', Period}
+line 183:7 mismatched input '(' expecting {'constant', '[', Period}
+line 183:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 183:26 mismatched input '(' expecting {'constant', '[', Period}
+line 183:39 mismatched input '!=' expecting {'constant', '[', Period}
+line 183:49 mismatched input '(' expecting {'constant', '[', Period}
+line 184:7 mismatched input '(' expecting {'constant', '[', Period}
+line 184:16 mismatched input '!=' expecting {'constant', '[', Period}
+line 184:26 mismatched input '(' expecting {'constant', '[', Period}
+line 184:31 mismatched input ')' expecting {'constant', '[', Period}
+line 184:42 mismatched input '!=' expecting {'constant', '[', Period}
+line 184:52 mismatched input '(' expecting {'constant', '[', Period}
+line 184:57 mismatched input ')' expecting {'constant', '[', Period}
+line 185:7 mismatched input '(' expecting {'constant', '[', Period}
+line 185:18 mismatched input '>' expecting {'constant', '[', Period}
+line 186:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 186:18 mismatched input '=' expecting {'constant', '[', Period}
+line 186:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 187:7 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 187:34 mismatched input '>' expecting {'constant', '[', Period}
+line 188:16 mismatched input '(' expecting {'constant', '[', Period}
+line 188:27 mismatched input ',' expecting {'constant', '[', Period}
+line 188:38 mismatched input ',' expecting {'constant', '[', Period}
+line 188:49 mismatched input ',' expecting {'constant', '[', Period}
+line 188:60 mismatched input ',' expecting {'constant', '[', Period}
+line 188:65 mismatched input ')' expecting {'constant', '[', Period}
+line 189:12 mismatched input '=' expecting {'constant', '[', Period}
+line 189:32 mismatched input '(' expecting {'constant', '[', Period}
+line 189:41 mismatched input ',' expecting {'constant', '[', Period}
+line 189:52 mismatched input ',' expecting {'constant', '[', Period}
+line 189:63 mismatched input ')' expecting {'constant', '[', Period}
+line 190:18 mismatched input '=' expecting {'constant', '[', Period}
+line 190:44 mismatched input '(' expecting {'constant', '[', Period}
+line 190:53 mismatched input ',' expecting {'constant', '[', Period}
+line 190:65 mismatched input ',' expecting {'constant', '[', Period}
+line 190:76 mismatched input ',' expecting {'constant', '[', Period}
+line 190:87 mismatched input ')' expecting {'constant', '[', Period}
+line 191:18 mismatched input '=' expecting {'constant', '[', Period}
+line 191:35 mismatched input '(' expecting {'constant', '[', Period}
+line 192:15 mismatched input '(' expecting {'constant', '[', Period}
+line 192:26 mismatched input ',' expecting {'constant', '[', Period}
+line 192:45 mismatched input ',' expecting {'constant', '[', Period}
+line 192:51 mismatched input ')' expecting {'constant', '[', Period}
+line 193:3 mismatched input '=' expecting {'constant', '[', Period}
+line 193:21 mismatched input '.' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 193:28 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 193:35 mismatched input ')' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 194:26 mismatched input '-=' expecting {'constant', '[', Period}
+line 194:38 mismatched input ';' expecting {'constant', '[', Period}
+line 195:31 mismatched input '+=' expecting {'constant', '[', Period}
+line 195:51 mismatched input ';' expecting {'constant', '[', Period}
+line 196:28 mismatched input '+=' expecting {'constant', '[', Period}
+line 196:42 mismatched input ';' expecting {'constant', '[', Period}
+line 197:13 mismatched input '-=' expecting {'constant', '[', Period}
+line 197:25 mismatched input ';' expecting {'constant', '[', Period}
+line 198:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 198:25 mismatched input ';' expecting {'constant', '[', Period}
+line 199:13 mismatched input '+=' expecting {'constant', '[', Period}
+line 199:25 mismatched input ';' expecting {'constant', '[', Period}
+line 200:18 mismatched input '(' expecting {'constant', '[', Period}
+line 200:26 mismatched input ',' expecting {'constant', '[', Period}
+line 200:37 mismatched input ')' expecting {'constant', '[', Period}
+line 201:9 mismatched input '(' expecting {'constant', '[', Period}
+line 201:18 mismatched input ',' expecting {'constant', '[', Period}
+line 201:32 mismatched input ',' expecting {'constant', '[', Period}
+line 201:46 mismatched input ',' expecting {'constant', '[', Period}
+line 201:60 mismatched input ')' expecting {'constant', '[', Period}
+line 202:11 mismatched input '(' expecting {'constant', '[', Period}
+line 202:20 mismatched input ',' expecting {'constant', '[', Period}
+line 202:32 mismatched input ',' expecting {'constant', '[', Period}
+line 202:41 mismatched input ',' expecting {'constant', '[', Period}
+line 202:48 mismatched input ',' expecting {'constant', '[', Period}
+line 202:59 mismatched input ',' expecting {'constant', '[', Period}
+line 202:63 mismatched input ',' expecting {'constant', '[', Period}
+line 202:71 mismatched input ')' expecting {'constant', '[', Period}
+line 204:155 mismatched input 'external' expecting {'payable', 'pure', 'returns', 'view', LBrace, Semicolon}
+line 204:178 mismatched input 'returns' expecting {RParen, Comma}
+line 204:195 missing 'constant' at 'assetIn'
+line 204:202 mismatched input ',' expecting {RParen, Comma}
+line 204:212 missing 'constant' at 'collateralOut'
+line 204:225 mismatched input ')' expecting {RParen, Comma}
+line 205:7 mismatched input '(' expecting {RParen, Comma}
+line 205:24 mismatched input '<' expecting {'constant', '[', Period}
+line 205:34 mismatched input ',' expecting {'constant', '[', Period}
+line 206:7 mismatched input '(' expecting {'constant', '[', Period}
+line 206:19 mismatched input '==' expecting {'constant', '[', Period}
+line 206:38 mismatched input '&&' expecting {'constant', '[', Period}
+line 206:52 mismatched input '==' expecting {'constant', '[', Period}
+line 206:76 mismatched input ',' expecting {'constant', '[', Period}
+line 207:7 mismatched input '(' expecting {'constant', '[', Period}
+line 207:11 mismatched input '!=' expecting {'constant', '[', Period}
+line 207:21 mismatched input '(' expecting {'constant', '[', Period}
+line 208:7 mismatched input '(' expecting {'constant', '[', Period}
+line 208:11 mismatched input '!=' expecting {'constant', '[', Period}
+line 208:21 mismatched input '(' expecting {'constant', '[', Period}
+line 208:26 mismatched input ')' expecting {'constant', '[', Period}
+line 209:5 mismatched input 'storage' expecting {'constant', '[', Period}
+line 209:18 mismatched input '=' expecting {'constant', '[', Period}
+line 209:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 210:6 mismatched input 'storage' expecting {'constant', '['}
+line 210:19 mismatched input '=' expecting {'constant', '['}
+line 210:37 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 211:13 missing 'constant' at 'i'
+line 211:14 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 212:3 mismatched input '<' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 212:15 mismatched input ';' expecting {'constant', '[', Period}
+line 213:2 mismatched input '++' expecting {'constant', '[', Period}
+line 214:4 mismatched input 'storage' expecting {'constant', '[', Period}
+line 214:16 mismatched input '=' expecting {'constant', '[', Period}
+line 214:30 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 215:7 mismatched input '(' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 215:23 mismatched input '!=' expecting {'constant', '[', Period}
+line 215:41 mismatched input '(' expecting {'constant', '[', Period}
+line 216:10 mismatched input '!=' expecting {'constant', '[', Period}
+line 216:23 mismatched input ')' expecting {'constant', '[', Period}
+line 216:32 mismatched input '(' expecting {'constant', '[', Period}
+line 216:51 mismatched input '==' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 217:25 mismatched input '(' expecting {'constant', '[', Period}
+line 217:37 mismatched input ',' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 217:56 mismatched input ',' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 217:61 mismatched input ')' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 218:9 mismatched input '-=' expecting {'constant', '[', Period}
+line 218:23 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 219:15 mismatched input '-=' expecting {'constant', '[', Period}
+line 219:35 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 220:8 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 220:22 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 221:14 mismatched input '+=' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 221:34 mismatched input ';' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 223:12 mismatched input '>' expecting {LParen, '[', ']', LBrace, Period, '?', '=', '|=', '^=', '&=', '<<=', '>>=', '>>>=', '+=', '-=', '*=', '/=', '%=', '||', '&&', '|', '^', '&', '<<', '>>', '>>>', '+', '-', '*', '/', '%', '**', '==', '!=', '<', '>', '<=', '>=', '++', '--'}
+line 223:29 mismatched input '(' expecting {'constant', '[', Period}
+line 223:35 mismatched input ',' expecting {'constant', '[', Period}
+line 223:44 mismatched input ',' expecting {'constant', '[', Period}
+line 223:50 mismatched input ')' expecting {'constant', '[', Period}
+line 224:26 mismatched input '+=' expecting {'constant', '[', Period}
+line 224:36 mismatched input ';' expecting {'constant', '[', Period}
+line 225:31 mismatched input '-=' expecting {'constant', '[', Period}
+line 225:47 mismatched input ';' expecting {'constant', '[', Period}
+line 226:18 mismatched input '>' expecting {'constant', '[', Period}
+line 226:46 mismatched input '(' expecting {'constant', '[', Period}
+line 226:49 mismatched input ',' expecting {'constant', '[', Period}
+line 226:64 mismatched input ')' expecting {'constant', '[', Period}
+line 227:8 mismatched input '(' expecting {'constant', '[', Period}
+line 227:17 mismatched input ',' expecting {'constant', '[', Period}
+line 227:29 mismatched input ',' expecting {'constant', '[', Period}
+line 227:33 mismatched input ',' expecting {'constant', '[', Period}
+line 227:40 mismatched input ',' expecting {'constant', '[', Period}
+line 227:45 mismatched input ',' expecting {'constant', '[', Period}
+line 227:55 mismatched input ',' expecting {'constant', '[', Period}
+line 227:71 mismatched input ',' expecting {'constant', '[', Period}
+line 227:80 mismatched input ',' expecting {'constant', '[', Period}
+line 227:95 mismatched input ')' expecting {'constant', '[', Period}
+╭───────────────────────── Multiple Choice Scenarios ──────────────────────────╮
+│ Knowledge: deposit/mint/add the liquidity pool/amount/share                  │
+│ have code statements that get or calculate LP token's value/price            │
+│ Code:                                                                        │
+│ function mint(uint256 maturity,address liquidityTo,address dueTo,uint112     │
+│ xIncrease,uint112 yIncrease,uint112 zIncrease,bytes calldata                 │
+│ data)externaloverridelockreturns (uint256 liquidityOut,uint256 id,Due memory │
+│ dueOut){                                                                     │
+│ require(block.timestamp < maturity, 'E202');                                 │
+│ require(maturity - block.timestamp < 0x100000000, 'E208');                   │
+│ require(liquidityTo != address(0) && dueTo != address(0), 'E201');           │
+│ require(liquidityTo != address(this) && dueTo != address(this), 'E204');     │
+│ require(xIncrease > 0 && yIncrease > 0 && zIncrease > 0, 'E205');            │
+│ Pool storage pool = pools;                                                   │
+│ if (pool.state.totalLiquidity == 0) {                                        │
+│ uint256 liquidityTotal = MintMath.getLiquidityTotal(xIncrease);              │
+│ liquidityOut = MintMath.getLiquidity(maturity, liquidityTotal, protocolFee); │
+│ pool.state.totalLiquidity += liquidityTotal;                                 │
+│ pool.liquidities += liquidityTotal - liquidityOut;                           │
+│ }                                                                            │
+│  else {                                                                      │
+│ uint256 liquidityTotal = MintMath.getLiquidityTotal(pool.state, xIncrease,   │
+│ yIncrease, zIncrease);                                                       │
+│ liquidityOut = MintMath.getLiquidity(maturity, liquidityTotal, protocolFee); │
+│ pool.state.totalLiquidity += liquidityTotal;                                 │
+│ pool.liquidities += liquidityTotal - liquidityOut;                           │
+│ }                                                                            │
+│ require(liquidityOut > 0, 'E212');                                           │
+│ pool.liquidities += liquidityOut;                                            │
+│ dueOut.debt = MintMath.getDebt(maturity, xIncrease, yIncrease);              │
+│ dueOut.collateral = MintMath.getCollateral(maturity, zIncrease);             │
+│ dueOut.startBlock = BlockNumber.get();                                       │
+│ Callback.mint(asset, collateral, xIncrease, dueOut.collateral, data);        │
+│ id = pool.dues.insert(dueOut);                                               │
+│ pool.state.reserves.asset += xIncrease;                                      │
+│ pool.state.reserves.collateral += dueOut.collateral;                         │
+│ pool.state.totalDebtCreated += dueOut.debt;                                  │
+│ pool.state.x += xIncrease;                                                   │
+│ pool.state.y += yIncrease;                                                   │
+│ pool.state.z += zIncrease;                                                   │
+│ emit Sync(maturity, pool.state.x, pool.state.y, pool.state.z);               │
+│ emit Mint(maturity, msg.sender, liquidityTo, dueTo, xIncrease, liquidityOut, │
+│ id, dueOut);                                                                 │
+│ }                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"1": "Yes", "2": "No"}                                                      │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭─────────────────────────── Single Choice Scenario ───────────────────────────╮
+│ Knowledge: deposit/mint/add the liquidity pool/amount/share and set the      │
+│ total share to the number of first deposit when the supply/liquidity is 0    │
+│ Code:                                                                        │
+│ function mint(uint256 maturity,address liquidityTo,address dueTo,uint112     │
+│ xIncrease,uint112 yIncrease,uint112 zIncrease,bytes calldata                 │
+│ data)externaloverridelockreturns (uint256 liquidityOut,uint256 id,Due memory │
+│ dueOut){                                                                     │
+│ require(block.timestamp < maturity, 'E202');                                 │
+│ require(maturity - block.timestamp < 0x100000000, 'E208');                   │
+│ require(liquidityTo != address(0) && dueTo != address(0), 'E201');           │
+│ require(liquidityTo != address(this) && dueTo != address(this), 'E204');     │
+│ require(xIncrease > 0 && yIncrease > 0 && zIncrease > 0, 'E205');            │
+│ Pool storage pool = pools;                                                   │
+│ if (pool.state.totalLiquidity == 0) {                                        │
+│ uint256 liquidityTotal = MintMath.getLiquidityTotal(xIncrease);              │
+│ liquidityOut = MintMath.getLiquidity(maturity, liquidityTotal, protocolFee); │
+│ pool.state.totalLiquidity += liquidityTotal;                                 │
+│ pool.liquidities += liquidityTotal - liquidityOut;                           │
+│ }                                                                            │
+│  else {                                                                      │
+│ uint256 liquidityTotal = MintMath.getLiquidityTotal(pool.state, xIncrease,   │
+│ yIncrease, zIncrease);                                                       │
+│ liquidityOut = MintMath.getLiquidity(maturity, liquidityTotal, protocolFee); │
+│ pool.state.totalLiquidity += liquidityTotal;                                 │
+│ pool.liquidities += liquidityTotal - liquidityOut;                           │
+│ }                                                                            │
+│ require(liquidityOut > 0, 'E212');                                           │
+│ pool.liquidities += liquidityOut;                                            │
+│ dueOut.debt = MintMath.getDebt(maturity, xIncrease, yIncrease);              │
+│ dueOut.collateral = MintMath.getCollateral(maturity, zIncrease);             │
+│ dueOut.startBlock = BlockNumber.get();                                       │
+│ Callback.mint(asset, collateral, xIncrease, dueOut.collateral, data);        │
+│ id = pool.dues.insert(dueOut);                                               │
+│ pool.state.reserves.asset += xIncrease;                                      │
+│ pool.state.reserves.collateral += dueOut.collateral;                         │
+│ pool.state.totalDebtCreated += dueOut.debt;                                  │
+│ pool.state.x += xIncrease;                                                   │
+│ pool.state.y += yIncrease;                                                   │
+│ pool.state.z += zIncrease;                                                   │
+│ emit Sync(maturity, pool.state.x, pool.state.y, pool.state.z);               │
+│ emit Mint(maturity, msg.sender, liquidityTo, dueTo, xIncrease, liquidityOut, │
+│ id, dueOut);                                                                 │
+│ }                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ Yes                                                                          │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────── Multiple Choice Scenarios ──────────────────────────╮
+│ Knowledge: deposit/mint/add the liquidity pool/amount/share                  │
+│ Code:                                                                        │
+│ function burn(uint256 maturity,address assetTo,address collateralTo,uint256  │
+│ liquidityIn) external override lock returns (Tokens memory tokensOut) {      │
+│ require(block.timestamp >= maturity, 'E203');                                │
+│ require(assetTo != address(0) && collateralTo != address(0), 'E201');        │
+│ require(assetTo != address(this) && collateralTo != address(this), 'E204');  │
+│ require(liquidityIn > 0, 'E205');                                            │
+│ Pool storage pool = pools;                                                   │
+│ tokensOut.asset = BurnMath.getAsset(pool.state, liquidityIn);                │
+│ tokensOut.collateral = BurnMath.getCollateral(pool.state, liquidityIn);      │
+│ pool.state.totalLiquidity -= liquidityIn;                                    │
+│ pool.liquidities -= liquidityIn;                                             │
+│ pool.state.reserves.asset -= tokensOut.asset;                                │
+│ pool.state.reserves.collateral -= tokensOut.collateral;                      │
+│ if (tokensOut.asset > 0) asset.safeTransfer(assetTo, tokensOut.asset);       │
+│ if (tokensOut.collateral > 0) collateral.safeTransfer(collateralTo,          │
+│ tokensOut.collateral);                                                       │
+│ emit Burn(maturity, msg.sender, assetTo, collateralTo, liquidityIn,          │
+│ tokensOut);                                                                  │
+│ }                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"1": "No"}                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────── Multiple Choice Scenarios ──────────────────────────╮
+│ Knowledge: deposit/mint/add the liquidity pool/amount/share                  │
+│ Code:                                                                        │
+│ function lend(uint256 maturity,address bondTo,address insuranceTo,uint112    │
+│ xIncrease,uint112 yDecrease,uint112 zDecrease,bytes calldata data) external  │
+│ override lock returns (Claims memory claimsOut) {                            │
+│ require(block.timestamp < maturity, 'E202');                                 │
+│ require(bondTo != address(0) && insuranceTo != address(0), 'E201');          │
+│ require(bondTo != address(this) && insuranceTo != address(this), 'E204');    │
+│ require(xIncrease > 0, 'E205');                                              │
+│ Pool storage pool = pools;                                                   │
+│ require(pool.state.totalLiquidity > 0, 'E206');                              │
+│ LendMath.check(pool.state, xIncrease, yDecrease, zDecrease, fee);            │
+│ claimsOut.bond = LendMath.getBond(maturity, xIncrease, yDecrease);           │
+│ claimsOut.insurance = LendMath.getInsurance(maturity, pool.state, xIncrease, │
+│ zDecrease);                                                                  │
+│ Callback.lend(asset, xIncrease, data);                                       │
+│ pool.state.totalClaims.bond += claimsOut.bond;                               │
+│ pool.state.totalClaims.insurance += claimsOut.insurance;                     │
+│ pool.claims.bond += claimsOut.bond;                                          │
+│ pool.claims.insurance += claimsOut.insurance;                                │
+│ pool.state.reserves.asset += xIncrease;                                      │
+│ pool.state.x += xIncrease;                                                   │
+│ pool.state.y -= yDecrease;                                                   │
+│ pool.state.z -= zDecrease;                                                   │
+│ emit Sync(maturity, pool.state.x, pool.state.y, pool.state.z);               │
+│ emit Lend(maturity, msg.sender, bondTo, insuranceTo, xIncrease, claimsOut);  │
+│ }                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"1": "No"}                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭───────────────────────── Multiple Choice Scenarios ──────────────────────────╮
+│ Knowledge: deposit/mint/add the liquidity pool/amount/share                  │
+│ Code:                                                                        │
+│ function borrow(uint256 maturity,address assetTo,address dueTo,uint112       │
+│ xDecrease,uint112 yIncrease,uint112 zIncrease,bytes calldata data) external  │
+│ override lock returns (uint256 id, Due memory dueOut) {                      │
+│ require(block.timestamp < maturity, 'E202');                                 │
+│ require(assetTo != address(0) && dueTo != address(0), 'E201');               │
+│ require(assetTo != address(this) && dueTo != address(this), 'E204');         │
+│ require(xDecrease > 0, 'E205');                                              │
+│ Pool storage pool = pools;                                                   │
+│ require(pool.state.totalLiquidity > 0, 'E206');                              │
+│ BorrowMath.check(pool.state, xDecrease, yIncrease, zIncrease, fee);          │
+│ dueOut.debt = BorrowMath.getDebt(maturity, xDecrease, yIncrease);            │
+│ dueOut.collateral = BorrowMath.getCollateral(maturity, pool.state,           │
+│ xDecrease, zIncrease);                                                       │
+│ dueOut.startBlock = BlockNumber.get();                                       │
+│ Callback.borrow(collateral, dueOut.collateral, data);                        │
+│ id = pool.dues.insert(dueOut);                                               │
+│ pool.state.reserves.asset -= xDecrease;                                      │
+│ pool.state.reserves.collateral += dueOut.collateral;                         │
+│ pool.state.totalDebtCreated += dueOut.debt;                                  │
+│ pool.state.x -= xDecrease;                                                   │
+│ pool.state.y += yIncrease;                                                   │
+│ pool.state.z += zIncrease;                                                   │
+│ asset.safeTransfer(assetTo, xDecrease);                                      │
+│ emit Sync(maturity, pool.state.x, pool.state.y, pool.state.z);               │
+│ emit Borrow(maturity, msg.sender, assetTo, dueTo, xDecrease, id, dueOut);    │
+│ }                                                                            │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"1": "No"}                                                                  │
+╰──────────────────────────────────────────────────────────────────────────────╯
+╭────────────────────────────────── Response ──────────────────────────────────╮
+│ {"VariableA":{"Variable name":"liquidityOut","Description":"The amount of    │
+│ liquidity tokens minted to the user after protocol                           │
+│ fee"},"VariableB":{"Variable                                                 │
+│ name":"pool.state.totalLiquidity","Description":"The total liquidity in the  │
+│ pool, used to check if the pool is empty"},"VariableC":{"Variable            │
+│ name":"xIncrease","Description":"The increase in asset reserves,             │
+│ representing the deposit amount of asset tokens"}}                           │
+╰──────────────────────────────────────────────────────────────────────────────╯
+[07/05/26 15:01:52] WARNING  static_check: Falcon is not     static_check.py:123
+                             initialized, skipping first                        
+                             deposit check                                      
+             Scan Results              
+┏━━━━━━┳━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━┓
+┃ Type ┃ Description ┃ Affected Files ┃
+┡━━━━━━╇━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━┩
+└──────┴─────────────┴────────────────┘
+                    Summary                     
+┏━━━━━━━━━━━━━━━━━━━━━━━━━━┳━━━━━━━━━━━━━━━━━━━┓
+┃ Key                      ┃ Value             ┃
+┡━━━━━━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━━━━━┩
+│ Provider                 │ deepseek          │
+│ Model                    │ deepseek-v4-flash │
+│ Mode                     │ live              │
+│ Files                    │ 1                 │
+│ Contracts                │ 1                 │
+│ Functions                │ 6                 │
+│ Lines of Code            │ 229               │
+│ Used Time                │ 40.85475444793701 │
+│ LLM Calls                │ 6                 │
+│ Tokens (sent / received) │ 3304 / 2778       │
+│ Estimated Cost (USD)     │ 0.0012            │
+└──────────────────────────┴───────────────────┘
+[15:01:52] JSON report: /output.json                                tasks.py:467
+GPTSCAN_META {    "files": 1,    "contracts": 1,    "functions": 6,    "loc": 229,    "files_after_filter": 1,    "files_after_step_1": 1,    "files_after_step_2": 1,    "files_after_static": 0,    "contracts_after_filter": 1,    "contracts_after_step_1": 1,    "contracts_after_step_2": 1,    "contracts_after_static": 0,    "functions_after_filter": 6,    "functions_after_step_1": 1,    "functions_after_step_2": 1,    "functions_after_static": 0,    "rules_loaded": 10,    "rules_types_for_step_1": 2,    "rules_types_for_step_2": 1,    "rules_types_for_static": 1,    "rules_types_after_static": 0,    "used_time": 40.85475444793701,    "vul_before_static": 1,    "vul_after_static": 0,    "vul_after_merge": 0,    "token_sent": 3304.0,    "token_received": 2778.0,    "token_sent_gpt4": 0.0,    "token_received_gpt4": 0.0,    "estimated_cost": 0.0012404,    "provider": "deepseek",    "model": "deepseek-v4-flash",    "dry_run": false,    "llm_calls": 6,    "llm_calls_skipped_budget": 0,    "budget_exceeded": null}

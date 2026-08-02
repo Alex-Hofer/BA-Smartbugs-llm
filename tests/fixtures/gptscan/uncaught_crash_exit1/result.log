@@ -1,0 +1,143 @@
+GPTScan: provider=deepseek model=<default> dry_run=1
+
+
+  .oooooo.    ooooooooo.   ooooooooooooo  .oooooo..o                            
+ d8P'  `Y8b   `888   `Y88. 8'   888   `8 d8P'    `Y8                            
+888            888   .d88'      888      Y88bo.       .ooooo.   .oooo.   ooo. 
+.oo.   
+888            888ooo88P'       888       `"Y8888o.  d88' `"Y8 `P  )88b  
+`888P"Y88b  
+888     ooooo  888              888           `"Y88b 888        .oP"888   888   
+888  
+`88.    .88'   888              888      oo     .d8P 888   .o8 d8(  888   888   
+888  
+ `Y8bood8P'   o888o            o888o     8""88888P'  `Y8bod8P' `Y888""8o o888o 
+o888o                                                        
+
+
+                                                                   
+
+[08:36:29] Provider: deepseek  Model: deepseek-v4-flash  Mode:      tasks.py:167
+           DRY-RUN                                                              
+           Loaded 10 rules                                          tasks.py:172
+[07/01/26 08:36:29] INFO     CryticCompile: 'solc --version' running solc.py:374
+                    INFO     CryticCompile: 'solc                    solc.py:540
+                             /work/input/78_FlanBackstop.sol                    
+                             --combined-json                                    
+                             abi,ast,bin,bin-runtime,srcmap,srcmap-r            
+                             untime,userdoc,devdoc,hashes,compact-fo            
+                             rmat --allow-paths .,/work/input'                  
+                             running                                            
+                    INFO     CryticCompile: Compilation              solc.py:572
+                             warnings/errors on                                 
+                             /work/input/78_FlanBackstop.sol:                   
+                             Error: Expected type name                          
+                               -->                                              
+                             /work/input/78_FlanBackstop.sol:20:2784            
+                             :                                                  
+                                |                                               
+                             20 |  ... 8 - places);return amount *              
+                             bump;}}                                            
+                                |                                               
+                             ^                                                  
+                                                                                
+                                                                                
+           Traceback (most recent call last):                       tasks.py:177
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 575, in _run_solc                            
+               ret: Dict = json.loads(stdout)                                   
+             File "/usr/local/lib/python3.10/json/__init__.py",                 
+           line 346, in loads                                                   
+               return _default_decoder.decode(s)                                
+             File "/usr/local/lib/python3.10/json/decoder.py", line             
+           337, in decode                                                       
+               obj, end = self.raw_decode(s, idx=_w(s, 0).end())                
+             File "/usr/local/lib/python3.10/json/decoder.py", line             
+           355, in raw_decode                                                   
+               raise JSONDecodeError("Expecting value", s,                      
+           err.value) from None                                                 
+           json.decoder.JSONDecodeError: Expecting value: line 1                
+           column 1 (char 0)                                                    
+                                                                                
+           During handling of the above exception, another                      
+           exception occurred:                                                  
+                                                                                
+           Traceback (most recent call last):                                   
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/falcon/falcon.p             
+           y", line 90, in __init__                                             
+               crytic_compile = CryticCompile(target, **kwargs)                 
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           crytic_compile.py", line 131, in __init__                            
+               self._compile(**kwargs)                                          
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           crytic_compile.py", line 553, in _compile                            
+               self._platform.compile(self, **kwargs)                           
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 149, in compile                              
+               targets_json = _get_targets_json(compilation_unit,               
+           self._target, **kwargs)                                              
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 278, in _get_targets_json                    
+               return _run_solc(                                                
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/crytic_compile/             
+           platform/solc.py", line 579, in _run_solc                            
+               raise InvalidCompilation(f"Invalid solc compilation              
+           {stderr}")                                                           
+           crytic_compile.platform.exceptions.InvalidCompilation:               
+           Invalid solc compilation Error: Expected type name                   
+             --> /work/input/78_FlanBackstop.sol:20:2784:                       
+              |                                                                 
+           20 |  ... 8 - places);return amount * bump;}}                        
+              |                                         ^                       
+                                                                                
+                                                                                
+                                                                                
+           During handling of the above exception, another                      
+           exception occurred:                                                  
+                                                                                
+           Traceback (most recent call last):                                   
+             File "/opt/gptscan/src/tasks.py", line 175, in                     
+           simple_cli                                                           
+               falcon_instance = compile_project(source_dir)                    
+             File "/opt/gptscan/src/tasks.py", line 104, in                     
+           compile_project                                                      
+               return falcon.Falcon(os.path.join(abs_path,                      
+           files[0]))                                                           
+             File                                                               
+           "/usr/local/lib/python3.10/site-packages/falcon/falcon.p             
+           y", line 94, in __init__                                             
+               raise FalconError(f"Invalid compilation:                         
+           \n{str(e)}")                                                         
+           falcon.exceptions.FalconError: Invalid compilation:                  
+           Invalid solc compilation Error: Expected type name                   
+             --> /work/input/78_FlanBackstop.sol:20:2784:                       
+              |                                                                 
+           20 |  ... 8 - places);return amount * bump;}}                        
+              |                                         ^                       
+                                                                                
+                                                                                
+                                                                                
+           Compile failed.                                          tasks.py:178
+           Since the compilation is failed, some static analysis    tasks.py:179
+           tool may not be enabled, which may cause lower precision             
+           and recall.                                                          
+line 20:2783 extraneous input '<EOF>' expecting {'address', 'bool', 'bytes', 'error', Fixed, FixedBytes, 'from', Function, 'global', 'mapping', 'revert', SignedIntegerType, 'string', Ufixed, UnsignedIntegerType, RBrace, Identifier}
+Traceback (most recent call last):
+  File "/opt/gptscan/src/main.py", line 35, in <module>
+    tasks.simple_cli()
+  File "/opt/gptscan/src/tasks.py", line 185, in simple_cli
+    res, cg, meta_data = analyze_pipeline.ask_whether_has_vul_with_scenario_v9(
+  File "/opt/gptscan/src/analyze_pipeline.py", line 131, in ask_whether_has_vul_with_scenario_v9
+    cg = CallGraph(src_folder)
+  File "/opt/gptscan/src/antlr4helper/callgraph.py", line 96, in __init__
+    self.__clean()
+  File "/opt/gptscan/src/antlr4helper/callgraph.py", line 190, in __clean
+    if match_flag == False:
+UnboundLocalError: local variable 'match_flag' referenced before assignment

@@ -8,6 +8,21 @@ tool's ``findings.yaml`` to attach classification, severity and descriptions.
 Note: the tool reasons over source text and emits NO line numbers, so the
 findings carry no line/line_end keys. Severities are documentation-assigned
 defaults per category, not model verdicts.
+
+Reporting errors and fails
+--------------------------
+Unlike GPTScan, this tool writes plain (un-wrapped) output, so an uncaught
+exception reaches stderr in the shape ``sb.parse_utils.errors_fails`` expects
+and is classified as a *fail* without any help from this parser. The audit in
+``analysis_tools/parser_audit.py`` confirms that: across the 147 LLMSmartAudit
+tasks in this project it finds no message that fails to reach ``result.json``.
+
+What this parser adds on top is a distinct message per way of *not* getting a
+report, so "the container produced nothing" can be told apart from "the report
+was truncated" -- see :func:`_read_output_json`. The entrypoint
+(``scripts/do_solidity.sh``) guarantees a well-formed placeholder report and a
+non-zero exit when the tool produced none, so the common case already surfaces
+as an error.
 """
 
 import io
@@ -19,7 +34,7 @@ from typing import Optional
 import sb.io
 import sb.parse_utils
 
-VERSION = "2026/07/05"
+VERSION = "2026/08/02"
 
 # All finding names the tool can emit: exactly the keys of findings.yaml,
 # which mirror the 41 detector titles in chatdev/audit_report.py::DETECTORS.
@@ -29,9 +44,14 @@ FINDINGS = set(
 )
 
 
-def _read_output_json(output: Optional[bytes]) -> Optional[dict]:
-    """Extract the audit report /output.json from the tar archive SmartBugs collected."""
+def _read_output_json(output: Optional[bytes], fails: set) -> Optional[dict]:
+    """Extract the audit report /output.json from the tar SmartBugs collected.
+
+    Each way of failing is reported on its own rather than collapsing into a
+    single "no output" message, so the reason stays visible in the CSV.
+    """
     if not output:
+        fails.add("no tar archive collected from the container")
         return None
     try:
         with tarfile.open(fileobj=io.BytesIO(output)) as tar:
@@ -40,10 +60,18 @@ def _read_output_json(output: Optional[bytes]) -> Optional[dict]:
                     continue
                 if m.name.rsplit("/", 1)[-1] == "output.json":
                     fh = tar.extractfile(m)
-                    if fh is not None:
-                        return json.loads(fh.read().decode("utf-8", errors="replace"))
-    except Exception:
+                    if fh is None:
+                        continue
+                    raw = fh.read().decode("utf-8", errors="replace")
+                    try:
+                        return json.loads(raw)
+                    except ValueError as e:
+                        fails.add(f"output.json is not valid JSON: {e}")
+                        return None
+    except tarfile.TarError as e:
+        fails.add(f"tar archive from the container is unreadable: {e}")
         return None
+    fails.add("tar archive contains no output.json")
     return None
 
 
@@ -53,7 +81,7 @@ def _meta(log: list) -> dict:
         if line.startswith("LLMSA_META "):
             try:
                 return json.loads(line[len("LLMSA_META "):].strip())
-            except Exception:
+            except ValueError:
                 return {}
     return {}
 
@@ -68,10 +96,8 @@ def parse(
     meta = _meta(log)
     filename = meta.get("filename")
 
-    result = _read_output_json(output)
+    result = _read_output_json(output, fails)
     if result is None:
-        if not errors and not fails:
-            fails.add("no LLMSmartAudit output produced")
         return findings, infos, errors, fails
 
     # The report itself is authoritative for the backend actually used.
@@ -83,6 +109,11 @@ def parse(
     checked = result.get("categories_checked")
     if total is not None and checked is not None:
         infos.add(f"categories checked: {checked}/{total}")
+        # No category checked means no analysis happened, whatever else the
+        # report says -- an empty finding list must not read as "clean".
+        if checked == 0:
+            errors.add(f"LLMSmartAudit checked 0 of {total} detector categories:"
+                       " the contract was not analysed")
     if result.get("error"):
         errors.add(str(result["error"]))
 

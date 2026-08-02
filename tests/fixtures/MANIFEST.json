@@ -1,0 +1,38 @@
+{
+  "gptscan/clean_with_finding": {
+    "contract": "Vault.sol",
+    "exit_code": 0,
+    "origin_path": "gptscan/smoke2_live/Vault.sol",
+    "origin_run": "gptscan/smoke2_live"
+  },
+  "gptscan/compile_failure_silent": {
+    "contract": "74_TimeswapPair.sol",
+    "exit_code": 0,
+    "origin_path": "gptscan/smoke2_live/74_TimeswapPair.sol",
+    "origin_run": "gptscan/smoke2_live"
+  },
+  "gptscan/static_check_crash": {
+    "contract": "0xe894d54dca59cb53fe9cbc5155093605c7068220.sol",
+    "exit_code": 0,
+    "origin_path": "gptscan/curated_v1_20260705/unchecked_low_level_calls/0xe894d54dca59cb53fe9cbc5155093605c7068220.sol",
+    "origin_run": "gptscan/curated_gptscan_v1_20260705"
+  },
+  "gptscan/uncaught_crash_exit1": {
+    "contract": "78_FlanBackstop.sol",
+    "exit_code": 1,
+    "origin_path": "gptscan/mwevar_dry/78_FlanBackstop.sol",
+    "origin_run": "gptscan/mwevar_dry"
+  },
+  "llmsmartaudit/backend_rejected": {
+    "contract": "Vault.sol",
+    "exit_code": 1,
+    "origin_path": "llmsmartaudit/smoke1_stub/Vault.sol",
+    "origin_run": "llmsmartaudit/smoke1_stub"
+  },
+  "llmsmartaudit/clean_with_findings": {
+    "contract": "0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9.sol",
+    "exit_code": 0,
+    "origin_path": "llmsmartaudit/curated_v1_20260705/unchecked_low_level_calls/0x0cbe050f75bc8f8c2d6c0d249fea125fd6e1acc9.sol",
+    "origin_run": "llmsmartaudit/curated_llmsa_v1_20260705"
+  }
+}
