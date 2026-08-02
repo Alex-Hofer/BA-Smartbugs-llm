@@ -1,0 +1,56 @@
+MIT License
+
+Copyright (c) 2026 Alex Hofer
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+===============================================================================
+
+SCOPE / GELTUNGSBEREICH
+
+Diese Lizenz gilt ausschliesslich fuer den Eigenanteil dieser Bachelorarbeit:
+
+    analysis_tools/
+    tests/
+    corpus_tools/
+    run_curated.ps1
+    evaluate_curated.py
+    smartbugs/tools/gptscan/       (Tool-Integration: config.yaml, findings.yaml,
+    smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh)
+    docs/                          (Ausarbeitungen und Protokolle)
+
+Die mitgelieferten Fremdkomponenten stehen weiterhin unter ihren eigenen
+Lizenzen und werden davon NICHT beruehrt:
+
+    GPTScan/                 GNU Affero General Public License v3.0
+                             (siehe GPTScan/License)
+                             ACHTUNG: Copyleft. Der Baum enthaelt Aenderungen
+                             am GPTScan-Quellcode; diese bleiben AGPL-3.0.
+    LLMSmartAuditTool-main/  Apache License 2.0
+                             (siehe LLMSmartAuditTool-main/.../LICENSE)
+    smartbugs/               Upstream ist hier widerspruechlich: smartbugs/LICENSE
+                             enthaelt die Apache License 2.0, smartbugs/pyproject.toml
+                             gibt "MIT" an. Beides sind permissive Lizenzen; fuer
+                             die Nutzung in dieser Arbeit macht der Unterschied
+                             keinen Unterschied. Ausgenommen sind die oben
+                             genannten eigenen Verzeichnisse und der
+                             gekennzeichnete Patch in smartbugs/sb/docker.py
+
+Welche Datei zu welcher Kategorie gehoert, ist vollstaendig und mit Diff belegt
+in docs/BA-EIGENANTEIL.md aufgefuehrt.

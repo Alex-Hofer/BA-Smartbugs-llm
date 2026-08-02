@@ -11,6 +11,36 @@ logic/DeFi- und code-quality-Detektoren) sind hier bewusst NICHT abbildbar und
 werden separat als "unmapped" gezaehlt — fuer GPTScan ist geringer Recall auf
 diesem Datensatz erwartbar (Scope: DeFi-Logik, nicht klassische SWC-Klassen).
 
+Definition der Kennzahlen (alle auf Contract-Ebene, je Kategorie)
+----------------------------------------------------------------
+  contracts : Contracts, die in der Ground Truth mit dieser Kategorie gelabelt sind
+  detected  : davon jene, fuer die das Tool mindestens ein auf diese Kategorie
+              abbildbares Finding meldet
+  flagged   : ALLE Contracts, fuer die das Tool diese Kategorie meldet — auch
+              die ohne entsprechendes Label
+  Recall    = detected / contracts
+  Precision = detected / flagged
+  F1        = harmonisches Mittel
+
+Zwei Eigenheiten, die bei der Interpretation zu beachten sind:
+
+* Mehrfachmeldungen desselben Contracts zaehlen einmal. Bei hoher Finding-Dichte
+  (LLMSmartAudit: Mittel 7,9 Findings je Contract) ist Contract-Level-Recall
+  daher wohlwollend — ein Tool, das viel meldet, trifft haeufiger zufaellig.
+* Zeilengenau laesst sich nicht auswerten, weil LLMSmartAudit grundsaetzlich
+  keine Zeilennummern emittiert (siehe tools/llmsmartaudit/parser.py).
+
+Diese Auswertung liest ausschliesslich das Feld ``findings`` aus jeder
+``result.json``. Errors und Fails werden hier NICHT betrachtet — dafuer ist
+``analysis_tools/errors_fails_report.py`` zustaendig. Das ist der Grund, warum
+die Parser-Reparatur vom 2026-08-02 die Zahlen unten nicht veraendert hat
+(Beleg: docs/parser-fix-vorher-nachher.md).
+
+Achtung bei der Interpretation: ein Contract ohne Findings ist nur dann
+unauffaellig, wenn er auch uebersetzt werden konnte. Fuer den Hauptlauf
+curated_v1_20260705 trifft das auf alle 143 Contracts zu; in anderen Laeufen
+nicht (siehe docs/errors-fails.md, Spalte "nicht uebersetzt").
+
 Aufruf (aus dem Repo-Root, venv von SmartBugs nutzen):
   smartbugs\\.venv\\Scripts\\python.exe evaluate_curated.py --suffix v1_20260705
 """
@@ -64,6 +94,14 @@ def load_mapping(findings_yaml: Path, tool: str) -> dict:
 
 
 def main() -> None:
+    """Vergleicht je Werkzeug alle Ergebnisse eines Laufs mit der Ground Truth.
+
+    Ablauf: Ground Truth laden -> je Werkzeug das findings.yaml-Mapping
+    aufbauen -> jede result.json des Laufs lesen -> Findings auf
+    curated-Kategorien abbilden -> je Kategorie Recall/Precision/F1 ausgeben.
+    Fehlende result.json werden als ``missing`` gezaehlt und nicht als
+    "nichts gefunden" gewertet.
+    """
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("--repo", default=".", help="BA-Repo-Root")
     ap.add_argument("--suffix", required=True, help="RunIdSuffix des Massenlaufs")

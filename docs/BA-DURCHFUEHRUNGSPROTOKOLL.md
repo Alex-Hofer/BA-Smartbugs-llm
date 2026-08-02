@@ -103,4 +103,4 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 
 Reproduktion: `.\run_curated.ps1` (Volllauf beide Tools) bzw. `-Tool gptscan|llmsmartaudit`, danach `smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix <RunIdSuffix> --csv`. Voraussetzungen: Docker Desktop, lokal gebaute Images, `DEEPSEEK_API_KEY` in `GPTScan/.env`.
 
-> Hinweis: Die Durchführung erfolgte KI-gestützt über ein Multi-Agent-Setup; Architektur und Erfahrungen dazu sind separat dokumentiert in `docs/BA-AGENT-WORKFLOW.md`.
+> Hinweis: Die Durchführung erfolgte KI-gestützt über ein Multi-Agent-Setup.

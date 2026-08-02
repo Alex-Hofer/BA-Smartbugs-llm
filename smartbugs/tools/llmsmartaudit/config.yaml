@@ -1,6 +1,8 @@
 name: LLMSmartAudit
 version: "1.0"
-origin: https://github.com/LLMSmartAudit/LLMSmartAuditTool
+# Upstream. Note the owner: LLMAudit, not LLMSmartAudit -- the latter is a
+# different account of the same authors and holds no repository of this name.
+origin: https://github.com/LLMAudit/LLMSmartAuditTool
 info: LLMSmartAudit analyses Solidity source with a ChatDev/CAMEL multi-agent LLM pipeline (41 detector prompts, SmartContractTA mode). The LLM backend (provider, model, base URL) is selected at run time via environment variables and defaults to DeepSeek. Runs take many LLM calls; use a generous --timeout (>= 3600s recommended).
 # Locally-built image (see LLMSmartAuditTool's Dockerfile.smartbugs).
 # Not on Docker Hub: build it before use, e.g. (from the tool repo root)
