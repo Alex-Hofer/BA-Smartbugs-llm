@@ -1,0 +1,31 @@
+{
+ "corpus": "mwevariety_fixed",
+ "samples": 96,
+ "compiled_ok": 96,
+ "verification_tiers": {
+  "truncated-prefix": 50,
+  "equal": 33,
+  "header-prefix": 13
+ },
+ "notes": {
+  "58_UniV3Vault.sol": "needs --optimize",
+  "8_NFTXEligiblityManager.sol": "injected: pragma experimental ABIEncoderV2"
+ },
+ "solc_distribution": {
+  "0.8.12": 1,
+  "0.8.36": 33,
+  "0.7.6": 8,
+  "0.8.4": 10,
+  "0.6.12": 14,
+  "0.8.3": 10,
+  "0.8.1": 2,
+  "0.8.7": 6,
+  "0.8.6": 3,
+  "0.8.9": 3,
+  "0.6.11": 1,
+  "0.8.10": 2,
+  "0.6.8": 3
+ },
+ "largest_closure": "22_Staker.sol",
+ "total_flattened_files": 1279
+}

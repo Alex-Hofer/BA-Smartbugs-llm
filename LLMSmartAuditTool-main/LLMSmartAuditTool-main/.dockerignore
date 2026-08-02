@@ -1,0 +1,7 @@
+.venv/
+.git/
+.gitmodules
+evaluation/
+WareHouse/
+**/__pycache__/
+*.pyc

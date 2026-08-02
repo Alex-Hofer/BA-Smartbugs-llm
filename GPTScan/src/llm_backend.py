@@ -1,0 +1,178 @@
+"""Central LLM backend abstraction for GPTScan.
+
+GPTScan talks to exactly one OpenAI-compatible Chat-Completions backend per run
+(OpenAI or DeepSeek today; any other compatible provider is one entry in
+``config.PROVIDERS``). This module is the single source of truth for:
+
+* which provider / model / base-url / API key the current run uses,
+* per-token pricing and cost estimation,
+* the ``--dry-run`` flag and the sentinel answers it feeds back into the
+  pipeline so a scan can be costed without making any network calls,
+* the optional hard budget guards.
+
+Why route the selection through environment variables instead of plain module
+globals: GPTScan executes every real LLM call inside a ``multiprocessing.Pool``
+worker (see ``analyze_pipeline.ask_with_timeout``). On Linux (fork) globals are
+inherited, but on Windows (spawn) the worker re-imports this module from
+scratch. Environment variables are inherited by the child in BOTH cases, so the
+parent sets them once (``configure_from_args``) and every process — parent and
+worker — reads the same configuration.
+"""
+
+import os
+from typing import Optional
+
+import config as global_config
+
+# Environment variables used to carry the run configuration across the
+# parent/worker process boundary.
+ENV_PROVIDER = "GPTSCAN_PROVIDER"
+ENV_MODEL = "GPTSCAN_MODEL"
+ENV_DRY_RUN = "GPTSCAN_DRY_RUN"
+
+
+# ---------------------------------------------------------------------------
+# Run configuration (read from the environment, cached per process)
+# ---------------------------------------------------------------------------
+
+def configure_from_args(provider: Optional[str], model: Optional[str],
+                        dry_run: bool) -> None:
+    """Persist the chosen backend into the environment (call in the parent).
+
+    Must run before the analysis pipeline spawns any worker process.
+    """
+    os.environ[ENV_PROVIDER] = provider or global_config.DEFAULT_PROVIDER
+    if model:
+        os.environ[ENV_MODEL] = model
+    else:
+        os.environ.pop(ENV_MODEL, None)
+    os.environ[ENV_DRY_RUN] = "1" if dry_run else "0"
+
+
+def active_provider() -> str:
+    name = os.environ.get(ENV_PROVIDER) or global_config.DEFAULT_PROVIDER
+    if name not in global_config.PROVIDERS:
+        raise ValueError(
+            f"Unknown provider '{name}'. Known: {', '.join(global_config.PROVIDERS)}")
+    return name
+
+
+def provider_config() -> dict:
+    return global_config.PROVIDERS[active_provider()]
+
+
+def model_override() -> Optional[str]:
+    return os.environ.get(ENV_MODEL) or None
+
+
+def is_dry_run() -> bool:
+    return os.environ.get(ENV_DRY_RUN) == "1"
+
+
+def resolve_model(gpt4: bool = False) -> str:
+    """Model id for a call. An explicit --model overrides both tiers."""
+    override = model_override()
+    if override:
+        return override
+    tier = "strong" if gpt4 else "cheap"
+    return provider_config()["models"][tier]
+
+
+def base_url() -> Optional[str]:
+    return provider_config().get("base_url")
+
+
+def api_key() -> str:
+    """Read the API key for the active provider from its env var."""
+    env_name = provider_config()["api_key_env"]
+    key = os.environ.get(env_name)
+    if not key:
+        raise RuntimeError(
+            f"No API key found in environment variable '{env_name}'. "
+            f"Set it in your .env file (see .env.example) or pass -k.")
+    return key
+
+
+def configure_sdk(openai_module) -> str:
+    """Point the (v0.x) openai SDK at the active provider. Returns the model id.
+
+    Called inside the worker process right before the Chat-Completions request.
+    """
+    openai_module.api_key = api_key()
+    url = base_url()
+    # Only override api_base when the provider defines one; leaving it untouched
+    # preserves the SDK default for OpenAI.
+    if url:
+        openai_module.api_base = url
+    return resolve_model(gpt4=False)
+
+
+# ---------------------------------------------------------------------------
+# Pricing / cost
+# ---------------------------------------------------------------------------
+
+def price_per_token(model: str, direction: str) -> float:
+    """USD per single token for ``direction`` in {"in", "out"}."""
+    prices = provider_config()["prices"].get(model) or global_config.UNKNOWN_MODEL_PRICE
+    return prices[direction] / 1_000_000.0
+
+
+def estimate_cost(tokens_sent: float, tokens_received: float,
+                  tokens_sent_gpt4: float = 0.0,
+                  tokens_received_gpt4: float = 0.0) -> float:
+    """USD cost for the four GPTScan token counters under the active backend.
+
+    The cheap-tier counters (tokens_sent/received) are priced with the cheap
+    model (or the --model override); the gpt4 counters with the strong model.
+    """
+    cheap = resolve_model(gpt4=False)
+    strong = resolve_model(gpt4=True)
+    return (tokens_sent * price_per_token(cheap, "in")
+            + tokens_received * price_per_token(cheap, "out")
+            + tokens_sent_gpt4 * price_per_token(strong, "in")
+            + tokens_received_gpt4 * price_per_token(strong, "out"))
+
+
+# ---------------------------------------------------------------------------
+# Dry-run support
+# ---------------------------------------------------------------------------
+
+# How many scenarios a multiple-choice sentinel claims to match. The pipeline
+# ignores indices beyond the real scenario count, so any generous number works.
+_DRY_CHOICES = 30
+
+AVG_COMPLETION_TOKENS = global_config.DRY_RUN_AVG_COMPLETION_TOKENS
+
+
+def dry_sentinel(kind: Optional[str]) -> str:
+    """Canned answer returned in --dry-run so the pipeline keeps traversing.
+
+    ``kind`` identifies the call site so the sentinel drives an upper-bound walk
+    of the pipeline (every scenario "matches" and "confirms"), maximising the
+    estimated call count:
+
+    * "choices" -> a JSON map ``{"1":"yes",...}`` for the multiple-choice stage
+    * "yesno"   -> ``"yes"`` for the single yes/no confirmation stage
+    * anything else (static-analysis prompts) -> ``"{}"``, which the static
+      parsers consume quietly without raising.
+    """
+    if kind == "choices":
+        return "{" + ", ".join(f'"{i}": "yes"' for i in range(1, _DRY_CHOICES + 1)) + "}"
+    if kind == "yesno":
+        return "yes"
+    return "{}"
+
+
+# ---------------------------------------------------------------------------
+# Budget guards
+# ---------------------------------------------------------------------------
+
+def budget_exceeded(num_calls: int, cost_usd: float) -> Optional[str]:
+    """Return a human-readable reason if a configured hard limit is reached."""
+    max_calls = global_config.MAX_LLM_CALLS
+    if max_calls is not None and num_calls >= max_calls:
+        return f"MAX_LLM_CALLS ({max_calls}) reached"
+    max_cost = global_config.MAX_COST_USD
+    if max_cost is not None and cost_usd >= max_cost:
+        return f"MAX_COST_USD (${max_cost:.2f}) reached"
+    return None

@@ -1,0 +1,232 @@
+% !TeX program = pdflatex
+% Durchführungsprotokoll der Tool-Evaluation — Anhang zur Bachelorarbeit
+\documentclass[11pt,a4paper]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[ngerman]{babel}
+\usepackage{csquotes}
+\usepackage{amssymb}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[margin=2.5cm]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{listings}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,urlcolor=blue!55!black,citecolor=blue!45!black]{hyperref}
+
+\definecolor{codebg}{gray}{0.95}
+\lstset{
+  basicstyle=\ttfamily\small,
+  backgroundcolor=\color{codebg},
+  frame=single, framerule=0pt,
+  breaklines=true, breakatwhitespace=true,
+  postbreak=\mbox{\textcolor{gray}{$\hookrightarrow$}\space},
+  xleftmargin=0.5em, framexleftmargin=0.5em,
+  columns=fullflexible, keepspaces=true
+}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+
+\title{Durchführungsprotokoll:\\Evaluation KI-gestützter Smart-Contract-Scanner}
+\subtitle{Anhang zur Bachelorarbeit}
+\date{Durchführung: 5.--6. Juli 2026}
+
+\begin{document}
+\maketitle
+
+\begin{description}[leftmargin=0pt, style=sameline]
+  \item[Umgebung:] Windows 11, Docker Desktop (Linux-Engine), SmartBugs 2.1.1 (Python 3.13, venv), LLM-Backend DeepSeek \code{deepseek-v4-flash}
+  \item[Evaluierte Tools:] GPTScan (LLM + statische Bestätigung, 10 DeFi-Logik-Regeln MWE-200..209) \,\textbullet\, LLMSmartAudit (ChatDev/CAMEL-Multi-Agent-Pipeline, 41 Detektor-Prompts) \,\textbullet\, Slither 0.11.3 (statische Baseline)
+  \item[Datensätze:] \href{https://github.com/smartbugs/smartbugs-curated}{smartbugs-curated} (143 Contracts, 10 DASP-Kategorien, Single-Label-Ground-Truth) \,\textbullet\, \code{smartbugs/samples/gptscan/mwevariety} (96 DeFi-Contracts aus GPTScans eigenem Benchmark-Umfeld, ohne vendorte Ground Truth)
+\end{description}
+
+\section{Vorgehen (Überblick)}
+
+Mehrstufiger, gate-gesicherter Testlauf, anschließend Massenevaluation:
+
+\begin{enumerate}[nosep]
+  \item \textbf{Phase 0 --- Setup:} Docker-Images prüfen/bauen, API-Key-Handling verifizieren.
+  \item \textbf{Phase 1 --- Smoke-Test \enquote{dry}} (\$0): Pipeline-/Parser-Test ohne echte API-Calls.
+  \item \textbf{Gate-Review} (adversarial): unabhängige Verifikation aller Phase-1-Ergebnisse als Go/No-Go vor kostenpflichtigen Live-Calls.
+  \item \textbf{Phase 2 --- Smoke-Test \enquote{live}:} beide Tools auf 3 Contracts mit echten API-Calls.
+  \item \textbf{Phase 3 --- Analysen:} Parser-/SARIF-Validierung; Rate-Limit-, Timing- und Kosten-Forensik.
+  \item \textbf{Phase 4 --- Automatisierung:} Massentest-Skript \code{run\_curated.ps1} (geschrieben, adversarial reviewed, per Trockentest verifiziert).
+  \item \textbf{Massenläufe:} GPTScan + LLMSmartAudit über curated (143), Slither-Baseline (143), GPTScan über mwevariety (96).
+  \item \textbf{Auswertung:} quantitativ (\code{evaluate\_curated.py}: Recall/Precision/F1 pro DASP-Kategorie, Contract-Level) sowie qualitative Stichproben am Quellcode.
+\end{enumerate}
+
+Alle Läufe erfolgten über die SmartBugs-Integration (\code{smartbugs/tools/\{gptscan,\allowbreak llmsmartaudit\}/}), d.\,h. dockerisiert, mit standardisierten Ausgaben (\code{result.json} + SARIF) und Key-Redaction in den persistierten Metadaten.
+
+\section{Setup-Besonderheiten}
+
+\begin{itemize}[nosep]
+  \item \textbf{LLMSmartAudit-Image} (\code{smartbugs/llmsmartaudit:1.0}) wurde ohne Working-Tree-Checkout direkt aus git HEAD gebaut (Windows-Langpfad-Problematik):
+\begin{lstlisting}
+git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main |
+  docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
+\end{lstlisting}
+  \item \textbf{API-Key-Handling:} Der Key liegt ausschließlich lokal (\code{GPTScan/.env}, git-ignoriert); SmartBugs reicht ihn zur Laufzeit als Umgebungsvariable in den Container und ersetzt ihn vor dem Persistieren durch \code{<redacted>} (in allen neuen Läufen verifiziert).
+  \item \textbf{Netzwerk:} SmartBugs isoliert Tool-Container standardmäßig (\code{network: none}); die beiden LLM-Tools nutzen den dokumentierten Opt-in \code{network: bridge} (nur diese Container haben API-Zugriff).
+\end{itemize}
+
+\section{Fehler, Diagnosen und Behebungen (chronologisch)}
+\label{sec:fehler}
+
+{\footnotesize
+\begin{longtable}{@{}L{0.5cm} L{2.4cm} L{3.0cm} L{4.4cm} L{4.0cm}@{}}
+\toprule
+\# & Problem & Symptom & Diagnose & Behebung \\
+\midrule
+\endfirsthead
+\toprule
+\# & Problem & Symptom & Diagnose & Behebung \\
+\midrule
+\endhead
+\bottomrule
+\endlastfoot
+1 & Totes LLM-Modell im LLMSA-Image & Jeder Lauf wäre mit HTTP 400 gescheitert & Stub-Experiment (\code{LLM\_MODEL=STUB}) zeigte: Der Modellname geht verbatim an die DeepSeek-API; deren Fehlermeldung nannte nur noch \code{deepseek-v4-pro/flash} als gültig --- das im Image eingebrannte \code{deepseek-chat} ist abgeschaltet. Code-Analyse (\code{run.py}, \code{model\_backend.py}) bestätigte den Datenfluss. & Host-seitig \code{LLM\_MODEL=deepseek-v4-flash} setzen (überschreibt Image-ENV); kein Rebuild nötig \\
+\addlinespace
+2 & Kein Offline-/Stub-Modus bei LLMSA & \enquote{Stub}-Testlauf erzeugte echte (abgelehnte) API-Roundtrips & \code{run.py} mappt \code{--model} unter \code{provider=deepseek} nie auf das interne StubModel & Akzeptiert und dokumentiert; Dry-Testing nur über GPTScans \code{GPTSCAN\_DRY\_RUN=1} \\
+\addlinespace
+3 & Korrupte Test-Samples & \code{\_chk/20\_Pool.sol}: solc \enquote{extraneous input \code{<EOF>}} & Ab Z.\,22 fehlen alle Zeilenumbrüche, ein Zeilenkommentar verschluckt den Restvertrag; 4 von 6 \code{\_chk}-Dateien betroffen (Ein-Zeilen-Blobs) & Für den Smoke-Test Austausch gegen \code{74\_TimeswapPair.sol} (wohlgeformt; hatte dennoch einen echten solc-Fehler Z.\,51 $\rightarrow$ GPTScan degradierte nachweislich graceful auf LLM-only) \\
+\addlinespace
+4 & \textbf{Silent Failure bei GPTScan} & Compile-Fehler erscheinen nur im \code{result.log}; \code{result.json} zeigt \code{errors=[]}, 0 Findings --- ununterscheidbar von \enquote{sauber, nichts gefunden} & An zwei Fällen verifiziert; drei ununterscheidbare Zustände identifiziert (sauber / compile-failed / degradiert) & Massentest-Skript erzeugt Post-Run-Manifeste aus den Logs (\code{curated\_compile\_failures\_*.csv}, \code{curated\_review\_candidates\_*.csv}); Parser-Fix als Empfehlung dokumentiert \\
+\addlinespace
+5 & PowerShell-5.1-Falle: stderr-Umleitung & \code{docker info *> \$null} warf \code{NativeCommandError} (Docker-WARNING auf stderr bei \code{\$ErrorActionPreference='Stop'}) & PowerShell 5.1 wandelt umgeleitete native stderr-Zeilen in ErrorRecords & Umleitung an \code{cmd /c} delegiert \\
+\addlinespace
+6 & Exit-Code-Capture-Bug im Skript & \enquote{ExitCode=Welcome to SmartBugs\dots} & PowerShell-Funktionen geben den gesamten Pipeline-Output zurück, nicht nur \code{return}-Werte & Tool-Ausgabe via \code{|\,Out-Host} zur Konsole; nur \code{\$LASTEXITCODE} zurückgeben \\
+\addlinespace
+7 & Fehlalarm im Degradations-Manifest (Dry-Run) & Dry-Testlauf flaggte intakten Contract als \enquote{degradiert} & Im Dry-Run läuft die Static-Bestätigung nie; die Signatur ist dort bedeutungslos & \code{dry\_run}-Guard in der Manifest-Logik \\
+\addlinespace
+8 & Manifest-Übermeldung (Review-Befund) & \enquote{Degraded}-Signatur hätte ${\approx}48\,\%$ der Live-Contracts geflaggt & \code{vul\_before\_static > vul\_after\_static} ist GPTScans \emph{bestimmungsgemäßes} False-Positive-Filtering, kein Defekt & Umbenennung in \enquote{Review-Kandidaten} (manuelle Nachprüfung, kein Automatik-Ausschluss); Log-Meldungen präzisiert \\
+\addlinespace
+9 & DASP-Mapping-Lücken (Slither) & \code{time\_manipulation}-Recall fälschlich 0\,\% & Slithers \code{timestamp}- und \code{weak-prng}-Detektoren tragen in SmartBugs' \code{findings.yaml} keine Klassifikation & Konservatives, dokumentiertes Zusatz-Mapping in \code{evaluate\_curated.py} (\code{timestamp} $\rightarrow$ DASP-8, \code{weak-prng} $\rightarrow$ DASP-6) \\
+\addlinespace
+10 & DASP-Mapping-Lücken (LLMSA) & 4 der 5 verpassten Contracts & Die curated-Kategorien \enquote{other} (= uninitialized storage pointer, SWC-109) und \enquote{short\_addresses} haben kein Gegenstück unter den 41 Detektoren bzw. im DASP-Schema & Als Taxonomie-Limitation dokumentiert (kein Tool-Fehler); 3 unmapped Findings waren sogar korrekte Primär-Vuln-Treffer \\
+\addlinespace
+11 & Slither-Engine-Crashes & 3/143 Tasks (2{,}1\,\%) mit \code{EXIT\_CODE\_1} & $2\times$ \code{AssertionError} im IR-Generator (Legacy-Muster \code{(bool success, ) = x.call.value(v)("")}), $1\times$ \code{NotConstant} (\code{Request[2**64]}) --- keine solc-Probleme & Als Tool-Grenzfälle dokumentiert; \code{--continue-on-errors} fing sie sauber ab \\
+\addlinespace
+12 & mwevariety-Korpus großteils nicht kompilierbar & 95/96 \enquote{InvalidCompilation}; 22/96 Tool-interne Python-Crashes (\code{TypeError}/\code{UnboundLocalError}) & Einzeln extrahierte Benchmark-Dateien ohne Import-/Dependency-Baum; die Crashes sind Folgefehler der fehlgeschlagenen Kompilierung & Dokumentiert: GPTScan lief dort überwiegend im degradierten LLM-only-Modus (statische Bestätigung inaktiv); leere Fehler-Results wurden korrekt erzeugt \\
+\addlinespace
+13 & Klartext-Key in Alt-Ergebnissen & 62 lokale Ergebnisdateien früherer Läufe enthielten den API-Key & Redaction wurde erst mit der SmartBugs-Integration eingeführt; Alt-Läufe davor betroffen. Nie git-getrackt, nie veröffentlicht & Verifiziert, dass alle neuen Läufe redigieren; Key-Rotation + Scrubbing vor jeder Weitergabe der Results als Auflage dokumentiert \\
+\end{longtable}
+}
+
+\section{Ergebnisse}
+
+\subsection{smartbugs-curated (143 Contracts, Contract-Level, DASP-Mapping)}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}lrrrrrr@{}}
+\toprule
+Tool & Recall & Precision & F1 & Findings (mapped) & Kosten & Laufzeit \\
+\midrule
+Slither 0.11.3 & 64\,\% & 45\,\% & 52\,\% & 2\,154 (300) & \$0 & 1:24\,min \\
+LLMSmartAudit & \textbf{97\,\%} & 30\,\% & 45\,\% & 1\,124 (656) & \$2.44 & 3:02\,h \\
+GPTScan & 0\,\%\,\textsuperscript{*} & --- & --- & 6 (6) & \$0.01 & 3:19\,min \\
+\bottomrule
+\end{tabular}
+\caption{Drei-Tool-Vergleich auf smartbugs-curated. \textsuperscript{*}\,by design: GPTScan adressiert ausschließlich DeFi-Logik-Schwachstellen, nicht die klassischen SWC-Klassen des Datensatzes. Nur 16/143 Contracts passierten den Keyword-Vorfilter; die 6 Findings (alle MWE-207) lagen auf Real-World-Contracts mit anderem Primär-Label.}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}lrrrr@{}}
+\toprule
+Kategorie & Contracts & Recall & Precision & F1 \\
+\midrule
+unchecked\_low\_level\_calls & 52 & 100\,\% & 79\,\% & 88\,\% \\
+reentrancy & 31 & 100\,\% & 43\,\% & 60\,\% \\
+bad\_randomness & 8 & 88\,\% & 44\,\% & 58\,\% \\
+time\_manipulation & 5 & 100\,\% & 26\,\% & 42\,\% \\
+arithmetic & 15 & 100\,\% & 20\,\% & 33\,\% \\
+access\_control & 18 & 100\,\% & 19\,\% & 32\,\% \\
+front\_running & 4 & 100\,\% & 9\,\% & 16\,\% \\
+denial\_of\_service & 6 & 100\,\% & 8\,\% & 14\,\% \\
+other & 3 & 0\,\% & --- & --- \\
+short\_addresses & 1 & 0\,\% & --- & --- \\
+\midrule
+\textbf{Gesamt} & \textbf{143} & \textbf{97\,\%} & \textbf{30\,\%} & \textbf{45\,\%} \\
+\bottomrule
+\end{tabular}
+\caption{LLMSmartAudit pro DASP-Kategorie. Finding-Dichte: $\varnothing$\,7{,}9 pro Contract (Median 7, Max.\ 18); \emph{kein} Contract blieb ohne Findings.}
+\end{table}
+
+\textbf{Slither pro Kategorie} (Auszug, Recall/Precision/F1): reentrancy 94/74/83 \textbullet\ unchecked\_low\_level\_calls 88/59/71 \textbullet\ time\_manipulation 100/21/34 \textbullet\ arithmetic und front\_running je 0\,\% (keine passenden Detektoren). 89{,}5\,\% der 2\,154 Slither-Findings sind Stil-/Info-Meldungen ohne DASP-Kategorie.
+
+\subsection{Qualitative Einordnung (Stichproben am Quellcode verifiziert)}
+
+\begin{itemize}[nosep]
+  \item \textbf{LLMSA-Misses:} 4 von 5 sind Taxonomie-Artefakte (Fehler~\#10), nur 1 echter Detektions-Fehler (\code{smart\_billions.sol}, PredictableRand-Detektor feuerte nicht). Bemerkenswert: Auf demselben Contract verwarf auch GPTScans Static-Stufe zwei LLM-Kandidaten.
+  \item \textbf{LLMSA-\enquote{False Positives}:} Stichprobe von 19 Extra-Kategorie-Treffern $\rightarrow$ \textbf{15 plausibel / 4 generisch / 0 falsch}; Stichprobe von 10 unmapped Findings $\rightarrow$ 8 plausibel / 2 generisch. Die gemessene Precision (30\,\%) unterschätzt die tatsächliche deutlich, weil curated nur \emph{eine} Primär-Schwachstelle pro Contract labelt und das DASP-Mapping standardkonforme SWC-Findings ohne DASP-Nummer verwirft.
+  \item \textbf{Severity-Caveat:} Über alle 1\,124 LLMSA-Findings ist die Severity je Detektorname zu 100\,\% konstant $\rightarrow$ dokumentations-zugewiesene Kategorie-Defaults, keine Einzelfall-Urteile des Modells.
+  \item \textbf{GPTScan-Review-Kandidaten (curated):} Alle 4 geprüft --- die Static-Stufe lief und verwarf 5 LLM-Kandidaten bestimmungsgemäß (False-Positive-Filtering, kein Datenproblem).
+\end{itemize}
+
+\subsection{GPTScan auf Zieldomäne (mwevariety, 96 DeFi-Contracts)}
+
+\begin{itemize}[nosep]
+  \item \textbf{11 Findings auf 7 Contracts} (alle Severity \emph{high}): MWE-200 \enquote{Insecure LP Token Value} $\times 6$, MWE-207 $\times 2$, MWE-209 $\times 2$, MWE-203 $\times 1$ --- im Kontrast zu 0 themengerechten Findings auf curated.
+  \item Qualitative Stichprobe (6 Findings): \textbf{4 plausibel} (u.\,a. \code{slot0}-Spotpreis als Flashloan-Vektor; nie zurückgesetzte NFT-Approval), 1 generisch, 1 falsch.
+  \item \textbf{Reproduzierbarkeit:} Vergleich mit einem früheren Live-Lauf über dieselben 27 Contracts: nur \textbf{74\,\% identische Ergebnisse} (3 Findings verschwunden, 2 neu, 2 verändert) --- trotz \code{temperature=0}. Zentrale Limitation LLM-basierter Scanner.
+  \item Kosten \$0.046, Laufzeit 13:22\,min, 257 LLM-Calls, keine Rate-Limits. Caveats des Korpus siehe Fehler~\#12; keine vendorte Ground Truth $\rightarrow$ deskriptive + qualitative Auswertung.
+\end{itemize}
+
+\subsection{Betriebs- und Robustheitsdaten}
+
+\begin{itemize}[nosep]
+  \item \textbf{Keine Rate-Limits} über ${\approx}6\,640$ DeepSeek-API-Calls gesamt (6\,174 LLMSA-curated + 129 LLMSA-Smoke + 257 + 72 + 9 GPTScan); keine Retries nötig (LLMSA nutzt tenacity-Backoff, GPTScan fixe 30-s-Retries --- beides wurde nie ausgelöst).
+  \item Validierte Parameter: \code{--processes 4}; Timeouts 1\,800\,s (GPTScan) / 5\,400\,s (LLMSA); Läufe sequenziell; \code{LLM\_CONTEXT\_TOKENS=65536} als Versicherung.
+  \item \textbf{Gesamtkosten aller Experimente: ${\approx}\,\$2.55$} (Smoke \$0.06 + curated GPTScan \$0.01 + curated LLMSA \$2.44 + mwevariety \$0.05); Slither \$0. Alle Kostenwerte aus den Token-Zahlen der Logs bzw. GPTScans eigenem Kosten-Estimator nachgerechnet.
+\end{itemize}
+
+\section{Methodische Limitationen}
+
+\begin{enumerate}[nosep]
+  \item \textbf{Single-Label-Ground-Truth:} curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives $\rightarrow$ Precision-Werte sind Untergrenzen.
+  \item \textbf{DASP-only-Mapping:} Findings ohne DASP-Klassifikation (LLMSA: 468; Slither: 1\,854) fließen nicht in Recall/Precision ein; zwei kanonische Zusatz-Mappings wurden dokumentiert ergänzt (Fehler~\#9).
+  \item \textbf{Nicht-Determinismus:} 74\,\% Lauf-zu-Lauf-Übereinstimmung bei GPTScan (Abschnitt~4.3); LLMSA-Ergebnisse sind ebenfalls nicht deterministisch (nicht separat quantifiziert).
+  \item \textbf{Degradierte Static-Stufe:} Auf mwevariety war GPTScans Präzisions-Schutzmechanismus mangels kompilierbarer Dateien überwiegend inaktiv.
+  \item \textbf{Severity-Werte} beider LLM-Tools sind Kategorie-Defaults (Abschnitt~4.2) --- severity-gewichtete Metriken wären irreführend.
+  \item \textbf{Contract-Level-Metrik:} Bei hoher Finding-Dichte (LLMSA $\varnothing$\,7{,}9) ist Contract-Level-Recall wohlwollend; eine zeilengenaue Auswertung war nicht möglich, da LLMSA keine Zeilennummern emittiert.
+\end{enumerate}
+
+\section{Artefakte und Reproduktion}
+
+\begin{table}[h!]
+\centering
+\small
+\begin{tabular}{@{}L{4.2cm} L{10.5cm}@{}}
+\toprule
+Artefakt & Pfad \\
+\midrule
+Massentest-Skript & \code{run\_curated.ps1} (Repo-Root; Prechecks, sequenzielle Läufe, Manifeste, Kosten-Summe) \\
+Auswertung & \code{evaluate\_curated.py} (Recall/Precision/F1 pro DASP-Kategorie, Detail-CSV) \\
+Ergebnisse & \code{smartbugs/results/\{gptscan,llmsmartaudit,slither-0.11.3\}/curated\_v1\_20260705/} \newline \code{smartbugs/results/gptscan/curated\_mwe\_20260706/} (lokal, git-ignoriert) \\
+Manifeste/CSVs & \code{smartbugs/results/curated\_*\_v1\_20260705.csv} \newline \code{evaluation\_curated\_v1\_20260705.csv}, \code{curated\_results.csv} \\
+Tool-Integration & \code{smartbugs/tools/\{gptscan,llmsmartaudit\}/\{config.yaml, findings.yaml, parser.py, scripts/\}} \\
+\bottomrule
+\end{tabular}
+\caption{Artefakte der Evaluation.}
+\end{table}
+
+Reproduktion:
+\begin{lstlisting}
+.\run_curated.ps1                       # Volllauf beide Tools
+.\run_curated.ps1 -Tool gptscan         # bzw. -Tool llmsmartaudit
+smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix <RunIdSuffix> --csv
+\end{lstlisting}
+Voraussetzungen: Docker Desktop, lokal gebaute Images, \code{DEEPSEEK\_API\_KEY} in \code{GPTScan/.env}.
+
+\bigskip
+\noindent\emph{Hinweis:} Die Durchführung erfolgte KI-gestützt über ein Multi-Agent-Setup; Architektur und Erfahrungen dazu sind separat dokumentiert (\code{docs/BA-AGENT-WORKFLOW}).
+
+\end{document}

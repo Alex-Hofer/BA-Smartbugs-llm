@@ -1,0 +1,388 @@
+{
+ "106_NFTLoanFacilitator.sol": {
+  "status": "ok",
+  "solc": "0.8.12"
+ },
+ "107_yVault.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "10_Visor.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "12_AccessControl.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "12_Cauldron.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "12_Witch.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "12_YieldMath.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "13_RCFactory.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "13_RCMarket.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "13_RCOrderbook.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "13_RCTreasury.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "14_BadgerYieldSource.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "14_IdleYieldSource.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "14_PrizePool.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "14_SushiYieldSource.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "14_YieldSourcePrizePool.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "16_GasOracle.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "16_Liquidation.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "16_Pricing.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "16_TracerPerpetualSwaps.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "16_TracerPerpetualsFactory.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "16_Trader.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "17_Buoy3Pool.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "17_Exposure.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "17_PnL.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "18_LendingPair.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "192_Position.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "193_Pair.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "19_TransactionManager.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "20_Pool.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "20_Synth.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "22_LongShort.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "22_Staker.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "23_CompoundToNotionalV2.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "23_NotionalV1ToNotionalV2.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "23_nTokenAction.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "24_SwappableYieldSource.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "25_CTokenInterface.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "25_CompositeMultiOracle.sol": {
+  "status": "ok",
+  "solc": "0.8.1"
+ },
+ "25_CompoundMultiOracle.sol": {
+  "status": "ok",
+  "solc": "0.8.1"
+ },
+ "26_RCOrderbook.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "28_PostAuctionLauncher.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "28_SushiToken.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "29_HybridPool.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "29_IndexPool.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "30_Controller.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "30_Vault.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "31_veCVXStrategy.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "32_LendingPair.sol": {
+  "status": "ok",
+  "solc": "0.8.6"
+ },
+ "34_ConcentratedLiquidityPool.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "34_ConcentratedLiquidityPosition.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "36_Auction.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "36_Basket.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "37_TempusController.sol": {
+  "status": "ok",
+  "solc": "0.8.6"
+ },
+ "38_Identity.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "38_QuickAccManager.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "39_VaultTracker.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "3_MarginRouter.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "43_DelegatedStaking.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "44_Swap.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "45_CreditLimitByMedian.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "46_WrappedIbbtcEth.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "58_UniV3Vault.sol": {
+  "status": "ok",
+  "solc": "0.8.9",
+  "note": "needs --optimize"
+ },
+ "5_DAO.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "5_Pools.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "5_Router.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "5_USDV.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "5_Vader.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "5_Vether.sol": {
+  "status": "ok",
+  "solc": "0.8.3"
+ },
+ "62_Locke.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "64_TwabRewards.sol": {
+  "status": "ok",
+  "solc": "0.8.6"
+ },
+ "66_StabilityPool.sol": {
+  "status": "ok",
+  "solc": "0.6.11"
+ },
+ "66_sYETIToken.sol": {
+  "status": "ok",
+  "solc": "0.6.12"
+ },
+ "67_Vault.sol": {
+  "status": "ok",
+  "solc": "0.8.10"
+ },
+ "68_BasketFacet.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "68_SingleTokenJoinV2.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "69_NFTXMarketplaceZap.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "69_NFTXSimpleFeeDistributor.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "69_NFTXStakingZap.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "6_Beebots.sol": {
+  "status": "ok",
+  "solc": "0.7.6"
+ },
+ "70_LiquidityBasedTWAP.sol": {
+  "status": "ok",
+  "solc": "0.8.9"
+ },
+ "70_VaderPoolV2.sol": {
+  "status": "ok",
+  "solc": "0.8.9"
+ },
+ "71_IndexTemplate.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "71_PoolTemplate.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "71_Vault.sol": {
+  "status": "ok",
+  "solc": "0.8.7"
+ },
+ "74_TimeswapPair.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "75_XDEFIDistribution.sol": {
+  "status": "ok",
+  "solc": "0.8.10"
+ },
+ "78_FlanBackstop.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "78_FlashGovernanceArbiter.sol": {
+  "status": "ok",
+  "solc": "0.8.4"
+ },
+ "83_ConvexStakingWrapper.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "83_MasterChef.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "83_Shelter.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "83_StakingRewards.sol": {
+  "status": "ok",
+  "solc": "0.8.36"
+ },
+ "8_ERC20FlashMintUpgradeable.sol": {
+  "status": "ok",
+  "solc": "0.6.8"
+ },
+ "8_NFTXEligiblityManager.sol": {
+  "status": "ok",
+  "solc": "0.6.8",
+  "note": "injected: pragma experimental ABIEncoderV2"
+ },
+ "8_NFTXVaultUpgradeable.sol": {
+  "status": "ok",
+  "solc": "0.6.8"
+ }
+}

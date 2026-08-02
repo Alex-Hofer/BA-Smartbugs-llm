@@ -1,0 +1,23 @@
+name: GPTScan
+version: "1.0"
+origin: https://github.com/GPTScan/GPTScan
+info: GPTScan detects DeFi logic vulnerabilities by combining an LLM (OpenAI or DeepSeek) with program analysis. This build talks to an OpenAI-compatible backend selected at run time.
+# Locally-built image (see GPTScan/Dockerfile and tools/gptscan/README/Doc).
+# Not on Docker Hub: build it before use, e.g.
+#   docker build -t smartbugs/gptscan:1.0 ./GPTScan
+image: smartbugs/gptscan:1.0
+bin: scripts
+# GPTScan writes its JSON report here inside the container; SmartBugs grabs it.
+output: /output.json
+# GPTScan must reach the LLM API, so it needs network access. SmartBugs defaults
+# tool containers to network "none", which would silently break every API call.
+network: bridge
+# Host environment variables forwarded into the container (API key and
+# runtime provider/model selection). Only variables set on the host are
+# forwarded; nothing is baked into the image.
+env: DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN
+solidity:
+    # SmartBugs provides a matching solc binary at $BIN/solc (solc: yes); the
+    # entrypoint puts it on PATH for GPTScan's compilation step.
+    entrypoint: "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'"
+    solc: yes

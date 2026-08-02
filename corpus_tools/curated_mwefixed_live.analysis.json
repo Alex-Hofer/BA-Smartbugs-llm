@@ -1,0 +1,565 @@
+{
+ "run": "smartbugs\\results\\gptscan\\curated_mwefixed_live",
+ "tasks": 96,
+ "compile_failures": 2,
+ "compile_ok": 94,
+ "static_stage_ran": 56,
+ "contracts_static_filtered": 39,
+ "contracts_with_findings": 40,
+ "total_findings": 77,
+ "by_rule": {
+  "MWE-200": 44,
+  "MWE-209": 7,
+  "MWE-206": 7,
+  "MWE-203": 6,
+  "MWE-205": 4,
+  "MWE-207": 4,
+  "MWE-201": 4,
+  "MWE-202": 1
+ },
+ "by_severity": {
+  "high": 77
+ },
+ "estimated_cost_usd": 0.2769,
+ "findings": [
+  {
+   "contract": "106_NFTLoanFacilitator.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 1058,
+   "severity": "high"
+  },
+  {
+   "contract": "107_yVault.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1130,
+   "severity": "high"
+  },
+  {
+   "contract": "10_Visor.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 3536,
+   "severity": "high"
+  },
+  {
+   "contract": "13_RCTreasury.sol",
+   "rule": "MWE-205",
+   "name": "MWE-205: Front Running",
+   "line": 3232,
+   "severity": "high"
+  },
+  {
+   "contract": "14_BadgerYieldSource.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1870,
+   "severity": "high"
+  },
+  {
+   "contract": "14_IdleYieldSource.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 828,
+   "severity": "high"
+  },
+  {
+   "contract": "14_IdleYieldSource.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 854,
+   "severity": "high"
+  },
+  {
+   "contract": "14_PrizePool.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 3193,
+   "severity": "high"
+  },
+  {
+   "contract": "14_PrizePool.sol",
+   "rule": "MWE-207",
+   "name": "MWE-207: Unauthorized Transfer",
+   "line": 3193,
+   "severity": "high"
+  },
+  {
+   "contract": "14_PrizePool.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 3225,
+   "severity": "high"
+  },
+  {
+   "contract": "14_SushiYieldSource.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 317,
+   "severity": "high"
+  },
+  {
+   "contract": "14_YieldSourcePrizePool.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 3252,
+   "severity": "high"
+  },
+  {
+   "contract": "16_TracerPerpetualSwaps.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 2942,
+   "severity": "high"
+  },
+  {
+   "contract": "18_LendingPair.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 797,
+   "severity": "high"
+  },
+  {
+   "contract": "192_Position.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 1109,
+   "severity": "high"
+  },
+  {
+   "contract": "193_Pair.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1770,
+   "severity": "high"
+  },
+  {
+   "contract": "193_Pair.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1782,
+   "severity": "high"
+  },
+  {
+   "contract": "19_TransactionManager.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 1723,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Pool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 285,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Pool.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 321,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Pool.sol",
+   "rule": "MWE-205",
+   "name": "MWE-205: Front Running",
+   "line": 358,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 268,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 285,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 321,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-205",
+   "name": "MWE-205: Front Running",
+   "line": 358,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 648,
+   "severity": "high"
+  },
+  {
+   "contract": "20_Synth.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 699,
+   "severity": "high"
+  },
+  {
+   "contract": "22_LongShort.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 2323,
+   "severity": "high"
+  },
+  {
+   "contract": "25_CompoundMultiOracle.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 392,
+   "severity": "high"
+  },
+  {
+   "contract": "29_HybridPool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 464,
+   "severity": "high"
+  },
+  {
+   "contract": "29_HybridPool.sol",
+   "rule": "MWE-207",
+   "name": "MWE-207: Unauthorized Transfer",
+   "line": 464,
+   "severity": "high"
+  },
+  {
+   "contract": "29_HybridPool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 491,
+   "severity": "high"
+  },
+  {
+   "contract": "29_HybridPool.sol",
+   "rule": "MWE-207",
+   "name": "MWE-207: Unauthorized Transfer",
+   "line": 491,
+   "severity": "high"
+  },
+  {
+   "contract": "29_IndexPool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 436,
+   "severity": "high"
+  },
+  {
+   "contract": "29_IndexPool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 462,
+   "severity": "high"
+  },
+  {
+   "contract": "29_IndexPool.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 584,
+   "severity": "high"
+  },
+  {
+   "contract": "30_Vault.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 846,
+   "severity": "high"
+  },
+  {
+   "contract": "30_Vault.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1435,
+   "severity": "high"
+  },
+  {
+   "contract": "32_LendingPair.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1061,
+   "severity": "high"
+  },
+  {
+   "contract": "32_LendingPair.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1301,
+   "severity": "high"
+  },
+  {
+   "contract": "32_LendingPair.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1310,
+   "severity": "high"
+  },
+  {
+   "contract": "36_Basket.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 2845,
+   "severity": "high"
+  },
+  {
+   "contract": "37_TempusController.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1469,
+   "severity": "high"
+  },
+  {
+   "contract": "39_VaultTracker.sol",
+   "rule": "MWE-207",
+   "name": "MWE-207: Unauthorized Transfer",
+   "line": 168,
+   "severity": "high"
+  },
+  {
+   "contract": "3_MarginRouter.sol",
+   "rule": "MWE-209",
+   "name": "MWE-209: Wrong Order for Interest or ExchangeRate",
+   "line": 1904,
+   "severity": "high"
+  },
+  {
+   "contract": "43_DelegatedStaking.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 659,
+   "severity": "high"
+  },
+  {
+   "contract": "43_DelegatedStaking.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 674,
+   "severity": "high"
+  },
+  {
+   "contract": "5_DAO.sol",
+   "rule": "MWE-201",
+   "name": "MWE-201: Insecure Vote Calculation",
+   "line": 228,
+   "severity": "high"
+  },
+  {
+   "contract": "5_DAO.sol",
+   "rule": "MWE-201",
+   "name": "MWE-201: Insecure Vote Calculation",
+   "line": 307,
+   "severity": "high"
+  },
+  {
+   "contract": "5_DAO.sol",
+   "rule": "MWE-201",
+   "name": "MWE-201: Insecure Vote Calculation",
+   "line": 323,
+   "severity": "high"
+  },
+  {
+   "contract": "5_DAO.sol",
+   "rule": "MWE-201",
+   "name": "MWE-201: Insecure Vote Calculation",
+   "line": 332,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Pools.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 154,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Pools.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 243,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Pools.sol",
+   "rule": "MWE-205",
+   "name": "MWE-205: Front Running",
+   "line": 243,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Pools.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 255,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Pools.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 292,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Router.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 1794,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Router.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1926,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Router.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1951,
+   "severity": "high"
+  },
+  {
+   "contract": "5_USDV.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 197,
+   "severity": "high"
+  },
+  {
+   "contract": "5_Vader.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 356,
+   "severity": "high"
+  },
+  {
+   "contract": "66_sYETIToken.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 696,
+   "severity": "high"
+  },
+  {
+   "contract": "67_Vault.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 1259,
+   "severity": "high"
+  },
+  {
+   "contract": "68_BasketFacet.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1386,
+   "severity": "high"
+  },
+  {
+   "contract": "68_BasketFacet.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1530,
+   "severity": "high"
+  },
+  {
+   "contract": "68_BasketFacet.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1562,
+   "severity": "high"
+  },
+  {
+   "contract": "69_NFTXMarketplaceZap.sol",
+   "rule": "MWE-202",
+   "name": "MWE-202: Insecure Token Buying Behavior",
+   "line": 1744,
+   "severity": "high"
+  },
+  {
+   "contract": "70_VaderPoolV2.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 797,
+   "severity": "high"
+  },
+  {
+   "contract": "70_VaderPoolV2.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1940,
+   "severity": "high"
+  },
+  {
+   "contract": "70_VaderPoolV2.sol",
+   "rule": "MWE-206",
+   "name": "MWE-206: No Slippage Limit Check",
+   "line": 3049,
+   "severity": "high"
+  },
+  {
+   "contract": "70_VaderPoolV2.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 3271,
+   "severity": "high"
+  },
+  {
+   "contract": "71_IndexTemplate.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1969,
+   "severity": "high"
+  },
+  {
+   "contract": "71_IndexTemplate.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 2499,
+   "severity": "high"
+  },
+  {
+   "contract": "71_PoolTemplate.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 460,
+   "severity": "high"
+  },
+  {
+   "contract": "71_PoolTemplate.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1574,
+   "severity": "high"
+  },
+  {
+   "contract": "71_PoolTemplate.sol",
+   "rule": "MWE-200",
+   "name": "MWE-200: Insecure LP Token Value Calculation",
+   "line": 1616,
+   "severity": "high"
+  },
+  {
+   "contract": "75_XDEFIDistribution.sol",
+   "rule": "MWE-203",
+   "name": "MWE-203: Approval Not Revoked",
+   "line": 730,
+   "severity": "high"
+  }
+ ]
+}

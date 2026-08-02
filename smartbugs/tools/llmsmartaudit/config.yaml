@@ -1,0 +1,23 @@
+name: LLMSmartAudit
+version: "1.0"
+origin: https://github.com/LLMSmartAudit/LLMSmartAuditTool
+info: LLMSmartAudit analyses Solidity source with a ChatDev/CAMEL multi-agent LLM pipeline (41 detector prompts, SmartContractTA mode). The LLM backend (provider, model, base URL) is selected at run time via environment variables and defaults to DeepSeek. Runs take many LLM calls; use a generous --timeout (>= 3600s recommended).
+# Locally-built image (see LLMSmartAuditTool's Dockerfile.smartbugs).
+# Not on Docker Hub: build it before use, e.g. (from the tool repo root)
+#   docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 .
+image: smartbugs/llmsmartaudit:1.0
+bin: scripts
+# The wrapper copies the audit report here; SmartBugs grabs it.
+output: /output.json
+# The tool must reach the LLM API, so it needs network access. SmartBugs
+# defaults tool containers to network "none", which would break every API call.
+network: bridge
+# Host environment variables forwarded into the container (API keys and
+# runtime backend selection). Only variables set on the host are forwarded.
+#   LLM_PROVIDER  deepseek (default) | openai | custom
+#   LLM_MODEL     model id (provider default if unset)
+#   LLM_BASE_URL  OpenAI-compatible endpoint URL (for LLM_PROVIDER=custom)
+env: DEEPSEEK_API_KEY, OPENAI_API_KEY, LLM_PROVIDER, LLM_MODEL, LLM_BASE_URL, LLM_CONTEXT_TOKENS, LLM_MAX_COMPLETION_TOKENS
+solidity:
+    entrypoint: "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'"
+    # no solc: the tool reasons over the source text and never compiles

@@ -1,0 +1,45 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8"><style>
+@page { size:A4 portrait; margin:13mm 14mm; }
+html,body { font-family:"Latin Modern Roman","Times New Roman",Times,serif; color:#111; }
+body { font-size:9pt; line-height:1.2; }
+h1 { text-align:center; font-size:16pt; margin:0 0 2pt; }
+.sub { text-align:center; font-size:9pt; font-style:italic; color:#333; margin:0 0 3pt; }
+.intro { font-size:8.4pt; margin:0 0 10pt; text-align:justify; }
+.cap { font-size:8.4pt; margin:11pt 0 4pt; }
+table { border-collapse:collapse; width:100%; font-size:8.2pt; }
+th { background:#33556e; color:#fff; text-align:left; padding:3pt 5pt; font-size:8.4pt; }
+th.n { text-align:right; }
+td { padding:2.2pt 5pt; }
+tr.alt { background:#f4f6f8; }
+td.c { font-weight:700; white-space:nowrap; }
+td.mw { font-weight:700; color:#33556e; white-space:nowrap; }
+td.n { text-align:right; font-variant-numeric:tabular-nums; }
+td.ct { text-align:center; }
+tbody tr:first-child td { border-top:1.2pt solid #111; }
+tbody tr:last-child td { border-bottom:1.3pt solid #111; }
+.note { font-size:7.4pt; color:#333; margin:9pt 0 0; text-align:justify; }
+.pageno { text-align:center; font-size:8pt; margin-top:10pt; color:#333; }
+</style></head><body>
+<h1>GPTScan &mdash; DeFi-Logik-Findings (Variety-Run)</h1>
+<p class="sub">DeepSeek v4-flash &middot; SmartBugs-Integration &middot; code4rena-DeFi-Contracts</p>
+<p class="intro">GPTScan (Live-Lauf) &uuml;ber <b>27 DeFi-Contracts</b> (code4rena; per Dry-Run auf jene
+vorselektiert, deren Funktionen zu einem GPTScan-Szenario passen). <b>8 Contracts</b> lieferten
+Findings, <b>11 Findings</b> gesamt &uuml;ber <b>3 verschiedene MWE-Detektoren</b>.
+Lauf: 246 LLM-Aufrufe, $0.0447. GPTScan meldet ausschlie&szlig;lich seine 10 DeFi-Logik-Typen
+(MWE-200..209); jedes Finding ist LLM-Szenario + Static-Analysis-Best&auml;tigung.</p>
+
+<p class="cap"><b>Tabelle 1:</b> Findings je MWE-Detektor (die &bdquo;Vielfalt&ldquo;).</p>
+<table><thead><tr><th>MWE</th><th>Detektor</th><th class="n">#</th><th>Contracts</th></tr></thead><tbody><tr class=""><td class="c">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">8</td><td>107_yVault, 14_BadgerYieldSource, 14_SushiYieldSource, 30_Vault, 32_LendingPair, 37_TempusController</td></tr><tr class="alt"><td class="c">MWE-203</td><td>Approval Not Revoked</td><td class="n">2</td><td>10_Visor</td></tr><tr class=""><td class="c">MWE-209</td><td>Wrong Order for Interest/ExchangeRate</td><td class="n">1</td><td>14_PrizePool</td></tr></tbody></table>
+
+<p class="cap"><b>Tabelle 2:</b> Alle Findings (Contract &rarr; MWE &rarr; Zeilen &rarr; Severity).</p>
+<table><thead><tr><th>Contract</th><th>MWE</th><th>Detektor</th><th class="n">Zeilen</th><th class="ct" style="text-align:center">Severity</th></tr></thead><tbody><tr class=""><td class="c">107_yVault</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">102-106</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class="alt"><td class="c">14_BadgerYieldSource</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">21-26</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class=""><td class="c">14_SushiYieldSource</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">20-25</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class="alt"><td class="c">30_Vault</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">83-106</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class=""><td class="c">32_LendingPair</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">172-180</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class="alt"><td class="c">32_LendingPair</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">315-322</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class=""><td class="c">32_LendingPair</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">323-330</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class="alt"><td class="c">37_TempusController</td><td class="mw">MWE-200</td><td>Insecure LP Token Value Calculation</td><td class="n">80-93</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class=""><td class="c">10_Visor</td><td class="mw">MWE-203</td><td>Approval Not Revoked</td><td class="n">242-249</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class="alt"><td class="c">10_Visor</td><td class="mw">MWE-203</td><td>Approval Not Revoked</td><td class="n">256-270</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr><tr class=""><td class="c">14_PrizePool</td><td class="mw">MWE-209</td><td>Wrong Order for Interest/ExchangeRate</td><td class="n">143-158</td><td class="ct"><span style="color:#b23b2e;font-weight:700">high</span></td></tr></tbody></table>
+
+<p class="cap"><b>Tabelle 3:</b> Pro Contract (nur mit Findings).</p>
+<table><thead><tr><th>Contract</th><th class="n">#Findings</th><th>MWE-Typen</th><th class="n">LLM-Calls</th><th class="n">Kosten&nbsp;$</th></tr></thead><tbody><tr class=""><td class="c">32_LendingPair</td><td class="n">3</td><td>MWE-200</td><td class="n">76</td><td class="n">0.0154</td></tr><tr class="alt"><td class="c">10_Visor</td><td class="n">2</td><td>MWE-203</td><td class="n">9</td><td class="n">0.0009</td></tr><tr class=""><td class="c">107_yVault</td><td class="n">1</td><td>MWE-200</td><td class="n">9</td><td class="n">0.0022</td></tr><tr class="alt"><td class="c">14_BadgerYieldSource</td><td class="n">1</td><td>MWE-200</td><td class="n">7</td><td class="n">0.0017</td></tr><tr class=""><td class="c">14_PrizePool</td><td class="n">1</td><td>MWE-209</td><td class="n">25</td><td class="n">0.0052</td></tr><tr class="alt"><td class="c">14_SushiYieldSource</td><td class="n">1</td><td>MWE-200</td><td class="n">7</td><td class="n">0.0020</td></tr><tr class=""><td class="c">30_Vault</td><td class="n">1</td><td>MWE-200</td><td class="n">12</td><td class="n">0.0017</td></tr><tr class="alt"><td class="c">37_TempusController</td><td class="n">1</td><td>MWE-200</td><td class="n">8</td><td class="n">0.0012</td></tr></tbody></table>
+
+<p class="note"><b>Lesehilfe.</b> MWE-200 = LP-Token-/Preis-Wert aus manipulierbaren On-Chain-Daten (Flashloan-Preis-Manipulation).
+MWE-203 = Approval nach Nutzung nicht zur&uuml;ckgesetzt. MWE-209 = Zins-/Exchange-Rate-Update in falscher Reihenfolge vor
+Saldo-Berechnung. Alle Findings Severity <i>high</i>. Contracts ohne Treffer (19 von 27)
+wurden von GPTScan gepr&uuml;ft, aber in der Static-Confirmation-Stufe verworfen &rarr; keine False-Positive-Flut.</p>
+<p class="pageno">1</p>
+</body></html>

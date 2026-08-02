@@ -1,0 +1,26 @@
+# --- Werkzeugspuren der KI-gestuetzten Entwicklung (gehoeren nicht ins Repo) ---
+.claude/
+CLAUDE.md
+
+# --- Geheimnisse: ausschliesslich lokal, niemals committen ---
+.env
+*.env
+!.env.example
+
+# Externer Benchmark-Datensatz (wird von run_curated.ps1 geklont, nicht vendoren)
+smartbugs-curated/
+# Aggregierte Auswertungs-CSVs
+curated_results.csv
+evaluation_curated_*.csv
+
+# corpus_tools: schwere/reproduzierbare Caches (Methode + JSON-Manifeste bleiben getrackt)
+corpus_tools/vendor/
+corpus_tools/vendor_old_flat/
+corpus_tools/solc/
+corpus_tools/trees/
+corpus_tools/*_tree.txt
+corpus_tools/llm4_clean.txt
+corpus_tools/c4_*.json
+corpus_tools/scan_missing.json
+corpus_tools/__pycache__/
+__pycache__/

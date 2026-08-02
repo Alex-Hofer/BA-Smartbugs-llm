@@ -1,0 +1,1242 @@
+{
+ "106_NFTLoanFacilitator.sol": {
+  "files": 10,
+  "unique_files": 10,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.12",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.8.0;",
+   "pragma solidity 0.8.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "107_yVault.sol": {
+  "files": 10,
+  "unique_files": 10,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "10_Visor.sol": {
+  "files": 24,
+  "unique_files": 24,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity ^0.7.0;",
+   "pragma solidity >=0.4.24 <0.8.0;",
+   "pragma solidity >=0.6.0;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity 0.7.6;"
+  ],
+  "other_pragmas": [
+   "pragma abicoder v2;"
+  ],
+  "alias_imports": 0
+ },
+ "12_AccessControl.sol": {
+  "files": 1,
+  "unique_files": 1,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "12_Cauldron.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "12_Witch.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "12_YieldMath.sol": {
+  "files": 2,
+  "unique_files": 2,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >= 0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "13_RCFactory.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "13_RCMarket.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "13_RCOrderbook.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "13_RCTreasury.sol": {
+  "files": 16,
+  "unique_files": 16,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "14_BadgerYieldSource.sol": {
+  "files": 6,
+  "unique_files": 6,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "14_IdleYieldSource.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.1;",
+   "pragma solidity ^0.8.2;",
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "14_PrizePool.sol": {
+  "files": 32,
+  "unique_files": 31,
+  "duplicates_collapsed": 1,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.4.24 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.4.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.5.0 <0.7.0;",
+   "pragma solidity ^0.6.12;",
+   "pragma solidity >=0.6.5 <0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "14_SushiYieldSource.sol": {
+  "files": 5,
+  "unique_files": 5,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity 0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "14_YieldSourcePrizePool.sol": {
+  "files": 34,
+  "unique_files": 33,
+  "duplicates_collapsed": 1,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.6.0;",
+   "pragma solidity >=0.4.24 <0.8.0;",
+   "pragma solidity >=0.4.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.5.0 <0.7.0;",
+   "pragma solidity ^0.6.12;",
+   "pragma solidity >=0.6.5 <0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_GasOracle.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_Liquidation.sol": {
+  "files": 19,
+  "unique_files": 19,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_Pricing.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_TracerPerpetualSwaps.sol": {
+  "files": 19,
+  "unique_files": 19,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_TracerPerpetualsFactory.sol": {
+  "files": 21,
+  "unique_files": 21,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "16_Trader.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "17_Buoy3Pool.sol": {
+  "files": 21,
+  "unique_files": 21,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.6.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "17_Exposure.sol": {
+  "files": 21,
+  "unique_files": 21,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.6.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "17_PnL.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.7.0;",
+   "pragma solidity >=0.6.2 <0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "18_LendingPair.sol": {
+  "files": 14,
+  "unique_files": 14,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "192_Position.sol": {
+  "files": 17,
+  "unique_files": 17,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.1;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "193_Pair.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.17;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "19_TransactionManager.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity 0.8.4;",
+   "pragma solidity ^0.8.1;",
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "20_Pool.sol": {
+  "files": 10,
+  "unique_files": 10,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "20_Synth.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "22_LongShort.sol": {
+  "files": 22,
+  "unique_files": 22,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "22_Staker.sol": {
+  "files": 34,
+  "unique_files": 34,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "23_CompoundToNotionalV2.sol": {
+  "files": 11,
+  "unique_files": 11,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity ^0.7.0;",
+   "pragma solidity >0.7.0;",
+   "pragma solidity >=0.6.0 <0.8.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "23_NotionalV1ToNotionalV2.sol": {
+  "files": 9,
+  "unique_files": 9,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity >0.7.0;",
+   "pragma solidity >=0.6.0 <0.8.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "23_nTokenAction.sol": {
+  "files": 34,
+  "unique_files": 34,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity >0.7.0;",
+   "pragma solidity ^0.7.0;",
+   "pragma solidity >=0.7.0;",
+   "pragma solidity >=0.6.0 <0.8.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "24_SwappableYieldSource.sol": {
+  "files": 14,
+  "unique_files": 14,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.4.24 <0.8.0;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.4.0;",
+   "pragma solidity >=0.6.0;",
+   "pragma solidity 0.7.6;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "25_CTokenInterface.sol": {
+  "files": 1,
+  "unique_files": 1,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.5.16;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "25_CompositeMultiOracle.sol": {
+  "files": 4,
+  "unique_files": 4,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.1",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.1;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "25_CompoundMultiOracle.sol": {
+  "files": 6,
+  "unique_files": 6,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.1",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.1;",
+   "pragma solidity >=0.5.16;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "26_RCOrderbook.sol": {
+  "files": 14,
+  "unique_files": 14,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity 0.8.7;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "28_PostAuctionLauncher.sol": {
+  "files": 16,
+  "unique_files": 16,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity 0.6.12;",
+   "pragma solidity =0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "28_SushiToken.sol": {
+  "files": 9,
+  "unique_files": 9,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity 0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "29_HybridPool.sol": {
+  "files": 7,
+  "unique_files": 7,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity >=0.5.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "29_IndexPool.sol": {
+  "files": 6,
+  "unique_files": 6,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity >=0.5.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "30_Controller.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity 0.6.12;",
+   "pragma solidity ^0.6.2;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "30_Vault.sol": {
+  "files": 18,
+  "unique_files": 18,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity ^0.6.0;",
+   "pragma solidity 0.6.12;",
+   "pragma solidity ^0.6.2;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "31_veCVXStrategy.sol": {
+  "files": 17,
+  "unique_files": 17,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity ^0.6.0;",
+   "pragma solidity ^0.6.2;",
+   "pragma solidity >=0.5.0 <0.8.0;",
+   "pragma solidity ^0.6.11;",
+   "pragma solidity 0.6.12;",
+   "pragma solidity >=0.4.24 <0.7.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "32_LendingPair.sol": {
+  "files": 18,
+  "unique_files": 18,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.6",
+  "version_pragmas": [
+   "pragma solidity >=0.7.0;",
+   "pragma solidity 0.8.6;",
+   "pragma solidity >=0.6.2;",
+   "pragma solidity >0.7.0;",
+   "pragma solidity >=0.6.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "34_ConcentratedLiquidityPool.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8;",
+   "pragma solidity >=0.8.0;",
+   "pragma solidity >=0.5.0;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "34_ConcentratedLiquidityPosition.sol": {
+  "files": 10,
+  "unique_files": 10,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8;",
+   "pragma solidity >=0.8.0;",
+   "pragma solidity >=0.5.0;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "36_Auction.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.7;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "36_Basket.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.7;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "37_TempusController.sol": {
+  "files": 16,
+  "unique_files": 16,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.6",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.7.0;",
+   "pragma solidity >=0.7.6 <0.9.0;",
+   "pragma solidity 0.8.6;"
+  ],
+  "other_pragmas": [
+   "pragma abicoder v2;"
+  ],
+  "alias_imports": 0
+ },
+ "38_Identity.sol": {
+  "files": 3,
+  "unique_files": 3,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.7;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "38_QuickAccManager.sol": {
+  "files": 5,
+  "unique_files": 5,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.7;",
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "39_VaultTracker.sol": {
+  "files": 2,
+  "unique_files": 2,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity 0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "3_MarginRouter.sol": {
+  "files": 26,
+  "unique_files": 26,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.5.0;",
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.1;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "43_DelegatedStaking.sol": {
+  "files": 7,
+  "unique_files": 7,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "44_Swap.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "45_CreditLimitByMedian.sol": {
+  "files": 5,
+  "unique_files": 5,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "46_WrappedIbbtcEth.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity >=0.4.24 <0.7.0;",
+   "pragma solidity ^0.6.0;",
+   "pragma solidity ^0.6.2;",
+   "pragma solidity ^0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "58_UniV3Vault.sol": {
+  "files": 33,
+  "unique_files": 33,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.9",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.9;",
+   "pragma solidity 0.8.9;",
+   "pragma solidity >=0.5.0;"
+  ],
+  "other_pragmas": [
+   "pragma abicoder v2;"
+  ],
+  "alias_imports": 0
+ },
+ "5_DAO.sol": {
+  "files": 6,
+  "unique_files": 6,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "5_Pools.sol": {
+  "files": 5,
+  "unique_files": 5,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "5_Router.sol": {
+  "files": 7,
+  "unique_files": 7,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "5_USDV.sol": {
+  "files": 4,
+  "unique_files": 4,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "5_Vader.sol": {
+  "files": 5,
+  "unique_files": 5,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "5_Vether.sol": {
+  "files": 2,
+  "unique_files": 2,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.3",
+  "version_pragmas": [
+   "pragma solidity 0.8.3;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "62_Locke.sol": {
+  "files": 4,
+  "unique_files": 4,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity >=0.8.0;",
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "64_TwabRewards.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.6",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.6;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "66_StabilityPool.sol": {
+  "files": 29,
+  "unique_files": 29,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.11",
+  "version_pragmas": [
+   "pragma solidity 0.6.11;",
+   "pragma solidity ^0.6.11;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "66_sYETIToken.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.12",
+  "version_pragmas": [
+   "pragma solidity 0.6.12;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "67_Vault.sol": {
+  "files": 24,
+  "unique_files": 24,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.10",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity >=0.7.0;",
+   "pragma solidity ^0.8.10;",
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity =0.8.10;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "68_BasketFacet.sol": {
+  "files": 14,
+  "unique_files": 14,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity ^0.7.0;",
+   "pragma solidity ^0.7.5;",
+   "pragma solidity ^0.7.1;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "68_SingleTokenJoinV2.sol": {
+  "files": 7,
+  "unique_files": 7,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity ^0.7.0;",
+   "pragma solidity >=0.6.2;",
+   "pragma solidity ^0.7.5;"
+  ],
+  "other_pragmas": [
+   "pragma experimental ABIEncoderV2;"
+  ],
+  "alias_imports": 0
+ },
+ "69_NFTXMarketplaceZap.sol": {
+  "files": 23,
+  "unique_files": 23,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "69_NFTXSimpleFeeDistributor.sol": {
+  "files": 15,
+  "unique_files": 15,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "69_NFTXStakingZap.sol": {
+  "files": 24,
+  "unique_files": 24,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "6_Beebots.sol": {
+  "files": 1,
+  "unique_files": 1,
+  "duplicates_collapsed": 0,
+  "solc": "0.7.6",
+  "version_pragmas": [
+   "pragma solidity 0.7.6;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "70_LiquidityBasedTWAP.sol": {
+  "files": 18,
+  "unique_files": 18,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.9",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.9;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "70_VaderPoolV2.sol": {
+  "files": 30,
+  "unique_files": 30,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.9",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.9;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "71_IndexTemplate.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity >=0.4.22 <0.9.0;",
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.7;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "71_PoolTemplate.sol": {
+  "files": 12,
+  "unique_files": 12,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.7;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "71_Vault.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.7",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.7;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "74_TimeswapPair.sol": {
+  "files": 25,
+  "unique_files": 25,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.4;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "75_XDEFIDistribution.sol": {
+  "files": 16,
+  "unique_files": 16,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.10",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity =0.8.10;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "78_FlanBackstop.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.4;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "78_FlashGovernanceArbiter.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.4",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity 0.8.4;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "83_ConvexStakingWrapper.sol": {
+  "files": 13,
+  "unique_files": 13,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.11;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "83_MasterChef.sol": {
+  "files": 9,
+  "unique_files": 9,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.11;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "83_Shelter.sol": {
+  "files": 6,
+  "unique_files": 6,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.11;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "83_StakingRewards.sol": {
+  "files": 11,
+  "unique_files": 11,
+  "duplicates_collapsed": 0,
+  "solc": "0.8.36",
+  "version_pragmas": [
+   "pragma solidity ^0.8.0;",
+   "pragma solidity ^0.8.11;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "8_ERC20FlashMintUpgradeable.sol": {
+  "files": 7,
+  "unique_files": 7,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.8",
+  "version_pragmas": [
+   "pragma solidity 0.6.8;",
+   "pragma solidity >=0.4.24 <0.7.0;",
+   "pragma solidity >=0.6.0 <0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "8_NFTXEligiblityManager.sol": {
+  "files": 8,
+  "unique_files": 8,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.8",
+  "version_pragmas": [
+   "pragma solidity 0.6.8;",
+   "pragma solidity >=0.4.24 <0.7.0;",
+   "pragma solidity >=0.6.0 <0.8.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ },
+ "8_NFTXVaultUpgradeable.sol": {
+  "files": 29,
+  "unique_files": 29,
+  "duplicates_collapsed": 0,
+  "solc": "0.6.8",
+  "version_pragmas": [
+   "pragma solidity 0.6.8;",
+   "pragma solidity ^0.6.8;",
+   "pragma solidity >=0.6.0 <0.8.0;",
+   "pragma solidity >=0.4.24 <0.7.0;",
+   "pragma solidity ^0.6.0;",
+   "pragma solidity >=0.6.2 <0.8.0;",
+   "pragma solidity >=0.4.22 <0.9.0;"
+  ],
+  "other_pragmas": [],
+  "alias_imports": 0
+ }
+}

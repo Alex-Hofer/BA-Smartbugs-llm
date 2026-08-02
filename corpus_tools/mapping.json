@@ -1,0 +1,482 @@
+{
+ "106_NFTLoanFacilitator.sol": {
+  "original": "106\\contracts\\NFTLoanFacilitator.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 47.5
+ },
+ "107_yVault.sol": {
+  "original": "107\\contracts\\vaults\\yVault\\yVault.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "10_Visor.sol": {
+  "original": "10\\contracts\\contracts\\visor\\Visor.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "12_AccessControl.sol": {
+  "original": "12\\contracts\\utils\\access\\AccessControl.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 8.7
+ },
+ "12_Cauldron.sol": {
+  "original": "12\\contracts\\Cauldron.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 16.4
+ },
+ "12_Witch.sol": {
+  "original": "12\\contracts\\Witch.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 28.8
+ },
+ "12_YieldMath.sol": {
+  "original": "12\\contracts\\yieldspace\\YieldMath.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 75.0
+ },
+ "13_RCFactory.sol": {
+  "original": "13\\contracts\\RCFactory.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 466
+ },
+ "13_RCMarket.sol": {
+  "original": "13\\contracts\\RCMarket.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 488
+ },
+ "13_RCOrderbook.sol": {
+  "original": "13\\contracts\\RCOrderbook.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 369
+ },
+ "13_RCTreasury.sol": {
+  "original": "13\\contracts\\RCTreasury.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 530
+ },
+ "14_BadgerYieldSource.sol": {
+  "original": "14\\contracts\\yield-source\\BadgerYieldSource.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "14_IdleYieldSource.sol": {
+  "original": "14\\contracts\\yield-source\\IdleYieldSource.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "14_PrizePool.sol": {
+  "original": "14\\contracts\\PrizePool.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 17370
+ },
+ "14_SushiYieldSource.sol": {
+  "original": "14\\contracts\\yield-source\\SushiYieldSource.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "14_YieldSourcePrizePool.sol": {
+  "original": "14\\contracts\\YieldSourcePrizePool.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "16_GasOracle.sol": {
+  "original": "16\\src\\contracts\\oracle\\GasOracle.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 65.6
+ },
+ "16_Liquidation.sol": {
+  "original": "16\\src\\contracts\\Liquidation.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 1289
+ },
+ "16_Pricing.sol": {
+  "original": "16\\src\\contracts\\Pricing.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "16_TracerPerpetualsFactory.sol": {
+  "original": "16\\src\\contracts\\TracerPerpetualsFactory.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "16_TracerPerpetualSwaps.sol": {
+  "original": "16\\src\\contracts\\TracerPerpetualSwaps.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 1322
+ },
+ "16_Trader.sol": {
+  "original": "16\\src\\contracts\\Trader.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 16.5
+ },
+ "17_Buoy3Pool.sol": {
+  "original": "17\\contracts\\pools\\oracle\\Buoy3Pool.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "17_Exposure.sol": {
+  "original": "17\\contracts\\insurance\\Exposure.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "17_PnL.sol": {
+  "original": "17\\contracts\\pnl\\PnL.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 8.0
+ },
+ "18_LendingPair.sol": {
+  "original": "18\\contracts\\LendingPair.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 5.0
+ },
+ "192_Position.sol": {
+  "original": "192\\contracts\\Position.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 4.4
+ },
+ "193_Pair.sol": {
+  "original": "193\\src\\Pair.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 6.1
+ },
+ "19_TransactionManager.sol": {
+  "original": "19\\contracts\\TransactionManager.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 41.2
+ },
+ "20_Pool.sol": {
+  "original": "20\\contracts\\Pool.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 5.8
+ },
+ "20_Synth.sol": {
+  "original": "20\\contracts\\Synth.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 2.3
+ },
+ "22_LongShort.sol": {
+  "original": "22\\contracts\\contracts\\LongShort.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 421
+ },
+ "22_Staker.sol": {
+  "original": "22\\contracts\\contracts\\Staker.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 308
+ },
+ "23_CompoundToNotionalV2.sol": {
+  "original": "23\\contracts\\external\\adapters\\CompoundToNotionalV2.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "23_NotionalV1ToNotionalV2.sol": {
+  "original": "23\\contracts\\external\\adapters\\NotionalV1ToNotionalV2.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "23_nTokenAction.sol": {
+  "original": "23\\contracts\\external\\actions\\nTokenAction.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 779
+ },
+ "24_SwappableYieldSource.sol": {
+  "original": "24\\in_scope\\SwappableYieldSource.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "25_CompositeMultiOracle.sol": {
+  "original": "25\\contracts\\oracles\\composite\\CompositeMultiOracle.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 7.9
+ },
+ "25_CompoundMultiOracle.sol": {
+  "original": "25\\contracts\\oracles\\compound\\CompoundMultiOracle.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 22.8
+ },
+ "25_CTokenInterface.sol": {
+  "original": "25\\contracts\\oracles\\compound\\CTokenInterface.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "26_RCOrderbook.sol": {
+  "original": "26\\contracts\\RCOrderbook.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 310
+ },
+ "28_PostAuctionLauncher.sol": {
+  "original": "28\\contracts\\Liquidity\\PostAuctionLauncher.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "28_SushiToken.sol": {
+  "original": "28\\contracts\\Tokens\\SushiToken.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 62.6
+ },
+ "29_HybridPool.sol": {
+  "original": "29\\trident\\contracts\\pool\\HybridPool.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 5.6
+ },
+ "29_IndexPool.sol": {
+  "original": "29\\trident\\contracts\\pool\\IndexPool.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 31.1
+ },
+ "30_Controller.sol": {
+  "original": "30\\contracts\\v3\\controllers\\Controller.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "30_Vault.sol": {
+  "original": "30\\contracts\\v3\\Vault.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "31_veCVXStrategy.sol": {
+  "original": "31\\veCVX\\contracts\\veCVXStrategy.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 10.4
+ },
+ "32_LendingPair.sol": {
+  "original": "32\\contracts\\LendingPair.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "34_ConcentratedLiquidityPool.sol": {
+  "original": "35\\trident\\contracts\\pool\\concentrated\\ConcentratedLiquidityPool.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 6.7
+ },
+ "34_ConcentratedLiquidityPosition.sol": {
+  "original": "35\\trident\\contracts\\pool\\concentrated\\ConcentratedLiquidityPosition.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 22.0
+ },
+ "36_Auction.sol": {
+  "original": "36\\contracts\\contracts\\Auction.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "36_Basket.sol": {
+  "original": "36\\contracts\\contracts\\Basket.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 10.0
+ },
+ "37_TempusController.sol": {
+  "original": "37\\contracts\\TempusController.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "38_Identity.sol": {
+  "original": "38\\contracts\\Identity.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 9.2
+ },
+ "38_QuickAccManager.sol": {
+  "original": "38\\contracts\\wallet\\QuickAccManager.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "39_VaultTracker.sol": {
+  "original": "39\\gost\\build\\marketplace\\VaultTracker.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 17.1
+ },
+ "3_MarginRouter.sol": {
+  "original": "3\\contracts\\MarginRouter.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "43_DelegatedStaking.sol": {
+  "original": "43\\contracts\\DelegatedStaking.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 3.0
+ },
+ "44_Swap.sol": {
+  "original": "44\\contracts\\swap\\Swap.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "45_CreditLimitByMedian.sol": {
+  "original": "45\\contracts\\user\\CreditLimitByMedian.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "46_WrappedIbbtcEth.sol": {
+  "original": "47\\contracts\\WrappedIbbtcEth.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 203
+ },
+ "58_UniV3Vault.sol": {
+  "original": "58\\mellow-vaults\\contracts\\UniV3Vault.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "5_DAO.sol": {
+  "original": "5\\vader-protocol\\contracts\\DAO.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 89.8
+ },
+ "5_Pools.sol": {
+  "original": "5\\vader-protocol\\contracts\\Pools.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 17.1
+ },
+ "5_Router.sol": {
+  "original": "5\\vader-protocol\\contracts\\Router.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 8.0
+ },
+ "5_USDV.sol": {
+  "original": "5\\vader-protocol\\contracts\\USDV.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 14.8
+ },
+ "5_Vader.sol": {
+  "original": "5\\vader-protocol\\contracts\\Vader.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 20.1
+ },
+ "5_Vether.sol": {
+  "original": "5\\vader-protocol\\contracts\\Vether.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 4.1
+ },
+ "62_Locke.sol": {
+  "original": "62\\Streaming\\src\\Locke.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 31.4
+ },
+ "64_TwabRewards.sol": {
+  "original": "64\\v4-periphery\\contracts\\TwabRewards.sol",
+  "verified": "header-prefix",
+  "sample_coverage_pct": 8521
+ },
+ "66_StabilityPool.sol": {
+  "original": "66\\packages\\contracts\\contracts\\StabilityPool.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 6.1
+ },
+ "66_sYETIToken.sol": {
+  "original": "66\\packages\\contracts\\contracts\\YETI\\sYETIToken.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 12.2
+ },
+ "67_Vault.sol": {
+  "original": "67\\sandclock\\contracts\\Vault.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 11.3
+ },
+ "68_BasketFacet.sol": {
+  "original": "68\\contracts\\basket\\contracts\\facets\\Basket\\BasketFacet.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 6.6
+ },
+ "68_SingleTokenJoinV2.sol": {
+  "original": "68\\contracts\\basket\\contracts\\singleJoinExit\\SingleTokenJoinV2.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 20.1
+ },
+ "69_NFTXMarketplaceZap.sol": {
+  "original": "69\\nftx-protocol-v2\\contracts\\solidity\\NFTXMarketplaceZap.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 97.8
+ },
+ "69_NFTXSimpleFeeDistributor.sol": {
+  "original": "69\\nftx-protocol-v2\\contracts\\solidity\\NFTXSimpleFeeDistributor.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "69_NFTXStakingZap.sol": {
+  "original": "69\\nftx-protocol-v2\\contracts\\solidity\\NFTXStakingZap.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 65.3
+ },
+ "6_Beebots.sol": {
+  "original": "6\\Beebots.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 13.8
+ },
+ "70_LiquidityBasedTWAP.sol": {
+  "original": "70\\contracts\\lbt\\LiquidityBasedTWAP.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "70_VaderPoolV2.sol": {
+  "original": "70\\contracts\\dex-v2\\pool\\VaderPoolV2.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 33.3
+ },
+ "71_IndexTemplate.sol": {
+  "original": "71\\contracts\\IndexTemplate.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 11.6
+ },
+ "71_PoolTemplate.sol": {
+  "original": "71\\contracts\\PoolTemplate.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 11.5
+ },
+ "71_Vault.sol": {
+  "original": "71\\contracts\\Vault.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 7.9
+ },
+ "74_TimeswapPair.sol": {
+  "original": "74\\Timeswap\\Timeswap-V1-Core\\contracts\\TimeswapPair.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "75_XDEFIDistribution.sol": {
+  "original": "75\\xdefi-distribution\\contracts\\XDEFIDistribution.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 9.3
+ },
+ "78_FlanBackstop.sol": {
+  "original": "78\\contracts\\FlanBackstop.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 18.6
+ },
+ "78_FlashGovernanceArbiter.sol": {
+  "original": "78\\contracts\\DAO\\FlashGovernanceArbiter.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 13.5
+ },
+ "83_ConvexStakingWrapper.sol": {
+  "original": "83\\contracts\\ConvexStakingWrapper.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 15.5
+ },
+ "83_MasterChef.sol": {
+  "original": "83\\contracts\\MasterChef.sol",
+  "verified": "truncated-prefix",
+  "sample_coverage_pct": 12.7
+ },
+ "83_Shelter.sol": {
+  "original": "83\\contracts\\Shelter.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "83_StakingRewards.sol": {
+  "original": "83\\contracts\\StakingRewards.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "8_ERC20FlashMintUpgradeable.sol": {
+  "original": "8\\nftx-protocol-v2\\contracts\\solidity\\token\\ERC20FlashMintUpgradeable.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "8_NFTXEligiblityManager.sol": {
+  "original": "8\\nftx-protocol-v2\\contracts\\solidity\\NFTXEligiblityManager.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ },
+ "8_NFTXVaultUpgradeable.sol": {
+  "original": "8\\nftx-protocol-v2\\contracts\\solidity\\NFTXVaultUpgradeable.sol",
+  "verified": "equal",
+  "sample_coverage_pct": 100.0
+ }
+}

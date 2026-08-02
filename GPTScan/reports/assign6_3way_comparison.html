@@ -1,0 +1,88 @@
+<!doctype html><html lang="de"><head><meta charset="utf-8">
+<style>
+@page { size: A4 portrait; margin: 11mm 13mm; }
+html,body { font-family: "Latin Modern Roman","Times New Roman",Times,serif; color:#111; }
+body { font-size: 9pt; line-height:1.18; }
+h1 { text-align:center; font-size:15.5pt; margin:0 0 1pt; font-weight:700; letter-spacing:.2px; }
+.sub { text-align:center; font-size:9.5pt; margin:0 0 1pt; }
+.ref { text-align:center; font-size:8pt; font-style:italic; color:#333; margin:0 0 8pt; }
+.cap { font-size:8pt; margin:9pt 0 4pt; }
+table { border-collapse:collapse; width:100%; }
+/* Table 1 */
+.t1 { font-size:7.7pt; }
+.t1 td,.t1 th { padding:1.7pt 4pt; }
+.grp th { background:#33556e; color:#fff; font-weight:700; text-align:center; font-size:9pt;
+          border-left:2px solid #fff; }
+.grp th.blank { background:#33556e; border-left:none; }
+.hdr th { background:#33556e; color:#fff; font-weight:700; font-size:8.6pt; padding:3pt 4pt; }
+.hdr th.l { text-align:left; }
+.t1 tbody tr.alt { background:#f4f6f8; }
+.t1 td.c { font-weight:700; white-space:nowrap; }
+.t1 td.v { }
+.t1 td.ct { text-align:center; white-space:nowrap; border-left:1px solid #e2e6ea; }
+.t1 td.n  { text-align:right; padding-right:9pt; }
+.ja { color:#1d7a4d; font-weight:700; }
+.nein { color:#b23b2e; font-weight:700; }
+.hit-cnt { font-variant-numeric:tabular-nums; }
+.t1 thead tr.top th { border-top:1.4pt solid #111; }
+.t1 tbody tr:first-child td { border-top:1.2pt solid #111; }
+.t1 tbody tr:last-child td { border-bottom:1.4pt solid #111; }
+/* Table 2 */
+.t2 { width:72%; margin:0 auto; font-size:8.6pt; }
+.t2 th { background:#33556e; color:#fff; text-align:right; padding:2.6pt 8pt; font-size:8.6pt; }
+.t2 th.k { text-align:left; }
+.t2 td { padding:2.1pt 8pt; text-align:right; font-variant-numeric:tabular-nums; }
+.t2 td.k { text-align:left; }
+.t2 tbody tr:first-child td { border-top:1.2pt solid #111; }
+.t2 tr.rule td { border-top:.9pt solid #555; }
+.t2 tbody tr:last-child td { border-bottom:1.4pt solid #111; }
+.note { font-size:7.4pt; margin:5pt 0 0; text-align:justify; line-height:1.14; }
+.pageno { text-align:center; font-size:8pt; margin-top:8pt; color:#333; }
+.small { font-size:8.4pt; color:#333; }
+</style></head><body>
+<h1>Validierung: Mythril vs. LLMSmartAudit vs. GPTScan</h1>
+<p class="sub">Detektionsleistung gegen SmartBugs Ground Truth</p>
+<p class="ref">Referenz: SmartBugs-curated &mdash; genau eine gelabelte DASP-Schwachstelle je Contract (N = 10)</p>
+
+<p class="cap"><b>Table 1:</b> Erkennung der jeweils gelabelten Schwachstelle je Contract.
+&bdquo;Findings&ldquo; = Gesamtzahl gemeldeter Punkte. Mythril- und LLMSmartAudit-Werte aus den
+BA-Validierungs-PDFs; GPTScan aus einem Live-Lauf (DeepSeek&nbsp;v4-flash, SmartBugs-0.6.12-Ports<sup>&Dagger;</sup>).</p>
+<table class="t1">
+<thead>
+<tr class="grp top"><th class="blank"></th><th class="blank"></th><th colspan="2">Mythril</th><th colspan="2">LLMSmartAudit</th><th colspan="2">GPTScan</th></tr>
+<tr class="hdr"><th class="l">Contract</th><th class="l">Echte Schwachstelle (DASP)</th>
+<th>Treffer</th><th>Findings</th><th>Treffer</th><th>Findings</th><th>Treffer</th><th>Findings</th></tr>
+</thead>
+<tbody><tr class=""><td class="c">BecToken</td><td class="v">Integer Overflow / Underflow</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">16</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class="alt"><td class="c">ERC20</td><td class="v">Front-Running (TOD)</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">6</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span><sup>&Dagger;</sup></td></tr><tr class=""><td class="c">EtherLotto</td><td class="v">Timestamp-Abhängigkeit</td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">4</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">16</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class="alt"><td class="c">Government</td><td class="v">Denial of Service</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">3</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">22</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class=""><td class="c">MyToken</td><td class="v">Short Address</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">7</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class="alt"><td class="c">OpenAddressLottery</td><td class="v">Manipulierbarer Zufalls-Seed</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">27</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class=""><td class="c">ReturnValue</td><td class="v">Unchecked Low-level Call</td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">2</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">4</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span><sup>&Dagger;</sup></td></tr><tr class="alt"><td class="c">Rubixi</td><td class="v">Access Control (offener Konstruktor)</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">1</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">21</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr><tr class=""><td class="c">SimpleDAO</td><td class="v">Reentrancy</td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">4</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">9</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span><sup>&Dagger;</sup></td></tr><tr class="alt"><td class="c">SmartBillions</td><td class="v">Schwache Zufallsquelle</td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td><td class="ct"><span class="ja">&#10003;&nbsp;JA</span></td><td class="n"><span class="hit-cnt">30</span></td><td class="ct"><span class="nein">&#10007;&nbsp;NEIN</span></td><td class="n"><span class="hit-cnt">0</span></td></tr></tbody>
+</table>
+
+<p class="cap"><b>Table 2:</b> Validierungskennzahlen (strenge SmartBugs-Definition: nur die gelabelte L&uuml;cke gilt als korrekt).</p>
+<table class="t2">
+<thead><tr><th class="k">Kennzahl</th><th>Mythril</th><th>LLMSmartAudit</th><th>GPTScan</th></tr></thead>
+<tbody><tr class=""><td class="k">Erkannte Lücken (True Positives)</td><td>3</td><td>9</td><td>0</td></tr><tr class=""><td class="k">Verpasste Lücken (False Negatives)</td><td>7</td><td>1</td><td>10</td></tr><tr class=""><td class="k">Findings gesamt</td><td>14</td><td>158</td><td>0</td></tr><tr class=""><td class="k">Rausch-Findings (False Positives)</td><td>11</td><td>149</td><td>0</td></tr><tr class="rule"><td class="k"><b>Recall</b> (Erkennungsrate)</td><td><b>30,0%</b></td><td><b>90,0%</b></td><td><b>0,0%</b></td></tr><tr class=""><td class="k"><b>Precision</b> (Trefferquote)</td><td><b>21,4%</b></td><td><b>5,7%</b></td><td><b>&ndash;<sup>&dagger;</sup></b></td></tr><tr class=""><td class="k"><b>F1-Score</b></td><td><b>25,0%</b></td><td><b>10,7%</b></td><td><b>&ndash;<sup>&dagger;</sup></b></td></tr><tr class="rule"><td class="k">Ø Rausch-Findings / Contract</td><td>1,1</td><td>14,9</td><td>0,0</td></tr></tbody>
+</table>
+
+<p class="note"><b>Kennzahlen erkl&auml;rt.</b> <i>Recall</i> = TP / N &mdash; Anteil der echten L&uuml;cken, die
+gefunden wurden (Vollst&auml;ndigkeit). <i>Precision</i> = TP / (TP + FP) &mdash; Anteil der Findings, der
+wirklich die gelabelte L&uuml;cke trifft (Signalqualit&auml;t). <i>F1</i> = 2&middot;P&middot;R / (P + R) &mdash;
+harmonisches Mittel beider.</p>
+<p class="note"><b>Interpretation.</b> Mythril meldet <i>wenig</i> und pr&auml;zise, verpasst aber die meisten
+L&uuml;cken (hohe Precision, niedriger Recall). LLMSmartAudit findet <i>fast alle</i> L&uuml;cken, ertr&auml;nkt
+sie aber in Zusatz-Findings (hoher Recall, niedrige Precision). GPTScan ist auf <i>DeFi-Logik-Schwachstellen</i>
+(MWE-200..209) spezialisiert; auf diesem klassischen Set liegt <i>keine</i> der gelabelten Schwachstellen in seinem
+Detektor-Umfang. Es meldet daher 0 Findings &mdash; verpasst die klassischen L&uuml;cken (Recall 0), erzeugt aber auch
+<i>null Rauschen</i> (0 False Positives). Es misst hier den <i>Scope</i>, nicht die F&auml;higkeit.</p>
+<p class="note"><b>Hinweis.</b> FP z&auml;hlt jedes Finding jenseits der gelabelten L&uuml;cke.
+<sup>&dagger;</sup> Precision und F1 sind f&uuml;r GPTScan <i>undefiniert</i> (0/0), da es keine Findings meldet
+&mdash; nicht 0&nbsp;%.</p>
+<p class="note"><sup>&Dagger;</sup> <b>Zur GPTScan-Ausf&uuml;hrung.</b> GPTScans Funktions-Parser (geb&uuml;ndelte
+ANTLR-Solidity-Grammatik) akzeptiert die Alt-Syntax (<code>constant</code>/<code>var</code>) der 0.4.x-Originale nicht;
+GPTScan lief daher auf den inhaltsgleichen <b>SmartBugs-0.6.12-Ports</b> derselben 10 Contracts (identische Contracts +
+gelabelte Schwachstellen; Mythril/LLMSmartAudit bleiben die 0.4.x-Referenzwerte). Live-Lauf: 17 LLM-Aufrufe
+($0.0027). <b>7/10</b> Contracts wurden real analysiert (Funktionen extrahiert), davon Government, OpenAddressLottery, SmartBillions sogar
+vom LLM gepr&uuml;ft und in der Static-Confirmation-Stufe verworfen &rarr; 0 Findings, 0 False&nbsp;Positives.
+ERC20, ReturnValue, SimpleDAO konnten nicht analysiert werden (Parser extrahierte keine Funktionen) &mdash; auch sie l&auml;gen jedoch
+au&szlig;erhalb von GPTScans DeFi-Logik-Scope.</p>
+
+<p class="pageno">1</p>
+</body></html>
