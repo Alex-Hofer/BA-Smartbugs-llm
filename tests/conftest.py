@@ -53,11 +53,13 @@ def load_parser(tool: str):
 
 @pytest.fixture(scope="session")
 def gptscan():
+    """The GPTScan parser module, loaded once per test session."""
     return load_parser("gptscan")
 
 
 @pytest.fixture(scope="session")
 def llmsmartaudit():
+    """The LLMSmartAudit parser module, loaded once per test session."""
     return load_parser("llmsmartaudit")
 
 

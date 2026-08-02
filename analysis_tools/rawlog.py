@@ -63,6 +63,7 @@ _RICH_SRC_TAIL = 160
 # ... and prefixes it with a timestamp, e.g. "[07:13:59] " or "[07/01/26 07:13:58] ".
 _RICH_TS = re.compile(r"^\[[\d/:. ]+\]\s")
 
+
 def squash(text: str) -> str:
     """Strip *all* whitespace.
 
@@ -198,6 +199,7 @@ def find_task_dirs(roots: list[str]) -> list[str]:
 
 
 def _read_json(path: str) -> Optional[Any]:
+    """Parse a JSON file, or return None if it is missing or malformed."""
     try:
         with open(path, encoding="utf-8") as fh:
             return json.load(fh)

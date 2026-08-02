@@ -96,6 +96,7 @@ def only_difference_is_redaction(before: dict, after: dict, names: list[str]) ->
 
 
 def main() -> None:
+    """Scan every task log for secrets and, with --apply, rewrite them."""
     ap = argparse.ArgumentParser(
         prog="redact_results",
         description="Replace API keys in SmartBugs task logs with a placeholder.",

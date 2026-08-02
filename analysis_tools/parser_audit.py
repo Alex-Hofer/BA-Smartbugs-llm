@@ -383,6 +383,7 @@ def summarise(rows: list[dict[str, Any]], per_run_tasks: Counter) -> str:
 
 
 def write_csv(rows: list[dict[str, Any]], path: str) -> None:
+    """One row per detected signal, including the ones that were covered."""
     with open(path, "w", newline="", encoding="utf-8") as fh:
         w = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         w.writeheader()
@@ -488,6 +489,7 @@ def write_md(rows: list[dict[str, Any]], per_run_tasks: Counter, path: str) -> N
 
 
 def main() -> None:
+    """Audit every task under the given roots and report the gaps."""
     ap = argparse.ArgumentParser(
         prog="parser_audit",
         description="List every raw-material message that the tool parsers drop.",

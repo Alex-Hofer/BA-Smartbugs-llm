@@ -70,6 +70,7 @@ MAX_BYTES = 20_000_000
 
 
 def git(*args: str) -> list[str]:
+    """Run a git command in the repository and return its output lines."""
     out = subprocess.run(["git", "-C", REPO_ROOT, *args],
                          capture_output=True, text=True, check=False)
     if out.returncode != 0:
@@ -78,6 +79,7 @@ def git(*args: str) -> list[str]:
 
 
 def files_to_scan(scan_all: bool) -> list[str]:
+    """The paths this invocation is responsible for -- see the module docstring."""
     if scan_all:
         # Everything that could end up in a commit: tracked plus untracked
         # that .gitignore does not exclude.
@@ -113,6 +115,7 @@ exec python "$(git rev-parse --show-toplevel)/analysis_tools/secret_scan.py"
 
 
 def install_hook() -> int:
+    """Write .git/hooks/pre-commit, refusing to clobber an existing hook."""
     hooks = git("rev-parse", "--git-path", "hooks")
     hooks_dir = os.path.join(REPO_ROOT, hooks[0]) if hooks else None
     if not hooks_dir or not os.path.isdir(os.path.dirname(hooks_dir)):
@@ -138,6 +141,7 @@ def install_hook() -> int:
 
 
 def main() -> int:
+    """Scan, report and return the process exit code (1 on any finding)."""
     ap = argparse.ArgumentParser(
         prog="secret_scan",
         description="Block API keys from reaching a commit. Values are never printed.",

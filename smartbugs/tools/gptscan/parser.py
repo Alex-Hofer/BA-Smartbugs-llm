@@ -277,6 +277,18 @@ def _meta_info(meta: dict) -> Optional[str]:
 def parse(
     exit_code: Optional[int], log: list, output: Optional[bytes]
 ) -> tuple:
+    """Turn one GPTScan task into SmartBugs' ``(findings, infos, errors, fails)``.
+
+    Called by ``sb/parsing.py``, both during a run and on every ``sb.reparse``
+    of an existing result directory. The argument types are SmartBugs' stable
+    parser contract and must not be changed: *log* is a list of lines, *output*
+    is the raw tar SmartBugs pulled out of the container (or None).
+
+    Order matters. ``errors_fails`` runs first so an uncaught exception is
+    classified before anything else looks at the log; :func:`_scan_log` then
+    adds what GPTScan caught and logged itself; the report is read last, since
+    a task can fail long before one exists.
+    """
     findings: list = []
     infos: set = set()
     errors, fails = sb.parse_utils.errors_fails(exit_code, log)

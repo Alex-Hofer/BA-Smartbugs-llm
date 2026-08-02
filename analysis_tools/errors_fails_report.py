@@ -57,6 +57,7 @@ _ROOT_MARKERS = ("Invalid compilation", "InvalidCompilation", "solc rejected")
 
 
 def classify(message: str, degraded: bool) -> str:
+    """Cause, after-effect, or neither -- see the module docstring."""
     if any(m in message for m in _ROOT_MARKERS):
         return "root_cause"
     return "consequence" if degraded else "independent"
@@ -123,6 +124,7 @@ def collect(task_dirs: list[str]) -> tuple[dict, list[dict]]:
 
 
 def summary_table(totals: dict) -> list[str]:
+    """Render the per-run balance sheet as fixed-width console lines."""
     header = (f"{'tool/run':<46}{'tasks':>7}{'clean':>7}{'err.tasks':>10}"
               f"{'fail.tasks':>11}{'errors':>8}{'fails':>7}{'no-compile':>11}")
     lines = [header, "-" * len(header)]
@@ -141,6 +143,7 @@ def summary_table(totals: dict) -> list[str]:
 
 
 def write_csv(rows: list[dict[str, Any]], path: str) -> None:
+    """One row per distinct message, with the contracts it occurred on."""
     with open(path, "w", newline="", encoding="utf-8") as fh:
         writer = csv.DictWriter(fh, fieldnames=list(rows[0].keys()))
         writer.writeheader()
@@ -209,6 +212,7 @@ def write_md(totals: dict, rows: list[dict[str, Any]], path: str, max_rows: int)
 
 
 def main() -> None:
+    """Collect every task under the given roots and report errors vs fails."""
     ap = argparse.ArgumentParser(
         prog="errors_fails_report",
         description="Report SmartBugs errors and fails separately, per run and tool.",

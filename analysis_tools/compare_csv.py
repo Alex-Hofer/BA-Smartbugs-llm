@@ -23,6 +23,11 @@ TRACKED = ("findings", "infos", "errors", "fails", "parser_version")
 
 
 def load(path: str) -> dict:
+    """Index a ``results2csv`` export by ``(toolid, runid, filename)``.
+
+    That triple is unique per task and stable across reruns, so two exports
+    can be aligned row by row even if their ordering differs.
+    """
     # utf-8-sig: PowerShell's ``>`` redirection writes a BOM, which would
     # otherwise end up glued to the first column name.
     with open(path, encoding="utf-8-sig", newline="") as fh:
@@ -47,6 +52,7 @@ def cells(value: str) -> set:
 
 
 def main() -> None:
+    """Load both exports, diff the tracked columns, report and optionally write."""
     ap = argparse.ArgumentParser(prog="compare_csv", description=__doc__)
     ap.add_argument("before")
     ap.add_argument("after")

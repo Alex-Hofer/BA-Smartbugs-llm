@@ -89,6 +89,18 @@ def _meta(log: list) -> dict:
 def parse(
     exit_code: Optional[int], log: list, output: Optional[bytes]
 ) -> tuple:
+    """Turn one LLMSmartAudit task into ``(findings, infos, errors, fails)``.
+
+    Called by ``sb/parsing.py``, both during a run and on every ``sb.reparse``
+    of an existing result directory. The argument types are SmartBugs' stable
+    parser contract: *log* is a list of lines, *output* the raw tar SmartBugs
+    pulled out of the container (or None).
+
+    The log is only read for the entrypoint's ``LLMSA_META`` line --- the
+    report inside the tar is authoritative for provider, model and results,
+    because the entrypoint can only report what it *asked* for, not what the
+    tool actually used.
+    """
     findings: list = []
     infos: set = set()
     errors, fails = sb.parse_utils.errors_fails(exit_code, log)

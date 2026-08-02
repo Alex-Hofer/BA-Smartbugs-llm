@@ -45,6 +45,7 @@ def findings_of(result_json: Path):
 
 
 def main() -> int:
+    """Aggregate one run directory and print the per-rule / per-stage summary."""
     run = Path(sys.argv[1])
     tasks = sorted(run.rglob("result.json"))
     per_file, findings_rows = {}, []

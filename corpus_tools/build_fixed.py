@@ -863,6 +863,7 @@ def cmd_check(_args) -> int:
 
 
 def main() -> int:
+    """Dispatch to the requested subcommand (map/scan/vendor/fetch/flatten/check)."""
     ap = argparse.ArgumentParser(description=__doc__)
     sub = ap.add_subparsers(dest="cmd", required=True)
     sub.add_parser("map", help="locate + verify originals, write mapping.json")
