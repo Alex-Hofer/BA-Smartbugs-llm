@@ -238,14 +238,39 @@ try {
     }
 
     # ---------------------------------------------------------------- Zusammenfassung
+    $runDirs = @()
     foreach ($t in @('gptscan', 'llmsmartaudit')) {
         $dir = Join-Path $SmartBugsDir "results\$t\curated_$RunIdSuffix"
         if (Test-Path $dir) {
+            $runDirs += $dir
             $n = (Get-ChildItem -Path $dir -Recurse -Filter 'result.json' | Measure-Object).Count
             Write-Log ("{0}: {1} result.json unter {2}" -f $t, $n, $dir)
         }
     }
+
+    # Errors/Fails getrennt ausweisen. SmartBugs unterscheidet:
+    #   error - das Werkzeug hat das Problem bemerkt, behandelt, weitergearbeitet
+    #   fail  - eine Exception ist entkommen oder der Lauf wurde abgebrochen
+    # Hergeleitet aus sb/parse_utils.py::errors_fails, siehe
+    # docs\BA-ERRORS-VS-FAILS.md. Die Auswertung liegt bewusst im Python-Skript
+    # und wird hier nur aufgerufen - eine zweite Implementierung in PowerShell
+    # koennte von der ersten abweichen.
+    if ($runDirs.Count -gt 0) {
+        $reportScript = Join-Path $RepoRoot 'analysis_tools\errors_fails_report.py'
+        if (Test-Path $reportScript) {
+            Write-Log "Errors/Fails-Bilanz:"
+            & $Python $reportScript @runDirs `
+                --md (Join-Path $RepoRoot "docs\errors-fails-$RunIdSuffix.md") `
+                --csv (Join-Path $RepoRoot "docs\errors-fails-$RunIdSuffix.csv") | Out-Host
+            Write-Log "Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber."
+        }
+        else {
+            Write-Log "HINWEIS: $reportScript fehlt - Errors/Fails-Bilanz uebersprungen."
+        }
+    }
+
     Write-Log "CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_$RunIdSuffix results\llmsmartaudit\curated_$RunIdSuffix > ..\curated_results.csv"
+    Write-Log "Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_$RunIdSuffix"
     Write-Log "Fertig."
 }
 finally {
