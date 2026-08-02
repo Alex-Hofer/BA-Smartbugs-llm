@@ -33,6 +33,11 @@ def test_clean_run_reports_no_error_or_fail(gptscan):
 
 
 def test_clean_run_is_not_marked_degraded(gptscan):
+    """The degradation notice must be tied to a real compile failure.
+
+    If it were emitted unconditionally it would be worthless: every "no
+    findings" result would read as inconclusive.
+    """
     out = parse(gptscan, TOOL, "clean_with_finding")
     assert not contains(out["infos"], "analysis degraded")
 
@@ -57,6 +62,11 @@ def test_compile_failure_names_the_solc_diagnostic(gptscan):
 
 
 def test_compile_failure_reports_skipped_static_stage(gptscan):
+    """Without a Falcon IR the static confirmation stage never runs.
+
+    GPTScan announces this at WARNING level only, so it is the one warning the
+    parser has to pick up explicitly.
+    """
     out = parse(gptscan, TOOL, "compile_failure_silent")
     assert contains(out["errors"], "Falcon is not initialized")
 
@@ -125,17 +135,20 @@ def test_messages_are_passed_through_unrewritten(gptscan):
 # --------------------------------------------------------------------------- #
 
 def test_synthetic_timeout_is_a_fail(gptscan):
+    """``exit_code is None`` is SmartBugs' way of saying it killed the container."""
     findings, infos, errors, fails = gptscan.parse(None, ["GPTScan: provider=deepseek"], None)
     assert "DOCKER_TIMEOUT" in fails
     assert findings == []
 
 
 def test_synthetic_missing_archive_is_reported(gptscan):
+    """No archive at all --- distinct from an archive without a report."""
     _f, _i, _e, fails = gptscan.parse(0, ["GPTScan: provider=deepseek"], None)
     assert contains(fails, "no tar archive collected")
 
 
 def test_synthetic_empty_archive_is_reported(gptscan):
+    """A well-formed but memberless archive: collection worked, output did not."""
     _f, _i, _e, fails = gptscan.parse(0, [], synthetic_empty_tar())
     assert contains(fails, "contains no output.json")
 
@@ -148,6 +161,12 @@ def test_synthetic_broken_json_names_the_reason(gptscan):
 
 
 def test_synthetic_unsuccessful_report_is_an_error(gptscan):
+    """A report that declares itself unsuccessful must not read as a clean run.
+
+    Synthetic only for convenience --- the shape occurs 44 times in the
+    recorded runs, always together with a non-zero exit code. Building it here
+    isolates the ``success: false`` handling from the exit-code path.
+    """
     payload = b'{"version":"1.1.0","success":false,"message":"no output produced","results":[]}'
     _f, _i, errors, _fa = gptscan.parse(0, [], synthetic_tar(payload))
     assert contains(errors, "success=false")
@@ -168,6 +187,13 @@ def test_synthetic_missing_metadata_on_crash_is_not_double_reported(gptscan):
 
 
 def test_synthetic_budget_cap_is_an_error(gptscan):
+    """Hitting the per-contract cost cap truncates the analysis, so it is an error.
+
+    Both metadata fields are set here because the guard writes them together.
+    Note that the two assertions below are not independent: the message for
+    ``llm_calls_skipped_budget`` reads "7 LLM calls skipped: per-contract cost
+    cap reached" and satisfies both on its own.
+    """
     meta = ('GPTSCAN_META {"provider":"deepseek","model":"deepseek-v4-flash",'
             '"llm_calls":3,"estimated_cost":0.5,"budget_exceeded":true,'
             '"llm_calls_skipped_budget":7}')

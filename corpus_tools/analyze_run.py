@@ -19,6 +19,15 @@ BA = Path(__file__).resolve().parent.parent
 
 
 def meta_of(log: Path):
+    """The run metadata GPTScan's entrypoint prints, or None if absent.
+
+    The *last* ``GPTSCAN_META`` line wins: a task that was retried writes the
+    line once per attempt, and only the final one describes the run whose
+    results were kept.
+
+    Returns None instead of raising for a missing, unreadable or malformed
+    line, so that one damaged task cannot abort the aggregation of a whole run.
+    """
     if not log.is_file():
         return None
     txt = log.read_text(encoding="utf-8", errors="replace").replace("\r", "")
@@ -35,6 +44,12 @@ def meta_of(log: Path):
 
 
 def findings_of(result_json: Path):
+    """The findings of one task, from either report layout.
+
+    ``results`` is GPTScan's own key, ``findings`` the one SmartBugs writes
+    after parsing. Accepting both lets this script run against a raw GPTScan
+    report and against a SmartBugs result directory without a flag.
+    """
     if not result_json.is_file():
         return []
     try:

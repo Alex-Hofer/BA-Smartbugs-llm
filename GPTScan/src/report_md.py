@@ -41,17 +41,33 @@ def load_taxonomy(path: str = _TAXONOMY_PATH) -> dict:
 
 
 def _classification(title: str, taxonomy: dict) -> str:
+    """SWC/DASP label for a finding title, or ``"n/a"`` if it has none.
+
+    Missing entries are reported as "n/a" rather than raising: a taxonomy gap
+    must not stop a report from being written, and "n/a" makes the gap visible
+    in the rendered table.
+    """
     entry = taxonomy.get(title) or {}
     return entry.get("classification", "n/a")
 
 
 def _md_path(output_file: str) -> str:
+    """Markdown path beside the JSON report (``x.json`` -> ``x.md``).
+
+    Keeping both reports on the same stem is what lets ``--format both`` write
+    them side by side without a second CLI argument.
+    """
     if output_file.lower().endswith(".json"):
         return output_file[:-len(".json")] + ".md"
     return output_file + ".md"
 
 
 def _fmt_cost(meta: dict) -> str:
+    """Estimated cost, marked as projected when no call was actually made.
+
+    In ``--dry-run`` the figure is what the run *would* have cost; labelling it
+    keeps a dry-run report from being mistaken for a billed one.
+    """
     cost = meta.get("estimated_cost", 0) or 0
     suffix = " (projected, dry-run)" if meta.get("dry_run") else ""
     return f"${cost:.4f}{suffix}"
@@ -70,6 +86,13 @@ def _affected_lines(result: dict) -> list:
 
 
 def _group_file(result: dict) -> str:
+    """The file a finding is filed under in the report.
+
+    A finding can touch several files; the *first* affected file decides the
+    grouping, because that is the one GPTScan reports the finding against. The
+    remaining files still appear in the finding's "Affected" line, so nothing
+    is hidden by the choice.
+    """
     affected = result.get("affectedFiles", []) or []
     if affected:
         return affected[0].get("filePath", "(unknown)")

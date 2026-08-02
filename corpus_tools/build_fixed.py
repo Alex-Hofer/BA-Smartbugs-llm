@@ -85,6 +85,24 @@ def stripped(data: bytes) -> bytes:
 
 
 def cmd_map(_args) -> int:
+    """Locate the pristine original of every sample and record how it matched.
+
+    Three match qualities are distinguished, weakest last, because the
+    extractor damaged the samples in three different ways:
+
+    ``equal``
+        The normal forms are identical --- proof, not a guess.
+    ``truncated-prefix``
+        The sample is a strict prefix of the original; the extractor cut the
+        file short. Still unambiguous.
+    ``header-prefix``
+        Only the first ``k`` bytes agree (``k >= 200``), because the sample also
+        retained comment-banner junk mid-stream. The longest agreement wins.
+
+    Writes ``mapping.json`` and returns non-zero unless every one of the 96
+    samples was either matched or explained by a missing contest directory --- a
+    silent partial mapping would poison every later step.
+    """
     results, exact, missing, mismatch = {}, 0, [], []
     for f in sorted(SAMPLES.glob("*.sol")):
         m = re.match(r"(\d+)_(.+)\.sol$", f.name)
@@ -171,6 +189,13 @@ def project_root(file: Path, contest_dir: Path) -> Path:
 
 
 def load_remappings(root: Path) -> list[tuple[str, str]]:
+    """All ``prefix=target`` import remappings a project declares.
+
+    Reads both conventions, since the corpus mixes Hardhat and Foundry
+    projects: ``remappings.txt`` and the ``remappings`` key of every profile in
+    ``foundry.toml``. A malformed ``foundry.toml`` is ignored rather than fatal
+    --- the resolver has other ways to find a file.
+    """
     maps = []
     rt = root / "remappings.txt"
     if rt.is_file():
@@ -248,6 +273,12 @@ def resolve_import(spec: str, importer: Path, root: Path,
 
 
 def sample_era(orig: Path) -> str:
+    """Solidity minor series ("0.8", "0.7", ...) the entry file is written for.
+
+    The era decides which npm package versions may be vendored: OpenZeppelin
+    moved file paths at its 4.x release, so a 0.6 contract must never be built
+    against OZ 4 even if some lockfile in the contest tree pins it.
+    """
     pm = re.search(rb"pragma solidity[^;]{0,40}", orig.read_bytes())
     return era_of({pm.group(0).decode("ascii", "replace")} if pm else set())
 
@@ -328,6 +359,14 @@ PKG_ALIAS = {"openzeppelin": "@openzeppelin/contracts"}
 
 
 def locked_version(root: Path, pkg: str) -> str | None:
+    """The version a project pins for *pkg*, or None if nothing pins it.
+
+    Consulted in descending order of authority: ``yarn.lock`` and
+    ``package-lock.json`` record what was actually installed,
+    ``package.json`` only a range, whose leading ``^``/``~`` is dropped.
+    Unparsable lockfiles are skipped rather than fatal --- the caller falls back
+    to :data:`ERA_FALLBACK`, and the compile check is the real arbiter.
+    """
     yl = root / "yarn.lock"
     if yl.is_file():
         txt = yl.read_text(encoding="utf-8", errors="replace")
@@ -362,6 +401,12 @@ def locked_version(root: Path, pkg: str) -> str | None:
 
 
 def npm_fetch(pkg: str, version: str, dest: Path) -> bool:
+    """Download one npm tarball and unpack it into *dest*. True on success.
+
+    Every npm tarball wraps its content in a single top-level directory
+    (usually ``package/``); that first path segment is stripped so *dest*
+    directly mirrors what ``node_modules/<pkg>/`` would contain.
+    """
     import io
     import tarfile
     import urllib.request
@@ -385,6 +430,13 @@ def npm_fetch(pkg: str, version: str, dest: Path) -> bool:
 
 
 def era_of(pragmas: set[str]) -> str:
+    """Pick the era from a set of pragma strings, newest first.
+
+    Newest-first matters for ranges such as ``>=0.6.0 <0.9.0``: the file will be
+    compiled with the highest version that satisfies every constraint, so the
+    dependencies must match that end of the range. Defaults to "0.8" when no
+    pragma says otherwise.
+    """
     for era in ("0.8", "0.7", "0.6", "0.5"):
         if any(era in p for p in pragmas):
             return era
@@ -392,6 +444,17 @@ def era_of(pragmas: set[str]) -> str:
 
 
 def cmd_vendor(_args) -> int:
+    """Download the npm packages the samples import, per contest and era.
+
+    Vendoring is keyed on ``(contest, era)`` rather than on the contest alone
+    because one contest tree can hold subprojects of different Solidity eras,
+    and a single ``node_modules`` version would break the older ones. Downloads
+    are cached by ``(package, version)`` and copied, so the same tarball is
+    fetched once no matter how many contests need it.
+
+    ``hardhat`` is special-cased: only ``console.sol`` is ever imported from it,
+    and pulling the whole toolchain to get one file is not worth it.
+    """
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
     # which packages does each (contest, era) need? (scan closures per sample)
     need: dict[tuple[str, str], set[str]] = {}   # (contest, era) -> pkgs
@@ -494,6 +557,11 @@ def gh_tree(repo: str) -> tuple[str, list[str]]:
 
 
 def raw_fetch(repo: str, branch: str, path: str) -> bytes | None:
+    """One file's bytes from raw.githubusercontent, or None on any failure.
+
+    Failures are printed and swallowed: gap filling walks a list of candidate
+    sources, and a miss on one simply means trying the next.
+    """
     import urllib.request
     import urllib.parse
     url = (f"https://raw.githubusercontent.com/{repo}/{branch}/"
@@ -507,6 +575,12 @@ def raw_fetch(repo: str, branch: str, path: str) -> bytes | None:
 
 
 def expected_path(spec: str, importer: Path, root: Path) -> Path:
+    """Where a fetched file has to land for the import to resolve next round.
+
+    Relative specs are anchored at the importing file, absolute ones at the
+    project root --- the same two rules :func:`resolve_import` applies when
+    looking a file up.
+    """
     if spec.startswith("."):
         parts = (importer.parent / spec).resolve()
         return parts
@@ -514,6 +588,14 @@ def expected_path(spec: str, importer: Path, root: Path) -> Path:
 
 
 def find_in_source(tail: str, base: str, files: list[str], prefix: str) -> str | None:
+    """Best match for an import inside one gap source's file listing.
+
+    Matching on the path *tail* first and only then on the bare basename keeps
+    the common ``interfaces/IERC20.sol`` style import from binding to an
+    unrelated file of the same name. The basename fallback is used only when it
+    is unique within the scoped subtree, so a wrong file is never silently
+    substituted.
+    """
     scoped = [p for p in files if p.startswith(prefix) and p.endswith(".sol")]
     exact = [p for p in scoped if p.endswith("/" + tail) or p == prefix + tail]
     if len(exact) >= 1:
@@ -523,6 +605,13 @@ def find_in_source(tail: str, base: str, files: list[str], prefix: str) -> str |
 
 
 def cmd_fetch(_args) -> int:
+    """Fill in files the Web3Bugs snapshot lacks, from the gap sources.
+
+    The snapshots contain only what a contest's audit scope covered, so imports
+    can point outside the tree. Runs up to five rounds because a fetched file
+    brings its own imports with it; the loop stops as soon as a round fetches
+    nothing, which is the fixed point of the import closure.
+    """
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
     # npm gap sources: vendor once under vendor/_fetch/<pkg>/
     npm_dirs: dict[str, Path] = {}
@@ -602,6 +691,13 @@ def flat_order(sample: str, mapping: dict) -> tuple[list[Path], Path, str, str]:
     state: dict[Path, int] = {}  # 1 = visiting, 2 = done
 
     def visit(f: Path):
+        """Post-order DFS: a file is appended only after its imports are.
+
+        Solidity has no forward declarations across a flattened file, so a
+        definition must precede its use. Back-edges (state 1 = currently being
+        visited) are skipped rather than followed: import cycles are legal in
+        Solidity and would otherwise recurse forever.
+        """
         if state.get(f):
             return
         state[f] = 1
@@ -619,6 +715,19 @@ def flat_order(sample: str, mapping: dict) -> tuple[list[Path], Path, str, str]:
 
 
 def cmd_flatten(_args) -> int:
+    """Write one self-contained ``.sol`` per sample into ``mwevariety_fixed/``.
+
+    A flattened file may legally contain only one SPDX tag and one version
+    pragma, so both are hoisted into a generated header and every occurrence in
+    the bodies is neutralised --- the SPDX tag is *rewritten* rather than
+    deleted, because deleting it would shift byte offsets inside block comments
+    and could join two lines of code.
+
+    Files reached by more than one path (the snapshot copy and a fetched copy of
+    the same source) are collapsed by hash of their normal form, so a duplicate
+    definition cannot reach the compiler. ``SMTChecker`` pragmas are dropped:
+    they only select a solver and slow the check down.
+    """
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
     releases = solc_releases()
     FIXED.mkdir(parents=True, exist_ok=True)
@@ -703,6 +812,11 @@ SOLC_LIST_URL = "https://binaries.soliditylang.org/windows-amd64/list.json"
 
 
 def http_get(url: str, timeout: int = 300) -> bytes:
+    """GET *url* and return the body. Raises on failure --- callers decide.
+
+    A browser-like User-Agent is sent because the Solidity binary host rejects
+    the urllib default. The generous timeout covers the ~20 MB solc downloads.
+    """
     import urllib.request
     req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (corpus_tools)"})
     with urllib.request.urlopen(req, timeout=timeout) as r:
@@ -710,6 +824,7 @@ def http_get(url: str, timeout: int = 300) -> bytes:
 
 
 def solc_releases() -> dict[str, str]:
+    """Map ``version -> binary filename`` for every released solc, cached on disk."""
     cache = SOLC_DIR / "list.json"
     SOLC_DIR.mkdir(exist_ok=True)
     if not cache.is_file():
@@ -718,6 +833,13 @@ def solc_releases() -> dict[str, str]:
 
 
 def choose_solc(pragma_stmts: list[str], releases: dict[str, str]) -> str | None:
+    """Highest released solc satisfying *every* collected pragma, or None.
+
+    A flattened file inherits the constraints of all its sources, so the pin
+    must satisfy their intersection --- picking the entry file's pragma alone
+    would fail as soon as a dependency is stricter. Returns None if any pragma
+    is unparsable, which the caller reports rather than guessing a version.
+    """
     import semantic_version
     specs = []
     for p in pragma_stmts:
@@ -746,6 +868,11 @@ def choose_solc(pragma_stmts: list[str], releases: dict[str, str]) -> str | None
 
 
 def solc_binary(version: str, releases: dict[str, str]) -> Path | None:
+    """Path to a usable ``solc.exe`` of *version*, downloading it if needed.
+
+    Returns None instead of raising so one unavailable compiler cannot abort
+    the check of the other 95 samples.
+    """
     # 0.6.x windows artifacts are ZIPs (solc.exe + VC runtime DLLs), later ones
     # are bare PE exes. Normalise both to SOLC_DIR/solc-<ver>/solc.exe.
     zdir = SOLC_DIR / f"solc-{version}"
@@ -809,6 +936,20 @@ def inject_pragma(target: Path, pragma: str) -> None:
 
 
 def cmd_check(_args) -> int:
+    """Compile every flattened file with its pinned solc; write check_results.json.
+
+    Two repairs are attempted before a file counts as failed, both for settings
+    the original project supplied through its build config rather than in the
+    source --- information that does not survive flattening:
+
+    1. ``pragma experimental ABIEncoderV2`` when a struct appears in an external
+       signature on solc < 0.8.
+    2. ``--optimize``, then ``--optimize --via-ir``, on "Stack too deep".
+
+    Each repair is recorded as a ``note`` on the result, so a file that only
+    compiles under the IR pipeline is not silently equated with a clean one.
+    Returns non-zero unless all of them compile.
+    """
     stats = json.loads((TOOLS / "flatten_stats.json").read_text(encoding="utf-8"))
     releases = solc_releases()
     # pre-download every distinct solc version first (separates I/O from exec)

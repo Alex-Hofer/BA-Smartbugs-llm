@@ -167,6 +167,12 @@ class Signal:
 
     def __init__(self, sid: str, expect: str, message: str, key: Optional[str] = None,
                  klass: str = "independent") -> None:
+        """Build a signal.
+
+        *key* defaults to *message*; pass it explicitly when the wording the
+        parser emits differs from the wording found in the raw log (for
+        instance ``EXIT_CODE_1``, which no log line contains verbatim).
+        """
         self.sid = sid
         self.expect = expect  # "report" | "mention"
         self.message = message.strip()

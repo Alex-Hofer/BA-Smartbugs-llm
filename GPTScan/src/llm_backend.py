@@ -50,6 +50,12 @@ def configure_from_args(provider: Optional[str], model: Optional[str],
 
 
 def active_provider() -> str:
+    """Name of the provider this process should use.
+
+    Raises rather than falling back to the default when the name is unknown: a
+    silent fallback would bill a different backend than the one the run was
+    started with, and the mistake would only surface in the cost figures.
+    """
     name = os.environ.get(ENV_PROVIDER) or global_config.DEFAULT_PROVIDER
     if name not in global_config.PROVIDERS:
         raise ValueError(
@@ -58,14 +64,17 @@ def active_provider() -> str:
 
 
 def provider_config() -> dict:
+    """The ``config.PROVIDERS`` entry of the active provider."""
     return global_config.PROVIDERS[active_provider()]
 
 
 def model_override() -> Optional[str]:
+    """Model id given via ``--model``, or None to use the provider's tiers."""
     return os.environ.get(ENV_MODEL) or None
 
 
 def is_dry_run() -> bool:
+    """Is this run costing the pipeline out without making any call?"""
     return os.environ.get(ENV_DRY_RUN) == "1"
 
 
@@ -79,6 +88,11 @@ def resolve_model(gpt4: bool = False) -> str:
 
 
 def base_url() -> Optional[str]:
+    """Chat-Completions endpoint of the active provider.
+
+    None for OpenAI itself, whose endpoint is the SDK default — see
+    :func:`configure_sdk`, which leaves ``api_base`` untouched in that case.
+    """
     return provider_config().get("base_url")
 
 

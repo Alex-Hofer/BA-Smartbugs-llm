@@ -17,10 +17,19 @@ Logs above 100 KB are stored gzipped (LLMSmartAudit writes its entire
 multi-agent transcript to stdout). The compression is lossless --- the bytes a
 test sees are the bytes the container produced.
 
-Cases that never occurred in the 19 recorded runs --- a timeout, an empty
-archive, malformed JSON --- are built by the ``synthetic_*`` helpers. Tests
-using them say so in their name, because they assert designed behaviour rather
-than observed behaviour.
+Material that is *constructed* rather than recorded is built by the
+``synthetic_*`` helpers, and every test using one says ``synthetic`` in its
+name. Two reasons occur:
+
+* the failure mode never happened in the 19 recorded runs --- a timeout, an
+  empty archive, malformed JSON, a missing ``GPTSCAN_META``, the budget cap;
+* the failure mode *did* happen, but only alongside another one, so a recorded
+  task cannot show which branch fired. ``success: false`` occurs in 44 tasks,
+  always together with a non-zero exit code; a report ``error`` field occurs in
+  ``backend_rejected`` for the same reason.
+
+The distinction matters when reading a failure: a synthetic test asserts
+designed behaviour, a recorded one asserts observed behaviour.
 """
 
 import gzip

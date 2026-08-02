@@ -1,14 +1,31 @@
-# Audit report collection + Markdown rendering for LLMSmartAuditTool (SmartContractTA mode).
-#
-# Why this module exists: the per-detector phases in chatdev/phase.py each overwrite
-# chat_env.env_dict['ideas'] with their own <INFO> conclusion, so only the LAST detector's
-# result survives there; nothing aggregates the individual detector findings. This collector
-# captures every detector's conclusion at the single Phase.execute chokepoint and renders a
-# standardized Markdown report per analysis run.
-#
-# DETECTORS is the machine-readable source of truth for which categories SmartContractTA
-# actually probes (one entry per phase in CompanyConfig/SmartContractTA/ChatChainConfig.json).
-# docs/coverage.md is the human-facing companion and is kept consistent with this table.
+"""Audit report collection and rendering for LLMSmartAuditTool (SmartContractTA).
+
+Why this module exists
+----------------------
+The per-detector phases in ``chatdev/phase.py`` each overwrite
+``chat_env.env_dict['ideas']`` with their own ``<INFO>`` conclusion, so only the
+**last** detector's result survives there; nothing aggregates the individual
+findings. Without this collector a 41-detector run reports the verdict of
+detector 41 and silently discards the other 40.
+
+The collector hooks the single ``Phase.execute`` chokepoint, captures every
+detector's conclusion as it happens, and renders two artefacts per run: a
+Markdown report for a human reader and a JSON document with a stable schema
+(:meth:`AuditReportCollector.render_data`) that the SmartBugs parser consumes.
+
+``DETECTORS`` is the machine-readable source of truth for which categories
+SmartContractTA actually probes --- one entry per phase in
+``CompanyConfig/SmartContractTA/ChatChainConfig.json``. ``docs/coverage.md`` is
+the human-facing companion and is kept consistent with this table.
+
+Reporting coverage, not just findings
+-------------------------------------
+Both artefacts carry ``categories_checked`` alongside the findings. An empty
+finding list means "clean" only if the checked count is the full 41; after a
+backend rejection it is 0, and the run must not be readable as a clean audit.
+The SmartBugs parser turns ``checked == 0`` into an error for exactly that
+reason.
+"""
 
 import json
 import os
@@ -80,15 +97,34 @@ def _is_identified(conclusion: str) -> bool:
 
 
 class AuditReportCollector:
+    """Accumulates one analysis run's detector conclusions and renders them.
+
+    Kept separate from the module-level singleton below so it can be
+    instantiated directly in a test without touching global state.
+    """
+
     def __init__(self):
+        """Start out empty; :meth:`reset` defines the fields in one place."""
         self.reset()
 
     def reset(self):
+        """Discard everything collected so far, ready for the next contract.
+
+        Called at the start of every run (``chat_chain.py``) because the
+        singleton outlives a single analysis when several run in one process.
+        """
         self._findings = []          # list of dicts for detectors that fired
         self._checked = []           # all detector phase_names that ran (coverage proof)
         self._summary = ""           # consolidated BugsSummary/TestBugsSummary text
 
     def record(self, phase_name, conclusion):
+        """Take note of one finished phase.
+
+        A phase counts as *checked* as soon as it ran, whether or not it found
+        anything --- that is what makes the coverage figure meaningful. Phases
+        that are not detectors at all are either the consolidated summary or
+        ignored outright, so unrelated chat phases cannot inflate the count.
+        """
         if conclusion is None:
             return
         if phase_name in DETECTORS:
@@ -107,13 +143,22 @@ class AuditReportCollector:
 
     @property
     def findings(self):
+        """The detectors that fired, as a copy so callers cannot mutate state."""
         return list(self._findings)
 
     @property
     def checked(self):
+        """Phase names of every detector that ran, as a copy."""
         return list(self._checked)
 
     def render_markdown(self, contract_name, provider, model, timestamp, config="SmartContractTA"):
+        """The human-readable report: header, findings, summary, coverage list.
+
+        Findings are ordered by severity so the worst appears first. The
+        coverage list at the end names *every* known detector with a checkbox,
+        not only the ones that ran --- a category missing from a run is then
+        visible instead of merely absent.
+        """
         severity_rank = {"High": 0, "Medium": 1, "Low": 2}
         findings = sorted(self._findings, key=lambda f: severity_rank.get(f["severity"], 3))
 
@@ -181,6 +226,7 @@ class AuditReportCollector:
 
     def write_markdown(self, out_path, contract_name, provider, model, timestamp,
                        config="SmartContractTA"):
+        """Render the Markdown report to *out_path*; returns the path written."""
         content = self.render_markdown(contract_name, provider, model, timestamp, config)
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:
@@ -215,6 +261,10 @@ class AuditReportCollector:
 
     def write_json(self, out_path, contract_name, provider, model, timestamp,
                    config="SmartContractTA"):
+        """Write the machine-readable report to *out_path*; returns the path.
+
+        This is the file the container hands to SmartBugs as ``/output.json``.
+        """
         data = self.render_data(contract_name, provider, model, timestamp, config)
         os.makedirs(os.path.dirname(out_path), exist_ok=True)
         with open(out_path, "w", encoding="utf-8") as f:
@@ -227,20 +277,25 @@ _collector = AuditReportCollector()
 
 
 def reset():
+    """Clear the singleton --- call once at the start of every analysis run."""
     _collector.reset()
 
 
 def record(phase_name, conclusion):
+    """Hand one finished phase to the singleton (called from ``Phase.execute``)."""
     _collector.record(phase_name, conclusion)
 
 
 def write_markdown(out_path, contract_name, provider, model, timestamp, config="SmartContractTA"):
+    """Module-level shortcut for :meth:`AuditReportCollector.write_markdown`."""
     return _collector.write_markdown(out_path, contract_name, provider, model, timestamp, config)
 
 
 def write_json(out_path, contract_name, provider, model, timestamp, config="SmartContractTA"):
+    """Module-level shortcut for :meth:`AuditReportCollector.write_json`."""
     return _collector.write_json(out_path, contract_name, provider, model, timestamp, config)
 
 
 def get_collector():
+    """The singleton itself, for callers that need the collected data directly."""
     return _collector
