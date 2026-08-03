@@ -26,6 +26,7 @@ Einsatzgebiet.
 ## Aufbau des Repositorys
 
 ```
+├── .githooks/          versionierter pre-commit-Hook (Secret-Scan)
 ├── analysis_tools/     Auswertungswerkzeuge (eigener Code)
 │   ├── parser_audit.py         prüft, dass kein Rohsignal im Parser verlorengeht
 │   ├── errors_fails_report.py  Errors/Fails je Lauf, als CSV und Markdown
@@ -181,11 +182,21 @@ JSON), sind synthetisch und tragen `synthetic` im Testnamen.
 ```powershell
 python analysis_tools\secret_scan.py            # gestagte Dateien (Hook-Modus)
 python analysis_tools\secret_scan.py --all      # gesamter Arbeitsbaum
-python analysis_tools\secret_scan.py --install  # als pre-commit-Hook einrichten
+python analysis_tools\secret_scan.py --install  # Hook aktivieren (einmal pro Clone)
 ```
 
 Findet der Scan einen Schlüssel, endet er mit Exit-Code 1 und der Commit
 scheitert. Der Wert selbst wird nie ausgegeben.
+
+Der Hook ist versioniert: `.githooks/pre-commit` liegt im Repo, `--install`
+setzt nur `core.hooksPath` darauf. Ein nach `.git/hooks/` kopierter Hook würde
+nicht mitgeklont und schützte damit nur eine Maschine. **Nach dem Klonen einmal
+ausführen** — zusammen mit `git config core.longpaths true`; beides steht in
+[`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md), Abschnitt 7.
+
+Komprimierte Dateien und Archive (`.gz`, `.tar`, `.zip`) werden entpackt und
+mitdurchsucht. Was der Scan nicht lesen kann — zu groß, defektes Archiv — meldet
+er namentlich, statt es stillschweigend zu überspringen.
 
 ---
 

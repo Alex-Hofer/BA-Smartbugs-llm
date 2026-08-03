@@ -1,0 +1,15 @@
+#!/bin/sh
+# Pre-commit hook of this repository -- tracked on purpose.
+#
+# It lives in .githooks/ rather than in .git/hooks/ because .git/ is never
+# cloned: a hook installed there protects one machine, not the project. With
+# core.hooksPath pointing here, everyone who clones and runs the one-line setup
+# from docs/BA-BETRIEB.md gets the same protection.
+#
+# Enable it once per clone:
+#     python analysis_tools/secret_scan.py --install
+# or, equivalently:
+#     git config core.hooksPath .githooks
+#
+# Blocks a commit that would introduce an API key. The value is never printed.
+exec python "$(git rev-parse --show-toplevel)/analysis_tools/secret_scan.py"

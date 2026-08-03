@@ -133,6 +133,55 @@ Schlüssel kommt zur Laufzeit aus der Prozessumgebung.
 * **PowerShell-Umleitung schreibt ein BOM.** `> datei.csv` erzeugt UTF-8 mit
   BOM; Leser müssen `encoding="utf-8-sig"` verwenden (so macht es
   `analysis_tools/compare_csv.py`).
-* **Windows-Pfadlänge.** `core.longpaths=true` ist gesetzt und bleibt es. Der
-  längste getrackte Pfad misst 129 Zeichen.
+* **Windows-Pfadlänge.** `core.longpaths=true` ist **pro Clone zu setzen** — die
+  Option ist eine lokale Git-Konfiguration und wird nicht mitgeklont. Ohne sie
+  scheitern Operationen, die tiefer als der Arbeitsbaum liegen, mit
+  `Filename too long`; ein `git worktree add` etwa bricht an
+  `LLMSmartAuditTool-main/.../WareHouse/AISmartContract_…/` ab. Der längste
+  getrackte Pfad misst 129 Zeichen, das Limit greift also erst zusammen mit dem
+  Präfix des Zielverzeichnisses — was für einen Clone in einem tiefen Pfad
+  bereits reicht. Siehe Abschnitt 7.
 * **PowerShell 5.1 kennt kein `&&`/`||`.** Stattdessen `A; if ($?) { B }`.
+
+## 7. Einrichtung nach dem Klonen
+
+Zwei Git-Einstellungen sind **lokal pro Clone** und werden deshalb nicht
+mitgeliefert. Beide gehören unmittelbar nach `git clone` gesetzt:
+
+```powershell
+git config core.longpaths true                   # sonst "Filename too long"
+python analysis_tools\secret_scan.py --install    # setzt core.hooksPath auf .githooks
+```
+
+### Der pre-commit-Hook
+
+Der Hook liegt als **getrackte Datei** unter `.githooks/pre-commit` und ruft
+`analysis_tools/secret_scan.py` im Hook-Modus auf: findet er in einer gestagten
+Datei einen Schlüssel, endet er mit Exit-Code 1 und der Commit kommt nicht
+zustande. Der Wert wird dabei nie ausgegeben — gemeldet werden Datei, Position
+und Mustername.
+
+`--install` setzt lediglich `core.hooksPath` auf `.githooks`; es kopiert nichts
+nach `.git/hooks/`. Der Unterschied ist wesentlich: `.git/` wird nie geklont, ein
+dort installierter Hook schützt genau eine Maschine. Über `core.hooksPath` wirkt
+stattdessen die versionierte Datei, und eine spätere Änderung am Hook erreicht
+alle Beteiligten über `git pull`.
+
+Kontrolle, dass der Hook aktiv ist:
+
+```powershell
+git config --get core.hooksPath     # muss .githooks ausgeben
+```
+
+### Was der Scan nicht sieht
+
+Der Scan öffnet gzip-Ströme und tar-/zip-Archive und durchsucht deren Inhalt
+(bis `MAX_DEPTH = 3` Schachtelungen) — ein Schlüssel in einer komprimierten
+Datei bliebe einem reinen Byte-Scan sonst verborgen. Dateien über
+`MAX_BYTES = 20 MB` werden **nicht** durchsucht, aber seit dieser Fassung
+namentlich als „could NOT be scanned" gemeldet statt stillschweigend
+übersprungen. Betroffen ist derzeit genau eine getrackte Datei:
+`GPTScan/src/jars/SolidityStaticAnalysis-1.0-SNAPSHOT-standalone.jar`
+(20.852.934 Bytes). Eine Prüfung außer der Reihe mit angehobenem Limit ergab
+dort keinen Treffer; sie dauert allerdings rund 10 Sekunden, weshalb die Grenze
+für den Hook-Betrieb bestehen bleibt.
