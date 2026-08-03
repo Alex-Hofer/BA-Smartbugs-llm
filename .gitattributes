@@ -1,0 +1,5 @@
+# The pre-commit hook is executed by sh. Git for Windows installs with
+# core.autocrlf=true by default, which would check the script out with CRLF
+# line endings -- some sh implementations then fail on the shebang line and the
+# secret scan silently stops running. Pin it to LF regardless of local config.
+.githooks/** text eol=lf
