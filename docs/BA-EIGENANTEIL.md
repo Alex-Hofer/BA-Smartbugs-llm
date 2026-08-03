@@ -28,7 +28,7 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 
 ---
 
-## 1. Vollständig eigener Code
+## 1. Eigener Code (nicht ganz vollständig noch)
 
 ### Neu angelegte Verzeichnisse im Repo-Root
 
@@ -108,6 +108,40 @@ des Images verewigen würde. Die zweite Ergänzung ist nötig, weil die
 Docker-Argumente wörtlich in jede `results/**/smartbugs.json` geschrieben
 werden; ohne sie steht der Schlüssel im Klartext in den Messdaten. Beide
 Stellen sind im Quelltext kommentiert.
+
+> **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in
+> `smartbugs/sb/docker.py` sind in nummerierte Marker eingefasst
+> (`# --- BA MODIFICATION <n>: BEGIN/END ---`); `grep "BA MODIFICATION"`
+> listet alle auf, ein Kopfkommentar am Dateianfang erklärt sie. Werden die
+> fünf Blöcke entfernt und die im Schluss-Marker von Block 4 genannte
+> Upstream-Zeile wiederhergestellt, entsteht wieder der Upstream-Stand — das
+> wurde geprüft: Die so bereinigte Datei übersetzt und enthält keinen Verweis
+> mehr auf entfernten Code.
+
+#### Aufräumen der Task-Verzeichnisse unter Windows (dieselbe Datei)
+
+**`smartbugs/sb/docker.py`** (`rmtree_retry`, aufgerufen in `execute`)
+
+*Was:* Das abschließende `shutil.rmtree(sbdir)` im `finally`-Block von
+`execute` ist durch `rmtree_retry` ersetzt — dasselbe Löschen, aber mit
+Wiederholung und kurzem Backoff. Bleibt das Verzeichnis dauerhaft gesperrt,
+wird das über `sb.debug.log` gemeldet, statt eine Ausnahme zu werfen.
+
+*Warum:* SmartBugs mountet je Task ein Temp-Verzeichnis in den Container und
+löscht es unmittelbar nach `container.remove()`. Unter Docker Desktop ist das
+Handle auf die gerade im Container ausgeführten Dateien dann noch offen;
+`os.rmdir` auf das bereits geleerte `bin` scheitert mit `WinError 5`. Der
+entstehende `PermissionError` ist kein `SmartBugsError` und wird deshalb von
+der Wiederholungsschleife in `sb/analysis.py` nicht aufgefangen: Er entkommt
+aus dem `finally`-Block und beendet den Worker-Prozess, **bevor**
+`result.json`, `result.log` und `smartbugs.json` geschrieben werden. Der
+Hauptprozess bemerkt nichts und endet mit Status 0 — der Ergebnisverlust ist
+vollständig und lautlos. Beobachtet am 2026-08-02 mit Docker Desktop Server
+29.0.1, reproduzierbar in allen vier Worker-Prozessen; hergeleitet und belegt
+in `BA-DEMOLAUF-ERGEBNIS.md`, Abschnitt 2.
+
+Abgesichert durch `tests/test_docker_cleanup.py` (normaler Fall,
+vorübergehende Sperre, dauerhafte Sperre).
 
 #### Drei kleinere Eingriffe
 

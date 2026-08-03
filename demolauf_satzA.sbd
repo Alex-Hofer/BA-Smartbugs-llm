@@ -1,0 +1,5 @@
+access_control/FibonacciBalance.sol
+arithmetic/integer_overflow_1.sol
+bad_randomness/guess_the_random_number.sol
+denial_of_service/dos_address.sol
+time_manipulation/ether_lotto.sol

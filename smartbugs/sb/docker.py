@@ -1,6 +1,28 @@
+# ===========================================================================
+# NOTE: this file differs from SmartBugs upstream v2.1.1 (01c0e66).
+#
+# Every own change is wrapped in a pair of numbered marker comments; grep for
+# "BA MODIFICATION" to list them all. Deleting the five marked blocks — and
+# restoring the upstream line quoted in the closing marker of block 4 —
+# returns this file to its upstream state.
+#
+#   1  import time                       required by block 3
+#   2  env passthrough in __docker_args  API key / model into the container
+#   3  rmtree_retry()                    Windows temp-dir cleanup
+#   4  call to rmtree_retry() in execute replaces shutil.rmtree(sbdir)
+#   5  redaction of args["environment"]  keeps API keys out of the results
+#
+# Blocks 2 and 5 belong together: 2 forwards the secret, 5 removes it again
+# before the arguments are persisted. Never keep 2 without 5.
+# Rationale for all of them: docs/BA-EIGENANTEIL.md, section 2.1.
+# ===========================================================================
+
 import os
 import shutil
 import tempfile
+# --- BA MODIFICATION 1: BEGIN ---
+import time
+# --- BA MODIFICATION 1: END ---
 import traceback
 from typing import TYPE_CHECKING, Any, Optional
 
@@ -98,19 +120,56 @@ def __docker_args(task: "sb.tasks.Task", sbdir: str) -> dict[str, Any]:
     args["command"] = task.tool.command(filename, timeout, "/sb/bin", main)
     args["entrypoint"] = task.tool.entrypoint(filename, timeout, "/sb/bin", main)
 
+    # --- BA MODIFICATION 2: BEGIN ---
     # Forward host environment variables declared in the tool's config.yaml
     # ("env: NAME1, NAME2, ...") into the container. This lets LLM-backed
     # tools (e.g. gptscan, llmsmartaudit) receive their API key and
     # provider/model selection at run time, instead of baking secrets into
     # the image. Only variables actually set on the host are forwarded.
+    # Requires the "env" field added to sb/tools.py; without it, task.tool
+    # has no such attribute and this block silently does nothing.
     env_field = getattr(task.tool, "env", None)
     if env_field:
         names = [n.strip() for n in env_field.replace(",", " ").split() if n.strip()]
         env_passthrough = {n: os.environ[n] for n in names if n in os.environ}
         if env_passthrough:
             args["environment"] = env_passthrough
+    # --- BA MODIFICATION 2: END ---
 
     return args
+
+
+# --- BA MODIFICATION 3: BEGIN ---
+def rmtree_retry(sbdir: str, attempts: int = 30, delay: float = 0.5) -> bool:
+    """Delete a task's temporary directory, tolerating transient file locks.
+
+    On Windows, Docker Desktop may still hold a handle on the bind-mounted
+    directory when container.remove() has just returned. os.rmdir() on the
+    (already emptied) "bin" subdirectory then fails with WinError 5. As this
+    happens in the finally block of execute(), the PermissionError escapes as
+    a non-SmartBugsError, which the retry loop in sb/analysis.py does not
+    catch: the worker process dies before any result file is written, while
+    the main process still exits with status 0.
+
+    The lock is released within seconds, so retrying clears it. A directory
+    that still cannot be removed is logged and left behind on purpose - a
+    leftover temp directory must never discard a finished analysis.
+
+    Returns True if the directory was removed.
+    """
+    for attempt in range(attempts):
+        try:
+            shutil.rmtree(sbdir)
+            return True
+        except OSError:
+            if attempt == attempts - 1:
+                sb.debug.log(
+                    f"Could not remove temporary directory {sbdir}\n{traceback.format_exc()}"
+                )
+                return False
+            time.sleep(delay)
+    return False
+# --- BA MODIFICATION 3: END ---
 
 
 def execute(
@@ -154,12 +213,16 @@ def execute(
             sb_bin_log = sb.io.read_lines(sb_bin_log_path)
         except Exception:
             pass
-        shutil.rmtree(sbdir)
+        # --- BA MODIFICATION 4: BEGIN ---
+        rmtree_retry(sbdir)
+        # --- BA MODIFICATION 4: END (upstream line: shutil.rmtree(sbdir)) ---
 
+    # --- BA MODIFICATION 5: BEGIN ---
     # The returned args end up verbatim in results/**/smartbugs.json via
     # sb/analysis.py. Redact forwarded environment values (API keys!) so they
     # are never persisted; the container already received the real values.
     if "environment" in args:
         args["environment"] = {k: "<redacted>" for k in args["environment"]}
+    # --- BA MODIFICATION 5: END ---
 
     return exit_code, logs, output, sb_bin_log, args
