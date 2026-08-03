@@ -1,7 +1,3 @@
-# --- Werkzeugspuren der KI-gestuetzten Entwicklung (gehoeren nicht ins Repo) ---
-.claude/
-CLAUDE.md
-
 # --- Geheimnisse: ausschliesslich lokal, niemals committen ---
 .env
 *.env
