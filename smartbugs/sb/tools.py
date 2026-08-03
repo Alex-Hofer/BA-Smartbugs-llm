@@ -23,7 +23,12 @@ FIELDS = (
     "command",
     "entrypoint",
     "network",
+    # --- BA MODIFICATION 1: BEGIN (pure addition; delete this line to undo) ---
+    # Only fields listed here are read from a tool's config.yaml, so without
+    # this entry the "env:" key would be ignored and the passthrough in
+    # sb/docker.py would never receive anything. See docs/BA-EIGENANTEIL.md 2.1.
     "env",
+    # --- BA MODIFICATION 1: END ---
 )
 
 
@@ -51,10 +56,12 @@ class Tool:
     cpu_quota: Optional[int]
     mem_limit: Optional[str]
     network: Optional[str]
+    # --- BA MODIFICATION 2: BEGIN (pure addition; delete this block to undo) ---
     # Comma-separated names of host environment variables to forward into the
     # tool's container (e.g. API keys for LLM-backed tools). Only variables
     # actually set on the host are forwarded; values never appear in configs.
     env: Optional[str]
+    # --- BA MODIFICATION 2: END ---
     _command: Optional[string.Template]
     _entrypoint: Optional[string.Template]
     absbin: Optional[str]

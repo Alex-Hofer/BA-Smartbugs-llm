@@ -54,10 +54,16 @@ def task_log_dict(
 def execute(task: sb.tasks.Task) -> float:
 
     # create result dir if it doesn't exist
+    # --- BA MODIFICATION 1: BEGIN ---
+    # Swallow the error here so the isdir check below reports it as SmartBugs'
+    # own SmartBugsError with a clear message, instead of a raw OSError.
+    # Upstream line, restore it to undo this block:
+    #     os.makedirs(task.rdir, exist_ok=True)
     try:
         os.makedirs(task.rdir, exist_ok=True)
     except Exception:
         pass
+    # --- BA MODIFICATION 1: END ---
     if not os.path.isdir(task.rdir):
         raise sb.errors.SmartBugsError(f"Cannot create result directory {task.rdir}")
 
@@ -93,6 +99,23 @@ def execute(task: sb.tasks.Task) -> float:
     # perform analysis
     # Docker causes spurious connection errors
     # try three times before giving up
+    # --- BA MODIFICATION 2: BEGIN ---
+    # The wait was moved out of the loop body into the except branch, so that
+    # it only runs when a retry actually follows. Behaviour is unchanged:
+    # upstream reached the sleep only via the except branch as well, because
+    # the success path breaks out of the loop.
+    # Upstream version, restore it to undo this block:
+    #     for i in range(3):
+    #         try:
+    #             start_time = time.time()
+    #             exit_code, tool_log, tool_output, sb_bin_log, docker_args = sb.docker.execute(task)
+    #             duration = time.time() - start_time
+    #             break
+    #         except sb.errors.SmartBugsError:
+    #             if i == 2:
+    #                 raise
+    #         # wait 3 to 8 minutes
+    #         time.sleep(random.randint(3, 8) * 60)
     for i in range(3):
         try:
             start_time = time.time()
@@ -106,6 +129,7 @@ def execute(task: sb.tasks.Task) -> float:
                 time.sleep(random.randint(3, 8) * 60)
             else:
                 raise
+    # --- BA MODIFICATION 2: END ---
 
     # write result to files
     task_log = task_log_dict(

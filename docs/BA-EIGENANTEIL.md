@@ -109,14 +109,29 @@ Docker-Argumente wörtlich in jede `results/**/smartbugs.json` geschrieben
 werden; ohne sie steht der Schlüssel im Klartext in den Messdaten. Beide
 Stellen sind im Quelltext kommentiert.
 
-> **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in
-> `smartbugs/sb/docker.py` sind in nummerierte Marker eingefasst
-> (`# --- BA MODIFICATION <n>: BEGIN/END ---`); `grep "BA MODIFICATION"`
-> listet alle auf, ein Kopfkommentar am Dateianfang erklärt sie. Werden die
-> fünf Blöcke entfernt und die im Schluss-Marker von Block 4 genannte
-> Upstream-Zeile wiederhergestellt, entsteht wieder der Upstream-Stand — das
-> wurde geprüft: Die so bereinigte Datei übersetzt und enthält keinen Verweis
-> mehr auf entfernten Code.
+> **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in den vier
+> inhaltlich geänderten SmartBugs-Dateien sind in nummerierte Marker
+> eingefasst — `# --- BA MODIFICATION <n>: BEGIN ---` bis
+> `# --- BA MODIFICATION <n>: END ---`. `grep -rn "BA MODIFICATION" smartbugs/sb`
+> listet alle auf; ein Kopfkommentar in `docker.py` erklärt die Konvention.
+>
+> | Datei | Blöcke |
+> |---|---:|
+> | `sb/docker.py` | 5 |
+> | `sb/tools.py` | 2 |
+> | `sb/analysis.py` | 2 |
+> | `sb/solidity.py` | 1 |
+>
+> Wo ein Block Upstream-Code **ersetzt** statt nur ergänzt, steht die ersetzte
+> Fassung wörtlich als Kommentar im Block, eingeleitet mit „restore it to undo
+> this block". Das Rückgängigmachen ist damit rein mechanisch: Block löschen,
+> zitierte Zeilen einsetzen.
+>
+> Nachgeprüft: Ein Skript entfernt alle zehn Blöcke, setzt die zitierten Zeilen
+> ein und vergleicht mit dem Upstream `v2.1.1` — alle vier Dateien stimmen
+> danach überein (bis auf Leerzeilen) und übersetzen weiterhin. Es ist also
+> weder eigener Code unmarkiert geblieben noch fremder versehentlich
+> mitmarkiert.
 
 #### Aufräumen der Task-Verzeichnisse unter Windows (dieselbe Datei)
 
@@ -143,14 +158,24 @@ in `BA-DEMOLAUF-ERGEBNIS.md`, Abschnitt 2.
 Abgesichert durch `tests/test_docker_cleanup.py` (normaler Fall,
 vorübergehende Sperre, dauerhafte Sperre).
 
-#### Drei kleinere Eingriffe
+#### Zwei kleinere Eingriffe und ein Formatter-Artefakt
 
 | Datei | Was | Warum |
 |---|---|---|
 | `sb/solidity.py` | `CONTRACT_NAMES`: `([A-Za-z0-9_]*)` → `([a-zA-Z$_][a-zA-Z0-9$_]*)` | Das Upstream-Muster akzeptiert einen mit einer Ziffer beginnenden Namen und kennt `$` nicht, das in Solidity-Bezeichnern zulässig ist. Betrifft, welche Contract-Namen SmartBugs in einer Datei findet |
 | `sb/analysis.py` | `os.makedirs(task.rdir)` in `try/except` gekapselt; das `time.sleep` zwischen den Wiederholungen aus dem Schleifenrumpf in den `except`-Zweig verschoben | Schlägt `makedirs` fehl, greift die unmittelbar folgende `isdir`-Prüfung und wirft SmartBugs' eigenen `SmartBugsError` mit klarer Meldung statt eines rohen `OSError`. Die Verschiebung des `sleep` ist eine Umstellung ohne Verhaltensänderung |
-| `sb/io.py` | `return(x)` → `return x`, ein Kommentar-Leerzeichen | Rein kosmetisch, keine Funktionsänderung |
+| `sb/io.py` | `return(x)` → `return x`, ein Kommentar-Leerzeichen | **Kein eigener Eingriff, sondern ein Formatter-Artefakt** — siehe Hinweis unter der Tabelle |
 | `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` bleibt unverändert ignoriert |
+
+> **`sb/io.py` zählt nicht als Eigenanteil.** Die beiden Abweichungen sind
+> exakt das, was `black` erzeugt — und `black` mit `line-length = 100` ist in
+> SmartBugs' eigener `pyproject.toml` konfiguriert. Nachgeprüft: Lässt man
+> `black --line-length 100` auf die Upstream-Fassung von `sb/io.py` los,
+> entsteht **byte-identisch** die hier vorliegende Datei. Dieselbe Probe an
+> `tools.py`, `solidity.py`, `analysis.py` und `docker.py` schlägt fehl — deren
+> Änderungen sind inhaltlich und bleiben nach einem `black`-Lauf bestehen.
+> `io.py` ist damit ein Nebenprodukt eines Formatter-Laufs, keine
+> Programmierleistung, und wird hier nur der Vollständigkeit halber geführt.
 
 Die sechs durch die `.gitignore`-Korrektur zurückgewonnenen Dateien sind
 sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:

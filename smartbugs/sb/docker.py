@@ -3,8 +3,9 @@
 #
 # Every own change is wrapped in a pair of numbered marker comments; grep for
 # "BA MODIFICATION" to list them all. Deleting the five marked blocks — and
-# restoring the upstream line quoted in the closing marker of block 4 —
-# returns this file to its upstream state.
+# restoring the upstream code quoted inside block 4 — returns this file to its
+# upstream state. The same marker convention is used in sb/tools.py,
+# sb/solidity.py and sb/analysis.py.
 #
 #   1  import time                       required by block 3
 #   2  env passthrough in __docker_args  API key / model into the container
@@ -214,8 +215,10 @@ def execute(
         except Exception:
             pass
         # --- BA MODIFICATION 4: BEGIN ---
+        # Upstream line, restore it to undo this block:
+        #         shutil.rmtree(sbdir)
         rmtree_retry(sbdir)
-        # --- BA MODIFICATION 4: END (upstream line: shutil.rmtree(sbdir)) ---
+        # --- BA MODIFICATION 4: END ---
 
     # --- BA MODIFICATION 5: BEGIN ---
     # The returned args end up verbatim in results/**/smartbugs.json via
