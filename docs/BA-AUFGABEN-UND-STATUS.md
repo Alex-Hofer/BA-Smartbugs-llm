@@ -50,12 +50,12 @@ Stand 2026-08-02. Ausführung dokumentiert in `BA-ARBEITSBERICHT-20260802.md`.
 | 62 Ergebnisdateien redigieren, **nicht** löschen | **erledigt** — Backup vorher, alle 930 Task-Logs gegen das Backup verifiziert |
 | Secret-Scan-Schritt (Hook/Skript, Windows-tauglich) | **erledigt** — `analysis_tools/secret_scan.py`, Hook installiert |
 | `.gitignore` final durchsehen | **erledigt** — vier Lücken geschlossen |
-| Toter Querverweis in `BA-DURCHFUEHRUNGSPROTOKOLL` | **erledigt** — nach deiner Vorgabe, in `.md` und `.tex` |
-| Empfehlung zu den Thesis-PDFs | **erledigt** — Empfehlung „drinlassen", von dir bestätigt |
+| Toter Querverweis in `BA-DURCHFUEHRUNGSPROTOKOLL` | **erledigt** — nach Vorgabe, in `.md` und `.tex` |
+| Empfehlung zu den Thesis-PDFs | **erledigt** — Empfehlung „drinlassen", bestätigt |
 
 ---
 
-## Teil B — Deine vier Stichpunkte
+## Teil B — Die vier Stichpunkte
 
 ### 1. Errors vs. Fails sauber ausgeben
 
@@ -79,7 +79,7 @@ vollständigen Massenlauf** durchlaufen — das hätte Docker und Geld gekostet.
 
 ### 2. Sicherstellen, dass nichts durch den Parser verlorengeht
 
-**Erledigt — mit einer Einschränkung, die du kennen solltest.**
+**Erledigt — mit einer Einschränkung, die zu beachten ist.**
 
 * Vorher: **1368 von 1464 Rohmeldungen gingen verloren**, restlos alle im
   GPTScan-Parser. slither und LLMSmartAudit: null Lücken.
@@ -109,7 +109,7 @@ Material geprüft, nicht vermutet. Betroffen sind lange Pfade
 
 ### 3. Cleanup, Sicherheit, Dokumentation — damit die Einladung möglich wird
 
-**Erledigt bis auf zwei Punkte, die bei dir liegen.**
+**Erledigt bis auf zwei Punkte, die noch offen sind.**
 
 * Der DeepSeek-Key ist aus den Messdaten entfernt: 62 Task-Logs redigiert, alle
   930 gegen das Backup verifiziert. Er existiert nur noch in der git-ignorierten
@@ -151,18 +151,17 @@ verworfen wird nichts.
 
 ## Teil C — Was offen bleibt
 
-### Braucht deine Entscheidung
+### Offene Entscheidungen
 
-**1. Push und Einladung.** Fünf Commits liegen lokal. Aus meiner Sicht ist das
-Repo bereit.
+**1. Push und Einladung.** Fünf Commits liegen lokal. Das Repo ist bereit.
 
 **2. Das Durchführungsprotokoll ist an einer Stelle überholt.** In
 `BA-DURCHFUEHRUNGSPROTOKOLL.{md,tex}` steht bei Fehler #4 (Silent Failure) als
 Maßnahme *„Parser-Fix als Empfehlung dokumentiert"*. Der Fix ist jetzt gemacht.
-Das ist BA-Prosa — **ich formuliere sie nicht eigenmächtig um.** Sag mir, wie der
-Eintrag lauten soll, dann setze ich ihn in `.md` und `.tex` identisch ein.
+Das ist BA-Prosa und wird **nicht eigenmächtig umformuliert.** Der neue Eintrag
+ist festzulegen und anschließend in `.md` und `.tex` identisch einzusetzen.
 
-**3. Ein neuer Befund, der deine Aussagen zum reparierten Korpus betrifft.**
+**3. Ein neuer Befund, der die Aussagen zum reparierten Korpus betrifft.**
 Im Lauf `curated_mwefixed_live` (96 Contracts) wird jetzt sichtbar:
 
 | Beobachtung | Contracts |
@@ -181,11 +180,11 @@ scheitert am Compilat, wie in `BA-KORPUS-REPARATUR.tex` beschrieben. Neu ist
 etwas anderes: GPTScans **Static-Bestätigungsstufe stürzt auf 35 von 96
 übersetzbaren Contracts ab**. Das ist genau der Präzisionsfilter, um den es in
 der Argumentation geht, und es war vor dem Parser-Fix unsichtbar. Ob und wie das
-in die Arbeit einfließt, ist deine Entscheidung.
+in die Arbeit einfließt, ist noch zu entscheiden.
 
-**4. `GPTScan/reports/`** (≈340 KB HTML/PDF/CSV aus früheren Läufen) habe ich
-nicht angefasst. Kandidat für weiteres Aufräumen, aber es sind deine
-Auswertungen — sag Bescheid, wenn sie raus sollen.
+**4. `GPTScan/reports/`** (≈340 KB HTML/PDF/CSV aus früheren Läufen) bleibt
+unangetastet. Kandidat für weiteres Aufräumen, aber es sind eigene
+Auswertungen — bei Bedarf entfernbar.
 
 ### Bekannte Einschränkungen, kein Handlungsbedarf
 

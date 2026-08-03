@@ -207,8 +207,8 @@ Dabei gefunden:
 * SmartBugs widerspricht sich selbst: `LICENSE` sagt Apache-2.0,
   `pyproject.toml` sagt MIT. Festgehalten statt eine Variante zu behaupten.
 
-Der tote Verweis auf `docs/BA-AGENT-WORKFLOW.md` ist in `.md` **und** `.tex`
-gestrichen — nach deiner Vorgabe: Verweis weg, Hinweissatz bleibt. Ein
+Der tote Verweis auf ein nicht mehr vorhandenes Dokument ist in `.md` **und**
+`.tex` gestrichen — nach Vorgabe: Verweis weg, Hinweissatz bleibt. Ein
 Link-Check über alle Dokumente fand danach keinen weiteren toten Verweis.
 
 ## 11. Cleanup und Sicherheit

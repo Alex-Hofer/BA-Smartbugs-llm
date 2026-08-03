@@ -174,8 +174,8 @@ ist verlustfrei (489.366 B dekomprimiert, identisch).
   Zeilenverweise lösen alle auf; scheinbare Treffer sind kontextrelative Pfade
   (`src/tasks.py` im GPTScan-Abschnitt, `sb/parse_utils.py` im
   SmartBugs-Abschnitt) und existieren sämtlich.
-* Die einzige verbliebene Erwähnung von `BA-AGENT-WORKFLOW.md` ist der Satz,
-  der ihre Entfernung beschreibt.
+* Die einzige verbliebene Erwähnung des entfernten Dokuments ist der Satz,
+  der seine Entfernung beschreibt.
 
 ---
 
