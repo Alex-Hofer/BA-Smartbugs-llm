@@ -439,8 +439,8 @@ der dieses Label nicht trägt.
 Wanduhrzeit 32:54 min (Kostenprobe, ein Task allein) plus 29:55 min (die
 restlichen vier parallel). Auch hier durchweg `categories checked: 41/41`.
 
-Die Klassen sind dieselbe Art wie in Satz A — allgemeine Solidity-Mängel, keine
-DeFi-Logikfehler im Sinne der MWE-Regeln:
+Die Klassen sind dieselbe Art wie in Satz A — allgemeine Solidity-Befunde, keine
+Findings zur DeFi-Logik im Sinne der MWE-Regeln:
 
 ```
  4  Centralization Risk                     2  Unnecessary Boolean Comparison
@@ -755,8 +755,9 @@ dasselbe Werkzeug 21 Findings aus sechs verschiedenen MWE-Regeln.
 
 **LLMSmartAudit ist das Gegenstück.** Es findet auf beiden Sätzen etwas (33
 bzw. 49), trifft in Satz A die Ground-Truth-Kategorie bei allen fünf
-Contracts — aber es findet in Satz B **nicht** die DeFi-Logikfehler, sondern
-dieselbe Art allgemeiner Solidity-Mängel wie in Satz A. Auf `20_Synth.sol`
+Contracts — aber es meldet in Satz B **nicht** die Findings zur DeFi-Logik, auf
+die GPTScans MWE-Regeln zielen, sondern dieselbe Art allgemeiner
+Solidity-Befunde wie in Satz A. Auf `20_Synth.sol`
 überschneiden sich die beiden Werkzeuge praktisch nur bei Front-Running
 (GPTScan: MWE-205, LLMSmartAudit: Transaction Order Dependence). Die Werkzeuge
 konkurrieren also weniger, als sie einander ergänzen.

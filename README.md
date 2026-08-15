@@ -6,7 +6,7 @@ gegen einen klassischen statischen Analysator als Referenz.
 
 | Werkzeug | Art | Rolle | Upstream |
 |---|---|---|---|
-| **GPTScan** | LLM + leichte Programmanalyse | Prüfling; sucht DeFi-Logikfehler (10 MWE-Regeln) | [GPTScan/GPTScan](https://github.com/GPTScan/GPTScan) |
+| **GPTScan** | LLM + leichte Programmanalyse | Prüfling; 10 MWE-Regeln für DeFi-Logik | [GPTScan/GPTScan](https://github.com/GPTScan/GPTScan) |
 | **LLMSmartAudit** | LLM-Multi-Agenten-Pipeline (ChatDev/CAMEL) | Prüfling; 41 Detektor-Prompts | [LLMAudit/LLMSmartAuditTool](https://github.com/LLMAudit/LLMSmartAuditTool) |
 | **Slither 0.11.3** | statische Analyse | statische Baseline | [crytic/slither](https://github.com/crytic/slither) |
 
@@ -20,6 +20,12 @@ Datensatz ist [smartbugs-curated](https://github.com/smartbugs/smartbugs-curated
 (143 gelabelte Contracts, DASP-Top-10-Kategorien). Ergänzend ein aus Web3Bugs
 rekonstruierter DeFi-Korpus mit 96 Contracts für GPTScans eigentliches
 Einsatzgebiet.
+
+Zur Wortwahl: Ein Werkzeug meldet **Findings** — Verdachtsfälle, keine
+festgestellten Fehler. Was ein Finding von einem `error` und einem `fail`
+unterscheidet, ist in
+[`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) aus dem
+SmartBugs-Code hergeleitet.
 
 ---
 

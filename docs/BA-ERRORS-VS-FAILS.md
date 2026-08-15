@@ -6,6 +6,40 @@ bedeuten Verschiedenes, und für die Auswertung dieses Benchmarks ist der
 Unterschied entscheidend. Dieses Dokument leitet die Trennung aus dem Code her,
 statt sie zu behaupten.
 
+## Wortwahl in dieser Arbeit
+
+Ein Scanner stellt keinen Fehler fest. Er äußert einen Verdacht. Diese Arbeit
+hält das sprachlich auseinander, weil sonst die zentrale Aussage des Benchmarks
+verschwimmt: gemessen wird nicht, wie viele Fehler ein Werkzeug findet, sondern
+wie gut seine Verdachtsfälle mit einer unabhängig festgestellten Ground Truth
+übereinstimmen.
+
+Maßgeblich ist, wer im Satz das Subjekt ist:
+
+| Subjekt | Wort | Beispiel |
+|---|---|---|
+| Ein **Werkzeug** meldet etwas über einen Contract | **Finding**, Verdachtsfall, Kandidat | „GPTScan meldet 77 Findings auf 40 Contracts" |
+| **Ground Truth oder Literatur** stellt etwas fest | Schwachstelle, Fehler | „curated annotiert eine Primär-Schwachstelle je Contract" |
+| Die **Ausführung** eines Werkzeugs geht schief | Fehler | „solc bricht mit einem Compile-Fehler ab" |
+
+Ein Finding wird erst durch den Abgleich mit der Ground Truth zum True oder
+False Positive. Vorher ist es keines von beidem, und die Sprache darf das nicht
+vorwegnehmen.
+
+Die dritte Zeile ist der Grund, warum das Wort „Fehler" hier nicht verschwindet:
+Compile-Fehler, Exit-Codes und Tracebacks sind echte Fehler. Sie betreffen den
+Zustand des *Werkzeugs*, nie den des Contracts. Genau davon handelt der Rest
+dieses Dokuments.
+
+### Was nicht umbenannt wird
+
+`findings`, `infos`, `errors` und `fails` sind Feldnamen von SmartBugs — in
+`result.json`, in SARIF und in den CSV-Spalten von `results2csv`. Sie bleiben
+unverändert; eine Umbenennung machte die Ausgabe dieses Repositorys
+inkompatibel zu dem Rahmenwerk, in das es sich einfügt. Aus demselben Grund
+heißt `analysis_tools/errors_fails_report.py` weiterhin so: „errors/fails" ist
+dort kein umgangssprachliches „Fehler", sondern der Name der beiden Felder.
+
 ## Die Quelle: `errors_fails()`
 
 Maßgeblich ist `smartbugs/sb/parse_utils.py:66-90`. Der Kommentar dort im
