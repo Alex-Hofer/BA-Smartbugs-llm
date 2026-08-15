@@ -10,13 +10,36 @@ MAIN="$4"
 export PATH="$BIN:$PATH"
 chmod +x "$BIN/solc" 2>/dev/null || true
 
+# MAIN=1: analyse only the contract the file is named after. GPTScan has no
+# contract selection -- src/tasks.py::simple_cli takes a source *directory* and
+# reports on everything that compiles in it -- so the restriction has to happen
+# on the input. main_contract.py reduces the source to that contract and the
+# definitions it needs, verifies with solc that the result still compiles, and
+# restores the full source if it does not. Exit 127 means the file name matched
+# no contract; SmartBugs reserves that code for exactly this case.
+# MAIN=0 leaves SOURCE at the file SmartBugs passed in, byte for byte.
+SOURCE="$FILENAME"
+if [ "$MAIN" = "1" ]; then
+    MAINDIR="${TMPDIR:-/tmp}/sb_main"
+    rm -rf "$MAINDIR"
+    mkdir -p "$MAINDIR"
+    # Keep the original basename: GPTScan reports the file it analysed.
+    REDUCED="$MAINDIR/$(basename "$FILENAME")"
+    python3 "$BIN/main_contract.py" --verify-compile "$FILENAME" "$REDUCED"
+    RC=$?
+    if [ $RC -ne 0 ]; then
+        exit $RC
+    fi
+    SOURCE="$REDUCED"
+fi
+
 # GPTScan expects a *folder* containing a single .sol file, and silently
 # produces empty output if the path contains certain keywords
 # (external/openzeppelin/uniswap/pancakeswap/legacy/test). /work/input is safe.
 WORK=/work/input
 rm -rf "$WORK"
 mkdir -p "$WORK"
-cp "$FILENAME" "$WORK/"
+cp "$SOURCE" "$WORK/"
 
 # Backend selection: provider/model come from the (host-forwarded) environment,
 # defaulting to deepseek / the provider's cheap tier. The API key arrives via

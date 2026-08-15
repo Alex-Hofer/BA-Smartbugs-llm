@@ -6,6 +6,30 @@ TIMEOUT="$2"
 BIN="$3"
 MAIN="$4"
 
+# MAIN=1: analyse only the contract the file is named after. LLMSmartAudit has
+# no contract selection -- run.py takes one source *file* and feeds its text to
+# the agents -- so the restriction has to happen on the input. main_contract.py
+# reduces the source to that contract and the definitions it needs. No compile
+# verification here: this image has no solc and the tool never compiles, so a
+# reduction can only ever cost the agents context, never break a build.
+# Exit 127 means the file name matched no contract; SmartBugs reserves that
+# code for exactly this case.
+# MAIN=0 leaves SOURCE at the file SmartBugs passed in, byte for byte.
+SOURCE="$FILENAME"
+if [ "$MAIN" = "1" ]; then
+    MAINDIR="${TMPDIR:-/tmp}/sb_main"
+    rm -rf "$MAINDIR"
+    mkdir -p "$MAINDIR"
+    # Keep the original basename: it ends up in the agents' prompts.
+    REDUCED="$MAINDIR/$(basename "$FILENAME")"
+    python3 "$BIN/main_contract.py" "$FILENAME" "$REDUCED"
+    RC=$?
+    if [ $RC -ne 0 ]; then
+        exit $RC
+    fi
+    SOURCE="$REDUCED"
+fi
+
 # Backend selection: everything comes from the (host-forwarded) environment.
 # DeepSeek is the default/fallback provider (requirement: test setup).
 PROVIDER="${LLM_PROVIDER:-deepseek}"
@@ -34,7 +58,7 @@ if [ -n "$MODEL" ]; then
 fi
 
 python3 run.py --config SmartContractTA --org "$ORG" --name "$NAME" \
-    --provider "$PROVIDER" $MODEL_OPT --task-file "$FILENAME"
+    --provider "$PROVIDER" $MODEL_OPT --task-file "$SOURCE"
 RC=$?
 
 # Copy the machine-readable report to the fixed location SmartBugs retrieves.

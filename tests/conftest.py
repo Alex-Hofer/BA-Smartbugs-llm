@@ -60,6 +60,30 @@ def load_parser(tool: str):
     return module
 
 
+def tool_script(tool: str, name: str) -> str:
+    """Path of a file in ``smartbugs/tools/<tool>/scripts/``.
+
+    SmartBugs copies that directory into the container as ``/sb/bin`` and hands
+    the path to the entrypoint as ``$BIN``, so this is the same material the
+    container sees.
+    """
+    return os.path.join(SMARTBUGS, "tools", tool, "scripts", name)
+
+
+def load_tool_script(tool: str, name: str):
+    """Import a helper from ``smartbugs/tools/<tool>/scripts/`` by path.
+
+    The helpers are not importable as a package --- inside the container they
+    are plain scripts next to the entrypoint. Loading them by path is what the
+    entrypoint effectively does when it calls ``python3 $BIN/<name>``.
+    """
+    path = tool_script(tool, f"{name}.py")
+    spec = importlib.util.spec_from_file_location(f"tools.{tool}.scripts.{name}", path)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
 @pytest.fixture(scope="session")
 def gptscan():
     """The GPTScan parser module, loaded once per test session."""
