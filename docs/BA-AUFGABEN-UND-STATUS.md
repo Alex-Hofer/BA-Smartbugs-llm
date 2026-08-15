@@ -17,7 +17,7 @@ Stand 2026-08-02. Ausführung dokumentiert in `BA-ARBEITSBERICHT-20260802.md`.
 | GPTScan-Silent-Failure sichtbar machen | **erledigt** |
 | Tool-interne Python-Crashes sichtbar machen | **erledigt** |
 | Static-Filtering nicht als Fehler werten | **erledigt** — erscheint als `info` mit Zahlen |
-| Regressionstests mit Fixtures aus echten Altläufen | **erledigt** — 41 Tests |
+| Regressionstests mit Fixtures aus echten Altläufen | **erledigt** — 41 Parser-Tests (Suite gesamt 44) |
 | Fixtures vorher auf Klartext-Schlüssel prüfen | **erledigt** — Prüfung bricht ab, statt einen Fund zu kopieren |
 | Synthetische Fälle als solche kennzeichnen | **erledigt** — `synthetic` im Testnamen |
 | Auswirkung messen (reparse, results2csv, evaluate) | **erledigt** — `docs/parser-fix-vorher-nachher.md` |

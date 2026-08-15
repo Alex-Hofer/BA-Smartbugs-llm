@@ -178,7 +178,8 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-41 Regressionstests für beide Tool-Parser. Die Fixtures sind unveränderte
+44 Tests: 41 Regressionstests für beide Tool-Parser, dazu 3 für das Aufräumen
+der Container. Die Fixtures sind unveränderte
 Rohdaten echter Läufe; ihre Herkunft steht in `tests/fixtures/MANIFEST.json`.
 Fälle, die in den 19 Läufen nie auftraten (Timeout, leeres Archiv, kaputtes
 JSON), sind synthetisch und tragen `synthetic` im Testnamen.
