@@ -1,0 +1,37 @@
+﻿{
+    "run_id":  "gptscan_mwefixed_v2_smoke",
+    "mode":  "smoke",
+    "started_utc":  "2026-08-15T15:02:52.2107112Z",
+    "ended_utc":  "2026-08-15T15:07:50.4530947Z",
+    "wallclock_seconds":  298.2,
+    "smartbugs_version":  "2.1.1",
+    "docker_image":  "smartbugs/gptscan:1.0",
+    "provider":  "deepseek",
+    "model":  "deepseek-v4-flash",
+    "dry_run":  false,
+    "main":  true,
+    "processes":  3,
+    "timeout_sec":  1800,
+    "timeout_enforced_by":  "docker only (AP5 offen: das Werkzeug selbst erzwingt den Timeout nicht)",
+    "mem_limit":  "4g",
+    "file_pattern":  [
+                         "samples:gptscan/mwevariety_fixed/25_CTokenInterface.sol",
+                         "samples:gptscan/mwevariety_fixed/14_IdleYieldSource.sol",
+                         "samples:gptscan/mwevariety_fixed/23_nTokenAction.sol"
+                     ],
+    "corpus_dir":  "smartbugs/samples/gptscan/mwevariety_fixed",
+    "corpus_files":  96,
+    "sb_exit_code":  0,
+    "exit_127":  [
+
+                 ],
+    "main_fallback":  false,
+    "results_dir":  "smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke",
+    "tool_yaml_sha1":  "09C375D80D1350DE57A7C5B6529FE137E91AD219",
+    "findings_yaml_sha1":  "2049DD1A704693CDCAA4701F3BE64F032B7F925E",
+    "parser_sha1":  "D71DB6C2092CFC6EBD90C5974ADD7D23587001F0",
+    "entrypoint_sha1":  "8D773196001A340FFE7BDDE564D801354F1AA68B",
+    "main_contract_sha1":  "5F99D0F8123C1F26A57FFAC5E43D04FF0F20B2C7",
+    "git_commit":  "58971bac22ba5b1edc178a461929d6a80f0d2bf6",
+    "script":  "run_full_v2.ps1"
+}

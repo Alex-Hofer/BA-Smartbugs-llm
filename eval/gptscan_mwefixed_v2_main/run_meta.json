@@ -1,0 +1,508 @@
+{
+ "run_id": "gptscan_mwefixed_v2_main",
+ "generated_utc": "2026-08-15T16:27:03.794639+00:00",
+ "generator": "analysis_tools/gptscan_eval.py",
+ "merged_runs": [
+  "gptscan_mwefixed_v2_main_nomain"
+ ],
+ "run_parameters": {
+  "run_id": "gptscan_mwefixed_v2_main",
+  "mode": "full",
+  "started_utc": "2026-08-15T15:23:17.7699498Z",
+  "ended_utc": "2026-08-15T16:14:12.7937918Z",
+  "wallclock_seconds": 3055,
+  "smartbugs_version": "2.1.1",
+  "docker_image": "smartbugs/gptscan:1.0",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "dry_run": false,
+  "main": true,
+  "processes": 4,
+  "timeout_sec": 1800,
+  "timeout_enforced_by": "docker only (AP5 offen: das Werkzeug selbst erzwingt den Timeout nicht)",
+  "mem_limit": "4g",
+  "file_pattern": [
+   "samples:gptscan/mwevariety_fixed/**/*.sol"
+  ],
+  "corpus_dir": "smartbugs/samples/gptscan/mwevariety_fixed",
+  "corpus_files": 96,
+  "sb_exit_code": 0,
+  "exit_127": [
+   "31_veCVXStrategy.sol",
+   "62_Locke.sol",
+   "8_NFTXEligiblityManager.sol"
+  ],
+  "main_fallback": true,
+  "results_dir": "smartbugs/results/gptscan/gptscan_mwefixed_v2_main",
+  "tool_yaml_sha1": "09C375D80D1350DE57A7C5B6529FE137E91AD219",
+  "findings_yaml_sha1": "2049DD1A704693CDCAA4701F3BE64F032B7F925E",
+  "parser_sha1": "D71DB6C2092CFC6EBD90C5974ADD7D23587001F0",
+  "entrypoint_sha1": "8D773196001A340FFE7BDDE564D801354F1AA68B",
+  "main_contract_sha1": "5F99D0F8123C1F26A57FFAC5E43D04FF0F20B2C7",
+  "git_commit": "58971bac22ba5b1edc178a461929d6a80f0d2bf6",
+  "script": "run_full_v2.ps1"
+ },
+ "tool_state": {
+  "config_yaml": "09C375D80D1350DE57A7C5B6529FE137E91AD219",
+  "findings_yaml": "2049DD1A704693CDCAA4701F3BE64F032B7F925E",
+  "parser_py": "D71DB6C2092CFC6EBD90C5974ADD7D23587001F0",
+  "entrypoint_sh": "8D773196001A340FFE7BDDE564D801354F1AA68B",
+  "main_contract_py": "5F99D0F8123C1F26A57FFAC5E43D04FF0F20B2C7",
+  "taxonomy_source": "smartbugs/tools/gptscan/findings.yaml"
+ },
+ "contracts": 96,
+ "contracts_main_reduced": 41,
+ "contracts_source_full": 55,
+ "contracts_source_unknown": 0,
+ "findings_total": 74,
+ "contracts_with_findings": 37,
+ "runtime": {
+  "wallclock_seconds": 3055,
+  "task_seconds_sum": 11771.7,
+  "task_seconds_median": 54.2,
+  "task_seconds_max": 922.2
+ },
+ "tokens": {
+  "prompt": 736374.0,
+  "completion": 930986.0,
+  "llm_calls": 1518
+ },
+ "cost_usd": {
+  "sum": 0.36377,
+  "n": 96,
+  "median": 0.00135,
+  "max": 0.02639
+ },
+ "states": {
+  "tasks_with_errors": 31,
+  "tasks_with_fails": 0,
+  "tasks_degraded": 1,
+  "tasks_clean_no_findings": 58
+ },
+ "error_list": [
+  {
+   "contract": "107_yVault",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/107_yVault.sol, current function: withdraw, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "14_BadgerYieldSource",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/14_BadgerYieldSource.sol, current function: redeemToken, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "14_PrizePool",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _sweepTimelockBalances, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: withdrawReserve, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "14_SushiYieldSource",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: balanceOfToken, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: redeemToken, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: supplyTokenTo, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "14_YieldSourcePrizePool",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/14_YieldSourcePrizePool.so l, current function: _mint, current vul: first-deposit",
+    "ERROR    tasks: Current File: /work/input/14_YieldSourcePrizePool.so l, current function: _sweepTimelockBalances, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 312, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "193_Pair",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/193_Pair.sol, current function: _transferFrom, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/193_Pair.sol, current function: addQuote, current vul: first-deposit",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 312, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "19_TransactionManager",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    ContractSolcParsing: Missing function Incorrect ternary conversion IFulfillHelper(txData.ca ... nsactionId ,txData.receivingAssetId,toSend) ../../../work/input/19_TransactionM anager.sol#1815-1829"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "20_Pool",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _getAddedBaseAmount, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _getAddedTokenAmount, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _mint, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: removeForMember, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "20_Synth",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: _mint, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: removeForMember, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "22_LongShort",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/22_LongShort.sol, current function: _batchConfirmOutstandingPendingActions , current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "23_nTokenAction",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getHaircutCashClaims, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getNTokenAssetPV, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "24_SwappableYieldSource",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/24_SwappableYieldSource.so l, current function: _sharesToToken, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/24_SwappableYieldSource.so l, current function: _tokenToShares, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "29_HybridPool",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/29_HybridPool.sol, current function: _mint, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "29_IndexPool",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/29_IndexPool.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/29_IndexPool.sol, current function: burn, current vul: unauthorized-transfer",
+    "ERROR    tasks: Current File: /work/input/29_IndexPool.sol, current function: burnSingle, current vul: unauthorized-transfer",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "30_Vault",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/30_Vault.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/30_Vault.sol, current function: deposit, current vul: first-deposit",
+    "ERROR    tasks: Current File: /work/input/30_Vault.sol, current function: deposit, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 312, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "31_veCVXStrategy",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/31_veCVXStrategy.sol, current function: _withdrawSome, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "32_LendingPair",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    analyze_pipeline: Timeout when asking function function _accrueDebt(address _token) interna ... t = totalDebtAmount[_token] * pendingInterestRate / 100e18; totalDebtAmount[_toke n] += newDebt; } }",
+    "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... lyze_p ipeline.py\", line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _accrueDebt, current vul: wrong-order-interest",
+    "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _mintSupplyAmount, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: accrue, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 229, in simple_cli raise Exception(\"Filter variable not found\") Exception: Filter variable not found",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 312, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "34_ConcentratedLiquidityPosition",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    analyze_pipeline: Timeout when asking function transfer",
+    "ERROR    analyze_pipeline: Timeout when asking function transferFrom",
+    "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... lyze_p ipeline.py\", line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "36_Auction",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/36_Auction.sol, current function: settleAuction, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "36_Basket",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/36_Basket.sol, current function: _mint, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/36_Basket.sol, current function: handleFees, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "37_TempusController",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/37_TempusController.sol, current function: _provideLiquidity, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "38_QuickAccManager",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/38_QuickAccManager.sol, current function: sendTransfer, current vul: unauthorized-transfer",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "39_VaultTracker",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: addNotional, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: matureVault, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: redeemInterest, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: removeNotional, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFrom, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFrom, current vul: unauthorized-transfer",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "TimeoutError: Timeout",
+    "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "43_DelegatedStaking",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    analyze_pipeline: Timeout when asking function function unstake(uint128 validatorId, uint12 ... sg.se nder].push(Unstaking( coolDownEnd, amount)); emit Unstaked(validatorId, msg.sender, amount); }",
+    "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... lyze_p ipeline.py\", line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Current File: /work/input/43_DelegatedStaking.sol, current function: _stake, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/43_DelegatedStaking.sol, current function: _updateValidator, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/43_DelegatedStaking.sol, current function: unstake, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/43_DelegatedStaking.sol, current function: unstake, current vul: wrong-order-interest",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 279, in simple_cli args.append(answer[arg]) KeyError: 'StatementsA'",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation",
+    "KeyError: 'StatementsA'",
+    "TimeoutError: Timeout"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "58_UniV3Vault",
+   "exit_code": 0,
+   "errors": [
+    "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Compiler error: Stack too deep when compiling inline assembly: Variable headStart is 1 slot(s) too deep inside the stack.",
+    "solc rejected 58_UniV3Vault.sol: Compiler error: Stack too deep when compiling inline assembly: Variable headStart is 1 slot(s) too deep inside the stack."
+   ],
+   "fails": [],
+   "degraded": true
+  },
+  {
+   "contract": "5_DAO",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/5_DAO.sol, current function: hasMajority, current vul: insecure-vote-calculation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "5_Pools",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: burnSynth, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: mintSynth, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "66_sYETIToken",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/66_sYETIToken.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "69_NFTXStakingZap",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: addLiquidity1155ETHTo, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "71_IndexTemplate",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: deposit, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: withdraw, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "71_PoolTemplate",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/71_PoolTemplate.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/71_PoolTemplate.sol, current function: withdraw, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": [],
+   "degraded": false
+  }
+ ],
+ "comparison": {
+  "baseline": "curated_mwefixed_live",
+  "findings_new": 74,
+  "findings_baseline": 77,
+  "matched": 58,
+  "added": 16,
+  "disappeared": 19,
+  "share_baseline_reproduced": 0.7532,
+  "share_new_already_known": 0.7838,
+  "jaccard_pairs": 0.6949,
+  "contracts_compared": 96,
+  "contracts_with_findings_new": 37,
+  "contracts_with_findings_baseline": 40,
+  "contracts_agree": 87
+ }
+}

@@ -1,0 +1,120 @@
+{
+ "run_id": "gptscan_mwefixed_v2_smoke2",
+ "generated_utc": "2026-08-15T16:19:32.719613+00:00",
+ "generator": "analysis_tools/gptscan_eval.py",
+ "merged_runs": [],
+ "run_parameters": {
+  "run_id": "gptscan_mwefixed_v2_smoke2",
+  "mode": "smoke",
+  "started_utc": "2026-08-15T15:08:49.7084199Z",
+  "ended_utc": "2026-08-15T15:14:42.5431183Z",
+  "wallclock_seconds": 352.8,
+  "smartbugs_version": "2.1.1",
+  "docker_image": "smartbugs/gptscan:1.0",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "dry_run": false,
+  "main": true,
+  "processes": 3,
+  "timeout_sec": 1800,
+  "timeout_enforced_by": "docker only (AP5 offen: das Werkzeug selbst erzwingt den Timeout nicht)",
+  "mem_limit": "4g",
+  "file_pattern": [
+   "samples:gptscan/mwevariety_fixed/14_BadgerYieldSource.sol",
+   "samples:gptscan/mwevariety_fixed/5_Router.sol",
+   "samples:gptscan/mwevariety_fixed/71_IndexTemplate.sol"
+  ],
+  "corpus_dir": "smartbugs/samples/gptscan/mwevariety_fixed",
+  "corpus_files": 96,
+  "sb_exit_code": 0,
+  "exit_127": [],
+  "main_fallback": false,
+  "results_dir": "smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2",
+  "tool_yaml_sha1": "09C375D80D1350DE57A7C5B6529FE137E91AD219",
+  "findings_yaml_sha1": "2049DD1A704693CDCAA4701F3BE64F032B7F925E",
+  "parser_sha1": "D71DB6C2092CFC6EBD90C5974ADD7D23587001F0",
+  "entrypoint_sha1": "8D773196001A340FFE7BDDE564D801354F1AA68B",
+  "main_contract_sha1": "5F99D0F8123C1F26A57FFAC5E43D04FF0F20B2C7",
+  "git_commit": "58971bac22ba5b1edc178a461929d6a80f0d2bf6",
+  "script": "run_full_v2.ps1"
+ },
+ "tool_state": {
+  "config_yaml": "09C375D80D1350DE57A7C5B6529FE137E91AD219",
+  "findings_yaml": "2049DD1A704693CDCAA4701F3BE64F032B7F925E",
+  "parser_py": "D71DB6C2092CFC6EBD90C5974ADD7D23587001F0",
+  "entrypoint_sh": "8D773196001A340FFE7BDDE564D801354F1AA68B",
+  "main_contract_py": "5F99D0F8123C1F26A57FFAC5E43D04FF0F20B2C7",
+  "taxonomy_source": "smartbugs/tools/gptscan/findings.yaml"
+ },
+ "contracts": 3,
+ "contracts_main_reduced": 3,
+ "contracts_source_full": 0,
+ "contracts_source_unknown": 0,
+ "findings_total": 6,
+ "contracts_with_findings": 2,
+ "runtime": {
+  "wallclock_seconds": 352.8,
+  "task_seconds_sum": 697.7,
+  "task_seconds_median": 218.1,
+  "task_seconds_max": 345.8
+ },
+ "tokens": {
+  "prompt": 47073.0,
+  "completion": 73738.0,
+  "llm_calls": 90
+ },
+ "cost_usd": {
+  "sum": 0.02724,
+  "n": 3,
+  "median": 0.00874,
+  "max": 0.01417
+ },
+ "states": {
+  "tasks_with_errors": 2,
+  "tasks_with_fails": 0,
+  "tasks_degraded": 0,
+  "tasks_clean_no_findings": 1
+ },
+ "error_list": [
+  {
+   "contract": "14_BadgerYieldSource",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/14_BadgerYieldSource.sol, current function: balanceOfToken, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/14_BadgerYieldSource.sol, current function: redeemToken, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  },
+  {
+   "contract": "71_IndexTemplate",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: _burn, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: valueOfUnderlying, current vul: price-manipulation",
+    "ERROR    tasks: Current File: /work/input/71_IndexTemplate.sol, current function: withdraw, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+   ],
+   "fails": [],
+   "degraded": false
+  }
+ ],
+ "comparison": {
+  "baseline": "curated_mwefixed_live",
+  "findings_new": 6,
+  "findings_baseline": 6,
+  "matched": 5,
+  "added": 1,
+  "disappeared": 1,
+  "share_baseline_reproduced": 0.8333,
+  "share_new_already_known": 0.8333,
+  "jaccard_pairs": 0.75,
+  "contracts_compared": 3,
+  "contracts_with_findings_new": 2,
+  "contracts_with_findings_baseline": 3,
+  "contracts_agree": 2
+ }
+}
