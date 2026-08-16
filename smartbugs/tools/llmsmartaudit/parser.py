@@ -28,6 +28,7 @@ as an error.
 import io
 import json
 import os
+import re
 import tarfile
 from typing import Optional
 
@@ -75,6 +76,65 @@ def _read_output_json(output: Optional[bytes], fails: set) -> Optional[dict]:
     return None
 
 
+# The tool prints its per-call token arithmetic to stdout
+# (camel/model_backend.py:144-153), so the context budget of every call is
+# recoverable from the captured log without touching the tool.
+CONTEXT_LIMIT = re.compile(r"num_max_token:\s*(\d+)")
+COMPLETION_BUDGET = re.compile(r"num_max_completion_tokens \(after adjustment\):\s*(\d+)")
+AGENT_ABORT = "max_tokens_exceeded_by_camel"
+
+
+def _context_state(log: list, infos: set, errors: set) -> None:
+    """Report how much context each call actually had.
+
+    Two ways a contract can be too large, and neither raises or exits non-zero:
+
+    * ``num_max_token - num_prompt_tokens`` floors at 1
+      (``_cap_completion_tokens``), so the request goes out with
+      ``max_tokens=1``. The model answers with a single token and the detector
+      records nothing. Reads as a clean contract unless caught here.
+    * above the agent's own limit camel terminates the call and names the
+      reason (``camel/agents/chat_agent.py:274``).
+
+    Both are *errors*: the tool stayed up, the analysis did not happen.
+
+    Only the floor itself is treated as an error, because it is the tool's own
+    boundary rather than a threshold chosen here. A merely tight budget --- say
+    80 tokens --- is just as useless in practice but has no non-arbitrary cut
+    off, so it is reported through the info line instead, where the smallest
+    budget of the run stays visible in the data.
+    """
+    limits, budgets, aborted = [], [], False
+    for line in log:
+        m = CONTEXT_LIMIT.search(line)
+        if m:
+            limits.append(int(m.group(1)))
+        m = COMPLETION_BUDGET.search(line)
+        if m:
+            budgets.append(int(m.group(1)))
+        if AGENT_ABORT in line:
+            aborted = True
+
+    if limits or budgets:
+        infos.add(
+            "context window: %s tokens, smallest completion budget: %s"
+            % (min(limits) if limits else "unknown",
+               min(budgets) if budgets else "unknown")
+        )
+    if budgets and min(budgets) <= 1:
+        errors.add(
+            "context window exhausted: the completion budget fell to %d token(s)"
+            " (num_max_token=%s), so detector answers were cut off -- an empty"
+            " finding list here does not mean the contract is clean"
+            % (min(budgets), min(limits) if limits else "unknown")
+        )
+    if aborted:
+        errors.add(
+            "context window exceeded: the agent aborted a call with"
+            " %s; the contract was not fully analysed" % AGENT_ABORT
+        )
+
+
 def _meta(log: list) -> dict:
     """Parse the entrypoint's 'LLMSA_META {json}' line (provider/model/filename)."""
     for line in log:
@@ -104,6 +164,8 @@ def parse(
     findings: list = []
     infos: set = set()
     errors, fails = sb.parse_utils.errors_fails(exit_code, log)
+
+    _context_state(log, infos, errors)
 
     meta = _meta(log)
     filename = meta.get("filename")

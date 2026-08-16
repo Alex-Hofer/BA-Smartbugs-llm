@@ -1,0 +1,60 @@
+{
+  "run_id": "llmsa_curated_v2",
+  "generated": "2026-08-16T11:19:32+00:00",
+  "smartbugs_version": "2.1.1",
+  "tool_yaml_version": "smartbugs/tools/llmsmartaudit/config.yaml @ 1.0",
+  "parser_version": "2026/08/02 + context-state (2026-08-15)",
+  "taxonomy": "smartbugs/tools/llmsmartaudit/findings.yaml (41 detectors)",
+  "image": "smartbugs/llmsmartaudit:1.0",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "analysis_mode": "SmartContractTA (fixed in scripts/do_solidity.sh)",
+  "invocation": {
+    "main": false,
+    "main_note": "--main not used: SmartBugs enforces it itself at task collection (sb/smartbugs.py:124, exact filename==contract); 4/143 curated and 0/96 mwevariety files pass that check.",
+    "processes": 3,
+    "timeout_s": 3600,
+    "env": {
+      "LLM_PROVIDER": "deepseek",
+      "LLM_MODEL": "deepseek-v4-flash",
+      "LLM_CONTEXT_TOKENS": "65536"
+    }
+  },
+  "contracts": 143,
+  "states": {
+    "findings": 142,
+    "context_exceeded": 1
+  },
+  "findings_total": 1028,
+  "categories_seen": 33,
+  "categories_unmapped": [],
+  "duration_s_sum": 114091.5,
+  "tokens": {
+    "prompt": 11119680,
+    "completion": 11235316,
+    "llm_calls": 6126
+  },
+  "cost_usd_estimated": 5.16,
+  "cost_note": "Estimated from token counts; the tool reports $0.0000 because chatdev/statistics.py::prompt_cost has no entry for deepseek-v4-flash. Authoritative figure: DeepSeek invoice.",
+  "fields_not_emitted_by_tool": [
+    "function",
+    "lines",
+    "severity",
+    "confidence"
+  ],
+  "failures": [
+    {
+      "contract_id": "0x663e4229142a27f00bafb5d087e1e730648314c3",
+      "exit_code": 1,
+      "errors": [
+        "EXIT_CODE_1",
+        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
+        "context window exceeded: the agent aborted a call with max_tokens_exceeded_by_camel; the contract was not fully analysed",
+        "no report produced"
+      ],
+      "fails": [
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68978})"
+      ]
+    }
+  ]
+}
