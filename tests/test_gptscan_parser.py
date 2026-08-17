@@ -206,18 +206,31 @@ def test_synthetic_budget_cap_is_an_error(gptscan):
 
 
 def test_synthetic_timeout_brake_is_reported_as_error(gptscan):
-    """The brake fired: GPTScan ran out on its own and wrote what it had."""
-    report = {
-        "version": "1.1.0", "success": True, "results": [],
+    """The brake fired: GPTScan ran out on its own and wrote what it had.
+
+    The marker travels the route the brake actually uses --- GPTScan writes it
+    into its own metadata, which reaches the parser as a GPTSCAN_META log line.
+    Putting it into output.json instead would leave the meta branch of
+    `result.get(...) or (meta or {}).get(...)` unevaluated, because `or`
+    short-circuits, and the brake path would go untested.
+    """
+    meta = {
+        "provider": "deepseek",
+        "model": "deepseek-v4-flash",
+        "llm_calls": 42,
+        "llm_calls_skipped_deadline": 17,
         "sb_timeout": {"hit": True, "stage": "brake",
                        "detail": "17 LLM-Aufrufe wegen der Frist unterdrueckt"},
     }
+    report = {"version": "1.1.0", "success": True, "results": []}
     findings, infos, errors, fails = gptscan.parse(
-        0, ["GPTScan: provider=deepseek"], synthetic_tar(
-            json.dumps(report).encode("utf-8")))
+        0,
+        ["GPTScan: provider=deepseek", "GPTSCAN_META " + json.dumps(meta)],
+        synthetic_tar(json.dumps(report).encode("utf-8")))
     assert contains(errors, "TIMEOUT")
     assert contains(errors, "brake")
     assert not fails
+    assert contains(infos, "GPTScan run: backend=deepseek/deepseek-v4-flash")
 
 
 def test_synthetic_timeout_net_is_reported_as_error(gptscan):
