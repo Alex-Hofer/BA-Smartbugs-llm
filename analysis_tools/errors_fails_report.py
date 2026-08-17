@@ -54,6 +54,8 @@ DEFAULT_RESULTS = os.path.join(REPO_ROOT, "smartbugs", "results")
 _DEGRADED = "analysis degraded"
 # Messages that name the compilation itself.
 _ROOT_MARKERS = ("Invalid compilation", "InvalidCompilation", "solc rejected")
+# Prefix the tool parsers put on a timeout entry in `errors` (AP5).
+_TIMEOUT_MARK = "TIMEOUT_"
 
 
 def classify(message: str, degraded: bool) -> str:
@@ -89,6 +91,10 @@ def collect(task_dirs: list[str]) -> tuple[dict, list[dict]]:
         errors = parsed.get("errors", [])
         fails = parsed.get("fails", [])
         degraded = any(_DEGRADED in i for i in parsed.get("infos", []))
+        # AP5: the run was cut short by the deadline/net. Read out of errors
+        # for the same reason "degraded" is read out of infos: the parser has
+        # already normalised it, and result.json carries no raw report.
+        timeout_hit = any(str(e).startswith(_TIMEOUT_MARK) for e in errors)
         contract = os.path.basename(task_log.get("filename", d))
 
         if errors:
@@ -101,6 +107,10 @@ def collect(task_dirs: list[str]) -> tuple[dict, list[dict]]:
         totals[key]["fails"] += len(fails)
         if degraded:
             totals[key]["tasks_not_compiled"] += 1
+        if timeout_hit:
+            # Stays counted in every total above -- excluding it would be the
+            # same measurement error with the opposite sign.
+            totals[key]["tasks_timeout"] += 1
 
         for kind, group in (("error", errors), ("fail", fails)):
             for message in group:
@@ -126,7 +136,7 @@ def collect(task_dirs: list[str]) -> tuple[dict, list[dict]]:
 def summary_table(totals: dict) -> list[str]:
     """Render the per-run balance sheet as fixed-width console lines."""
     header = (f"{'tool/run':<46}{'tasks':>7}{'clean':>7}{'err.tasks':>10}"
-              f"{'fail.tasks':>11}{'errors':>8}{'fails':>7}{'no-compile':>11}")
+              f"{'fail.tasks':>11}{'errors':>8}{'fails':>7}{'no-compile':>11}{'timeout':>9}")
     lines = [header, "-" * len(header)]
     grand: Counter = Counter()
     for key in sorted(totals):
@@ -134,11 +144,13 @@ def summary_table(totals: dict) -> list[str]:
         grand.update(c)
         lines.append(f"{key[0] + '/' + key[1]:<46}{c['tasks']:>7}{c['tasks_clean']:>7}"
                      f"{c['tasks_with_errors']:>10}{c['tasks_with_fails']:>11}"
-                     f"{c['errors']:>8}{c['fails']:>7}{c['tasks_not_compiled']:>11}")
+                     f"{c['errors']:>8}{c['fails']:>7}{c['tasks_not_compiled']:>11}"
+                     f"{c['tasks_timeout']:>9}")
     lines.append("-" * len(header))
     lines.append(f"{'TOTAL':<46}{grand['tasks']:>7}{grand['tasks_clean']:>7}"
                  f"{grand['tasks_with_errors']:>10}{grand['tasks_with_fails']:>11}"
-                 f"{grand['errors']:>8}{grand['fails']:>7}{grand['tasks_not_compiled']:>11}")
+                 f"{grand['errors']:>8}{grand['fails']:>7}{grand['tasks_not_compiled']:>11}"
+                 f"{grand['tasks_timeout']:>9}")
     return lines
 
 
@@ -170,24 +182,27 @@ def write_md(totals: dict, rows: list[dict[str, Any]], path: str, max_rows: int)
         "## Bilanz je Lauf",
         "",
         "| Tool | Lauf | Tasks | sauber | Tasks mit Errors | Tasks mit Fails | "
-        "Errors | Fails | nicht uebersetzt |",
-        "|---|---|---:|---:|---:|---:|---:|---:|---:|",
+        "Errors | Fails | nicht uebersetzt | Teillauf (Timeout) |",
+        "|---|---|---:|---:|---:|---:|---:|---:|---:|---:|",
     ]
     for key in sorted(totals):
         c = totals[key]
         lines.append(f"| {key[0]} | {key[1]} | {c['tasks']} | {c['tasks_clean']} | "
                      f"{c['tasks_with_errors']} | {c['tasks_with_fails']} | "
-                     f"{c['errors']} | {c['fails']} | {c['tasks_not_compiled']} |")
+                     f"{c['errors']} | {c['fails']} | {c['tasks_not_compiled']} | "
+                     f"{c['tasks_timeout']} |")
     lines.append(f"| **Summe** | | **{grand['tasks']}** | **{grand['tasks_clean']}** | "
                  f"**{grand['tasks_with_errors']}** | **{grand['tasks_with_fails']}** | "
                  f"**{grand['errors']}** | **{grand['fails']}** | "
-                 f"**{grand['tasks_not_compiled']}** |")
+                 f"**{grand['tasks_not_compiled']}** | **{grand['tasks_timeout']}** |")
 
     lines += [
         "",
         "Spalte *sauber*: Tasks ohne jeden Error und Fail. Spalte *nicht uebersetzt*:",
         "Tasks, deren Contract nicht kompiliert werden konnte — dort ist ein leeres",
-        "Finding-Ergebnis unbestimmt, nicht sauber.",
+        "Finding-Ergebnis unbestimmt, nicht sauber. Spalte *Teillauf (Timeout)*: Tasks,",
+        "deren Lauf durch die AP5-Deadline vorzeitig beendet wurde (AP5); sie zaehlen",
+        "regulaer in *Tasks* mit, statt herausgerechnet zu werden.",
         "",
         "## Meldungen im Wortlaut",
         "",

@@ -48,6 +48,9 @@ MAIN_SCRIPT = TOOLDIR / "scripts" / "main_contract.py"
 
 DEGRADED_MARK = "analysis degraded"
 
+# Prefix the tool parsers put on a timeout entry in `errors` (AP5).
+TIMEOUT_MARK = "TIMEOUT_"
+
 
 # --------------------------------------------------------------------------- #
 # Taxonomie aus findings.yaml -- nicht hier duplizieren, nur lesen
@@ -284,6 +287,15 @@ def read_run(rundir: pathlib.Path, tax: dict, python: str, run_id: str) -> list[
             "fails": res.get("fails", []) or [],
             "infos": infos,
             "degraded": any(DEGRADED_MARK in i for i in infos),
+            # Timeout marker (AP5). Read out of errors for the same reason
+            # "degraded" is read out of infos: the parser has already
+            # normalised it, and result.json carries no raw report.
+            "timeout_hit": any(str(e).startswith(TIMEOUT_MARK)
+                               for e in (res.get("errors") or [])),
+            "timeout_stage": next(
+                (str(e).split(":", 1)[0][len(TIMEOUT_MARK):].lower()
+                 for e in (res.get("errors") or [])
+                 if str(e).startswith(TIMEOUT_MARK)), ""),
             "meta": meta,
         })
     return tasks
@@ -334,6 +346,11 @@ def finding_rows(tasks: list[dict], tax: dict) -> list[dict]:
                 "confidence": None,
                 "run_id": t["run_id"],
                 "timestamp": ts,
+                # AP5: the task's run was cut short by the deadline/net --
+                # fewer findings than a full run, appended so the existing
+                # column order (and comparisons against eval/) stays intact.
+                "timeout_hit": t["timeout_hit"],
+                "timeout_stage": t["timeout_stage"],
             })
     return rows
 
@@ -407,6 +424,10 @@ def write_summary(path: pathlib.Path, run_id: str, tasks: list[dict],
     failed = [t["contract_id"] for t in tasks if t["fails"]]
     nofind = [t["contract_id"] for t in tasks
               if not t["findings"] and not t["fails"] and not t["degraded"]]
+    # AP5: tasks whose run was cut short by the deadline/net. They stay
+    # counted in every total above -- excluding them would be the same
+    # measurement error with the opposite sign.
+    timedout = [t["contract_id"] for t in tasks if t["timeout_hit"]]
 
     L = [
         f"# GPTScan-Lauf `{run_id}` -- Auswertung", "",
@@ -442,6 +463,11 @@ def write_summary(path: pathlib.Path, run_id: str, tasks: list[dict],
         f"| ohne Findings, sauber | {m['states']['tasks_clean_no_findings']} | uebersetzt, "
         "vollstaendig gelaufen, nichts gemeldet |",
         "",
+        f"Davon Teillaeufe (Timeout): {len(timedout)} von {n}. Ein durch die AP5-Deadline "
+        "vorzeitig beendeter Lauf liefert weniger Findings als ein Volllauf; er bleibt "
+        "dennoch in allen Zahlen oben mitgezaehlt, siehe `sb_timeout` in "
+        "`docs/BA-AP5-TIMEOUT-DESIGN.md`.",
+        "",
         f"**Fehlerquote** (Tasks mit fails / alle Tasks): {m['states']['tasks_with_fails']}/{n} = "
         f"{100*m['states']['tasks_with_fails']/n:.1f} %.",
         f"**Errorquote** (Tasks mit errors / alle Tasks): {m['states']['tasks_with_errors']}/{n} = "
@@ -469,6 +495,9 @@ def write_summary(path: pathlib.Path, run_id: str, tasks: list[dict],
     if degraded:
         L += ["Nicht uebersetzt (nie als 'keine Findings' zaehlen): "
               + ", ".join(f"`{c}`" for c in degraded), ""]
+    if timedout:
+        L += ["Teillaeufe (Timeout, zaehlen regulaer mit): "
+              + ", ".join(f"`{c}`" for c in timedout), ""]
 
     L += ["## Findings je Kategorie", "",
           "`category_defi_logic` = die Regel hat in SWC/DASP kein redliches Gegenstueck "
