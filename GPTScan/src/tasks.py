@@ -425,6 +425,19 @@ def simple_cli():
     meta_data["llm_calls"] = int(chatgpt_api.num_llm_calls.value)
     meta_data["llm_calls_skipped_budget"] = int(chatgpt_api.num_calls_skipped_budget.value)
     meta_data["budget_exceeded"] = chatgpt_api.budget_exceeded_reason
+    meta_data["llm_calls_skipped_deadline"] = int(chatgpt_api.num_calls_skipped_deadline.value)
+    meta_data["deadline_exceeded"] = chatgpt_api.deadline_exceeded_reason
+    # The marker SmartBugs' parser looks for. Present only when the deadline
+    # actually cut the run short, so its absence means "this run was complete"
+    # (docs/BA-AP5-TIMEOUT-DESIGN.md, 4.2).
+    if chatgpt_api.deadline_exceeded_reason:
+        meta_data["sb_timeout"] = {
+            "hit": True,
+            "stage": "brake",
+            "detail": "{} LLM-Aufrufe wegen der Frist unterdrueckt: {}".format(
+                int(chatgpt_api.num_calls_skipped_deadline.value),
+                chatgpt_api.deadline_exceeded_reason),
+        }
 
     for metadata_key, metadata_value in meta_data.copy().items():
         if isinstance(metadata_value, set):

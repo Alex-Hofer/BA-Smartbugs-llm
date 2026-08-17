@@ -53,6 +53,22 @@ def ask_with_timeout(prompt, gpt4=False, timeout=90, kind=None):
     sent_est = _count_tokens(chatgpt_api.SYSTEM_MESSAGE) + _count_tokens(prompt)
     dry_run = llm_backend.is_dry_run()
 
+    # Deadline guard (live runs only), the twin of the budget guard below: once
+    # the SmartBugs deadline has passed we stop issuing calls and return
+    # sentinels, so the scan still finishes and writes partial results instead
+    # of being killed with nothing to show. Checked in the parent for the same
+    # reason as the budget: it must hold regardless of the multiprocessing
+    # start method.
+    if not dry_run and chatgpt_api.deadline_exceeded_reason is None:
+        reason = llm_backend.deadline_exceeded()
+        if reason:
+            chatgpt_api.deadline_exceeded_reason = reason
+            logger.warning(
+                f"Deadline guard tripped: {reason}. Skipping all remaining LLM calls.")
+    if not dry_run and chatgpt_api.deadline_exceeded_reason is not None:
+        chatgpt_api.num_calls_skipped_deadline.value += 1
+        return llm_backend.dry_sentinel(kind)
+
     # Hard budget guard (live runs only). Once tripped we stop issuing calls and
     # return sentinels so the scan still finishes and writes partial results.
     if not dry_run and chatgpt_api.budget_exceeded_reason is None:
