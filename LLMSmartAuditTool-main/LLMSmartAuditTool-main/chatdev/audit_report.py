@@ -81,6 +81,12 @@ DETECTORS = OrderedDict([
 # Phases whose conclusion is a consolidated narrative summary (not a single category).
 SUMMARY_PHASES = ("BugsSummary", "TestBugsSummary")
 
+# Where to drop a running snapshot of the report, and the context it needs.
+# Set by the SmartBugs entrypoint; unset outside SmartBugs, where the tool keeps
+# its original behaviour of writing only once, at the end.
+ENV_PARTIAL = "SB_PARTIAL_REPORT"
+ENV_CONTRACT = "SB_CONTRACT_NAME"
+
 
 def _is_identified(conclusion: str) -> bool:
     """Heuristic: a detector reports a finding when its <INFO> conclusion signals
@@ -138,6 +144,9 @@ class AuditReportCollector:
                     "severity": severity,
                     "detail": conclusion.split("<INFO>")[-1].strip(),
                 })
+            # A detector finished: put the new state on disk before the next one
+            # starts, so a hard stop costs at most the detector in flight.
+            self.flush_partial()
         elif phase_name in SUMMARY_PHASES:
             self._summary = (conclusion or "").split("<INFO>")[-1].strip()
 
@@ -270,6 +279,37 @@ class AuditReportCollector:
         with open(out_path, "w", encoding="utf-8") as f:
             json.dump(data, f, indent=2, ensure_ascii=False)
         return out_path
+
+    def flush_partial(self):
+        """Write a snapshot of everything collected so far, if configured.
+
+        Called after every detector phase. The tool aggregates in memory and
+        writes only once at the very end, so without this a run stopped by a
+        timeout loses every detector it had already finished --- see
+        docs/BA-AP5-TIMEOUT-DESIGN.md, 4.4.
+
+        The context (contract, provider, model) is read from the environment
+        because record() has none: it sees a phase name and a conclusion, and
+        nothing else. The entrypoint knows all three and exports them.
+
+        Failure is swallowed on purpose. This runs inside a paid analysis; an
+        unwritable snapshot path must cost the snapshot, never the run.
+        """
+        out_path = os.environ.get(ENV_PARTIAL)
+        if not out_path:
+            return None
+        try:
+            return self.write_json(
+                out_path=out_path,
+                contract_name=os.environ.get(ENV_CONTRACT, "unknown"),
+                provider=os.environ.get("LLM_PROVIDER", "unknown"),
+                model=os.environ.get("LLM_MODEL_ID")
+                      or os.environ.get("LLM_MODEL", "unknown"),
+                timestamp="partial",
+            )
+        except Exception as e:  # noqa: BLE001 - see docstring
+            print(f"audit_report: partial snapshot failed: {e}")
+            return None
 
 
 # Module-level singleton: one analysis run == one process, so a single collector is safe.
