@@ -64,12 +64,51 @@ def test_every_flush_is_complete_json(tmp_path, monkeypatch):
 
 
 def test_flush_failure_never_breaks_the_run(tmp_path, monkeypatch):
-    """An unwritable path must not take down a paid analysis."""
-    monkeypatch.setenv("SB_PARTIAL_REPORT", str(tmp_path / "no" / "such" / "dir"
-                                                / "x.json"))
+    """An unwritable snapshot must cost the snapshot, never the run.
+
+    The failure is forced rather than hoped for. An earlier version of this
+    test used a path with missing parent directories, which does not fail at
+    all: write_json calls os.makedirs(..., exist_ok=True) and simply creates
+    them. That version passed against the code from before flush_partial
+    existed --- it proved nothing.
+    """
+    out = tmp_path / "partial.json"
+    monkeypatch.setenv("SB_PARTIAL_REPORT", str(out))
     collector = AuditReportCollector()
+
+    def boom(*args, **kwargs):
+        raise OSError("disk on fire")
+
+    monkeypatch.setattr(collector, "write_json", boom)
     collector.record("ReentrancyDetector", IDENTIFIED)  # must not raise
     assert collector.checked == ["ReentrancyDetector"]
+
+
+def test_failed_flush_leaves_the_previous_snapshot_intact(tmp_path, monkeypatch):
+    """The invariant the whole feature rests on.
+
+    A snapshot that dies halfway must not take the last good one with it.
+    Truncate-then-write would; write-to-temp-then-replace does not.
+    """
+    out = tmp_path / "partial.json"
+    monkeypatch.setenv("SB_PARTIAL_REPORT", str(out))
+    collector = AuditReportCollector()
+
+    collector.record("ReentrancyDetector", IDENTIFIED)
+    good = json.loads(out.read_text(encoding="utf-8"))
+    assert good["categories_checked"] == 1
+
+    def half_written(out_path, **kwargs):
+        # Exactly what a kill mid-json.dump leaves behind: a fragment.
+        with open(out_path, "w", encoding="utf-8") as fh:
+            fh.write('{"tool": "LLMSmartAu')
+        raise OSError("killed mid-write")
+
+    monkeypatch.setattr(collector, "write_json", half_written)
+    collector.record("ArithmeticDetector", CLEAN)  # must not raise
+
+    survived = json.loads(out.read_text(encoding="utf-8"))
+    assert survived == good, "the last good snapshot must survive a failed flush"
 
 
 def test_non_detector_phases_do_not_flush(tmp_path, monkeypatch):

@@ -292,21 +292,30 @@ class AuditReportCollector:
         because record() has none: it sees a phase name and a conclusion, and
         nothing else. The entrypoint knows all three and exports them.
 
+        The write goes to a temporary file next to the target and is moved into
+        place with os.replace(), which is atomic on POSIX and Windows alike.
+        Writing in place would truncate the previous snapshot before the new one
+        is complete --- and a kill landing in that window would destroy exactly
+        the partial result this method exists to preserve.
+
         Failure is swallowed on purpose. This runs inside a paid analysis; an
         unwritable snapshot path must cost the snapshot, never the run.
         """
         out_path = os.environ.get(ENV_PARTIAL)
         if not out_path:
             return None
+        tmp_path = out_path + ".tmp"
         try:
-            return self.write_json(
-                out_path=out_path,
+            self.write_json(
+                out_path=tmp_path,
                 contract_name=os.environ.get(ENV_CONTRACT, "unknown"),
                 provider=os.environ.get("LLM_PROVIDER", "unknown"),
                 model=os.environ.get("LLM_MODEL_ID")
                       or os.environ.get("LLM_MODEL", "unknown"),
                 timestamp="partial",
             )
+            os.replace(tmp_path, out_path)
+            return out_path
         except Exception as e:  # noqa: BLE001 - see docstring
             print(f"audit_report: partial snapshot failed: {e}")
             return None
