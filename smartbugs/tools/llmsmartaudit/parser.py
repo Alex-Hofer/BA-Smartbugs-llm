@@ -129,6 +129,18 @@ def parse(
     if result.get("error"):
         errors.add(str(result["error"]))
 
+    # Timeout marker (AP5): stamped by the entrypoint when the run was cut
+    # short. It goes into *errors*, never into *fails* -- the run was stopped on
+    # purpose and produced a usable, if incomplete, result. The coverage figure
+    # above already says how incomplete.
+    sb_timeout = result.get("sb_timeout")
+    if isinstance(sb_timeout, dict) and sb_timeout.get("hit"):
+        stage = sb_timeout.get("stage", "unknown")
+        detail = sb_timeout.get("detail") or ""
+        errors.add(f"TIMEOUT_{stage.upper()}: run cut short after"
+                   f" {checked} of {total} detector categories"
+                   + (f" -- {detail}" if detail else ""))
+
     for f in result.get("findings", []) or []:
         finding = {"name": f.get("name", "LLMSmartAudit finding")}
         if filename:

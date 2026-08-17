@@ -12,6 +12,8 @@ JSON therefore have no recorded example and are exercised synthetically ---
 every such test says ``synthetic`` in its name.
 """
 
+import json
+
 import pytest
 
 from conftest import contains, parse, raw, synthetic_empty_tar, synthetic_tar
@@ -159,3 +161,37 @@ def test_finding_names_stay_within_the_declared_set(llmsmartaudit, case):
     findings, _i, _e, _f = llmsmartaudit.parse(*raw(TOOL, case))
     for finding in findings:
         assert finding["name"] in llmsmartaudit.FINDINGS
+
+
+def test_synthetic_timeout_partial_is_reported_as_error(llmsmartaudit):
+    """A salvaged partial report: 28 of 41 categories, findings kept."""
+    report = {
+        "tool": "LLMSmartAudit", "config": "SmartContractTA",
+        "contract": "sb_Visor", "provider": "deepseek", "model": "m",
+        "categories_total": 41, "categories_checked": 28, "checked": [],
+        "summary": "", "findings": [
+            {"name": "Reentrancy", "detector": "ReentrancyDetector",
+             "classification": "SWC-107, DASP-1", "severity": "High",
+             "description": "..."}],
+        "sb_timeout": {"hit": True, "stage": "net",
+                       "detail": "Zwischenstand geborgen"},
+    }
+    findings, infos, errors, fails = llmsmartaudit.parse(
+        124, ["LLMSA_META {}"], synthetic_tar(
+            json.dumps(report).encode("utf-8")))
+    assert contains(errors, "TIMEOUT")
+    # The salvaged finding must survive -- that is the whole point of AP5.
+    assert len(findings) == 1
+    assert contains(infos, "28/41")
+
+
+def test_synthetic_no_marker_means_no_timeout_message(llmsmartaudit):
+    report = {
+        "tool": "LLMSmartAudit", "config": "SmartContractTA",
+        "contract": "sb_Visor", "provider": "deepseek", "model": "m",
+        "categories_total": 41, "categories_checked": 41, "checked": [],
+        "summary": "", "findings": [],
+    }
+    findings, infos, errors, fails = llmsmartaudit.parse(
+        0, ["LLMSA_META {}"], synthetic_tar(json.dumps(report).encode("utf-8")))
+    assert not contains(errors, "TIMEOUT")
