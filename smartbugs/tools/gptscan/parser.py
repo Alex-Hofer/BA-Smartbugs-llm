@@ -330,6 +330,18 @@ def parse(
     if result.get("success") is False:
         errors.add(f"GPTScan reported success=false: {result.get('message')}")
 
+    # Timeout marker (AP5). Two routes lead here: the brake writes it into the
+    # metadata GPTScan produces itself (GPTSCAN_META), the net gets stamped onto
+    # /output.json by the entrypoint. Either way it belongs in *errors* --
+    # SmartBugs' category for a problem the run noticed and handled -- and never
+    # in *fails*, which is reserved for a tool that was knocked out.
+    sb_timeout = result.get("sb_timeout") or (meta or {}).get("sb_timeout")
+    if isinstance(sb_timeout, dict) and sb_timeout.get("hit"):
+        stage = str(sb_timeout.get("stage", "unknown"))
+        detail = sb_timeout.get("detail") or ""
+        errors.add(f"TIMEOUT_{stage.upper()}: run cut short ({stage})"
+                   + (f" -- {detail}" if detail else ""))
+
     for r in result.get("results", []) or []:
         finding = {"name": r.get("title", "GPTScan finding")}
         if r.get("severity"):

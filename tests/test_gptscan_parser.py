@@ -8,6 +8,8 @@ tasks (98 distinct contracts in 9 runs) read as "clean" although nothing had
 compiled. The main curated run is not among them: there, every contract built.
 """
 
+import json
+
 import pytest
 
 from conftest import contains, parse, raw, synthetic_empty_tar, synthetic_tar
@@ -201,6 +203,43 @@ def test_synthetic_budget_cap_is_an_error(gptscan):
     _f, _i, errors, _fa = gptscan.parse(0, [meta], synthetic_tar(payload))
     assert contains(errors, "cost cap reached")
     assert contains(errors, "7 LLM calls skipped")
+
+
+def test_synthetic_timeout_brake_is_reported_as_error(gptscan):
+    """The brake fired: GPTScan ran out on its own and wrote what it had."""
+    report = {
+        "version": "1.1.0", "success": True, "results": [],
+        "sb_timeout": {"hit": True, "stage": "brake",
+                       "detail": "17 LLM-Aufrufe wegen der Frist unterdrueckt"},
+    }
+    findings, infos, errors, fails = gptscan.parse(
+        0, ["GPTScan: provider=deepseek"], synthetic_tar(
+            json.dumps(report).encode("utf-8")))
+    assert contains(errors, "TIMEOUT")
+    assert contains(errors, "brake")
+    assert not fails
+
+
+def test_synthetic_timeout_net_is_reported_as_error(gptscan):
+    """The net fired: the entrypoint stamped the marker and forced exit 124."""
+    report = {
+        "version": "1.1.0", "success": False, "results": [],
+        "sb_timeout": {"hit": True, "stage": "net", "detail": "hart beendet"},
+    }
+    findings, infos, errors, fails = gptscan.parse(
+        124, ["GPTScan: provider=deepseek"], synthetic_tar(
+            json.dumps(report).encode("utf-8")))
+    assert contains(errors, "TIMEOUT")
+    assert contains(errors, "net")
+
+
+def test_synthetic_no_marker_means_no_timeout_message(gptscan):
+    """Absence of sb_timeout is the statement 'this run was complete'."""
+    report = {"version": "1.1.0", "success": True, "results": []}
+    findings, infos, errors, fails = gptscan.parse(
+        0, ["GPTScan: provider=deepseek"], synthetic_tar(
+            json.dumps(report).encode("utf-8")))
+    assert not contains(errors, "TIMEOUT")
 
 
 @pytest.mark.parametrize("case", [
