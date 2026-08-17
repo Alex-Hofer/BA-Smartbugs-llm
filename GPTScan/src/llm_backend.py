@@ -30,6 +30,7 @@ import config as global_config
 ENV_PROVIDER = "GPTSCAN_PROVIDER"
 ENV_MODEL = "GPTSCAN_MODEL"
 ENV_DRY_RUN = "GPTSCAN_DRY_RUN"
+ENV_BASE_URL = "GPTSCAN_BASE_URL"
 
 
 # ---------------------------------------------------------------------------
@@ -91,10 +92,17 @@ def resolve_model(gpt4: bool = False) -> str:
 def base_url() -> Optional[str]:
     """Chat-Completions endpoint of the active provider.
 
-    None for OpenAI itself, whose endpoint is the SDK default — see
+    None for OpenAI itself, whose endpoint is the SDK default --- see
     :func:`configure_sdk`, which leaves ``api_base`` untouched in that case.
+
+    The "custom" provider has no fixed address and reads GPTSCAN_BASE_URL
+    instead. The override is deliberately confined to that provider: it must be
+    impossible to redirect a real, paid backend by setting a variable.
     """
-    return provider_config().get("base_url")
+    config = provider_config()
+    if active_provider() == "custom":
+        return os.environ.get(ENV_BASE_URL) or config.get("base_url")
+    return config.get("base_url")
 
 
 def api_key() -> str:

@@ -55,6 +55,28 @@ def test_garbage_deadline_is_ignored(monkeypatch):
     assert llm_backend.deadline_exceeded() is None
 
 
+def test_custom_provider_reads_its_endpoint_from_the_environment(monkeypatch):
+    """The stand-in endpoint (testing_tools/fake_llm_endpoint.py) is reached
+    this way; without it GPTScan cannot be pointed anywhere but the two
+    hard-coded providers."""
+    monkeypatch.setenv("GPTSCAN_PROVIDER", "custom")
+    monkeypatch.setenv("GPTSCAN_BASE_URL", "http://host.docker.internal:8099")
+    assert llm_backend.base_url() == "http://host.docker.internal:8099"
+
+
+def test_custom_provider_is_priced_at_zero(monkeypatch):
+    """A local stand-in costs nothing; the cost estimate must not invent a bill."""
+    monkeypatch.setenv("GPTSCAN_PROVIDER", "custom")
+    assert llm_backend.estimate_cost(1_000_000, 1_000_000) == 0.0
+
+
+def test_known_providers_ignore_the_override(monkeypatch):
+    """The override must not silently redirect a real, paid provider."""
+    monkeypatch.setenv("GPTSCAN_PROVIDER", "deepseek")
+    monkeypatch.setenv("GPTSCAN_BASE_URL", "http://127.0.0.1:1")
+    assert llm_backend.base_url() == "https://api.deepseek.com"
+
+
 def test_counter_and_reason_exist_on_chatgpt_api():
     """Task 3 relies on both names; they belong next to the budget bookkeeping.
 

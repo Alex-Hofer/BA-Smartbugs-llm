@@ -64,6 +64,20 @@ PROVIDERS = {
             "deepseek-v4-pro":   {"in": 1.74, "out": 3.48},
         },
     },
+    "custom": {
+        # An OpenAI-compatible endpoint chosen at run time, e.g. the local
+        # stand-in in testing_tools/fake_llm_endpoint.py. The URL comes from
+        # GPTSCAN_BASE_URL because a local endpoint has no fixed address.
+        # Prices are zero: nothing is billed, and a cost estimate that invented
+        # a figure here would poison the measurements.
+        "base_url": None,
+        "api_key_env": "GPTSCAN_API_KEY",
+        "models": {"cheap": "custom-cheap", "strong": "custom-strong"},
+        "prices": {
+            "custom-cheap":  {"in": 0.0, "out": 0.0},
+            "custom-strong": {"in": 0.0, "out": 0.0},
+        },
+    },
 }
 
 # Default backend when neither --provider nor --model is given.
