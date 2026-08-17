@@ -15,7 +15,14 @@ network: bridge
 # Host environment variables forwarded into the container (API key and
 # runtime provider/model selection). Only variables set on the host are
 # forwarded; nothing is baked into the image.
-env: DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN
+#   GPTSCAN_PROVIDER  deepseek (default) | openai | custom
+#   GPTSCAN_MODEL     model id (provider default if unset)
+#   GPTSCAN_BASE_URL  OpenAI-compatible endpoint URL, only used for
+#                     GPTSCAN_PROVIDER=custom (e.g. the local stand-in in
+#                     testing_tools/fake_llm_endpoint.py); ignored otherwise
+#   GPTSCAN_API_KEY   API key for GPTSCAN_PROVIDER=custom; deepseek/openai read
+#                     DEEPSEEK_API_KEY/OPENAI_API_KEY instead
+env: DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN, GPTSCAN_BASE_URL, GPTSCAN_API_KEY
 solidity:
     # SmartBugs provides a matching solc binary at $BIN/solc (solc: yes); the
     # entrypoint puts it on PATH for GPTScan's compilation step.
