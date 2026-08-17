@@ -33,6 +33,25 @@ if [ "$MAIN" = "1" ]; then
     SOURCE="$REDUCED"
 fi
 
+# --- Timeout budget (AP5, docs/BA-AP5-TIMEOUT-DESIGN.md 4.1) ----------------
+# Three marks out of the one TIMEOUT SmartBugs hands us:
+#   70%  brake -- exported as an absolute deadline; GPTScan stops issuing LLM
+#         calls and runs out on its own, writing what it confirmed so far
+#   90%  net   -- 'timeout' stops the tool if the brake did not take effect
+#   rest       -- belongs to this script, to salvage and write /output.json
+# TIMEOUT=0 (no --timeout) leaves every one of them unset: the run then behaves
+# byte for byte as it did before AP5, which keeps the earlier runs comparable.
+NET=0
+if [ "${TIMEOUT:-0}" -gt 0 ]; then
+    BRAKE=$(( TIMEOUT * 7 / 10 ))
+    NET=$(( TIMEOUT * 9 / 10 ))
+    [ "$BRAKE" -lt 1 ] && BRAKE=1
+    [ "$NET" -lt 1 ] && NET=1
+    SB_DEADLINE_EPOCH=$(( $(date +%s) + BRAKE ))
+    export SB_DEADLINE_EPOCH
+    echo "SB_TIMEOUT_BUDGET timeout=${TIMEOUT}s brake=${BRAKE}s net=${NET}s"
+fi
+
 # GPTScan expects a *folder* containing a single .sol file, and silently
 # produces empty output if the path contains certain keywords
 # (external/openzeppelin/uniswap/pancakeswap/legacy/test). /work/input is safe.
@@ -56,8 +75,27 @@ fi
 
 cd /opt/gptscan/src || exit 1
 echo "GPTScan: provider=$PROVIDER model=${GPTSCAN_MODEL:-<default>} dry_run=${GPTSCAN_DRY_RUN:-0}"
-python3 main.py -s "$WORK" -o /output.json --provider "$PROVIDER" $MODEL_OPT $DRY_OPT --format json
+if [ "$NET" -gt 0 ]; then
+    timeout -s TERM "$NET" python3 main.py -s "$WORK" -o /output.json \
+        --provider "$PROVIDER" $MODEL_OPT $DRY_OPT --format json
+else
+    python3 main.py -s "$WORK" -o /output.json \
+        --provider "$PROVIDER" $MODEL_OPT $DRY_OPT --format json
+fi
 RC=$?
+
+# 'timeout' reports 124 (GNU) or 143 (BusyBox); 137 appears when a SIGTERM was
+# escalated to SIGKILL. All three mean "we stopped it on purpose", but SmartBugs
+# reads 143 and 137 as DOCKER_RECEIVED_SIGNAL_n and files them under *fails*
+# (sb/parse_utils.py:81-82) --- the category for a tool that was knocked out.
+# A deliberate timeout is not that, so the code is normalised to 124, which
+# lands in *errors*: noticed and handled.
+TIMED_OUT=0
+if [ "$NET" -gt 0 ]; then
+    case "$RC" in
+        124|137|143) TIMED_OUT=1; RC=124 ;;
+    esac
+fi
 
 # Surface the run metadata (tokens / cost / llm_calls) on a single line so the
 # SmartBugs parser can record it without a second output file.
@@ -69,6 +107,14 @@ fi
 # failed early, so SmartBugs can always retrieve it.
 if [ ! -f /output.json ]; then
     echo '{"version":"1.1.0","success":false,"message":"no output produced","results":[]}' > /output.json
+fi
+
+# The brake writes its own marker (GPTScan does it in tasks.py); only the net
+# needs a stamp from outside, because the tool never learned it was stopped.
+if [ "$TIMED_OUT" = "1" ]; then
+    python3 "$BIN/mark_timeout.py" /output.json net \
+        "GPTScan nach ${NET}s hart beendet; Bremse bei ${BRAKE}s griff nicht" \
+        || echo "GPTScan: could not stamp the timeout marker"
 fi
 
 exit $RC
