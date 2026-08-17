@@ -30,6 +30,15 @@ num_calls_skipped_budget = Value("i", 0)
 # Reason string once a budget guard tripped (parent process only); None = ok.
 budget_exceeded_reason = None
 
+# Calls suppressed because the SmartBugs deadline passed (AP5). Kept apart from
+# num_calls_skipped_budget so the metadata can say WHY a run stopped early.
+num_calls_skipped_deadline = Value("i", 0)
+
+# Set once in the parent process when the deadline guard first trips; None means
+# it never did. Plain global, not a Value: only the parent ever writes it, the
+# same way budget_exceeded_reason works.
+deadline_exceeded_reason = None
+
 
 class Chat:
     def __init__(self) -> None:

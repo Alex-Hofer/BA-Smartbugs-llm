@@ -20,6 +20,7 @@ worker — reads the same configuration.
 """
 
 import os
+import time
 from typing import Optional
 
 import config as global_config
@@ -190,3 +191,36 @@ def budget_exceeded(num_calls: int, cost_usd: float) -> Optional[str]:
     if max_cost is not None and cost_usd >= max_cost:
         return f"MAX_COST_USD (${max_cost:.2f}) reached"
     return None
+
+
+# ---------------------------------------------------------------------------
+# Deadline guard (SmartBugs --timeout, see docs/BA-AP5-TIMEOUT-DESIGN.md)
+# ---------------------------------------------------------------------------
+
+# Absolute wall-clock deadline in Unix seconds, exported by the SmartBugs
+# entrypoint. Absolute rather than a remaining duration because every real LLM
+# call runs in a multiprocessing worker: an absolute instant means the same
+# thing in parent and child, a remaining duration does not.
+ENV_DEADLINE = "SB_DEADLINE_EPOCH"
+
+
+def deadline_exceeded() -> Optional[str]:
+    """Return a human-readable reason once the run's deadline has passed.
+
+    Returns None when no deadline is configured, when it lies in the future, or
+    when the value cannot be read as a number. That last case is deliberate: a
+    malformed variable must never cut a paid run short --- it disables the
+    guard, exactly as an unset variable does.
+    """
+    raw = os.environ.get(ENV_DEADLINE)
+    if not raw:
+        return None
+    try:
+        deadline = float(raw)
+    except (TypeError, ValueError):
+        return None
+    overdue = time.time() - deadline
+    if overdue < 0:
+        return None
+    return (f"SmartBugs deadline reached ({ENV_DEADLINE}={int(deadline)}, "
+            f"{overdue:.0f}s over)")
