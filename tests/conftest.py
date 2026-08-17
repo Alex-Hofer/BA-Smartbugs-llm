@@ -50,6 +50,12 @@ FIXTURES = os.path.join(os.path.dirname(os.path.abspath(__file__)), "fixtures")
 if SMARTBUGS not in sys.path:
     sys.path.insert(0, SMARTBUGS)
 
+# The project has no pytest configuration, so pytest puts only this directory
+# on the path -- not the repository root. Tests that import a project package
+# (testing_tools) need it there explicitly.
+if REPO_ROOT not in sys.path:
+    sys.path.insert(0, REPO_ROOT)
+
 
 def load_parser(tool: str):
     """Import ``smartbugs/tools/<tool>/parser.py`` the way SmartBugs does."""
