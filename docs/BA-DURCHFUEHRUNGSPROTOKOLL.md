@@ -187,10 +187,16 @@ Kandidatenliste wird dadurch künstlich aufgebläht. Dass daraus **kein**
 erfundenes Finding wurde, liegt an zwei nachgelagerten Sicherungen: die
 statische Bestätigungsstufe verwarf alle 13 Kandidaten
 (`vul_after_static = 0`), und für die Static-Prompts liefert derselbe Sentinel
-`"{}"`, womit keine bestätigende Nebenbedingung entsteht. Der Schutz ist also
-vorhanden, aber er ist ein **Nebeneffekt** und keine ausgesprochene Zusage —
-für eine Weiterverwendung des Mechanismus wäre ein eigener, neutraler Sentinel
-für den Deadline-Pfad die sauberere Lösung.
+`"{}"`, womit keine bestätigende Nebenbedingung entsteht. Der Schutz war also
+vorhanden, aber als **Nebeneffekt** und nicht als ausgesprochene Zusage.
+
+**Diese Zahlen sind vor der Korrektur gemessen.** Der Deadline-Pfad gibt seither
+einen eigenen, neutralen Platzhalter zurück (`llm_backend.deadline_sentinel`,
+ausnahmslos `"{}"`), den alle drei Auswertungsstellen als „keine Angabe" lesen:
+die Mehrfachauswahl als leere Menge, die Ja/Nein-Bestätigung als Nein, die
+Static-Prompts unverändert. Die Kandidatenliste eines Teillaufs kann damit nur
+noch kleiner ausfallen als die des Volllaufs. Der Teilmengen-Nachweis oben bleibt
+davon unberührt und gilt danach erst recht.
 
 Bemerkenswert ist zudem, dass GPTScans Teillauf **beide** echten Findings
 verlor: Die Bremse kostet hier nicht nur Vollständigkeit, sondern kann das
@@ -251,4 +257,3 @@ Ergebnisbäume (lokal, git-ignoriert), keine Altmessung berührt:
 
 Reproduktion: `.\run_curated.ps1` (Volllauf beide Tools) bzw. `-Tool gptscan|llmsmartaudit`, danach `smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix <RunIdSuffix> --csv`. Voraussetzungen: Docker Desktop, lokal gebaute Images, `DEEPSEEK_API_KEY` in `GPTScan/.env`.
 
-> Hinweis: Die Durchführung erfolgte KI-gestützt über ein Multi-Agent-Setup.
