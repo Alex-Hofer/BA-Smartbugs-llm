@@ -198,3 +198,82 @@ def test_synthetic_no_marker_means_no_timeout_message(llmsmartaudit):
     findings, infos, errors, fails = llmsmartaudit.parse(
         0, ["LLMSA_META {}"], synthetic_tar(json.dumps(report).encode("utf-8")))
     assert not contains(errors, "TIMEOUT")
+
+
+# --------------------------------------------------------------------------- #
+# Context exhaustion --- a state of its own, never "no findings"
+# --------------------------------------------------------------------------- #
+#
+# The tool derives the per-call completion budget as
+# ``num_max_token - num_prompt_tokens`` (camel/model_backend.py:148) and floors
+# it at 1 (``_cap_completion_tokens``). ``num_max_token`` comes from
+# ``_context_limit``, which looks the *model id* up in a table holding only
+# "deepseek-chat" and otherwise falls back to LLM_CONTEXT_TOKENS, default
+# 16384. With LLM_MODEL=deepseek-v4-flash that fallback is always taken.
+#
+# So a source above roughly 16k tokens does not fail and does not truncate
+# visibly: the request goes out with max_tokens=1, the model answers with a
+# single token, and the detector records nothing. Without the tests below that
+# is indistinguishable from a clean contract. The recorded curated run shows
+# the mechanism at work with room to spare (num_max_token 16384, prompts under
+# 8k); the exhausted end of it has no recorded example, hence "synthetic".
+#
+# A second, cleaner variant exists above 65536 tokens, where the agent itself
+# gives up (camel/agents/chat_agent.py:274) and records
+# "max_tokens_exceeded_by_camel". Both are errors, not fails: the tool stayed
+# up, the analysis did not happen.
+
+BUDGET_LINE = "num_max_completion_tokens (after adjustment): %d"
+
+
+def test_recorded_run_reports_the_context_budget_it_had(llmsmartaudit):
+    """Whether LLM_CONTEXT_TOKENS was set has to be readable per task.
+
+    The curated run was made with LLM_CONTEXT_TOKENS=65536 (run_curated.ps1:174),
+    not with the 16384 fallback. That is the single number deciding whether a
+    large contract was analysed at all, and it is set outside the tool, so it
+    belongs in the task's own record rather than only in the run script.
+    """
+    out = parse(llmsmartaudit, TOOL, "clean_with_findings")
+    assert contains(out["infos"], "context window: 65536")
+
+
+def test_synthetic_exhausted_completion_budget_is_an_error(llmsmartaudit):
+    """max_tokens=1 means the detectors answered with one token each."""
+    log = ["num_max_token: 16384", BUDGET_LINE % 1]
+    payload = (b'{"tool":"LLMSmartAudit","categories_total":41,'
+               b'"categories_checked":41,"findings":[]}')
+    _f, _i, errors, _fa = llmsmartaudit.parse(0, log, synthetic_tar(payload))
+    assert contains(errors, "context")
+
+
+def test_synthetic_exhausted_budget_is_not_reported_as_clean(llmsmartaudit):
+    """The whole point: 41/41 checked plus no findings must not read clean."""
+    log = ["num_max_token: 16384", BUDGET_LINE % 1]
+    payload = (b'{"tool":"LLMSmartAudit","categories_total":41,'
+               b'"categories_checked":41,"findings":[]}')
+    findings, _i, errors, _fa = llmsmartaudit.parse(0, log, synthetic_tar(payload))
+    assert findings == []
+    assert errors, "a contract that never fit the context is not a clean contract"
+
+
+def test_synthetic_agent_level_context_abort_is_an_error(llmsmartaudit):
+    """Above the agent's own limit camel terminates and names the reason."""
+    log = ["some chatter", "max_tokens_exceeded_by_camel", "more chatter"]
+    payload = (b'{"tool":"LLMSmartAudit","categories_total":41,'
+               b'"categories_checked":3,"findings":[]}')
+    _f, _i, errors, _fa = llmsmartaudit.parse(0, log, synthetic_tar(payload))
+    assert contains(errors, "context")
+
+
+def test_synthetic_comfortable_budget_raises_no_error(llmsmartaudit):
+    """The other direction: a run with room to spare stays clean.
+
+    8192 is the DeepSeek completion cap, i.e. the budget was not the binding
+    constraint at all --- exactly what all 44 calls of the recorded run show.
+    """
+    log = ["num_max_token: 65536", BUDGET_LINE % 8192]
+    payload = (b'{"tool":"LLMSmartAudit","categories_total":41,'
+               b'"categories_checked":41,"findings":[]}')
+    _f, _i, errors, _fa = llmsmartaudit.parse(0, log, synthetic_tar(payload))
+    assert errors == set()

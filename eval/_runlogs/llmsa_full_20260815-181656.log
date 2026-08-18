@@ -1,0 +1,5 @@
+﻿[2026-08-15 18:16:56] Volllauf LLMSmartAudit, Korpus=both, Processes=3, Kostendeckel=$21
+[2026-08-15 18:16:56] Backend: provider=deepseek model=deepseek-v4-flash context=65536
+[2026-08-15 18:16:56] API-Key gesetzt: ja (35 Zeichen, Wert wird nicht protokolliert)
+[2026-08-15 18:16:56] MAIN: nicht gesetzt (siehe Kopfkommentar)
+[2026-08-15 18:16:56] === Start curated (143), runid=llmsa_curated_v2, timeout=3600s
