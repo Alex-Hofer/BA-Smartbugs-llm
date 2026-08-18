@@ -135,11 +135,14 @@ def parse(
     # above already says how incomplete.
     sb_timeout = result.get("sb_timeout")
     if isinstance(sb_timeout, dict) and sb_timeout.get("hit"):
-        stage = sb_timeout.get("stage", "unknown")
+        stage = str(sb_timeout.get("stage", "unknown"))
         detail = sb_timeout.get("detail") or ""
-        errors.add(f"TIMEOUT_{stage.upper()}: run cut short after"
-                   f" {checked} of {total} detector categories"
-                   + (f" -- {detail}" if detail else ""))
+        if total is not None and checked is not None:
+            coverage = f" after {checked} of {total} detector categories"
+        else:
+            coverage = ""
+        errors.add(f"TIMEOUT_{stage.upper()}: run cut short"
+                   f"{coverage}" + (f" -- {detail}" if detail else ""))
 
     for f in result.get("findings", []) or []:
         finding = {"name": f.get("name", "LLMSmartAudit finding")}

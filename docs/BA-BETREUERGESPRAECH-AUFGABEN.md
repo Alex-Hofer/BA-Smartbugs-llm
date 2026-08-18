@@ -221,7 +221,11 @@ gefahrenen Messläufe vergleichbar bleiben. Belegt sind 108 grüne Tests, eine
 Vorprüfung des `timeout`-Kommandos in beiden Images
 (`docs/BA-AP5-VORPRUEFUNG.md`) sowie die vollständige Dateibilanz in
 `docs/BA-EIGENANTEIL.md` — **keine einzige neue Fremddatei**. Der Messlauf
-gegen echte Endpunkte mit einem tatsächlich ablaufenden Timeout steht noch aus.
+gegen echte, tatsächlich ablaufende Endpunkte ist erledigt (Commit `43c3f32`):
+Nachweis je eines Contracts pro Werkzeug in Abschnitt 4.5 von
+`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`. Der Nachweis zeigt, dass ein Teillauf
+nichts erfindet — nicht, wie viel ein Teillauf im Mittel verpasst (dortige
+Limitation 7).
 
 Bewusst **nicht** umgesetzt:
 * kein Timeout-Flag in den Werkzeugen selbst (wäre eine Schnittstellenänderung

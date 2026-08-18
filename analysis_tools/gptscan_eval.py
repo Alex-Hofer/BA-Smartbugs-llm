@@ -449,7 +449,8 @@ def write_summary(path: pathlib.Path, run_id: str, tasks: list[dict],
         f"{m['runtime']['task_seconds_sum']} s, Median {m['runtime']['task_seconds_median']} s, "
         f"max {m['runtime']['task_seconds_max']} s |",
         "",
-        "Der Timeout wird derzeit nur von Docker durchgesetzt, nicht vom Werkzeug selbst (AP5, offen).",
+        "Der Timeout wirkt seit AP5 im Container (Bremse bei GPTScan, Netz als "
+        "letzte Stufe); Docker bleibt als aeusserer Fallback bestehen.",
         "", "## Zustaende", "",
         "Begriffe nach `docs/BA-ERRORS-VS-FAILS.md`.", "",
         "| Zustand | Anzahl | Bedeutung |", "|---|---|---|",

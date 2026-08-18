@@ -180,6 +180,9 @@ def test_synthetic_timeout_partial_is_reported_as_error(llmsmartaudit):
         124, ["LLMSA_META {}"], synthetic_tar(
             json.dumps(report).encode("utf-8")))
     assert contains(errors, "TIMEOUT")
+    # A controlled timeout belongs in errors, never in fails -- that is the
+    # core claim of AP5, and the GPTScan twin asserts it explicitly too.
+    assert fails == set()
     # The salvaged finding must survive -- that is the whole point of AP5.
     assert len(findings) == 1
     assert contains(infos, "28/41")

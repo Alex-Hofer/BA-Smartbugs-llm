@@ -318,11 +318,15 @@ zusätzlich zwei Manifeste unter `smartbugs\results\` ab:
 Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
 äußerer Docker-Abschuss. Der jeweilige Entrypoint rechnet aus dem übergebenen
 `TIMEOUT` drei Marken: **Bremse** bei 70 % (als `SB_DEADLINE_EPOCH` exportiert;
-GPTScan stellt danach neue LLM-Aufrufe ein, LLMSmartAudit prüft die Marke
-zwischen den Detektor-Phasen — beide laufen danach regulär aus), **Netz** bei
-90 % (`timeout` beendet den Prozess hart, Exit-Code wird einheitlich auf 124
-normalisiert), Rest fürs Aufräumen. `--timeout 0` bzw. kein `--timeout`
-schaltet den Mechanismus vollständig ab — Verhalten wie vor AP5.
+nur **GPTScan** liest sie, stellt danach neue LLM-Aufrufe ein und läuft
+regulär aus. **LLMSmartAudit liest `SB_DEADLINE_EPOCH` nicht** — der Export
+ist dort absichtlich wirkungslos, exportiert nur, damit beide Entrypoints
+dieselbe Marken-Rechnung teilen), **Netz** bei 90 % (`timeout` beendet den
+Prozess hart, Exit-Code wird einheitlich auf 124 normalisiert — bei
+LLMSmartAudit ist das die **einzige** wirksame Stufe; der Entrypoint birgt
+danach den Zwischenstand, den `audit_report.record()` nach jeder
+Detektor-Phase abgelegt hat), Rest fürs Aufräumen. `--timeout 0` bzw. kein
+`--timeout` schaltet den Mechanismus vollständig ab — Verhalten wie vor AP5.
 
 ### Ein Teilergebnis erkennen
 
@@ -375,11 +379,14 @@ Prüfstand kann also nicht versehentlich Kosten auslösen.
 > nicht: `main.py` zieht über `analyze_pipeline`/`chatgpt_api` die Pakete
 > `openai`, `tiktoken` und `rich`, die auf dem Host nicht installiert sind —
 > ein direkter, nicht containerisierter Aufruf ist dort schlicht nicht
-> lauffähig. Der durchgehende Pfad ist damit container-only und wird erst
-> durch einen `sb -t gptscan`-Lauf gegen den Prüfstand belegt, der noch
-> aussteht (siehe unten).
+> lauffähig. Der durchgehende Pfad ist damit container-only; belegt ist er
+> inzwischen durch den `sb -t gptscan`-Lauf gegen den Prüfstand in Abschnitt
+> 4.5 von `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` (siehe unten).
 
 Belegt ist der Mechanismus durch 108 grüne Tests
 (`python -m pytest tests/ -q`) und die Vorprüfung des `timeout`-Kommandos in
-beiden Images (`docs/BA-AP5-VORPRUEFUNG.md`). Ein Messlauf gegen einen echten,
-tatsächlich ablaufenden Endpunkt steht noch aus.
+beiden Images (`docs/BA-AP5-VORPRUEFUNG.md`). Der Messlauf gegen einen echten,
+tatsächlich ablaufenden Endpunkt ist erledigt (Commit `43c3f32`): siehe
+Abschnitt 4.5 in `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` — je ein Contract pro
+Werkzeug, Nachweis dass ein Teillauf nichts erfindet, nicht wie viel er im
+Mittel verpasst (dortige Limitation 7).

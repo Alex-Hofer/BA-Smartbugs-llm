@@ -40,8 +40,10 @@
     pancakeswap/legacy/test liefern still leeren Output) ist in
     tools\gptscan\scripts\do_solidity.sh geloest: die Datei wird nach
     /work/input kopiert, der SmartBugs-Mount /sb wird nicht analysiert.
-  * --timeout wird derzeit nur von Docker durchgesetzt, nicht vom Werkzeug
-    selbst. Das ist AP5 und noch offen; der Wert steht trotzdem im Protokoll.
+  * --timeout wirkt seit AP5 innerhalb des Containers (Bremse bei GPTScan,
+    Netz als letzte Stufe bei beiden Werkzeugen); der aeussere Docker-Abschuss
+    bleibt zusaetzlich als letzte Instanz bestehen. Der Wert steht im
+    Protokoll.
   * --continue-on-errors ist bei --main auf diesem Korpus PFLICHT, nicht Kuer.
     sb\smartbugs.py:119 bildet den erwarteten Contract-Namen als Dateiname ohne
     Endung -- also MIT dem Zahlpraefix ("106_NFTLoanFacilitator"). Ein solcher
@@ -193,7 +195,7 @@ try {
     Write-Log ("Mode={0} RunId={1} MAIN={2} processes={3} timeout={4}s mem-limit={5}" -f `
                $Mode, $RunId, $Main, $Processes, $TimeoutSec, $MemLimit)
     if ($Mode -ne 'dry') { Write-Log "LIVE-Lauf: es werden kostenpflichtige API-Calls abgesetzt." }
-    Write-Log "Hinweis: --timeout wird derzeit nur von Docker durchgesetzt, nicht vom Werkzeug selbst (AP5, offen)."
+    Write-Log "Hinweis: --timeout wirkt seit AP5 im Container (Bremse bei GPTScan, Netz als letzte Stufe); Docker bleibt zusaetzlich als aeusserer Abschuss bestehen."
 
     # ---------------------------------------------------------------- Lauf
     $started = Get-Date
@@ -250,7 +252,7 @@ try {
         main              = $Main
         processes         = $Processes
         timeout_sec       = $TimeoutSec
-        timeout_enforced_by = 'docker only (AP5 offen: das Werkzeug selbst erzwingt den Timeout nicht)'
+        timeout_enforced_by = 'in-container (AP5: GPTScan brake + net) plus docker as outer fallback'
         mem_limit         = $MemLimit
         file_pattern      = @($pattern)
         corpus_dir        = 'smartbugs/samples/gptscan/mwevariety_fixed'

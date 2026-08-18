@@ -203,13 +203,17 @@ sichern. Seit AP5 rechnet der jeweilige Entrypoint aus dem von SmartBugs
 
 | Marke | Anteil von `TIMEOUT` | Wirkung |
 |---|---|---|
-| Bremse | 70 %, mind. 1 s | Als absoluter Zeitstempel `SB_DEADLINE_EPOCH` exportiert. GPTScan stellt beim Erreichen keine neuen LLM-Aufrufe mehr, LLMSmartAudit prüft die Marke zwischen den Detektor-Phasen. Beide laufen danach regulär aus. |
-| Netz | 90 %, mind. 1 s | `timeout` beendet den Werkzeugprozess hart, falls die Bremse nicht gegriffen hat. Der Entrypoint normalisiert den Exit-Code danach einheitlich auf **124** — auch wenn `timeout` selbst 143 oder 137 meldete. |
+| Bremse | 70 %, mind. 1 s | Als absoluter Zeitstempel `SB_DEADLINE_EPOCH` exportiert. Nur **GPTScan** liest die Marke: Es stellt beim Erreichen keine neuen LLM-Aufrufe mehr und läuft danach regulär aus. **LLMSmartAudit liest `SB_DEADLINE_EPOCH` nicht** — der Export ist dort absichtlich wirkungslos, exportiert nur, damit beide Entrypoints dieselbe Marken-Rechnung teilen (Vergleichstest, siehe unten). |
+| Netz | 90 %, mind. 1 s | `timeout` beendet den Werkzeugprozess hart, falls die Bremse nicht gegriffen hat (bei LLMSmartAudit: immer, da es keine Bremse kennt). Der Entrypoint normalisiert den Exit-Code danach einheitlich auf **124** — auch wenn `timeout` selbst 143 oder 137 meldete. Bei LLMSmartAudit ist das Netz damit die **einzige** wirksame Stufe; der Entrypoint birgt danach den Zwischenstand, den `audit_report.record()` nach jeder Detektor-Phase abgelegt hat. |
 | Rest | verbleibende Zeit | Für den Entrypoint reserviert: Zwischenstand bergen, `sb_timeout` stempeln, `/output.json` garantieren. |
 
 `--timeout 0` (kein `--timeout` gesetzt) schaltet den gesamten Mechanismus ab —
-das Verhalten bleibt dann Byte für Byte wie vor AP5, damit die bereits
-gefahrenen Messläufe vergleichbar bleiben.
+das Verhalten bleibt dann verhaltensgleich zu vor AP5, damit die bereits
+gefahrenen Messläufe vergleichbar bleiben. Nicht ganz Byte für Byte: GPTScans
+`tasks.py` schreibt `llm_calls_skipped_deadline` und `deadline_exceeded`
+bedingungslos in die Metadaten, die `GPTSCAN_META`-Zeile hat also unabhängig
+von `--timeout` immer zwei Schlüssel mehr als vor AP5. Kein Parser stört sich
+daran.
 
 **Ein Teilergebnis erkennen.** Drei Stellen im Ergebnis zeigen es an:
 
@@ -258,9 +262,13 @@ in `GPTScan/src/llm_backend.py` hinzugekommen und für sich getestet (siehe
 > bekommt die Basis-URL damit in den Container gereicht. Belegt ist damit die
 > Durchreichung der Variablen bis an den Container; ein tatsächlicher
 > `sb -t gptscan`-Lauf gegen den Prüfstand-Endpunkt aus dem Container heraus
-> ist Teil des noch ausstehenden Messlaufs (siehe unten).
+> ist mit dem scharfen Lauf in Abschnitt 4.5 von
+> `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` inzwischen belegt (siehe unten).
 
 **Was das nicht ersetzt.** Der Prüfstand belegt den Mechanismus in 108 grünen
 Tests und in einer Vorprüfung des `timeout`-Kommandos in beiden Images
-(`docs/BA-AP5-VORPRUEFUNG.md`). Ein Messlauf gegen einen echten, tatsächlich
-ablaufenden Endpunkt — also der Nachweis im scharfen Betrieb — steht noch aus.
+(`docs/BA-AP5-VORPRUEFUNG.md`). Der Nachweis im scharfen Betrieb — gegen einen
+echten, tatsächlich ablaufenden Endpunkt — ist erledigt (Commit `43c3f32`,
+Abschnitt 4.5 in `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`): je ein Contract pro
+Werkzeug zeigt, dass ein Teillauf nichts erfindet — nicht, wie viel ein
+Teillauf im Mittel verpasst (dortige Limitation 7).

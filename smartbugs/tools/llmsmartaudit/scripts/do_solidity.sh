@@ -31,13 +31,20 @@ if [ "$MAIN" = "1" ]; then
 fi
 
 # --- Timeout budget (AP5, docs/BA-AP5-TIMEOUT-DESIGN.md 4.1) ----------------
-# Three marks out of the one TIMEOUT SmartBugs hands us:
-#   70%  brake -- exported as an absolute deadline; GPTScan stops issuing LLM
-#         calls and runs out on its own, writing what it confirmed so far
-#   90%  net   -- 'timeout' stops the tool if the brake did not take effect
-#   rest       -- belongs to this script, to salvage and write /output.json
+# Three marks out of the one TIMEOUT SmartBugs hands us, computed identically
+# to the GPTScan entrypoint (kept in sync by
+# test_both_entrypoints_compute_the_same_marks):
+#   70%  brake -- exported as SB_DEADLINE_EPOCH, but this tool never reads it.
+#         The export is deliberately a no-op here; it exists only so both
+#         entrypoints share the same arithmetic. GPTScan is the tool that
+#         actually acts on it (see that entrypoint).
+#   90%  net   -- the only stage that has any effect on this tool: 'timeout'
+#         stops the process, and this script then salvages whatever snapshot
+#         audit_report.record() wrote after the last completed detector phase.
+#   rest       -- belongs to this script, to write /output.json from that
+#         snapshot.
 # TIMEOUT=0 (no --timeout) leaves every one of them unset: the run then behaves
-# byte for byte as it did before AP5, which keeps the earlier runs comparable.
+# the same as it did before AP5, which keeps the earlier runs comparable.
 NET=0
 if [ "${TIMEOUT:-0}" -gt 0 ]; then
     BRAKE=$(( TIMEOUT * 7 / 10 ))

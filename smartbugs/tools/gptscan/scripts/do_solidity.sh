@@ -40,7 +40,9 @@ fi
 #   90%  net   -- 'timeout' stops the tool if the brake did not take effect
 #   rest       -- belongs to this script, to salvage and write /output.json
 # TIMEOUT=0 (no --timeout) leaves every one of them unset: the run then behaves
-# byte for byte as it did before AP5, which keeps the earlier runs comparable.
+# the same as it did before AP5, which keeps the earlier runs comparable. (Not
+# literally byte-for-byte: tasks.py always writes llm_calls_skipped_deadline
+# and deadline_exceeded into GPTSCAN_META, timeout budget or not.)
 NET=0
 if [ "${TIMEOUT:-0}" -gt 0 ]; then
     BRAKE=$(( TIMEOUT * 7 / 10 ))

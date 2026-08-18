@@ -237,6 +237,7 @@ Ergebnisbäume (lokal, git-ignoriert), keine Altmessung berührt:
 5. **Severity-Werte** beider LLM-Tools sind Kategorie-Defaults (4.2) — severity-gewichtete Metriken wären irreführend.
 6. **Contract-Level-Metrik:** Bei hoher Finding-Dichte (LLMSA Ø 7,9) ist Contract-Level-Recall wohlwollend; Zeilen-genaue Auswertung war nicht möglich, da LLMSA keine Zeilennummern emittiert.
 7. **Reichweite des Timeout-Nachweises (4.5):** Der Teilmengen-Nachweis stützt sich auf je einen Contract pro Werkzeug (Kostenrahmen). Er zeigt, dass der Teillauf nichts erfindet — er quantifiziert nicht, wie viel ein Teillauf im Mittel verpasst. Bei GPTScan fiel das Teilergebnis im gemessenen Fall sogar auf null Findings.
+8. **`evaluate_curated.py` kennt den Timeout-Marker nicht:** Die Auswertung liest ausschließlich das Feld `findings` aus jeder `result.json` (siehe Kopfkommentar der Datei) und betrachtet weder `errors`/`fails` noch `degraded` — ein legitim unvollständiger, aber sauber geparster Teillauf (`sb_timeout`, seit AP5) ginge dort wie ein Volllauf in Recall und Precision ein. Bewusste Arbeitsteilung, kein Codefehler; für die AP5-Messläufe (4.5.1) ohne Wirkung, da sie nicht durch `evaluate_curated.py` liefen.
 
 ## 6. Artefakte & Reproduktion
 
