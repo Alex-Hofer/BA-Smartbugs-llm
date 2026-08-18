@@ -383,7 +383,7 @@ Prüfstand kann also nicht versehentlich Kosten auslösen.
 > inzwischen durch den `sb -t gptscan`-Lauf gegen den Prüfstand in Abschnitt
 > 4.5 von `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` (siehe unten).
 
-Belegt ist der Mechanismus durch 110 grüne Tests
+Belegt ist der Mechanismus durch 32 eigene Tests in einer grünen Suite
 (`python -m pytest tests/ -q`) und die Vorprüfung des `timeout`-Kommandos in
 beiden Images (`docs/BA-AP5-VORPRUEFUNG.md`). Der Messlauf gegen einen echten,
 tatsächlich ablaufenden Endpunkt ist erledigt (Commit `43c3f32`): siehe

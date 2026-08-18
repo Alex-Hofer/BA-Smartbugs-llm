@@ -145,11 +145,16 @@ getrennt aus — als eigene Zeile, nicht als stille Beimischung.
 
 ### 3.1 Tests
 
-**110 grüne Tests** (`python -m pytest tests/ -q`), Ausgangsstand vor AP5: 78.
-Die 32 neuen decken ab: die Deadline-Entscheidung samt ihrem neutralen
-Platzhalter, den Zwischenstand-Flush samt Atomarität, beide Parser-Zweige, die
-Marken-Arithmetik beider Entrypoints inklusive ihrer Gleichheit, und den
-Prüfstand-Endpunkt.
+**AP5 hat die Suite von 78 auf 110 Tests gebracht**, alle grün
+(`python -m pytest tests/ -q`). Die 32 neuen decken ab: die
+Deadline-Entscheidung samt ihrem neutralen Platzhalter, den Zwischenstand-Flush
+samt Atomarität, beide Parser-Zweige, die Marken-Arithmetik beider Entrypoints
+inklusive ihrer Gleichheit, und den Prüfstand-Endpunkt.
+
+Nach der Zusammenführung mit dem parallel auf `main` entstandenen Stand (Prüfung
+des Kontextfensters im LLMSmartAudit-Parser) steht die Gesamtsuite bei **138
+Tests, ebenfalls alle grün**. Die beiden Arbeiten berühren dieselbe Parser-Datei
+an verschiedenen Stellen und laufen ohne gegenseitige Wirkung.
 
 ### 3.2 Echte Container-Läufe
 
