@@ -194,9 +194,8 @@ vorhanden, aber als **Nebeneffekt** und nicht als ausgesprochene Zusage.
 einen eigenen, neutralen Platzhalter zurück (`llm_backend.deadline_sentinel`,
 ausnahmslos `"{}"`), den alle drei Auswertungsstellen als „keine Angabe" lesen:
 die Mehrfachauswahl als leere Menge, die Ja/Nein-Bestätigung als Nein, die
-Static-Prompts unverändert. Die Kandidatenliste eines Teillaufs kann damit nur
-noch kleiner ausfallen als die des Volllaufs. Der Teilmengen-Nachweis oben bleibt
-davon unberührt und gilt danach erst recht.
+Static-Prompts unverändert. Die Wirkung ist nachgemessen und nicht nur
+argumentiert — siehe **4.5.6**.
 
 Bemerkenswert ist zudem, dass GPTScans Teillauf **beide** echten Findings
 verlor: Die Bremse kostet hier nicht nur Vollständigkeit, sondern kann das
@@ -232,7 +231,79 @@ GPTScans Budget-Wächter (`MAX_COST_USD = 0.5` je Contract) wurde nicht
 ausgelöst (`budget_exceeded = null`).
 
 Ergebnisbäume (lokal, git-ignoriert), keine Altmessung berührt:
-`smartbugs/results/{gptscan,llmsmartaudit}/ap5_{free_brake,free_net,free_notimeout,live_full,live_partial}/`.
+`smartbugs/results/{gptscan,llmsmartaudit}/ap5_{free_brake,free_net,free_notimeout,live_full,live_partial}/`;
+die Wiederholungsläufe aus 4.5.6 unter
+`ap5_{verify_brake,verify_net,verify_notimeout,verify2_full,verify2_part}/`.
+
+#### 4.5.6 Gegenprobe nach der Korrektur des Platzhalters
+
+Die Korrektur aus 4.5.3 greift in den Deadline-Pfad ein, also genau in das, was
+4.5.1 und 4.5.2 gemessen haben. Beide Abschnitte wurden deshalb wiederholt.
+
+**Voraussetzung, die dabei zuerst auffiel:** Das gptscan-Image **backt GPTScans
+Quelltext ein** (`COPY . /opt/gptscan`), war aber vor der Korrektur gebaut. Ohne
+Neubau wäre die Änderung im Repository gewesen und in keinem Lauf wirksam. Nach
+dem Neubau im Image nachgesehen: `llm_backend.py` enthält `deadline_sentinel`,
+`analyze_pipeline.py` ruft ihn im Deadline-Zweig, Budget-Zweig und `--dry-run`
+rufen weiterhin `dry_sentinel`. Die Entrypoints sind über `bin: scripts`
+**gemountet** und die Parser laufen auf dem Host — beide brauchen keinen Neubau.
+
+**Prüfstand (kostenlos), alle vier Fälle bestanden:**
+
+| Fall | Parameter | Ergebnis |
+|---|---|---|
+| GPTScan, Bremse | `--timeout 300`, 10 s Verzögerung | Exit 0, 231,8 s, `TIMEOUT_BRAKE`, `fails` leer |
+| GPTScan, Netz | `--timeout 60`, 60 s Verzögerung | Exit **124**, 69,5 s, `TIMEOUT_NET`, `sb_timeout` in `output.json` |
+| LLMSmartAudit, Netz | `--timeout 300`, 10 s Verzögerung | Exit **124**, 285,6 s, **24/41** geborgen, `timestamp: partial` |
+| GPTScan, kein `--timeout` | Kontrolle | Exit 0, 17,8 s, keine `SB_TIMEOUT_BUDGET`-Zeile, kein Marker |
+
+Der Bremsen-Lauf ist mit dem Altlauf aus 4.5.1 **identisch parametriert** und
+damit direkt vergleichbar. Der Prüfstand antwortet auf jede Anfrage mit dem
+Literal `"yes"`, was für die Mehrfachauswahl-Stufe kein gültiges JSON ist — ein
+*echter* Aufruf kann dort also gar keinen Kandidaten erzeugen. Jeder Kandidat des
+Altlaufs stammte folglich aus dem bejahenden Platzhalter:
+
+| Kennzahl | vor der Korrektur | nach der Korrektur |
+|---|---|---|
+| LLM-Aufrufe | 21 | 21 |
+| `used_time` | 215,14 s | 215,20 s |
+| unterdrückte Aufrufe | 7 | 2 |
+| `functions_after_step_1` | 3 | **0** |
+| `vul_before_static` | 2 | **0** |
+
+Der Rückgang von 7 auf 2 unterdrückte Aufrufe hat dieselbe Ursache: Jeder
+erfundene All-yes-Eintrag zog eine weitere Ja/Nein-Frage nach sich, die ebenfalls
+unterdrückt und mitgezählt wurde.
+
+**Scharfer Lauf (DeepSeek `deepseek-v4-flash`), `5_Router.sol`:**
+
+| | Volllauf | Teillauf (`--timeout 120`) |
+|---|---|---|
+| vor der Korrektur (4.5.2) | 172,2 s, 39 Aufrufe, 2 Findings, $0,0067 | 99,9 s, `brake`, 24 Aufrufe, 26 unterdrückt, 0 Findings, $0,0031 |
+| `vul_before_static` | 6 | **13** |
+| nach der Korrektur | 233,4 s, 44 Aufrufe, 2 Findings, $0,0091 | 99,8 s, `brake`, 23 Aufrufe, 13 unterdrückt, 0 Findings, $0,0033 |
+| `vul_before_static` | 7 | **5** |
+
+Das ist die Aussage, um die es geht: **Vor der Korrektur war die Kandidatenliste
+des Teillaufs größer als die des Volllaufs (13 gegen 6) — nach der Korrektur ist
+sie kleiner (5 gegen 7).** Ein Teillauf kann seither nur noch weniger vorschlagen
+als ein Volllauf, nie mehr. Beide Volllaufergebnisse nennen dieselben zwei
+Findings (MWE-200, MWE-206); der reguläre Pfad ist also unverändert. `fails` war
+in allen Läufen leer, `budget_exceeded` überall `null`.
+
+Die Schwankung zwischen den beiden Vollläufen (39 gegen 44 Aufrufe, 6 gegen 7
+Kandidaten, 172 s gegen 233 s) ist der in 5.3 dokumentierte Nicht-Determinismus,
+nicht eine Wirkung der Korrektur.
+
+Kosten der Gegenprobe: **$0,0124** (Volllauf $0,0091 + Teillauf $0,0033), vom
+Werkzeug selbst gerechnet. Die Prüfstands-Läufe kosten nichts.
+
+**Nicht wiederholt:** der scharfe LLMSmartAudit-Lauf aus 4.5.2/4.5.3. Die
+Korrektur betrifft ausschließlich GPTScan-Quelltext; LLMSmartAudits Image ist
+neuer als die letzte Änderung an seinem eingebackenen Code, sein Netz-Pfad ist
+oben kostenlos verifiziert, und ein Wiederholungslauf hätte rund $0,03 und
+18 Minuten gekostet, ohne eine berührte Codezeile zu prüfen. Der
+Teilmengen-Nachweis aus 4.5.3 bleibt damit die Messung vom 18.08.2026.
 
 ## 5. Methodische Limitationen
 

@@ -155,7 +155,8 @@ Prüfstand-Endpunkt.
 
 Alle Läufe in eigenen Ergebnisbäumen; die 19 Altmessungen unberührt.
 
-**Gegen einen lokalen Prüfstand (kostenlos, wiederholbar):**
+**Gegen einen lokalen Prüfstand (kostenlos, wiederholbar)** — Zahlen der
+Erstmessung; zur Wiederholung nach der Korrektur siehe unten:
 
 | Fall | Ergebnis |
 |---|---|
@@ -169,12 +170,30 @@ Eine ungeplante Negativkontrolle: `71_IndexTemplate.sol` lief in 211,8 s durch �
 1,8 s **nach** der Bremse — und trägt korrekt keinen Marker. Damit ist auch die
 Umkehrung belegt: Markerfreiheit heißt „Lauf war vollständig".
 
-**Gegen den echten DeepSeek-Endpunkt (Kosten rund $0,04):**
+**Gegen den echten DeepSeek-Endpunkt (Kosten rund $0,04)** — ebenfalls
+Erstmessung:
 
 | | Volllauf | Teillauf |
 |---|---|---|
 | LLMSmartAudit `5_Vether.sol` | 719,9 s, 41/41, 9 Findings | 376,5 s, Exit 124, **23/41**, 5 Findings |
 | GPTScan `5_Router.sol` | 172,2 s, 39 Aufrufe, 2 Findings, $0,0067 | 99,9 s, Exit 0, `brake`, 24 Aufrufe, 26 unterdrückt, 0 Findings |
+
+**Nach der Korrektur des Platzhalters (Abschnitt 4) nachgemessen.** Die Korrektur
+greift in den Deadline-Pfad ein, also in genau das, was diese Läufe messen. Dabei
+fiel zuerst auf, dass das gptscan-Image GPTScans Quelltext einbackt und vor der
+Korrektur gebaut war — ohne Neubau wäre die Änderung im Repository gewesen und in
+keinem Lauf wirksam. Nach dem Neubau erneut gefahren:
+
+* **alle vier Prüfstand-Fälle** (beide Werkzeuge) — wieder bestanden;
+* **GPTScan scharf**, Voll- und Teillauf — bestätigt die beabsichtigte Wirkung
+  (Abschnitt 4), Kosten $0,0124.
+
+**Nicht** erneut gefahren wurde der scharfe LLMSmartAudit-Lauf: die Korrektur
+betrifft ausschließlich GPTScan-Quelltext, LLMSmartAudits Netz-Pfad ist am
+Prüfstand verifiziert, und ein Wiederholungslauf hätte rund $0,03 gekostet, ohne
+eine geänderte Codezeile zu berühren. Der Teilmengen-Nachweis in 3.3 bleibt damit
+die Erstmessung. Zahlen zu allem in Abschnitt 4.5.6 von
+`BA-DURCHFUEHRUNGSPROTOKOLL.md`.
 
 ### 3.3 Der Teilmengen-Nachweis
 
@@ -249,10 +268,22 @@ Nein, Static-Prompts unverändert. Der Budget-Zweig behält `dry_sentinel` — e
 ein Kostenstopp, kein Zeitablauf, und seine Oberschranken-Antwort ist dort
 gewollt. Zwei Tests halten das fest; beide fallen gegen die Fassung davor.
 
-Kein neuer scharfer Lauf war dafür nötig: ein neutraler Platzhalter kann die
-Kandidatenliste nur verkleinern, der Teilmengen-Nachweis gilt danach erst recht,
-und der gemessene Teillauf lieferte ohnehin 0 Findings. Die Zahl 6→13 in
-`BA-DURCHFUEHRUNGSPROTOKOLL.md` ist damit ein historischer Messwert.
+**Die Wirkung ist gemessen, nicht nur begründet.** Voll- und Teillauf wurden mit
+dem korrigierten Code wiederholt (`5_Router.sol`, DeepSeek `deepseek-v4-flash`,
+$0,0124):
+
+| `vul_before_static` | Volllauf | Teillauf (`--timeout 120`) |
+|---|---|---|
+| vor der Korrektur | 6 | **13** |
+| nach der Korrektur | 7 | **5** |
+
+Vorher schlug der Teillauf **mehr** Kandidaten vor als der Volllauf, jetzt
+**weniger** — die Zusage „ein Teilergebnis erfindet nichts" ist damit nicht mehr
+vom Zufall zweier nachgelagerter Sicherungen abhängig. Beide Vollläufe melden
+dieselben zwei Findings, der reguläre Pfad ist also unverändert; der Unterschied
+39/44 Aufrufe und 6/7 Kandidaten zwischen ihnen ist der bekannte
+Nicht-Determinismus. Die Zahl 6→13 in `BA-DURCHFUEHRUNGSPROTOKOLL.md` bleibt als
+historischer Messwert stehen, mit der Gegenprobe daneben (Abschnitt 4.5.6).
 
 ---
 
