@@ -298,6 +298,16 @@ nicht eine Wirkung der Korrektur.
 Kosten der Gegenprobe: **$0,0124** (Volllauf $0,0091 + Teillauf $0,0033), vom
 Werkzeug selbst gerechnet. Die Prüfstands-Läufe kosten nichts.
 
+**Nach der Zusammenführung mit `main` noch einmal gegengeprüft.** Der
+LLMSmartAudit-Parser hat parallel eine zweite Prüfung bekommen (Kontextfenster,
+`_context_state`), die bei jedem Parse mitläuft. Da Parser auf dem Host laufen,
+gilt das auch rückwirkend für die oben aufgezeichneten Läufe. Alle drei echten
+Timeout-Läufe wurden deshalb mit dem zusammengeführten Parser neu ausgewertet:
+**derselbe `TIMEOUT_`-Eintrag, `fails` weiterhin leer, kein Eintrag verloren oder
+hinzugekommen.** Einzige Änderung ist eine zusätzliche Info-Zeile beim
+LLMSmartAudit-Lauf (`context window: 65536 tokens, smallest completion budget:
+61588`) — das ist die neue Prüfung, die meldet, dass das Budget reichlich war.
+
 **Nicht wiederholt:** der scharfe LLMSmartAudit-Lauf aus 4.5.2/4.5.3. Die
 Korrektur betrifft ausschließlich GPTScan-Quelltext; LLMSmartAudits Image ist
 neuer als die letzte Änderung an seinem eingebackenen Code, sein Netz-Pfad ist
