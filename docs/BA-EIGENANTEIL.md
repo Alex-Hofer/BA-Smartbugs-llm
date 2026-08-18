@@ -35,8 +35,9 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 | Pfad | Inhalt |
 |---|---|
 | `analysis_tools/` | Auswertungswerkzeuge: Parser-Audit, Errors/Fails-Report, Rohlog-Zugriff, Redaktion, CSV-Vergleich |
-| `tests/` | pytest-Regressionstests beider Parser samt Fixtures aus echten Altläufen |
+| `tests/` | pytest-Regressionstests beider Parser und, seit AP5, der Timeout-Mechanik (Deadline-Wächter, Zwischenstand, Entrypoint-Marken) samt Fixtures aus echten Altläufen und synthetischem Material |
 | `corpus_tools/` | Rekonstruktion des `mwevariety`-Korpus (`build_fixed.py`), Laufanalyse (`analyze_run.py`) |
+| `testing_tools/` | *(AP5)* Lokaler, OpenAI-kompatibler Prüfstand-Endpunkt (`fake_llm_endpoint.py`), der Timeout-Pfade ohne echte API-Kosten und deterministisch auslösbar macht |
 | `docs/` | Ausarbeitungen, Protokolle, Berichte |
 | `run_curated.ps1` | Massenlauf-Runner über den curated-Datensatz |
 | `evaluate_curated.py` | Recall/Precision/F1 gegen die Ground Truth |
@@ -44,26 +45,29 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 ### SmartBugs-Tool-Integrationen (eigene Ergänzungen im Fremdbaum)
 
 `smartbugs/tools/gptscan/` und `smartbugs/tools/llmsmartaudit/` sind vollständig
-selbst geschrieben, je vier Dateien nach dem SmartBugs-Schema:
+selbst geschrieben. Ursprünglich je vier Dateien nach dem SmartBugs-Schema,
+inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat:
 
 | Datei | Aufgabe |
 |---|---|
-| `config.yaml` | Image, `output: /output.json`, **`network: bridge`** (SmartBugs setzt Tool-Container sonst auf `network: none`, was jeden API-Aufruf stillschweigend bricht), `env:`-Allowlist, Entrypoint |
+| `config.yaml` | Image, `output: /output.json`, **`network: bridge`** (SmartBugs setzt Tool-Container sonst auf `network: none`, was jeden API-Aufruf stillschweigend bricht), `env:`-Allowlist, Entrypoint; bei GPTScan seit AP5 zusätzlich `GPTSCAN_BASE_URL`/`GPTSCAN_API_KEY` in der Allowlist, damit ein frei wählbarer Endpunkt (z. B. der lokale Prüfstand) aus einem SmartBugs-Lauf heraus erreichbar ist |
 | `scripts/do_solidity.sh` | Entrypoint im Container: Quellordner vorbereiten, Provider/Modell aus der Umgebung wählen, Tool starten, Metadatenzeile ausgeben, `/output.json` garantieren |
 | `parser.py` | `parse(exit_code, log, output) -> (findings, infos, errors, fails)` |
 | `findings.yaml` | Finding-Name → SWC/DASP-Klassifikation, Severity, Beschreibung |
+| `scripts/main_contract.py` | *(AP6)* Reduziert eine Solidity-Datei bei `MAIN=1` auf den Hauptcontract, weil weder GPTScan noch LLMSmartAudit eine eigene Contract-Auswahl anbietet |
+| `scripts/mark_timeout.py` | *(AP5)* Stempelt den Marker `sb_timeout` auf einen Report, wenn das Netz (90 % von `TIMEOUT`) den Lauf von außen beendet hat, bevor das Werkzeug selbst dazu kam |
 
 ### Eigener Code innerhalb der Fremdbäume
 
 | Datei | Aufgabe |
 |---|---|
-| `GPTScan/src/llm_backend.py` | Provider-/Modell-Abstraktion, Preise, Kostenschätzung, `--dry-run`, Budget-Wächter |
+| `GPTScan/src/llm_backend.py` | Provider-/Modell-Abstraktion, Preise, Kostenschätzung, `--dry-run`, Budget-Wächter, seit AP5 zusätzlich: `deadline_exceeded()` (Deadline-Wächter, das Gegenstück zum Budget-Wächter) und Endpunkt-Override für den Provider `custom` (`GPTSCAN_BASE_URL`), über den der lokale Prüfstand angesprochen wird |
 | `GPTScan/src/report_md.py` | Markdown-Reportformatter (`--format md\|both`) |
 | `GPTScan/Dockerfile`, `requirements-docker.txt`, `.dockerignore`, `.env.example` | Containerisierung ohne eingebackenen Schlüssel |
 | `GPTScan/taxonomy/findings.yaml`, `taxonomy/mapping.md` | Abbildung der 10 MWE-Detektoren auf SWC/DASP mit Begründung |
 | `GPTScan/docs/SMARTBUGS_INTEGRATION.md` | Integrationsdokumentation |
 | `GPTScan/scripts/aggregate_smartbugs.py`, `prettify_sol.py` | Hilfsskripte |
-| `LLMSmartAuditTool-main/.../chatdev/audit_report.py` | Sammelt die Ergebnisse aller 41 Detektor-Phasen und rendert einen standardisierten Report |
+| `LLMSmartAuditTool-main/.../chatdev/audit_report.py` | Sammelt die Ergebnisse aller 41 Detektor-Phasen und rendert einen standardisierten Report; seit AP5 zusätzlich: schreibt den Report **nach jeder einzelnen Phase** atomar als Zwischenstand (`categories_checked`/`categories_total`), damit der Entrypoint bei einem harten Timeout-Abbruch etwas zu bergen hat |
 | `LLMSmartAuditTool-main/.../Dockerfile.smartbugs`, `.dockerignore` | Containerisierung für SmartBugs |
 | `LLMSmartAuditTool-main/.../docs/coverage.md` | Welche Detektor-Kategorien `SmartContractTA` tatsächlich prüft |
 
@@ -191,7 +195,10 @@ sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:
 unverändert — die Parser-Reparatur (siehe `docs/BA-ERRORS-VS-FAILS.md`) findet
 ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
 `python -m sb.reparse` auf Altläufe anwenden lässt und kein anderes der
-30+ SmartBugs-Werkzeuge berührt.
+30+ SmartBugs-Werkzeuge berührt. Das gilt auch für AP5 (Timeout durchreichen):
+Der gesamte Mechanismus liegt in den eigenen Entrypoints und Parsern der beiden
+KI-Scanner, `sb/docker.py`s äußerer Docker-Timeout bleibt unverändert die letzte
+Instanz.
 
 ### 2.2 GPTScan — 7 geänderte Dateien
 
@@ -200,10 +207,10 @@ Von den 66 getrackten Dateien sind 38 unverändert, 21 neu (siehe oben) und
 
 | Datei | Was | Warum |
 |---|---|---|
-| `src/tasks.py` | CLI-Optionen `--provider`, `--model`, `--dry-run`, `--format`; `-k/--gptkey` von *required* auf optional; `.env`-Laden über `python-dotenv` | GPTScan war fest auf OpenAI verdrahtet und verlangte den Schlüssel als Kommandozeilenargument — unter SmartBugs weder wählbar noch sicher übergebbar |
-| `src/analyze_pipeline.py` | `ask_with_timeout()` zur zentralen Messstelle umgebaut: Token-/Call-Zählung, Budget-Wächter, `--dry-run`-Kurzschluss | Ohne eine einzige Messstelle gibt es keine belastbare Kostenaussage; die Zählung muss im Elternprozess liegen, damit sie unabhängig von der Multiprocessing-Startmethode funktioniert |
-| `src/chatgpt_api.py` | Modellwahl und SDK-Konfiguration an `llm_backend` delegiert; Zähler für ausgeführte und wegen Budget übersprungene Calls | Die Modell-IDs `gpt-3.5-turbo`/`gpt-4` waren hart kodiert |
-| `src/config.py` | `PROVIDERS`-Tabelle (Endpunkt, Schlüssel-Variable, Modell-Tiers, Preise), Budget-Grenzen | Provider und Preise gehören an eine Stelle, nicht verstreut in den Aufrufcode |
+| `src/tasks.py` | CLI-Optionen `--provider`, `--model`, `--dry-run`, `--format`; `-k/--gptkey` von *required* auf optional; `.env`-Laden über `python-dotenv`; **seit AP5:** Marker `sb_timeout` sowie `llm_calls_skipped_deadline`/`deadline_exceeded` in `/output.json.metadata.json` | GPTScan war fest auf OpenAI verdrahtet und verlangte den Schlüssel als Kommandozeilenargument — unter SmartBugs weder wählbar noch sicher übergebbar. Der Marker ist nötig, weil der Parser sonst nicht unterscheiden kann, ob ein Lauf vollständig war |
+| `src/analyze_pipeline.py` | `ask_with_timeout()` zur zentralen Messstelle umgebaut: Token-/Call-Zählung, Budget-Wächter, `--dry-run`-Kurzschluss; **seit AP5:** Deadline-Wächter davor geschaltet, das Gegenstück zum Budget-Wächter | Ohne eine einzige Messstelle gibt es keine belastbare Kostenaussage; die Zählung muss im Elternprozess liegen, damit sie unabhängig von der Multiprocessing-Startmethode funktioniert. Derselbe Grund gilt für den Deadline-Wächter — er muss unabhängig vom Startverfahren zuverlässig greifen |
+| `src/chatgpt_api.py` | Modellwahl und SDK-Konfiguration an `llm_backend` delegiert; Zähler für ausgeführte und wegen Budget übersprungene Calls; **seit AP5:** Zähler `num_calls_skipped_deadline` und Grund-Variable `deadline_exceeded_reason` | Die Modell-IDs `gpt-3.5-turbo`/`gpt-4` waren hart kodiert. Die neuen Felder folgen exakt dem Muster der Budget-Bookkeeping, damit die Metadaten sagen können, *warum* ein Lauf früh endete |
+| `src/config.py` | `PROVIDERS`-Tabelle (Endpunkt, Schlüssel-Variable, Modell-Tiers, Preise), Budget-Grenzen; **seit AP5:** dritter Eintrag `custom` mit Preisen `0.0` | Provider und Preise gehören an eine Stelle, nicht verstreut in den Aufrufcode. `custom` macht den lokalen Prüfstand (`testing_tools/fake_llm_endpoint.py`) adressierbar, ohne einen realen, kostenpflichtigen Provider umleiten zu können |
 | `src/rich_utils.py` | Ein vergessenes `breakpoint()` entfernt und durch sichere Darstellung ersetzt | Der Debug-Haltepunkt blockiert jeden Lauf ohne Terminal — im Container also jeden Lauf |
 | `requirements.txt` | `python-dotenv==1.0.1` ergänzt | Für das `.env`-Laden in `tasks.py` |
 | `README.md` | Abschnitt zur Provider-/Modellwahl | Dokumentation der obigen Änderungen |

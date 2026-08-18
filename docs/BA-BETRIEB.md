@@ -15,6 +15,7 @@ sind gemessen, nicht geschätzt, sofern nicht ausdrücklich anders vermerkt.
 | `GPTSCAN_PROVIDER` | GPTScan | nein | Default `deepseek`. |
 | `GPTSCAN_MODEL` | GPTScan | nein | Default `deepseek-v4-flash` (der „cheap"-Tier des Providers). |
 | `GPTSCAN_DRY_RUN=1` | GPTScan | nein | Kein einziger API-Aufruf, keine Kosten, kein Schlüssel nötig. |
+| `GPTSCAN_BASE_URL` | GPTScan | nein | Nur bei `GPTSCAN_PROVIDER=custom` (AP5) — zeigt auf einen frei wählbaren, OpenAI-kompatiblen Endpunkt, etwa den lokalen Prüfstand. Siehe Abschnitt 8. |
 
 Welche Variablen überhaupt in einen Container gelangen können, steht in der
 `env:`-Zeile der jeweiligen `config.yaml` — nur diese Allowlist wird
@@ -28,6 +29,10 @@ durchgereicht.
 | `--timeout` GPTScan | **1800 s** | Längster gemessener Task: 600 s. |
 | `--timeout` LLMSmartAudit | **5400 s** | Gemessen ~366 s/Contract, Maximum 559 s — der große Puffer fängt Retry-Schleifen ab. |
 | Reihenfolge der Läufe | **sequenziell** | Erst GPTScan, dann LLMSmartAudit. Begrenzt API-Nebenläufigkeit auf demselben Schlüssel und den CPU-Druck. |
+
+Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
+äußerer Docker-Abschuss. Details, wie ein Teilergebnis daran zu erkennen ist
+und wie sich der Timeout-Pfad ohne Kosten testen lässt: Abschnitt 8.
 
 ## 3. Kosten
 
@@ -185,3 +190,77 @@ namentlich als „could NOT be scanned" gemeldet statt stillschweigend
 (20.852.934 Bytes). Eine Prüfung außer der Reihe mit angehobenem Limit ergab
 dort keinen Treffer; sie dauert allerdings rund 10 Sekunden, weshalb die Grenze
 für den Hook-Betrieb bestehen bleibt.
+
+## 8. Timeout-Verhalten und Prüfstand (AP5)
+
+**Ausgangslage.** Keines der beiden Werkzeuge bringt einen Timeout für den
+gesamten Lauf mit — GPTScan kennt nur eine Frist je einzelnem LLM-Aufruf,
+LLMSmartAudit gar keine. Ohne eigenen Mechanismus greift deshalb ausschließlich
+der äußere Docker-Timeout (`sb/docker.py`): Der Container wird von außen
+abgeschossen, das Werkzeug erfährt nichts davon und kann kein Teilergebnis
+sichern. Seit AP5 rechnet der jeweilige Entrypoint aus dem von SmartBugs
+übergebenen `TIMEOUT` drei Marken:
+
+| Marke | Anteil von `TIMEOUT` | Wirkung |
+|---|---|---|
+| Bremse | 70 %, mind. 1 s | Als absoluter Zeitstempel `SB_DEADLINE_EPOCH` exportiert. GPTScan stellt beim Erreichen keine neuen LLM-Aufrufe mehr, LLMSmartAudit prüft die Marke zwischen den Detektor-Phasen. Beide laufen danach regulär aus. |
+| Netz | 90 %, mind. 1 s | `timeout` beendet den Werkzeugprozess hart, falls die Bremse nicht gegriffen hat. Der Entrypoint normalisiert den Exit-Code danach einheitlich auf **124** — auch wenn `timeout` selbst 143 oder 137 meldete. |
+| Rest | verbleibende Zeit | Für den Entrypoint reserviert: Zwischenstand bergen, `sb_timeout` stempeln, `/output.json` garantieren. |
+
+`--timeout 0` (kein `--timeout` gesetzt) schaltet den gesamten Mechanismus ab —
+das Verhalten bleibt dann Byte für Byte wie vor AP5, damit die bereits
+gefahrenen Messläufe vergleichbar bleiben.
+
+**Ein Teilergebnis erkennen.** Drei Stellen im Ergebnis zeigen es an:
+
+* Das Feld `sb_timeout` auf oberster Ebene des Reports —
+  `{"hit": true, "stage": "brake"|"net", "detail": "..."}`. Fehlt es, war der
+  Lauf vollständig.
+* In `result.json` erscheint ein Eintrag in `errors` mit dem Präfix
+  `TIMEOUT_` (`TIMEOUT_BRAKE` bzw. `TIMEOUT_NET`) — nie in `fails`, denn der
+  Lauf wurde absichtlich beendet, nicht ausgehebelt.
+* Bei LLMSmartAudit zusätzlich `categories_checked < categories_total` im
+  Report: wie viele der 41 Detektor-Phasen tatsächlich liefen. `checked == 0`
+  wird selbst ohne `sb_timeout` als `errors` gemeldet, damit eine leere
+  Findings-Liste nie stillschweigend als „sauber" gelesen wird.
+
+**Prüfstand ohne echte API-Kosten.** Da keines der beiden Werkzeuge einen
+Offline- oder Stub-Modus kennt (bei LLMSmartAudit geht selbst `LLM_MODEL=STUB`
+wörtlich an die API), gibt es seit AP5 einen lokalen, OpenAI-kompatiblen
+Ersatz-Endpunkt, der absichtlich langsam antwortet und damit den Timeout-Pfad
+kostenlos und deterministisch auslöst:
+
+```powershell
+python -m testing_tools.fake_llm_endpoint --port 8099 --delay 30
+```
+
+Aus dem Container ist der Host unter `host.docker.internal` erreichbar. Beide
+Werkzeuge lassen sich darauf umleiten:
+
+| Werkzeug | Umgebungsvariablen |
+|---|---|
+| GPTScan | `GPTSCAN_PROVIDER=custom` und `GPTSCAN_BASE_URL=http://host.docker.internal:8099` |
+| LLMSmartAudit | `LLM_PROVIDER=custom` und `LLM_BASE_URL=http://host.docker.internal:8099` |
+
+Der Provider `custom` ist bei beiden Werkzeugen mit Preis `0` hinterlegt — ein
+Lauf gegen den Prüfstand kann keine Kosten erzeugen, auch nicht versehentlich.
+`LLM_PROVIDER=custom` existierte für LLMSmartAudit bereits vor AP5 und ist über
+`smartbugs/tools/llmsmartaudit/config.yaml`s `env:`-Allowlist bereits
+containertauglich. `GPTSCAN_PROVIDER=custom`/`GPTSCAN_BASE_URL` sind mit AP5 neu
+in `GPTScan/src/llm_backend.py` hinzugekommen und für sich getestet (siehe
+`tests/test_gptscan_deadline.py`).
+
+> **Nachgetragen (Commit `a2611ea`):** `smartbugs/tools/gptscan/config.yaml`s
+> `env:`-Zeile führte `GPTSCAN_BASE_URL` zunächst nicht — nur
+> `GPTSCAN_PROVIDER`. Das ist behoben: die `env:`-Zeile führt inzwischen auch
+> `GPTSCAN_BASE_URL` und `GPTSCAN_API_KEY` (Mechanismus: Abschnitt 2 in
+> `docs/BA-WERKZEUG-BEDIENUNG.md`), ein `sb -t gptscan`-Lauf über SmartBugs
+> bekommt die Basis-URL damit in den Container gereicht. Belegt ist damit die
+> Durchreichung der Variablen bis an den Container; ein tatsächlicher
+> `sb -t gptscan`-Lauf gegen den Prüfstand-Endpunkt aus dem Container heraus
+> ist Teil des noch ausstehenden Messlaufs (siehe unten).
+
+**Was das nicht ersetzt.** Der Prüfstand belegt den Mechanismus in 108 grünen
+Tests und in einer Vorprüfung des `timeout`-Kommandos in beiden Images
+(`docs/BA-AP5-VORPRUEFUNG.md`). Ein Messlauf gegen einen echten, tatsächlich
+ablaufenden Endpunkt — also der Nachweis im scharfen Betrieb — steht noch aus.

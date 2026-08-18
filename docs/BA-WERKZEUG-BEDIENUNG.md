@@ -310,3 +310,72 @@ zusätzlich zwei Manifeste unter `smartbugs\results\` ab:
 * `>` schreibt ein BOM → beim Wiedereinlesen `encoding="utf-8-sig"`.
 * `Select-Object -First N` beendet den Producer und liefert Exit-Code 255. Das
   ist kein Fehler des Befehls.
+
+---
+
+## 8. Timeout-Verhalten und Prüfstand (AP5)
+
+Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
+äußerer Docker-Abschuss. Der jeweilige Entrypoint rechnet aus dem übergebenen
+`TIMEOUT` drei Marken: **Bremse** bei 70 % (als `SB_DEADLINE_EPOCH` exportiert;
+GPTScan stellt danach neue LLM-Aufrufe ein, LLMSmartAudit prüft die Marke
+zwischen den Detektor-Phasen — beide laufen danach regulär aus), **Netz** bei
+90 % (`timeout` beendet den Prozess hart, Exit-Code wird einheitlich auf 124
+normalisiert), Rest fürs Aufräumen. `--timeout 0` bzw. kein `--timeout`
+schaltet den Mechanismus vollständig ab — Verhalten wie vor AP5.
+
+### Ein Teilergebnis erkennen
+
+* `sb_timeout` auf oberster Ebene des Reports:
+  `{"hit": true, "stage": "brake"|"net", "detail": "..."}`. Fehlt das Feld,
+  war der Lauf vollständig.
+* In `result.json`: ein Eintrag in `errors` mit Präfix `TIMEOUT_`
+  (`TIMEOUT_BRAKE`/`TIMEOUT_NET`) — **nicht** in `fails`, da der Lauf
+  absichtlich beendet wurde.
+* Bei LLMSmartAudit zusätzlich `categories_checked < categories_total`
+  (von 41) im Report. `categories_checked == 0` wird unabhängig vom
+  Timeout-Marker als `errors` gemeldet, damit eine leere Findings-Liste nie
+  als „sauber" gelesen wird.
+
+### Prüfstand starten
+
+Keines der beiden Werkzeuge kennt einen Offline-Modus (LLMSmartAudit schickt
+selbst `LLM_MODEL=STUB` wörtlich an die API). Der lokale Ersatz-Endpunkt macht
+den Timeout-Pfad trotzdem kostenlos und wiederholbar testbar:
+
+```powershell
+python -m testing_tools.fake_llm_endpoint --port 8099 --delay 30
+```
+
+Aus dem Container heraus ist der Host unter `host.docker.internal` erreichbar:
+
+```powershell
+$env:LLM_PROVIDER  = 'custom'
+$env:LLM_BASE_URL  = 'http://host.docker.internal:8099'
+# ... -t llmsmartaudit --timeout 60
+```
+
+```powershell
+$env:GPTSCAN_PROVIDER  = 'custom'
+$env:GPTSCAN_BASE_URL  = 'http://host.docker.internal:8099'
+# ... -t gptscan --timeout 60
+```
+
+Beide `custom`-Provider sind mit Preis `0` hinterlegt, ein Lauf gegen den
+Prüfstand kann also nicht versehentlich Kosten auslösen.
+
+> **Nachgetragen (Commit `a2611ea`).** `LLM_BASE_URL` steht bereits in
+> `smartbugs/tools/llmsmartaudit/config.yaml`s `env:`-Allowlist (Abschnitt 2)
+> und erreicht den Container damit. `GPTSCAN_BASE_URL` fehlte zunächst in
+> `smartbugs/tools/gptscan/config.yaml`s `env:`-Zeile; das ist behoben — sie
+> führt inzwischen auch `GPTSCAN_BASE_URL` und `GPTSCAN_API_KEY`, ein `sb -t
+> gptscan`-Lauf bekommt die Basis-URL damit in den Container gereicht.
+> Getestet ist der Override auf Ebene von `GPTScan/src/llm_backend.py`
+> (`tests/test_gptscan_deadline.py`) sowie bei einem direkten, nicht
+> containerisierten Aufruf von `main.py` auf dem Host; ein containerisierter
+> `sb -t gptscan`-Lauf gegen den Prüfstand steht noch aus (siehe unten).
+
+Belegt ist der Mechanismus durch 108 grüne Tests
+(`python -m pytest tests/ -q`) und die Vorprüfung des `timeout`-Kommandos in
+beiden Images (`docs/BA-AP5-VORPRUEFUNG.md`). Ein Messlauf gegen einen echten,
+tatsächlich ablaufenden Endpunkt steht noch aus.

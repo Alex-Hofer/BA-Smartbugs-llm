@@ -19,7 +19,7 @@ separat.
 | AP2 | Integrationstreue: Originaltool vs. SmartBugs | Experiment | L | offen |
 | AP3 | Betreuer ins Repository einladen | Organisation | XS | offen |
 | AP4 | Reproduzierbarkeit (a) fremd, (b) eigen | Experiment + Doku | L | offen |
-| AP5 | Timeout ins Werkzeug durchreichen | Code | M | offen |
+| AP5 | Timeout ins Werkzeug durchreichen | Code | M | **erledigt** |
 | AP6 | `MAIN`-Parameter umsetzen | Code | M | offen |
 | AP7 | Meta-Findings-Dokument (LLM-Tools allgemein) | Doku | M | offen |
 | AP8 | Aufwandsschätzung an den Betreuer mailen | Organisation | XS | offen |
@@ -39,9 +39,14 @@ XS = unter 1 h · S = 1–4 h · M = 4–12 h · L = 12–30 h
 2. **AP2, Vergleichsumfang** — reicht ein Beleg an wenigen Contracts, oder wird
    Deckungsgleichheit über einen ganzen Korpus erwartet? Letzteres kostet echtes
    Geld (LLM-Aufrufe doppelt).
-3. **AP5, Zielverhalten bei Timeout** — soll das Werkzeug beim Ablaufen ein
-   *Teilergebnis* liefern (was bisher gelaufen ist), oder genügt ein sauberer
-   Abbruch mit Kennzeichnung?
+3. **AP5, Zielverhalten bei Timeout — beantwortet: Teilergebnis.** Umgesetzt ist
+   die stärkere der beiden Lesarten: Beim Ablaufen liefert das Werkzeug, was bis
+   dahin ermittelt wurde, gekennzeichnet über den Marker `sb_timeout`. Begründung:
+   Der Mechanismus lag in beiden Fällen (GPTScan läuft freiwillig aus,
+   LLMSmartAudit hält nach jeder Phase einen Zwischenstand) in eigenem Code, nicht
+   in fremdem — die stärkere Variante kostete damit keine zusätzliche Nachweislast
+   in AP2 und schließt die schwächere (sauberer Abbruch mit Kennzeichnung) mit ein.
+   Details im AP5-Abschnitt unten.
 
 ---
 
@@ -197,6 +202,36 @@ Integrationen messen lassen müssen.
 * Wo nicht vorhanden: den Docker-Timeout als das ausweisen, was er ist — eine
   **Notlösung**. Genau diese Unterscheidung gehört als Erkenntnis in AP7.
 
+**Stand: erledigt.** Beide Werkzeuge kennen keinen eigenen Lauf-Timeout —
+GPTScan hat eine Frist je einzelnem LLM-Aufruf, LLMSmartAudit gar keine (siehe
+AP7 unten). Umgesetzt wurde deshalb ein Mechanismus, der den von SmartBugs
+übergebenen `TIMEOUT` innerhalb des Containers nutzt, statt sich allein auf den
+äußeren Docker-Abschuss zu verlassen: Der jeweilige Entrypoint rechnet aus
+`TIMEOUT` drei Marken (70 % Bremse, 90 % Netz, Rest fürs Aufräumen) und
+exportiert die Bremse als absoluten Zeitstempel `SB_DEADLINE_EPOCH`. GPTScan
+wertet ihn in seiner zentralen LLM-Messstelle aus und läuft freiwillig aus, ohne
+neue LLM-Aufrufe zu starten; LLMSmartAudit schreibt stattdessen nach jeder der
+41 Detektor-Phasen einen Zwischenstand, den der Entrypoint nach einem harten
+Abbruch durch `timeout` birgt. Beide Wege tragen denselben Marker `sb_timeout`
+(Felder `hit`, `stage` mit `"brake"`/`"net"`, `detail`) im Ergebnis, und ein
+per Netz beendeter Lauf meldet einheitlich Exit-Code 124, unabhängig davon, was
+`timeout` selbst zurückgab. `TIMEOUT=0` (kein `--timeout`) ändert nichts am
+bisherigen Verhalten — geprüft für beide Werkzeuge, damit die 19 bereits
+gefahrenen Messläufe vergleichbar bleiben. Belegt sind 108 grüne Tests, eine
+Vorprüfung des `timeout`-Kommandos in beiden Images
+(`docs/BA-AP5-VORPRUEFUNG.md`) sowie die vollständige Dateibilanz in
+`docs/BA-EIGENANTEIL.md` — **keine einzige neue Fremddatei**. Der Messlauf
+gegen echte Endpunkte mit einem tatsächlich ablaufenden Timeout steht noch aus.
+
+Bewusst **nicht** umgesetzt:
+* kein Timeout-Flag in den Werkzeugen selbst (wäre eine Schnittstellenänderung
+  an fremdem Code ohne Gewinn gegenüber der Umgebungsvariable),
+* kein vorzeitiger Kettenabbruch in LLMSmartAudit (verlangte Eingriffe in
+  ChatDevs Ablaufsteuerung und spart nur den einen gerade laufenden Aufruf),
+* keine Wiederaufnahme abgebrochener Läufe,
+* keine Änderung an `sb/docker.py` — der äußere Docker-Timeout bleibt als
+  letzte Instanz bestehen, falls der innere Mechanismus versagt.
+
 ---
 
 ### AP6 — `MAIN`-Parameter umsetzen
@@ -257,6 +292,8 @@ Bachelorarbeit wird später ohnehin neu verfasst; dann wandert der Inhalt dorthi
 | Modellname fest im Image → Werkzeug veraltet still | `deepseek-chat` abgeschaltet, HTTP 400 |
 | Ground-Truth-Formate passen nicht zum Werkzeug-Output | Single-Label + DASP-only verzerrt die Precision |
 | Keine Angabe von Kosten und Laufzeit im Ergebnis | musste extern erhoben werden (`GPTSCAN_META`) |
+| Kein Werkzeug bringt einen Timeout für den gesamten Lauf mit | GPTScan kennt nur eine Frist je einzelnem LLM-Aufruf (`ask_with_timeout(..., timeout=90)`), LLMSmartAudit gar keine — Optionslisten beider Werkzeuge, AP5 (Spec `docs/BA-AP5-TIMEOUT-DESIGN.md`, Abschnitt 2.1) |
+| Ob sich ein Teilergebnis retten lässt, hängt an der Ablageform des Werkzeugs, nicht an einem gemeinsamen Muster | GPTScan aggregiert und dedupliziert erst am Ende und muss deshalb freiwillig auslaufen dürfen; LLMSmartAudit hält nach jeder Phase einen vollständigen Zwischenstand und braucht nur Festhalten-und-Abbrechen. Dieselbe Anforderung erzwang zwei verschiedene Lösungen — AP5 (Spec Abschnitt 4.5) |
 
 **Zu tun.** Erkenntnisse sammeln, je Punkt Beleg und Empfehlung formulieren, als
 Anforderungsliste an LLM-Analysewerkzeuge zusammenführen. AP2, AP4, AP5 und AP6
