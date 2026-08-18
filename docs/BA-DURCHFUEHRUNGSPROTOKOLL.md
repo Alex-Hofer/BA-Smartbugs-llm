@@ -82,6 +82,152 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 - Validierte Parameter: `--processes 4`; Timeouts 1 800 s (GPTScan) / 5 400 s (LLMSA); Läufe sequenziell; `LLM_CONTEXT_TOKENS=65536` als Versicherung.
 - **Gesamtkosten aller Experimente: ≈ $2.55** (Smoke $0.06 + curated GPTScan $0.01 + curated LLMSA $2.44 + mwevariety $0.05); Slither $0. Alle Kostenwerte aus den Token-Zahlen der Logs bzw. GPTScans eigenem Kosten-Estimator nachgerechnet.
 
+### 4.5 AP5 — Nachweis des Timeout-Verhaltens (18.08.2026)
+
+Bis AP5 hatte SmartBugs' `--timeout` für die beiden LLM-Werkzeuge keine Wirkung
+außer dem harten Containerabbruch: ein abgelaufener Lauf landete als
+`DOCKER_TERM` in **fails** (Werkzeug ausgehebelt) und hinterließ kein Ergebnis.
+AP5 verteilt den übergebenen Timeout auf drei Marken — **Bremse 70 %**,
+**Netz 90 %**, Rest für die Bergung — und lässt einen beherrschten Timeout in
+**errors** statt in **fails** landen. Dieser Abschnitt belegt das an echten
+Container-Läufen. Beide Images waren zuvor neu gebaut
+(`smartbugs/gptscan:1.0` 2,14 GB; `smartbugs/llmsmartaudit:1.0` **586 MB** —
+der Neubau bestätigt damit die in `BA-EIGENANTEIL.md` geführte Reduktion von
+5,13 GB am aktuellen Dockerfile). Testsuite vor den Läufen: 108 grün.
+
+**Zwei verschiedene Zusagen, die nicht vermengt werden dürfen:** Bei **GPTScan**
+ist der wertschöpfende Pfad die **Bremse** — das Werkzeug stellt LLM-Aufrufe ein
+und läuft freiwillig aus. Greift bei GPTScan erst das **Netz**, wird **kein**
+Teilergebnis gerettet; der Entrypoint legt nur einen wohlgeformten
+Platzhalterreport an, den der Parser ehrlich als `success=false` ausweist. Das
+Bergen eines Zwischenstands ist **LLMSmartAudits** Mechanismus (Snapshot nach
+jeder Detektorphase), und dort ist das Netz die einzige Stufe, weil
+LLMSmartAudit `SB_DEADLINE_EPOCH` nicht liest.
+
+#### 4.5.1 Kostenloser Durchgang gegen den Prüfstand
+
+`testing_tools/fake_llm_endpoint.py` (OpenAI-kompatible Attrappe mit
+einstellbarer Antwortverzögerung), Contracts aus
+`smartbugs/samples/gptscan/mwevariety_fixed/`, jeweils eigene Ergebnisbäume.
+
+| Werkzeug | Contract | `--timeout` | Bremse/Netz | Verzögerung | Ergebnis |
+|---|---|---|---|---|---|
+| GPTScan | `5_Router.sol` | 300 s | 210 / 270 s | 10 s | `stage=brake`, Exit 0, 232 s, 21 Calls, 7 unterdrückt |
+| GPTScan | `71_IndexTemplate.sol` | 300 s | 210 / 270 s | 10 s | **kein Marker** — Lauf mit 211,8 s vollständig |
+| GPTScan | `5_Router.sol` | 60 s | 42 / 54 s | 60 s | `stage=net`, Exit **124**, 69,5 s |
+| GPTScan | `5_Vether.sol` | 60 s | 42 / 54 s | 45 s | kein Marker — Contract setzt 0 LLM-Aufrufe ab |
+| LLMSmartAudit | `5_Vether.sol`, `45_CreditLimitByMedian.sol` | 300 s | 210 / 270 s | 10 s | `stage=net`, Exit 124, 286 s, **24/41** Kategorien geborgen |
+
+In **allen** Läufen war `fails` leer und der Timeout stand als `TIMEOUT_BRAKE`
+bzw. `TIMEOUT_NET` in `errors` — das eigentliche Ziel des Arbeitspakets. Die
+Normalisierung ist belegt: BusyBox meldet 143, SmartBugs sieht 124.
+
+Zwei ungeplante, aber aussagekräftige Negativkontrollen fielen dabei an:
+`71_IndexTemplate.sol` lief 1,8 s **nach** der Bremse vollständig durch und
+trägt korrekt **keinen** Marker (Markerfreiheit heißt: der Lauf war
+vollständig); `5_Vether.sol` passiert unter GPTScan keinen Feature-Word-Filter,
+setzt null LLM-Aufrufe ab und ist als Timeout-Sonde untauglich.
+
+**Reproduzierbarkeitsauflage:** Prüfstands-Verzögerung und `--timeout` müssen
+aufeinander abgestimmt sein. Die naheliegende Kombination 30 s Verzögerung bei
+`--timeout 60` liefert für LLMSmartAudit `categories_checked = 0`, also genau
+den Zustand, den der Parser (zu Recht) als „Contract nicht analysiert" wertet.
+
+Zusätzlich an echten Containern geprüft, dass **`TIMEOUT=0` nichts ändert**: Der
+Entrypoint erhält `'0'`, die Zeile `SB_TIMEOUT_BUDGET` fehlt im Log, es wird kein
+Marker gesetzt, LLMSmartAudit meldet 41/41 und schreibt keinen Zwischenstand
+(GPTScan 17,4 s gegen 17,2 s mit Timeout). Die 19 Altmessungen bleiben
+vergleichbar.
+
+#### 4.5.2 Scharfer Lauf (DeepSeek `deepseek-v4-flash`)
+
+Je Werkzeug ein Contract, jeweils als Voll- **und** Teillauf; die Timeouts sind
+aus der zuvor gemessenen Volllaufzeit abgeleitet (nicht geraten).
+
+| Werkzeug | Contract | Lauf | `--timeout` | Dauer | Ergebnis |
+|---|---|---|---|---|---|
+| LLMSmartAudit | `5_Vether.sol` | voll | — | 719,9 s | 41/41 Kategorien, **9 Findings** |
+| LLMSmartAudit | `5_Vether.sol` | teil | 400 s (280/360) | 376,5 s | `stage=net`, Exit 124, **23/41**, 5 Findings |
+| GPTScan | `5_Router.sol` | voll | — | 172,2 s | 39 Calls, **2 Findings**, $0,0067 |
+| GPTScan | `5_Router.sol` | teil | 120 s (84/108) | 99,9 s | `stage=brake`, Exit 0, 24 Calls, 26 unterdrückt, 0 Findings, $0,0031 |
+
+`fails` war in allen vier Läufen leer.
+
+#### 4.5.3 Hat das Teilergebnis Substanz? (Teilmengen-Nachweis)
+
+Ein Teilergebnis, das Findings **erfindet**, wäre schlimmer als gar keines.
+Geprüft wurden deshalb zwei Eigenschaften:
+
+* **Test A (Mechanismus):** Stammt jedes Finding des Teillaufs aus einem
+  Detektor, der tatsächlich gelaufen ist? — **Ja, ohne Ausnahme.**
+* **Test B (Teilmenge):** Sind die Findings des Teillaufs eine Teilmenge derer
+  des Volllaufs? — **Ja.**
+
+LLMSmartAudit, `5_Vether.sol`: Der Teillauf deckt exakt die **ersten 23**
+Detektoren der Kette ab (echtes Präfix) und meldet 5 Findings — TOD (#5),
+WithdrawalFunction (#13), LackAuthorization (#14), MissingOnlyOwner (#19),
+PrecisionLoss (#21) — sämtlich auch im Volllauf enthalten (dort 9 Findings,
+die weiteren 4 liegen auf den Positionen #22, #27, #38, #40). Der Teillauf hat
+**nichts erfunden**.
+
+Ehrlich zu benennen ist die Gegenrichtung: RedundantConditional (#22) lag im
+abgedeckten Bereich, feuerte im Volllauf, im Teillauf jedoch nicht. Ein
+Teillauf kann also ein Finding **verpassen**, das der Volllauf hatte — Folge des
+bereits in 5.3 dokumentierten Nicht-Determinismus, nicht des Timeout-Mechanismus.
+Die Zusage lautet „keine erfundenen Findings", nicht „identische Findings".
+
+GPTScan, `5_Router.sol`: Der Teillauf meldet 0 Findings, ist damit trivial
+Teilmenge der 2 Findings des Volllaufs. Die Metadaten zeigen aber einen Effekt,
+der ausdrücklich festgehalten gehört: **`vul_before_static` steigt von 6
+(Volllauf) auf 13 (Teillauf)**. Ursache ist `llm_backend.dry_sentinel` — nach
+der Bremse liefert es für unterdrückte Aufrufe *bejahende* Platzhalter
+(`"yes"` bzw. eine All-yes-Auswahl), weil es ursprünglich für `--dry-run`
+geschrieben wurde, wo ein Oberschranken-Durchlauf gewollt ist. Die
+Kandidatenliste wird dadurch künstlich aufgebläht. Dass daraus **kein**
+erfundenes Finding wurde, liegt an zwei nachgelagerten Sicherungen: die
+statische Bestätigungsstufe verwarf alle 13 Kandidaten
+(`vul_after_static = 0`), und für die Static-Prompts liefert derselbe Sentinel
+`"{}"`, womit keine bestätigende Nebenbedingung entsteht. Der Schutz ist also
+vorhanden, aber er ist ein **Nebeneffekt** und keine ausgesprochene Zusage —
+für eine Weiterverwendung des Mechanismus wäre ein eigener, neutraler Sentinel
+für den Deadline-Pfad die sauberere Lösung.
+
+Bemerkenswert ist zudem, dass GPTScans Teillauf **beide** echten Findings
+verlor: Die Bremse kostet hier nicht nur Vollständigkeit, sondern kann das
+Ergebnis auf null reduzieren, weil die statische Bestätigung ohne die
+zugehörigen LLM-Antworten nichts mehr bestätigen kann.
+
+#### 4.5.4 Preis des Zwischenstands
+
+Der Bezugswert „rund 76 s je Contract" ist **wall-clock durch Contractzahl bei
+`--processes 4`** (10 935 s / 143) und damit keine Bearbeitungszeit je Contract.
+Aus den 143 `smartbugs.json` des Referenzlaufs ergibt sich die tatsächliche
+Verteilung: **Mittelwert 299,2 s, Median 264,1 s, Spanne 150,8–923,2 s**. Der
+hier gemessene Volllauf (719,9 s für `5_Vether.sol`) liegt innerhalb dieser
+Spanne; ein Vergleich gegen die 76 s wäre irreführend.
+
+Die 41 zusätzlichen Schreibvorgänge wurden direkt vermessen (41 `record()`
+-Aufrufe, 20 Wiederholungen, Median): **0,07 ms ohne** Snapshot gegen
+**56,40 ms mit** Snapshot, also **56,3 ms Aufschlag für einen ganzen Contract**
+— **0,019 %** des Referenzmittels von 299,2 s. Damit ist der Aufschlag weit
+unterhalb der Wahrnehmungsschwelle und weit unterhalb der geforderten „paar
+Prozent". Hinzu kommt: Der Flush ist ohnehin auf „nur wenn `SB_PARTIAL_REPORT`
+gesetzt ist" beschränkt, und diese Variable setzt der Entrypoint ausschließlich
+bei `TIMEOUT > 0`. Bei den 19 Altmessungen findet also **kein einziger**
+zusätzlicher Schreibvorgang statt.
+
+#### 4.5.5 Kosten und Artefakte
+
+Kosten des scharfen Laufs: GPTScan **$0,0098** (vom Werkzeug selbst gerechnet:
+$0,0067 voll + $0,0031 teil). LLMSmartAudit protokolliert keine Tokenzahlen;
+abgeschätzt über Contractgröße × Aufrufzahl zu DeepSeek-v4-flash-Preisen
+(0,14 / 0,28 USD je 1 M Token) ergeben sich **≈ $0,033**. **Gesamt ≈ $0,04.**
+GPTScans Budget-Wächter (`MAX_COST_USD = 0.5` je Contract) wurde nicht
+ausgelöst (`budget_exceeded = null`).
+
+Ergebnisbäume (lokal, git-ignoriert), keine Altmessung berührt:
+`smartbugs/results/{gptscan,llmsmartaudit}/ap5_{free_brake,free_net,free_notimeout,live_full,live_partial}/`.
+
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.
@@ -90,6 +236,7 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 4. **Degradierte Static-Stufe:** Auf mwevariety war GPTScans Präzisions-Schutzmechanismus mangels kompilierbarer Dateien überwiegend inaktiv.
 5. **Severity-Werte** beider LLM-Tools sind Kategorie-Defaults (4.2) — severity-gewichtete Metriken wären irreführend.
 6. **Contract-Level-Metrik:** Bei hoher Finding-Dichte (LLMSA Ø 7,9) ist Contract-Level-Recall wohlwollend; Zeilen-genaue Auswertung war nicht möglich, da LLMSA keine Zeilennummern emittiert.
+7. **Reichweite des Timeout-Nachweises (4.5):** Der Teilmengen-Nachweis stützt sich auf je einen Contract pro Werkzeug (Kostenrahmen). Er zeigt, dass der Teillauf nichts erfindet — er quantifiziert nicht, wie viel ein Teillauf im Mittel verpasst. Bei GPTScan fiel das Teilergebnis im gemessenen Fall sogar auf null Findings.
 
 ## 6. Artefakte & Reproduktion
 
