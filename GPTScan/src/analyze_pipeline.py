@@ -44,8 +44,10 @@ def ask_with_timeout(prompt, gpt4=False, timeout=90, kind=None):
     models, whose completion tokens are not visible in the text); dry-run and
     usage-less responses fall back to a tiktoken estimate.
 
-    ``kind`` ("choices" | "yesno" | static/None) only matters in --dry-run: it
-    selects the sentinel answer fed back so the pipeline keeps traversing.
+    ``kind`` ("choices" | "yesno" | static/None) identifies the call site for the
+    sentinel answers fed back when no call is issued: an upper-bound one in
+    --dry-run and after the budget guard, a neutral one after the deadline
+    guard. Either way the pipeline keeps traversing.
     """
     # Deterministic sent estimate: used for the budget pre-check and as a
     # fallback when the API omits usage. Each call uses a fresh Chat() => the
@@ -67,7 +69,7 @@ def ask_with_timeout(prompt, gpt4=False, timeout=90, kind=None):
                 f"Deadline guard tripped: {reason}. Skipping all remaining LLM calls.")
     if not dry_run and chatgpt_api.deadline_exceeded_reason is not None:
         chatgpt_api.num_calls_skipped_deadline.value += 1
-        return llm_backend.dry_sentinel(kind)
+        return llm_backend.deadline_sentinel(kind)
 
     # Hard budget guard (live runs only). Once tripped we stop issuing calls and
     # return sentinels so the scan still finishes and writes partial results.

@@ -232,3 +232,25 @@ def deadline_exceeded() -> Optional[str]:
         return None
     return (f"SmartBugs deadline reached ({ENV_DEADLINE}={int(deadline)}, "
             f"{overdue:.0f}s over)")
+
+
+def deadline_sentinel(kind: Optional[str]) -> str:
+    """Neutral answer fed back once the SmartBugs deadline has passed.
+
+    Deliberately NOT ``dry_sentinel``: that one is an upper-bound probe for
+    --dry-run and answers "yes" to everything, which after the deadline would
+    let the pipeline advance on the strength of an answer nobody gave. For a
+    call that was never made the truthful stance is "no information", so every
+    call site gets ``"{}"``:
+
+    * "choices" -> ``json.loads(res.split("}")[0] + "}")`` yields an empty map,
+      so no scenario is marked as matching
+    * "yesno"   -> does not start with "yes", so the confirmation counts as a no
+    * static prompts -> unchanged; ``"{}"`` is what they received before
+
+    ``kind`` is kept in the signature to mirror ``dry_sentinel`` and to leave
+    room for a per-stage answer should one ever be needed. The consequence of
+    answering neutrally is the one the marker promises: a run cut short reports
+    a subset of what a full run would report, never something extra.
+    """
+    return "{}"

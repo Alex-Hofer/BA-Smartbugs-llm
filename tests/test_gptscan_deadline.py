@@ -109,3 +109,78 @@ def test_counter_and_reason_exist_on_chatgpt_api():
     reason = assigned.get("deadline_exceeded_reason")
     assert reason is not None, "deadline_exceeded_reason is missing"
     assert ast.literal_eval(reason) is None, "must start out as None"
+def test_deadline_sentinel_is_neutral_at_every_call_site():
+    """After the deadline the pipeline must not be told "yes" by a call that
+    never happened.
+
+    dry_sentinel answers affirmatively on purpose --- it walks --dry-run along
+    the most expensive path to get an upper bound on the call count. Reusing it
+    after the deadline inflated GPTScan's candidate list from 6 to 13 in the
+    measured run; nothing false reached the report, but only because the static
+    confirmation stage happened to discard all of them. This pins the intended
+    behaviour instead of relying on that.
+
+    The three assertions replay the expressions the pipeline really applies to
+    the answer (analyze_pipeline.py:384/474 for "choices", :404/:511 for
+    "yesno").
+    """
+    import json
+
+    res = llm_backend.deadline_sentinel("choices")
+    assert json.loads(res.split("}")[0] + "}") == {}, "no scenario may match"
+
+    res = llm_backend.deadline_sentinel("yesno")
+    assert not res.lower().startswith("yes"), "nothing may be confirmed"
+
+    assert llm_backend.deadline_sentinel(None) == "{}"
+    assert llm_backend.deadline_sentinel("static") == "{}"
+
+    # The point of a separate function: the dry-run sentinel still says yes.
+    assert llm_backend.dry_sentinel("yesno") == "yes"
+
+
+def test_deadline_branch_returns_the_neutral_sentinel():
+    """Only the deadline branch switched; budget and --dry-run keep the old one.
+
+    Read statically for the reason given in
+    test_counter_and_reason_exist_on_chatgpt_api: analyze_pipeline imports
+    chatgpt_api, which needs openai/tiktoken/rich --- not installed on the host.
+    """
+    import ast
+
+    source = os.path.join(GPTSCAN_SRC, "analyze_pipeline.py")
+    with open(source, encoding="utf-8") as fh:
+        tree = ast.parse(fh.read(), filename=source)
+
+    func = next(n for n in ast.walk(tree)
+                if isinstance(n, ast.FunctionDef) and n.name == "ask_with_timeout")
+
+    def sentinel_of(body):
+        """Name of the llm_backend.*_sentinel this statement list returns."""
+        for stmt in body:
+            if (isinstance(stmt, ast.Return) and isinstance(stmt.value, ast.Call)
+                    and isinstance(stmt.value.func, ast.Attribute)
+                    and getattr(stmt.value.func.value, "id", None) == "llm_backend"):
+                return stmt.value.func.attr
+        return None
+
+    def counter_of(body):
+        """Name of the chatgpt_api counter this statement list increments."""
+        for stmt in body:
+            if (isinstance(stmt, ast.AugAssign) and isinstance(stmt.op, ast.Add)
+                    and isinstance(stmt.target, ast.Attribute)
+                    and stmt.target.attr == "value"
+                    and isinstance(stmt.target.value, ast.Attribute)):
+                return stmt.target.value.attr
+        return None
+
+    guards = {counter_of(n.body): sentinel_of(n.body)
+              for n in func.body if isinstance(n, ast.If)}
+
+    assert guards.get("num_calls_skipped_deadline") == "deadline_sentinel", (
+        "the deadline branch must feed back the neutral sentinel")
+    assert guards.get("num_calls_skipped_budget") == "dry_sentinel", (
+        "the budget branch is unchanged: it is a cost stop, not a deadline")
+
+    # The --dry-run path has no counter of its own and keeps dry_sentinel.
+    assert guards.get(None) == "dry_sentinel"
