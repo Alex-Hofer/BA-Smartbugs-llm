@@ -371,9 +371,13 @@ Prüfstand kann also nicht versehentlich Kosten auslösen.
 > führt inzwischen auch `GPTSCAN_BASE_URL` und `GPTSCAN_API_KEY`, ein `sb -t
 > gptscan`-Lauf bekommt die Basis-URL damit in den Container gereicht.
 > Getestet ist der Override auf Ebene von `GPTScan/src/llm_backend.py`
-> (`tests/test_gptscan_deadline.py`) sowie bei einem direkten, nicht
-> containerisierten Aufruf von `main.py` auf dem Host; ein containerisierter
-> `sb -t gptscan`-Lauf gegen den Prüfstand steht noch aus (siehe unten).
+> (`tests/test_gptscan_deadline.py`). Weiter reicht der Nachweis auf dem Host
+> nicht: `main.py` zieht über `analyze_pipeline`/`chatgpt_api` die Pakete
+> `openai`, `tiktoken` und `rich`, die auf dem Host nicht installiert sind —
+> ein direkter, nicht containerisierter Aufruf ist dort schlicht nicht
+> lauffähig. Der durchgehende Pfad ist damit container-only und wird erst
+> durch einen `sb -t gptscan`-Lauf gegen den Prüfstand belegt, der noch
+> aussteht (siehe unten).
 
 Belegt ist der Mechanismus durch 108 grüne Tests
 (`python -m pytest tests/ -q`) und die Vorprüfung des `timeout`-Kommandos in
