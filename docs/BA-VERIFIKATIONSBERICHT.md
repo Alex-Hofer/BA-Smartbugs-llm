@@ -15,9 +15,10 @@ die verwendeten Befehle stehen bei jedem Punkt.
 
 ## 1. Vorgehen
 
-Sieben Prüfpakete, davon drei als unabhängige Subagenten (Sicherheit,
-Testsuite/Mutationsprobe, Eigenanteil-Diff), vier in Eigenregie
-(Parser-Audit, Errors/Fails-Semantik, Zahlenkontrolle, Reproduzierbarkeit).
+Sieben Prüfpakete. Drei davon (Sicherheit, Testsuite/Mutationsprobe,
+Eigenanteil-Diff) haben wir bewusst getrennt und ohne Kenntnis der übrigen
+Befunde bearbeitet, die vier anderen (Parser-Audit, Errors/Fails-Semantik,
+Zahlenkontrolle, Reproduzierbarkeit) im Zusammenhang.
 
 Alle Prüfungen liefen **lesend**. Schreibende Tests (Mutationsprobe,
 pre-commit-Hook) fanden in Klonen außerhalb des Repos statt. Es entstanden

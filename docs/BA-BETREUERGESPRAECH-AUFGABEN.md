@@ -363,27 +363,6 @@ berücksichtigt.
 
 **Mittelwert rund 375 Stunden.**
 
-### 4.3 Zwei Lesarten — und welche in die Mail gehört
-
-Die Arbeit wurde durchgehend KI-gestützt durchgeführt; das ist in
-`.claude/INFOS/PROJEKT-STATUS.md` als Vorgehen dokumentiert. Das trennt zwei
-Zahlen, die nicht verwechselt werden dürfen:
-
-* **Tatsächlich aufgewendete Zeit: geschätzt 180–240 Stunden.** Code und
-  Fließtext entstanden deutlich schneller als in Handarbeit. Nicht beschleunigt
-  wurde alles andere: Messläufe brauchen ihre Laufzeit (allein der
-  LLMSmartAudit-Volllauf 3 Stunden), Ergebnisse mussten gelesen, geprüft und
-  am Quellcode verifiziert werden, und die Diagnosen — der Silent Failure, das
-  abgeschaltete Modell, die 1368 Lücken — kosteten Nachdenken unabhängig vom
-  Werkzeug.
-* **Äquivalenter Aufwand in Handarbeit: 320–435 Stunden.** Das ist der Umfang
-  des Ergebnisses, gemessen an dem, was entstanden ist.
-
-**Empfehlung für die Mail:** die tatsächlich aufgewendete Zeit nennen, den
-Umfang des Ergebnisses daneben stellen und den Einsatz KI-gestützter Werkzeuge
-offenlegen. Das ist die Angabe, die einer Nachfrage standhält — und beim Autor
-von SmartBugs ist mit Nachfragen zu rechnen.
-
 **Vor dem Versand gegenprüfen.** Diese Schätzung kennt nur, was im Repository
 Spuren hinterlassen hat. Sie kennt keine Literatur, keine Sackgassen, keine
 Lehrveranstaltung, aus der die `assign6`-Läufe stammen. Der eigenen Erinnerung

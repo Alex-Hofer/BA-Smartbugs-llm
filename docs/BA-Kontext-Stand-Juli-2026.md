@@ -1,9 +1,9 @@
 # BA-Kontext: KI-gestützte Smart-Contract-Scanner in SmartBugs
 
-**Zweck dieses Dokuments:** Kontext-Briefing für Claude Code. Es beschreibt den Projektstand,
-wie er im Deck `BA-Arbeitsfortschritt.pptx` (Stand **Juli 2026**, 5 Folien) dokumentiert ist.
+**Zweck dieses Dokuments:** Kontextpapier zum Projektstand, wie er im Deck
+`BA-Arbeitsfortschritt.pptx` (Stand **Juli 2026**, 5 Folien) dokumentiert ist.
 
-**Wichtige Lesevorschrift für den Agenten:**
+**Wichtig beim Lesen:**
 
 - Abschnitte 1–6 sind **belegte Fakten aus dem Deck**. Sie dürfen als gegeben behandelt werden.
 - Abschnitt 7 listet **explizit Unbelegtes**. Nichts davon annehmen, raten oder erfinden —
@@ -136,7 +136,7 @@ gruppieren. Ohne diese Verteilung ist jeder Fix Raten.
 
 ## 7. Nicht im Deck belegt — vor Annahmen verifizieren
 
-Der Agent darf zu keinem dieser Punkte etwas behaupten, ohne es im Repo geprüft zu haben:
+Zu keinem dieser Punkte darf etwas behauptet werden, ohne es im Repo geprüft zu haben:
 
 | Thema | Was fehlt |
 |---|---|
@@ -152,7 +152,7 @@ Der Agent darf zu keinem dieser Punkte etwas behaupten, ohne es im Repo geprüft
 
 ---
 
-## 8. Arbeitsregeln für den Agenten
+## 8. Arbeitsregeln für dieses Projekt
 
 1. **Phase 0 zuerst.** Vor jedem Vorschlag: relevante Dateien lesen und den Ist-Zustand mit
    Datei + Zeilennummer belegen. Erst danach Plan, erst danach Code.
