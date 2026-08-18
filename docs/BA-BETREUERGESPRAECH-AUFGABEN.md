@@ -217,7 +217,7 @@ Abbruch durch `timeout` birgt. Beide Wege tragen denselben Marker `sb_timeout`
 per Netz beendeter Lauf meldet einheitlich Exit-Code 124, unabhängig davon, was
 `timeout` selbst zurückgab. `TIMEOUT=0` (kein `--timeout`) ändert nichts am
 bisherigen Verhalten — geprüft für beide Werkzeuge, damit die 19 bereits
-gefahrenen Messläufe vergleichbar bleiben. Belegt sind 108 grüne Tests, eine
+gefahrenen Messläufe vergleichbar bleiben. Belegt sind 110 grüne Tests, eine
 Vorprüfung des `timeout`-Kommandos in beiden Images
 (`docs/BA-AP5-VORPRUEFUNG.md`) sowie die vollständige Dateibilanz in
 `docs/BA-EIGENANTEIL.md` — **keine einzige neue Fremddatei**. Der Messlauf

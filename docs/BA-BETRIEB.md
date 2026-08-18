@@ -265,7 +265,7 @@ in `GPTScan/src/llm_backend.py` hinzugekommen und für sich getestet (siehe
 > ist mit dem scharfen Lauf in Abschnitt 4.5 von
 > `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` inzwischen belegt (siehe unten).
 
-**Was das nicht ersetzt.** Der Prüfstand belegt den Mechanismus in 108 grünen
+**Was das nicht ersetzt.** Der Prüfstand belegt den Mechanismus in 110 grünen
 Tests und in einer Vorprüfung des `timeout`-Kommandos in beiden Images
 (`docs/BA-AP5-VORPRUEFUNG.md`). Der Nachweis im scharfen Betrieb — gegen einen
 echten, tatsächlich ablaufenden Endpunkt — ist erledigt (Commit `43c3f32`,
