@@ -1,0 +1,23 @@
+﻿[2026-09-15 14:18:58] Pruefe DeepSeek-Guthaben vor dem Start
+[2026-09-15 14:18:58] Guthaben: is_available=True, USD=14.74
+[2026-09-15 14:18:58] Nachlauf LLMSmartAudit, runid=llmsa_mwefixed_v2_retry, Contracts=12_Witch, 25_CompositeMultiOracle, 43_DelegatedStaking, 62_Locke
+[2026-09-15 14:18:58] Backend: provider=deepseek model=deepseek-v4-flash context=65536
+[2026-09-15 14:18:58] MAIN: nicht gesetzt, wie im Hauptlauf
+[2026-09-15 14:18:58] Aufruf: python -m sb -t llmsmartaudit -f samples/gptscan/mwevariety_fixed:12_Witch.sol samples/gptscan/mwevariety_fixed:25_CompositeMultiOracle.sol samples/gptscan/mwevariety_fixed:43_DelegatedStaking.sol samples/gptscan/mwevariety_fixed:62_Locke.sol --timeout 7200 --processes 3 --runid llmsa_mwefixed_v2_retry
+[2026-09-15 14:20:58] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-15 14:22:59] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-15 14:24:59] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-15 14:26:59] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-15 14:28:59] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-15 14:30:59] Zwischenstand: 1 Tasks, 360.145 Prompt-, 123.797 Completion-Tokens, ~0,08 USD
+[2026-09-15 14:32:59] Zwischenstand: 2 Tasks, 890.488 Prompt-, 278.107 Completion-Tokens, ~0,18 USD
+[2026-09-15 14:34:59] Zwischenstand: 3 Tasks, 1.838.359 Prompt-, 458.600 Completion-Tokens, ~0,34 USD
+[2026-09-15 14:36:59] Zwischenstand: 3 Tasks, 1.838.359 Prompt-, 458.600 Completion-Tokens, ~0,34 USD
+[2026-09-15 14:38:59] Zwischenstand: 3 Tasks, 1.838.359 Prompt-, 458.600 Completion-Tokens, ~0,34 USD
+[2026-09-15 14:40:59] Zwischenstand: 3 Tasks, 1.838.359 Prompt-, 458.600 Completion-Tokens, ~0,34 USD
+[2026-09-15 14:43:00] Zwischenstand: 4 Tasks, 2.802.653 Prompt-, 619.949 Completion-Tokens, ~0,48 USD
+[2026-09-15 14:43:00] === Ende, ExitCode=
+[2026-09-15 14:43:00] Reparse results\llmsmartaudit\llmsa_mwefixed_v2_retry
+[2026-09-15 14:43:03] FERTIG: 4 Tasks, 2.802.653 Prompt-, 619.949 Completion-Tokens, geschaetzt ~0,48 USD
+[2026-09-15 14:43:03] Protokoll: C:\Users\Alex Unterleitner\Desktop\BA-Smartbugs-llm\eval\_runlogs\llmsa_retry_20260915-141858.log
+[2026-09-15 14:43:03] Naechster Schritt: python analysis_tools\build_eval.py llmsa_mwefixed_v2 --merge-run llmsa_mwefixed_v2_retry

@@ -1,6 +1,6 @@
 {
   "run_id": "llmsa_mwefixed_v2",
-  "generated": "2026-08-16T11:19:37+00:00",
+  "generated": "2026-09-15T12:44:36+00:00",
   "smartbugs_version": "2.1.1",
   "tool_yaml_version": "smartbugs/tools/llmsmartaudit/config.yaml @ 1.0",
   "parser_version": "2026/08/02 + context-state (2026-08-15)",
@@ -21,21 +21,29 @@
     }
   },
   "contracts": 96,
+  "merged_runs": [
+    "llmsa_mwefixed_v2_retry"
+  ],
+  "merged_replaced": [
+    "12_Witch",
+    "25_CompositeMultiOracle",
+    "43_DelegatedStaking",
+    "62_Locke"
+  ],
   "states": {
     "context_exceeded": 37,
-    "findings": 55,
-    "no_output": 4
+    "findings": 59
   },
-  "findings_total": 414,
+  "findings_total": 437,
   "categories_seen": 34,
   "categories_unmapped": [],
-  "duration_s_sum": 88440.4,
+  "duration_s_sum": 90206.2,
   "tokens": {
-    "prompt": 52824882,
-    "completion": 8662310,
-    "llm_calls": 2481
+    "prompt": 54901634,
+    "completion": 9155559,
+    "llm_calls": 2624
   },
-  "cost_usd_estimated": 8.0,
+  "cost_usd_estimated": 8.37,
   "cost_note": "Estimated from token counts; the tool reports $0.0000 because chatdev/statistics.py::prompt_cost has no entry for deepseek-v4-flash. Authoritative figure: DeepSeek invoice.",
   "fields_not_emitted_by_tool": [
     "function",
@@ -46,6 +54,7 @@
   "failures": [
     {
       "contract_id": "106_NFTLoanFacilitator",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -59,6 +68,7 @@
     },
     {
       "contract_id": "10_Visor",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -71,20 +81,8 @@
       ]
     },
     {
-      "contract_id": "12_Witch",
-      "exit_code": 1,
-      "errors": [
-        "EXIT_CODE_1",
-        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
-        "no report produced"
-      ],
-      "fails": [
-        "exception (num_prompt_tokens (before adjustment): 22878)",
-        "exception (tenacity.RetryError: RetryError[<Future at 0x706d249fb430 state=finished raised APIStatusError>])"
-      ]
-    },
-    {
       "contract_id": "12_YieldMath",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -98,6 +96,7 @@
     },
     {
       "contract_id": "13_RCFactory",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -111,6 +110,7 @@
     },
     {
       "contract_id": "13_RCMarket",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -124,6 +124,7 @@
     },
     {
       "contract_id": "13_RCOrderbook",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -137,6 +138,7 @@
     },
     {
       "contract_id": "13_RCTreasury",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -150,6 +152,7 @@
     },
     {
       "contract_id": "14_BadgerYieldSource",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -163,6 +166,7 @@
     },
     {
       "contract_id": "14_PrizePool",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -176,6 +180,7 @@
     },
     {
       "contract_id": "14_YieldSourcePrizePool",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -189,6 +194,7 @@
     },
     {
       "contract_id": "16_Liquidation",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -202,6 +208,7 @@
     },
     {
       "contract_id": "16_Pricing",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -215,6 +222,7 @@
     },
     {
       "contract_id": "16_TracerPerpetualSwaps",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -228,6 +236,7 @@
     },
     {
       "contract_id": "16_TracerPerpetualsFactory",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -241,6 +250,7 @@
     },
     {
       "contract_id": "16_Trader",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -254,6 +264,7 @@
     },
     {
       "contract_id": "22_LongShort",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -267,6 +278,7 @@
     },
     {
       "contract_id": "22_Staker",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -280,6 +292,7 @@
     },
     {
       "contract_id": "23_nTokenAction",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -292,20 +305,8 @@
       ]
     },
     {
-      "contract_id": "25_CompositeMultiOracle",
-      "exit_code": 1,
-      "errors": [
-        "EXIT_CODE_1",
-        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
-        "no report produced"
-      ],
-      "fails": [
-        "exception (String length: 31828)",
-        "exception (tenacity.RetryError: RetryError[<Future at 0x7e3abc14b3d0 state=finished raised APIStatusError>])"
-      ]
-    },
-    {
       "contract_id": "26_RCOrderbook",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -319,6 +320,7 @@
     },
     {
       "contract_id": "29_HybridPool",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -332,6 +334,7 @@
     },
     {
       "contract_id": "30_Vault",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -345,6 +348,7 @@
     },
     {
       "contract_id": "34_ConcentratedLiquidityPool",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -358,6 +362,7 @@
     },
     {
       "contract_id": "34_ConcentratedLiquidityPosition",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -371,6 +376,7 @@
     },
     {
       "contract_id": "36_Basket",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -384,6 +390,7 @@
     },
     {
       "contract_id": "3_MarginRouter",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -396,20 +403,8 @@
       ]
     },
     {
-      "contract_id": "43_DelegatedStaking",
-      "exit_code": 1,
-      "errors": [
-        "EXIT_CODE_1",
-        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
-        "no report produced"
-      ],
-      "fails": [
-        "exception (String length: 92678)",
-        "exception (tenacity.RetryError: RetryError[<Future at 0x77f8f87f4970 state=finished raised APIStatusError>])"
-      ]
-    },
-    {
       "contract_id": "58_UniV3Vault",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -423,6 +418,7 @@
     },
     {
       "contract_id": "5_Router",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -435,20 +431,8 @@
       ]
     },
     {
-      "contract_id": "62_Locke",
-      "exit_code": 1,
-      "errors": [
-        "EXIT_CODE_1",
-        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
-        "no report produced"
-      ],
-      "fails": [
-        "exception (num_max_token: 65536)",
-        "exception (tenacity.RetryError: RetryError[<Future at 0x7897bfc33730 state=finished raised APIStatusError>])"
-      ]
-    },
-    {
       "contract_id": "66_StabilityPool",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -462,6 +446,7 @@
     },
     {
       "contract_id": "67_Vault",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -475,6 +460,7 @@
     },
     {
       "contract_id": "69_NFTXStakingZap",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -488,6 +474,7 @@
     },
     {
       "contract_id": "70_VaderPoolV2",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -501,6 +488,7 @@
     },
     {
       "contract_id": "71_IndexTemplate",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -514,6 +502,7 @@
     },
     {
       "contract_id": "74_TimeswapPair",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -527,6 +516,7 @@
     },
     {
       "contract_id": "75_XDEFIDistribution",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -540,6 +530,7 @@
     },
     {
       "contract_id": "78_FlanBackstop",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -553,6 +544,7 @@
     },
     {
       "contract_id": "78_FlashGovernanceArbiter",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",
@@ -566,6 +558,7 @@
     },
     {
       "contract_id": "8_NFTXVaultUpgradeable",
+      "run_id": "llmsa_mwefixed_v2",
       "exit_code": 1,
       "errors": [
         "EXIT_CODE_1",

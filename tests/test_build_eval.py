@@ -109,3 +109,111 @@ def test_only_a_complete_empty_run_counts_as_clean():
 
 def test_context_exceeded_is_not_counted_as_clean_even_with_no_other_signal():
     assert be.task_state([], ["context window exhausted: ..."], []) == "context_exceeded"
+
+
+# --------------------------------------------------------------------------- #
+# merge_tasks: a follow-up run may only replace what the main run failed
+# --------------------------------------------------------------------------- #
+#
+# The case this exists for: in llmsa_mwefixed_v2 four tasks died on HTTP 402
+# "Insufficient Balance" -- the DeepSeek account ran empty while the run was
+# still going. Those four say nothing about the contracts, so they are repeated
+# in a separate run and folded back in here. Two mistakes would be invisible in
+# the output and both would move the measured numbers:
+#
+# * letting a follow-up overwrite a task the main run *did* decide, which would
+#   quietly substitute a second opinion for the recorded result;
+# * letting a follow-up add a contract the main run never had, which would
+#   change the size of the corpus the percentages are computed on.
+
+
+def task(contract_id, run_id="main", findings=(), errors=(), fails=()):
+    return {"contract_id": contract_id, "run_id": run_id,
+            "findings": list(findings), "errors": list(errors), "fails": list(fails)}
+
+
+FAILED_402 = ["no report produced"]
+
+
+def test_a_follow_up_replaces_the_task_the_main_run_failed():
+    main = [task("62_Locke", errors=FAILED_402)]
+    extra = [task("62_Locke", run_id="retry", findings=[{"name": "Reentrancy"}])]
+
+    tasks, replaced, ignored = be.merge_tasks(main, extra)
+
+    assert [t["run_id"] for t in tasks] == ["retry"]
+    assert be.task_state(tasks[0]["findings"], tasks[0]["errors"], tasks[0]["fails"]) == "findings"
+    assert replaced == ["62_Locke"]
+    assert ignored == []
+
+
+def test_a_follow_up_never_overwrites_a_decided_task():
+    """The main run is authoritative wherever it produced a result."""
+    main = [task("12_Cauldron", findings=[{"name": "Centralization Risk"}])]
+    extra = [task("12_Cauldron", run_id="retry", findings=[{"name": "Reentrancy"}])]
+
+    tasks, replaced, ignored = be.merge_tasks(main, extra)
+
+    assert tasks == main
+    assert replaced == []
+    assert ignored == ["12_Cauldron"]
+
+
+def test_a_clean_task_counts_as_decided_and_is_kept():
+    main = [task("16_GasOracle")]
+    extra = [task("16_GasOracle", run_id="retry", findings=[{"name": "Reentrancy"}])]
+
+    tasks, replaced, ignored = be.merge_tasks(main, extra)
+
+    assert tasks == main
+    assert ignored == ["16_GasOracle"]
+
+
+def test_a_follow_up_does_not_grow_the_corpus():
+    """A contract the main run never had is not silently appended to it."""
+    main = [task("62_Locke", errors=FAILED_402)]
+    extra = [task("99_Stranger", run_id="retry", findings=[{"name": "Reentrancy"}])]
+
+    tasks, replaced, ignored = be.merge_tasks(main, extra)
+
+    assert [t["contract_id"] for t in tasks] == ["62_Locke"]
+    assert replaced == []
+    assert ignored == ["99_Stranger"]
+
+
+def test_a_follow_up_that_failed_again_still_replaces_the_older_failure():
+    """Newer evidence about an undecided task, even when it is another failure."""
+    main = [task("13_RCTreasury", errors=FAILED_402)]
+    extra = [task("13_RCTreasury", run_id="retry",
+                  errors=["context window exceeded: the agent aborted a call ..."])]
+
+    tasks, replaced, ignored = be.merge_tasks(main, extra)
+
+    state = be.task_state(tasks[0]["findings"], tasks[0]["errors"], tasks[0]["fails"])
+    assert state == "context_exceeded"
+    assert replaced == ["13_RCTreasury"]
+
+
+def test_merging_nothing_leaves_the_run_untouched():
+    main = [task("a", findings=[{"name": "x"}]), task("b", errors=FAILED_402)]
+
+    tasks, replaced, ignored = be.merge_tasks(main, [])
+
+    assert tasks == main
+    assert (replaced, ignored) == ([], [])
+
+
+def test_an_ambiguous_follow_up_is_refused_rather_than_guessed():
+    """smartbugs-curated holds two files with the same basename.
+
+    SmartBugs resolves that into `<name>.sol` and `<name>.sol_2`, but both carry
+    the same contract_id here. A follow-up containing both would leave it open
+    which of the two is meant, and picking one silently would move a number
+    nobody is watching. Say so instead.
+    """
+    main = [task("0x627fa62c", errors=FAILED_402)]
+    extra = [task("0x627fa62c", run_id="retry", findings=[{"name": "Reentrancy"}]),
+             task("0x627fa62c", run_id="retry", findings=[{"name": "Denial of Service"}])]
+
+    with pytest.raises(ValueError, match="0x627fa62c"):
+        be.merge_tasks(main, extra)
