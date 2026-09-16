@@ -36,31 +36,43 @@ SmartBugs-Code hergeleitet.
 ├── analysis_tools/     Auswertungswerkzeuge (eigener Code)
 │   ├── parser_audit.py         prüft, dass kein Rohsignal im Parser verlorengeht
 │   ├── errors_fails_report.py  Errors/Fails je Lauf, als CSV und Markdown
+│   ├── gptscan_eval.py         Auswertung eines GPTScan-Laufs nach eval/<runid>/
+│   ├── gptscan_run_stats.py    Token-, Kosten- und Laufzeitkennzahlen eines GPTScan-Laufs
+│   ├── build_eval.py           Auswertung eines LLMSmartAudit-Laufs nach eval/<runid>/
+│   ├── per_contract_stats.py   eine Zeile je Contract nach eval/per_contract/
 │   ├── compare_csv.py          Vorher/Nachher-Vergleich zweier results2csv-Exporte
 │   ├── redact_results.py       entfernt API-Schlüssel aus alten Task-Logs
 │   ├── secret_scan.py          Leak-Vorsorge, auch als pre-commit-Hook
 │   └── rawlog.py               Rohmaterial lesen, rich-Logs entzerren
 ├── corpus_tools/       Rekonstruktion des mwevariety-Korpus
 ├── docs/               Ausarbeitungen, Protokolle, Berichte  (Einstieg unten)
-├── tests/              pytest-Regressionstests beider Parser + Fixtures
+├── eval/               versionierte, abgeleitete Auswertungen je Lauf
+├── testing_tools/      lokaler LLM-Prüfstand für kostenlose Tests
+├── tests/              pytest-Regressionstests + Fixtures aus echten Läufen
 ├── smartbugs/          SmartBugs 2.1.1 (fremd) …
-│   ├── sb/docker.py            … mit einem gekennzeichneten Patch
+│   ├── sb/                     … mit gekennzeichneten Eingriffen (BA MODIFICATION)
 │   ├── tools/gptscan/          Tool-Integration (eigener Code)
 │   ├── tools/llmsmartaudit/    Tool-Integration (eigener Code)
 │   ├── samples/                Testkorpora, u. a. gptscan/mwevariety_fixed/
 │   └── results/                Messdaten — git-ignoriert, siehe unten
 ├── GPTScan/                    GPTScan (fremd, AGPL-3.0) mit Änderungen
 ├── LLMSmartAuditTool-main/     LLMSmartAudit (fremd, Apache-2.0) mit Änderungen
-├── run_curated.ps1             Massenlauf-Runner
+├── run_curated.ps1             Massenlauf-Runner (curated, beide Werkzeuge)
+├── run_full_v2.ps1             GPTScan-Volllauf über mwevariety_fixed, mit MAIN
+├── run_full_v2_llmsa.ps1       LLMSmartAudit-Volllauf über beide Korpora
+├── run_retry_llmsa.ps1         Nachlauf einzelner LLMSmartAudit-Contracts
 ├── evaluate_curated.py         Recall/Precision/F1 gegen die Ground Truth
 └── LICENSE                     MIT für den Eigenanteil; Fremdlizenzen separat
 ```
 
 ### Wo die Ergebnisse liegen
 
-`smartbugs/results/` — **19 abgeschlossene Läufe, 930 Tasks, 4.461 Dateien,
-258 MB. Bewusst nicht im Git** (`smartbugs/.gitignore` schließt `results*` aus).
-Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht reproduzierbar.
+`smartbugs/results/` — **bewusst nicht im Git** (`smartbugs/.gitignore` schließt
+`results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
+reproduzierbar.
+
+**Stand 02.08.2026: 19 abgeschlossene Läufe, 930 Tasks, 4.461 Dateien, 258 MB.**
+Auf diesen Stand beziehen sich die Parser-Reparatur und die Errors/Fails-Bilanz:
 
 | Werkzeug | Läufe | Tasks |
 |---|---:|---:|
@@ -68,12 +80,18 @@ Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht reproduzierbar.
 | `llmsmartaudit` | 3 | 147 |
 | `slither-0.11.3` | 1 | 143 |
 
+Seither hinzugekommen: der GPTScan-Volllauf mit MAIN über `mwevariety_fixed`
+(15.08.2026), die LLMSmartAudit-Volläufe über beide Korpora (15./16.08.2026,
+Nachlauf am 15.09.2026) und die Prüfläufe zum Timeout (17./18.08.2026).
+
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 `curated_v1_20260705`. Die aggregierten Auswertungen sind versioniert:
 
-* [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut
-* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Vollständigkeitsnachweis der Parser
+* [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut (Stand 02.08.2026)
+* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Vollständigkeitsnachweis der Parser (Stand 02.08.2026)
 * [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
+* [`eval/`](eval/README.md) — Auswertungen der Läufe ab August 2026 (`findings.jsonl`, `run_meta.json`, `summary.md`)
+* [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für sechs Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
 
 ---
 
@@ -141,7 +159,9 @@ Review-Kandidaten-Manifeste und gibt am Ende die Errors/Fails-Bilanz aus.
 > **Kosten und Pflichtvariablen** stehen in
 > [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md). Wichtigster Punkt:
 > `LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit **Pflicht**, und das
-> Werkzeug hat **keine** Kostenbremse. Ein Volllauf dauert dort 3,5–4,5 Stunden.
+> Werkzeug hat **keine** Kostenbremse. Gemessen dauerte der curated-Volllauf
+> `curated_v1_20260705` 3:02 h bei vier parallelen Prozessen, `llmsa_curated_v2`
+> 10:42 h bei drei.
 
 ## Auswerten
 
@@ -178,10 +198,12 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-44 Tests: 41 Regressionstests für beide Tool-Parser, dazu 3 für das Aufräumen
-der Container. Die Fixtures sind unveränderte
-Rohdaten echter Läufe; ihre Herkunft steht in `tests/fixtures/MANIFEST.json`.
-Fälle, die in den 19 Läufen nie auftraten (Timeout, leeres Archiv, kaputtes
+168 Tests (Stand 16.09.2026): Regressionstests für beide Tool-Parser, das
+Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
+(AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py` und
+`per_contract_stats.py`. Die Fixtures sind unveränderte Rohdaten echter Läufe;
+ihre Herkunft steht in `tests/fixtures/MANIFEST.json`. Fälle, die in den
+19 Läufen bis zum 02.08.2026 nie auftraten (Timeout, leeres Archiv, kaputtes
 JSON), sind synthetisch und tragen `synthetic` im Testnamen.
 
 ## Secret-Scan
@@ -221,11 +243,15 @@ eigenen Messungen liegen unter `smartbugs/results/`.
 alten Historie inklusive `evaluation/`) sowie
 `…\BACHELORARBEIT\BA-ausgelagert-20260802\`.
 
-**2 — Ein Patch in `smartbugs/sb/docker.py`.**
-SmartBugs reicht keine Umgebungsvariablen in Tool-Container durch. Ohne diesen
-Patch gäbe es keinen Weg, den API-Schlüssel zur Laufzeit zu übergeben, außer ihn
-ins Image zu backen. Der Patch reicht eine Allowlist durch und redigiert die
-Werte anschließend im Task-Log. Beide Stellen sind im Quelltext kommentiert.
+**2 — Die Eingriffe in `smartbugs/sb/`.**
+SmartBugs reicht keine Umgebungsvariablen in Tool-Container durch. Ohne Eingriff
+gäbe es keinen Weg, den API-Schlüssel zur Laufzeit zu übergeben, außer ihn ins
+Image zu backen. `sb/tools.py` nimmt deshalb das Feld `env` auf, `sb/docker.py`
+reicht die Allowlist durch und redigiert die Werte anschließend im Task-Log.
+Alle Eingriffe in `smartbugs/sb/` — zehn Blöcke in `docker.py`, `tools.py`,
+`analysis.py` und `solidity.py` — sind im Quelltext als `BA MODIFICATION`
+gekennzeichnet und in [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)
+begründet.
 
 Alle weiteren Änderungen an Fremdcode — 7 Dateien in GPTScan, 9 in
 LLMSmartAuditTool — sind mit *was* und *warum* in
@@ -242,6 +268,11 @@ Upstream-Stände per Hash abgeglichen.
 | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) | Eigenanteil und jede Änderung an Fremdcode, mit Begründung |
 | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) | Herleitung der errors/fails-Semantik aus `smartbugs/sb/parse_utils.py` |
 | [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md) | Protokoll der Durchführung |
+| [`docs/BA-BETREUERGESPRAECH-AUFGABEN.md`](docs/BA-BETREUERGESPRAECH-AUFGABEN.md) | Arbeitspakete AP1–AP8 aus dem Betreuergespräch |
+| [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen |
+| [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed` |
+| [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Unabhängige Überprüfung des Repositorys |
+| [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
 | `docs/BA-KORPUS-REPARATUR.tex` | Rekonstruktion des mwevariety-Korpus |
 | `docs/BA-GPTSCAN-VERGLEICH.tex` | GPTScan im Vergleich |
 | `GPTScan/docs/SMARTBUGS_INTEGRATION.md` | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |
