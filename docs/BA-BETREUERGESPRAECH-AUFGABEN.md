@@ -17,10 +17,10 @@ separat.
 |---|---|---|---|---|
 | AP1 | Terminologie: `error` → `Finding` / `Weakness` | Doku | S | **erledigt** |
 | AP2 | Integrationstreue: Originaltool vs. SmartBugs | Experiment | L | offen |
-| AP3 | Betreuer ins Repository einladen | Organisation | XS | offen |
+| AP3 | Betreuer ins Repository einladen | Organisation | XS | **erledigt** |
 | AP4 | Reproduzierbarkeit (a) fremd, (b) eigen | Experiment + Doku | L | offen |
 | AP5 | Timeout ins Werkzeug durchreichen | Code | M | **erledigt** |
-| AP6 | `MAIN`-Parameter umsetzen | Code | M | offen |
+| AP6 | `MAIN`-Parameter umsetzen | Code | M | **erledigt** |
 | AP7 | Meta-Findings-Dokument (LLM-Tools allgemein) | Doku | M | offen |
 | AP8 | Aufwandsschätzung an den Betreuer mailen | Organisation | XS | offen |
 
@@ -31,8 +31,9 @@ XS = unter 1 h · S = 1–4 h · M = 4–12 h · L = 12–30 h
 ## 2. Offene Rückfragen an den Betreuer
 
 1. **„Monar"** — in der Mitschrift ein Werkzeugname, direkt vor „Tool im
-   Originalzustand außerhalb von Docker vergleichen". **Keines der 53
-   SmartBugs-Werkzeuge heißt so** (nächste Kandidaten: `mando`, `maian`,
+   Originalzustand außerhalb von Docker vergleichen". **Keine der 46
+   Werkzeugkonfigurationen, die SmartBugs unter `smartbugs/tools/` mitbringt
+   (einschließlich Versionsvarianten), heißt so** (nächste Kandidaten: `mando`, `maian`,
    `manticore`). Zwei Lesarten: entweder ein Werkzeug außerhalb von SmartBugs,
    oder schlicht „nochmal" als Füllwort. **Blockiert nichts** — die Anweisung
    selbst ist eindeutig (AP2). Bei Gelegenheit nachfragen.
@@ -141,6 +142,9 @@ einladen (privates Repository).
 Einladung ein letzter Durchlauf `python analysis_tools\secret_scan.py --all`.
 Danach ist das Repository für ihn sichtbar — der `README.md`-Einstieg sollte
 dann stimmen.
+
+**Stand: erledigt.** `gsalzer` ist Collaborator des Repositorys (geprüft am
+16.09.2026), und die `README.md` ist auf den aktuellen Stand gebracht.
 
 ---
 
@@ -266,6 +270,16 @@ LLMSmartAudit-Findings. Zusätzlich spart es Geld und Laufzeit.
 nicht: ebenfalls als Erkenntnis nach AP7 — ein Werkzeug ohne Contract-Auswahl
 zwingt zu Messrauschen.
 
+**Stand: erledigt.** Keines der beiden Werkzeuge bietet eine Contract-Auswahl an;
+die Einschränkung geschieht deshalb auf der Eingabe. Seit dem 15.08.2026 werten
+beide Entrypoints `MAIN` aus: `scripts/main_contract.py` reduziert die Quelldatei
+auf den Hauptcontract und die Definitionen, die er braucht. Bei GPTScan wird die
+volle Quelle wiederhergestellt, wenn die reduzierte nicht mehr übersetzt. Benennt
+der Dateiname keinen enthaltenen Contract, endet der Entrypoint mit Exit-Code 127.
+Abgesichert durch `tests/test_main_contract.py` und `tests/test_entrypoint_main.py`;
+angewendet im GPTScan-Volllauf `gptscan_mwefixed_v2_main` (41 von 96 Contracts
+reduziert, die drei Exit-127-Fälle ohne `MAIN` nachgefahren).
+
 ---
 
 ### AP7 — Meta-Findings-Dokument
@@ -331,11 +345,11 @@ anpassen und per Mail schicken.
 | Geänderte Fremddateien | **21** (7 GPTScan · 9 LLMSmartAudit · 5 SmartBugs), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser) |
 | Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 590 MB reduziert |
-| Messläufe | **19 Läufe · 930 Tasks · 4.461 Dateien · 258 MB** |
+| Messläufe | **19 Läufe · 930 Tasks · 4.461 Dateien · 258 MB** (Stand 02.08.2026) |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1368 → 0** verlorene Rohmeldungen |
-| Regressionstests | **44**, Fixtures aus echten Läufen |
-| Belegter Kalenderzeitraum | 2026-07-05 bis 2026-08-03 (Git), zuzüglich einer Vorphase |
+| Regressionstests | **168** (Stand 16.09.2026), Fixtures aus echten Läufen |
+| Belegter Kalenderzeitraum | 2026-07-01 bis 2026-08-03 (früheste Messläufe laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
 
 Zur Vorphase: die Läufe `assign6_*` und `phase6_*` sowie die fertigen
 Auswertungen unter `GPTScan/reports/` sind **älter als der erste Commit**. Die
@@ -355,7 +369,7 @@ berücksichtigt.
 | Auswertung: Recall/Precision/F1, DASP-Mapping, Stichproben am Quellcode | 30–40 |
 | Korpus-Rekonstruktion `mwevariety_fixed` | 40–55 |
 | Parser-Audit und -Reparatur (inkl. Silent-Failure-Diagnose) | 30–40 |
-| Qualitätssicherung: 44 Tests, Verifikationsbericht, Errors/Fails-Report | 25–35 |
+| Qualitätssicherung: Regressionstests, Verifikationsbericht, Errors/Fails-Report | 25–35 |
 | Sicherheit und Repo-Hygiene (Secret-Scan, Redaktion, Neugründung, Lizenzen) | 15–20 |
 | Dokumentation (~31.600 Wörter, Eigenanteil-Nachweis per Hash) | 45–60 |
 | Betreuung, Abstimmung, Organisation | 8–12 |

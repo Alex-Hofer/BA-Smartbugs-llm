@@ -26,8 +26,8 @@ durchgereicht.
 | Parameter | Wert | Grundlage |
 |---|---|---|
 | `--processes` | **4** | Über ~580 DeepSeek-Calls bei `processes=3` traten keine Rate-Limits auf; 4 ist die getestete Obergrenze. Nicht ohne eigenen Test erhöhen. |
-| `--timeout` GPTScan | **1800 s** | Längster gemessener Task: 600 s. |
-| `--timeout` LLMSmartAudit | **5400 s** | Gemessen ~366 s/Contract, Maximum 559 s — der große Puffer fängt Retry-Schleifen ab. |
+| `--timeout` GPTScan | **1800 s** | Längster gemessener Task: 922 s (`32_LendingPair` in `gptscan_mwefixed_v2_main`). |
+| `--timeout` LLMSmartAudit | **5400 s** | Gemessen in `curated_v1_20260705`: im Mittel 299 s je Contract, Median 264 s, Maximum 923 s — der große Puffer fängt Retry-Schleifen ab. |
 | Reihenfolge der Läufe | **sequenziell** | Erst GPTScan, dann LLMSmartAudit. Begrenzt API-Nebenläufigkeit auf demselben Schlüssel und den CPU-Druck. |
 
 Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
@@ -39,14 +39,14 @@ und wie sich der Timeout-Pfad ohne Kosten testen lässt: Abschnitt 8.
 | Werkzeug | Pro Contract | Kostenbremse |
 |---|---|---|
 | GPTScan | Median ~$0,0009 | **ja** — `MAX_COST_USD` in `GPTScan/src/config.py`, $0,50 pro Contract. Bei Erreichen stoppt der Lauf die Aufrufe, stürzt nicht ab, und vermerkt `budget_exceeded` in den Metadaten. |
-| LLMSmartAudit | ~$0,01, Dauer ~366 s | **nein** — das Werkzeug hat keinerlei Budgetgrenze. |
+| LLMSmartAudit | im Mittel ~$0,017, Median ~$0,012 (aus den Tokens hochgerechnet), Dauer im Mittel 299 s | **nein** — das Werkzeug hat keinerlei Budgetgrenze. |
 
 Referenzwerte kompletter Läufe:
 
 | Lauf | Umfang | Dauer | Kosten |
 |---|---|---|---|
-| `curated_v1_20260705` GPTScan | 143 Contracts | ~15–38 min | < $0,50 |
-| `curated_v1_20260705` LLMSmartAudit | 143 Contracts | ~3,5–4,5 h | ~$1,50–3 (Ceiling ~$8–10) |
+| `curated_v1_20260705` GPTScan | 143 Contracts | 3:19 min | ~$0,01 |
+| `curated_v1_20260705` LLMSmartAudit | 143 Contracts | 3:02 h | ~$2,44 (aus den Tokens hochgerechnet) |
 | `curated_mwefixed_live` GPTScan | 96 Contracts | 36:45 min | ~$0,28 |
 
 **Vor jedem Massenlauf einen Dry-Run.** `run_curated.ps1 -GptscanDry` kostet

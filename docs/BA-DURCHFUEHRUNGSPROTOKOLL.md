@@ -60,7 +60,7 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 
 **LLMSmartAudit pro Kategorie** (Recall / Precision / F1): unchecked_low_level_calls 100/79/88 · reentrancy 100/43/60 · bad_randomness 88/44/58 · time_manipulation 100/26/42 · arithmetic 100/20/33 · access_control 100/19/32 · front_running 100/9/16 · denial_of_service 100/8/14 · other 0/–/– · short_addresses 0/–/–. Finding-Dichte: Ø 7,9/Contract (Median 7, Max 18); **kein Contract blieb ohne Findings**.
 
-**Slither pro Kategorie** (Auszug): reentrancy 94/74/83 · unchecked_low_level_calls 88/59/71 · time_manipulation 100/21/34 · arithmetic und front_running 0 % (keine passenden Detektoren). 89,5 % der 2 154 Slither-Findings sind Stil-/Info-Meldungen ohne DASP-Kategorie.
+**Slither pro Kategorie** (Auszug): reentrancy 94/74/83 · unchecked_low_level_calls 88/59/71 · time_manipulation 100/21/34 · arithmetic und front_running 0 % (keine passenden Detektoren). 1 854 der 2 154 Slither-Findings (86,1 %) haben weder in SmartBugs' `findings.yaml` noch über die beiden Zusatz-Mappings (Fehler #9) eine DASP-Zuordnung und gehen deshalb nicht in Recall und Precision ein (Abschnitt 5, Punkt 2). Keine Zuordnung heißt nicht belanglos: Nach der Impact-Stufe des jeweiligen Detektors sind 1 480 davon Informational oder Optimization, 166 Low, 148 Medium und 60 High.
 
 ### 4.2 Qualitative Einordnung (Stichproben am Quellcode verifiziert)
 

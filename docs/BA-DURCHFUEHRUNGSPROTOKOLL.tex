@@ -160,7 +160,7 @@ short\_addresses & 1 & 0\,\% & --- & --- \\
 \caption{LLMSmartAudit pro DASP-Kategorie. Finding-Dichte: $\varnothing$\,7{,}9 pro Contract (Median 7, Max.\ 18); \emph{kein} Contract blieb ohne Findings.}
 \end{table}
 
-\textbf{Slither pro Kategorie} (Auszug, Recall/Precision/F1): reentrancy 94/74/83 \textbullet\ unchecked\_low\_level\_calls 88/59/71 \textbullet\ time\_manipulation 100/21/34 \textbullet\ arithmetic und front\_running je 0\,\% (keine passenden Detektoren). 89{,}5\,\% der 2\,154 Slither-Findings sind Stil-/Info-Meldungen ohne DASP-Kategorie.
+\textbf{Slither pro Kategorie} (Auszug, Recall/Precision/F1): reentrancy 94/74/83 \textbullet\ unchecked\_low\_level\_calls 88/59/71 \textbullet\ time\_manipulation 100/21/34 \textbullet\ arithmetic und front\_running je 0\,\% (keine passenden Detektoren). 1\,854 der 2\,154 Slither-Findings (86{,}1\,\%) haben weder in SmartBugs' \code{findings.yaml} noch über die beiden Zusatz-Mappings (Fehler~\#9) eine DASP-Zuordnung und gehen deshalb nicht in Recall und Precision ein (siehe Methodische Limitationen, Punkt~2). Keine Zuordnung heißt nicht belanglos: Nach der Impact-Stufe des jeweiligen Detektors sind 1\,480 davon Informational oder Optimization, 166 Low, 148 Medium und 60 High.
 
 \subsection{Qualitative Einordnung (Stichproben am Quellcode verifiziert)}
 
