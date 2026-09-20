@@ -271,6 +271,67 @@ und der aufbewahrte Beispielreport unter `WareHouse/VaultDS5_sb_20260630223101/`
   `GPTScan/src/antlr4helper/callgraph.py:145`) und sind nicht regenerierbar,
   bleiben also unangetastet.
 
+### 2.5 War der Eingriff nötig, ging es anders, und was hätte das gekostet?
+
+Die Abschnitte 2.1 bis 2.3 sagen, **was** geändert wurde und **warum**. Dieser
+Abschnitt beantwortet die drei Fragen, die dort offenblieben: Gäbe es einen
+anderen Weg, wie groß wäre er, und welche Eingriffe wären Kandidaten für einen
+späteren Pull Request an `smartbugs/smartbugs`?
+
+Maßstab für „Aufwand" ist grob geschätzte Arbeit, nicht Codezeilen: **klein** =
+eine Sitzung, **mittel** = mehrere Tage mit neuen Tests, **groß** = eigene
+Konstruktion mit laufender Pflege.
+
+#### Die zehn markierten Blöcke in `smartbugs/sb/`
+
+| # | Datei, Block | Was | Ohne den Eingriff geht nicht | Anderer Weg | Aufwand des anderen Wegs | Upstream-tauglich? |
+|---|---|---|---|---|---|---|
+| 1 | `docker.py` 1 | `import time` | nichts für sich — trägt Block 3 | entfällt | — | mit Block 3 |
+| 2 | `docker.py` 2 | Host-Variablen der `env:`-Allowlist in den Container reichen | **kein** Weg, einen API-Schlüssel zur Laufzeit zu übergeben | Schlüssel ins Image backen; oder SmartBugs umgehen und die Container selbst starten | **groß.** Ein eingebackener Schlüssel wandert in jede Kopie des Images und lässt sich nicht rotieren, ohne neu zu bauen — für ein Repository, das der Betreuer klont, nicht vertretbar. Ein eigener Runner neben SmartBugs bedeutet, Task-Sammlung, Parallelität, Timeout, Ergebnis-Layout und SARIF-Ausgabe nachzubauen: genau das, wofür SmartBugs da ist, und der Vergleich mit Slither wäre kein Vergleich im selben Rahmen mehr | **ja** — der stärkste PR-Kandidat. LLM-gestützte Werkzeuge sind für SmartBugs neu; ohne diesen Mechanismus kann das Projekt keines davon aufnehmen. Der Eingriff ist rein additiv und für alle vorhandenen Werkzeuge folgenlos |
+| 3 | `docker.py` 3 | `rmtree_retry()` — Löschen mit Wiederholung | Läufe unter Windows verlieren lautlos Ergebnisse | Aufräumen ganz auslassen und die Temp-Verzeichnisse dem System überlassen; oder nur unter Windows anders verfahren | **klein**, aber schlechter: Nicht-Aufräumen füllt bei 1 169 Tasks das Temp-Verzeichnis, und ein Windows-Sonderpfad ist genau dieselbe Änderung mit einer zusätzlichen Fallunterscheidung | **ja.** Ein echter Upstream-Fehler, kein Eigenheit dieses Aufbaus: Der `PermissionError` entkommt aus dem `finally`-Block, bevor die Ergebnisdateien geschrieben sind, und der Hauptprozess endet mit Status 0. Reproduziert am 02.08.2026 mit Docker Desktop 29.0.1, belegt in `BA-DEMOLAUF-ERGEBNIS.md`, abgesichert durch `tests/test_docker_cleanup.py` |
+| 4 | `docker.py` 4 | ersetzt `shutil.rmtree(sbdir)` durch `rmtree_retry(sbdir)` | dito | dito | — | mit Block 3 |
+| 5 | `docker.py` 5 | ersetzt die durchgereichten Werte vor der Rückgabe durch `<redacted>` | der Schlüssel stünde im Klartext in jeder `results/**/smartbugs.json` | nachträglich säubern (`analysis_tools/redact_results.py` tut genau das für Altläufe) | **mittel** und grundsätzlich unterlegen: Zwischen Schreiben und Säubern liegt ein Zeitfenster, in dem der Schlüssel auf der Platte steht. Genau daran lagen die 62 betroffenen Altdateien (Protokoll, Fehler #13) | **ja**, gehört untrennbar zu Block 2. Ein Durchreichen ohne Redaktion wäre eine Sicherheitslücke, die das Projekt sich nicht einhandeln will |
+| 6 | `tools.py` 1 | `"env"` in `FIELDS` | `env:` in der `config.yaml` wird ignoriert, Block 2 läuft ins Leere | keiner — `FIELDS` ist die Allowlist, die SmartBugs aus einer `config.yaml` liest | — | mit Block 2 |
+| 7 | `tools.py` 2 | Feld `env: Optional[str]` in der `Tool`-Dataclass | dito | keiner | — | mit Block 2 |
+| 8 | `analysis.py` 1 | `os.makedirs(task.rdir)` in `try/except` | nichts Hartes. Ohne den Block kommt statt SmartBugs' eigener Fehlermeldung ein roher `OSError` | Eingriff weglassen und die schlechtere Meldung hinnehmen | **null** | **eher ja**, aber unbedeutend. Reine Diagnosequalität, kein Verhaltensunterschied im Erfolgsfall |
+| 9 | `analysis.py` 2 | `time.sleep` aus dem Schleifenrumpf in den `except`-Zweig | nichts. **Verhaltensgleich** — der Erfolgspfad verlässt die Schleife ohnehin per `break` | Eingriff weglassen | **null** | **nein.** Kosmetik. Gehört in keinen PR, weil er einen Reviewer Zeit kostet, ohne etwas zu ändern. Rückblickend wäre es besser gewesen, ihn gar nicht erst vorzunehmen |
+| 10 | `solidity.py` 1 | `CONTRACT_NAMES`: `([A-Za-z0-9_]*)` → `([a-zA-Z$_][a-zA-Z0-9$_]*)` | Contract-Namen mit `$` werden nicht gefunden; Namen, die mit einer Ziffer beginnen, fälschlich akzeptiert | keiner innerhalb von SmartBugs — das Muster ist die einzige Stelle, an der Contract-Namen erkannt werden | — | **ja.** Eine schlichte Korrektur gegen die Solidity-Grammatik, unabhängig von dieser Arbeit. Betrifft alle Werkzeuge, die `--main` benutzen |
+
+**Zusammengefasst.** Von zehn Blöcken sind fünf (2, 5, 6, 7 und zusammen 1/3/4)
+alternativlos, wenn man LLM-gestützte Werkzeuge überhaupt unter SmartBugs
+betreiben will. Zwei (8, 9) hätte man auch lassen können; Block 9 ist reine
+Kosmetik und der einzige, den man rückblickend nicht wieder so machen würde.
+Block 10 ist eine Fehlerkorrektur, die mit dieser Arbeit nichts zu tun hat.
+
+#### Die Änderungen an GPTScan und LLMSmartAudit
+
+Hier ist die Lage anders: Das sind **keine** Upstream-Kandidaten im selben Sinn.
+Ein Teil davon ist allgemein nützlich, ein Teil ist reine Anpassung an diesen
+Aufbau.
+
+| Bereich | Warum nötig | Anderer Weg und sein Aufwand | Einordnung |
+|---|---|---|---|
+| **Provider-/Modellwahl** (`GPTScan/src/{tasks,config,chatgpt_api}.py`, `LLMSmartAudit/{run.py, camel/*}`) | Beide Werkzeuge waren fest auf OpenAI verdrahtet, die Modell-IDs hart kodiert. Ohne Entkopplung wäre der gesamte Vergleich an OpenAI-Preise gebunden gewesen | Einen Proxy vor die API setzen, der die Modell-ID umschreibt. **Mittel** — und er verfälscht die Messung: Tokenzählung und Kostenschätzung der Werkzeuge liefen dann gegen den Proxy, nicht gegen den echten Endpunkt | **Upstream-tauglich.** Ein Werkzeug, das nur einen Anbieter kennt, ist für jeden eine Einschränkung. Für GPTScan ist das der naheliegendste eigene PR |
+| **`src/rich_utils.py`: vergessenes `breakpoint()`** | Der Haltepunkt blockiert jeden Lauf ohne Terminal, also jeden Lauf im Container | keiner | **Upstream-tauglich**, offensichtlicher Fehler, einzeilige Korrektur |
+| **`requirements.txt`: `httpx<0.28`** | `openai 1.3.3` übergibt `proxies=` an `httpx.Client`; der Parameter ist ab httpx 0.28 entfernt, der Import scheitert | `openai` anheben statt `httpx` deckeln. **Mittel** — die `openai`-1.x-API hat sich dazwischen mehrfach geändert, das hätte Aufrufstellen im Fremdcode berührt | **Upstream-tauglich**, aber als Zwischenlösung deklariert |
+| **`chatdev/audit_report.py` (neu) plus die Aufrufe in `chat_chain.py` und `phase.py`** | Jede Detektorphase überschreibt `env_dict['ideas']`. Ohne diesen Abgriff überlebt **nur das Ergebnis des letzten** der 41 Detektoren — 40 Ergebnisse gehen verloren | Die 41 Phasenprotokolle aus `WareHouse/` nachträglich parsen. **Groß** und brüchig: Man rekonstruierte aus Gesprächsprotokollen, was das Werkzeug selbst schon strukturiert hatte, und jede Änderung an den Prompts bräche den Parser | **Upstream-tauglich und die wichtigste inhaltliche Korrektur an diesem Werkzeug.** Ohne sie meldet LLMSmartAudit strukturell zu wenig |
+| **`camel/typing.py`, `camel/utils.py`: neue `ModelType`-Einträge und Kontextfenster** | `tiktoken` kennt nur OpenAI-Modelle und wirft beim Token-Schätzen; ohne Kontextfenster-Eintrag greift kein Truncation-Schutz | keiner, solange die Modellwahl über das feste Enum läuft | **Teilweise.** Der Mechanismus (Entkopplung vom Enum) gehört upstream; die konkreten DeepSeek-Einträge sind Eigenheit dieses Aufbaus |
+| **`chatdev/statistics.py`: DeepSeek-Preise** | Sonst werden DeepSeek-Läufe mit $0,0000 bepreist | Kosten außerhalb rechnen — genau das tun `build_eval.py` und `curated_eval.py` bereits, weil die Tabelle `deepseek-v4-flash` weiterhin nicht kennt | **Eigenheit.** Eine Preistabelle im Werkzeug veraltet zwangsläufig; upstream gehörte eher ein Mechanismus als eine Zeile |
+| **AP5-Ergänzungen in beiden Werkzeugen** (`sb_timeout`-Marker, Deadline-Wächter, Snapshot je Phase) | SmartBugs' `--timeout` wirkte für beide Werkzeuge nur als harter Containerabbruch: Der Lauf landete in **fails** und hinterließ nichts | Beim Containerabbruch bleiben und Teilergebnisse aufgeben. **Null Aufwand**, aber bei Laufzeiten bis 7 200 s je Contract verliert man damit Stunden Rechenzeit und bezahlte Token | **Eigenheit dieses Aufbaus.** Der Mechanismus hängt an SmartBugs' Timeout-Vertrag; ein PR gehörte, wenn überhaupt, zu SmartBugs und nicht zu den Werkzeugen. Entwurf und Nachweis in `docs/BA-AP5-TIMEOUT-DESIGN.md` und `docs/BA-AP5-ABSCHLUSSBERICHT.md` |
+| **Entfernen von `evaluation/`** (27 662 Dateien, 3,7 GB) | Zur Laufzeit nirgends referenziert; das Repository bliebe sonst unhandhabbar | Den Ordner behalten und nur per `.dockerignore` aus dem Image halten. **Klein** — löst aber nur das Image-Problem, nicht die Repository-Größe | **Eigenheit, kein PR.** Extern gesichert, siehe 2.4 |
+
+#### Was daraus für einen späteren Pull Request folgt
+
+Ein PR an `smartbugs/smartbugs` sollte **nur** die Blöcke 1–7 und 10 enthalten,
+also den `env:`-Mechanismus samt Redaktion, das robuste Aufräumen und die
+Regex-Korrektur. Blöcke 8 und 9 gehören nicht hinein: Block 8 ist
+Diagnosekosmetik, Block 9 ändert nichts. Alles andere sind Änderungen an den
+beiden Werkzeugen und gehörte, wenn überhaupt, in PRs an deren eigene
+Repositories.
+
+**Angelegt ist davon bisher nichts** — kein Branch, kein Fork, kein PR. Dieser
+Abschnitt ist die Vorarbeit, nicht der Vollzug.
+
 ---
 
 ## 3. Abgleich reproduzieren
