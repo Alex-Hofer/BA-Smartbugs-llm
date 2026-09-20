@@ -66,13 +66,20 @@ man daran denken.
 
 Für GPTScan gilt das Gegenstück über `GPTSCAN_PROVIDER` und `GPTSCAN_MODEL`.
 
+Seit dem 20.09.2026 nehmen alle vier Runner die Wahl als Parameter entgegen:
+`-Provider`, `-Model`, `-BaseUrl`, bei LLMSmartAudit zusätzlich `-ContextTokens`
+und `-MaxCompletionTokens`; `run_curated.ps1` außerdem `-GptscanModel` und
+`-LlmModel`. Die Vorgabewerte sind `deepseek` und `deepseek-v4-flash`, also die
+Werte aller aufgezeichneten Läufe. Beispiele in `README.md`, Abschnitt
+„Modell wählen und wechseln".
+
 Die Werkzeuge lesen ihre Konfiguration ausschließlich aus
 Host-Umgebungsvariablen, die in `smartbugs\tools\<tool>\config.yaml` unter
 `env:` **einzeln freigeschaltet** sein müssen:
 
 | Werkzeug | freigeschaltete Variablen |
 |---|---|
-| gptscan | `DEEPSEEK_API_KEY`, `OPENAI_API_KEY`, `GPTSCAN_PROVIDER`, `GPTSCAN_MODEL`, `GPTSCAN_DRY_RUN` |
+| gptscan | `DEEPSEEK_API_KEY`, `OPENAI_API_KEY`, `GPTSCAN_PROVIDER`, `GPTSCAN_MODEL`, `GPTSCAN_DRY_RUN`, `GPTSCAN_BASE_URL`, `GPTSCAN_API_KEY` |
 | llmsmartaudit | `DEEPSEEK_API_KEY`, `OPENAI_API_KEY`, `LLM_PROVIDER`, `LLM_MODEL`, `LLM_BASE_URL`, `LLM_CONTEXT_TOKENS`, `LLM_MAX_COMPLETION_TOKENS` |
 
 Eine Variable, die dort nicht steht, erreicht den Container nicht — auch wenn

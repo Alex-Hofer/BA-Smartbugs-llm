@@ -133,7 +133,7 @@ Erschwerend kommt hinzu, dass GPTScan ein gescheitertes Compilat **abfängt**:
 Ohne Falcon-IR wird die Static-Bestätigungsstufe übersprungen, der Lauf endet
 mit Exit-Code 0, und `output.json` enthält `{"success": true, "results": []}`.
 Vor der Parser-Überarbeitung vom 2026-08-02 war ein nicht übersetzbarer Contract
-damit von einem sauberen nicht zu unterscheiden — über alle 19 Läufe betraf das
+damit von einem sauberen nicht zu unterscheiden — über die damals 19 Läufe betraf das
 **246 Tasks**, entsprechend **98 verschiedenen Contracts in 9 Läufen**. Der
 Hauptlauf `curated_v1_20260705` (143 Contracts) ist davon **nicht** betroffen:
 dort ist kein einziges Compilat gescheitert.
