@@ -248,18 +248,28 @@ und der aufbewahrte Beispielreport unter `WareHouse/VaultDS5_sb_20260630223101/`
 * `LLMSmartAuditTool-main/.../evaluation/` (27.662 Dateien, 3,7 GB) wurde
   **entfernt**. Zur Laufzeit nirgends referenziert — der Entrypoint startet
   `run.py --config SmartContractTA` aus `/app`. Ein aus dem heutigen Repo-Stand
-  gebautes Image misst dadurch 590 MB statt 5,13 GB. Extern gesichert, siehe
+  gebautes Image misst dadurch **587 MB statt 5,13 GB**. Extern gesichert, siehe
   `README.md`.
 
-  > **Präzisierung.** Die 590 MB gelten für ein *neu gebautes* Image
-  > (`llmsmartaudit-fromrepo:verify`, daneben `llmsmartaudit-reduced:verify`
-  > mit 586 MB). Der Tag, den `tools/llmsmartaudit/config.yaml` referenziert
-  > und mit dem sämtliche Läufe dieser Arbeit durchgeführt wurden, ist
-  > `smartbugs/llmsmartaudit:1.0` — und der ist lokal **weiterhin 5,13 GB
-  > groß**, weil die Verkleinerung nie in diesen Tag übernommen wurde. Die
-  > Ersparnis ist also gebaut und belegt, aber nicht in Benutzung. Auf die
-  > Messergebnisse hat das keinen Einfluss: Der Unterschied ist ausschließlich
-  > der ungenutzte `evaluation/`-Ordner.
+  > **Stand 20.09.2026.** Der Tag, den `tools/llmsmartaudit/config.yaml`
+  > referenziert, ist `smartbugs/llmsmartaudit:1.0`. Er wurde an diesem Tag aus
+  > dem aktuellen Repo-Stand neu gebaut und misst **587 MB** (Docker-Angabe:
+  > 587 MB Disk Usage, 164 MB Content Size). Die Verkleinerung ist damit nicht
+  > mehr nur belegt, sondern auch in Benutzung.
+  >
+  > Frühere Fassungen dieses Abschnitts nannten hier 590 MB für ein separat
+  > gebautes Prüf-Image und hielten fest, der eigentliche Tag sei „weiterhin
+  > 5,13 GB groß". Das war bereits überholt: Abschnitt 4.5 des
+  > Durchführungsprotokolls berichtet denselben Tag am 18.08.2026 mit 586 MB.
+  > Die Messung vom 20.09.2026 bestätigt diese Größenordnung; die Abweichung
+  > von einem Megabyte liegt an der Rundung und an aktualisierten
+  > pip-Abhängigkeiten.
+  >
+  > **Die aufgezeichneten Messläufe entstanden mit dem ursprünglichen,
+  > 5,13 GB großen Image.** Auf ihre Ergebnisse hat der Neubau keinen Einfluss:
+  > Der Unterschied ist ausschließlich der zur Laufzeit nie referenzierte
+  > `evaluation/`-Ordner. Unter dem Tag liegt jetzt allerdings nicht mehr
+  > bitgleich dasselbe Image, mit dem gemessen wurde.
 * `LLMSmartAuditTool-main/.../WareHouse/VaultDS*`: Reste eigener
   Integrationstests vom 2026-06-30. Bis auf einen Beispielreport entfernt;
   ebenfalls extern gesichert und über den Initial-Commit `f85946e` weiterhin

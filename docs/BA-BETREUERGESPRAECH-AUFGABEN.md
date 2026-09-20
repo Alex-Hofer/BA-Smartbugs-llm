@@ -344,7 +344,7 @@ anpassen und per Mail schicken.
 | Eigene Dokumentation | **~31.600 Wörter** über 24 Dokumente, davon 4 in LaTeX |
 | Geänderte Fremddateien | **21** (7 GPTScan · 9 LLMSmartAudit · 5 SmartBugs), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser) |
-| Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 590 MB reduziert |
+| Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 587 MB reduziert |
 | Messläufe | **19 Läufe · 930 Tasks · 4.461 Dateien · 258 MB** (Stand 02.08.2026) |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1368 → 0** verlorene Rohmeldungen |

@@ -193,9 +193,9 @@ Werkzeugs als `image:` verlangt. Der zweite Befehl umgeht bewusst den
 Arbeitsbaum — ein `docker build .` in diesem Verzeichnis scheitert unter Windows
 an den Langpfaden des Tool-Baums.
 
-Gemessene Größen nach einem Neubau am 18.08.2026: `smartbugs/gptscan:1.0`
-2,14 GB, `smartbugs/llmsmartaudit:1.0` 586 MB (`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`,
-Abschnitt 4.5).
+Gemessene Größen: `smartbugs/gptscan:1.0` 2,14 GB (Neubau 18.08.2026,
+`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5), `smartbugs/llmsmartaudit:1.0`
+**587 MB** (Neubau 20.09.2026 aus dem aktuellen Repo-Stand).
 
 ### API-Schlüssel setzen
 
@@ -417,7 +417,7 @@ er namentlich, statt es stillschweigend zu überspringen.
 **1 — `evaluation/` wurde aus `LLMSmartAuditTool-main` entfernt.**
 27.662 Dateien, 3,7 GB. Zur Laufzeit nirgends referenziert: der Entrypoint
 startet `run.py --config SmartContractTA` aus `/app`. Das Docker-Image schrumpft
-dadurch von 5,13 GB auf 590 MB, und das Repository bleibt handhabbar (Pack
+dadurch von 5,13 GB auf 587 MB, und das Repository bleibt handhabbar (Pack
 66 MB statt 461,50 MiB). Das Verzeichnis enthält die Evaluationsdaten der
 ursprünglichen Veröffentlichung und wird für diese Arbeit nicht gebraucht — die
 eigenen Messungen liegen unter `smartbugs/results/`.
