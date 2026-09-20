@@ -56,7 +56,17 @@ param(
     [ValidateSet('both', 'curated', 'mwefixed')][string]$Corpus = 'both',
     [int]$Processes = 3,
     [double]$CostCeiling = 21.00,
-    [string]$RunSuffix = 'v2'
+    [string]$RunSuffix = 'v2',
+    # Backend zur Laufzeit waehlbar. Die Defaults entsprechen den aufgezeichneten
+    # Laeufen; ein abweichender Lauf gehoert unter einen eigenen -RunSuffix.
+    #   deepseek -> DEEPSEEK_API_KEY, openai/custom -> OPENAI_API_KEY
+    #   custom   -> zusaetzlich -BaseUrl und eine explizite -Model-Angabe
+    [ValidateSet('deepseek', 'openai', 'custom')]
+    [string]$Provider = 'deepseek',
+    [string]$Model = 'deepseek-v4-flash',
+    [string]$BaseUrl = '',
+    [int]$ContextTokens = 65536,
+    [int]$MaxCompletionTokens = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -114,15 +124,28 @@ foreach ($line in Get-Content $EnvFile) {
         if ($value) { Set-Item -Path "Env:$name" -Value $value }
     }
 }
-if (-not $env:DEEPSEEK_API_KEY) { throw "DEEPSEEK_API_KEY ist leer." }
+$keyVar = switch ($Provider) {
+    'deepseek' { 'DEEPSEEK_API_KEY' }
+    default    { 'OPENAI_API_KEY' }   # openai und custom lesen beide OPENAI_API_KEY
+}
+if (-not (Get-Item -Path "Env:$keyVar" -ErrorAction SilentlyContinue)) {
+    throw "$keyVar fehlt in $EnvFile - wird fuer -Provider $Provider gebraucht."
+}
+if ($Provider -eq 'custom' -and -not $BaseUrl) {
+    throw "-Provider custom verlangt -BaseUrl (OpenAI-kompatibler Endpunkt)."
+}
 
-$env:LLM_PROVIDER       = 'deepseek'
-$env:LLM_MODEL          = 'deepseek-v4-flash'   # PFLICHT: ueberschreibt das tote deepseek-chat im Image
-$env:LLM_CONTEXT_TOKENS = '65536'               # hebt die Agent-Grenze nicht an, siehe Kopfkommentar
+$env:LLM_PROVIDER       = $Provider
+$env:LLM_MODEL          = $Model            # PFLICHT: ueberschreibt das tote deepseek-chat im Image
+$env:LLM_CONTEXT_TOKENS = "$ContextTokens"  # hebt die Agent-Grenze nicht an, siehe Kopfkommentar
+if ($BaseUrl) { $env:LLM_BASE_URL = $BaseUrl }
+else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
+if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }
+else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
 
 Write-Log "Volllauf LLMSmartAudit, Korpus=$Corpus, Processes=$Processes, Kostendeckel=`$$CostCeiling"
-Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)"
-Write-Log "API-Key gesetzt: ja ($($env:DEEPSEEK_API_KEY.Length) Zeichen, Wert wird nicht protokolliert)"
+Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+Write-Log "API-Key gesetzt: ja, $keyVar ($((Get-Item -Path ""Env:$keyVar"").Value.Length) Zeichen, Wert wird nicht protokolliert)"
 Write-Log "MAIN: nicht gesetzt (siehe Kopfkommentar)"
 
 # --- Laeufe -----------------------------------------------------------------

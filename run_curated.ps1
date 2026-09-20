@@ -45,6 +45,28 @@
   Suffix fuer Ergebnisordner results\<tool>\curated_<suffix>\ (Default: Zeitstempel).
   Gleicher Suffix + vorhandene Ergebnisse: bestehende Task-Ordner werden nicht
   ueberschrieben (kein --overwrite) - neuer Suffix = frischer Lauf.
+.PARAMETER Provider
+  LLM-Anbieter fuer BEIDE Werkzeuge: deepseek | openai | custom (Default: deepseek).
+  Bestimmt zugleich, welcher Schluessel aus GPTScan\.env gebraucht wird:
+  deepseek -> DEEPSEEK_API_KEY, openai -> OPENAI_API_KEY,
+  custom -> GPTSCAN_API_KEY (GPTScan) bzw. OPENAI_API_KEY (LLMSmartAudit).
+.PARAMETER Model
+  Modell-ID fuer beide Werkzeuge (Default: deepseek-v4-flash). Der Wert geht
+  unveraendert als --model an das jeweilige Werkzeug und von dort an die API.
+  Fuer LLMSmartAudit ist eine explizite Angabe PFLICHT - das Image hat das
+  abgeschaltete "deepseek-chat" eingebrannt.
+.PARAMETER GptscanModel
+  Abweichende Modell-ID nur fuer GPTScan (Default: Wert von -Model).
+.PARAMETER LlmModel
+  Abweichende Modell-ID nur fuer LLMSmartAudit (Default: Wert von -Model).
+.PARAMETER BaseUrl
+  OpenAI-kompatibler Endpunkt. Nur noetig (und nur wirksam) bei -Provider custom.
+  Wird als GPTSCAN_BASE_URL bzw. LLM_BASE_URL gesetzt.
+.PARAMETER ContextTokens
+  Kontextfenster in Token fuer LLMSmartAudit (Default: 65536). Rueckfallwert fuer
+  Modell-IDs, die camel/model_backend.py nicht kennt.
+.PARAMETER MaxCompletionTokens
+  Obergrenze fuer die Antwortlaenge je Aufruf (LLMSmartAudit). 0 = nicht setzen.
 
 .EXAMPLE
   .\run_curated.ps1                                   # Volllauf beide Tools
@@ -53,9 +75,26 @@
 .EXAMPLE
   .\run_curated.ps1 -Tool gptscan -GptscanDry -SkipClone -FilePattern 'samples:gptscan/Vault.sol'
                                                       # 1-Datei-Pipelinetest, $0
+.EXAMPLE
+  .\run_curated.ps1 -Model deepseek-v4-pro -RunIdSuffix v4pro
+                                                      # anderes Modell, gleicher Anbieter
+.EXAMPLE
+  .\run_curated.ps1 -Provider openai -Model gpt-4o -RunIdSuffix openai
+                                                      # anderer Anbieter (OPENAI_API_KEY noetig)
+.EXAMPLE
+  .\run_curated.ps1 -Tool gptscan -Provider custom -Model custom-cheap `
+      -BaseUrl 'http://host.docker.internal:8000/v1' -SkipClone `
+      -FilePattern 'samples:gptscan/Vault.sol' -RunIdSuffix pruefstand
+                                                      # lokaler Pruefstand, $0
 
   Voraussetzungen: Docker Desktop laeuft; Images smartbugs/gptscan:1.0 und
-  smartbugs/llmsmartaudit:1.0 lokal gebaut; DEEPSEEK_API_KEY in GPTScan\.env.
+  smartbugs/llmsmartaudit:1.0 lokal gebaut; der zum Anbieter passende Schluessel
+  in GPTScan\.env.
+
+  ACHTUNG fuer die Auswertung: Die aufgezeichneten Laeufe dieser Arbeit sind
+  saemtlich mit deepseek/deepseek-v4-flash entstanden. Ein Lauf mit anderen
+  Werten ist nicht mit ihnen vergleichbar - dafuer immer einen eigenen
+  -RunIdSuffix vergeben.
 #>
 [CmdletBinding()]
 param(
@@ -65,8 +104,20 @@ param(
     [string]$FilePattern = '..\smartbugs-curated\dataset:**/*.sol',
     [switch]$GptscanDry,
     [switch]$SkipClone,
-    [string]$RunIdSuffix = (Get-Date -Format 'yyyyMMdd_HHmm')
+    [string]$RunIdSuffix = (Get-Date -Format 'yyyyMMdd_HHmm'),
+    [ValidateSet('deepseek', 'openai', 'custom')]
+    [string]$Provider = 'deepseek',
+    [string]$Model = 'deepseek-v4-flash',
+    [string]$GptscanModel = '',
+    [string]$LlmModel = '',
+    [string]$BaseUrl = '',
+    [int]$ContextTokens = 65536,
+    [int]$MaxCompletionTokens = 0
 )
+
+# Werkzeugspezifische Modelle fallen auf -Model zurueck.
+if (-not $GptscanModel) { $GptscanModel = $Model }
+if (-not $LlmModel)     { $LlmModel     = $Model }
 
 $ErrorActionPreference = 'Stop'
 $RepoRoot     = $PSScriptRoot
@@ -125,11 +176,42 @@ try {
     }
 
     # ---------------------------------------------------------------- API-Key
+    # Alle Zuweisungen aus GPTScan\.env in die Prozessumgebung uebernehmen. Frueher
+    # las das Skript nur DEEPSEEK_API_KEY heraus; damit war kein anderer Anbieter
+    # bedienbar. Welcher Schluessel gebraucht wird, haengt am Anbieter.
     if (-not (Test-Path $EnvFile)) { throw "Key-Datei fehlt: $EnvFile" }
-    $keyLine = Get-Content $EnvFile | Where-Object { $_ -match '^\s*DEEPSEEK_API_KEY\s*=\s*\S' } | Select-Object -First 1
-    if (-not $keyLine) { throw "DEEPSEEK_API_KEY nicht in $EnvFile gefunden." }
-    $env:DEEPSEEK_API_KEY = ($keyLine -split '=', 2)[1].Trim().Trim('"').Trim("'")
-    Write-Log "DEEPSEEK_API_KEY geladen (Laenge $($env:DEEPSEEK_API_KEY.Length)). Wert wird nicht ausgegeben."
+    $loaded = New-Object System.Collections.Generic.List[string]
+    foreach ($line in Get-Content $EnvFile) {
+        if ($line -match '^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$') {
+            $name  = $Matches[1]
+            $value = $Matches[2].Trim().Trim([char]34).Trim([char]39)
+            if ($value) { Set-Item -Path "Env:$name" -Value $value; $loaded.Add($name) }
+        }
+    }
+    Write-Log ("Aus $EnvFile geladen: " + ($loaded -join ', ') + " (Werte werden nie ausgegeben).")
+
+    # Pflichtschluessel je Anbieter - siehe GPTScan/src/config.py:PROVIDERS und
+    # LLMSmartAuditTool run.py.
+    $requiredKeys = @()
+    switch ($Provider) {
+        'deepseek' { $requiredKeys = @('DEEPSEEK_API_KEY') }
+        'openai'   { $requiredKeys = @('OPENAI_API_KEY') }
+        'custom'   {
+            if ($needGpt) { $requiredKeys += 'GPTSCAN_API_KEY' }
+            if ($needLlm) { $requiredKeys += 'OPENAI_API_KEY' }
+            if (-not $BaseUrl) {
+                throw "-Provider custom verlangt -BaseUrl (OpenAI-kompatibler Endpunkt)."
+            }
+        }
+    }
+    if (-not $GptscanDry) {
+        foreach ($k in $requiredKeys) {
+            if (-not (Get-Item -Path "Env:$k" -ErrorAction SilentlyContinue)) {
+                throw "$k fehlt in $EnvFile - wird fuer -Provider $Provider gebraucht."
+            }
+        }
+    }
+    Write-Log "Backend: provider=$Provider, GPTScan-Modell=$GptscanModel, LLMSA-Modell=$LlmModel$(if ($BaseUrl) { ", base_url=$BaseUrl" })"
 
     # ---------------------------------------------------------------- Datensatz
     if (-not $SkipClone) {
@@ -156,8 +238,13 @@ try {
 
     # ---------------------------------------------------------------- Run 1: GPTScan
     if ($needGpt) {
-        $env:GPTSCAN_PROVIDER = 'deepseek'
-        $env:GPTSCAN_MODEL    = 'deepseek-v4-flash'
+        $env:GPTSCAN_PROVIDER = $Provider
+        $env:GPTSCAN_MODEL    = $GptscanModel
+        # GPTSCAN_BASE_URL wertet GPTScan nur bei provider=custom aus
+        # (src/llm_backend.py:base_url) - ein bezahltes Backend laesst sich damit
+        # nicht umleiten. Ausserhalb von custom bleibt die Variable ungesetzt.
+        if ($Provider -eq 'custom' -and $BaseUrl) { $env:GPTSCAN_BASE_URL = $BaseUrl }
+        else { Remove-Item Env:GPTSCAN_BASE_URL -ErrorAction SilentlyContinue }
         if ($GptscanDry) { $env:GPTSCAN_DRY_RUN = '1'; Write-Log "GPTScan: DRY-RUN (0 API-Calls)" }
         else { Remove-Item Env:GPTSCAN_DRY_RUN -ErrorAction SilentlyContinue }
 
@@ -169,9 +256,13 @@ try {
 
     # ---------------------------------------------------------------- Run 2: LLMSmartAudit
     if ($needLlm) {
-        $env:LLM_PROVIDER       = 'deepseek'
-        $env:LLM_MODEL          = 'deepseek-v4-flash'   # PFLICHT: ueberschreibt totes deepseek-chat im Image
-        $env:LLM_CONTEXT_TOKENS = '65536'               # Versicherung gegen context_length_exceeded
+        $env:LLM_PROVIDER       = $Provider
+        $env:LLM_MODEL          = $LlmModel             # PFLICHT: ueberschreibt totes deepseek-chat im Image
+        $env:LLM_CONTEXT_TOKENS = "$ContextTokens"      # Versicherung gegen context_length_exceeded
+        if ($BaseUrl) { $env:LLM_BASE_URL = $BaseUrl }
+        else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
+        if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }
+        else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
         Write-Log "Starte LLMSmartAudit (processes=$Processes, timeout=5400s, runid=$llmRunId)..."
         Write-Log "ACHTUNG: keine Kostenbremse im Tool - erwartete Dauer ~3.5-4.5 h fuer 143 Contracts."
         $llmExit = Invoke-SbRun -SbTool 'llmsmartaudit' -TimeoutSec 5400 -ResultsTemplate $llmResults -RunId $llmRunId
@@ -274,7 +365,11 @@ try {
     Write-Log "Fertig."
 }
 finally {
+    # Alles wieder aus der Prozessumgebung nehmen, was dieses Skript gesetzt hat -
+    # einschliesslich der Schluessel, die aus GPTScan\.env kamen.
     Remove-Item Env:GPTSCAN_DRY_RUN, Env:GPTSCAN_PROVIDER, Env:GPTSCAN_MODEL, `
+                Env:GPTSCAN_BASE_URL, Env:GPTSCAN_API_KEY, `
                 Env:LLM_PROVIDER, Env:LLM_MODEL, Env:LLM_CONTEXT_TOKENS, `
-                Env:DEEPSEEK_API_KEY -ErrorAction SilentlyContinue
+                Env:LLM_BASE_URL, Env:LLM_MAX_COMPLETION_TOKENS, `
+                Env:DEEPSEEK_API_KEY, Env:OPENAI_API_KEY -ErrorAction SilentlyContinue
 }

@@ -106,7 +106,15 @@ param(
     [bool]$Main = $true,
     [switch]$MainFallback,
     [string]$Corpus = 'samples:gptscan/mwevariety_fixed/**/*.sol',
-    [string[]]$SmokeFiles = @('25_CTokenInterface.sol', '14_IdleYieldSource.sol', '23_nTokenAction.sol')
+    [string[]]$SmokeFiles = @('25_CTokenInterface.sol', '14_IdleYieldSource.sol', '23_nTokenAction.sol'),
+    # Backend zur Laufzeit waehlbar. Die Defaults entsprechen den aufgezeichneten
+    # Laeufen; ein abweichender Lauf gehoert unter eine eigene -RunId.
+    #   deepseek -> DEEPSEEK_API_KEY, openai -> OPENAI_API_KEY,
+    #   custom   -> GPTSCAN_API_KEY + -BaseUrl (nur dort wertet GPTScan sie aus)
+    [ValidateSet('deepseek', 'openai', 'custom')]
+    [string]$Provider = 'deepseek',
+    [string]$Model = 'deepseek-v4-flash',
+    [string]$BaseUrl = ''
 )
 
 $ErrorActionPreference = 'Stop'
@@ -171,14 +179,38 @@ try {
     # ---------------------------------------------------------------- API-Key
     # Nur bei live-Laeufen noetig; im Dry-Run wird kein Call abgesetzt.
     if (-not (Test-Path $EnvFile)) { throw "Key-Datei fehlt: $EnvFile" }
-    $keyLine = Get-Content $EnvFile | Where-Object { $_ -match '^\s*DEEPSEEK_API_KEY\s*=\s*\S' } | Select-Object -First 1
-    if (-not $keyLine) { throw "DEEPSEEK_API_KEY nicht in $EnvFile gefunden." }
-    $env:DEEPSEEK_API_KEY = ($keyLine -split '=', 2)[1].Trim().Trim('"').Trim("'")
-    Write-Log "DEEPSEEK_API_KEY geladen (Laenge $($env:DEEPSEEK_API_KEY.Length)). Wert wird nicht ausgegeben."
+    $loaded = New-Object System.Collections.Generic.List[string]
+    foreach ($line in Get-Content $EnvFile) {
+        if ($line -match '^\s*([A-Za-z_][A-Za-z0-9_]*)\s*=\s*(.*)$') {
+            $name  = $Matches[1]
+            $value = $Matches[2].Trim().Trim([char]34).Trim([char]39)
+            if ($value) { Set-Item -Path "Env:$name" -Value $value; $loaded.Add($name) }
+        }
+    }
+    Write-Log ("Aus $EnvFile geladen: " + ($loaded -join ', ') + " (Werte werden nie ausgegeben).")
+
+    $keyVar = switch ($Provider) {
+        'deepseek' { 'DEEPSEEK_API_KEY' }
+        'openai'   { 'OPENAI_API_KEY' }
+        'custom'   { 'GPTSCAN_API_KEY' }
+    }
+    if ($Mode -ne 'dry') {
+        if (-not (Get-Item -Path "Env:$keyVar" -ErrorAction SilentlyContinue)) {
+            throw "$keyVar fehlt in $EnvFile - wird fuer -Provider $Provider gebraucht."
+        }
+        if ($Provider -eq 'custom' -and -not $BaseUrl) {
+            throw "-Provider custom verlangt -BaseUrl (OpenAI-kompatibler Endpunkt)."
+        }
+    }
 
     # ---------------------------------------------------------------- Backend
-    $env:GPTSCAN_PROVIDER = 'deepseek'
-    $env:GPTSCAN_MODEL    = 'deepseek-v4-flash'   # deepseek-chat ist abgeschaltet (HTTP 400)
+    $env:GPTSCAN_PROVIDER = $Provider
+    $env:GPTSCAN_MODEL    = $Model   # Default deepseek-v4-flash; deepseek-chat ist abgeschaltet (HTTP 400)
+    # GPTSCAN_BASE_URL wertet GPTScan nur bei provider=custom aus
+    # (src/llm_backend.py:base_url); ausserhalb bleibt die Variable ungesetzt.
+    if ($Provider -eq 'custom' -and $BaseUrl) { $env:GPTSCAN_BASE_URL = $BaseUrl }
+    else { Remove-Item Env:GPTSCAN_BASE_URL -ErrorAction SilentlyContinue }
+    Write-Log "Backend: provider=$Provider model=$Model$(if ($BaseUrl) { " base_url=$BaseUrl" })"
     if ($Mode -eq 'dry') { $env:GPTSCAN_DRY_RUN = '1' }
     else { Remove-Item Env:GPTSCAN_DRY_RUN -ErrorAction SilentlyContinue }
 
@@ -283,5 +315,6 @@ try {
 }
 finally {
     Remove-Item Env:GPTSCAN_DRY_RUN, Env:GPTSCAN_PROVIDER, Env:GPTSCAN_MODEL, `
-                Env:DEEPSEEK_API_KEY -ErrorAction SilentlyContinue
+                Env:GPTSCAN_BASE_URL, Env:GPTSCAN_API_KEY, `
+                Env:DEEPSEEK_API_KEY, Env:OPENAI_API_KEY -ErrorAction SilentlyContinue
 }

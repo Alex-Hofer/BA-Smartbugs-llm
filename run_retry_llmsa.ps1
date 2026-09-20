@@ -55,7 +55,16 @@ param(
     [string[]]$Files = @('12_Witch', '25_CompositeMultiOracle', '43_DelegatedStaking', '62_Locke'),
     [int]$Processes = 3,
     [double]$CostCeiling = 3.00,
-    [string]$RunId = 'llmsa_mwefixed_v2_retry'
+    [string]$RunId = 'llmsa_mwefixed_v2_retry',
+    # Backend zur Laufzeit waehlbar. Die Defaults entsprechen dem Hauptlauf;
+    # ein Nachlauf mit anderem Backend ersetzt keine Tasks des Hauptlaufs,
+    # sondern gehoert unter eine eigene -RunId.
+    [ValidateSet('deepseek', 'openai', 'custom')]
+    [string]$Provider = 'deepseek',
+    [string]$Model = 'deepseek-v4-flash',
+    [string]$BaseUrl = '',
+    [int]$ContextTokens = 65536,
+    [int]$MaxCompletionTokens = 0
 )
 
 $ErrorActionPreference = 'Stop'
@@ -109,28 +118,48 @@ foreach ($line in Get-Content $EnvFile) {
         if ($value) { Set-Item -Path "Env:$name" -Value $value }
     }
 }
-if (-not $env:DEEPSEEK_API_KEY) { throw "DEEPSEEK_API_KEY ist leer." }
+$keyVar = switch ($Provider) {
+    'deepseek' { 'DEEPSEEK_API_KEY' }
+    default    { 'OPENAI_API_KEY' }   # openai und custom lesen beide OPENAI_API_KEY
+}
+if (-not (Get-Item -Path "Env:$keyVar" -ErrorAction SilentlyContinue)) {
+    throw "$keyVar fehlt in $EnvFile - wird fuer -Provider $Provider gebraucht."
+}
+if ($Provider -eq 'custom' -and -not $BaseUrl) {
+    throw "-Provider custom verlangt -BaseUrl (OpenAI-kompatibler Endpunkt)."
+}
 
-$env:LLM_PROVIDER       = 'deepseek'
-$env:LLM_MODEL          = 'deepseek-v4-flash'
-$env:LLM_CONTEXT_TOKENS = '65536'
+$env:LLM_PROVIDER       = $Provider
+$env:LLM_MODEL          = $Model
+$env:LLM_CONTEXT_TOKENS = "$ContextTokens"
+if ($BaseUrl) { $env:LLM_BASE_URL = $BaseUrl }
+else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
+if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }
+else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
 
 # --- Guthabenpruefung -------------------------------------------------------
 # Der Grund fuer diesen Nachlauf. Ohne gedecktes Konto antwortet die API mit
 # HTTP 402, das Werkzeug verbraucht sein tenacity-Budget und liefert nichts.
-Write-Log "Pruefe DeepSeek-Guthaben vor dem Start"
-try {
-    $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
-} catch {
-    throw "Guthabenabfrage fehlgeschlagen: $($_.Exception.Message). Ohne diese Auskunft wird nicht gestartet."
+# Die Abfrage ist DeepSeek-spezifisch; fuer andere Anbieter gibt es hier keine
+# entsprechende Auskunft, deshalb entfaellt sie dort.
+if ($Provider -eq 'deepseek') {
+    Write-Log "Pruefe DeepSeek-Guthaben vor dem Start"
+    try {
+        $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
+    } catch {
+        throw "Guthabenabfrage fehlgeschlagen: $($_.Exception.Message). Ohne diese Auskunft wird nicht gestartet."
+    }
+    $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
+    Write-Log "Guthaben: is_available=$($bal.is_available), USD=$usd"
+    if (-not $bal.is_available) { throw "DeepSeek meldet is_available=false -- Konto nicht gedeckt. Kein Start; genau daran sind die vier Tasks im Hauptlauf gescheitert." }
+    if ([double]$usd -lt $CostCeiling) { throw "Guthaben $usd USD liegt unter dem Kostendeckel $CostCeiling USD. Erst aufladen." }
 }
-$usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
-Write-Log "Guthaben: is_available=$($bal.is_available), USD=$usd"
-if (-not $bal.is_available) { throw "DeepSeek meldet is_available=false -- Konto nicht gedeckt. Kein Start; genau daran sind die vier Tasks im Hauptlauf gescheitert." }
-if ([double]$usd -lt $CostCeiling) { throw "Guthaben $usd USD liegt unter dem Kostendeckel $CostCeiling USD. Erst aufladen." }
+else {
+    Write-Log "Guthabenpruefung uebersprungen: nur fuer -Provider deepseek verfuegbar."
+}
 
 Write-Log "Nachlauf LLMSmartAudit, runid=$RunId, Contracts=$($Files -join ', ')"
-Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)"
+Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
 Write-Log "MAIN: nicht gesetzt, wie im Hauptlauf"
 
 $patterns = $Files | ForEach-Object { "samples/gptscan/mwevariety_fixed:$_.sol" }
