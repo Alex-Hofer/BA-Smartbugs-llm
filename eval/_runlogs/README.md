@@ -47,14 +47,22 @@ dass einer gesetzt war, und seine Länge — der Wert selbst wird nie geschriebe
 3. **Kein Ergebnis über Contracts.** Findings stehen in den Protokollen nicht;
    dafür sind die `eval/<runid>/`-Ordner da.
 
-## Warum die zugehörigen Rohergebnisse hier fehlen
+## Wo die zugehörigen Rohergebnisse liegen
 
 Die Protokolle nennen als Ablageort
 `C:\Users\Alex Unterleitner\Desktop\BA-Smartbugs-llm\`. Die beiden
-`llmsa_*_v2`-Läufe wurden also auf dem Rechner des Co-Autors gefahren. Ihre
-Rohergebnisse unter `smartbugs/results/llmsmartaudit/` liegen dort und sind in
-diesem Arbeitsbaum nicht vorhanden; `build_eval.py` lässt sich für diese beiden
-Läufe hier nicht wiederholen. Die Auswertungen in
-[`eval/llmsa_curated_v2/`](../llmsa_curated_v2/README.md) und
-[`eval/llmsa_mwefixed_v2/`](../llmsa_mwefixed_v2/README.md) sind deshalb die
-einzige in diesem Repository erhaltene Fassung dieser Läufe.
+`llmsa_*_v2`-Läufe wurden also auf dem Rechner des Co-Autors gefahren.
+
+* **`llmsa_mwefixed_v2`** (samt `_retry`): am 20.09.2026 in diesen
+  Arbeitsbaum übernommen. Die Rohergebnisse liegen unter
+  `smartbugs/results/llmsmartaudit/`, und `build_eval.py` erzeugt daraus
+  dieselbe Auswertung, die unter
+  [`eval/llmsa_mwefixed_v2/`](../llmsa_mwefixed_v2/README.md) eingecheckt ist.
+  Bei derselben Gelegenheit kam der bis dahin unbekannte Lauf
+  `llmsa_smoke_curated` (3 Contracts) dazu; er hat keine eigene Auswertung,
+  taucht aber in der Errors/Fails-Bilanz und im Parser-Audit auf.
+* **`llmsa_curated_v2`**: die Rohergebnisse fehlen hier weiterhin. Für
+  LLMSmartAudit auf `smartbugs-curated` ist ohnehin `curated_v1_20260705`
+  der Bezugslauf — er liegt vollständig vor und ist in
+  [`eval/curated_v1_20260705__llmsmartaudit/`](../curated_v1_20260705__llmsmartaudit/README.md)
+  ausgewertet.

@@ -1,6 +1,6 @@
 # Lueckenbericht Parser-Audit
 
-Geprueft: **1169 Task-Verzeichnisse** aus 45 Laeufen, **2205 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
+Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2289 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
 
 Erzeugt mit `python analysis_tools/parser_audit.py`. Das Werkzeug liest das
 Container-Rohmaterial (`result.log`, `result.tar`, `smartbugs.json`, Exit-Code)
@@ -55,10 +55,13 @@ solc-Warnungen und slithers Exit-Code 255.
 | llmsmartaudit | curated_llmsa_demo_kostenprobe | 1 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 0 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 82 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2_retry | 4 | 0 | 0 |
+| llmsmartaudit | llmsa_smoke_curated | 3 | 2 | 0 |
 | llmsmartaudit | smoke1_stub | 1 | 2 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 6 | 0 |
-| **Summe** | | **1169** | **2205** | **0** |
+| **Summe** | | **1272** | **2289** | **0** |
 
 ## Ergebnis
 

@@ -4,13 +4,21 @@ LLMSmartAudit auf `mwevariety_fixed`, also auf demselben Korpus, auf dem GPTScan
 seine Zieldomäne hat. Der Lauf ist damit die Gegenprobe zur Frage, ob die
 Multi-Agenten-Pipeline auf großen DeFi-Contracts überhaupt bis zum Ende kommt.
 
-> **Dieser Lauf wurde auf dem Rechner des Co-Autors gefahren** — das
-> Konsolenprotokoll nennt als Ablageort
-> `C:\Users\Alex Unterleitner\Desktop\BA-Smartbugs-llm\`. Seine Rohergebnisse
-> liegen dort; `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2/` existiert in
-> diesem Arbeitsbaum nicht, `build_eval.py llmsa_mwefixed_v2` lässt sich hier
-> also **nicht** wiederholen. Was in diesem Ordner liegt, ist die einzige im
-> Repository erhaltene Fassung des Laufs.
+> **Nachtrag 20.09.2026: die Rohergebnisse liegen jetzt hier.** Der Lauf wurde
+> auf dem Rechner des Co-Autors gefahren -- das Konsolenprotokoll nennt als
+> Ablageort `C:\Users\Alex Unterleitner\Desktop\BA-Smartbugs-llm\`. Seine
+> Rohergebnisse sind am 20.09.2026 in diesen Arbeitsbaum uebernommen worden und
+> liegen unter `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2/` sowie
+> `…_retry/` (96 + 4 Tasks, je `result.json`, `result.log`, `result.tar`,
+> `smartbugs.json`).
+>
+> **Gegengeprueft:** `build_eval.py llmsa_mwefixed_v2 --merge-run
+> llmsa_mwefixed_v2_retry` ueber diese Rohdaten erzeugt dieselben 437 Findings,
+> Feld fuer Feld identisch mit der hier eingecheckten `findings.jsonl` --
+> einzige Abweichung ist der Zeitstempel des Exports. Dieselben Kennzahlen: 96
+> Contracts, 37 `context_exceeded`, 59 mit Findings, rund $8,37. Der Lauf ist
+> damit vollstaendig belegt, und eine spaetere Parser-Aenderung laesst sich per
+> `sb.reparse` auch auf ihn anwenden.
 
 ## Woher die Daten stammen
 
@@ -68,8 +76,9 @@ Aufrufe, also im Mittel rund 20 900 Token je Aufruf.
 
 ## Was man daraus nicht schließen darf
 
-1. **In diesem Arbeitsbaum nicht reproduzierbar.** Ohne die Rohergebnisse lässt sich keine Zahl dieses
-   Ordners am Ursprung nachprüfen.
+1. **Nicht bitgleich wiederholbar.** Die Zahlen sind aus den Rohdaten
+   nachvollziehbar, aber ein *neuer* Lauf ergaebe andere: LLM-gestuetzte
+   Werkzeuge sind nicht deterministisch.
 2. **Die 437 Findings gelten für 59 Contracts, nicht für 96.** Jede
    Hochrechnung auf den ganzen Korpus unterstellt, dass die 37 übersprungenen
    Contracts sich wie die übrigen verhalten — dafür gibt es keinen Beleg, und

@@ -9,7 +9,12 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 > liegen dort; `smartbugs/results/llmsmartaudit/llmsa_curated_v2/` existiert in
 > diesem Arbeitsbaum nicht, `build_eval.py llmsa_curated_v2` lässt sich hier
 > also **nicht** wiederholen. Was in diesem Ordner liegt, ist die einzige im
-> Repository erhaltene Fassung des Laufs. Wer
+> Repository erhaltene Fassung des Laufs.
+>
+> **Stand 20.09.2026:** Die Rohergebnisse des Schwesterlaufs
+> `llmsa_mwefixed_v2` sind inzwischen übernommen worden; die dieses Laufs
+> nicht. Ob sie auf dem Rechner des Co-Autors noch vorliegen, ist offen und
+> wäre nachzufragen. Dringlich ist es nicht: Wer
 > LLMSmartAudit auf curated mit vorhandenen Rohdaten auswerten will, nimmt den
 > Lauf `curated_v1_20260705` — siehe
 > [`eval/curated_v1_20260705__llmsmartaudit/`](../curated_v1_20260705__llmsmartaudit/README.md).

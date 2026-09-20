@@ -54,10 +54,13 @@ Erzeugt mit `python analysis_tools/errors_fails_report.py --md ... --csv ...`.
 | llmsmartaudit | curated_llmsa_demo_kostenprobe | 1 | 1 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 143 | 0 | 0 | 0 | 0 | 0 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 55 | 41 | 41 | 160 | 45 | 0 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2_retry | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
+| llmsmartaudit | llmsa_smoke_curated | 3 | 2 | 1 | 1 | 4 | 1 | 0 | 0 |
 | llmsmartaudit | smoke1_stub | 1 | 0 | 1 | 1 | 3 | 2 | 0 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 140 | 3 | 3 | 3 | 9 | 0 | 0 |
-| **Summe** | | **1169** | **719** | **444** | **56** | **2166** | **103** | **249** | **10** |
+| **Summe** | | **1272** | **780** | **486** | **98** | **2330** | **149** | **249** | **10** |
 
 Spalte *sauber*: Tasks ohne jeden Error und Fail. Spalte *nicht uebersetzt*:
 Tasks, deren Contract nicht kompiliert werden konnte — dort ist ein leeres
@@ -84,53 +87,53 @@ Meldung — jede wird unveraendert wiedergegeben.
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 3 | analysis unsuccessful, check output.json |
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 3 | error parsing results: file could not be opened successfully: - method gz: ReadError('empty file') - method bz2: ReadError('not a bzip2 file') - method xz: ReadError('not an lzma file') - method tar: ReadError('empty file') |
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 2 | exception (AssertionError) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 126980}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66798}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66868}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 67796}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68712}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68970}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 69518}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70000}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70032}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70448}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70500}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 71536}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 71618}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 72588}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76570}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76912}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 77553}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 78618}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 80623}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 81192}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 81279}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 81504}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 84821}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 89881}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 89965}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 90117}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 92149}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 92976}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 93900}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 95209}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 97252}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 109412) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 142562) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 173170) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 31828) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 92678) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (after adjustment): 5410) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (after adjustment): 8192) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (before adjustment): 43146) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_token: 65536) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_prompt_tokens (before adjustment): 22878) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x706d249fb430 state=finished raised APIStatusError>]) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x77f8f87f4970 state=finished raised APIStatusError>]) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7897bfc33730 state=finished raised APIStatusError>]) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7e3abc14b3d0 state=finished raised APIStatusError>]) |
+| llmsmartaudit | llmsa_smoke_curated | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68978}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (openai.BadRequestError: Error code: 400 - {'error': {'message': 'The supported API model names are deepseek-v4-pro or deepseek-v4-flash, but you passed STUB.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7ff553bdcbe0 state=finished raised BadRequestError>]) |
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 1 | exception (slither.visitors.expression.constants_folding.NotConstant) |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 54 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 50 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 47 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 47 | TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 43 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 43 | TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 36 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | curated_gptscan_mwefixed_live | error | independent | 35 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 33 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
-| gptscan | curated_gptscan_mwefixed_live | error | independent | 31 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 245, in si ... lidation") Exception: The description of variable did not pass the `validate_description` validation |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 27 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 23 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 245, in si ... lidation") Exception: The description of variable did not pass the `validate_description` validation |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 22 | EXIT_CODE_1 |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 22 | GPTScan reported success=false: no output produced |
-| gptscan | mwevar_dry | error | consequence | 22 | EXIT_CODE_1 |
-| gptscan | mwevar_dry | error | consequence | 22 | GPTScan reported success=false: no output produced |
-| gptscan | curated_gptscan_mwefixed_live | error | independent | 19 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 325, in si ... ble did not pass the validation") Exception: The description of variable did not pass the validation |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 14 | AttributeError: 'NoneType' object has no attribute 'lower' |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 14 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 250, in si ... ower() in answer[to_exclude_key].lower(): AttributeError: 'NoneType' object has no attribute 'lower' |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 14 | AttributeError: 'NoneType' object has no attribute 'lower' |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 14 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 250, in si ... ower() in answer[to_exclude_key].lower(): AttributeError: 'NoneType' object has no attribute 'lower' |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 13 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 325, in si ... ble did not pass the validation") Exception: The description of variable did not pass the validation |
-| gptscan | mwevar_dry | error | consequence | 13 | WARNING  static_check: Falcon is not initialized, skipping first deposit check |
-| gptscan | mwevar_live | error | consequence | 10 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 9 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 9 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 245, in si ... lidation") Exception: The description of variable did not pass the `validate_description` validation |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 9 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 9 | IndexError: list index out of range |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 9 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 9 | IndexError: list index out of range |
-| gptscan | mwevar_live | error | consequence | 9 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 245, in si ... lidation") Exception: The description of variable did not pass the `validate_description` validation |
-| gptscan | phase6_dry | error | consequence | 8 | WARNING  static_check: Falcon is not initialized, skipping first deposit check |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 7 | TimeoutError: Timeout |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 6 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 6 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 5 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 325, in si ... ble did not pass the validation") Exception: The description of variable did not pass the validation |
-| gptscan | curated_gptscan_mwe_20260706 | error | consequence | 4 | WARNING  static_check: Falcon is not initialized, skipping first deposit check |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 4 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 232, in si ... ue", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0) |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 4 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 312, in si ... lyze_pipeline.py" , line 87, in ask_with_timeout raise TimeoutError("Timeout") TimeoutError: Timeout |
-| gptscan | gptscan_mwefixed_v2_main | error | independent | 4 | json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0) |
-| gptscan | mwevar_live | error | consequence | 4 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 325, in si ... ble did not pass the validation") Exception: The description of variable did not pass the validation |
-| gptscan | mwevar_live | error | consequence | 4 | WARNING  static_check: Falcon is not initialized, skipping first deposit check |
-| gptscan | curated_gptscan_demo_defi | error | independent | 3 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | curated_gptscan_demo_defi | error | independent | 3 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 245, in si ... lidation") Exception: The description of variable did not pass the `validate_description` validation |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 3 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 256, in si ... ingle return {answer_key: list(data.values())[0]} IndexError: list index out of range call_arg_check |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 3 | IndexError: list index out of range call_arg_check |
-| ... | | | | | *1329 weitere Meldungen, vollstaendig in der CSV* |
+| ... | | | | | *1383 weitere Meldungen, vollstaendig in der CSV* |

@@ -72,14 +72,14 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 20.09.2026: 45 Läufe, 1 169 Tasks, 5 885 Dateien, 362 MB.**
+**Stand 20.09.2026: 48 Läufe, 1 272 Tasks, 6 297 Dateien, 1,05 GB.**
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 
 | Werkzeug | Läufe | Tasks |
 |---|---:|---:|
 | `gptscan` | 33 | 863 |
-| `llmsmartaudit` | 11 | 163 |
+| `llmsmartaudit` | 14 | 266 |
 | `slither-0.11.3` | 1 | 143 |
 
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
@@ -88,10 +88,12 @@ mit MAIN über `mwevariety_fixed` (15.08.2026), die LLMSmartAudit-Volläufe übe
 beide Korpora (15./16.08.2026, Nachlauf 15.09.2026) und die Prüfläufe zum
 Timeout (17./18.08.2026).
 
-> Zwei Läufe fehlen in diesem Arbeitsbaum: `llmsa_curated_v2` und
-> `llmsa_mwefixed_v2` wurden auf dem Rechner des Co-Autors gefahren. Ihre
-> Auswertungen unter `eval/` sind vollständig, ihre Rohergebnisse liegen dort —
-> Einzelheiten in [`eval/_runlogs/README.md`](eval/_runlogs/README.md).
+> Ein Lauf fehlt in diesem Arbeitsbaum: `llmsa_curated_v2` wurde auf dem
+> Rechner des Co-Autors gefahren, seine Rohergebnisse liegen dort. Die
+> Auswertung unter `eval/llmsa_curated_v2/` ist vollständig. Für LLMSmartAudit
+> auf `smartbugs-curated` ist ohnehin `curated_v1_20260705` der Bezugslauf, der
+> mit allen Rohdaten vorliegt. Einzelheiten in
+> [`eval/_runlogs/README.md`](eval/_runlogs/README.md).
 
 Die aggregierten Auswertungen sind versioniert:
 

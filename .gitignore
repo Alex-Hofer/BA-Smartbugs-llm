@@ -3,6 +3,10 @@
 *.env
 !.env.example
 
+# Ablageordner fuer Daten, die von aussen hereinkommen (Archive vom Co-Autor).
+# Rohergebnisse gehoeren nach smartbugs/results/, nicht ins Repository.
+/Ablage/
+
 # Externer Benchmark-Datensatz (wird von run_curated.ps1 geklont, nicht vendoren)
 smartbugs-curated/
 # Aggregierte Auswertungs-CSVs
