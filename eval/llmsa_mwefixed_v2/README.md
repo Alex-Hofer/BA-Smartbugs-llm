@@ -1,0 +1,87 @@
+# eval/llmsa_mwefixed_v2/ — LLMSmartAudit über den reparierten DeFi-Korpus
+
+LLMSmartAudit auf `mwevariety_fixed`, also auf demselben Korpus, auf dem GPTScan
+seine Zieldomäne hat. Der Lauf ist damit die Gegenprobe zur Frage, ob die
+Multi-Agenten-Pipeline auf großen DeFi-Contracts überhaupt bis zum Ende kommt.
+
+> **Dieser Lauf wurde auf dem Rechner des Co-Autors gefahren** — das
+> Konsolenprotokoll nennt als Ablageort
+> `C:\Users\Alex Unterleitner\Desktop\BA-Smartbugs-llm\`. Seine Rohergebnisse
+> liegen dort; `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2/` existiert in
+> diesem Arbeitsbaum nicht, `build_eval.py llmsa_mwefixed_v2` lässt sich hier
+> also **nicht** wiederholen. Was in diesem Ordner liegt, ist die einzige im
+> Repository erhaltene Fassung des Laufs.
+
+## Woher die Daten stammen
+
+| | |
+|---|---|
+| Lauf | `llmsa_mwefixed_v2`, zusammengeführt mit dem Nachlauf `llmsa_mwefixed_v2_retry` |
+| Werkzeug | LLMSmartAudit, Image `smartbugs/llmsmartaudit:1.0` |
+| Modus | `SmartContractTA`, fest in `scripts/do_solidity.sh` |
+| Modell | `deepseek/deepseek-v4-flash` |
+| Umgebung | `LLM_PROVIDER=deepseek`, `LLM_MODEL=deepseek-v4-flash`, `LLM_CONTEXT_TOKENS=65536` |
+| Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
+| Parameter | `--processes 3`, `--timeout 7200`, MAIN nicht gesetzt |
+| Durchführung | 15./16.08.2026, Nachlauf 15.09.2026; Protokolle in [`eval/_runlogs/`](../_runlogs/README.md) |
+| Auswertung erzeugt | 15.09.2026 |
+
+Der Nachlauf ersetzte genau vier Tasks, die der Hauptlauf nicht entschieden
+hatte: `12_Witch`, `25_CompositeMultiOracle`, `43_DelegatedStaking`, `62_Locke`.
+
+## Wie die Dateien entstanden sind
+
+```powershell
+.\run_full_v2_llmsa.ps1 -Corpus mwefixed -Processes 3
+.\run_retry_llmsa.ps1
+python analysis_tools\build_eval.py llmsa_mwefixed_v2 --merge-run llmsa_mwefixed_v2_retry
+```
+
+## Kernzahlen
+
+| | |
+|---|---:|
+| Contracts | 96 |
+| davon mit Findings | 59 |
+| Kontext überschritten — **nicht analysiert** | 37 |
+| Findings | 437 |
+| gesehene Kategorien | 34 von 41 |
+| Container-Zeit (Summe) | 90 206,2 s |
+| Token | 54 901 634 prompt / 9 155 559 completion, 2 624 LLM-Aufrufe |
+| Kosten (geschätzt) | ≈ $8,37 |
+
+## Der zentrale Befund
+
+**38,5 % der Contracts (37 von 96) sprengten die Kontextgrenze und wurden nie
+analysiert.** Auf dem curated-Korpus war es genau einer von 143. Der Unterschied
+ist der Korpus: Die geflatteten DeFi-Contracts enthalten ihren vollständigen
+Import-Closure und sind um ein Vielfaches größer. Am Verhältnis der Token sieht
+man dasselbe von der anderen Seite — 54,9 Mio. Prompt-Token auf nur 2 624
+Aufrufe, also im Mittel rund 20 900 Token je Aufruf.
+
+## Was man daraus schließen darf
+
+* Dass LLMSmartAudits Kontextgrenze auf realen DeFi-Contracts die bindende
+  Beschränkung ist, nicht die Kosten und nicht die Laufzeit.
+* Wie sich die 437 Findings der 59 auswertbaren Contracts über die
+  Detektorkategorien verteilen.
+
+## Was man daraus nicht schließen darf
+
+1. **In diesem Arbeitsbaum nicht reproduzierbar.** Ohne die Rohergebnisse lässt sich keine Zahl dieses
+   Ordners am Ursprung nachprüfen.
+2. **Die 437 Findings gelten für 59 Contracts, nicht für 96.** Jede
+   Hochrechnung auf den ganzen Korpus unterstellt, dass die 37 übersprungenen
+   Contracts sich wie die übrigen verhalten — dafür gibt es keinen Beleg, und
+   sie sind systematisch die größeren.
+3. **Kein Vergleich mit GPTScan auf demselben Korpus ohne diesen Vorbehalt.**
+   GPTScan kam auf allen 96 Contracts zu einem Ergebnis, LLMSmartAudit auf 59.
+   Absolute Findingzahlen nebeneinanderzustellen wäre irreführend — siehe
+   `docs/BA-WERKZEUGE-IM-VERGLEICH.md`.
+4. **Keine Ground Truth.** `mwevariety_fixed` besitzt keinen annotierten
+   Referenzstand; Recall und Precision lassen sich hier nicht bilden.
+5. **Die Kosten sind gerechnet, nicht gemessen** (`chatdev/statistics.py`
+   kennt das Modell nicht); maßgeblich ist die DeepSeek-Rechnung.
+6. **`severity_doc` ist kein Urteil des Modells**, sondern der Default aus
+   `findings.yaml`. `function`, `lines`, `severity` und `confidence` bleiben
+   durchgehend `null`.

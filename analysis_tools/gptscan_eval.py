@@ -638,12 +638,16 @@ def write_comparison(path: pathlib.Path, run_id: str, base_id: str,
     return stats
 
 
-def write_readme(entries: list[dict]) -> None:
+def write_readme(entries: list[dict], others: list[tuple] = ()) -> None:
     L = [
-        "# eval/ -- Auswertungen der GPTScan-Laeufe", "",
+        "# eval/ -- Auswertungen der aufgezeichneten Laeufe", "",
         "Hier liegen ausschliesslich ABGELEITETE Daten. Die Rohergebnisse stehen unter",
-        "`smartbugs/results/gptscan/<runid>/` und werden von den Skripten nur gelesen,",
+        "`smartbugs/results/<werkzeug>/<runid>/` und werden von den Skripten nur gelesen,",
         "nie veraendert oder geloescht. Alt und Neu bleiben beide erhalten.", "",
+        "Diese Datei wird von `analysis_tools/gptscan_eval.py` fortgeschrieben; sie",
+        "fuehrt die GPTScan-Laeufe im Detail und die uebrigen Auswertungen als",
+        "Verweis. **Was jeder Ordner enthaelt, steht in seiner eigenen `README.md`.**",
+        "",
         "> **Die Rohergebnisse liegen nicht im Repository.** `smartbugs/.gitignore` schliesst",
         "> `/results*` aus. Alle Pfade unter `smartbugs/results/` in diesem Ordner verweisen",
         "> also auf lokale Artefakte der Maschine, auf der der Lauf stattfand; in einem",
@@ -674,6 +678,27 @@ def write_readme(entries: list[dict]) -> None:
         L.append(f"| `eval/{e['run_id']}/` | `smartbugs/results/gptscan/{e['run_id']}/` | "
                  f"{'ja' if e['main'] else 'nein'} | {e['contracts']} | {e['findings']} | "
                  f"{cost} | {e['zweck']} |")
+    if others:
+        L += [
+            "", "## Weitere Auswertungen in diesem Verzeichnis", "",
+            "Erzeugt von `analysis_tools/build_eval.py` (LLMSmartAudit-Laeufe) bzw.",
+            "`analysis_tools/curated_eval.py` (curated-Hauptlauf, alle drei Werkzeuge).",
+            "Sie tragen ein eigenes `run_meta.json`-Schema und stehen deshalb nicht in",
+            "der Tabelle oben.", "",
+            "| Ordner | Werkzeug | Contracts | Findings |",
+            "|---|---|---:|---:|",
+        ]
+        for name, tool, contracts, findings in others:
+            L.append("| [`eval/%s/`](%s/README.md) | %s | %s | %s |"
+                     % (name, name, tool or "-",
+                        "-" if contracts is None else contracts,
+                        "-" if findings is None else findings))
+        L += [
+            "",
+            "Dazu kommen `eval/per_contract/` (eine Zeile je Contract, "
+            "`analysis_tools/per_contract_stats.py`) und `eval/_runlogs/` "
+            "(Konsolenprotokolle der Massenlaeufe) -- beide mit eigener `README.md`.",
+        ]
     L += [
         "", "## Verhaeltnis zu den Altlaeufen", "",
         "Unter `smartbugs/results/gptscan/` liegen 17 aeltere Laeufe. Sie sind SAEMTLICH",
@@ -793,6 +818,7 @@ def main() -> int:
 
     # eval/README.md ueber alle vorhandenen Auswertungen fortschreiben
     entries = []
+    others = []
     for d in sorted(EVAL.iterdir()):
         rm = d / "run_meta.json"
         if not d.is_dir() or not rm.exists():
@@ -800,6 +826,20 @@ def main() -> int:
         try:
             e = json.loads(rm.read_text(encoding="utf-8"))
         except ValueError:
+            continue
+        # Unter eval/ liegen inzwischen auch Auswertungen, die build_eval.py und
+        # curated_eval.py erzeugt haben. Sie tragen ein anderes run_meta-Schema
+        # (kein run_parameters, cost_usd_estimated statt cost_usd) und gehoeren
+        # nicht in die GPTScan-Tabelle. Frueher lief dieses Skript an ihnen in
+        # einen KeyError.
+        if "run_parameters" not in e or not isinstance(e.get("cost_usd"), dict):
+            # Das Werkzeug steht entweder direkt im Meta (curated_eval.py) oder
+            # laesst sich aus dem Pfad der Taxonomie ablesen (build_eval.py).
+            tool = e.get("tool") or ""
+            if not tool:
+                mt = re.search(r"tools/([^/]+)/findings\.yaml", e.get("taxonomy") or "")
+                tool = mt.group(1) if mt else "-"
+            others.append((d.name, tool, e.get("contracts"), e.get("findings_total")))
             continue
         p = e.get("run_parameters", {})
         dry = bool(p.get("dry_run"))
@@ -814,7 +854,7 @@ def main() -> int:
             "contracts": e["contracts"], "findings": e["findings_total"],
             "cost": e["cost_usd"]["sum"], "zweck": zweck,
         })
-    write_readme(entries)
+    write_readme(entries, others)
 
     print(f"Contracts:        {m['contracts']}"
           f"  (main-reduziert {m['contracts_main_reduced']},"

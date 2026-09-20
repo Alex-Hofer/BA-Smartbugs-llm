@@ -1,8 +1,12 @@
-# eval/ -- Auswertungen der GPTScan-Laeufe
+# eval/ -- Auswertungen der aufgezeichneten Laeufe
 
 Hier liegen ausschliesslich ABGELEITETE Daten. Die Rohergebnisse stehen unter
-`smartbugs/results/gptscan/<runid>/` und werden von den Skripten nur gelesen,
+`smartbugs/results/<werkzeug>/<runid>/` und werden von den Skripten nur gelesen,
 nie veraendert oder geloescht. Alt und Neu bleiben beide erhalten.
+
+Diese Datei wird von `analysis_tools/gptscan_eval.py` fortgeschrieben; sie
+fuehrt die GPTScan-Laeufe im Detail und die uebrigen Auswertungen als
+Verweis. **Was jeder Ordner enthaelt, steht in seiner eigenen `README.md`.**
 
 > **Die Rohergebnisse liegen nicht im Repository.** `smartbugs/.gitignore` schliesst
 > `/results*` aus. Alle Pfade unter `smartbugs/results/` in diesem Ordner verweisen
@@ -38,6 +42,23 @@ diese Schaetzung die tatsaechlichen Kosten um rund die Haelfte.
 | `eval/gptscan_mwefixed_v2_main/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_main/` | ja | 96 | 74 | $0.3638 | Volllauf (inkl. Nachlauf gptscan_mwefixed_v2_main_nomain) |
 | `eval/gptscan_mwefixed_v2_smoke/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke/` | ja | 3 | 0 | $0.0177 | Live-Stichprobe |
 | `eval/gptscan_mwefixed_v2_smoke2/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2/` | ja | 3 | 6 | $0.0272 | Live-Stichprobe |
+
+## Weitere Auswertungen in diesem Verzeichnis
+
+Erzeugt von `analysis_tools/build_eval.py` (LLMSmartAudit-Laeufe) bzw.
+`analysis_tools/curated_eval.py` (curated-Hauptlauf, alle drei Werkzeuge).
+Sie tragen ein eigenes `run_meta.json`-Schema und stehen deshalb nicht in
+der Tabelle oben.
+
+| Ordner | Werkzeug | Contracts | Findings |
+|---|---|---:|---:|
+| [`eval/curated_v1_20260705__gptscan/`](curated_v1_20260705__gptscan/README.md) | gptscan | 143 | 6 |
+| [`eval/curated_v1_20260705__llmsmartaudit/`](curated_v1_20260705__llmsmartaudit/README.md) | llmsmartaudit | 143 | 1124 |
+| [`eval/curated_v1_20260705__slither-0.11.3/`](curated_v1_20260705__slither-0.11.3/README.md) | slither-0.11.3 | 143 | 2154 |
+| [`eval/llmsa_curated_v2/`](llmsa_curated_v2/README.md) | llmsmartaudit | 143 | 1028 |
+| [`eval/llmsa_mwefixed_v2/`](llmsa_mwefixed_v2/README.md) | llmsmartaudit | 96 | 437 |
+
+Dazu kommen `eval/per_contract/` (eine Zeile je Contract, `analysis_tools/per_contract_stats.py`) und `eval/_runlogs/` (Konsolenprotokolle der Massenlaeufe) -- beide mit eigener `README.md`.
 
 ## Verhaeltnis zu den Altlaeufen
 
