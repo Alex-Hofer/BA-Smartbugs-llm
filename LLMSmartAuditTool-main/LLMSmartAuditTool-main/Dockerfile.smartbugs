@@ -1,6 +1,11 @@
 # Headless image of LLMSmartAudit for use as a SmartBugs tool.
-# Build (from this repo root):
-#   docker build -f Dockerfile.smartbugs -t llmsmartaudit-deepseek:local .
+# Build. The tag must be the one smartbugs/tools/llmsmartaudit/config.yaml
+# names as "image:", otherwise SmartBugs tries to pull it from a registry:
+#   docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 .
+# On Windows the tool tree exceeds MAX_PATH, so the build context comes from
+# git instead of the working tree (Git Bash, from the repository root):
+#   git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main \
+#     | docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
 #
 # The tool reasons over Solidity SOURCE via an LLM, so NO solc / compiler is needed.
 # No API key is baked in: provide DEEPSEEK_API_KEY or OPENAI_API_KEY at run time
