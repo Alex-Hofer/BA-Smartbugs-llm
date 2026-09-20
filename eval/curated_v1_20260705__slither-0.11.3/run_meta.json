@@ -1,0 +1,175 @@
+{
+ "run_id": "curated_v1_20260705",
+ "tool": "slither-0.11.3",
+ "generated": "2026-09-20T10:01:09+00:00",
+ "generated_by": "analysis_tools/curated_eval.py",
+ "smartbugs_version": "2.1.1",
+ "results_dir": "smartbugs/results/slither-0.11.3/curated_v1_20260705",
+ "taxonomy": "smartbugs/tools/slither-0.11.3/findings.yaml",
+ "image": "smartbugs/slither:0.11.3",
+ "network": "none",
+ "provider": null,
+ "model": null,
+ "invocation": {
+  "timeout_s": 600,
+  "main": null,
+  "main_note": "MAIN wird aus dem Docker-Entrypoint gelesen, nicht aus einem Laufprotokoll."
+ },
+ "contracts": 143,
+ "states": {
+  "failed": 3,
+  "findings": 140
+ },
+ "findings_total": 2154,
+ "findings_dasp_mapped": 300,
+ "findings_unmapped": 1854,
+ "contracts_with_findings": 140,
+ "categories_seen": 49,
+ "unmapped_by_severity": {
+  "Informational": 1337,
+  "Low": 166,
+  "Medium": 148,
+  "Optimization": 143,
+  "High": 60
+ },
+ "tasks_with_errors": 3,
+ "tasks_with_fails": 3,
+ "duration_s_sum": 298.8,
+ "duration_s_median": 1.9,
+ "wallclock_min": 1.3,
+ "metrics_contract_level": {
+  "access_control": {
+   "contracts": 18,
+   "detected": 7,
+   "flagged": 33,
+   "recall": 0.3888888888888889,
+   "precision": 0.21212121212121213,
+   "f1": 0.27450980392156865
+  },
+  "unchecked_low_level_calls": {
+   "contracts": 52,
+   "detected": 46,
+   "flagged": 78,
+   "recall": 0.8846153846153846,
+   "precision": 0.5897435897435898,
+   "f1": 0.7076923076923076
+  },
+  "time_manipulation": {
+   "contracts": 5,
+   "detected": 5,
+   "flagged": 24,
+   "recall": 1.0,
+   "precision": 0.20833333333333334,
+   "f1": 0.3448275862068966
+  },
+  "reentrancy": {
+   "contracts": 31,
+   "detected": 29,
+   "flagged": 39,
+   "recall": 0.9354838709677419,
+   "precision": 0.7435897435897436,
+   "f1": 0.8285714285714285
+  },
+  "denial_of_service": {
+   "contracts": 6,
+   "detected": 1,
+   "flagged": 17,
+   "recall": 0.16666666666666666,
+   "precision": 0.058823529411764705,
+   "f1": 0.08695652173913045
+  },
+  "arithmetic": {
+   "contracts": 15,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "bad_randomness": {
+   "contracts": 8,
+   "detected": 3,
+   "flagged": 13,
+   "recall": 0.375,
+   "precision": 0.23076923076923078,
+   "f1": 0.2857142857142857
+  },
+  "front_running": {
+   "contracts": 4,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "other": {
+   "contracts": 3,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "short_addresses": {
+   "contracts": 1,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "GESAMT": {
+   "contracts": 143,
+   "detected": 91,
+   "flagged": 204,
+   "recall": 0.6363636363636364,
+   "precision": 0.44607843137254904,
+   "f1": 0.5244956772334294
+  }
+ },
+ "metrics_note": "Zaehlweise und DASP-Zuordnung stammen aus evaluate_curated.py; Findings ohne DASP-Klassifikation gehen nicht in Recall und Precision ein.",
+ "tokens": null,
+ "cost_usd": 0.0,
+ "cost_note": "Statische Analyse, keine LLM-Aufrufe.",
+ "failures": [
+  {
+   "contract_id": "reentrancy_bonus",
+   "state": "failed",
+   "exit_code": 1,
+   "errors": [
+    "EXIT_CODE_1"
+   ],
+   "fails": [
+    "analysis unsuccessful, check output.json",
+    "error parsing results: file could not be opened successfully:\n- method gz: ReadError('empty file')\n- method bz2: ReadError('not a bzip2 file')\n- method xz: ReadError('not an lzma file')\n- method tar: ReadError('empty file')",
+    "exception (AssertionError)"
+   ]
+  },
+  {
+   "contract_id": "reentrancy_cross_function",
+   "state": "failed",
+   "exit_code": 1,
+   "errors": [
+    "EXIT_CODE_1"
+   ],
+   "fails": [
+    "analysis unsuccessful, check output.json",
+    "error parsing results: file could not be opened successfully:\n- method gz: ReadError('empty file')\n- method bz2: ReadError('not a bzip2 file')\n- method xz: ReadError('not an lzma file')\n- method tar: ReadError('empty file')",
+    "exception (AssertionError)"
+   ]
+  },
+  {
+   "contract_id": "0x89c1b3807d4c67df034fffb62f3509561218d30b",
+   "state": "failed",
+   "exit_code": 1,
+   "errors": [
+    "EXIT_CODE_1"
+   ],
+   "fails": [
+    "analysis unsuccessful, check output.json",
+    "error parsing results: file could not be opened successfully:\n- method gz: ReadError('empty file')\n- method bz2: ReadError('not a bzip2 file')\n- method xz: ReadError('not an lzma file')\n- method tar: ReadError('empty file')",
+    "exception (slither.visitors.expression.constants_folding.NotConstant)"
+   ]
+  }
+ ]
+}

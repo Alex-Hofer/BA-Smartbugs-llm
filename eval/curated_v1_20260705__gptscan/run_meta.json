@@ -1,0 +1,167 @@
+{
+ "run_id": "curated_v1_20260705",
+ "tool": "gptscan",
+ "generated": "2026-09-20T10:01:09+00:00",
+ "generated_by": "analysis_tools/curated_eval.py",
+ "smartbugs_version": "2.1.1",
+ "results_dir": "smartbugs/results/gptscan/curated_v1_20260705",
+ "taxonomy": "smartbugs/tools/gptscan/findings.yaml",
+ "image": "smartbugs/gptscan:1.0",
+ "network": "bridge",
+ "provider": "deepseek",
+ "model": "deepseek-v4-flash",
+ "invocation": {
+  "timeout_s": 1800,
+  "main": "0",
+  "main_note": "MAIN wird aus dem Docker-Entrypoint gelesen, nicht aus einem Laufprotokoll."
+ },
+ "contracts": 143,
+ "states": {
+  "clean": 137,
+  "findings": 6
+ },
+ "findings_total": 6,
+ "findings_dasp_mapped": 6,
+ "findings_unmapped": 0,
+ "contracts_with_findings": 6,
+ "categories_seen": 1,
+ "unmapped_by_severity": {},
+ "tasks_with_errors": 2,
+ "tasks_with_fails": 0,
+ "duration_s_sum": 712.9,
+ "duration_s_median": 3.1,
+ "wallclock_min": 3.2,
+ "metrics_contract_level": {
+  "access_control": {
+   "contracts": 18,
+   "detected": 0,
+   "flagged": 6,
+   "recall": 0.0,
+   "precision": 0.0,
+   "f1": null
+  },
+  "arithmetic": {
+   "contracts": 15,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "bad_randomness": {
+   "contracts": 8,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "denial_of_service": {
+   "contracts": 6,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "front_running": {
+   "contracts": 4,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "other": {
+   "contracts": 3,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "reentrancy": {
+   "contracts": 31,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "short_addresses": {
+   "contracts": 1,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "time_manipulation": {
+   "contracts": 5,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "unchecked_low_level_calls": {
+   "contracts": 52,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null
+  },
+  "GESAMT": {
+   "contracts": 143,
+   "detected": 0,
+   "flagged": 6,
+   "recall": 0.0,
+   "precision": 0.0,
+   "f1": null
+  }
+ },
+ "metrics_note": "Zaehlweise und DASP-Zuordnung stammen aus evaluate_curated.py; Findings ohne DASP-Klassifikation gehen nicht in Recall und Precision ein.",
+ "tokens": {
+  "prompt": 25580,
+  "completion": 22302,
+  "llm_calls": 72
+ },
+ "cost_usd": 0.0098,
+ "cost_note": "Summe des Feldes estimated_cost aus GPTSCAN_META; GPTScan rechnet selbst mit den Token-Zahlen der API.",
+ "prefilter": {
+  "contracts_with_llm_call": 16,
+  "note": "Contracts, fuer die der Keyword-Vorfilter mindestens einen LLM-Aufruf ausloeste. Die uebrigen werden ohne LLM-Aufruf verworfen; fuer sie kann kein Finding entstehen."
+ },
+ "static_stage": {
+  "vul_before_static": 11,
+  "vul_after_static": 6,
+  "contracts_with_discarded_candidates": 4
+ },
+ "failures": [
+  {
+   "contract_id": "smart_billions",
+   "state": "clean",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/smart_billions.sol, current function: commitDividend, current vul: price-manipulation",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+   ],
+   "fails": []
+  },
+  {
+   "contract_id": "0xe894d54dca59cb53fe9cbc5155093605c7068220",
+   "state": "clean",
+   "exit_code": 0,
+   "errors": [
+    "ERROR    tasks: Current File: /work/input/0xe894d54dca59cb53fe9cbc51 55093605c7068220.sol, current function: transfer, current vul: unauthorized-transfer",
+    "ERROR    tasks: Static analysis failed: Invalid args",
+    "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+    "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+   ],
+   "fails": []
+  }
+ ]
+}
