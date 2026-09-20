@@ -39,6 +39,7 @@ SmartBugs-Code hergeleitet.
 │   ├── gptscan_eval.py         Auswertung eines GPTScan-Laufs nach eval/<runid>/
 │   ├── gptscan_run_stats.py    Token-, Kosten- und Laufzeitkennzahlen eines GPTScan-Laufs
 │   ├── build_eval.py           Auswertung eines LLMSmartAudit-Laufs nach eval/<runid>/
+│   ├── curated_eval.py         curated-Hauptlauf, alle drei Werkzeuge, nach eval/<runid>__<tool>/
 │   ├── per_contract_stats.py   eine Zeile je Contract nach eval/per_contract/
 │   ├── compare_csv.py          Vorher/Nachher-Vergleich zweier results2csv-Exporte
 │   ├── redact_results.py       entfernt API-Schlüssel aus alten Task-Logs
@@ -71,27 +72,53 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 02.08.2026: 19 abgeschlossene Läufe, 930 Tasks, 4.461 Dateien, 258 MB.**
-Auf diesen Stand beziehen sich die Parser-Reparatur und die Errors/Fails-Bilanz:
+**Stand 20.09.2026: 45 Läufe, 1 169 Tasks, 5 885 Dateien, 362 MB.**
+Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
+`analysis_tools/errors_fails_report.py` ausliest:
 
 | Werkzeug | Läufe | Tasks |
 |---|---:|---:|
-| `gptscan` | 15 | 640 |
-| `llmsmartaudit` | 3 | 147 |
+| `gptscan` | 33 | 863 |
+| `llmsmartaudit` | 11 | 163 |
 | `slither-0.11.3` | 1 | 143 |
 
-Seither hinzugekommen: der GPTScan-Volllauf mit MAIN über `mwevariety_fixed`
-(15.08.2026), die LLMSmartAudit-Volläufe über beide Korpora (15./16.08.2026,
-Nachlauf am 15.09.2026) und die Prüfläufe zum Timeout (17./18.08.2026).
-
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
-`curated_v1_20260705`. Die aggregierten Auswertungen sind versioniert:
+`curated_v1_20260705` (143 Tasks je Werkzeug). Dazu kommen der GPTScan-Volllauf
+mit MAIN über `mwevariety_fixed` (15.08.2026), die LLMSmartAudit-Volläufe über
+beide Korpora (15./16.08.2026, Nachlauf 15.09.2026) und die Prüfläufe zum
+Timeout (17./18.08.2026).
 
-* [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut (Stand 02.08.2026)
-* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Vollständigkeitsnachweis der Parser (Stand 02.08.2026)
-* [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
-* [`eval/`](eval/README.md) — Auswertungen der Läufe ab August 2026 (`findings.jsonl`, `run_meta.json`, `summary.md`)
+> Zwei Läufe fehlen in diesem Arbeitsbaum: `llmsa_curated_v2` und
+> `llmsa_mwefixed_v2` wurden auf dem Rechner des Co-Autors gefahren. Ihre
+> Auswertungen unter `eval/` sind vollständig, ihre Rohergebnisse liegen dort —
+> Einzelheiten in [`eval/_runlogs/README.md`](eval/_runlogs/README.md).
+
+Die aggregierten Auswertungen sind versioniert:
+
+* [`eval/curated_v1_20260705__metriken.md`](eval/curated_v1_20260705__metriken.md) — Recall/Precision/F1 je DASP-Kategorie für alle drei Werkzeuge
+* [`eval/`](eval/README.md) — je Lauf ein Ordner mit `findings.jsonl`, `run_meta.json`, `summary.md` und einer `README.md`, die sagt, was man daraus schließen darf und was nicht
 * [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für sechs Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
+* [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut
+* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Lückenbericht der Parser über alle Läufe
+* [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
+
+### Die beiden CSVs im Wurzelverzeichnis
+
+`curated_results.csv` und `evaluation_curated_v1_20260705.csv` liegen im
+Wurzelverzeichnis und sind **bewusst nicht versioniert** (`.gitignore`,
+Zeilen 9–10). Beide sind reine Zwischenstände, die sich jederzeit ohne einen
+API-Aufruf neu erzeugen lassen, solange die Rohergebnisse vorliegen:
+
+| Datei | Was drinsteht | Wie sie entsteht |
+|---|---|---|
+| `curated_results.csv` | Rohexport aller Findings aller Läufe, eine Zeile je Finding | `python -m sb.results2csv results` aus `smartbugs/` |
+| `evaluation_curated_v1_20260705.csv` | eine Zeile je Contract und Werkzeug: Label, erkannt ja/nein, Findingzahl, getroffene Kategorien | `evaluate_curated.py --suffix v1_20260705 --csv` |
+
+Kein Skript und kein Dokument verlangt sie an dieser Stelle — sie werden nur
+geschrieben, nie gelesen. Wer die Zahlen versioniert braucht, nimmt
+`eval/curated_v1_20260705__metriken.md` und die `findings.jsonl` der
+`eval/`-Ordner; dort stehen dieselben Angaben, aber mit Herkunft und
+Einschränkungen dokumentiert.
 
 ---
 
@@ -102,10 +129,50 @@ Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 * **Docker Desktop**, laufend.
 * **Python 3.10+** für SmartBugs (venv unter `smartbugs/.venv`), Python 3.11+
   für die Werkzeuge in `analysis_tools/` und die Tests.
-* **Beide Images lokal gebaut** — sie liegen auf keinem Registry.
+* **Die beiden KI-Images lokal gebaut** — sie liegen auf keinem Registry.
 * **solc**: SmartBugs lädt passende Compiler selbst und legt sie unter
   `~/.smartbugs/solc` ab. Für GPTScan reicht SmartBugs den passenden Compiler
   als `$BIN/solc` in den Container.
+
+---
+
+## Docker: was im Container läuft und was nicht
+
+SmartBugs ist ein **Container-Orchestrator**, kein Container. Der Unterschied
+entscheidet darüber, was man installiert haben muss.
+
+| Läuft auf dem Host | Läuft im Container |
+|---|---|
+| SmartBugs selbst (`python -m sb`, venv unter `smartbugs/.venv`) | je Task genau ein Werkzeug-Container |
+| die vier Runner-Skripte (`run_*.ps1`) | |
+| alles unter `analysis_tools/` und `corpus_tools/` | |
+| `evaluate_curated.py` | |
+| die 168 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+
+SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
+hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
+mit `tools/<werkzeug>/scripts/do_solidity.sh` und holt danach `/output.json`
+heraus. Deshalb gibt es **kein `docker-compose`**: Es gäbe nichts zu
+komponieren — keine langlebigen Dienste, kein Netz zwischen Containern, keine
+feste Anzahl. Die Parallelität steuert `--processes`, nicht Compose.
+
+### Die drei Images
+
+| Werkzeug | Image | Herkunft | Netz |
+|---|---|---|---|
+| GPTScan | `smartbugs/gptscan:1.0` | **lokal bauen** (`GPTScan/Dockerfile`) | `bridge` |
+| LLMSmartAudit | `smartbugs/llmsmartaudit:1.0` | **lokal bauen** (`LLMSmartAuditTool-main/LLMSmartAuditTool-main/Dockerfile.smartbugs`) | `bridge` |
+| Slither 0.11.3 | `smartbugs/slither:0.11.3` | Registry (Docker Hub) — SmartBugs zieht es beim ersten Lauf selbst, `sb/docker.py:77` | `none` |
+
+Die beiden KI-Images müssen lokal gebaut werden, weil sie auf keinem Registry
+liegen: Sie enthalten den **für diese Arbeit geänderten** Fremdcode (siehe
+[`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)), und ein Upload wäre bei
+GPTScan zusätzlich eine AGPL-3.0-Weitergabe. Slither dagegen ist unverändert und
+kommt fertig.
+
+Beide KI-Werkzeuge brauchen `network: bridge`, um die LLM-API zu erreichen;
+SmartBugs isoliert Tool-Container sonst mit `network: none`. Slither bleibt
+isoliert — es telefoniert nirgendwohin.
 
 ### Images bauen
 
@@ -114,10 +181,21 @@ docker build -t smartbugs/gptscan:1.0 .\GPTScan
 ```
 
 ```bash
-# Git Bash, nicht PowerShell. git archive liefert den Baum ohne evaluation/.
+# Git Bash, nicht PowerShell. git archive liefert den Baum ohne evaluation/;
+# der Tag muss exakt so lauten, wie tools/llmsmartaudit/config.yaml ihn erwartet.
 git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main \
   | docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
 ```
+
+Beide Befehle sind gegen die Dockerfiles geprüft: Build-Kontext, Pfad des
+Dockerfiles und Tag stimmen mit dem überein, was die `config.yaml` des jeweiligen
+Werkzeugs als `image:` verlangt. Der zweite Befehl umgeht bewusst den
+Arbeitsbaum — ein `docker build .` in diesem Verzeichnis scheitert unter Windows
+an den Langpfaden des Tool-Baums.
+
+Gemessene Größen nach einem Neubau am 18.08.2026: `smartbugs/gptscan:1.0`
+2,14 GB, `smartbugs/llmsmartaudit:1.0` 586 MB (`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`,
+Abschnitt 4.5).
 
 ### API-Schlüssel setzen
 
@@ -136,6 +214,105 @@ Docker-Argumente ins Task-Log geschrieben werden — sonst stünde der Schlüsse
 Klartext in jeder `results/**/smartbugs.json`.
 
 In kein Image gelangt je ein Schlüssel: `.dockerignore` schließt `.env` aus.
+
+---
+
+## Modell wählen und wechseln
+
+**Anbieter und Modell werden zur Laufzeit gewählt. Eine Code-Änderung ist dafür
+nicht nötig** — weder an den Werkzeugen noch an SmartBugs. Möglich wird das
+durch das Feld `env:` in den beiden `config.yaml`, das der gepatchte
+`sb/docker.py` als Allowlist in den Container durchreicht. Nur Variablen, die
+auf dem Host gesetzt sind, kommen an; nichts steckt im Image.
+
+Die vier Runner-Skripte nehmen die Wahl als Parameter entgegen — `-Provider`,
+`-Model`, `-BaseUrl` und bei LLMSmartAudit zusätzlich `-ContextTokens` und
+`-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen. Wer ohne
+Runner arbeitet, setzt sie selbst (letztes Beispiel unten).
+
+| Variable | Werkzeug | Standard | Wo sie gelesen wird |
+|---|---|---|---|
+| `DEEPSEEK_API_KEY` | beide | — (**Pflicht** bei Provider `deepseek`) | `GPTScan/src/config.py`; bei LLMSmartAudit über `run.py` → `camel/model_backend.py` |
+| `OPENAI_API_KEY` | beide | — | dieselben Stellen, bei Provider `openai` |
+| `GPTSCAN_PROVIDER` | GPTScan | `deepseek` | `scripts/do_solidity.sh` → `--provider`; `src/llm_backend.py:active_provider` |
+| `GPTSCAN_MODEL` | GPTScan | „cheap"-Tier des Anbieters (`deepseek-v4-flash`) | `scripts/do_solidity.sh` → `--model`; `src/llm_backend.py:model_override` |
+| `GPTSCAN_DRY_RUN` | GPTScan | `0` | `scripts/do_solidity.sh` → `--dry-run`; `src/llm_backend.py:is_dry_run` |
+| `GPTSCAN_BASE_URL` | GPTScan | — | `src/llm_backend.py:base_url` — **nur** bei `GPTSCAN_PROVIDER=custom` |
+| `GPTSCAN_API_KEY` | GPTScan | — | `src/config.py`, Schlüssel des Providers `custom` |
+| `LLM_PROVIDER` | LLMSmartAudit | `deepseek` | `scripts/do_solidity.sh` → `--provider`; `chatdev/chat_chain.py` |
+| `LLM_MODEL` | LLMSmartAudit | — (**Pflicht**, siehe unten) | `scripts/do_solidity.sh` → `--model` → `run.py` setzt `LLM_MODEL_ID` → `camel/model_backend.py` |
+| `LLM_BASE_URL` | LLMSmartAudit | Provider-Standard | `scripts/do_solidity.sh` exportiert als `BASE_URL`; `camel/model_backend.py:_resolve_endpoint` |
+| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | `16384` | `camel/model_backend.py:_context_limit`, `camel/utils.py` |
+| `LLM_MAX_COMPLETION_TOKENS` | LLMSmartAudit | keine zusätzliche Grenze | `camel/model_backend.py:_cap_completion_tokens` |
+
+Jede Variable ist mit Zweck, Standardwert und Folgen des Fehlens in
+[`GPTScan/.env.example`](GPTScan/.env.example) kommentiert.
+
+### `LLM_MODEL=deepseek-v4-flash` ist Pflicht
+
+Das LLMSmartAudit-Image trägt `ENV LLM_MODEL=deepseek-chat` eingebrannt
+(`Dockerfile.smartbugs`). Dieses Modell ist seit 24.07.2026 abgeschaltet, und
+der Name geht **verbatim** an die DeepSeek-API. Ohne die Host-Variable scheitert
+deshalb jeder Lauf mit HTTP 400 — hergeleitet in
+[`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md),
+Fehler #1. Die Host-Variable überschreibt die Image-ENV; ein Rebuild ist nicht
+nötig.
+
+### Beispiel 1 — anderes Modell beim selben Anbieter
+
+```powershell
+.\run_curated.ps1 -Model deepseek-v4-pro -RunIdSuffix v4pro
+```
+
+Der `-Model`-Wert wandert unverändert als `--model` bis in den API-Aufruf. Ein
+Modell ohne Eintrag in der Preistabelle erscheint mit dem konservativen
+Fallback-Preis in der Kostenschätzung (`GPTScan/src/config.py`). Brauchen die
+beiden Werkzeuge verschiedene Modelle, gibt es zusätzlich `-GptscanModel` und
+`-LlmModel`.
+
+### Beispiel 2 — anderer Anbieter
+
+```powershell
+# OPENAI_API_KEY muss in GPTScan\.env stehen
+.\run_curated.ps1 -Provider openai -Model gpt-4o -RunIdSuffix openai
+```
+
+Welcher Schlüssel gebraucht wird, ergibt sich aus dem Anbieter; fehlt er, bricht
+der Runner ab, bevor ein Container startet. Ein **unbekannter** Anbietername
+wird schon bei der Parameterprüfung abgelehnt — und auch im Werkzeug selbst
+führt er zum Abbruch statt zu einem stillen Rückfall auf den Standard: Ein
+Fallback würde ein anderes Backend abrechnen, und der Fehler fiele erst in den
+Kostenzahlen auf (`GPTScan/src/llm_backend.py:active_provider`).
+
+### Beispiel 3 — Test ohne Kosten gegen den lokalen Prüfstand
+
+```powershell
+.\run_curated.ps1 -Tool gptscan -Provider custom -Model custom-cheap `
+    -BaseUrl 'http://host.docker.internal:8000/v1' -SkipClone `
+    -FilePattern 'samples:gptscan/Vault.sol' -RunIdSuffix pruefstand
+```
+
+`testing_tools/fake_llm_endpoint.py` ist eine OpenAI-kompatible Attrappe mit
+einstellbarer Antwortverzögerung. Die Umleitung ist absichtlich auf den Provider
+`custom` beschränkt — ein bezahltes Backend darf sich nicht per
+Umgebungsvariable umlenken lassen.
+
+### Ohne Runner, direkt über SmartBugs
+
+```powershell
+cd smartbugs
+$env:DEEPSEEK_API_KEY = '<Schlüssel>'
+$env:GPTSCAN_PROVIDER = 'deepseek'
+$env:GPTSCAN_MODEL    = 'deepseek-v4-pro'
+.venv\Scripts\python.exe -m sb -t gptscan -f samples:gptscan/Vault.sol `
+    --timeout 1800 --runid modelltest_pro
+```
+
+> **Vergleichbarkeit.** Alle aufgezeichneten Läufe dieser Arbeit sind mit
+> `deepseek` / `deepseek-v4-flash` entstanden — das sind auch die Standardwerte
+> der Runner. Ein Lauf mit anderem Backend ist mit ihnen **nicht** vergleichbar;
+> dafür immer einen eigenen `-RunIdSuffix` bzw. `-RunId` vergeben, damit die
+> Ergebnisordner getrennt bleiben.
 
 ---
 
@@ -166,8 +343,13 @@ Review-Kandidaten-Manifeste und gibt am Ende die Errors/Fails-Bilanz aus.
 ## Auswerten
 
 ```powershell
-# Recall / Precision / F1 je DASP-Kategorie
-smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix v1_20260705 --csv
+# Recall / Precision / F1 je DASP-Kategorie, auf der Konsole
+smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix v1_20260705 `
+    --tools gptscan llmsmartaudit slither-0.11.3 --csv
+
+# Dieselben Zahlen versioniert ablegen: eval/curated_v1_20260705__<werkzeug>/
+# und eval/curated_v1_20260705__metriken.md
+python analysis_tools\curated_eval.py
 
 # Rohdaten als CSV
 cd smartbugs
@@ -198,13 +380,14 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-168 Tests (Stand 16.09.2026): Regressionstests für beide Tool-Parser, das
+199 Tests (Stand 20.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
-(AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py` und
-`per_contract_stats.py`. Die Fixtures sind unveränderte Rohdaten echter Läufe;
-ihre Herkunft steht in `tests/fixtures/MANIFEST.json`. Fälle, die in den
-19 Läufen bis zum 02.08.2026 nie auftraten (Timeout, leeres Archiv, kaputtes
-JSON), sind synthetisch und tragen `synthetic` im Testnamen.
+(AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
+`per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:
+Die Fixtures sind unveränderte Rohdaten echter Läufe, ihre Herkunft steht in
+`tests/fixtures/MANIFEST.json`. Fälle, die in den aufgezeichneten Läufen nie
+auftraten (Timeout, leeres Archiv, kaputtes JSON), sind synthetisch und tragen
+`synthetic` im Testnamen.
 
 ## Secret-Scan
 
@@ -264,6 +447,7 @@ Upstream-Stände per Hash abgeglichen.
 
 | Dokument | Inhalt |
 |---|---|
+| [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge und ihre Gegenüberstellung anhand der Messdaten |
 | [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 9 bekannte Fallstricke |
 | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) | Eigenanteil und jede Änderung an Fremdcode, mit Begründung |
 | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) | Herleitung der errors/fails-Semantik aus `smartbugs/sb/parse_utils.py` |
@@ -273,13 +457,14 @@ Upstream-Stände per Hash abgeglichen.
 | [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed` |
 | [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Unabhängige Überprüfung des Repositorys |
 | [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
-| `docs/BA-KORPUS-REPARATUR.tex` | Rekonstruktion des mwevariety-Korpus |
-| `docs/BA-GPTSCAN-VERGLEICH.tex` | GPTScan im Vergleich |
-| `GPTScan/docs/SMARTBUGS_INTEGRATION.md` | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |
-| `corpus_tools/README.md` | Werkzeuge der Korpus-Reparatur |
+| [`docs/BA-KORPUS-REPARATUR.md`](docs/BA-KORPUS-REPARATUR.md) | Rekonstruktion des mwevariety-Korpus |
+| [`docs/BA-GPTSCAN-VERGLEICH.md`](docs/BA-GPTSCAN-VERGLEICH.md) | GPTScan auf curated gegen GPTScan auf seiner Zieldomäne |
+| [`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](GPTScan/docs/SMARTBUGS_INTEGRATION.md) | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |
+| [`corpus_tools/README.md`](corpus_tools/README.md) | Werkzeuge der Korpus-Reparatur |
 
-Die PDF-Fassungen der Ausarbeitungen liegen neben ihren `.tex`-Quellen in
-`docs/`.
+Dokumentation und Auswertungen liegen ausschließlich als `.md`, `.json` und
+`.csv` vor. Die früheren `.tex`-, `.pdf`- und `.pptx`-Fassungen wurden nach
+Markdown überführt und aus dem Repository entfernt.
 
 ## Lizenz
 
