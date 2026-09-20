@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 5400 s |
 | Rohergebnisse | `smartbugs/results/llmsmartaudit/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-20T10:01:09+00:00 |
+| Erzeugt am | 2026-09-20T13:30:13+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`

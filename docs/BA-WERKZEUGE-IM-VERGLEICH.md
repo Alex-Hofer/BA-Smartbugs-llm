@@ -181,11 +181,11 @@ Quelle: `eval/curated_v1_20260705__<werkzeug>/run_meta.json`.
 | Contracts mit Ergebnis | 143 | 143 | 140 |
 | Contracts mit Findings | 6 | 143 | 140 |
 | Findings gesamt | 6 | 1 124 | 2 154 |
-| davon DASP-zugeordnet | 6 | 656 | 300 |
+| davon DASP-zugeordnet | 6 | 656 | 391 |
 | Findings je Contract (Mittel) | 0,04 | 7,9 | 15,1 |
-| Recall | 0 % | **97 %** | 64 % |
+| Recall | 0 % | **97 %** | 67 % |
 | Precision | 0 % | 30 % | **45 %** |
-| F1 | – | 45 % | **52 %** |
+| F1 | – | 45 % | **54 %** |
 | Tasks mit `errors` | 2 | 0 | 3 |
 | Tasks mit `fails` | 0 | 0 | 3 |
 | Container-Zeit gesamt | 712,9 s | 42 792,5 s | 298,8 s |
@@ -209,10 +209,11 @@ häufiger zufällig. Die beiden verfehlten Kategorien (`other`,
 `short_addresses`) haben unter den 41 Detektoren kein Gegenstück; das ist eine
 Taxonomie-Grenze, kein Detektionsfehler.
 
-*Slither ist dreimal so teuer in der Findingzahl und trotzdem präziser.* 2 154
-Findings, aber nur 300 mit DASP-Zuordnung. Die übrigen 1 854 (86,1 %) sind
-überwiegend Informational- und Optimization-Hinweise (1 480), dazu 166 Low,
-148 Medium und 60 High.
+*Slither meldet am meisten und ist trotzdem am präzisesten.* 2 154 Findings,
+aber nur 391 mit DASP-Zuordnung. Die übrigen 1 763 (81,8 %) sind überwiegend
+Informational- und Optimization-Hinweise (1 480), dazu 166 Low, 60 Medium und
+57 High. Mit F1 54 % ist Slither auf diesem Korpus das stärkste der drei
+Werkzeuge — auf genau den Schwachstellenklassen, für die es gebaut ist.
 
 *Der Kostenunterschied ist drei Größenordnungen.* $0,0171 gegen $0,0001 je
 Contract, und 299,2 s gegen 2,1 s Rechenzeit je Contract. Slither ist rund
@@ -327,7 +328,7 @@ Tabelle nahelegt.
 
 **Slither** ist die erste Wahl für alles, was syntaktisch erkennbar ist, und die
 einzige Wahl, wenn Determinismus, Nulltarif und Sekundenlaufzeit zählen. Auf
-klassischen Schwachstellen ist es das präziseste der drei (F1 52 %). Es hat
+klassischen Schwachstellen ist es das präziseste der drei (F1 54 %). Es hat
 keinen Begriff von beabsichtigtem Verhalten und kann Logikfehler deshalb
 prinzipiell nicht finden.
 

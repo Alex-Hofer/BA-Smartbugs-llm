@@ -1,6 +1,6 @@
 # curated_v1_20260705 -- slither-0.11.3
 
-Erzeugt 2026-09-20T10:01:09+00:00 aus `smartbugs/results/slither-0.11.3/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
+Erzeugt 2026-09-20T13:30:13+00:00 aus `smartbugs/results/slither-0.11.3/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
 Statische Analyse, Image `smartbugs/slither:0.11.3`, Timeout 600 s.
 
 ## Zustaende
@@ -27,10 +27,10 @@ noch in eine Precision-Rechnung eingehen.
 | reentrancy | 31 | 29 | 94 % | 39 | 74 % | 83 % |
 | short_addresses | 1 | 0 | 0 % | 0 | – | – |
 | time_manipulation | 5 | 5 | 100 % | 24 | 21 % | 34 % |
-| unchecked_low_level_calls | 52 | 46 | 88 % | 78 | 59 % | 71 % |
-| **GESAMT** | **143** | **91** | **64 %** | **204** | **45 %** | **52 %** |
+| unchecked_low_level_calls | 52 | 51 | 98 % | 88 | 58 % | 73 % |
+| **GESAMT** | **143** | **96** | **67 %** | **214** | **45 %** | **54 %** |
 
-1 854 der 2 154 Findings tragen keine DASP-Klassifikation und gehen weder in
+1 763 der 2 154 Findings tragen keine DASP-Klassifikation und gehen weder in
 Recall noch in Precision ein.
 
 ## Findings je Kategorie

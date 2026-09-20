@@ -20,7 +20,7 @@ DASP-Klassifikation auf die gelabelte Kategorie abbildet.
 |---|---:|---:|---:|---:|---:|---:|
 | gptscan | 0 % | 0 % | – | 6 | 6 | $0.01 |
 | llmsmartaudit | 97 % | 30 % | 45 % | 1 124 | 656 | $2.44 |
-| slither-0.11.3 | 64 % | 45 % | 52 % | 2 154 | 300 | $0.00 |
+| slither-0.11.3 | 67 % | 45 % | 54 % | 2 154 | 391 | $0.00 |
 
 ## gptscan
 
@@ -73,20 +73,22 @@ Recall noch in Precision ein (41.6 %).
 | reentrancy | 31 | 29 | 94 % | 39 | 74 % | 83 % |
 | short_addresses | 1 | 0 | 0 % | 0 | – | – |
 | time_manipulation | 5 | 5 | 100 % | 24 | 21 % | 34 % |
-| unchecked_low_level_calls | 52 | 46 | 88 % | 78 | 59 % | 71 % |
-| **GESAMT** | **143** | **91** | **64 %** | **204** | **45 %** | **52 %** |
+| unchecked_low_level_calls | 52 | 51 | 98 % | 88 | 58 % | 73 % |
+| **GESAMT** | **143** | **96** | **67 %** | **214** | **45 %** | **54 %** |
 
-1 854 der 2 154 Findings tragen keine DASP-Klassifikation und gehen weder in
-Recall noch in Precision ein (86.1 %).
+1 763 der 2 154 Findings tragen keine DASP-Klassifikation und gehen weder in
+Recall noch in Precision ein (81.8 %).
 
 ## Die wichtigste Einschraenkung
 
-1 854 der 2 154 Slither-Findings (86.1 %) haben weder in SmartBugs'
-`findings.yaml` noch ueber die beiden kanonischen Zusatz-Mappings
-(`timestamp` -> DASP-8, `weak-prng` -> DASP-6) eine DASP-Zuordnung und
+1 763 der 2 154 Slither-Findings (81.8 %) haben weder in SmartBugs'
+`findings.yaml` noch ueber die kanonischen Zusatz-Mappings in
+`evaluate_curated.py` (`timestamp` -> DASP-8, `weak-prng` -> DASP-6,
+`unchecked-lowlevel`/`unchecked-send`/`unchecked-transfer` -> DASP-4)
+eine DASP-Zuordnung und
 gehen deshalb nicht in Recall und Precision ein. Keine Zuordnung heisst
 nicht belanglos: nach der Impact-Stufe des jeweiligen Detektors sind
-1 480 davon Informational oder Optimization, 166 Low, 148 Medium und 60 High.
+1 480 davon Informational oder Optimization, 166 Low, 60 Medium und 57 High.
 Die Herleitung steht in `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`,
 Abschnitt 4.1 und 5.
 

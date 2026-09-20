@@ -380,7 +380,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-199 Tests (Stand 20.09.2026): Regressionstests für beide Tool-Parser, das
+200 Tests (Stand 20.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:

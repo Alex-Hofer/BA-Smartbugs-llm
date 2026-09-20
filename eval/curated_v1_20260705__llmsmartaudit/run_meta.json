@@ -1,7 +1,7 @@
 {
  "run_id": "curated_v1_20260705",
  "tool": "llmsmartaudit",
- "generated": "2026-09-20T10:01:09+00:00",
+ "generated": "2026-09-20T13:30:13+00:00",
  "generated_by": "analysis_tools/curated_eval.py",
  "smartbugs_version": "2.1.1",
  "results_dir": "smartbugs/results/llmsmartaudit/curated_v1_20260705",
@@ -75,14 +75,6 @@
    "precision": 0.08888888888888889,
    "f1": 0.163265306122449
   },
-  "time_manipulation": {
-   "contracts": 5,
-   "detected": 5,
-   "flagged": 19,
-   "recall": 1.0,
-   "precision": 0.2631578947368421,
-   "f1": 0.4166666666666667
-  },
   "unchecked_low_level_calls": {
    "contracts": 52,
    "detected": 52,
@@ -90,6 +82,14 @@
    "recall": 1.0,
    "precision": 0.7878787878787878,
    "f1": 0.8813559322033898
+  },
+  "time_manipulation": {
+   "contracts": 5,
+   "detected": 5,
+   "flagged": 19,
+   "recall": 1.0,
+   "precision": 0.2631578947368421,
+   "f1": 0.4166666666666667
   },
   "bad_randomness": {
    "contracts": 8,

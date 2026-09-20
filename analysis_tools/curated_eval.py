@@ -607,8 +607,10 @@ def write_metrics(path, runid, per_tool):
         A("%s der %s Slither-Findings (%.1f %%) haben weder in SmartBugs'"
           % (num(slither["findings_unmapped"]), num(slither["findings_total"]),
              100 * slither["findings_unmapped"] / (slither["findings_total"] or 1)))
-        A("`findings.yaml` noch ueber die beiden kanonischen Zusatz-Mappings")
-        A("(`timestamp` -> DASP-8, `weak-prng` -> DASP-6) eine DASP-Zuordnung und")
+        A("`findings.yaml` noch ueber die kanonischen Zusatz-Mappings in")
+        A("`evaluate_curated.py` (`timestamp` -> DASP-8, `weak-prng` -> DASP-6,")
+        A("`unchecked-lowlevel`/`unchecked-send`/`unchecked-transfer` -> DASP-4)")
+        A("eine DASP-Zuordnung und")
         A("gehen deshalb nicht in Recall und Precision ein. Keine Zuordnung heisst")
         A("nicht belanglos: nach der Impact-Stufe des jeweiligen Detektors sind")
         A("%s davon Informational oder Optimization, %s Low, %s Medium und %s High."

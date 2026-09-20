@@ -54,13 +54,29 @@ from pathlib import Path
 import yaml
 
 # Konservatives Zusatz-Mapping fuer Detektoren, deren findings.yaml-Eintrag
-# KEINE Klassifikation traegt, deren DASP-Zuordnung aber kanonisch ist
-# (timestamp = SWC-116/DASP-8, weak-prng = SWC-120/DASP-6). In der BA als
-# methodische Ergaenzung dokumentieren.
+# KEINE Klassifikation traegt, deren DASP-Zuordnung aber kanonisch ist. In der
+# BA als methodische Ergaenzung dokumentiert (BA-DURCHFUEHRUNGSPROTOKOLL.md,
+# Fehler #9 und Nachtrag vom 20.09.2026).
+#
+# timestamp = SWC-116/DASP-8, weak-prng = SWC-120/DASP-6.
+#
+# Die drei unchecked-*-Detektoren kamen am 20.09.2026 dazu. SWC-104 heisst
+# "Unchecked Call Return Value"; genau das finden sie. Klassifiziert waren in
+# findings.yaml statt dessen nur low-level-calls (severity informational, meldet
+# lediglich, DASS ein Low-Level-Call vorkommt) und unused-return -- die beiden
+# schwaecheren Stellvertreter. Die Luecke traf ausgerechnet die groesste
+# curated-Kategorie und liess die statische Baseline schlechter aussehen, als
+# sie ist:
+#   unchecked-lowlevel  54 Findings, severity medium
+#   unchecked-send      34 Findings, severity medium
+#   unchecked-transfer   3 Findings, severity high
 EXTRA_MAPPING = {
     "slither-0.11.3": {
         "timestamp": "time_manipulation",
         "weak-prng": "bad_randomness",
+        "unchecked-lowlevel": "unchecked_low_level_calls",
+        "unchecked-send": "unchecked_low_level_calls",
+        "unchecked-transfer": "unchecked_low_level_calls",
     },
 }
 

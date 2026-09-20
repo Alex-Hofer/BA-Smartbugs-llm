@@ -333,6 +333,49 @@ oben kostenlos verifiziert, und ein Wiederholungslauf hätte rund $0,03 und
 18 Minuten gekostet, ohne eine berührte Codezeile zu prüfen. Der
 Teilmengen-Nachweis aus 4.5.3 bleibt damit die Messung vom 18.08.2026.
 
+### 4.6 Nachtrag (20.09.2026) — Slither-Mapping um drei Detektoren ergänzt
+
+**Die Zahlen in 4.1 und 4.5 bleiben unverändert stehen**; sie sind der Stand der
+jeweiligen Durchführung. Dieser Nachtrag hält fest, was sich seither an der
+Auswertung geändert hat und wie sich das auswirkt.
+
+Bei der Durchsicht der Slither-Taxonomie fiel eine Lücke auf, die dieselbe Form
+hat wie Fehler #9. In `smartbugs/tools/slither-0.11.3/findings.yaml` tragen die
+drei Detektoren, die einen **ungeprüften Rückgabewert** melden, keine
+Klassifikation — während zwei schwächere Stellvertreter auf SWC-104/DASP-4
+abgebildet sind:
+
+| Detektor | Findings im Lauf | Severity | Klassifikation |
+|---|---:|---|---|
+| `low-level-calls` (meldet nur, *dass* ein Low-Level-Call vorkommt) | 91 | informational | SWC-104, DASP-4 |
+| `unused-return` | 1 | medium | SWC-104, DASP-4 |
+| `unchecked-lowlevel` | 54 | medium | — |
+| `unchecked-send` | 34 | medium | — |
+| `unchecked-transfer` | 3 | high | — |
+
+SWC-104 heißt „Unchecked Call Return Value"; genau das finden die drei
+unklassifizierten Detektoren. Die Lücke traf mit `unchecked_low_level_calls`
+(52 gelabelte Contracts) die größte Kategorie des Datensatzes und ließ die
+statische Baseline schlechter aussehen, als sie ist — also in der Richtung, die
+den beiden Prüflingen schmeichelt.
+
+Die drei sind deshalb in `evaluate_curated.py` in dasselbe konservative
+Zusatz-Mapping aufgenommen worden wie `timestamp` und `weak-prng`. Auswirkung:
+
+| | vorher | nachher |
+|---|---|---|
+| `unchecked_low_level_calls` (Recall/Precision/F1) | 88 / 59 / 71 | **98 / 58 / 73** |
+| Slither gesamt | 64 / 45 / 52 | **67 / 45 / 54** |
+| erkannte Contracts | 91 | 96 |
+| DASP-zugeordnete Findings | 300 | 391 |
+| ohne DASP-Zuordnung | 1 854 (86,1 %) | 1 763 (81,8 %) |
+
+Precision bleibt bei 45 %: Es ist die Korrektur einer Untererfassung, keine
+Verschiebung des Maßstabs. GPTScan und LLMSmartAudit sind nicht betroffen — ihre
+Taxonomien wurden nicht angefasst. Die fortgeschriebenen Zahlen stehen in
+[`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md)
+und in [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md).
+
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.

@@ -195,6 +195,27 @@ def test_precision_counts_a_flag_on_an_unlabelled_contract_synthetic():
     assert m["reentrancy"]["precision"] == 0.5
 
 
+def test_the_unchecked_detectors_are_mapped_to_dasp_4():
+    """Sonst zaehlt die groesste curated-Kategorie einen Teil ihrer Treffer nicht.
+
+    SWC-104 heisst "Unchecked Call Return Value". In Slithers findings.yaml
+    tragen genau die Detektoren, die das finden, keine Klassifikation --
+    klassifiziert sind statt dessen `low-level-calls` (severity informational,
+    meldet nur die Verwendung) und `unused-return`. Das Zusatz-Mapping in
+    evaluate_curated.py schliesst die Luecke; dieser Test haelt sie geschlossen.
+    """
+    mapping = ce.evaluate_curated.load_mapping(
+        ce.REPO / "smartbugs" / "tools" / "slither-0.11.3" / "findings.yaml",
+        "slither-0.11.3")
+    for detector in ("unchecked-lowlevel", "unchecked-send", "unchecked-transfer"):
+        assert mapping[detector] == "unchecked_low_level_calls", detector
+    # Der Anlass des Mappings: der schwaechere Stellvertreter war schon zugeordnet.
+    assert mapping["low-level-calls"] == "unchecked_low_level_calls"
+    # Die beiden aelteren Ergaenzungen bleiben unberuehrt.
+    assert mapping["timestamp"] == "time_manipulation"
+    assert mapping["weak-prng"] == "bad_randomness"
+
+
 def test_the_mapping_comes_from_evaluate_curated_not_from_a_copy():
     """Eine eigene Kopie der DASP-Zuordnung liefe irgendwann auseinander."""
     import inspect

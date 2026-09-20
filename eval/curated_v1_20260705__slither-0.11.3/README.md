@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 600 s |
 | Rohergebnisse | `smartbugs/results/slither-0.11.3/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-20T10:01:09+00:00 |
+| Erzeugt am | 2026-09-20T13:30:13+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`
@@ -67,7 +67,7 @@ sauber durchliefen.
    *eine* Primaer-Schwachstelle je Contract. Ein zutreffender
    Sekundaer-Befund zaehlt hier als False Positive; die Precision-Werte
    sind Untergrenzen.
-2. **Nur DASP-klassifizierte Findings zaehlen.** 1 854 der 2 154 Findings dieses
+2. **Nur DASP-klassifizierte Findings zaehlen.** 1 763 der 2 154 Findings dieses
    Laufs tragen keine DASP-Zuordnung und gehen weder in Recall noch in
    Precision ein. Keine Zuordnung heisst nicht belanglos.
 3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,

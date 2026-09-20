@@ -1,6 +1,6 @@
 # curated_v1_20260705 -- gptscan
 
-Erzeugt 2026-09-20T10:01:09+00:00 aus `smartbugs/results/gptscan/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
+Erzeugt 2026-09-20T13:30:13+00:00 aus `smartbugs/results/gptscan/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
 Backend deepseek/deepseek-v4-flash, Timeout 1800 s, MAIN=0.
 
 ## Zustaende
