@@ -1,6 +1,6 @@
 # Lueckenbericht Parser-Audit
 
-Geprueft: **930 Task-Verzeichnisse** aus 19 Laeufen, **1464 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
+Geprueft: **1169 Task-Verzeichnisse** aus 45 Laeufen, **2205 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
 
 Erzeugt mit `python analysis_tools/parser_audit.py`. Das Werkzeug liest das
 Container-Rohmaterial (`result.log`, `result.tar`, `smartbugs.json`, Exit-Code)
@@ -13,26 +13,52 @@ solc-Warnungen und slithers Exit-Code 255.
 
 | Tool | Lauf | Tasks | Rohmeldungen | Luecken |
 |---|---|---:|---:|---:|
+| gptscan | ap5_free_gptscan_brake | 2 | 40 | 0 |
+| gptscan | ap5_free_gptscan_net | 1 | 0 | 0 |
+| gptscan | ap5_free_gptscan_net2 | 1 | 3 | 0 |
+| gptscan | ap5_free_gptscan_notimeout | 1 | 0 | 0 |
+| gptscan | ap5_live_gptscan_full | 1 | 0 | 0 |
+| gptscan | ap5_live_gptscan_partial | 1 | 5 | 0 |
+| gptscan | ap5_verify2_gptscan_full | 1 | 0 | 0 |
+| gptscan | ap5_verify2_gptscan_part | 1 | 5 | 0 |
+| gptscan | ap5_verify_gptscan_brake | 1 | 22 | 0 |
+| gptscan | ap5_verify_gptscan_net | 1 | 3 | 0 |
+| gptscan | ap5_verify_gptscan_notimeout | 1 | 0 | 0 |
 | gptscan | assign6_dry | 10 | 7 | 0 |
 | gptscan | assign6_dry_0_6_12 | 10 | 7 | 0 |
 | gptscan | assign6_dry_0_8_24 | 10 | 7 | 0 |
 | gptscan | assign6_live | 10 | 0 | 0 |
 | gptscan | assign6_live_0612 | 10 | 0 | 0 |
+| gptscan | curated_gptscan_demo_defi | 5 | 17 | 0 |
+| gptscan | curated_gptscan_demo_swc | 5 | 0 | 0 |
 | gptscan | curated_gptscan_mwe_20260706 | 96 | 300 | 0 |
 | gptscan | curated_gptscan_mwefixed_dry | 96 | 479 | 0 |
 | gptscan | curated_gptscan_mwefixed_live | 96 | 174 | 0 |
 | gptscan | curated_gptscan_v1_20260705 | 143 | 8 | 0 |
+| gptscan | gptscan_mwefixed_v2_dry | 96 | 459 | 0 |
+| gptscan | gptscan_mwefixed_v2_main | 96 | 162 | 0 |
+| gptscan | gptscan_mwefixed_v2_main_nomain | 3 | 4 | 0 |
+| gptscan | gptscan_mwefixed_v2_smoke | 3 | 8 | 0 |
+| gptscan | gptscan_mwefixed_v2_smoke2 | 3 | 9 | 0 |
 | gptscan | mwevar_dry | 96 | 286 | 0 |
 | gptscan | mwevar_live | 27 | 101 | 0 |
 | gptscan | phase6_dry | 15 | 37 | 0 |
 | gptscan | phase6_live | 15 | 41 | 0 |
 | gptscan | smoke1_dry | 3 | 6 | 0 |
 | gptscan | smoke2_live | 3 | 3 | 0 |
+| llmsmartaudit | ap5_free_llmsa_net | 2 | 2 | 0 |
+| llmsmartaudit | ap5_free_llmsa_notimeout | 1 | 0 | 0 |
+| llmsmartaudit | ap5_live_llmsa_full | 1 | 0 | 0 |
+| llmsmartaudit | ap5_live_llmsa_partial | 1 | 1 | 0 |
+| llmsmartaudit | ap5_verify_llmsa_net | 1 | 1 | 0 |
+| llmsmartaudit | curated_llmsa_demo_defi_llm | 4 | 0 | 0 |
+| llmsmartaudit | curated_llmsa_demo_kostenprobe | 1 | 0 | 0 |
+| llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 0 | 0 |
 | llmsmartaudit | smoke1_stub | 1 | 2 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 6 | 0 |
-| **Summe** | | **930** | **1464** | **0** |
+| **Summe** | | **1169** | **2205** | **0** |
 
 ## Ergebnis
 

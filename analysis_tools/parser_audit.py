@@ -308,6 +308,28 @@ def _gptscan_meta(log_lines: list[str]) -> Optional[dict[str, Any]]:
     return None
 
 
+# Two signals are reported in somebody else's words rather than with the literal
+# key this audit derives from the raw material. Matching on the key alone
+# reported them as lost although the fact is plainly in the output --- 12 such
+# false gaps over the recorded runs, all of them the three exit-127 contracts of
+# gptscan_mwefixed_v2_{dry,main}. The alternatives below are quoted from the
+# code that produces them, so a rewording there shows up here as a gap again
+# instead of being silently accepted.
+EQUIVALENT_WORDINGS: dict[str, tuple[str, ...]] = {
+    # sb/parse_utils.py:75-78 turns exit code 127 into this sentence instead of
+    # an "EXIT_CODE_127" marker. The code is reserved for exactly this case:
+    # --main was given and no contract carries the file's name.
+    "EXIT_CODE_127": ("filename did not match any contract",),
+    # Both tool parsers name the way the output went missing instead of writing
+    # the word "output" (tools/{gptscan,llmsmartaudit}/parser.py::_read_output_json).
+    "output": (
+        "no tar archive collected from the container",
+        "tar archive from the container is unreadable",
+        "tar archive contains no output.json",
+    ),
+}
+
+
 def covered(signal: Signal, parser_output: Optional[dict[str, Any]]) -> bool:
     """Is *signal* still visible in the parser's output?"""
     if not parser_output:
@@ -317,7 +339,12 @@ def covered(signal: Signal, parser_output: Optional[dict[str, Any]]) -> bool:
         haystack = reported
     else:
         haystack = reported + squash(" ".join(parser_output.get("infos", [])))
-    return bool(signal.key) and signal.key in haystack
+    if not signal.key:
+        return False
+    if signal.key in haystack:
+        return True
+    return any(squash(alt) in haystack
+               for alt in EQUIVALENT_WORDINGS.get(signal.key, ()))
 
 
 # --------------------------------------------------------------------------- #
