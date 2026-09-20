@@ -106,7 +106,7 @@ cd smartbugs
 einer Zeile kollabierte Blobs und nicht übersetzbar; `74_TimeswapPair.sol` hat
 einen solc-Fehler in Zeile 51. Kein Parser-Problem — der Korpus ist defekt.
 Reparierter Ersatz: `samples/gptscan/mwevariety_fixed/` (siehe
-`docs/BA-KORPUS-REPARATUR.tex` und `corpus_tools/README.md`).
+`docs/BA-KORPUS-REPARATUR.md` und `corpus_tools/README.md`).
 
 **9 — Im reparierten Korpus scheitern 2 von 96 Contracts.**
 `58_UniV3Vault` bräuchte `--optimize` („Stack too deep"), `19_TransactionManager`

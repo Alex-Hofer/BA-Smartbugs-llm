@@ -176,7 +176,7 @@ Die 21 sind *verschiedene Contracts*: 19 mit `tasks.py:325`, 3 mit `:232`,
 wobei `14_YieldSourcePrizePool.sol` beide trägt und daher nur einmal zählt.
 
 Die Korpus-Reparatur selbst ist damit **bestätigt** — nur 1 von 96 Contracts
-scheitert am Compilat, wie in `BA-KORPUS-REPARATUR.tex` beschrieben. Neu ist
+scheitert am Compilat, wie in `BA-KORPUS-REPARATUR.md` beschrieben. Neu ist
 etwas anderes: GPTScans **Static-Bestätigungsstufe stürzt auf 35 von 96
 übersetzbaren Contracts ab**. Das ist genau der Präzisionsfilter, um den es in
 der Argumentation geht, und es war vor dem Parser-Fix unsichtbar. Ob und wie das

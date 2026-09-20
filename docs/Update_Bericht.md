@@ -71,7 +71,7 @@ Soll-Ist-Vergleich:
 
 | Prio | Punkt (Juli 2026) | Stand August 2026 |
 |---|---|---|
-| **P0** | GPTScan-Kompilierung stabilisieren | **erledigt.** Korpus `mwevariety_fixed`: 96/96 nativ, 94/96 in der Toolchain (`docs/BA-KORPUS-REPARATUR.tex`, Durchführung 21.07.2026) |
+| **P0** | GPTScan-Kompilierung stabilisieren | **erledigt.** Korpus `mwevariety_fixed`: 96/96 nativ, 94/96 in der Toolchain (`docs/BA-KORPUS-REPARATUR.md`, Durchführung 21.07.2026) |
 | **P0** | Statische Bestätigungsstufe reaktivieren | **erledigt, mit Einschränkung.** Die Stufe läuft; sie stürzt jedoch auf **35 von 96** übersetzbaren Contracts mit `Static analysis failed: Invalid args` ab. Das war vor der Parser-Reparatur unsichtbar |
 | **P1** | GPTScan-Massenlauf nachziehen | **teilweise.** `curated_mwefixed_live` (96 Contracts) liegt vor; ein Massenlauf auf dem reparierten Korpus *nach* der Parser-Reparatur steht aus |
 | **P2** | Evaluation beginnen | **offen.** `evaluate_curated.py` liefert Recall/Precision/F1 je DASP-Kategorie; die Auswertung des Hauptlaufs ist nicht Gegenstand dieses Berichts |
@@ -569,7 +569,7 @@ nicht auf eine Fehlkonfiguration der Werkzeugkette: Die Contracts sind einzeln
 aus größeren Wettbewerbsprojekten extrahierte Fragmente, deren `import`-Ziele
 nicht beiliegen. Nach der Rekonstruktion aus den Originalquellen des
 Web3Bugs-Benchmarks kompilieren **96/96** nativ und **94/96** in GPTScans echter
-Analyse-Toolchain (`docs/BA-KORPUS-REPARATUR.tex`, Durchführung 21.07.2026).
+Analyse-Toolchain (`docs/BA-KORPUS-REPARATUR.md`, Durchführung 21.07.2026).
 
 **Bestätigt durch die neue Auswertung:** Im Lauf `curated_mwefixed_live` scheitert
 nur **1 von 96** Contracts am Compilat. Damit ist die Korpus-Reparatur
@@ -763,7 +763,7 @@ reproduzierbar.
 | `docs/errors-fails.md`, `docs/errors-fails.csv` | erzeugte Bilanz, Meldungen im Wortlaut |
 | `docs/parser-audit-vorher.md`, `docs/parser-audit-nachher.md` | Lückenbericht vor und nach der Reparatur |
 | `docs/parser-fix-vorher-nachher.md` | Nachweis, dass `findings` unverändert blieb |
-| `docs/BA-KORPUS-REPARATUR.tex` | Rekonstruktion des Zielkorpus |
+| `docs/BA-KORPUS-REPARATUR.md` | Rekonstruktion des Zielkorpus |
 | `docs/BA-DEMOLAUF-ERGEBNIS.md` | Laufbericht des Demonstrationslaufs, Konsolenausgaben im Wortlaut |
 | `docs/BA-WERKZEUG-BEDIENUNG.md`, `docs/BA-BETRIEB.md` | Bedienung und Betrieb |
 | `docs/BA-EIGENANTEIL.md` | Abgrenzung Eigen-/Fremdanteil, per Datei-Hash |
