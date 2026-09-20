@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 5400 s |
 | Rohergebnisse | `smartbugs/results/llmsmartaudit/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-20T13:30:13+00:00 |
+| Erzeugt am | 2026-09-20T14:16:00+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`
@@ -34,7 +34,7 @@ und veraendert nichts unter `smartbugs/results/`.
 
 | Feld | Bedeutung |
 |---|---|
-| `contract_id` | Dateiname ohne `.sol` |
+| `contract_id` | Dateiname ohne `.sol`. **Kein Schluessel**: der Datensatz fuehrt `0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839.sol` sowohl unter `reentrancy` als auch unter `unchecked_low_level_calls`; eindeutig ist erst das Paar `(label_dir, contract_id)`. |
 | `contract_file` | Pfad, wie SmartBugs ihn protokolliert hat |
 | `label_dir`, `labels` | Kategorie des Datensatzes bzw. die Labels der Ground Truth |
 | `category_raw` | Name des Findings, wie das Werkzeug ihn meldet |

@@ -11,10 +11,18 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 > also **nicht** wiederholen. Was in diesem Ordner liegt, ist die einzige im
 > Repository erhaltene Fassung des Laufs.
 >
-> **Stand 20.09.2026:** Die Rohergebnisse des Schwesterlaufs
-> `llmsa_mwefixed_v2` sind inzwischen übernommen worden; die dieses Laufs
-> nicht. Ob sie auf dem Rechner des Co-Autors noch vorliegen, ist offen und
-> wäre nachzufragen. Dringlich ist es nicht: Wer
+> **Stand 20.09.2026: die Rohergebnisse dieses Laufs existieren nicht mehr.**
+> Die des Schwesterlaufs `llmsa_mwefixed_v2` sind übernommen worden, diese sind
+> auch beim Co-Autor nicht mehr vorhanden. Der Lauf lässt sich daher weder
+> reparsen noch in die Errors/Fails-Bilanz oder das Parser-Audit aufnehmen.
+>
+> **Er ist trotzdem nicht wertlos, im Gegenteil.** Er ist der zweite
+> LLMSmartAudit-Lauf über denselben Korpus und damit die einzige Grundlage, auf
+> der sich die Streuung dieses Werkzeugs beziffern lässt: 61,4 % Übereinstimmung
+> gegenüber `curated_v1_20260705`, nur 5 % der Contracts mit identischem
+> Detektor-Satz. Herleitung und Vorbehalte in
+> [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](../../docs/BA-WERKZEUGE-IM-VERGLEICH.md),
+> Abschnitt 4.4. Wer
 > LLMSmartAudit auf curated mit vorhandenen Rohdaten auswerten will, nimmt den
 > Lauf `curated_v1_20260705` — siehe
 > [`eval/curated_v1_20260705__llmsmartaudit/`](../curated_v1_20260705__llmsmartaudit/README.md).

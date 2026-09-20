@@ -61,8 +61,10 @@ Die Protokolle nennen als Ablageort
   Bei derselben Gelegenheit kam der bis dahin unbekannte Lauf
   `llmsa_smoke_curated` (3 Contracts) dazu; er hat keine eigene Auswertung,
   taucht aber in der Errors/Fails-Bilanz und im Parser-Audit auf.
-* **`llmsa_curated_v2`**: die Rohergebnisse fehlen hier weiterhin. Für
-  LLMSmartAudit auf `smartbugs-curated` ist ohnehin `curated_v1_20260705`
-  der Bezugslauf — er liegt vollständig vor und ist in
+* **`llmsa_curated_v2`**: die Rohergebnisse existieren nicht mehr, auch nicht
+  beim Co-Autor. Für LLMSmartAudit auf `smartbugs-curated` ist ohnehin
+  `curated_v1_20260705` der Bezugslauf — er liegt vollständig vor und ist in
   [`eval/curated_v1_20260705__llmsmartaudit/`](../curated_v1_20260705__llmsmartaudit/README.md)
-  ausgewertet.
+  ausgewertet. Die erhaltene Auswertung von `llmsa_curated_v2` dient jetzt einem
+  anderen Zweck: Sie ist der zweite Messpunkt, mit dem sich die Streuung von
+  LLMSmartAudit beziffern lässt.

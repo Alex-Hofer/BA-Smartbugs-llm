@@ -484,7 +484,7 @@ def write_readme(path, tool, runid, meta):
     A("")
     A("| Feld | Bedeutung |")
     A("|---|---|")
-    A("| `contract_id` | Dateiname ohne `.sol` |")
+    A("| `contract_id` | Dateiname ohne `.sol`. **Kein Schluessel**: der Datensatz fuehrt `0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839.sol` sowohl unter `reentrancy` als auch unter `unchecked_low_level_calls`; eindeutig ist erst das Paar `(label_dir, contract_id)`. |")
     A("| `contract_file` | Pfad, wie SmartBugs ihn protokolliert hat |")
     A("| `label_dir`, `labels` | Kategorie des Datensatzes bzw. die Labels der Ground Truth |")
     A("| `category_raw` | Name des Findings, wie das Werkzeug ihn meldet |")

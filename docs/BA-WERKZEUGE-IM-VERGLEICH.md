@@ -285,8 +285,47 @@ Gemessen wurde das bisher nur für GPTScan:
   Wert vermischt allerdings zwei Ursachen, weil der zweite Lauf zusätzlich
   `MAIN` gesetzt hatte.
 
-Für LLMSmartAudit wurde die Streuung nicht separat quantifiziert. Slither ist
-deterministisch.
+**Für LLMSmartAudit lässt sie sich seit dem 20.09.2026 beziffern.** Es gibt zwei
+vollständige Läufe über dieselben 143 curated-Contracts: `curated_v1_20260705`
+(05.07.2026) und `llmsa_curated_v2` (15.08.2026), beide mit
+`deepseek/deepseek-v4-flash`. Verglichen über die 141 Contracts, für die beide
+mindestens ein Finding melden:
+
+| | |
+|---|---:|
+| Findings gesamt | 1 124 gegen 1 028 |
+| Paare (Contract, Detektor) in beiden Läufen | 805 |
+| nur im ersten Lauf | 291 |
+| nur im zweiten Lauf | 216 |
+| Übereinstimmung (Jaccard) | **61,4 %** |
+| Contracts mit **identischem** Detektor-Satz | **7 von 141 = 5,0 %** |
+
+Das ist deutlich instabiler als GPTScan. Dort stimmten 74 % der Contracts im
+Finding-Satz überein, hier 5 %. Der Grund liegt in der Finding-Dichte: Bei
+durchschnittlich acht Detektoren je Contract muss nur einer von acht kippen,
+damit der Satz nicht mehr identisch ist — die Jaccard-Zahl von 61,4 % ist das
+fairere Maß.
+
+**Vier Vorbehalte, ohne die die Zahl nicht zu gebrauchen ist.**
+
+1. Die beiden Läufe unterscheiden sich nicht nur zufällig: Timeout 5 400 s gegen
+   3 600 s, vier gegen drei Prozesse. Beides betrifft den Inhalt nicht — in
+   keinem der Läufe trat ein Timeout auf —, aber sauber isoliert ist der
+   Nicht-Determinismus damit nicht.
+2. Der Parser wurde dazwischen repariert (02.08.2026). Das erklärt den
+   Unterschied **nicht**: `docs/parser-fix-vorher-nachher.md` weist nach, dass
+   die Spalte `findings` für jeden einzelnen Task unverändert blieb.
+3. Zwischen den Läufen liegen sechs Wochen. Dass der Anbieter das Modell hinter
+   demselben Namen verändert hat, lässt sich nicht ausschließen — und der
+   Rückgang ist auffällig einseitig: In fast jeder Detektorkategorie meldet der
+   spätere Lauf weniger (Integer Overflow 73 → 54 Contracts, Lack of Input
+   Validation 105 → 87, Reentrancy 70 → 56). Zufallsstreuung wäre symmetrisch.
+   Die Zahl ist deshalb eine **Obergrenze für die Stabilität**, nicht eine
+   Messung reiner Sampling-Varianz.
+4. Die Rohergebnisse von `llmsa_curated_v2` existieren nicht mehr; seine Seite
+   des Vergleichs ist nur noch über die abgeleitete `findings.jsonl` belegt.
+
+Slither ist deterministisch.
 
 ---
 
@@ -368,3 +407,11 @@ verortet werden.
    Code-Änderung möglich.
 5. **Contract-Level, nicht zeilengenau.** Eine zeilengenaue Auswertung ist nicht
    möglich, solange LLMSmartAudit keine Zeilennummern emittiert.
+6. **143 Dateien sind nicht 143 Contracts.** `smartbugs-curated` führt
+   `0x627fa62ccbb1c1b04ffaecd72a53e37fc0e17839.sol` zweimal — einmal unter
+   `reentrancy`, einmal unter `unchecked_low_level_calls`, je mit einem eigenen
+   Label. Derselbe Contract wird also zweimal analysiert und zweimal gewertet.
+   Das relativiert die Rede vom „Single-Label-Datensatz": Sie gilt je *Datei*,
+   nicht je Contract. Auf die Kennzahlen wirkt es sich kaum aus (ein Contract von
+   143), aber `contract_id` ist damit kein eindeutiger Schlüssel — eindeutig ist
+   erst `(label_dir, contract_id)`.
