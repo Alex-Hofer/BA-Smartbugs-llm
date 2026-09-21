@@ -14,7 +14,24 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 |---|---|
 | GPTScan | `29a1747` (`main`) |
 | LLMSmartAuditTool | `c507fe4` (`main`) |
-| SmartBugs | Tag `v2.1.1` = `01c0e66` |
+| SmartBugs | `7ddaf6c` (`main`) = `v2.1.1-7-g7ddaf6c` |
+
+> **Zum SmartBugs-Stand.** Frühere Fassungen dieses Dokuments nannten hier den
+> Tag `v2.1.1` (= `01c0e66`). Das ist nicht der Stand, auf dem dieser Baum
+> aufsetzt: Geklont wurde `main` sieben Commits später, bei `7ddaf6c`. Weil
+> Upstream die Versionszeichenkette erst mit dem achten Commit auf `2.1.2`
+> hochgesetzt hat, steht in `pyproject.toml` und `sb/cfg.py` weiterhin
+> `2.1.1` — daher die frühere Verwechslung. Der Unterschied ist nicht
+> kosmetisch: Vergleicht man gegen den Tag statt gegen `7ddaf6c`, erscheinen
+> zehn Upstream-Commits (u. a. die auf 100 % Coverage aufgestockten
+> `tests/unit/`-Dateien, `poetry.lock`, `install/setup-venv.sh`,
+> `README.md`) fälschlich als eigene Eingriffe. Alle Zahlen unten sind gegen
+> `7ddaf6c` gerechnet. Nachvollziehbar mit:
+>
+> ```
+> git clone https://github.com/smartbugs/smartbugs.git up-sb
+> git -C up-sb checkout 7ddaf6c
+> ```
 
 | Fremdkomponente | Upstream | Lizenz |
 |---|---|---|
@@ -71,9 +88,9 @@ inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat
 | `LLMSmartAuditTool-main/.../Dockerfile.smartbugs`, `.dockerignore` | Containerisierung für SmartBugs |
 | `LLMSmartAuditTool-main/.../docs/coverage.md` | Welche Detektor-Kategorien `SmartContractTA` tatsächlich prüft |
 
-> **Zur Abgrenzung:** Von den 21 gegenüber dem Upstream neuen Dateien im
+> **Zur Abgrenzung:** Von den 19 gegenüber dem Upstream neuen Dateien im
 > GPTScan-Baum sind 11 eigener Code bzw. eigene Dokumentation (die Tabelle
-> oben). Die übrigen 10 liegen unter `GPTScan/reports/` und sind **generierte
+> oben). Die übrigen 8 liegen unter `GPTScan/reports/` und sind **generierte
 > Auswertungen eigener Läufe** (CSV/HTML/PDF/Markdown), kein Werkzeugcode. Sie
 > werden hier ausgewiesen, weil sie in der Dateizählung als „neu" erscheinen.
 
@@ -81,11 +98,51 @@ inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat
 
 ## 2. Änderungen an Fremdcode
 
-### 2.1 SmartBugs — 5 geänderte Dateien in `sb/`, dazu `.gitignore`
+### 2.1 SmartBugs — 2 inhaltlich geänderte Dateien in `sb/`, dazu `.gitignore`
 
-Gegen den Upstream-Tag `v2.1.1` unterscheiden sich fünf Dateien in `sb/`. Zwei
-davon bilden zusammen den Mechanismus zur Schlüsselübergabe; drei sind kleinere
-Eingriffe. Hinzu kommt eine Korrektur an `smartbugs/.gitignore` (unten).
+Gegen den Upstream-Stand `7ddaf6c` unterscheiden sich in `sb/` genau **zwei**
+Dateien: `docker.py` (37 Code-Zeilen) und `tools.py` (2 Code-Zeilen). Sie
+bilden zusammen den Mechanismus zur Schlüsselübergabe. Hinzu kommt eine
+Korrektur an `smartbugs/.gitignore`. Mehr ist es nicht; der vollständige
+Hash-Abgleich über alle 772 getrackten Dateien unter `smartbugs/` ergibt:
+
+| | Dateien |
+|---|---:|
+| unverändert gegenüber `7ddaf6c` | 515 |
+| geändert | 3 (`sb/docker.py`, `sb/tools.py`, `.gitignore`) |
+| neu: eigene Tool-Integrationen | 12 (`tools/gptscan/`, `tools/llmsmartaudit/`) |
+| neu: abgelegte Korpus-Dateien | 241 (`samples/gptscan/**.sol` — fremde Contracts, kein eigener Code) |
+| neu: Werkzeug-Nebenprodukt | 1 (`uv.lock`, siehe unten) |
+
+Summe: 515 + 3 + 12 + 241 + 1 = 772. Nachprüfbar mit einem Befehl:
+
+```
+$ diff -r -q --exclude=.git smartbugs/sb up-sb/sb
+Files smartbugs/sb/docker.py and up-sb/sb/docker.py differ
+Files smartbugs/sb/tools.py and up-sb/sb/tools.py differ
+```
+
+> **Korrektur: `sb/analysis.py` und `sb/solidity.py` sind kein Eigenanteil.**
+> Frühere Fassungen dieses Dokuments führten hier zwei „kleinere Eingriffe":
+> die Kapselung von `os.makedirs(task.rdir)` in `try/except` samt Verschiebung
+> des `time.sleep` in den `except`-Zweig (`analysis.py`) und die Erweiterung
+> des `CONTRACT_NAMES`-Musters um `$` und um das Verbot einer führenden Ziffer
+> (`solidity.py`). Beide Änderungen sind real vorhanden — aber sie stammen
+> **nicht aus dieser Arbeit**. Upstream hat sie selbst vorgenommen, in
+> `921f9b5` („add tests, push coverage to 100 %", 20.04.2026) und `89c16bb`
+> („Fix parsing of Solidity names", 12.05.2026). Beide Commits liegen vor dem
+> hier geklonten Stand `7ddaf6c` (20.05.2026) und damit auch vor dem ersten
+> Commit dieses Repositorys (02.08.2026).
+>
+> Von hier stammten in den beiden Dateien allein die
+> `BA MODIFICATION`-Kommentarblöcke — drei an der Zahl. Sie waren beim
+> Vergleich gegen den Tag `v2.1.1` entstanden, also gegen den falschen Stand,
+> und schrieben der Arbeit dadurch eine Leistung zu, die Upstream erbracht
+> hat. **Sie wurden am 21.09.2026 entfernt.** Beide Dateien sind seitdem
+> byte-identisch zum Upstream (siehe den `diff -r`-Beleg oben); an ihrem Code
+> hat sich dabei nichts geändert, weil die Blöcke reiner Kommentar waren.
+> Der Eigenanteil an SmartBugs besteht aus `sb/docker.py`, `sb/tools.py` und
+> `.gitignore`.
 
 #### Der Schlüssel-Mechanismus (zwei Dateien, funktional untrennbar)
 
@@ -119,23 +176,29 @@ Stellen sind im Quelltext kommentiert.
 > `# --- BA MODIFICATION <n>: END ---`. `grep -rn "BA MODIFICATION" smartbugs/sb`
 > listet alle auf; ein Kopfkommentar in `docker.py` erklärt die Konvention.
 >
-> | Datei | Blöcke |
-> |---|---:|
-> | `sb/docker.py` | 5 |
-> | `sb/tools.py` | 2 |
-> | `sb/analysis.py` | 2 |
-> | `sb/solidity.py` | 1 |
+> | Datei | Blöcke | |
+> |---|---:|---|
+> | `sb/docker.py` | 5 | eigener Code |
+> | `sb/tools.py` | 2 | eigener Code |
+> | `sb/analysis.py` | 2 | gegenstandslos, siehe Kasten in 2.1 |
+> | `sb/solidity.py` | 1 | gegenstandslos, siehe Kasten in 2.1 |
 >
 > Wo ein Block Upstream-Code **ersetzt** statt nur ergänzt, steht die ersetzte
 > Fassung wörtlich als Kommentar im Block, eingeleitet mit „restore it to undo
 > this block". Das Rückgängigmachen ist damit rein mechanisch: Block löschen,
 > zitierte Zeilen einsetzen.
 >
-> Nachgeprüft: Ein Skript entfernt alle zehn Blöcke, setzt die zitierten Zeilen
-> ein und vergleicht mit dem Upstream `v2.1.1` — alle vier Dateien stimmen
-> danach überein (bis auf Leerzeilen) und übersetzen weiterhin. Es ist also
-> weder eigener Code unmarkiert geblieben noch fremder versehentlich
-> mitmarkiert.
+> Nachgeprüft gegen `7ddaf6c`: Entfernt man die sieben Blöcke aus `docker.py`
+> und `tools.py` und setzt die zitierten Zeilen ein, stimmen beide Dateien mit
+> dem Upstream überein (bis auf Leerzeilen) und übersetzen weiterhin. Die
+> übrigen Dateien in `sb/` sind ohnehin byte-identisch.
+>
+> Eine Einschränkung: In `sb/docker.py` steht **außerhalb** der Blöcke ein
+> Kopfkommentar von gut zwanzig Zeilen, der die Markierungskonvention erklärt.
+> Er ist eigener Text in einer fremden Datei und bleibt bei einem Rückbau
+> stehen. Die frühere Formulierung „weder eigener Code unmarkiert geblieben"
+> traf für ihn nicht zu; er ändert kein Verhalten, ist aber hiermit
+> ausgewiesen.
 
 #### Aufräumen der Task-Verzeichnisse unter Windows (dieselbe Datei)
 
@@ -162,24 +225,43 @@ in `BA-DEMOLAUF-ERGEBNIS.md`, Abschnitt 2.
 Abgesichert durch `tests/test_docker_cleanup.py` (normaler Fall,
 vorübergehende Sperre, dauerhafte Sperre).
 
-#### Zwei kleinere Eingriffe und ein Formatter-Artefakt
+#### Ein kleinerer Eingriff
 
 | Datei | Was | Warum |
 |---|---|---|
-| `sb/solidity.py` | `CONTRACT_NAMES`: `([A-Za-z0-9_]*)` → `([a-zA-Z$_][a-zA-Z0-9$_]*)` | Das Upstream-Muster akzeptiert einen mit einer Ziffer beginnenden Namen und kennt `$` nicht, das in Solidity-Bezeichnern zulässig ist. Betrifft, welche Contract-Namen SmartBugs in einer Datei findet |
-| `sb/analysis.py` | `os.makedirs(task.rdir)` in `try/except` gekapselt; das `time.sleep` zwischen den Wiederholungen aus dem Schleifenrumpf in den `except`-Zweig verschoben | Schlägt `makedirs` fehl, greift die unmittelbar folgende `isdir`-Prüfung und wirft SmartBugs' eigenen `SmartBugsError` mit klarer Meldung statt eines rohen `OSError`. Die Verschiebung des `sleep` ist eine Umstellung ohne Verhaltensänderung |
-| `sb/io.py` | `return(x)` → `return x`, ein Kommentar-Leerzeichen | **Kein eigener Eingriff, sondern ein Formatter-Artefakt** — siehe Hinweis unter der Tabelle |
 | `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` bleibt unverändert ignoriert |
 
-> **`sb/io.py` zählt nicht als Eigenanteil.** Die beiden Abweichungen sind
-> exakt das, was `black` erzeugt — und `black` mit `line-length = 100` ist in
-> SmartBugs' eigener `pyproject.toml` konfiguriert. Nachgeprüft: Lässt man
-> `black --line-length 100` auf die Upstream-Fassung von `sb/io.py` los,
-> entsteht **byte-identisch** die hier vorliegende Datei. Dieselbe Probe an
-> `tools.py`, `solidity.py`, `analysis.py` und `docker.py` schlägt fehl — deren
-> Änderungen sind inhaltlich und bleiben nach einem `black`-Lauf bestehen.
-> `io.py` ist damit ein Nebenprodukt eines Formatter-Laufs, keine
-> Programmierleistung, und wird hier nur der Vollständigkeit halber geführt.
+> **Eine siebte Upstream-Datei ist weiterhin ausgeschlossen.** Der Anker
+> `/results*` greift im Verzeichnis `smartbugs/` selbst und trifft dort neben
+> `results/` auch den Bash-Wrapper `smartbugs/results2csv`:
+>
+> ```
+> $ git check-ignore -v smartbugs/results2csv
+> smartbugs/.gitignore:45:/results*   smartbugs/results2csv
+> ```
+>
+> Die Datei liegt im Arbeitsbaum, erreicht aber keinen Commit und fehlt daher
+> in einem frischen Klon. Folgenlos für den dokumentierten Ablauf: `README.md`
+> schreibt `python -m sb.results2csv results` vor, und das Modul
+> `sb/results2csv.py` ist versioniert. Betroffen ist allein der
+> Kommandozeilen-Wrapper neben `smartbugs` und `reparse`.
+
+> **`sb/io.py` ist kein Eigenanteil und steht deshalb nicht mehr in dieser
+> Tabelle.** Frühere Fassungen führten die Datei mit den Abweichungen
+> `return(x)` → `return x` und einem Kommentar-Leerzeichen und erklärten sie
+> als Artefakt eines `black`-Laufs. Beides war ein Fehlschluss aus dem
+> falschen Vergleichsstand: Gegen `7ddaf6c` ist `sb/io.py` **byte-identisch**
+> zum Upstream. Die Umformatierung stammt von Upstream selbst, aus Commit
+> `921f9b5` („add tests, push coverage to 100 %"), der zwischen dem Tag
+> `v2.1.1` und dem hier geklonten Stand liegt.
+
+> **`uv.lock` ist kein Eigenanteil.** Die Datei ist gegenüber dem Upstream neu
+> und dort nicht vorhanden. Sie entsteht, wenn `uv` das in SmartBugs'
+> `pyproject.toml` bereits deklarierte Abhängigkeitsgefüge auflöst — sie
+> enthält keine eigene Auswahl und keinen eigenen Code, sondern schreibt die
+> tatsächlich installierten Versionen fest. Sie ist versioniert, weil sie die
+> Umgebung reproduzierbar macht, in der die Messungen gelaufen sind.
+> `poetry.lock` bleibt unverändert daneben stehen.
 
 Die sechs durch die `.gitignore`-Korrektur zurückgewonnenen Dateien sind
 sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:
@@ -202,8 +284,8 @@ Instanz.
 
 ### 2.2 GPTScan — 7 geänderte Dateien
 
-Von den 66 getrackten Dateien sind 38 unverändert, 21 neu (siehe oben) und
-7 geändert; die Summe ergibt genau die 66:
+Von den 64 getrackten Dateien sind 38 unverändert, 19 neu (siehe oben) und
+7 geändert; die Summe ergibt genau die 64:
 
 | Datei | Was | Warum |
 |---|---|---|
@@ -292,7 +374,7 @@ Maßstab für „Aufwand" ist grob geschätzte Arbeit, nicht Codezeilen: **klein
 eine Sitzung, **mittel** = mehrere Tage mit neuen Tests, **groß** = eigene
 Konstruktion mit laufender Pflege.
 
-#### Die zehn markierten Blöcke in `smartbugs/sb/`
+#### Die sieben markierten Blöcke in `smartbugs/sb/`
 
 | # | Datei, Block | Was | Ohne den Eingriff geht nicht | Anderer Weg | Aufwand des anderen Wegs | Upstream-tauglich? |
 |---|---|---|---|---|---|---|
@@ -303,15 +385,17 @@ Konstruktion mit laufender Pflege.
 | 5 | `docker.py` 5 | ersetzt die durchgereichten Werte vor der Rückgabe durch `<redacted>` | der Schlüssel stünde im Klartext in jeder `results/**/smartbugs.json` | nachträglich säubern (`analysis_tools/redact_results.py` tut genau das für Altläufe) | **mittel** und grundsätzlich unterlegen: Zwischen Schreiben und Säubern liegt ein Zeitfenster, in dem der Schlüssel auf der Platte steht. Genau daran lagen die 62 betroffenen Altdateien (Protokoll, Fehler #13) | **ja**, gehört untrennbar zu Block 2. Ein Durchreichen ohne Redaktion wäre eine Sicherheitslücke, die das Projekt sich nicht einhandeln will |
 | 6 | `tools.py` 1 | `"env"` in `FIELDS` | `env:` in der `config.yaml` wird ignoriert, Block 2 läuft ins Leere | keiner — `FIELDS` ist die Allowlist, die SmartBugs aus einer `config.yaml` liest | — | mit Block 2 |
 | 7 | `tools.py` 2 | Feld `env: Optional[str]` in der `Tool`-Dataclass | dito | keiner | — | mit Block 2 |
-| 8 | `analysis.py` 1 | `os.makedirs(task.rdir)` in `try/except` | nichts Hartes. Ohne den Block kommt statt SmartBugs' eigener Fehlermeldung ein roher `OSError` | Eingriff weglassen und die schlechtere Meldung hinnehmen | **null** | **eher ja**, aber unbedeutend. Reine Diagnosequalität, kein Verhaltensunterschied im Erfolgsfall |
-| 9 | `analysis.py` 2 | `time.sleep` aus dem Schleifenrumpf in den `except`-Zweig | nichts. **Verhaltensgleich** — der Erfolgspfad verlässt die Schleife ohnehin per `break` | Eingriff weglassen | **null** | **nein.** Kosmetik. Gehört in keinen PR, weil er einen Reviewer Zeit kostet, ohne etwas zu ändern. Rückblickend wäre es besser gewesen, ihn gar nicht erst vorzunehmen |
-| 10 | `solidity.py` 1 | `CONTRACT_NAMES`: `([A-Za-z0-9_]*)` → `([a-zA-Z$_][a-zA-Z0-9$_]*)` | Contract-Namen mit `$` werden nicht gefunden; Namen, die mit einer Ziffer beginnen, fälschlich akzeptiert | keiner innerhalb von SmartBugs — das Muster ist die einzige Stelle, an der Contract-Namen erkannt werden | — | **ja.** Eine schlichte Korrektur gegen die Solidity-Grammatik, unabhängig von dieser Arbeit. Betrifft alle Werkzeuge, die `--main` benutzen |
 
-**Zusammengefasst.** Von zehn Blöcken sind fünf (2, 5, 6, 7 und zusammen 1/3/4)
-alternativlos, wenn man LLM-gestützte Werkzeuge überhaupt unter SmartBugs
-betreiben will. Zwei (8, 9) hätte man auch lassen können; Block 9 ist reine
-Kosmetik und der einzige, den man rückblickend nicht wieder so machen würde.
-Block 10 ist eine Fehlerkorrektur, die mit dieser Arbeit nichts zu tun hat.
+**Zusammengefasst.** Alle sieben verbliebenen Blöcke sind alternativlos, wenn
+man LLM-gestützte Werkzeuge überhaupt unter SmartBugs betreiben will: 2, 5, 6
+und 7 tragen den Schlüssel-Mechanismus, 1/3/4 zusammen das Aufräumen unter
+Windows. Es bleibt kein Eingriff übrig, den man ebenso gut hätte lassen
+können.
+
+> Drei weitere Blöcke standen bis zum 21.09.2026 in `analysis.py` (2) und
+> `solidity.py` (1) und wurden hier mitbewertet. Sie waren gegenstandslos —
+> der von ihnen beschriebene Code stammt vom Upstream — und sind entfernt;
+> siehe den Kasten in Abschnitt 2.1.
 
 #### Die Änderungen an GPTScan und LLMSmartAudit
 
@@ -356,8 +440,8 @@ git clone --filter=blob:none --sparse \
 git -C /tmp/up-llmsa sparse-checkout set --no-cone '/*' '!/evaluation'
 git -C /tmp/up-llmsa checkout c507fe4
 
-git clone --depth 1 --branch v2.1.1 \
-    https://github.com/smartbugs/smartbugs.git /tmp/up-smartbugs
+git clone https://github.com/smartbugs/smartbugs.git /tmp/up-smartbugs
+git -C /tmp/up-smartbugs checkout 7ddaf6c
 
 diff -r -q --exclude=.git GPTScan /tmp/up-gptscan
 diff -r -q --exclude=.git LLMSmartAuditTool-main/LLMSmartAuditTool-main /tmp/up-llmsa

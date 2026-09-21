@@ -1,11 +1,11 @@
 # ===========================================================================
-# NOTE: this file differs from SmartBugs upstream v2.1.1 (01c0e66).
+# NOTE: this file differs from SmartBugs upstream 7ddaf6c (= v2.1.1-7-g7ddaf6c).
 #
 # Every own change is wrapped in a pair of numbered marker comments; grep for
 # "BA MODIFICATION" to list them all. Deleting the five marked blocks — and
 # restoring the upstream code quoted inside block 4 — returns this file to its
-# upstream state. The same marker convention is used in sb/tools.py,
-# sb/solidity.py and sb/analysis.py.
+# upstream state. The same convention is used in sb/tools.py; those two files
+# are the only ones in sb/ that carry own code.
 #
 #   1  import time                       required by block 3
 #   2  env passthrough in __docker_args  API key / model into the container

@@ -79,18 +79,9 @@ def remove_strings(program: str) -> str:
 
 
 PRAGMA: re.Pattern[str] = re.compile(r"pragma\s+solidity\s*(.*?);")
-# --- BA MODIFICATION 1: BEGIN ---
-# The upstream character class accepts a name starting with a digit and does
-# not know "$", which is a legal character in Solidity identifiers. This
-# affects which contract names SmartBugs finds in a file.
-# Upstream version, restore it to undo this block:
-# CONTRACT_NAMES: re.Pattern[str] = re.compile(
-#     r"(?:contract|library)\s+([A-Za-z0-9_]*)(?:\s*{|\s+is\s)"
-# )
 CONTRACT_NAMES: re.Pattern[str] = re.compile(
     r"(?:contract|library)\s+([a-zA-Z$_][a-zA-Z0-9$_]*)(?:\s*{|\s+is\s)"
 )
-# --- BA MODIFICATION 1: END ---
 
 
 def extract_versions_contractnames(program: Union[str, list[str]]) -> tuple[list[str], list[str]]:
