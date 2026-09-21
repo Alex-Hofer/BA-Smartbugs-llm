@@ -190,6 +190,44 @@ try {
     }
     Write-Log ("Aus $EnvFile geladen: " + ($loaded -join ', ') + " (Werte werden nie ausgegeben).")
 
+    # ------------------------------------ Rangfolge: Parameter > .env > Standard
+    # Bis 21.09.2026 ueberschrieb dieses Skript jeden Anbieter- und Modelleintrag
+    # aus der .env mit seinem eigenen Standardwert. Wer dort deepseek-v4-pro
+    # eintrug, bekam stillschweigend deepseek-v4-flash - sichtbar erst an den
+    # Kostenzahlen. $PSBoundParameters unterscheidet "ausdruecklich uebergeben"
+    # von "Standard eingesetzt"; nur im zweiten Fall greift die .env.
+    $fromEnv = New-Object System.Collections.Generic.List[string]
+
+    if (-not $PSBoundParameters.ContainsKey('Provider')) {
+        $envProv = @($env:GPTSCAN_PROVIDER, $env:LLM_PROVIDER) |
+                   Where-Object { $_ } | Select-Object -Unique
+        if ($envProv.Count -gt 1) {
+            throw ("GPTSCAN_PROVIDER und LLM_PROVIDER stehen in $EnvFile auf " +
+                   "verschiedenen Werten ($($envProv -join ', ')). -Provider gilt " +
+                   "fuer beide Werkzeuge: bitte angleichen oder -Provider ausdruecklich uebergeben.")
+        }
+        if ($envProv.Count -eq 1) { $Provider = $envProv[0]; $fromEnv.Add("Provider=$Provider") }
+    }
+    # -Model deckt beide Werkzeuge ab, deshalb schlaegt auch ein ausdrueckliches
+    # -Model den werkzeugspezifischen .env-Eintrag.
+    if (-not $PSBoundParameters.ContainsKey('GptscanModel') -and
+        -not $PSBoundParameters.ContainsKey('Model') -and $env:GPTSCAN_MODEL) {
+        $GptscanModel = $env:GPTSCAN_MODEL; $fromEnv.Add("GptscanModel=$GptscanModel")
+    }
+    if (-not $PSBoundParameters.ContainsKey('LlmModel') -and
+        -not $PSBoundParameters.ContainsKey('Model') -and $env:LLM_MODEL) {
+        $LlmModel = $env:LLM_MODEL; $fromEnv.Add("LlmModel=$LlmModel")
+    }
+    if (-not $PSBoundParameters.ContainsKey('BaseUrl')) {
+        $envUrl = @($env:GPTSCAN_BASE_URL, $env:LLM_BASE_URL) |
+                  Where-Object { $_ } | Select-Object -Unique
+        if ($envUrl.Count -eq 1) { $BaseUrl = $envUrl[0]; $fromEnv.Add("BaseUrl=$BaseUrl") }
+    }
+    if ($fromEnv.Count) {
+        Write-Log ("Aus $EnvFile uebernommen: " + ($fromEnv -join ', ') +
+                   " (ein ausdruecklicher Parameter haette Vorrang).")
+    }
+
     # Pflichtschluessel je Anbieter - siehe GPTScan/src/config.py:PROVIDERS und
     # LLMSmartAuditTool run.py.
     $requiredKeys = @()

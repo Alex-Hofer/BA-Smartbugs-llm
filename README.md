@@ -258,6 +258,76 @@ Die vier Runner-Skripte nehmen die Wahl als Parameter entgegen — `-Provider`,
 `-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen. Wer ohne
 Runner arbeitet, setzt sie selbst (letztes Beispiel unten).
 
+### Drei Wege, dasselbe einzustellen — und welcher gewinnt
+
+Anbieter und Modell lassen sich an drei Stellen festlegen. Es gilt eine feste
+Rangfolge, **von oben nach unten**:
+
+| Rang | Wo | Gilt für |
+|---|---|---|
+| **1** | Parameter am Runner: `-Provider`, `-Model`, … | genau diesen einen Lauf |
+| **2** | Eintrag in `GPTScan\.env` | jeden Lauf, bis man ihn ändert |
+| **3** | eingebauter Standard (`deepseek` / `deepseek-v4-flash`) | wenn sonst nichts gesetzt ist |
+
+Ein ausdrücklich übergebener Parameter schlägt also immer die `.env`, und die
+`.env` schlägt den Standard. Was tatsächlich gegriffen hat, steht in jedem
+Lauflog:
+
+```
+Aus ...\GPTScan\.env uebernommen: Model=deepseek-v4-pro (ein ausdruecklicher Parameter haette Vorrang).
+Backend: provider=deepseek, GPTScan-Modell=deepseek-v4-pro, LLMSA-Modell=deepseek-v4-pro
+```
+
+> **Bis zum 21.09.2026 war das anders**, und der Unterschied war teuer: Die
+> Runner überschrieben jeden `.env`-Eintrag mit ihrem eigenen Standardwert. Wer
+> dort `GPTSCAN_MODEL=deepseek-v4-pro` eintrug, bekam stillschweigend
+> `deepseek-v4-flash` — zu merken erst an den Kostenzahlen. Seither wird ein
+> `.env`-Eintrag übernommen, sofern der Parameter nicht ausdrücklich übergeben
+> wurde, und die Übernahme wird protokolliert.
+
+**Beide Schlüssel dürfen gleichzeitig in der `.env` stehen.** Welcher gebraucht
+wird, ergibt sich aus dem Anbieter; der jeweils andere bleibt unbenutzt. Fehlt
+der gebrauchte, bricht der Runner ab, **bevor** ein Container startet.
+
+### Beispiel: dauerhaft auf das starke Modell umstellen
+
+In `GPTScan\.env` eintragen — der Schlüssel bleibt, zwei Zeilen kommen dazu:
+
+```
+DEEPSEEK_API_KEY=sk-...
+OPENAI_API_KEY=sk-...
+
+GPTSCAN_MODEL=deepseek-v4-pro
+LLM_MODEL=deepseek-v4-pro
+```
+
+Danach genügt der Aufruf ohne Parameter:
+
+```powershell
+.\run_curated.ps1                      # nimmt deepseek-v4-pro aus der .env
+```
+
+Und für einen einzelnen Lauf wieder zurück auf das günstige Modell, ohne die
+Datei anzufassen:
+
+```powershell
+.\run_curated.ps1 -Model deepseek-v4-flash    # Parameter schlaegt .env
+```
+
+Verfügbare Modelle (aus `GPTScan/src/config.py`, `PROVIDERS`):
+
+| Anbieter | günstig (Standard) | stark |
+|---|---|---|
+| `deepseek` | `deepseek-v4-flash` | `deepseek-v4-pro` |
+| `openai` | `gpt-3.5-turbo` | `gpt-4` |
+
+Welche `.env`-Namen die Runner auswerten: `GPTSCAN_PROVIDER`, `GPTSCAN_MODEL`,
+`GPTSCAN_BASE_URL` für GPTScan; `LLM_PROVIDER`, `LLM_MODEL`, `LLM_BASE_URL`,
+`LLM_CONTEXT_TOKENS`, `LLM_MAX_COMPLETION_TOKENS` für LLMSmartAudit. In
+`run_curated.ps1`, das beide Werkzeuge steuert, gilt `-Provider` für beide —
+stehen `GPTSCAN_PROVIDER` und `LLM_PROVIDER` dort auf **verschiedenen** Werten,
+bricht der Runner mit einer Meldung ab, statt sich einen auszusuchen.
+
 | Variable | Werkzeug | Standard | Wo sie gelesen wird |
 |---|---|---|---|
 | `DEEPSEEK_API_KEY` | beide | — (**Pflicht** bei Provider `deepseek`) | `GPTScan/src/config.py`; bei LLMSmartAudit über `run.py` → `camel/model_backend.py` |

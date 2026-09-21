@@ -189,6 +189,24 @@ try {
     }
     Write-Log ("Aus $EnvFile geladen: " + ($loaded -join ', ') + " (Werte werden nie ausgegeben).")
 
+    # ------------------------------------ Rangfolge: Parameter > .env > Standard
+    # Ohne diese Aufloesung ueberschrieb der Runner jeden .env-Eintrag mit seinem
+    # eigenen Standardwert - ein dort eingetragenes Modell blieb wirkungslos.
+    $fromEnv = New-Object System.Collections.Generic.List[string]
+    if (-not $PSBoundParameters.ContainsKey('Provider') -and $env:GPTSCAN_PROVIDER) {
+        $Provider = $env:GPTSCAN_PROVIDER; $fromEnv.Add("Provider=$Provider")
+    }
+    if (-not $PSBoundParameters.ContainsKey('Model') -and $env:GPTSCAN_MODEL) {
+        $Model = $env:GPTSCAN_MODEL; $fromEnv.Add("Model=$Model")
+    }
+    if (-not $PSBoundParameters.ContainsKey('BaseUrl') -and $env:GPTSCAN_BASE_URL) {
+        $BaseUrl = $env:GPTSCAN_BASE_URL; $fromEnv.Add("BaseUrl=$BaseUrl")
+    }
+    if ($fromEnv.Count) {
+        Write-Log ("Aus $EnvFile uebernommen: " + ($fromEnv -join ', ') +
+                   " (ein ausdruecklicher Parameter haette Vorrang).")
+    }
+
     $keyVar = switch ($Provider) {
         'deepseek' { 'DEEPSEEK_API_KEY' }
         'openai'   { 'OPENAI_API_KEY' }

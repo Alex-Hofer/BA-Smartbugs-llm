@@ -124,6 +124,27 @@ foreach ($line in Get-Content $EnvFile) {
         if ($value) { Set-Item -Path "Env:$name" -Value $value }
     }
 }
+# ------------------------------------ Rangfolge: Parameter > .env > Standard
+# Ohne diese Aufloesung ueberschrieb der Runner jeden .env-Eintrag mit seinem
+# eigenen Standardwert - ein dort eingetragenes Modell blieb wirkungslos.
+$fromEnv = New-Object System.Collections.Generic.List[string]
+if (-not $PSBoundParameters.ContainsKey('Provider') -and $env:LLM_PROVIDER) {
+    $Provider = $env:LLM_PROVIDER; $fromEnv.Add("Provider=$Provider")
+}
+if (-not $PSBoundParameters.ContainsKey('Model') -and $env:LLM_MODEL) {
+    $Model = $env:LLM_MODEL; $fromEnv.Add("Model=$Model")
+}
+if (-not $PSBoundParameters.ContainsKey('BaseUrl') -and $env:LLM_BASE_URL) {
+    $BaseUrl = $env:LLM_BASE_URL; $fromEnv.Add("BaseUrl=$BaseUrl")
+}
+if (-not $PSBoundParameters.ContainsKey('ContextTokens') -and $env:LLM_CONTEXT_TOKENS) {
+    $ContextTokens = [int]$env:LLM_CONTEXT_TOKENS; $fromEnv.Add("ContextTokens=$ContextTokens")
+}
+if (-not $PSBoundParameters.ContainsKey('MaxCompletionTokens') -and $env:LLM_MAX_COMPLETION_TOKENS) {
+    $MaxCompletionTokens = [int]$env:LLM_MAX_COMPLETION_TOKENS
+    $fromEnv.Add("MaxCompletionTokens=$MaxCompletionTokens")
+}
+
 $keyVar = switch ($Provider) {
     'deepseek' { 'DEEPSEEK_API_KEY' }
     default    { 'OPENAI_API_KEY' }   # openai und custom lesen beide OPENAI_API_KEY
@@ -144,6 +165,10 @@ if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompleti
 else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
 
 Write-Log "Volllauf LLMSmartAudit, Korpus=$Corpus, Processes=$Processes, Kostendeckel=`$$CostCeiling"
+if ($fromEnv.Count) {
+    Write-Log ("Aus $EnvFile uebernommen: " + ($fromEnv -join ', ') +
+               " (ein ausdruecklicher Parameter haette Vorrang).")
+}
 Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
 Write-Log "API-Key gesetzt: ja, $keyVar ($((Get-Item -Path ""Env:$keyVar"").Value.Length) Zeichen, Wert wird nicht protokolliert)"
 Write-Log "MAIN: nicht gesetzt (siehe Kopfkommentar)"
