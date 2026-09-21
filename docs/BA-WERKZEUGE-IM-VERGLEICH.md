@@ -297,8 +297,20 @@ mindestens ein Finding melden:
 | Paare (Contract, Detektor) in beiden Läufen | 805 |
 | nur im ersten Lauf | 291 |
 | nur im zweiten Lauf | 216 |
-| Übereinstimmung (Jaccard) | **61,4 %** |
+| Übereinstimmung (Jaccard), über die 141 Contracts mit Findings in beiden Läufen | **61,4 %** |
+| Übereinstimmung (Jaccard), über alle 142 Contracts mit Findings in mindestens einem Lauf | **60,5 %** |
 | Contracts mit **identischem** Detektor-Satz | **7 von 141 = 5,0 %** |
+
+> **Welche der beiden Zahlen gilt.** Die 61,4 % lassen einen Contract außen vor
+> — `0x663e4229…`, mit 18 Detektoren in Lauf 1 und **keinem** Finding in Lauf 2,
+> weil der Lauf dort am Kontextfenster scheiterte. Das ist kein Zufallsrauschen,
+> sondern ein systematischer Ausfall, und ihn auszuschließen schmeichelt der
+> Übereinstimmung. Über alle 142 Contracts gerechnet sinkt der Jaccard auf
+> 60,5 % (805 von 1 330 Paaren). Der Unterschied ist klein, die Richtung aber
+> eindeutig: 61,4 % ist die **Obergrenze**. Umgekehrt ist der Ausschluss nicht
+> willkürlich — ein Contract ohne jedes Finding trägt zur Frage, wie stabil die
+> *Detektor-Auswahl* ist, nichts bei. Beide Zahlen stehen hier, damit die
+> Entscheidung nachvollziehbar bleibt.
 
 Das ist deutlich instabiler als GPTScan. Dort stimmten 74 % der Contracts im
 Finding-Satz überein, hier 5 %. Der Grund liegt in der Finding-Dichte: Bei
