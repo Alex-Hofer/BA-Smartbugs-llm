@@ -354,9 +354,26 @@ und der aufbewahrte Beispielreport unter `WareHouse/VaultDS5_sb_20260630223101/`
   > gebautes Prüf-Image und hielten fest, der eigentliche Tag sei „weiterhin
   > 5,13 GB groß". Das war bereits überholt: Abschnitt 4.5 des
   > Durchführungsprotokolls berichtet denselben Tag am 18.08.2026 mit 586 MB.
-  > Die Messung vom 20.09.2026 bestätigt diese Größenordnung; die Abweichung
-  > von einem Megabyte liegt an der Rundung und an aktualisierten
-  > pip-Abhängigkeiten.
+  >
+  > **Die drei Zahlen 586 / 587 / 590 MB sind am 21.09.2026 restlos
+  > aufgeklärt.** Es sind drei verschiedene Builds, die alle drei noch lokal
+  > vorliegen:
+  >
+  > ```
+  > smartbugs/llmsmartaudit:1.0     587MB   2026-09-20   <- der benutzte Tag
+  > llmsmartaudit-fromrepo:verify   590MB   2026-08-02   <- Pruef-Build aus dem Repo
+  > llmsmartaudit-reduced:verify    586MB   2026-08-02   <- Pruef-Build der Verkleinerung
+  > ```
+  >
+  > Kein Widerspruch also, sondern drei Messpunkte über sieben Wochen, deren
+  > Spanne von vier Megabyte auf aktualisierte pip-Abhängigkeiten zurückgeht.
+  > Maßgeblich ist allein der erste: Er trägt den Tag, den
+  > `tools/llmsmartaudit/config.yaml` referenziert.
+  >
+  > Beim selben Termin gegengeprüft: Im Image liegt **kein**
+  > `evaluation/`-Verzeichnis (0 von 11 711 Einträgen), die Verkleinerung ist
+  > also tatsächlich wirksam und nicht bloß behauptet. Das Image enthält weder
+  > eine `.env`-Datei noch ein Schlüsselmuster.
   >
   > **Die aufgezeichneten Messläufe entstanden mit dem ursprünglichen,
   > 5,13 GB großen Image.** Auf ihre Ergebnisse hat der Neubau keinen Einfluss:

@@ -172,6 +172,15 @@ liegen: Sie enthalten den **für diese Arbeit geänderten** Fremdcode (siehe
 GPTScan zusätzlich eine AGPL-3.0-Weitergabe. Slither dagegen ist unverändert und
 kommt fertig.
 
+> Am 21.09.2026 nachgeprüft, nicht bloß behauptet: Unter `/opt/gptscan/src/`
+> im Image liegen alle sieben geänderten Dateien — `tasks.py`, `config.py`,
+> `chatgpt_api.py`, `analyze_pipeline.py`, `rich_utils.py` — sowie die beiden
+> eigenen, `llm_backend.py` und `report_md.py`, jede **byte-identisch** zum
+> Stand in diesem Repository. Das Image trägt also tatsächlich modifizierten
+> AGPL-3.0-Code; seine Weitergabe löste die Copyleft-Pflichten aus. Zugleich
+> belegt der Abgleich, dass das Image zum Repo-Stand passt, aus dem die
+> Messungen stammen.
+
 Beide KI-Werkzeuge brauchen `network: bridge`, um die LLM-API zu erreichen;
 SmartBugs isoliert Tool-Container sonst mit `network: none`. Slither bleibt
 isoliert — es telefoniert nirgendwohin.
@@ -198,6 +207,23 @@ an den Langpfaden des Tool-Baums.
 Gemessene Größen: `smartbugs/gptscan:1.0` 2,14 GB (Neubau 18.08.2026,
 `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5), `smartbugs/llmsmartaudit:1.0`
 **587 MB** (Neubau 20.09.2026 aus dem aktuellen Repo-Stand).
+
+Am 21.09.2026 gegengeprüft — `docker images` bestätigt beide Werte und beide
+Baudaten:
+
+```
+smartbugs/llmsmartaudit:1.0   587MB    2026-09-20 15:46
+smartbugs/gptscan:1.0         2.14GB   2026-08-18 18:16
+```
+
+Beim selben Termin geprüft: Beide Images enthalten **keine `.env`-Datei** und
+**kein Schlüsselmuster** (Export des Dateisystems, 31 337 bzw. 9 900 Einträge;
+die vier Treffer auf `sk-…` stammen sämtlich aus der SPDX-Lizenzliste
+`packaging/licenses/_spdx.py`, wo `asterisk-linking-protocols-exception`
+steht). Im LLMSmartAudit-Image liegt **kein** `evaluation/`-Verzeichnis — der
+benutzte Tag trägt also die verkleinerte Fassung, nicht das 5,13-GB-Original.
+Die einzige eingebrannte Variable ist `LLM_MODEL=deepseek-chat`, weshalb die
+Host-Variable Pflicht ist (siehe unten).
 
 ### API-Schlüssel setzen
 
