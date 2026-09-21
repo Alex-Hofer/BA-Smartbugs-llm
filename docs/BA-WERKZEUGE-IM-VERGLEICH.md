@@ -322,8 +322,11 @@ fairere Maß.
    Validation 105 → 87, Reentrancy 70 → 56). Zufallsstreuung wäre symmetrisch.
    Die Zahl ist deshalb eine **Obergrenze für die Stabilität**, nicht eine
    Messung reiner Sampling-Varianz.
-4. Die Rohergebnisse von `llmsa_curated_v2` existieren nicht mehr; seine Seite
-   des Vergleichs ist nur noch über die abgeleitete `findings.jsonl` belegt.
+4. Die Rohergebnisse von `llmsa_curated_v2` liegen beim Co-Autor und nicht in
+   diesem Arbeitsbaum; hier ist seine Seite des Vergleichs über die
+   abgeleitete `findings.jsonl` belegt. Deren Treue zum Rohmaterial wurde am
+   21.09.2026 auf dem Rechner des Co-Autors gegengeprüft: 143 Task-Ordner,
+   Summe der Findings 1 028 — identisch mit der `findings.jsonl`.
 
 Slither ist deterministisch.
 
@@ -398,9 +401,14 @@ verortet werden.
    beschreiben, nicht messen.
 2. **Keine Aussage über einen Werkzeug-Verbund.** Ob GPTScan und Slither
    zusammen mehr finden als LLMSmartAudit allein, wurde nicht untersucht.
-3. **Ein Lauf ist keine Verteilung.** Bei 74 % Lauf-zu-Lauf-Übereinstimmung
-   sind alle Findingzahlen der KI-Werkzeuge Stichproben aus einer Streuung, die
-   nicht quantifiziert ist.
+3. **Ein Lauf ist keine Verteilung.** Alle Findingzahlen der KI-Werkzeuge sind
+   Stichproben aus einer Streuung. Diese ist für beide Werkzeuge beziffert —
+   GPTScan 74 % Lauf-zu-Lauf-Übereinstimmung, LLMSmartAudit 61,4 % (Jaccard)
+   bzw. 5 % identische Detektor-Sätze, siehe Abschnitt 4.4 —, beruht aber je
+   Werkzeug auf nur **zwei** Läufen. Zwei Läufe ergeben eine Spannweite, keine
+   Verteilung: Streuungsmaße wie Standardabweichung oder Konfidenzintervalle
+   sind daraus nicht ableitbar. Slither ist als deterministisches Werkzeug
+   nicht betroffen.
 4. **Nur ein Modell.** Alle Messungen liefen mit `deepseek-v4-flash`, dem
    billigen Tier. Ob ein stärkeres Modell die Bilanz verschiebt, ist offen — der
    Wechsel wäre nach `README.md`, Abschnitt „Modell wählen und wechseln", ohne

@@ -11,10 +11,19 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 > also **nicht** wiederholen. Was in diesem Ordner liegt, ist die einzige im
 > Repository erhaltene Fassung des Laufs.
 >
-> **Stand 20.09.2026: die Rohergebnisse dieses Laufs existieren nicht mehr.**
-> Die des Schwesterlaufs `llmsa_mwefixed_v2` sind übernommen worden, diese sind
-> auch beim Co-Autor nicht mehr vorhanden. Der Lauf lässt sich daher weder
-> reparsen noch in die Errors/Fails-Bilanz oder das Parser-Audit aufnehmen.
+> **Stand 21.09.2026: die Rohergebnisse liegen weiterhin beim Co-Autor, nicht
+> in diesem Arbeitsbaum.** Eine Gegenprüfung auf dessen Rechner am 21.09.2026
+> fand unter `smartbugs/results/llmsmartaudit/llmsa_curated_v2/` 143
+> vollständige Task-Verzeichnisse vom 15./16.08.2026; die Summe ihrer Findings
+> (1 028) stimmt exakt mit der `findings.jsonl` in diesem Ordner überein. Eine
+> frühere Fassung dieses Absatzes behauptete, die Rohdaten existierten
+> nirgends mehr — das war falsch und ist hiermit richtiggestellt.
+>
+> Für diesen Arbeitsbaum bleibt die Folge dieselbe: Solange die Daten nicht
+> übertragen sind, lässt sich der Lauf **hier** weder reparsen noch in die
+> Errors/Fails-Bilanz oder das Parser-Audit aufnehmen. Beides wäre nach einer
+> Übertragung möglich; die Bilanzen in `docs/errors-fails.md` und
+> `docs/parser-audit-nachher.md` führen ihn deshalb nicht.
 >
 > **Er ist trotzdem nicht wertlos, im Gegenteil.** Er ist der zweite
 > LLMSmartAudit-Lauf über denselben Korpus und damit die einzige Grundlage, auf
