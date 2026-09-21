@@ -149,7 +149,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 200 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 206 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -382,7 +382,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-200 Tests (Stand 20.09.2026): Regressionstests für beide Tool-Parser, das
+206 Tests (Stand 21.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:

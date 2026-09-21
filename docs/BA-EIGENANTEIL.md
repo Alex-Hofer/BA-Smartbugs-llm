@@ -170,6 +170,17 @@ Docker-Argumente wörtlich in jede `results/**/smartbugs.json` geschrieben
 werden; ohne sie steht der Schlüssel im Klartext in den Messdaten. Beide
 Stellen sind im Quelltext kommentiert.
 
+*Abgesichert durch* `tests/test_docker_env_redaction.py` (6 Tests): Weitergabe
+nur deklarierter **und** gesetzter Variablen, keine Weitergabe undeklarierter,
+kein `environment`-Schlüssel für Werkzeuge ohne `env:`-Feld, Redaktion der
+Werte in der Rückgabe, Erhalt der Variablennamen — und, als Gegenprobe, dass
+der Container den **echten** Wert erhält. Der letzte Punkt ist der wichtigste:
+Eine zu früh angesetzte Redaktion würde die Schlüssel-Prüfung bestehen und
+trotzdem jede Analyse still unbrauchbar machen, weil sich das Werkzeug dann mit
+der Zeichenkette `<redacted>` authentifizieren würde. Mutationsprobe am
+21.09.2026: Entfernt man die Redaktion, werden 2 Tests rot; entfernt man die
+Weitergabe, 5; redigiert man vor statt nach dem Lauf, 2.
+
 > **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in den vier
 > inhaltlich geänderten SmartBugs-Dateien sind in nummerierte Marker
 > eingefasst — `# --- BA MODIFICATION <n>: BEGIN ---` bis
