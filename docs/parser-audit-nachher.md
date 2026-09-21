@@ -2,6 +2,8 @@
 
 Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2289 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
 
+**Laufbestand dieses Berichts:** 48 Laeufe, 1272 Tasks, erzeugt am 21.09.2026. Ein Bericht ueber einen anderen Laufbestand ist damit nicht unmittelbar vergleichbar.
+
 Erzeugt mit `python analysis_tools/parser_audit.py`. Das Werkzeug liest das
 Container-Rohmaterial (`result.log`, `result.tar`, `smartbugs.json`, Exit-Code)
 mit eigenen Detektoren und prueft, ob jede gefundene Meldung in `result.json`

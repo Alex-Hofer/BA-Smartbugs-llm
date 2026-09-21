@@ -46,6 +46,7 @@ Usage
 
 import argparse
 import csv
+import datetime as _dt
 import os
 import re
 import sys
@@ -433,6 +434,14 @@ def write_md(rows: list[dict[str, Any]], per_run_tasks: Counter, path: str) -> N
         f"Geprueft: **{n_tasks} Task-Verzeichnisse** aus {len(per_run_tasks)} Laeufen, "
         f"**{len(rows)} extrahierte Rohmeldungen**, davon **{len(gaps)}** im "
         f"Parser-Output nicht wiederauffindbar.",
+        "",
+        # Ohne diese Zeile laesst sich ein aelterer Bericht nicht von einem neuen
+        # unterscheiden; zwei Berichte ueber verschieden grosse Laufbestaende
+        # duerfen nicht als Vorher/Nachher gelesen werden.
+        f"**Laufbestand dieses Berichts:** {len(per_run_tasks)} Laeufe, "
+        f"{n_tasks} Tasks, erzeugt am "
+        f"{_dt.date.today().strftime('%d.%m.%Y')}. Ein Bericht ueber einen "
+        f"anderen Laufbestand ist damit nicht unmittelbar vergleichbar.",
         "",
         "Erzeugt mit `python analysis_tools/parser_audit.py`. Das Werkzeug liest das",
         "Container-Rohmaterial (`result.log`, `result.tar`, `smartbugs.json`, Exit-Code)",

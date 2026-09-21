@@ -2,6 +2,15 @@
 
 Geprueft: **930 Task-Verzeichnisse** aus 19 Laeufen, **1464 extrahierte Rohmeldungen**, davon **1368** im Parser-Output nicht wiederauffindbar.
 
+**Laufbestand: Stand 02.08.2026, vor der Parser-Reparatur** — die damals
+vorhandenen 19 Laeufe. Der Gegenbericht `parser-audit-nachher.md` ist am
+20.09.2026 ueber einen inzwischen auf 48 Laeufe angewachsenen Bestand
+erzeugt worden. Die beiden Kopfzahlen sind deshalb **nicht** direkt
+gegenueberzustellen: Sie messen verschiedene Grundmengen. Den Vorher/Nachher-
+Vergleich auf *identischer* Datenbasis fuehrt
+[`parser-fix-vorher-nachher.md`](parser-fix-vorher-nachher.md) (930 Zeilen
+vorher, 930 nachher).
+
 Erzeugt mit `python analysis_tools/parser_audit.py`. Das Werkzeug liest das
 Container-Rohmaterial (`result.log`, `result.tar`, `smartbugs.json`, Exit-Code)
 mit eigenen Detektoren und prueft, ob jede gefundene Meldung in `result.json`

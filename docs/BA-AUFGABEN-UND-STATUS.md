@@ -151,15 +151,28 @@ verworfen wird nichts.
 
 ## Teil C — Was offen bleibt
 
+> **Nachtrag 21.09.2026.** Teil C beschreibt den Stand vom 02.08.2026. Vier
+> Angaben sind seitdem überholt und unten an Ort und Stelle richtiggestellt:
+> der Push ist erfolgt (72 Commits, `origin/main` aktuell), der pre-commit-Hook
+> ist versioniert, die `.tex`-Fassungen existieren nicht mehr, und die
+> History umfasst nicht mehr 13 Commits. Die übrigen Punkte gelten
+> unverändert. Der Rest des Dokuments ist historischer Stand und wird nicht
+> nachgeführt.
+
 ### Offene Entscheidungen
 
-**1. Push und Einladung.** Fünf Commits liegen lokal. Das Repo ist bereit.
+**1. Push und Einladung.** ~~Fünf Commits liegen lokal.~~ **Erledigt:** Das
+Repo ist gepusht, `origin/main` ist aktuell (Stand 21.09.2026: 72 Commits,
+nichts liegt lokal).
 
 **2. Das Durchführungsprotokoll ist an einer Stelle überholt.** In
-`BA-DURCHFUEHRUNGSPROTOKOLL.{md,tex}` steht bei Fehler #4 (Silent Failure) als
+`BA-DURCHFUEHRUNGSPROTOKOLL.md` steht bei Fehler #4 (Silent Failure) als
 Maßnahme *„Parser-Fix als Empfehlung dokumentiert"*. Der Fix ist jetzt gemacht.
 Das ist BA-Prosa und wird **nicht eigenmächtig umformuliert.** Der neue Eintrag
-ist festzulegen und anschließend in `.md` und `.tex` identisch einzusetzen.
+ist festzulegen und einzusetzen. *(Nachtrag 21.09.2026: nur noch in der
+`.md`-Fassung — die `.tex`-Fassungen wurden nach Markdown überführt und aus dem
+Repository entfernt, siehe `README.md`, Abschnitt „Dokumentation". Der Punkt
+selbst ist weiterhin offen.)*
 
 **3. Ein neuer Befund, der die Aussagen zum reparierten Korpus betrifft.**
 Im Lauf `curated_mwefixed_live` (96 Contracts) wird jetzt sichtbar:
@@ -188,12 +201,18 @@ Auswertungen — bei Bedarf entfernbar.
 
 ### Bekannte Einschränkungen, kein Handlungsbedarf
 
-* **Der pre-commit-Hook wird nicht mitgeklont.** Hooks liegen in `.git/hooks/`
-  und sind nie Teil eines Repositorys. Auf einem frischen Clone braucht es
-  `python analysis_tools\secret_scan.py --install` erneut. Im README beschrieben.
-* **Keine Schlüssel-Rotation.** Die alte History wurde über alle 13 Commits
-  gesweept: es wurde nie ein echter Schlüssel committet. Nach Befundlage nicht
-  nötig.
+* **Der Hook-Inhalt wird mitgeklont, seine Aktivierung nicht.** *(Korrigiert
+  am 21.09.2026 — die frühere Fassung sagte „Der pre-commit-Hook wird nicht
+  mitgeklont. Hooks liegen in `.git/hooks/` und sind nie Teil eines
+  Repositorys." Das trifft auf diesen Aufbau nicht zu.)* Das Hook-Skript liegt
+  versioniert unter `.githooks/pre-commit`; `--install` setzt lediglich
+  `core.hooksPath` darauf. Weil `core.hooksPath` eine lokale Einstellung ist,
+  braucht ein frischer Clone weiterhin einmalig
+  `python analysis_tools\secret_scan.py --install`. Im README beschrieben.
+* **Keine Schlüssel-Rotation.** Die alte History wurde vollständig gesweept:
+  es wurde nie ein echter Schlüssel committet. Nach Befundlage nicht nötig.
+  *(Die frühere Angabe „über alle 13 Commits" bezog sich auf den Stand vom
+  02.08.2026; der Sweep deckte die History, wie sie damals war.)*
 * **Docstrings.** Vollständig. Der Eigenanteil ist durchgängig mit
   Modul-Docstrings und Docstrings für jede Funktion und Klasse versehen; die
   Begründung nicht offensichtlicher Entscheidungen steht als Inline-Kommentar
