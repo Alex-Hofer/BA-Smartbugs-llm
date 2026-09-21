@@ -255,8 +255,10 @@ auf dem Host gesetzt sind, kommen an; nichts steckt im Image.
 
 Die vier Runner-Skripte nehmen die Wahl als Parameter entgegen — `-Provider`,
 `-Model`, `-BaseUrl` und bei LLMSmartAudit zusätzlich `-ContextTokens` und
-`-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen. Wer ohne
-Runner arbeitet, setzt sie selbst (letztes Beispiel unten).
+`-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen. Wer eine
+Einstellung **dauerhaft** will, trägt sie stattdessen in `GPTScan\.env` ein;
+welche der beiden Angaben gewinnt, klärt der nächste Abschnitt. Wer ohne
+Runner arbeitet, setzt die Variablen selbst (letztes Beispiel unten).
 
 ### Drei Wege, dasselbe einzustellen — und welcher gewinnt
 
@@ -289,7 +291,7 @@ Backend: provider=deepseek, GPTScan-Modell=deepseek-v4-pro, LLMSA-Modell=deepsee
 wird, ergibt sich aus dem Anbieter; der jeweils andere bleibt unbenutzt. Fehlt
 der gebrauchte, bricht der Runner ab, **bevor** ein Container startet.
 
-### Beispiel: dauerhaft auf das starke Modell umstellen
+### Dauerhaft umstellen: das Modell in die `.env` schreiben
 
 In `GPTScan\.env` eintragen — der Schlüssel bleibt, zwei Zeilen kommen dazu:
 
@@ -338,7 +340,7 @@ bricht der Runner mit einer Meldung ab, statt sich einen auszusuchen.
 | `GPTSCAN_BASE_URL` | GPTScan | — | `src/llm_backend.py:base_url` — **nur** bei `GPTSCAN_PROVIDER=custom` |
 | `GPTSCAN_API_KEY` | GPTScan | — | `src/config.py`, Schlüssel des Providers `custom` |
 | `LLM_PROVIDER` | LLMSmartAudit | `deepseek` | `scripts/do_solidity.sh` → `--provider`; `chatdev/chat_chain.py` |
-| `LLM_MODEL` | LLMSmartAudit | — (**Pflicht**, siehe unten) | `scripts/do_solidity.sh` → `--model` → `run.py` setzt `LLM_MODEL_ID` → `camel/model_backend.py` |
+| `LLM_MODEL` | LLMSmartAudit | `deepseek-v4-flash` aus dem Runner — **muss gesetzt sein**, siehe unten | `scripts/do_solidity.sh` → `--model` → `run.py` setzt `LLM_MODEL_ID` → `camel/model_backend.py` |
 | `LLM_BASE_URL` | LLMSmartAudit | Provider-Standard | `scripts/do_solidity.sh` exportiert als `BASE_URL`; `camel/model_backend.py:_resolve_endpoint` |
 | `LLM_CONTEXT_TOKENS` | LLMSmartAudit | `16384` | `camel/model_backend.py:_context_limit`, `camel/utils.py` |
 | `LLM_MAX_COMPLETION_TOKENS` | LLMSmartAudit | keine zusätzliche Grenze | `camel/model_backend.py:_cap_completion_tokens` |
@@ -355,6 +357,12 @@ deshalb jeder Lauf mit HTTP 400 — hergeleitet in
 [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md),
 Fehler #1. Die Host-Variable überschreibt die Image-ENV; ein Rebuild ist nicht
 nötig.
+
+**Über die Runner ist das erledigt:** Sie setzen `LLM_MODEL` bei jedem Lauf —
+aus dem Parameter, aus der `.env` oder aus ihrem Standardwert, in dieser
+Reihenfolge. Das eingebrannte `deepseek-chat` kommt also nie zum Tragen.
+Aufpassen muss nur, wer SmartBugs **ohne** Runner aufruft (letzter Abschnitt
+dieses Kapitels) — dort ist die Variable von Hand zu setzen.
 
 ### Beispiel 1 — anderes Modell beim selben Anbieter
 
