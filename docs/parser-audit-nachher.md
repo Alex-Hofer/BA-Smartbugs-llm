@@ -1,6 +1,6 @@
 # Lueckenbericht Parser-Audit
 
-Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2417 extrahierte Rohmeldungen**, davon **10** im Parser-Output nicht wiederauffindbar.
+Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2417 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
 
 **Laufbestand dieses Berichts:** 48 Laeufe, 1272 Tasks, erzeugt am 21.09.2026. Ein Bericht ueber einen anderen Laufbestand ist damit nicht unmittelbar vergleichbar.
 
@@ -57,30 +57,19 @@ solc-Warnungen und slithers Exit-Code 255.
 | llmsmartaudit | curated_llmsa_demo_kostenprobe | 1 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 0 | 0 |
-| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 127 | 10 |
+| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 127 | 0 |
 | llmsmartaudit | llmsa_mwefixed_v2_retry | 4 | 0 | 0 |
 | llmsmartaudit | llmsa_smoke_curated | 3 | 3 | 0 |
 | llmsmartaudit | smoke1_stub | 1 | 4 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 6 | 0 |
-| **Summe** | | **1272** | **2417** | **10** |
+| **Summe** | | **1272** | **2417** | **0** |
 
 ## Ergebnis
 
-**10 Luecken.** Jede einzelne ist in
-`docs/BA-PARSER-AUDIT-LUECKEN.md` benannt und eingeordnet: was im
-Rohmaterial steht, was der Parser stattdessen meldet, und was das
-fuer die Auswertung bedeutet.
+**Keine Luecke.** Jede im Rohmaterial gefundene Meldung ist im
+Parser-Output wiederauffindbar.
 
-## Luecken je Lauf und Signaltyp
-
-| Tool | Lauf | Signal | Klassifikation | Contracts | Beispielmeldung |
-|---|---|---|---|---:|---|
-| llmsmartaudit | llmsa_mwefixed_v2 | `TRACEBACK` | independent | 10 | RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 6710 |
-
-## Betroffene Contracts je Lauf
-
-- **llmsmartaudit/llmsa_mwefixed_v2** — 10 Contracts: 106_NFTLoanFacilitator.sol, 12_Witch.sol, 25_CompositeMultiOracle.sol, 30_Vault.sol, 43_DelegatedStaking.sol, 62_Locke.sol, 69_NFTXStakingZap.sol, 74_TimeswapPair.sol, 75_XDEFIDistribution.sol, 78_FlashGovernanceArbiter.sol
 
 ## Signaltypen
 

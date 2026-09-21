@@ -159,13 +159,16 @@ verworfen wird nichts.
 > unverändert. Der Rest des Dokuments ist historischer Stand und wird nicht
 > nachgeführt.
 >
-> **Ein Punkt ist neu hinzugekommen und nicht erledigt.** Die oben und in
-> Teil A/B berichteten „0 Lücken" des Parser-Audits galten für den damaligen
+> **Ein Punkt kam neu hinzu und ist erledigt.** Die oben und in Teil A/B
+> berichteten „0 Lücken" des Parser-Audits galten für den damaligen
 > Detektor-Katalog. Ein am 21.09.2026 ergänzter Detektor für allein stehende
-> Ausnahme-Abschlusszeilen findet auf dem heutigen Bestand **10 Lücken**, alle
-> im Lauf `llmsa_mwefixed_v2`. Sie sind vollständig benannt und eingeordnet in
-> [`BA-PARSER-AUDIT-LUECKEN.md`](BA-PARSER-AUDIT-LUECKEN.md); geschlossen sind
-> sie nicht. Das ist der bekannteste offene Punkt dieser Arbeit.
+> Ausnahme-Abschlusszeilen legte **10 echte Lücken** frei, alle im Lauf
+> `llmsa_mwefixed_v2`: `sb/parse_utils.py` griff die Token-Buchhaltung des
+> Werkzeugs als Ausnahme ab und erreichte die eigentliche Ursache nie. Behoben
+> im eigenen Tool-Parser, `reparse` über alle Läufe gefahren; das Audit meldet
+> jetzt **0 Lücken bei 2 417 Rohmeldungen** — diesmal belegt statt per Katalog.
+> Keine Kennzahl der Arbeit hat sich dadurch bewegt. Hergeleitet in
+> [`BA-PARSER-AUDIT-LUECKEN.md`](BA-PARSER-AUDIT-LUECKEN.md).
 
 ### Offene Entscheidungen
 

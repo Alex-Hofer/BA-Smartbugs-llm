@@ -44,10 +44,12 @@ hatte: `12_Witch`, `25_CompositeMultiOracle`, `43_DelegatedStaking`, `62_Locke`.
 > bevor das Modell den Contract überhaupt gesehen hatte. Nach dem Auffüllen
 > lieferten alle vier ein Ergebnis.
 >
-> Der Grund, warum das erst seit dem 21.09.2026 belegbar ist: Der Parser
-> reicht nur die Hülle `tenacity.RetryError` weiter, in der die Ursache als
-> Text eines `Future`-Objekts steckt, und das Parser-Audit sah die
-> Abschlusszeile nicht. Hergeleitet in
+> Der Grund, warum das erst seit dem 21.09.2026 in den Daten steht: SmartBugs'
+> `sb/parse_utils.py` griff die Token-Buchhaltung des Werkzeugs als Ausnahme
+> ab und erreichte die eigentliche Zeile nie, sodass in `result.json`
+> `exception (num_prompt_tokens: 22878)` stand. Der Defekt ist im eigenen
+> Tool-Parser behoben und per `reparse` auf alle Läufe angewandt; `run_meta.json`
+> in diesem Ordner trägt seither die wirkliche Ursache. Hergeleitet in
 > [`docs/BA-PARSER-AUDIT-LUECKEN.md`](../../docs/BA-PARSER-AUDIT-LUECKEN.md).
 >
 > Damit ist der Nachlauf **kein Wiederholen bis zum besseren Ergebnis**: Er

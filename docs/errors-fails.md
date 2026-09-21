@@ -80,6 +80,7 @@ Meldung — jede wird unveraendert wiedergegeben.
 | gptscan | curated_gptscan_mwe_20260706 | fail | consequence | 20 | exception (UnboundLocalError: local variable 'match_flag' referenced before assignment) |
 | gptscan | mwevar_dry | fail | consequence | 20 | exception (TypeError: 'NoneType' object is not subscriptable) |
 | gptscan | mwevar_dry | fail | consequence | 20 | exception (UnboundLocalError: local variable 'match_flag' referenced before assignment) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 4 | exception (openai.APIStatusError: Error code: 402 - {'error': {'message': 'Insufficient Balance', 'type': 'unknown_error', 'param': None, 'code': 'invalid_request_error'}}) |
 | gptscan | gptscan_mwefixed_v2_dry | fail | independent | 3 | SmartBugs was invoked with option 'main', but the filename did not match any contract |
 | gptscan | gptscan_mwefixed_v2_dry | fail | independent | 3 | no tar archive collected from the container |
 | gptscan | gptscan_mwefixed_v2_main | fail | independent | 3 | SmartBugs was invoked with option 'main', but the filename did not match any contract |
@@ -88,19 +89,25 @@ Meldung — jede wird unveraendert wiedergegeben.
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 3 | error parsing results: file could not be opened successfully: - method gz: ReadError('empty file') - method bz2: ReadError('not a bzip2 file') - method xz: ReadError('not an lzma file') - method tar: ReadError('empty file') |
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 2 | exception (AssertionError) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 126980}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66624}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66663}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66798}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66868}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 67108}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 67796}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68712}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68970}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 69518}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70000}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70032}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70339}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70448}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70500}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 71536}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 71618}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 72588}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 75109}) |
+| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76456}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76570}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76912}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 77553}) |
@@ -118,16 +125,6 @@ Meldung — jede wird unveraendert wiedergegeben.
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 93900}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 95209}) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 97252}) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 109412) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 142562) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 173170) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 31828) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (String length: 92678) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (after adjustment): 5410) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (after adjustment): 8192) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_completion_tokens (before adjustment): 43146) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_max_token: 65536) |
-| llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (num_prompt_tokens (before adjustment): 22878) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x706d249fb430 state=finished raised APIStatusError>]) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x77f8f87f4970 state=finished raised APIStatusError>]) |
 | llmsmartaudit | llmsa_mwefixed_v2 | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7897bfc33730 state=finished raised APIStatusError>]) |
@@ -136,4 +133,7 @@ Meldung — jede wird unveraendert wiedergegeben.
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (openai.BadRequestError: Error code: 400 - {'error': {'message': 'The supported API model names are deepseek-v4-pro or deepseek-v4-flash, but you passed STUB.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7ff553bdcbe0 state=finished raised BadRequestError>]) |
 | slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 1 | exception (slither.visitors.expression.constants_folding.NotConstant) |
-| ... | | | | | *1383 weitere Meldungen, vollstaendig in der CSV* |
+| gptscan | curated_gptscan_mwefixed_dry | error | independent | 54 | ERROR    tasks: Static analysis failed: Invalid args |
+| gptscan | gptscan_mwefixed_v2_dry | error | independent | 50 | ERROR    tasks: Static analysis failed: Invalid args |
+| gptscan | curated_gptscan_mwefixed_dry | error | independent | 47 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
+| ... | | | | | *1380 weitere Meldungen, vollstaendig in der CSV* |

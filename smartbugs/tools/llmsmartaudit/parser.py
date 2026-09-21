@@ -12,10 +12,29 @@ defaults per category, not model verdicts.
 Reporting errors and fails
 --------------------------
 Unlike GPTScan, this tool writes plain (un-wrapped) output, so an uncaught
-exception reaches stderr in the shape ``sb.parse_utils.errors_fails`` expects
-and is classified as a *fail* without any help from this parser. The audit in
-``analysis_tools/parser_audit.py`` confirms that: across the 147 LLMSmartAudit
-tasks in this project it finds no message that fails to reach ``result.json``.
+exception reaches stderr in the shape ``sb.parse_utils.errors_fails`` expects.
+
+That is not quite enough, though. ``sb.parse_utils.exceptions`` takes the first
+*unindented* line after a ``Traceback (most recent call last):`` header as the
+exception. LLMSmartAudit writes its token accounting to the same stream, and
+those lines are unindented too, so they can land between the header and the
+closing line:
+
+.. code-block:: text
+
+    Traceback (most recent call last):
+      File "/app/run.py", line ...            <- indented, skipped
+    num_prompt_tokens (before adjustment): 22878    <- taken as "the exception"
+    gap_between_send_receive: 60
+    ...
+    openai.APIStatusError: Error code: 402 - Insufficient Balance   <- the cause
+
+Upstream then reports ``exception (num_prompt_tokens ...)`` and never reaches
+the real cause. Ten tasks in this project were affected; in four of them the
+cause was an exhausted API balance, which is exactly the kind of message one
+must not lose. :func:`_repair_exception_fails` corrects this **here** rather
+than in ``sb/parse_utils.py``: upstream's parsing stays untouched, so the fix
+travels with ``python -m sb.reparse`` and touches none of the 30+ other tools.
 
 What this parser adds on top is a distinct message per way of *not* getting a
 report, so "the container produced nothing" can be told apart from "the report
@@ -82,6 +101,57 @@ def _read_output_json(output: Optional[bytes], fails: set) -> Optional[dict]:
 CONTEXT_LIMIT = re.compile(r"num_max_token:\s*(\d+)")
 COMPLETION_BUDGET = re.compile(r"num_max_completion_tokens \(after adjustment\):\s*(\d+)")
 AGENT_ABORT = "max_tokens_exceeded_by_camel"
+
+# The token-accounting lines above, as they appear in the log: unindented, and
+# therefore indistinguishable from an exception to upstream's line scanner.
+# Listed explicitly rather than matched loosely -- a pattern wide enough to
+# cover "anything that looks like a status line" would also swallow real
+# exceptions whose message happens to start with a word and a colon.
+TOKEN_NOISE = re.compile(
+    r"^(?:num_prompt_tokens|num_max_token|num_max_completion_tokens|"
+    r"gap_between_send_receive|String length)\b"
+)
+
+# A traceback's closing line: "Module.Error: message", at column 0. The dotted
+# prefix is optional (``ValueError``) and may be nested (``openai.APIStatusError``).
+CLOSING_EXCEPTION = re.compile(
+    r"^(?:[A-Za-z_]\w*\.)*[A-Za-z_]\w*"
+    r"(?:Error|Exception|Interrupt|Exit|Timeout|Failure):\s"
+)
+
+TRACEBACK_HEADER = "Traceback (most recent call last):"
+
+
+def _repair_exception_fails(log: list, fails: set) -> None:
+    """Replace mis-picked token-accounting lines with the actual exception.
+
+    ``sb.parse_utils.exceptions`` stops at the first unindented line after a
+    traceback header. When the tool's token accounting lands there, upstream
+    reports that line as the exception and never reaches the real one. This
+    drops such entries and adds every closing exception line found in the log.
+
+    Modifies *fails* in place. Leaves an exception upstream got right alone:
+    those lines match :data:`CLOSING_EXCEPTION` too and are re-added
+    unchanged.
+    """
+    for entry in list(fails):
+        if not (entry.startswith("exception (") and entry.endswith(")")):
+            continue
+        if TOKEN_NOISE.match(entry[len("exception ("):-1]):
+            fails.discard(entry)
+
+    in_traceback = False
+    for line in log:
+        if line.endswith(TRACEBACK_HEADER):
+            in_traceback = True
+            continue
+        if not line or line[0] == " ":
+            continue
+        if in_traceback and TOKEN_NOISE.match(line):
+            continue  # accounting interleaved into the traceback: keep looking
+        if CLOSING_EXCEPTION.match(line):
+            fails.add(f"exception ({line.strip()})")
+            in_traceback = False
 
 
 def _context_state(log: list, infos: set, errors: set) -> None:
@@ -164,6 +234,7 @@ def parse(
     findings: list = []
     infos: set = set()
     errors, fails = sb.parse_utils.errors_fails(exit_code, log)
+    _repair_exception_fails(log, fails)
 
     _context_state(log, infos, errors)
 

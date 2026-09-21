@@ -1,6 +1,6 @@
 {
   "run_id": "llmsa_mwefixed_v2",
-  "generated": "2026-09-15T12:44:36+00:00",
+  "generated": "2026-09-21T16:54:49+00:00",
   "smartbugs_version": "2.1.1",
   "tool_yaml_version": "smartbugs/tools/llmsmartaudit/config.yaml @ 1.0",
   "parser_version": "2026/08/02 + context-state (2026-08-15)",
@@ -63,7 +63,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (num_max_completion_tokens (before adjustment): 43146)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 67108})"
       ]
     },
     {
@@ -343,7 +343,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (String length: 109412)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76456})"
       ]
     },
     {
@@ -469,7 +469,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (num_max_completion_tokens (after adjustment): 5410)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 75109})"
       ]
     },
     {
@@ -511,7 +511,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (num_max_completion_tokens (after adjustment): 8192)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66624})"
       ]
     },
     {
@@ -525,7 +525,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (String length: 142562)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 66663})"
       ]
     },
     {
@@ -553,7 +553,7 @@
         "no report produced"
       ],
       "fails": [
-        "exception (String length: 173170)"
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 70339})"
       ]
     },
     {

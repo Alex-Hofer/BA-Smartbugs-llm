@@ -293,6 +293,21 @@ Der gesamte Mechanismus liegt in den eigenen Entrypoints und Parsern der beiden
 KI-Scanner, `sb/docker.py`s äußerer Docker-Timeout bleibt unverändert die letzte
 Instanz.
 
+> **Der Ausnahme-Defekt vom 21.09.2026 ist nach derselben Regel behandelt.**
+> `sb/parse_utils.py::exceptions` nimmt nach einer Traceback-Kopfzeile die
+> erste nicht eingerückte Zeile als Ausnahme. LLMSmartAudit schreibt seine
+> Token-Buchhaltung unindentiert in denselben Strom, sodass in zehn Tasks eine
+> Buchungszeile als Ausnahme gemeldet wurde und die wirkliche Ursache — in
+> vier Fällen ein erschöpftes API-Guthaben — nie in `result.json` ankam.
+>
+> Die Korrektur liegt in `smartbugs/tools/llmsmartaudit/parser.py`
+> (`_repair_exception_fails`), nicht im Upstream. Sie ist damit eigener Code
+> im eigenen Tool-Parser, wandert per `sb.reparse` auf alle Altläufe und
+> berührt kein anderes Werkzeug. Abgesichert durch
+> `tests/test_llmsa_exception_repair.py`. Die Herleitung, die Messung des
+> Vorher/Nachher und die Frage, was davon upstream-tauglich wäre, stehen in
+> [`BA-PARSER-AUDIT-LUECKEN.md`](BA-PARSER-AUDIT-LUECKEN.md).
+
 ### 2.2 GPTScan — 7 geänderte Dateien
 
 Von den 64 getrackten Dateien sind 38 unverändert, 19 neu (siehe oben) und
