@@ -71,8 +71,11 @@ sauber durchliefen.
    Laufs tragen keine DASP-Zuordnung und gehen weder in Recall noch in
    Precision ein. Keine Zuordnung heisst nicht belanglos.
 3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,
-   trifft haeufiger zufaellig. Zeilengenau laesst sich nicht auswerten,
-   weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert.
+   trifft haeufiger zufaellig. GPTScan selbst emittiert Zeilen (alle 6
+   Findings dieses Laufs tragen `lines`); zeilengenau ausgewertet wird
+   trotzdem nicht, weil LLMSmartAudit grundsaetzlich keine Zeilennummern
+   emittiert und nur ein gemeinsames Mass die drei Werkzeuge vergleichbar
+   haelt.
 4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und
    ist je Detektorname konstant.
 5. **Ein Lauf ist keine Verteilung.** LLM-gestuetzte Werkzeuge sind nicht

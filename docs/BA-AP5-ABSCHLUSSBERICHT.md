@@ -303,8 +303,10 @@ Die Umsetzung hat drei Angaben berichtigt, die anderswo im Repository stehen:
    150,8–923,2 s**. Der Volllauf dieses Arbeitspakets (719,9 s) liegt darin —
    gegen 76 s gehalten hätte er wie eine neunfache Regression ausgesehen.
 2. **Die dokumentierte Image-Reduktion stimmt.** Der Neubau des
-   LLMSmartAudit-Images landet bei **586 MB** gegenüber den in
-   `BA-EIGENANTEIL.md` genannten 590 MB. Das lokal vorliegende 5,13-GB-Image war
+   LLMSmartAudit-Images landet bei **586 MB**. `BA-EIGENANTEIL.md` nannte zum
+   Zeitpunkt dieses Berichts 590 MB und nennt seit dem Neubau vom 20.09.2026
+   **587 MB**; die Spanne 586–590 MB ist Messrauschen zwischen einzelnen
+   Builds, nicht ein Widerspruch. Das lokal vorliegende 5,13-GB-Image war
    ein Stand vor dieser Arbeit.
 3. **`BA-EIGENANTEIL.md:47` („je vier Dateien nach dem SmartBugs-Schema") ist
    überholt.** Der gptscan-Skriptordner hatte schon vor AP5 fünf Dateien und hat

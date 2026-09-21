@@ -71,17 +71,22 @@ sauber durchliefen.
    Laufs tragen keine DASP-Zuordnung und gehen weder in Recall noch in
    Precision ein. Keine Zuordnung heisst nicht belanglos.
 3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,
-   trifft haeufiger zufaellig. Zeilengenau laesst sich nicht auswerten,
-   weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert.
+   trifft haeufiger zufaellig. Slither selbst ist hier das genaueste
+   Werkzeug (1 934 der 2 154 Findings tragen `lines`, 848 zusaetzlich eine
+   Funktion); zeilengenau ausgewertet wird trotzdem nicht, weil
+   LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert und nur ein
+   gemeinsames Mass die drei Werkzeuge vergleichbar haelt.
 4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und
    ist je Detektorname konstant.
-5. **Ein Lauf ist keine Verteilung.** LLM-gestuetzte Werkzeuge sind nicht
-   deterministisch; fuer GPTScan sind 74 % Lauf-zu-Lauf-Uebereinstimmung
-   gemessen (`docs/BA-GPTSCAN-VERGLEICH.md`, Abschnitt 4).
+5. **Ein Lauf genuegt hier — anders als bei den KI-Werkzeugen.** Slither ist
+   deterministisch: gleicher Contract, gleiche Version, gleiches Ergebnis.
+   Die Streuung, die den beiden KI-Werkzeugen anhaengt (GPTScan 74 %,
+   LLMSmartAudit 61,4 % Lauf-zu-Lauf-Uebereinstimmung), betrifft diese
+   Baseline nicht — siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.
 6. **Kein Werkzeugvergleich ueber Korpora hinweg.** GPTScans Zieldomaene
    ist DeFi-Logik, nicht DASP. Auf diesem Korpus misst man, was es *nicht*
    sucht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`.
 7. **Die Baseline ist kein Ziel.** Slither dient als Referenzpunkt;
-   seine 86 % unklassifizierten Findings sind ueberwiegend
+   seine 81,8 % unklassifizierten Findings sind ueberwiegend
    Informational- und Optimization-Hinweise.
 

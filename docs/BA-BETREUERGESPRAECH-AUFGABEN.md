@@ -125,7 +125,7 @@ ob er das Werkzeug misst oder unseren Wrapper.
 * Ergebnis als Dokument, das die Transparenz belegt oder die Grenzen benennt.
 
 **Bekannte Eingriffe, die dabei geprüft gehören** (aus `docs/BA-EIGENANTEIL.md`):
-7 geänderte Dateien in GPTScan, 9 in LLMSmartAuditTool, 5 in `smartbugs/sb/`.
+7 geänderte Dateien in GPTScan, 9 in LLMSmartAuditTool, 2 in `smartbugs/sb/`.
 Für jede ist zu zeigen, dass sie das Analyseergebnis nicht beeinflusst.
 
 ---

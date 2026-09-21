@@ -11,7 +11,7 @@ gegen einen klassischen statischen Analysator als Referenz.
 | **Slither 0.11.3** | statische Analyse | statische Baseline | [crytic/slither](https://github.com/crytic/slither) |
 
 Alle drei laufen unter [SmartBugs 2.1.1](https://github.com/smartbugs/smartbugs)
-als austauschbare Werkzeuge im selben Rahmen. Die Integration der beiden
+(Upstream-Commit `7ddaf6c`) als austauschbare Werkzeuge im selben Rahmen. Die Integration der beiden
 KI-Scanner in SmartBugs (Parser, Konfiguration, Findings-Mapping,
 Entrypoint-Skripte) ist Teil dieser Arbeit — siehe
 [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md).
@@ -72,7 +72,7 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 20.09.2026: 48 Läufe, 1 272 Tasks, 6 297 Dateien, 1,05 GB.**
+**Stand 20.09.2026: 48 Läufe, 1 272 Tasks, 6 297 Dateien, 1,08 GB** (1,01 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 
@@ -108,7 +108,7 @@ Die aggregierten Auswertungen sind versioniert:
 
 `curated_results.csv` und `evaluation_curated_v1_20260705.csv` liegen im
 Wurzelverzeichnis und sind **bewusst nicht versioniert** (`.gitignore`,
-Zeilen 9–10). Beide sind reine Zwischenstände, die sich jederzeit ohne einen
+Zeilen 13–14). Beide sind reine Zwischenstände, die sich jederzeit ohne einen
 API-Aufruf neu erzeugen lassen, solange die Rohergebnisse vorliegen:
 
 | Datei | Was drinsteht | Wie sie entsteht |
@@ -149,7 +149,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 168 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 200 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -433,10 +433,12 @@ SmartBugs reicht keine Umgebungsvariablen in Tool-Container durch. Ohne Eingriff
 gäbe es keinen Weg, den API-Schlüssel zur Laufzeit zu übergeben, außer ihn ins
 Image zu backen. `sb/tools.py` nimmt deshalb das Feld `env` auf, `sb/docker.py`
 reicht die Allowlist durch und redigiert die Werte anschließend im Task-Log.
-Alle Eingriffe in `smartbugs/sb/` — zehn Blöcke in `docker.py`, `tools.py`,
-`analysis.py` und `solidity.py` — sind im Quelltext als `BA MODIFICATION`
+Die eigenen Eingriffe in `smartbugs/sb/` beschränken sich auf genau diese
+beiden Dateien — sieben Blöcke, im Quelltext als `BA MODIFICATION`
 gekennzeichnet und in [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)
-begründet.
+begründet. Alle übrigen Dateien unter `smartbugs/sb/` sind byte-identisch zum
+Upstream-Stand `7ddaf6c`; nachprüfbar mit einem `diff -r` gegen einen frischen
+Klon (Befehl ebendort).
 
 Alle weiteren Änderungen an Fremdcode — 7 Dateien in GPTScan, 9 in
 LLMSmartAuditTool — sind mit *was* und *warum* in

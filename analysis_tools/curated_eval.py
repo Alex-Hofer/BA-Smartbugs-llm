@@ -14,7 +14,7 @@ Beide bleiben deshalb unangetastet. Was sich teilen laesst, wird importiert und
 nicht kopiert: ``build_eval.read_task`` liest einen Taskordner,
 ``build_eval.task_state`` bestimmt den Zustand eines LLMSmartAudit-Tasks,
 ``evaluate_curated.load_mapping`` liefert die DASP-Zuordnung je Werkzeug --
-einschliesslich der beiden dort dokumentierten Zusatz-Mappings. Die Rohdaten
+einschliesslich der fuenf dort dokumentierten Zusatz-Mappings. Die Rohdaten
 unter ``smartbugs/results/`` werden nur gelesen.
 
 Erzeugt je Werkzeug:
