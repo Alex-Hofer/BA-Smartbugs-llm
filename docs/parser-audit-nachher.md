@@ -1,6 +1,6 @@
 # Lueckenbericht Parser-Audit
 
-Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2289 extrahierte Rohmeldungen**, davon **0** im Parser-Output nicht wiederauffindbar.
+Geprueft: **1272 Task-Verzeichnisse** aus 48 Laeufen, **2417 extrahierte Rohmeldungen**, davon **10** im Parser-Output nicht wiederauffindbar.
 
 **Laufbestand dieses Berichts:** 48 Laeufe, 1272 Tasks, erzeugt am 21.09.2026. Ein Bericht ueber einen anderen Laufbestand ist damit nicht unmittelbar vergleichbar.
 
@@ -33,7 +33,7 @@ solc-Warnungen und slithers Exit-Code 255.
 | gptscan | assign6_live_0612 | 10 | 0 | 0 |
 | gptscan | curated_gptscan_demo_defi | 5 | 17 | 0 |
 | gptscan | curated_gptscan_demo_swc | 5 | 0 | 0 |
-| gptscan | curated_gptscan_mwe_20260706 | 96 | 300 | 0 |
+| gptscan | curated_gptscan_mwe_20260706 | 96 | 340 | 0 |
 | gptscan | curated_gptscan_mwefixed_dry | 96 | 479 | 0 |
 | gptscan | curated_gptscan_mwefixed_live | 96 | 174 | 0 |
 | gptscan | curated_gptscan_v1_20260705 | 143 | 8 | 0 |
@@ -42,7 +42,7 @@ solc-Warnungen und slithers Exit-Code 255.
 | gptscan | gptscan_mwefixed_v2_main_nomain | 3 | 4 | 0 |
 | gptscan | gptscan_mwefixed_v2_smoke | 3 | 8 | 0 |
 | gptscan | gptscan_mwefixed_v2_smoke2 | 3 | 9 | 0 |
-| gptscan | mwevar_dry | 96 | 286 | 0 |
+| gptscan | mwevar_dry | 96 | 326 | 0 |
 | gptscan | mwevar_live | 27 | 101 | 0 |
 | gptscan | phase6_dry | 15 | 37 | 0 |
 | gptscan | phase6_live | 15 | 41 | 0 |
@@ -57,19 +57,30 @@ solc-Warnungen und slithers Exit-Code 255.
 | llmsmartaudit | curated_llmsa_demo_kostenprobe | 1 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 0 | 0 |
-| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 82 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2 | 96 | 127 | 10 |
 | llmsmartaudit | llmsa_mwefixed_v2_retry | 4 | 0 | 0 |
-| llmsmartaudit | llmsa_smoke_curated | 3 | 2 | 0 |
-| llmsmartaudit | smoke1_stub | 1 | 2 | 0 |
+| llmsmartaudit | llmsa_smoke_curated | 3 | 3 | 0 |
+| llmsmartaudit | smoke1_stub | 1 | 4 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 6 | 0 |
-| **Summe** | | **1272** | **2289** | **0** |
+| **Summe** | | **1272** | **2417** | **10** |
 
 ## Ergebnis
 
-**Keine Luecke.** Jede im Rohmaterial gefundene Meldung ist im
-Parser-Output wiederauffindbar.
+**10 Luecken.** Jede einzelne ist in
+`docs/BA-PARSER-AUDIT-LUECKEN.md` benannt und eingeordnet: was im
+Rohmaterial steht, was der Parser stattdessen meldet, und was das
+fuer die Auswertung bedeutet.
 
+## Luecken je Lauf und Signaltyp
+
+| Tool | Lauf | Signal | Klassifikation | Contracts | Beispielmeldung |
+|---|---|---|---|---:|---|
+| llmsmartaudit | llmsa_mwefixed_v2 | `TRACEBACK` | independent | 10 | RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 6710 |
+
+## Betroffene Contracts je Lauf
+
+- **llmsmartaudit/llmsa_mwefixed_v2** — 10 Contracts: 106_NFTLoanFacilitator.sol, 12_Witch.sol, 25_CompositeMultiOracle.sol, 30_Vault.sol, 43_DelegatedStaking.sol, 62_Locke.sol, 69_NFTXStakingZap.sol, 74_TimeswapPair.sol, 75_XDEFIDistribution.sol, 78_FlashGovernanceArbiter.sol
 
 ## Signaltypen
 

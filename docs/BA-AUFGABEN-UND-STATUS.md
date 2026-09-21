@@ -158,6 +158,14 @@ verworfen wird nichts.
 > History umfasst nicht mehr 13 Commits. Die übrigen Punkte gelten
 > unverändert. Der Rest des Dokuments ist historischer Stand und wird nicht
 > nachgeführt.
+>
+> **Ein Punkt ist neu hinzugekommen und nicht erledigt.** Die oben und in
+> Teil A/B berichteten „0 Lücken" des Parser-Audits galten für den damaligen
+> Detektor-Katalog. Ein am 21.09.2026 ergänzter Detektor für allein stehende
+> Ausnahme-Abschlusszeilen findet auf dem heutigen Bestand **10 Lücken**, alle
+> im Lauf `llmsa_mwefixed_v2`. Sie sind vollständig benannt und eingeordnet in
+> [`BA-PARSER-AUDIT-LUECKEN.md`](BA-PARSER-AUDIT-LUECKEN.md); geschlossen sind
+> sie nicht. Das ist der bekannteste offene Punkt dieser Arbeit.
 
 ### Offene Entscheidungen
 

@@ -249,7 +249,7 @@ Ausnahme ist entkommen oder der Lauf wurde abgebrochen. Hergeleitet aus
 python analysis_tools\errors_fails_report.py smartbugs\results\<tool>\<lauf> `
     --md bericht.md --csv bericht.csv
 
-# Prüfen, dass keine Rohmeldung aus result.log im Parser verlorengeht
+# Prüfen, ob eine Rohmeldung aus result.log im Parser verlorengeht
 python analysis_tools\parser_audit.py smartbugs\results\<tool>\<lauf>
 
 # Nur mit Ground Truth sinnvoll (smartbugs-curated).

@@ -37,6 +37,25 @@ Multi-Agenten-Pipeline auf großen DeFi-Contracts überhaupt bis zum Ende kommt.
 Der Nachlauf ersetzte genau vier Tasks, die der Hauptlauf nicht entschieden
 hatte: `12_Witch`, `25_CompositeMultiOracle`, `43_DelegatedStaking`, `62_Locke`.
 
+> **Woran diese vier scheiterten — und warum das kein Auswahleffekt ist.**
+> Alle vier liefen in denselben Fehler: `openai.APIStatusError: Error code:
+> 402 — Insufficient Balance`. Das DeepSeek-Guthaben war während des
+> Hauptlaufs aufgebraucht; die vier Aufrufe wurden serverseitig abgewiesen,
+> bevor das Modell den Contract überhaupt gesehen hatte. Nach dem Auffüllen
+> lieferten alle vier ein Ergebnis.
+>
+> Der Grund, warum das erst seit dem 21.09.2026 belegbar ist: Der Parser
+> reicht nur die Hülle `tenacity.RetryError` weiter, in der die Ursache als
+> Text eines `Future`-Objekts steckt, und das Parser-Audit sah die
+> Abschlusszeile nicht. Hergeleitet in
+> [`docs/BA-PARSER-AUDIT-LUECKEN.md`](../../docs/BA-PARSER-AUDIT-LUECKEN.md).
+>
+> Damit ist der Nachlauf **kein Wiederholen bis zum besseren Ergebnis**: Er
+> behebt eine Störung der Infrastruktur, die mit Contract, Werkzeug und Modell
+> nichts zu tun hat. Ein Nachlauf über Contracts, die *inhaltlich* gescheitert
+> wären — etwa an der Kontextgrenze — hätte diese Eigenschaft nicht; die 37
+> Kontext-Überschreitungen sind deshalb bewusst **nicht** wiederholt worden.
+
 ## Wie die Dateien entstanden sind
 
 ```powershell

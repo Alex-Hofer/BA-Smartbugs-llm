@@ -34,7 +34,7 @@ SmartBugs-Code hergeleitet.
 ```
 ├── .githooks/          versionierter pre-commit-Hook (Secret-Scan)
 ├── analysis_tools/     Auswertungswerkzeuge (eigener Code)
-│   ├── parser_audit.py         prüft, dass kein Rohsignal im Parser verlorengeht
+│   ├── parser_audit.py         prüft, ob Rohsignal im Parser verlorengeht
 │   ├── errors_fails_report.py  Errors/Fails je Lauf, als CSV und Markdown
 │   ├── gptscan_eval.py         Auswertung eines GPTScan-Laufs nach eval/<runid>/
 │   ├── gptscan_run_stats.py    Token-, Kosten- und Laufzeitkennzahlen eines GPTScan-Laufs
@@ -149,7 +149,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 206 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 222 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -361,7 +361,7 @@ cd ..
 # Errors und Fails getrennt, mit Wortlaut
 python analysis_tools\errors_fails_report.py --md docs\errors-fails.md --csv docs\errors-fails.csv
 
-# Nachweis, dass kein Rohsignal im Parser verlorengeht
+# Prüfen, ob Rohsignal im Parser verlorengeht
 python analysis_tools\parser_audit.py
 ```
 
@@ -382,7 +382,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-206 Tests (Stand 21.09.2026): Regressionstests für beide Tool-Parser, das
+222 Tests (Stand 21.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:
@@ -461,6 +461,7 @@ Upstream-Stände per Hash abgeglichen.
 | [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed` |
 | [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Unabhängige Überprüfung des Repositorys |
 | [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
+| [`docs/BA-PARSER-AUDIT-LUECKEN.md`](docs/BA-PARSER-AUDIT-LUECKEN.md) | Die zehn Luecken des Parser-Audits: was sie sind und was sie bedeuten |
 | [`docs/BA-KORPUS-REPARATUR.md`](docs/BA-KORPUS-REPARATUR.md) | Rekonstruktion des mwevariety-Korpus |
 | [`docs/BA-GPTSCAN-VERGLEICH.md`](docs/BA-GPTSCAN-VERGLEICH.md) | GPTScan auf curated gegen GPTScan auf seiner Zieldomäne |
 | [`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](GPTScan/docs/SMARTBUGS_INTEGRATION.md) | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |

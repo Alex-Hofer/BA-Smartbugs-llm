@@ -94,6 +94,18 @@ BENIGN_EXIT_CODES: dict[str, tuple[int, ...]] = {
 # rich table titles that bleed into the record following them
 _TRAILING_NOISE = re.compile(r"\s+(?:Scan Results|Summary)\s*$")
 
+# A traceback whose closing line ended up in a record of its own, without the
+# "Traceback (most recent call last)" header. LLMSmartAudit produces these when
+# the rich console flushes the header and the final line into separate records.
+# Anchored at the start of the record on purpose: an exception name quoted in
+# the middle of prose or inside a finding description must not count as a
+# report of that exception.
+_ORPHAN_EXC = re.compile(
+    r"^(?:[A-Za-z_]\w*\.)*[A-Za-z_]\w*"
+    r"(?:Error|Exception|Interrupt|Exit|Timeout|Failure)"
+    r":\s"
+)
+
 # Exceptions that are consequences of a failed compilation rather than defects
 # of their own. Kept as data so the classification can be cited in the thesis.
 _CONSEQUENCE_EXC = (
@@ -218,7 +230,10 @@ def detect(task: dict[str, Any]) -> list[Signal]:
     seen: set[str] = set()
     for record in candidates:
         exc = final_exception(record)
-        if exc and "Traceback (most recent call last)" in record:
+        if exc and (
+            "Traceback (most recent call last)" in record
+            or _ORPHAN_EXC.match(record.lstrip())
+        ):
             head = _TRAILING_NOISE.sub("", exc)[:200]
             if head not in seen:
                 seen.add(head)
@@ -478,6 +493,16 @@ def write_md(rows: list[dict[str, Any]], per_run_tasks: Counter, path: str) -> N
         ]
     else:
         lines += [
+            "",
+            "## Ergebnis",
+            "",
+            # Ohne diesen Verweis steht eine nackte Lueckenzahl im Bericht. Die
+            # Einordnung gehoert in ein geschriebenes Dokument, weil sie je
+            # Fall verschieden ausfaellt; der Bericht selbst wird erzeugt.
+            f"**{len(gaps)} Luecken.** Jede einzelne ist in",
+            "`docs/BA-PARSER-AUDIT-LUECKEN.md` benannt und eingeordnet: was im",
+            "Rohmaterial steht, was der Parser stattdessen meldet, und was das",
+            "fuer die Auswertung bedeutet.",
             "",
             "## Luecken je Lauf und Signaltyp",
             "",

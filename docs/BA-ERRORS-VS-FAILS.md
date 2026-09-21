@@ -212,7 +212,7 @@ python analysis_tools\errors_fails_report.py --md docs\errors-fails.md --csv doc
 # Nur ein Lauf
 python analysis_tools\errors_fails_report.py smartbugs\results\gptscan\curated_mwefixed_live
 
-# Prüfen, dass kein Rohsignal im Parser verlorengeht
+# Prüfen, ob Rohsignal im Parser verlorengeht
 python analysis_tools\parser_audit.py
 ```
 
