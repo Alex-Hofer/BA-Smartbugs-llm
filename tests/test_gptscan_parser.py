@@ -34,6 +34,20 @@ def test_clean_run_reports_no_error_or_fail(gptscan):
     assert contains(out["infos"], "GPTScan run: backend=")
 
 
+def test_recorded_finding_keeps_position_severity_and_file(gptscan):
+    """Line range, severity and file name must survive the mapping.
+
+    Mutation probe of 2026-09-24: dropping the line number left every test
+    green. Expected values come from the recorded
+    ``tests/fixtures/gptscan/clean_with_finding/result.tar`` (``output.json``).
+    """
+    (finding,) = parse(gptscan, TOOL, "clean_with_finding")["findings"]
+    assert finding["name"] == "MWE-200: Insecure LP Token Value Calculation"
+    assert finding["severity"] == "high"
+    assert finding["filename"] == "Vault.sol"
+    assert (finding["line"], finding["line_end"]) == (24, 29)
+
+
 def test_clean_run_is_not_marked_degraded(gptscan):
     """The degradation notice must be tied to a real compile failure.
 
