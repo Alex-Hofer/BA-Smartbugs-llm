@@ -601,6 +601,7 @@ Upstream-Stände per Hash abgeglichen.
 
 | Dokument | Inhalt |
 |---|---|
+| [`docs/BA-VERIFIKATIONSBERICHT-20260924.md`](docs/BA-VERIFIKATIONSBERICHT-20260924.md) | Zweitprüfung des Repositorys, Stand 24.09.2026: Befunde, Korrekturen mit Commit, neue Messungen |
 | [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Überprüfung des Repositorys, Stand 02.08.2026, mit Nachtrag vom 24.09.2026 |
 | [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed`, Stand 18.08.2026 vor dem Nachlauf; aktuelle Zahlen in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 |
 | [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen, Stand 18.08.2026; Vorprüfung, Entwurf und Plan liegen daneben (`BA-AP5-*.md`) |

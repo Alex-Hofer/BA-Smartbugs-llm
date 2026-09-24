@@ -18,7 +18,7 @@ Arbeitsverzeichnis; die verwendeten Befehle stehen bei jedem Punkt.
 > (`BA-EIGENANTEIL.md` 2.1, Korrektur vom 21.09.2026). Zeilenangaben zu
 > `sb/docker.py` in 2.4 haben sich durch spätere Einfügungen verschoben. Die
 > übrigen Befunde gelten unverändert; der Stand vom 24.09.2026 steht in
-> `BA-VERIFIKATIONSBERICHT-20260924.md`.
+> [`BA-VERIFIKATIONSBERICHT-20260924.md`](BA-VERIFIKATIONSBERICHT-20260924.md).
 
 ---
 
