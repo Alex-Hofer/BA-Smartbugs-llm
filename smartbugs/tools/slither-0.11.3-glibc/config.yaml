@@ -1,0 +1,22 @@
+# Eigenes Werkzeugverzeichnis fuer Slither 0.11.3 in einem glibc-Image.
+#
+# Warum: Das Upstream-Image smartbugs/slither:0.11.3 basiert auf Alpine (musl).
+# Die von SmartBugs bereitgestellten solc-Binaries 0.7.6 und 0.8.1 bis 0.8.12
+# sind glibc-dynamisch gelinkt (/lib64/ld-linux-x86-64.so.2) und starten dort
+# nicht ("No such file or directory: '/sb/bin/solc'"); 0.6.x und 0.8.36 sind
+# statisch und laufen. Auf dem DeFi-Korpus mwevariety_fixed blieben deshalb
+# 45 von 96 Contracts ohne Ergebnis (docs/BA-BETRIEB.md, Fallstrick 10).
+# Dieses Verzeichnis ist eine Kopie von tools/slither-0.11.3 mit anderem Image
+# (Dockerfile daneben) und ohne die PYTHONPATH-Zeile des Upstream-Images.
+# findings.yaml und parser.py sind unveraendert, damit Zuordnung und Auswertung
+# identisch bleiben. Ergebnisse landen unter results/slither-0.11.3-glibc/.
+name: Slither
+version: 0.11.3
+origin: https://github.com/crytic/slither
+info: Slither is a Solidity static analysis framework written in Python 3. It runs a suite of vulnerability detectors and prints visual information about contract details. Slither enables developers to find vulnerabilities, enhance their code comphrehension, and quickly prototype custom analyses.
+image: smartbugs/slither:0.11.3-glibc
+output: /output.json
+bin: scripts
+solidity:
+    entrypoint: "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN'"
+    solc: yes

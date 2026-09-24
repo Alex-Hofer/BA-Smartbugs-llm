@@ -33,7 +33,8 @@ gemacht.
 | `curated_v1_20260705__slither-0.11.3.csv` | Slither über `smartbugs-curated` | 143 |
 | `curated_mwefixed_live__gptscan.csv` | GPTScan über `mwevariety_fixed`, ohne MAIN | 96 |
 | `gptscan_mwefixed_v2_main__gptscan.csv` | GPTScan über `mwevariety_fixed`, MAIN=1, mit eingemischtem Nachlauf `_nomain` | 96 |
-| `slither_mwefixed_v1__slither-0.11.3.csv` | Slither über `mwevariety_fixed` (24.09.2026); 45 Contracts ohne Ergebnis, Ursache in `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
+| `slither_mwefixed_v1__slither-0.11.3.csv` | Slither über `mwevariety_fixed` (24.09.2026, Upstream-Image); 45 Contracts ohne Ergebnis, Ursache in `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
+| `slither_mwefixed_v2__slither-0.11.3-glibc.csv` | Slither über `mwevariety_fixed` (24.09.2026, eigenes glibc-Image); 95 von 96 analysiert, der Rest ein Compilerfehler, siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
 
 Die beiden LLMSmartAudit-v2-Läufe (`llmsa_curated_v2`, `llmsa_mwefixed_v2`)
 fehlen hier. Die Rohergebnisse von `llmsa_curated_v2` existieren seit dem
@@ -216,6 +217,8 @@ python analysis_tools\per_contract_stats.py gptscan gptscan_mwefixed_v2_main --m
 python analysis_tools\per_contract_stats.py gptscan curated_mwefixed_live
 python analysis_tools\per_contract_stats.py gptscan curated_v1_20260705
 python analysis_tools\per_contract_stats.py slither-0.11.3 curated_v1_20260705
+python analysis_tools\per_contract_stats.py slither-0.11.3 slither_mwefixed_v1
+python analysis_tools\per_contract_stats.py slither-0.11.3-glibc slither_mwefixed_v2
 python analysis_tools\per_contract_stats.py llmsmartaudit curated_v1_20260705
 ```
 

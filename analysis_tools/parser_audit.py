@@ -89,6 +89,7 @@ BENIGN_EXIT_CODES: dict[str, tuple[int, ...]] = {
     "slither-0.10.0": (255,),
     "slither-0.10.4": (255,),
     "slither-0.11.3": (255,),
+    "slither-0.11.3-glibc": (255,),
 }
 
 # rich table titles that bleed into the record following them

@@ -18,6 +18,7 @@ schreibt sie in einen Ergebnisordner.
 | Docker Desktop läuft | `cmd /c "docker info --format ""{{.ServerVersion}}"""` | Versionsnummer, z. B. `29.0.1` |
 | Image GPTScan | `cmd /c "docker images"` \| `Select-String gptscan` | `smartbugs/gptscan:1.0` |
 | Image LLMSmartAudit | dito mit `llmsmartaudit` | `smartbugs/llmsmartaudit:1.0` |
+| Image Slither, glibc (nur DeFi-Korpus) | dito mit `slither` | `smartbugs/slither:0.11.3-glibc`; Grund in `BA-BETRIEB.md`, Fallstrick 10 |
 | API-Schlüssel | `Test-Path GPTScan\.env` | `True` |
 | SmartBugs-venv | `Test-Path smartbugs\.venv\Scripts\python.exe` | `True` |
 
@@ -38,6 +39,9 @@ docker build -t smartbugs/gptscan:1.0 .\GPTScan
 # LLMSmartAudit (Git Bash, nicht PowerShell)
 git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main |
   docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
+
+# Slither im glibc-Image (PowerShell)
+docker build -t smartbugs/slither:0.11.3-glibc .\smartbugs\tools\slither-0.11.3-glibc
 ```
 
 ### API-Schlüssel

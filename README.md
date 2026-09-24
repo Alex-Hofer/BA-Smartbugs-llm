@@ -73,7 +73,7 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 24.09.2026: 50 Läufe, 1 405 Tasks, 7 013 Dateien, 2,40 GB** (2,23 GiB).
+**Stand 24.09.2026: 51 Läufe, 1 501 Tasks, 7 494 Dateien, 2,68 GB** (2,50 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 
@@ -82,14 +82,16 @@ Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 | `gptscan` | 33 | 863 |
 | `llmsmartaudit` | 15 | 303 |
 | `slither-0.11.3` | 2 | 239 |
+| `slither-0.11.3-glibc` | 1 | 96 |
 
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 `curated_v1_20260705` (143 Tasks je Werkzeug). Dazu kommen der GPTScan-Volllauf
 mit MAIN über `mwevariety_fixed` (15.08.2026), die LLMSmartAudit-Volläufe über
 beide Korpora (15./16.08.2026, Nachlauf 15.09.2026), die Prüfläufe zum
-Timeout (17./18.08.2026), Slither über `mwevariety_fixed` (24.09.2026,
-`slither_mwefixed_v1`; 51 von 96 Contracts analysiert, Ursache in
-`docs/BA-BETRIEB.md`, Fallstrick 10) und der LLMSmartAudit-Nachlauf über die
+Timeout (17./18.08.2026), Slither über `mwevariety_fixed` (24.09.2026;
+`slither_mwefixed_v1` mit dem Upstream-Image erreichte 51 von 96 Contracts,
+Ursache in `docs/BA-BETRIEB.md`, Fallstrick 10; `slither_mwefixed_v2` mit dem
+eigenen glibc-Image 95 von 96) und der LLMSmartAudit-Nachlauf über die
 37 Kontext-Contracts mit angehobener Grenze (24.09.2026,
 `llmsa_mwefixed_v2_ctx1m`; 37 von 37 analysiert, Auswertung in
 `eval/llmsa_mwefixed_v2_ctx1m/`).
@@ -106,7 +108,7 @@ Die aggregierten Auswertungen sind versioniert:
 
 * [`eval/curated_v1_20260705__metriken.md`](eval/curated_v1_20260705__metriken.md) — Recall/Precision/F1 je DASP-Kategorie für alle drei Werkzeuge
 * [`eval/`](eval/README.md) — je Lauf ein Ordner mit `findings.jsonl`, `run_meta.json`, `summary.md` und einer `README.md`, die sagt, was man daraus schließen darf und was nicht
-* [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für sechs Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
+* [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für acht Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
 * [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut
 * [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Lückenbericht der Parser über alle Läufe
 * [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
@@ -139,6 +141,7 @@ Einschränkungen dokumentiert.
 * **Python 3.10+** für SmartBugs (venv unter `smartbugs/.venv`), Python 3.11+
   für die Werkzeuge in `analysis_tools/` und die Tests.
 * **Die beiden KI-Images lokal gebaut** — sie liegen auf keinem Registry.
+  Für den DeFi-Korpus zusätzlich das glibc-Slither-Image (siehe „Die vier Images“).
 * **solc**: SmartBugs lädt passende Compiler selbst und legt sie unter
   `~/.smartbugs/solc` ab. Für GPTScan reicht SmartBugs den passenden Compiler
   als `$BIN/solc` in den Container.
@@ -181,19 +184,22 @@ heraus. Deshalb gibt es **kein `docker-compose`**: Es gäbe nichts zu
 komponieren — keine langlebigen Dienste, kein Netz zwischen Containern, keine
 feste Anzahl. Die Parallelität steuert `--processes`, nicht Compose.
 
-### Die drei Images
+### Die vier Images
 
 | Werkzeug | Image | Herkunft | Netz |
 |---|---|---|---|
 | GPTScan | `smartbugs/gptscan:1.0` | **lokal bauen** (`GPTScan/Dockerfile`) | `bridge` |
 | LLMSmartAudit | `smartbugs/llmsmartaudit:1.0` | **lokal bauen** (`LLMSmartAuditTool-main/LLMSmartAuditTool-main/Dockerfile.smartbugs`) | `bridge` |
 | Slither 0.11.3 | `smartbugs/slither:0.11.3` | Registry (Docker Hub) — SmartBugs zieht es beim ersten Lauf selbst, `sb/docker.py:77` | `none` |
+| Slither 0.11.3, glibc | `smartbugs/slither:0.11.3-glibc` | **lokal bauen** (`smartbugs/tools/slither-0.11.3-glibc/Dockerfile`); nur für den DeFi-Korpus nötig, `docs/BA-BETRIEB.md` Fallstrick 10 | `none` |
 
 Die beiden KI-Images müssen lokal gebaut werden, weil sie auf keinem Registry
 liegen: Sie enthalten den **für diese Arbeit geänderten** Fremdcode (siehe
 [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)), und ein Upload wäre bei
 GPTScan zusätzlich eine AGPL-3.0-Weitergabe. Slither dagegen ist unverändert und
-kommt fertig.
+kommt fertig; das vierte Image ändert daran nichts, es tauscht nur die
+Linux-Basis (Debian statt Alpine) und installiert dieselbe Version mit
+`pip install slither-analyzer==0.11.3`.
 
 > Am 21.09.2026 nachgeprüft, nicht bloß behauptet: Unter `/opt/gptscan/src/`
 > im Image liegen alle sieben geänderten Dateien — `tasks.py`, `config.py`,
@@ -221,7 +227,12 @@ git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main \
   | docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
 ```
 
-Beide Befehle sind gegen die Dockerfiles geprüft: Build-Kontext, Pfad des
+```powershell
+# Slither im glibc-Image, nur für den DeFi-Korpus nötig
+docker build -t smartbugs/slither:0.11.3-glibc .\smartbugs\tools\slither-0.11.3-glibc
+```
+
+Alle drei Befehle sind gegen die Dockerfiles geprüft: Build-Kontext, Pfad des
 Dockerfiles und Tag stimmen mit dem überein, was die `config.yaml` des jeweiligen
 Werkzeugs als `image:` verlangt. Der zweite Befehl umgeht bewusst den
 Arbeitsbaum — ein `docker build .` in diesem Verzeichnis scheitert unter Windows
@@ -229,7 +240,8 @@ an den Langpfaden des Tool-Baums.
 
 Gemessene Größen: `smartbugs/gptscan:1.0` 2,14 GB (Neubau 18.08.2026,
 `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5), `smartbugs/llmsmartaudit:1.0`
-**587 MB** (Neubau 20.09.2026 aus dem aktuellen Repo-Stand).
+**587 MB** (Neubau 20.09.2026 aus dem aktuellen Repo-Stand),
+`smartbugs/slither:0.11.3-glibc` **316 MB** (Bau 24.09.2026, ID `a7a63792a158`).
 
 Am 21.09.2026 gegengeprüft — `docker images` bestätigt beide Werte und beide
 Baudaten:

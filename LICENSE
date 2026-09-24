@@ -42,6 +42,12 @@ Diese Lizenz gilt ausschliesslich fuer den Eigenanteil dieser Bachelorarbeit:
     smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh,
                                     scripts/main_contract.py,
                                     scripts/mark_timeout.py)
+    smartbugs/tools/slither-0.11.3-glibc/
+                                   (nur config.yaml, Dockerfile und
+                                    scripts/do_solidity.sh; findings.yaml und
+                                    parser.py sind unveraenderte Kopien aus
+                                    smartbugs/tools/slither-0.11.3/ und
+                                    bleiben unter dessen Apache-2.0-Lizenz)
     docs/                          (Ausarbeitungen und Protokolle)
 
 Ebenfalls unter dieser Lizenz stehen die eigenen, neu angelegten Dateien im

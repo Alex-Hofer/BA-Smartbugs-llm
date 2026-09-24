@@ -184,6 +184,13 @@ Slither kommt als fertiges SmartBugs-Werkzeug und wurde in dieser Arbeit **nicht
 verändert** — `smartbugs/tools/slither-0.11.3/` ist unangetastet, das Image
 `smartbugs/slither:0.11.3` stammt von Docker Hub. Es ist die Referenz, an der
 sich die beiden KI-Werkzeuge messen lassen müssen, nicht selbst ein Prüfling.
+Für den DeFi-Korpus kam am 24.09.2026 ein zweites Werkzeugverzeichnis dazu,
+`smartbugs/tools/slither-0.11.3-glibc/`: dieselbe Slither-Version, derselbe
+Parser, dieselbe `findings.yaml`, aber ein eigenes, glibc-basiertes Image
+(`smartbugs/slither:0.11.3-glibc`, Dockerfile im Verzeichnis), weil die
+solc-Binaries 0.7.6 und 0.8.1 bis 0.8.12 im Alpine-Image des Upstreams nicht
+starten (`BA-BETRIEB.md`, Fallstrick 10). Der curated-Lauf bleibt beim
+Upstream-Image; Solidity 0.4 ist nicht betroffen.
 
 Seine Findings tragen Detektorname, Contract, Funktion, Zeilenbereich, `impact`
 und `confidence`.
@@ -257,20 +264,21 @@ Contract, und 299,2 s gegen 2,1 s Rechenzeit je Contract. Slither ist rund
 `eval/per_contract/curated_mwefixed_live__gptscan.csv`,
 `eval/gptscan_mwefixed_v2_main/run_meta.json`,
 `eval/llmsa_mwefixed_v2/run_meta.json`,
-`eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv`.
+`eval/per_contract/slither_mwefixed_v2__slither-0.11.3-glibc.csv`
+(Vorlauf mit dem Upstream-Image: `slither_mwefixed_v1__slither-0.11.3.csv`).
 
-| | GPTScan (`curated_mwefixed_live`) | GPTScan (`gptscan_mwefixed_v2_main`, MAIN) | LLMSmartAudit (`llmsa_mwefixed_v2`) | Slither 0.11.3 (`slither_mwefixed_v1`) | LLMSmartAudit (`llmsa_mwefixed_v2_ctx1m`, nur die 37 Kontext-Contracts) |
+| | GPTScan (`curated_mwefixed_live`) | GPTScan (`gptscan_mwefixed_v2_main`, MAIN) | LLMSmartAudit (`llmsa_mwefixed_v2`) | Slither 0.11.3 (`slither_mwefixed_v2`, glibc-Image) | LLMSmartAudit (`llmsa_mwefixed_v2_ctx1m`, nur die 37 Kontext-Contracts) |
 |---|---:|---:|---:|---:|---:|
 | Contracts | 96 | 96 | 96 | 96 | 37 |
-| **davon überhaupt analysiert** | **96** | **96** | **59** | **51** | **37** |
+| **davon überhaupt analysiert** | **96** | **96** | **59** | **95** | **37** |
 | Kontext überschritten | – | – | **37** | – | 0 |
-| kein lauffähiger Compiler im Container | – | – | – | **45** | – |
-| Contracts mit Findings | 40 | 37 | 59 | 50 | 37 |
-| Findings gesamt | 77 | 74 | 437 | 4 319 | 317 |
-| verschiedene Regeln/Kategorien | 8 von 10 | – | 34 von 41 | 46 Detektoren | 34 von 41 |
+| Compiler-Fehler (`Stack too deep`) | – | – | – | **1** | – |
+| Contracts mit Findings | 40 | 37 | 59 | 94 | 37 |
+| Findings gesamt | 77 | 74 | 437 | 7 096 | 317 |
+| verschiedene Regeln/Kategorien | 8 von 10 | – | 34 von 41 | 48 Detektoren | 34 von 41 |
 | Kosten | $0,2769 | $0,3638 | ≈ $8,37 | $0 | $5,55 abgebucht (geschätzt $11,42) |
-| Wanduhr | 36,7 min | 50,9 min | – | 8,8 min | 5,0 h in zwei Teilen |
-| Container-Zeit gesamt | 8 217,2 s | 11 771,7 s | 90 206,2 s | 2 031,3 s | 35 027,9 s |
+| Wanduhr | 36,7 min | 50,9 min | – | 2,8 min | 5,0 h in zwei Teilen |
+| Container-Zeit gesamt | 8 217,2 s | 11 771,7 s | 90 206,2 s | 646,6 s | 35 027,9 s |
 | Kosten je **analysiertem** Contract | $0,0029 | $0,0038 | $0,142 | $0 | $0,15 |
 
 **Der entscheidende Unterschied steht in der zweiten Zeile.** GPTScan kam auf
@@ -280,20 +288,27 @@ war es genau 1 von 143. Der Grund ist der Korpus: Die geflatteten DeFi-Contracts
 tragen ihren vollständigen Import-Closure und sind um ein Vielfaches größer. Im
 Mittel gingen 20 900 Prompt-Token in jeden der 2 624 Aufrufe.
 
-**Slither als statische Baseline auf demselben Korpus** (Lauf vom 24.09.2026,
-`--timeout 600`, 4 Prozesse) kam auf 51 der 96 Contracts zu einem Ergebnis: 50
-mit Findings, einer ohne. Die 45 übrigen scheiterten nicht am Contract, sondern
-an der Werkzeugkette: SmartBugs reicht den zur `pragma` passenden Compiler als
-`$BIN/solc` in den Container, das Slither-Image ist Alpine Linux, und die
+**Slither als statische Baseline auf demselben Korpus** (Lauf
+`slither_mwefixed_v2` vom 24.09.2026, glibc-Image, `--timeout 600`, 4 Prozesse,
+2:48 min Wanduhr) kam auf 95 der 96 Contracts zu einem Ergebnis: 94 mit
+Findings, einer ohne. Der eine Rest, `58_UniV3Vault.sol` (`pragma` 0.8.9),
+scheitert am Compiler selbst: solc meldet `Stack too deep when compiling
+inline assembly`; der Korpusbau hatte diese Datei nur mit `--optimize`
+übersetzt bekommen, Slither ruft solc ohne Optimierer auf. Ein erster Lauf am
+selben Tag mit dem Upstream-Image (`slither_mwefixed_v1`) hatte nur 51 der 96
+Contracts erreicht: SmartBugs reicht den zur `pragma` passenden Compiler als
+`$BIN/solc` in den Container, das Upstream-Image ist Alpine Linux, und die
 solc-Binaries 0.7.6 und 0.8.1 bis 0.8.12 sind gegen glibc gelinkt und dort
-nicht startbar (`BA-BETRIEB.md`, Fallstrick 10). Analysiert wurden damit die
-Contracts mit `pragma` 0.6.x und 0.8.36, also die vom Korpusbau auf eine feste
-Version gesetzten. Die 4 319 Findings verteilen sich nach Slithers
-Impact-Stufe auf 3 268 Informational, 50 Optimization, 581 Low, 358 Medium und
-62 High; die häufigsten Detektoren sind `too-many-digits` (1 861) und
-`naming-convention` (885), also Stilhinweise. Im Median meldet Slither 64
-Findings je analysiertem Contract, GPTScan auf denselben 96 Contracts 0 bis 2.
-Ohne Ground Truth bleibt das ein Mengen-, kein Qualitätsvergleich.
+nicht startbar (`BA-BETRIEB.md`, Fallstrick 10). Das eigene glibc-Image
+(Abschnitt 3) behebt das; für die 51 in beiden Läufen analysierten Contracts
+sind Findingzahl und Detektorverteilung in v1 und v2 identisch, Slither ist
+deterministisch. Die 7 096 Findings verteilen sich nach Slithers Impact-Stufe
+auf 4 858 Informational, 112 Optimization, 1 254 Low, 748 Medium und
+124 High; die häufigsten Detektoren sind `too-many-digits` (2 020) und
+`naming-convention` (1 886), also Stilhinweise. Im Median meldet Slither 55
+Findings je analysiertem Contract (Spanne 0 bis 349), GPTScan auf denselben
+96 Contracts 0 bis 2. Ohne Ground Truth bleibt das ein Mengen-, kein
+Qualitätsvergleich.
 
 **Die 37 Kontext-Contracts mit angehobener Grenze** (Nachlauf
 `llmsa_mwefixed_v2_ctx1m`, 24.09.2026, `LLM_CONTEXT_TOKENS=1000000`, Image

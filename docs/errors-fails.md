@@ -62,7 +62,8 @@ Erzeugt mit `python analysis_tools/errors_fails_report.py --md ... --csv ...`.
 | llmsmartaudit | smoke2_live | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 140 | 3 | 3 | 3 | 9 | 0 | 0 |
 | slither-0.11.3 | slither_mwefixed_v1 | 96 | 51 | 45 | 45 | 45 | 180 | 0 | 0 |
-| **Summe** | | **1405** | **868** | **531** | **143** | **2375** | **329** | **249** | **10** |
+| slither-0.11.3-glibc | slither_mwefixed_v2 | 96 | 95 | 1 | 1 | 1 | 4 | 0 | 0 |
+| **Summe** | | **1501** | **963** | **532** | **144** | **2376** | **333** | **249** | **10** |
 
 Spalte *sauber*: Tasks ohne jeden Error und Fail. Spalte *nicht uebersetzt*:
 Tasks, deren Contract nicht kompiliert werden konnte — dort ist ein leeres
@@ -138,4 +139,4 @@ Meldung — jede wird unveraendert wiedergegeben.
 | llmsmartaudit | llmsa_smoke_curated | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68978}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (openai.BadRequestError: Error code: 400 - {'error': {'message': 'The supported API model names are deepseek-v4-pro or deepseek-v4-flash, but you passed STUB.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7ff553bdcbe0 state=finished raised BadRequestError>]) |
-| ... | | | | | *1385 weitere Meldungen, vollstaendig in der CSV* |
+| ... | | | | | *1390 weitere Meldungen, vollstaendig in der CSV* |

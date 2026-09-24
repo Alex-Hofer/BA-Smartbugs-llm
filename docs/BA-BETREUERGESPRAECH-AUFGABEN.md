@@ -344,8 +344,8 @@ anpassen und per Mail schicken.
 | Eigene Dokumentation | **rund 65 000 Wörter** über 27 handgeschriebene Dokumente (README, 22 unter `docs/`, `corpus_tools/README.md`, 3 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, READMEs unter `eval/`) nicht mitgezählt |
 | Geänderte Fremddateien | **18** (7 GPTScan · 9 LLMSmartAudit · 2 SmartBugs, dazu `smartbugs/.gitignore`), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser) |
-| Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 587 MB reduziert |
-| Messläufe | **50 Läufe · 1 405 Tasks · 7 013 Dateien · 2,40 GB** |
+| Docker-Images | **3** selbst gebaut (GPTScan, LLMSmartAudit, Slither im glibc-Image), eines von 5,13 GB auf 587 MB reduziert |
+| Messläufe | **51 Läufe · 1 501 Tasks · 7 494 Dateien · 2,68 GB** |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1 368 → 0** verlorene Rohmeldungen |
 | Regressionstests | **244**, Fixtures aus echten Läufen |

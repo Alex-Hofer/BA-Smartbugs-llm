@@ -124,13 +124,21 @@ meldet `No such file or directory: '/sb/bin/solc'`, obwohl die Datei da ist.
 0.6.x und 0.8.36 sind statisch gelinkt und laufen. Im Lauf
 `slither_mwefixed_v1` (24.09.2026) blieben deshalb 45 von 96 DeFi-Contracts
 ohne Ergebnis; auf `smartbugs-curated` (Solidity 0.4) tritt das nicht auf. Das
-GPTScan-Image ist Debian-basiert und nicht betroffen.
+GPTScan-Image ist Debian-basiert und nicht betroffen. **Lösung (24.09.2026):**
+das eigene Werkzeugverzeichnis `smartbugs/tools/slither-0.11.3-glibc/` mit dem
+glibc-basierten Image `smartbugs/slither:0.11.3-glibc` (Bauanleitung in
+Abschnitt 5); damit lief `slither_mwefixed_v2` auf 95 von 96 Contracts durch.
+Der letzte, `58_UniV3Vault.sol`, ist ein Compilerfehler (`Stack too deep`),
+kein Image-Problem.
 
 ## 5. Images bauen
 
 ```powershell
 # GPTScan (aus dem Repo-Root)
 docker build -t smartbugs/gptscan:1.0 .\GPTScan
+
+# Slither in einem glibc-Image, nur fuer den DeFi-Korpus noetig (Fallstrick 10)
+docker build -t smartbugs/slither:0.11.3-glibc .\smartbugs\tools\slither-0.11.3-glibc
 ```
 
 ```bash

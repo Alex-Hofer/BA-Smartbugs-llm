@@ -442,6 +442,24 @@ Container). Ausgewertet in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 und
 `eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv`; Rohdaten unter
 `smartbugs/results/slither-0.11.3/slither_mwefixed_v1/`.
 
+**Nachtrag, später am 24.09.2026 — vollständige Baseline mit glibc-Image.**
+Ein eigenes Werkzeugverzeichnis `smartbugs/tools/slither-0.11.3-glibc/`
+(gleiche Slither-Version, gleicher Parser, gleiche `findings.yaml`; Image
+`smartbugs/slither:0.11.3-glibc` aus `python:3.12-slim-bookworm`, Dockerfile im
+Verzeichnis) umgeht den Fallstrick. Lauf `slither_mwefixed_v2` (`--timeout
+600`, 4 Prozesse, 2:48 min Wanduhr, 646,6 s Container-Zeit): 95 von 96
+Contracts analysiert, 94 mit Findings, 7 096 Findings aus 48 Detektoren
+(Impact: 4 858 Informational, 112 Optimization, 1 254 Low, 748 Medium,
+124 High). Für die 51 schon in v1 analysierten Contracts sind Findingzahl und
+Detektorverteilung identisch. Der verbleibende Contract `58_UniV3Vault.sol`
+(0.8.9) scheitert am Compiler (`Stack too deep when compiling inline
+assembly`): Der Korpusbau hatte ihn nur mit `--optimize` übersetzen können,
+Slither ruft solc ohne Optimierer auf. Auswertung in
+`BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 und
+`eval/per_contract/slither_mwefixed_v2__slither-0.11.3-glibc.csv`; Rohdaten
+unter `smartbugs/results/slither-0.11.3-glibc/slither_mwefixed_v2/`. Der Lauf
+v1 bleibt als Beleg des Fallstricks stehen.
+
 ### 4.9 Nachtrag (24.09.2026) — Die 37 Kontext-Contracts mit angehobener Grenze
 
 Der Hauptlauf `llmsa_mwefixed_v2` führte 37 der 96 DeFi-Contracts als
