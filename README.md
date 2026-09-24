@@ -72,7 +72,7 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 20.09.2026: 48 Läufe, 1 272 Tasks, 6 297 Dateien, 1,08 GB** (1,01 GiB).
+**Stand 24.09.2026: 48 Läufe, 1 272 Tasks, 6 401 Dateien, 1,09 GB** (1,01 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 

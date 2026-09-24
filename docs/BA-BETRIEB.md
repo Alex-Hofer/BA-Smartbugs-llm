@@ -1,7 +1,8 @@
 # Betriebsdoku: validierte Parameter, Pflichtvariablen, Fallstricke, Kosten
 
-Alle Zahlen stammen aus den 19 durchgeführten Läufen (Stand 2026-08-02) und
-sind gemessen, nicht geschätzt, sofern nicht ausdrücklich anders vermerkt.
+Alle Zahlen stammen aus den aufgezeichneten Läufen (48 Läufe, Stand
+24.09.2026) und sind gemessen, nicht geschätzt, sofern nicht ausdrücklich
+anders vermerkt.
 
 ## 1. Pflicht-Umgebungsvariablen
 
@@ -38,7 +39,7 @@ und wie sich der Timeout-Pfad ohne Kosten testen lässt: Abschnitt 8.
 
 | Werkzeug | Pro Contract | Kostenbremse |
 |---|---|---|
-| GPTScan | Median ~$0,0009 | **ja** — `MAX_COST_USD` in `GPTScan/src/config.py`, $0,50 pro Contract. Bei Erreichen stoppt der Lauf die Aufrufe, stürzt nicht ab, und vermerkt `budget_exceeded` in den Metadaten. |
+| GPTScan | curated_v1: Mittel $0,00007, Median $0 (127 von 143 Contracts setzen keinen LLM-Aufruf ab); DeFi-Korpus `curated_mwefixed_live`: Median $0,0013, Mittel $0,0029, Maximum $0,020 | **ja** — `MAX_COST_USD` in `GPTScan/src/config.py`, $0,50 pro Contract. Bei Erreichen stoppt der Lauf die Aufrufe, stürzt nicht ab, und vermerkt `budget_exceeded` in den Metadaten. |
 | LLMSmartAudit | im Mittel ~$0,017, Median ~$0,012 (aus den Tokens hochgerechnet), Dauer im Mittel 299 s | **nein** — das Werkzeug hat keinerlei Budgetgrenze. |
 
 Referenzwerte kompletter Läufe:

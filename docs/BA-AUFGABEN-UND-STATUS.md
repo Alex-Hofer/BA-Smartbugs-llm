@@ -153,7 +153,7 @@ verworfen wird nichts.
 
 > **Nachtrag 21.09.2026.** Teil C beschreibt den Stand vom 02.08.2026. Vier
 > Angaben sind seitdem überholt und unten an Ort und Stelle richtiggestellt:
-> der Push ist erfolgt (72 Commits, `origin/main` aktuell), der pre-commit-Hook
+> der Push ist erfolgt (`origin/main` aktuell, am Abend des 21.09.2026 bei 83 Commits), der pre-commit-Hook
 > ist versioniert, die `.tex`-Fassungen existieren nicht mehr, und die
 > History umfasst nicht mehr 13 Commits. Die übrigen Punkte gelten
 > unverändert. Der Rest des Dokuments ist historischer Stand und wird nicht
@@ -173,8 +173,8 @@ verworfen wird nichts.
 ### Offene Entscheidungen
 
 **1. Push und Einladung.** ~~Fünf Commits liegen lokal.~~ **Erledigt:** Das
-Repo ist gepusht, `origin/main` ist aktuell (Stand 21.09.2026: 72 Commits,
-nichts liegt lokal).
+Repo ist gepusht, `origin/main` ist aktuell (Stand 21.09.2026 abends: 83
+Commits, nichts liegt lokal).
 
 **2. Das Durchführungsprotokoll ist an einer Stelle überholt.** In
 `BA-DURCHFUEHRUNGSPROTOKOLL.md` steht bei Fehler #4 (Silent Failure) als

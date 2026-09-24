@@ -24,7 +24,7 @@ Contract-Korpus.
 | Recall vs. Ground Truth | **0 %** \* | **treffsicher** † |
 | Vorfilter passiert | nur 16 / 143 | Korpus ist bereits Zieldomäne |
 | Static-Bestätigung | aktiv (kompilierbar) | überwiegend inaktiv (degradiert) |
-| Kosten / Laufzeit | $0.01 / 3:19 min | $0.046 / 13:22 min |
+| Kosten / Laufzeit | $0.01 / 3:19 min | $0.046 / 13:17 min |
 
 \* *by design*, siehe Abschnitt 2. † Ohne vendorte Ground Truth →
 deskriptiv/qualitativ statt Recall-Zahl, siehe Abschnitt 3.
@@ -188,7 +188,7 @@ gemessen ist — die Werte selbst sind unverändert.
 | Angabe | Beleg | Ergebnis |
 |---|---|---|
 | Lauf A: 143 Tasks, 6 Findings, alle MWE-207 | alle `result.json` in `smartbugs/results/gptscan/curated_v1_20260705/` | bestätigt |
-| Lauf A: $0.01 / 3:19 min / 72 LLM-Calls | `GPTSCAN_META` je `result.log` ($0,0098; 72 Calls) und `smartbugs.json` (3,22 min Wanduhr) | bestätigt |
+| Lauf A: $0.01 / 3:19 min / 72 LLM-Calls | `GPTSCAN_META` je `result.log` ($0,0098; 72 Calls) und `smartbugs.json` (3,22 min Task-Spanne; SmartBugs meldet 3:19) | bestätigt |
 | Lauf A: 16 / 143 passierten den Vorfilter | `GPTSCAN_META`, Feld `llm_calls` > 0 bei genau 16 Contracts | bestätigt — gemeint ist der Keyword-Vorfilter, nach dem *ersten* LLM-Schritt bleiben 12 Contracts übrig |
 | Lauf A: 4 Review-Kandidaten, 5 verworfene LLM-Kandidaten | `GPTSCAN_META`: Summe `vul_before_static` = 11, `vul_after_static` = 6, Verwurf bei 4 Contracts | bestätigt |
 | Lauf B: 11 Findings auf 7 Contracts, Regelverteilung 6/2/2/1 | alle `result.json` in `smartbugs/results/gptscan/curated_mwe_20260706/` | bestätigt |

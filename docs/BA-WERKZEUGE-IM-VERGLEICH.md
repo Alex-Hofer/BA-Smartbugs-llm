@@ -190,12 +190,19 @@ Quelle: `eval/curated_v1_20260705__<werkzeug>/run_meta.json`.
 | Tasks mit `fails` | 0 | 0 | 3 |
 | Container-Zeit gesamt | 712,9 s | 42 792,5 s | 298,8 s |
 | Median je Contract | 3,1 s | 264,1 s | 1,9 s |
-| Wanduhr (4 Prozesse) | 3,2 min | 182,1 min | 1,3 min |
+| Wanduhr, erster Task-Start bis letztes Task-Ende (4 Prozesse) | 3,2 min | 182,1 min | 1,3 min |
 | LLM-Aufrufe | 72 | 6 174 | 0 |
 | Token (prompt / completion) | 25 580 / 22 302 | 12 554 710 / 3 517 916 | – |
 | Kosten gesamt | $0,0098 | $2,44 | $0 |
 | **Kosten je Contract** | **$0,0001** | **$0,0171** | **$0** |
 | **Zeit je Contract** | **5,0 s** | **299,2 s** | **2,1 s** |
+
+Die Wanduhr ist aus den Zeitstempeln der `smartbugs.json` gerechnet (erster
+Task-Start bis letztes Task-Ende: 3:13 min, 3:02:09 h, 1:16 min). SmartBugs
+selbst meldet am Ende jedes Laufs eine etwas längere Zeit, weil Start und
+Aufräumen mitzählen: 3:19 min, 3:02:15 h und 1:24 min
+(`smartbugs/results/logs/<runid>.log`). Das Durchführungsprotokoll nennt in
+Tabelle 4.1 die SmartBugs-Meldung.
 
 Recall, Precision und F1 je DASP-Kategorie stehen in
 [`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md).
@@ -215,7 +222,7 @@ Informational- und Optimization-Hinweise (1 480), dazu 166 Low, 60 Medium und
 57 High. Mit F1 54 % ist Slither auf diesem Korpus das stärkste der drei
 Werkzeuge — auf genau den Schwachstellenklassen, für die es gebaut ist.
 
-*Der Kostenunterschied ist drei Größenordnungen.* $0,0171 gegen $0,0001 je
+*Der Kostenunterschied ist mehr als zwei Größenordnungen.* $0,0171 gegen $0,0001 je
 Contract, und 299,2 s gegen 2,1 s Rechenzeit je Contract. Slither ist rund
 140-mal so schnell wie LLMSmartAudit und kostenlos.
 
@@ -398,8 +405,9 @@ in dem man seinen Zahlen am wenigsten trauen darf.
 **LLMSmartAudit** ist das breiteste der drei: 41 Detektoren, die auch Dinge
 abdecken, für die es keine DASP-Kategorie gibt (fehlende Withdrawal-Funktion,
 Zentralisierungsrisiko, Präzisionsverlust). Auf kleinen Contracts findet es
-nahezu alles Gelabelte. Der Preis ist hoch und dreifach: auf curated 171-mal so teuer
-je Contract wie GPTScan und rund 140-mal so langsam wie Slither, auf dem
+nahezu alles Gelabelte. Der Preis ist hoch und dreifach: auf curated rund
+250-mal so teuer wie GPTScan ($2,44 gegen $0,0098 für dieselben 143
+Contracts) und rund 140-mal so langsam wie Slither, auf dem
 DeFi-Korpus immer noch 49-mal so teuer je analysiertem Contract; und auf realen
 DeFi-Contracts scheitert es an der Kontextgrenze — bei 38,5 % des
 DeFi-Korpus kam gar kein Ergebnis zustande. Dazu kommt, dass es weder

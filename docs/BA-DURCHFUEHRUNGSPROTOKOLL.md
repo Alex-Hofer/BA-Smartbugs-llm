@@ -58,6 +58,8 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 
 \* by design: GPTScan adressiert ausschließlich DeFi-Logik-Schwachstellen, nicht die klassischen SWC-Klassen des Datensatzes. Nur 16/143 Contracts passierten den Keyword-Vorfilter; die 6 Findings (alle MWE-207) lagen auf real-world Contracts mit anderem Primär-Label.
 
+Laufzeit = Meldung „Analysis completed in“ aus `smartbugs/results/logs/<runid>.log`. Die Spanne vom ersten Task-Start bis zum letzten Task-Ende ist etwas kürzer (Slither 1:16, LLMSmartAudit 3:02:09, GPTScan 3:13) und steht in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.1.
+
 **LLMSmartAudit pro Kategorie.** Die Spalte *Contracts* nennt, wie viele Contracts
 die Ground Truth mit dieser Kategorie labelt; Recall und Precision beziehen sich
 darauf.
@@ -92,7 +94,7 @@ Finding-Dichte: Ø 7,9/Contract (Median 7, Max 18); **kein Contract blieb ohne F
 - **11 Findings auf 7 Contracts** (alle high): MWE-200 „Insecure LP Token Value" ×6, MWE-207 ×2, MWE-209 ×2, MWE-203 ×1 — im Kontrast zu 0 themengerechten Findings auf curated.
 - Qualitative Stichprobe (6 Findings): **4 plausibel** (u. a. `slot0`-Spotpreis als Flashloan-Vektor, nie zurückgesetzte NFT-Approval), 1 generisch, 1 falsch.
 - **Reproduzierbarkeit:** Vergleich mit einem früheren Live-Lauf über dieselben 27 Contracts: nur **74 % identische Ergebnisse** (3 Findings verschwunden, 2 neu, 2 verändert) — trotz `temperature=0`. Zentrale Limitation LLM-basierter Scanner.
-- Kosten $0.046, Laufzeit 13:22 min, 257 LLM-Calls, keine Rate-Limits. Caveats des Korpus siehe Fehler #12; keine vendorte Ground Truth → deskriptive + qualitative Auswertung.
+- Kosten $0.046, Laufzeit 13:17 min (SmartBugs-Meldung; Task-Spanne 13:10), 257 LLM-Calls, keine Rate-Limits. Caveats des Korpus siehe Fehler #12; keine vendorte Ground Truth → deskriptive + qualitative Auswertung.
 
 ### 4.4 Betriebs-/Robustheitsdaten
 

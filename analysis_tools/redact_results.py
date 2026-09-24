@@ -6,8 +6,8 @@ Background
 ``sb/docker.py`` forwards the host's ``DEEPSEEK_API_KEY`` into the tool
 container. The very arguments handed to Docker are persisted verbatim into
 every ``smartbugs.json``, so early runs recorded the key in clear text. The
-patch at ``sb/docker.py:159-163`` now blanks the forwarded values *before* they
-are returned for logging::
+patch in ``sb/docker.py`` (block ``BA MODIFICATION 5``) now blanks the
+forwarded values *before* they are returned for logging::
 
     if "environment" in args:
         args["environment"] = {k: "<redacted>" for k in args["environment"]}
