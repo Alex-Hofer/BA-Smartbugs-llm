@@ -1,11 +1,13 @@
 {
  "run_id": "curated_v1_20260705",
  "tool": "llmsmartaudit",
- "generated": "2026-09-20T14:16:00+00:00",
+ "generated": "2026-09-24T13:06:08+00:00",
  "generated_by": "analysis_tools/curated_eval.py",
  "smartbugs_version": "2.1.1",
  "results_dir": "smartbugs/results/llmsmartaudit/curated_v1_20260705",
  "taxonomy": "smartbugs/tools/llmsmartaudit/findings.yaml",
+ "ground_truth": "smartbugs-curated/dataset/vulnerabilities.json",
+ "ground_truth_commit": "230e649",
  "image": "smartbugs/llmsmartaudit:1.0",
  "network": "bridge",
  "provider": "deepseek",
@@ -22,6 +24,8 @@
  "findings_total": 1124,
  "findings_dasp_mapped": 656,
  "findings_unmapped": 468,
+ "findings_with_lines": 0,
+ "findings_with_function": 0,
  "contracts_with_findings": 143,
  "categories_seen": 35,
  "unmapped_by_severity": {
@@ -41,7 +45,12 @@
    "flagged": 94,
    "recall": 1.0,
    "precision": 0.19148936170212766,
-   "f1": 0.32142857142857145
+   "f1": 0.32142857142857145,
+   "prevalence": 0.1258741258741259,
+   "recall_ci95": [
+    0.824,
+    1.0
+   ]
   },
   "arithmetic": {
    "contracts": 15,
@@ -49,7 +58,12 @@
    "flagged": 75,
    "recall": 1.0,
    "precision": 0.2,
-   "f1": 0.33333333333333337
+   "f1": 0.33333333333333337,
+   "prevalence": 0.1048951048951049,
+   "recall_ci95": [
+    0.796,
+    1.0
+   ]
   },
   "reentrancy": {
    "contracts": 31,
@@ -57,7 +71,12 @@
    "flagged": 72,
    "recall": 1.0,
    "precision": 0.4305555555555556,
-   "f1": 0.6019417475728156
+   "f1": 0.6019417475728156,
+   "prevalence": 0.21678321678321677,
+   "recall_ci95": [
+    0.89,
+    1.0
+   ]
   },
   "denial_of_service": {
    "contracts": 6,
@@ -65,7 +84,12 @@
    "flagged": 77,
    "recall": 1.0,
    "precision": 0.07792207792207792,
-   "f1": 0.14457831325301204
+   "f1": 0.14457831325301204,
+   "prevalence": 0.04195804195804196,
+   "recall_ci95": [
+    0.61,
+    1.0
+   ]
   },
   "front_running": {
    "contracts": 4,
@@ -73,15 +97,12 @@
    "flagged": 45,
    "recall": 1.0,
    "precision": 0.08888888888888889,
-   "f1": 0.163265306122449
-  },
-  "unchecked_low_level_calls": {
-   "contracts": 52,
-   "detected": 52,
-   "flagged": 66,
-   "recall": 1.0,
-   "precision": 0.7878787878787878,
-   "f1": 0.8813559322033898
+   "f1": 0.163265306122449,
+   "prevalence": 0.027972027972027972,
+   "recall_ci95": [
+    0.51,
+    1.0
+   ]
   },
   "time_manipulation": {
    "contracts": 5,
@@ -89,7 +110,25 @@
    "flagged": 19,
    "recall": 1.0,
    "precision": 0.2631578947368421,
-   "f1": 0.4166666666666667
+   "f1": 0.4166666666666667,
+   "prevalence": 0.03496503496503497,
+   "recall_ci95": [
+    0.566,
+    1.0
+   ]
+  },
+  "unchecked_low_level_calls": {
+   "contracts": 52,
+   "detected": 52,
+   "flagged": 66,
+   "recall": 1.0,
+   "precision": 0.7878787878787878,
+   "f1": 0.8813559322033898,
+   "prevalence": 0.36363636363636365,
+   "recall_ci95": [
+    0.931,
+    1.0
+   ]
   },
   "bad_randomness": {
    "contracts": 8,
@@ -97,7 +136,12 @@
    "flagged": 16,
    "recall": 0.875,
    "precision": 0.4375,
-   "f1": 0.5833333333333334
+   "f1": 0.5833333333333334,
+   "prevalence": 0.055944055944055944,
+   "recall_ci95": [
+    0.529,
+    0.978
+   ]
   },
   "other": {
    "contracts": 3,
@@ -105,7 +149,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.02097902097902098,
+   "recall_ci95": [
+    0.0,
+    0.562
+   ]
   },
   "short_addresses": {
    "contracts": 1,
@@ -113,7 +162,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.006993006993006993,
+   "recall_ci95": [
+    0.0,
+    0.793
+   ]
   },
   "GESAMT": {
    "contracts": 143,
@@ -121,7 +175,12 @@
    "flagged": 464,
    "recall": 0.965034965034965,
    "precision": 0.2974137931034483,
-   "f1": 0.4546952224052718
+   "f1": 0.4546952224052718,
+   "prevalence": null,
+   "recall_ci95": [
+    0.921,
+    0.985
+   ]
   }
  },
  "metrics_note": "Zaehlweise und DASP-Zuordnung stammen aus evaluate_curated.py; Findings ohne DASP-Klassifikation gehen nicht in Recall und Precision ein.",

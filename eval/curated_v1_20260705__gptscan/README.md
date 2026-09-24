@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 1800 s |
 | Rohergebnisse | `smartbugs/results/gptscan/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-20T14:16:00+00:00 |
+| Erzeugt am | 2026-09-24T13:06:08+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`
@@ -71,11 +71,10 @@ sauber durchliefen.
    Laufs tragen keine DASP-Zuordnung und gehen weder in Recall noch in
    Precision ein. Keine Zuordnung heisst nicht belanglos.
 3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,
-   trifft haeufiger zufaellig. GPTScan selbst emittiert Zeilen (alle 6
-   Findings dieses Laufs tragen `lines`); zeilengenau ausgewertet wird
-   trotzdem nicht, weil LLMSmartAudit grundsaetzlich keine Zeilennummern
-   emittiert und nur ein gemeinsames Mass die drei Werkzeuge vergleichbar
-   haelt.
+   trifft haeufiger zufaellig. GPTScan selbst emittiert Zeilen (alle 6 Findings
+   dieses Laufs tragen `lines`); zeilengenau ausgewertet wird trotzdem
+   nicht, weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert
+   und nur ein gemeinsames Mass die drei Werkzeuge vergleichbar haelt.
 4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und
    ist je Detektorname konstant.
 5. **Ein Lauf ist keine Verteilung.** LLM-gestuetzte Werkzeuge sind nicht

@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 600 s |
 | Rohergebnisse | `smartbugs/results/slither-0.11.3/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-20T14:16:00+00:00 |
+| Erzeugt am | 2026-09-24T13:06:08+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`
@@ -72,21 +72,21 @@ sauber durchliefen.
    Precision ein. Keine Zuordnung heisst nicht belanglos.
 3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,
    trifft haeufiger zufaellig. Slither selbst ist hier das genaueste
-   Werkzeug (1 934 der 2 154 Findings tragen `lines`, 848 zusaetzlich eine
+   Werkzeug (1 934 der 2 154 Findings tragen `lines`, 848 zusaetzlich eine
    Funktion); zeilengenau ausgewertet wird trotzdem nicht, weil
    LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert und nur ein
    gemeinsames Mass die drei Werkzeuge vergleichbar haelt.
 4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und
    ist je Detektorname konstant.
-5. **Ein Lauf genuegt hier — anders als bei den KI-Werkzeugen.** Slither ist
+5. **Ein Lauf genuegt hier -- anders als bei den KI-Werkzeugen.** Slither ist
    deterministisch: gleicher Contract, gleiche Version, gleiches Ergebnis.
    Die Streuung, die den beiden KI-Werkzeugen anhaengt (GPTScan 74 %,
    LLMSmartAudit 61,4 % Lauf-zu-Lauf-Uebereinstimmung), betrifft diese
-   Baseline nicht — siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.
+   Baseline nicht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.
 6. **Kein Werkzeugvergleich ueber Korpora hinweg.** GPTScans Zieldomaene
    ist DeFi-Logik, nicht DASP. Auf diesem Korpus misst man, was es *nicht*
    sucht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`.
 7. **Die Baseline ist kein Ziel.** Slither dient als Referenzpunkt;
-   seine 81,8 % unklassifizierten Findings sind ueberwiegend
+   seine 81.8 % unklassifizierten Findings sind ueberwiegend
    Informational- und Optimization-Hinweise.
 

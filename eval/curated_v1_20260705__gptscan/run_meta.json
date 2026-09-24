@@ -1,11 +1,13 @@
 {
  "run_id": "curated_v1_20260705",
  "tool": "gptscan",
- "generated": "2026-09-20T14:16:00+00:00",
+ "generated": "2026-09-24T13:06:08+00:00",
  "generated_by": "analysis_tools/curated_eval.py",
  "smartbugs_version": "2.1.1",
  "results_dir": "smartbugs/results/gptscan/curated_v1_20260705",
  "taxonomy": "smartbugs/tools/gptscan/findings.yaml",
+ "ground_truth": "smartbugs-curated/dataset/vulnerabilities.json",
+ "ground_truth_commit": "230e649",
  "image": "smartbugs/gptscan:1.0",
  "network": "bridge",
  "provider": "deepseek",
@@ -23,6 +25,8 @@
  "findings_total": 6,
  "findings_dasp_mapped": 6,
  "findings_unmapped": 0,
+ "findings_with_lines": 6,
+ "findings_with_function": 0,
  "contracts_with_findings": 6,
  "categories_seen": 1,
  "unmapped_by_severity": {},
@@ -38,7 +42,12 @@
    "flagged": 6,
    "recall": 0.0,
    "precision": 0.0,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.1258741258741259,
+   "recall_ci95": [
+    0.0,
+    0.176
+   ]
   },
   "arithmetic": {
    "contracts": 15,
@@ -46,7 +55,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.1048951048951049,
+   "recall_ci95": [
+    -0.0,
+    0.204
+   ]
   },
   "bad_randomness": {
    "contracts": 8,
@@ -54,7 +68,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.055944055944055944,
+   "recall_ci95": [
+    0.0,
+    0.324
+   ]
   },
   "denial_of_service": {
    "contracts": 6,
@@ -62,7 +81,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.04195804195804196,
+   "recall_ci95": [
+    0.0,
+    0.39
+   ]
   },
   "front_running": {
    "contracts": 4,
@@ -70,7 +94,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.027972027972027972,
+   "recall_ci95": [
+    0.0,
+    0.49
+   ]
   },
   "other": {
    "contracts": 3,
@@ -78,7 +107,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.02097902097902098,
+   "recall_ci95": [
+    0.0,
+    0.562
+   ]
   },
   "reentrancy": {
    "contracts": 31,
@@ -86,7 +120,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.21678321678321677,
+   "recall_ci95": [
+    -0.0,
+    0.11
+   ]
   },
   "short_addresses": {
    "contracts": 1,
@@ -94,7 +133,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.006993006993006993,
+   "recall_ci95": [
+    0.0,
+    0.793
+   ]
   },
   "time_manipulation": {
    "contracts": 5,
@@ -102,7 +146,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.03496503496503497,
+   "recall_ci95": [
+    -0.0,
+    0.434
+   ]
   },
   "unchecked_low_level_calls": {
    "contracts": 52,
@@ -110,7 +159,12 @@
    "flagged": 0,
    "recall": 0.0,
    "precision": null,
-   "f1": null
+   "f1": null,
+   "prevalence": 0.36363636363636365,
+   "recall_ci95": [
+    0.0,
+    0.069
+   ]
   },
   "GESAMT": {
    "contracts": 143,
@@ -118,7 +172,12 @@
    "flagged": 6,
    "recall": 0.0,
    "precision": 0.0,
-   "f1": null
+   "f1": null,
+   "prevalence": null,
+   "recall_ci95": [
+    0.0,
+    0.026
+   ]
   }
  },
  "metrics_note": "Zaehlweise und DASP-Zuordnung stammen aus evaluate_curated.py; Findings ohne DASP-Klassifikation gehen nicht in Recall und Precision ein.",

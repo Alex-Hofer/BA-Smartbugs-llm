@@ -196,8 +196,31 @@ def finding_rows(tool, tasks, tax, mapping, stamp):
 
 # --------------------------------------------------------------- Kennzahlen ---
 
+def wilson(k, n, z=1.96):
+    """Wilson-Intervall (95 %) fuer einen Anteil k von n; None, wenn n = 0.
+
+    Ohne Fremdpaket, damit die Auswertung nur die Standardbibliothek braucht.
+    Bei kleinen n ist das Intervall breit: 4 von 4 ergibt (0.51, 1.0).
+    """
+    if not n:
+        return None
+    import math
+    p = k / n
+    d = 1 + z * z / n
+    centre = (p + z * z / (2 * n)) / d
+    half = z * math.sqrt(p * (1 - p) / n + z * z / (4 * n * n)) / d
+    return (round(centre - half, 3), round(centre + half, 3))
+
+
 def metrics(tasks, mapping):
-    """Recall/Precision/F1 je curated-Kategorie -- Zaehlweise wie evaluate_curated.py."""
+    """Recall/Precision/F1 je curated-Kategorie -- Zaehlweise wie evaluate_curated.py.
+
+    Zusaetzlich je Kategorie die Basisrate (Anteil der Contracts mit diesem
+    Label an allen Contracts des Laufs: die Precision, die ein Werkzeug
+    erreichte, das die Kategorie auf jedem Contract meldet) und das
+    Wilson-Intervall des Recalls.
+    """
+    n_tasks = len(tasks)
     per_cat = collections.defaultdict(lambda: {"contracts": 0, "detected": 0, "flagged": 0})
     for t in tasks:
         for cat in t["labels"]:
@@ -215,7 +238,9 @@ def metrics(tasks, mapping):
         prec = v["detected"] / v["flagged"] if v["flagged"] else None
         f1 = (2 * prec * rec / (prec + rec)
               if prec is not None and rec is not None and (prec + rec) else None)
-        out[cat] = dict(v, recall=rec, precision=prec, f1=f1)
+        out[cat] = dict(v, recall=rec, precision=prec, f1=f1,
+                        prevalence=(v["contracts"] / n_tasks if n_tasks else None),
+                        recall_ci95=wilson(v["detected"], v["contracts"]))
     c = sum(v["contracts"] for v in per_cat.values())
     d = sum(v["detected"] for v in per_cat.values())
     fl = sum(v["flagged"] for v in per_cat.values())
@@ -225,6 +250,8 @@ def metrics(tasks, mapping):
         "contracts": c, "detected": d, "flagged": fl, "recall": rec, "precision": prec,
         "f1": (2 * prec * rec / (prec + rec)
                if prec is not None and rec is not None and (prec + rec) else None),
+        "prevalence": None,
+        "recall_ci95": wilson(d, c),
     }
     return out
 
@@ -258,6 +285,22 @@ def gptscan_meta(tasks):
     return out
 
 
+def ground_truth_commit():
+    """Kurz-Hash des lokalen smartbugs-curated-Clones, sonst None.
+
+    run_curated.ps1 pinnt den Clone auf 230e649 (16.06.2024); der Wert hier
+    haelt fest, gegen welchen Stand die Auswertung tatsaechlich gerechnet wurde.
+    """
+    import subprocess
+    try:
+        out = subprocess.run(
+            ["git", "-C", str(REPO / "smartbugs-curated"), "rev-parse", "--short", "HEAD"],
+            capture_output=True, text=True, timeout=10)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout.strip() or None if out.returncode == 0 else None
+
+
 def build_meta(tool, runid, tasks, rows, mapping, stamp):
     durations = [t["duration"] for t in tasks if t["duration"]]
     starts = [(t.get("start"), t["duration"]) for t in tasks
@@ -276,6 +319,8 @@ def build_meta(tool, runid, tasks, rows, mapping, stamp):
         "smartbugs_version": "2.1.1",
         "results_dir": "smartbugs/results/%s/%s" % (tool, runid),
         "taxonomy": "smartbugs/tools/%s/findings.yaml" % tool,
+        "ground_truth": "smartbugs-curated/dataset/vulnerabilities.json",
+        "ground_truth_commit": ground_truth_commit(),
         "image": first.get("image"),
         "network": first.get("network"),
         "provider": provider,
@@ -291,6 +336,8 @@ def build_meta(tool, runid, tasks, rows, mapping, stamp):
         "findings_total": len(rows),
         "findings_dasp_mapped": sum(1 for r in rows if r["dasp_category"]),
         "findings_unmapped": sum(1 for r in rows if not r["dasp_category"]),
+        "findings_with_lines": sum(1 for r in rows if r["lines"]),
+        "findings_with_function": sum(1 for r in rows if r["function"]),
         "contracts_with_findings": sum(1 for t in tasks if t["findings"]),
         "categories_seen": len({r["category_raw"] for r in rows}),
         "unmapped_by_severity": dict(collections.Counter(
@@ -351,6 +398,13 @@ def build_meta(tool, runid, tasks, rows, mapping, stamp):
 
 
 # ----------------------------------------------------------------- Ausgabe ---
+
+def ci(interval):
+    """Wilson-Intervall als Prozentbereich, Gedankenstrich wenn undefiniert."""
+    if not interval:
+        return "–"
+    return "%d–%d %%" % (round(100 * interval[0]), round(100 * interval[1]))
+
 
 def pct(v):
     return "%.0f %%" % (100 * v) if v is not None else "–"
@@ -522,13 +576,36 @@ def write_readme(path, tool, runid, meta):
     A("   Laufs tragen keine DASP-Zuordnung und gehen weder in Recall noch in")
     A("   Precision ein. Keine Zuordnung heisst nicht belanglos.")
     A("3. **Contract-Level, nicht zeilengenau.** Ein Werkzeug, das viel meldet,")
-    A("   trifft haeufiger zufaellig. Zeilengenau laesst sich nicht auswerten,")
-    A("   weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert.")
+    with_lines, total = meta["findings_with_lines"], meta["findings_total"]
+    if tool == "gptscan":
+        share = ("alle %s Findings" % num(total) if with_lines == total
+                 else "%s der %s Findings" % (num(with_lines), num(total)))
+        A("   trifft haeufiger zufaellig. GPTScan selbst emittiert Zeilen (%s" % share)
+        A("   dieses Laufs tragen `lines`); zeilengenau ausgewertet wird trotzdem")
+        A("   nicht, weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert")
+        A("   und nur ein gemeinsames Mass die drei Werkzeuge vergleichbar haelt.")
+    elif tool.startswith("slither"):
+        A("   trifft haeufiger zufaellig. Slither selbst ist hier das genaueste")
+        A("   Werkzeug (%s der %s Findings tragen `lines`, %s zusaetzlich eine"
+          % (num(with_lines), num(total), num(meta["findings_with_function"])))
+        A("   Funktion); zeilengenau ausgewertet wird trotzdem nicht, weil")
+        A("   LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert und nur ein")
+        A("   gemeinsames Mass die drei Werkzeuge vergleichbar haelt.")
+    else:
+        A("   trifft haeufiger zufaellig. Zeilengenau laesst sich nicht auswerten,")
+        A("   weil LLMSmartAudit grundsaetzlich keine Zeilennummern emittiert.")
     A("4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und")
     A("   ist je Detektorname konstant.")
-    A("5. **Ein Lauf ist keine Verteilung.** LLM-gestuetzte Werkzeuge sind nicht")
-    A("   deterministisch; fuer GPTScan sind 74 % Lauf-zu-Lauf-Uebereinstimmung")
-    A("   gemessen (`docs/BA-GPTSCAN-VERGLEICH.md`, Abschnitt 4).")
+    if tool.startswith("slither"):
+        A("5. **Ein Lauf genuegt hier -- anders als bei den KI-Werkzeugen.** Slither ist")
+        A("   deterministisch: gleicher Contract, gleiche Version, gleiches Ergebnis.")
+        A("   Die Streuung, die den beiden KI-Werkzeugen anhaengt (GPTScan 74 %,")
+        A("   LLMSmartAudit 61,4 % Lauf-zu-Lauf-Uebereinstimmung), betrifft diese")
+        A("   Baseline nicht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.")
+    else:
+        A("5. **Ein Lauf ist keine Verteilung.** LLM-gestuetzte Werkzeuge sind nicht")
+        A("   deterministisch; fuer GPTScan sind 74 % Lauf-zu-Lauf-Uebereinstimmung")
+        A("   gemessen (`docs/BA-GPTSCAN-VERGLEICH.md`, Abschnitt 4).")
     A("6. **Kein Werkzeugvergleich ueber Korpora hinweg.** GPTScans Zieldomaene")
     A("   ist DeFi-Logik, nicht DASP. Auf diesem Korpus misst man, was es *nicht*")
     A("   sucht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`.")
@@ -540,7 +617,8 @@ def write_readme(path, tool, runid, meta):
         A("   Preisen in `build_eval.py`; massgeblich ist die DeepSeek-Rechnung.")
     if tool.startswith("slither"):
         A("7. **Die Baseline ist kein Ziel.** Slither dient als Referenzpunkt;")
-        A("   seine 86 % unklassifizierten Findings sind ueberwiegend")
+        A("   seine %.1f %% unklassifizierten Findings sind ueberwiegend"
+          % (100 * meta["findings_unmapped"] / (meta["findings_total"] or 1)))
         A("   Informational- und Optimization-Hinweise.")
     A("")
     path.write_text("\n".join(L) + "\n", encoding="utf-8", newline="\n")
@@ -554,13 +632,20 @@ def write_metrics(path, runid, per_tool):
     A("Erzeugt durch `analysis_tools/curated_eval.py` aus den Rohergebnissen unter")
     A("`smartbugs/results/<werkzeug>/%s/`. Die Zaehlweise und die" % runid)
     A("DASP-Zuordnung stammen aus `evaluate_curated.py`; dieselben Zahlen gibt")
-    A("dessen Konsolenausgabe aus:")
+    A("dessen Konsolenausgabe aus (System-Python oder SmartBugs-venv, beide mit")
+    A("PyYAML):")
     A("")
     A("```powershell")
-    A("smartbugs\\.venv\\Scripts\\python.exe evaluate_curated.py --suffix %s `"
+    A("python evaluate_curated.py --suffix %s `"
       % runid.replace("curated_", ""))
     A("    --tools gptscan llmsmartaudit slither-0.11.3 --csv")
     A("```")
+    A("")
+    gt = next((m.get("ground_truth_commit") for m in per_tool.values()
+               if m.get("ground_truth_commit")), None)
+    A("Ground Truth: `smartbugs-curated/dataset/vulnerabilities.json` auf Commit `%s`"
+      % (gt or "unbekannt (kein lokaler Clone)"))
+    A("(`run_curated.ps1` pinnt den Clone auf `230e649`, 16.06.2024).")
     A("")
     A("Alle Werte sind **Contract-Level**: ein gelabelter Contract gilt als")
     A("erkannt, wenn das Werkzeug mindestens ein Finding meldet, dessen")
@@ -580,18 +665,26 @@ def write_metrics(path, runid, per_tool):
     for tool, meta in per_tool.items():
         A("## %s" % tool)
         A("")
-        A("| Kategorie | Contracts | Erkannt | Recall | Geflaggt | Precision | F1 |")
-        A("|---|---:|---:|---:|---:|---:|---:|")
+        A("| Kategorie | Contracts | Erkannt | Recall | Recall 95-%-Intervall | Geflaggt | Precision | Basisrate | F1 |")
+        A("|---|---:|---:|---:|---:|---:|---:|---:|---:|")
         m = meta["metrics_contract_level"]
         for cat in sorted(k for k in m if k != "GESAMT"):
             v = m[cat]
-            A("| %s | %d | %d | %s | %d | %s | %s |"
-              % (cat, v["contracts"], v["detected"], pct(v["recall"]), v["flagged"],
-                 pct(v["precision"]), pct(v["f1"])))
+            A("| %s | %d | %d | %s | %s | %d | %s | %s | %s |"
+              % (cat, v["contracts"], v["detected"], pct(v["recall"]), ci(v.get("recall_ci95")),
+                 v["flagged"], pct(v["precision"]), pct(v.get("prevalence")), pct(v["f1"])))
         v = m["GESAMT"]
-        A("| **GESAMT** | **%d** | **%d** | **%s** | **%d** | **%s** | **%s** |"
-          % (v["contracts"], v["detected"], pct(v["recall"]), v["flagged"],
-             pct(v["precision"]), pct(v["f1"])))
+        A("| **GESAMT** | **%d** | **%d** | **%s** | **%s** | **%d** | **%s** | – | **%s** |"
+          % (v["contracts"], v["detected"], pct(v["recall"]), ci(v.get("recall_ci95")),
+             v["flagged"], pct(v["precision"]), pct(v["f1"])))
+        A("")
+        A("*Basisrate*: Anteil der Contracts mit diesem Label an allen %d Contracts"
+          % meta["contracts"])
+        A("des Laufs -- die Precision, die ein Werkzeug erreichte, das die Kategorie")
+        A("auf jedem Contract meldet. Eine Precision knapp ueber der Basisrate")
+        A("unterscheidet sich kaum vom Raten. *Recall 95-%-Intervall*: Wilson-Intervall;")
+        A("bei Kategorien mit acht oder weniger Contracts ist es breiter als 40")
+        A("Prozentpunkte, der Punktwert allein traegt dort wenig.")
         A("")
         A("%s der %s Findings tragen keine DASP-Klassifikation und gehen weder in"
           % (num(meta["findings_unmapped"]), num(meta["findings_total"])))

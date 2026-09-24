@@ -195,6 +195,41 @@ def test_precision_counts_a_flag_on_an_unlabelled_contract_synthetic():
     assert m["reentrancy"]["precision"] == 0.5
 
 
+def test_recall_requires_a_finding_in_the_labelled_category_synthetic():
+    """Ein Treffer in einer anderen Kategorie erkennt das Label nicht.
+
+    Mutationsprobe vom 24.09.2026: zaehlte jeder beliebige Treffer als
+    erkannt, blieb die Suite gruen. Dieser Fall schliesst die Luecke.
+    """
+    mapping = {"det_ac": "access_control"}
+    m = ce.metrics([_task(["reentrancy"], ["det_ac"])], mapping)
+    assert m["reentrancy"]["detected"] == 0
+    assert m["reentrancy"]["recall"] == 0.0
+    assert m["access_control"]["flagged"] == 1
+    assert m["access_control"]["detected"] == 0
+    assert m["GESAMT"]["recall"] == 0.0
+
+
+def test_wilson_interval_matches_the_textbook_value():
+    """4 von 4 ergibt 0,51 bis 1,00; ohne Beobachtung gibt es kein Intervall."""
+    assert ce.wilson(4, 4) == (0.51, 1.0)
+    assert ce.wilson(0, 0) is None
+    lo, hi = ce.wilson(50, 100)
+    assert 0.40 < lo < 0.41 and 0.59 < hi < 0.60
+
+
+def test_base_rate_is_the_share_of_labelled_contracts_synthetic():
+    """Basisrate = Contracts mit Label / alle Contracts des Laufs."""
+    mapping = {"det_a": "reentrancy"}
+    tasks = [_task(["reentrancy"], ["det_a"]), _task(["arithmetic"], []),
+             _task(["arithmetic"], []), _task(["reentrancy"], [])]
+    m = ce.metrics(tasks, mapping)
+    assert m["reentrancy"]["prevalence"] == 0.5
+    assert m["arithmetic"]["prevalence"] == 0.5
+    assert m["reentrancy"]["recall_ci95"] == ce.wilson(1, 2)
+    assert m["GESAMT"]["prevalence"] is None
+
+
 def test_the_unchecked_detectors_are_mapped_to_dasp_4():
     """Sonst zaehlt die groesste curated-Kategorie einen Teil ihrer Treffer nicht.
 
