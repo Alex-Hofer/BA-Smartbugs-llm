@@ -119,5 +119,7 @@ corpus_tools/
   check_results.json    je Sample: Kompilierstatus (+ Repair-Notiz)
   BUILD_REPORT.json     Gesamtbilanz
   vendor/               nachgeladene npm-Pakete (git-ignoriert)
+  make_main_corpus.py   Kopie des Korpus mit Hauptcontract-Namen für SmartBugs' --main
+                        (Zielordner mwevariety_fixed_main/, git-ignoriert, seit 24.09.2026)
 smartbugs/samples/gptscan/mwevariety_fixed/   96 selbstständige .sol
 ```

@@ -12,6 +12,8 @@ Auswertungen unter `eval/<runid>/` kennen nur den Endstand.
 | `llmsa_full_20260815-181656.log` | Fehlstart | abgebrochen nach fünf Zeilen, unmittelbar neu gestartet |
 | `llmsa_full_20260815-181854.log` | `llmsa_curated_v2` + `llmsa_mwefixed_v2` | der eigentliche Volllauf über beide Korpora, 15.08.2026 18:18 bis 16.08.2026 13:14 |
 | `llmsa_retry_20260915-141858.log` | `llmsa_mwefixed_v2_retry` | Nachlauf über vier unentschiedene Contracts, 15.09.2026 |
+| `llmsa_retry_20260924-152005.log` | `llmsa_mwefixed_v2_ctx1m` | Nachlauf über die 37 Kontext-Contracts mit `LLM_CONTEXT_TOKENS=1000000` und Kostendeckel 8 USD, 24.09.2026; Image vom selben Tag (`camel/utils.py` liest die Grenze aus der Variablen), Modellname `deepseek-v4-flash`, den der Anbieter seit September 2026 auf DeepSeek-V4.1-Flash leitet |
+| `llmsa_retry_20260924-152514.log` | `llmsa_mwefixed_v2_main37` | dieselben 37 Contracts mit `--main` (Reduktion auf den Hauptcontract, Korpuskopie aus `corpus_tools/make_main_corpus.py`) bei der alten Grenze 65 536, Kostendeckel 3 USD, 24.09.2026 |
 
 ## Was eine Zeile enthält
 

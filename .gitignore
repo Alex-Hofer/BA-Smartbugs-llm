@@ -22,6 +22,10 @@ docs/parser-audit-*.csv
 docs/errors-fails-*.md
 docs/errors-fails-*.csv
 
+# Kopie des DeFi-Korpus mit Hauptcontract-Namen fuer MAIN-Laeufe; nur Kopien,
+# jederzeit neu erzeugbar mit corpus_tools/make_main_corpus.py
+smartbugs/samples/gptscan/mwevariety_fixed_main/
+
 # corpus_tools: schwere/reproduzierbare Caches (Methode + JSON-Manifeste bleiben getrackt)
 corpus_tools/vendor/
 corpus_tools/vendor_old_flat/

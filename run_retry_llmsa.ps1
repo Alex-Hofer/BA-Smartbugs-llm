@@ -53,6 +53,22 @@
 
 .PARAMETER RunId
   Ziel-runid. Default 'llmsa_mwefixed_v2_retry'.
+
+.PARAMETER Corpus
+  Verzeichnis unter smartbugs\, aus dem die Dateien kommen; Default der
+  reparierte Korpus. Fuer MAIN-Laeufe der von corpus_tools\make_main_corpus.py
+  erzeugte Ordner samples/gptscan/mwevariety_fixed_main; die Dateien heissen
+  dort <contest>/<Hauptcontract>, also z. B. -Files '13/RCOrderbook'.
+
+.PARAMETER Main
+  Uebergibt --main an SmartBugs: der Entrypoint reduziert die Datei vor der
+  Analyse auf den Contract, nach dem sie heisst (scripts/main_contract.py).
+  SmartBugs verlangt dafuer Dateiname == Contractname, siehe -Corpus. Der
+  Ergebnispfad enthaelt dann ${RELDIR}, weil Hauptcontracts mehrfach vorkommen.
+
+  Seit 24.09.2026 dient das Skript ueber die vier 402-Faelle hinaus als
+  allgemeiner Nachlauf-Runner fuer eine Dateiliste (Laeufe
+  llmsa_mwefixed_v2_ctx1m und llmsa_mwefixed_v2_main37).
 #>
 [CmdletBinding()]
 param(
@@ -60,6 +76,8 @@ param(
     [int]$Processes = 3,
     [double]$CostCeiling = 3.00,
     [string]$RunId = 'llmsa_mwefixed_v2_retry',
+    [string]$Corpus = 'samples/gptscan/mwevariety_fixed',
+    [switch]$Main,
     # Backend zur Laufzeit waehlbar. Die Defaults entsprechen dem Hauptlauf;
     # ein Nachlauf mit anderem Backend ersetzt keine Tasks des Hauptlaufs,
     # sondern gehoert unter eine eigene -RunId.
@@ -200,15 +218,21 @@ if ($fromEnv.Count) {
                " (ein ausdruecklicher Parameter haette Vorrang).")
 }
 Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
-Write-Log "MAIN: nicht gesetzt, wie im Hauptlauf"
+if ($Main) { Write-Log "MAIN: gesetzt (--main), Korpus $Corpus" }
+else { Write-Log "MAIN: nicht gesetzt, wie im Hauptlauf" }
 
-$patterns = $Files | ForEach-Object { "samples/gptscan/mwevariety_fixed:$_.sol" }
+$patterns = $Files | ForEach-Object { "${Corpus}:$_.sol" }
 
 Push-Location $SbDir
 try {
-    # Kein --results: der Default results/${TOOL}/${RUNID}/${FILENAME} ist gewollt.
+    # Ohne MAIN kein --results: der Default results/${TOOL}/${RUNID}/${FILENAME}
+    # ist gewollt. Mit MAIN liegen die Dateien in Contest-Unterordnern und
+    # gleichnamige Hauptcontracts brauchen ${RELDIR} im Pfad.
     $sbArgs = @('-m', 'sb', '-t', 'llmsmartaudit', '-f') + $patterns +
               @('--timeout', 7200, '--processes', $Processes, '--runid', $RunId)
+    if ($Main) {
+        $sbArgs += @('--main', '--results', ('results/${TOOL}/' + $RunId + '/${RELDIR}/${FILENAME}'))
+    }
     Write-Log "Aufruf: python $($sbArgs -join ' ')"
     $proc = Start-Process -FilePath $Py -ArgumentList $sbArgs -NoNewWindow -PassThru
 
