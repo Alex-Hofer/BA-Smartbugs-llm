@@ -153,10 +153,25 @@ Lauf mit `LLM_CONTEXT_TOKENS=1000000`, `LLM_MAX_COMPLETION_TOKENS=32768`,
 4 Prozessen, Timeout 7 200 s je Task und Kostendeckel 8 USD über
 `run_retry_llmsa.ps1`. Der Modellname `deepseek-v4-flash` wird vom Anbieter
 seit September 2026 auf DeepSeek-V4.1-Flash geleitet; die Ergebnisse sind
-deshalb mit einem anderen Modellstand entstanden als der Hauptlauf vom
+deshalb mit einem anderen Modellstand zu erwarten als im Hauptlauf vom
 16.08.2026.
 
-*Ergebnis: wird nach Abschluss des Laufs ergänzt.*
+**Ergebnis: kein Ergebnis.** Der Lauf startete um 15:20 Uhr mit vier
+parallelen Tasks und wurde nach 13 Minuten zusammen mit dem MAIN-Lauf
+(4.3) vom Host beendet, weil der Rechner an die Speichergrenze kam (3,9 GB
+frei von 31,8 GB bei sieben LLMSmartAudit-Containern neben anderen laufenden
+Containern). Die verwaisten Container wurden gestoppt, kein Task war
+abgeschlossen, die leeren Task-Ordner wurden aus `smartbugs/results/`
+entfernt. Protokoll: `eval/_runlogs/llmsa_retry_20260924-152005.log`. Die
+Frage, ob die 37 Contracts mit angehobener Grenze analysierbar sind, bleibt
+offen. Die Voraussetzungen stehen (Image, Runner, Variable); ein neuer Anlauf
+braucht weniger parallele Prozesse (zwei statt vier) und einen Rechner ohne
+konkurrierende Container. Der Aufruf:
+
+```powershell
+.\run_retry_llmsa.ps1 -Files @(<die 37 Namen>) -RunId llmsa_mwefixed_v2_ctx1m `
+    -Processes 2 -CostCeiling 8 -ContextTokens 1000000 -MaxCompletionTokens 32768
+```
 
 ### 4.3 LLMSmartAudit mit MAIN über dieselben 37 Contracts (`llmsa_mwefixed_v2_main37`)
 
@@ -167,7 +182,22 @@ Korpus angelegt, in der jede Datei nach ihrem Hauptcontract heißt (SmartBugs
 verlangt das für `--main`), und `run_retry_llmsa.ps1` um `-Corpus` und `-Main`
 erweitert. 3 Prozesse, Kostendeckel 3 USD.
 
-*Ergebnis: wird nach Abschluss des Laufs ergänzt.*
+**Ergebnis: abgebrochen nach zwei Tasks, beide negativ.** Der Lauf wurde
+nach 8 Minuten aus demselben Grund wie 4.2 beendet. Die zwei abgeschlossenen
+Tasks zeigen dasselbe Bild: Die Reduktion entfernt in den geflatteten Dateien
+fast nichts, weil der Hauptcontract nahezu alle Definitionen transitiv
+referenziert. `16/Pricing` behielt 12 von 13 Definitionen und 2 548 von 2 555
+Zeilen, `16/TracerPerpetualSwaps` 19 von 19 Definitionen und alle 3 113
+Zeilen; beide brachen anschließend wie im Hauptlauf mit
+`max_tokens_exceeded_by_camel` ab (89 851 bzw. 70 032 Token). Für diese
+beiden Contracts bringt MAIN nichts, für die übrigen 35 ist es nicht gemessen;
+nach der Bauweise des Korpus (Import-Closure in einer Datei) ist dasselbe zu
+erwarten. Der Runner schätzte die zwei Tasks auf rund 0,01 USD; beide
+abgebrochenen Läufe zusammen kosteten laut Kontostand 0,62 USD (14,31 USD vor
+dem Start, 13,69 USD danach), der Rest entfiel auf die laufenden Container des
+Laufs 4.2. Die zwei Task-Ordner liegen
+außerhalb von `smartbugs/results/`, damit dort kein Zwei-Task-Lauf als Messung
+erscheint; Protokoll `eval/_runlogs/llmsa_retry_20260924-152514.log`.
 
 ---
 
@@ -182,6 +212,9 @@ erweitert. 3 Prozesse, Kostendeckel 3 USD.
    ersetzen; die Datei pinnt nichts.
 5. **Slither-Baseline vervollständigen:** glibc-basiertes Slither-Image oder
    statische solc-Builds für 0.7.6 bis 0.8.12, dann die 45 Contracts nachfahren.
+5a. **Nachlauf mit angehobener Kontextgrenze wiederholen** (4.2), mit zwei
+   Prozessen und Kostendeckel 8 USD; er entscheidet, ob die 37 Contracts ein
+   Befund über das Werkzeug oder über die frühere Konstante sind.
 6. **DASP-Zuordnung der LLMSmartAudit-Detektoren** je Detektor begründen, wie
    `GPTScan/taxonomy/mapping.md` es für GPTScan tut (A3).
 7. **Betrieb:** Image-ID je Lauf in `run_params.json` aller Runner; `ENV
@@ -203,5 +236,7 @@ Beide sind jetzt beantwortet: Die Grammatik-Ablehnungen betreffen 87 der 143
 curated-Contracts und schwächen die Begründung „kein Schlüsselwort“, nicht das
 Ergebnis 0 %; die Kontextgrenze von 65 536 war eine Konstante des Werkzeugs,
 nicht des Anbieters, und ist seit dem 24.09.2026 einstellbar. Offen bleiben
-die Rohdaten eines Laufs, die Liste der Stichprobenurteile, die Bestätigung
-der Lizenzzuordnung und die zweite Hälfte der Slither-Baseline.
+der Nachlauf mit angehobener Grenze, der am 24.09. am Arbeitsspeicher des
+Rechners scheiterte, die Rohdaten eines Laufs, die Liste der
+Stichprobenurteile, die Bestätigung der Lizenzzuordnung und die zweite Hälfte
+der Slither-Baseline.

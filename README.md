@@ -73,7 +73,7 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 24.09.2026: 48 Läufe, 1 272 Tasks, 6 401 Dateien, 1,09 GB** (1,01 GiB).
+**Stand 24.09.2026: 49 Läufe, 1 368 Tasks, 6 838 Dateien, 1,24 GB** (1,15 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 
@@ -81,7 +81,7 @@ Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 |---|---:|---:|
 | `gptscan` | 33 | 863 |
 | `llmsmartaudit` | 14 | 266 |
-| `slither-0.11.3` | 1 | 143 |
+| `slither-0.11.3` | 2 | 239 |
 
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 `curated_v1_20260705` (143 Tasks je Werkzeug). Dazu kommen der GPTScan-Volllauf
@@ -168,7 +168,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 230 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 244 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -512,7 +512,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-230 Tests (Stand 21.09.2026): Regressionstests für beide Tool-Parser, das
+244 Tests (Stand 24.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:
