@@ -27,10 +27,12 @@
   bricht nach dem ersten Call ab. Ursache ist nicht der Quelltext allein,
   sondern die ueber die Runden wachsende Multi-Agenten-Konversation gegen die
   in camel/utils.py fuer ModelType.DEEPSEEK_CHAT fest verdrahtete Grenze von
-  65.536 Tokens, die LLM_CONTEXT_TOKENS nicht anhebt. Betroffen sind 26 bis 52
-  der 96 mwevariety-Contracts. Sie liefern kein Ergebnis und erscheinen als
-  eigener Zustand "context window exceeded" im Parser -- ausdruecklich NICHT
-  als "keine Findings".
+  65.536 Tokens, die LLM_CONTEXT_TOKENS damals nicht anhob. Betroffen sind 26
+  bis 52 der 96 mwevariety-Contracts (im Lauf dann 37). Sie liefern kein
+  Ergebnis und erscheinen als eigener Zustand "context window exceeded" im
+  Parser -- ausdruecklich NICHT als "keine Findings". Seit 24.09.2026 liest
+  camel/utils.py die Grenze aus LLM_CONTEXT_TOKENS (Default 65.536); ein
+  danach gebautes Image nimmt -ContextTokens also auch fuer die Agentengrenze.
 
   TIMEOUT: Dieser Lauf (15./16.08.2026) entstand vor AP5; damals griff nur
   der Docker-Abschuss. Seit 18.08.2026 wirkt --timeout auch im Container
@@ -163,7 +165,7 @@ if ($Provider -eq 'custom' -and -not $BaseUrl) {
 
 $env:LLM_PROVIDER       = $Provider
 $env:LLM_MODEL          = $Model            # PFLICHT: ueberschreibt das tote deepseek-chat im Image
-$env:LLM_CONTEXT_TOKENS = "$ContextTokens"  # hebt die Agent-Grenze nicht an, siehe Kopfkommentar
+$env:LLM_CONTEXT_TOKENS = "$ContextTokens"  # Agent-Grenze nur mit Image ab 24.09.2026, siehe Kopfkommentar
 if ($BaseUrl) { $env:LLM_BASE_URL = $BaseUrl }
 else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
 if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }

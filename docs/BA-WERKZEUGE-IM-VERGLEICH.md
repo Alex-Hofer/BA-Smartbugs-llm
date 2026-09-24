@@ -127,9 +127,12 @@ Zwei Grenzen wirken getrennt voneinander.
    Provider `deepseek`. `chat_agent.py` zählt die Token der wachsenden
    Konversation vor jedem Aufruf und bricht ab, wenn sie die Grenze erreichen,
    Meldung `max_tokens_exceeded_by_camel`. Das ist der Abbruch der 37
-   Contracts im DeFi-Lauf (`30_Vault.sol`: 76 456 Token). `LLM_CONTEXT_TOKENS`
-   ändert an dieser Grenze nichts; die Variable wirkt in `camel/utils.py` nur
-   für Provider `custom`.
+   Contracts im DeFi-Lauf (`30_Vault.sol`: 76 456 Token). In allen
+   aufgezeichneten Läufen änderte `LLM_CONTEXT_TOKENS` an dieser Grenze
+   nichts; die Variable wirkte in `camel/utils.py` nur für Provider `custom`.
+   Seit dem 24.09.2026 liest `camel/utils.py` sie auch für `DEEPSEEK_CHAT`
+   (Default weiterhin 65 536), Läufe mit einem danach gebauten Image können die
+   Grenze anheben.
 2. **Completion-Budget.** `camel/model_backend.py:_context_limit` schlägt für
    Modell-IDs ohne Eintrag in `num_max_token_map` auf `LLM_CONTEXT_TOKENS`
    zurück (Default 16 384); alle Läufe dieser Arbeit setzen 65 536. Ohne den
@@ -221,7 +224,11 @@ Aufräumen mitzählen: 3:19 min, 3:02:15 h und 1:24 min
 Tabelle 4.1 die SmartBugs-Meldung.
 
 Recall, Precision und F1 je DASP-Kategorie stehen in
-[`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md).
+[`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md),
+seit dem 24.09.2026 mit Basisrate und Wilson-Intervall (95 %) für den Recall.
+Sechs der zehn Kategorien haben acht oder weniger Contracts; ihre Intervalle
+sind breiter als 40 Prozentpunkte, ein Recall von 100 % bei vier Contracts
+heißt nur „zwischen 51 % und 100 %“.
 
 **Drei Dinge fallen auf.**
 
@@ -395,6 +402,14 @@ Dinge drücken sie systematisch:
    19 geprüften Extra-Kategorie-Treffern
    ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md),
    Abschnitt 4.2).
+
+Gleichzeitig ist die Precision je Kategorie gegen ihre Basisrate zu lesen, also
+gegen die Precision eines Werkzeugs, das die Kategorie auf jedem Contract
+meldet. Bei `unchecked_low_level_calls` stehen 79 % Precision einer Basisrate
+von 36 % gegenüber (52 von 143 Contracts tragen das Label), bei
+`access_control` 19 % einer Basisrate von 13 %: Dort liegt LLMSmartAudit nur
+knapp über dem Raten. Beide Spalten stehen je Kategorie in
+[`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md).
 
 Umgekehrt ist der Recall von 97 % eine **Obergrenze**: Bei 7,9 Findings je
 Contract und Contract-Level-Zählung ist ein Zufallstreffer billig zu haben.

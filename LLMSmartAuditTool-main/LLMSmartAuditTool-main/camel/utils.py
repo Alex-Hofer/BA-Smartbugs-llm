@@ -131,7 +131,12 @@ def get_model_token_limit(model: ModelType) -> int:
     elif model == ModelType.GPT_4_O_MINI_NEW:
         return 128000
     elif model == ModelType.DEEPSEEK_CHAT:
-        return 65536  # DeepSeek-chat 64K context window
+        # 65 536 was deepseek-chat's window; the DeepSeek V4 models accept far
+        # more (1M tokens per the provider's documentation, 2026-09). Every
+        # recorded run of this thesis hit this constant, so it stays the
+        # default for comparability and LLM_CONTEXT_TOKENS raises it on
+        # purpose -- the same variable the runners already forward.
+        return int(os.environ.get("LLM_CONTEXT_TOKENS", 65536))
     elif model == ModelType.CUSTOM:
         # Arbitrary model on an OpenAI-compatible endpoint; the context window
         # is unknown, so allow an override via LLM_CONTEXT_TOKENS (default 16384).
