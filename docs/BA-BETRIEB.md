@@ -50,6 +50,26 @@ Referenzwerte kompletter Läufe:
 | `curated_v1_20260705` LLMSmartAudit | 143 Contracts | 3:02 h | ~$2,44 (aus den Tokens hochgerechnet) |
 | `curated_mwefixed_live` GPTScan | 96 Contracts | 36:45 min | ~$0,28 |
 
+**Schätzung gegen Abrechnung.** Die Kostenschätzungen der Runner und von
+`build_eval.py` rechnen Prompt- und Completion-Token mit festen Sätzen
+(0,0908 und 0,3695 USD je Million), die aus dem Lauf `curated_v1_20260705`
+zurückgerechnet sind. Sie kennen den Cache-Rabatt des Anbieters nicht und
+liegen deshalb zu hoch, sobald ein Lauf viele gleiche Prompt-Präfixe schickt.
+Belegte Paare:
+
+| Lauf | Schätzung | Abgebucht | Quelle |
+|---|---:|---:|---|
+| `curated_v1_20260705` LLMSmartAudit | 2,44 USD | 2,44 USD | Sätze aus genau diesem Lauf zurückgerechnet, kein unabhängiger Beleg |
+| `llmsa_mwefixed_v2` (+ Nachlauf) | ≈ 8,37 USD | nicht erfasst | Kontostand vor/nach damals nicht protokolliert |
+| `llmsa_mwefixed_v2_ctx1m` | 11,42 USD | 5,55 USD | Kontostand 14,31 → 8,14 USD am 24.09.2026, abzüglich der Anteile abgebrochener Läufe; Faktor 2,06 |
+
+Die Sätze bleiben, wie sie sind: Der Kostendeckel der Runner arbeitet auf der
+Schätzung und soll zu früh greifen, nie zu spät. Seit dem 24.09.2026 fragen
+alle vier Runner bei `-Provider deepseek` den Kontostand vor dem Start und nach
+dem Ende ab und schreiben die Differenz als „abgebucht“ ins Protokoll
+(`run_full_v2.ps1` zusätzlich in `run_params.json`). Maßgeblich ist diese
+Differenz, nicht die Schätzung.
+
 **Vor jedem Massenlauf einen Dry-Run.** `run_curated.ps1 -GptscanDry` kostet
 nichts und deckt Pipeline-Fehler auf, bevor Geld fließt. Für LLMSmartAudit gibt
 es keinen Dry-Modus (Fallstrick 3).

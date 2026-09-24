@@ -130,6 +130,20 @@ function Write-Log([string]$Msg) {
     Write-Host ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $Msg)
 }
 
+function Get-DeepSeekBalanceUsd {
+    # Kontostand in USD laut https://api.deepseek.com/user/balance; $null, wenn
+    # kein Schluessel gesetzt ist oder die Abfrage scheitert. Der Schluessel
+    # wird nicht protokolliert. Zweck: die tatsaechliche Abbuchung eines Laufs
+    # als Differenz vor/nach festhalten, neben der Schaetzung aus den Tokens.
+    if (-not $env:DEEPSEEK_API_KEY) { return $null }
+    try {
+        $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
+        $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
+        if ($null -eq $usd) { return $null }
+        return [double]$usd
+    } catch { return $null }
+}
+
 function Invoke-SbRun {
     param([string]$SbTool, [int]$TimeoutSec, [string]$ResultsTemplate, [string]$RunId)
     Push-Location $SmartBugsDir
@@ -250,6 +264,15 @@ try {
         }
     }
     Write-Log "Backend: provider=$Provider, GPTScan-Modell=$GptscanModel, LLMSA-Modell=$LlmModel$(if ($BaseUrl) { ", base_url=$BaseUrl" })"
+    # Kontostand vor dem Start; am Ende steht die Differenz als tatsaechliche
+    # Abbuchung im Protokoll. Die Kostenschaetzungen der Werkzeuge kennen den
+    # Cache-Rabatt des Anbieters nicht (BA-BETRIEB.md, Abschnitt 3).
+    $balanceBefore = $null
+    if ($Provider -eq 'deepseek' -and -not $GptscanDry) {
+        $balanceBefore = Get-DeepSeekBalanceUsd
+        if ($null -ne $balanceBefore) { Write-Log ("Guthaben vor Start: {0:N2} USD" -f $balanceBefore) }
+        else { Write-Log "Guthaben vor Start: Abfrage fehlgeschlagen." }
+    }
     # Image-IDs festhalten: die Tags bleiben bei einem Neubau gleich, die IDs nicht.
     foreach ($img in @('smartbugs/gptscan:1.0', 'smartbugs/llmsmartaudit:1.0')) {
         $imageId = @(cmd /c "docker image inspect --format ""{{.Id}}"" $img 2>nul") | Select-Object -First 1
@@ -435,6 +458,13 @@ try {
 
     Write-Log "CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_$RunIdSuffix results\llmsmartaudit\curated_$RunIdSuffix > ..\curated_results.csv"
     Write-Log "Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_$RunIdSuffix"
+    if ($null -ne $balanceBefore) {
+        $balanceAfter = Get-DeepSeekBalanceUsd
+        if ($null -ne $balanceAfter) {
+            Write-Log ("Guthaben nach Ende: {0:N2} USD; abgebucht {1:N2} USD" -f $balanceAfter, ($balanceBefore - $balanceAfter))
+        }
+        else { Write-Log "Guthaben nach Ende: Abfrage fehlgeschlagen, Abbuchung nicht ermittelt." }
+    }
     Write-Log "Fertig."
 }
 finally {

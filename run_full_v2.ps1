@@ -128,6 +128,20 @@ function Write-Log([string]$Msg) {
     Write-Host ("[{0}] {1}" -f (Get-Date -Format 'HH:mm:ss'), $Msg)
 }
 
+function Get-DeepSeekBalanceUsd {
+    # Kontostand in USD laut https://api.deepseek.com/user/balance; $null, wenn
+    # kein Schluessel gesetzt ist oder die Abfrage scheitert. Der Schluessel
+    # wird nicht protokolliert. Zweck: die tatsaechliche Abbuchung eines Laufs
+    # als Differenz vor/nach festhalten, neben der Schaetzung aus den Tokens.
+    if (-not $env:DEEPSEEK_API_KEY) { return $null }
+    try {
+        $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
+        $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
+        if ($null -eq $usd) { return $null }
+        return [double]$usd
+    } catch { return $null }
+}
+
 function Invoke-SbRun {
     # Pattern ist bewusst [string[]]: SmartBugs nimmt mehrere -f Muster. Sie
     # muessen als EINZELNE Argumente ankommen -- in ein Array-Literal gelegt
@@ -229,6 +243,14 @@ try {
     if ($Provider -eq 'custom' -and $BaseUrl) { $env:GPTSCAN_BASE_URL = $BaseUrl }
     else { Remove-Item Env:GPTSCAN_BASE_URL -ErrorAction SilentlyContinue }
     Write-Log "Backend: provider=$Provider model=$Model$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+    # Kontostand vor dem Start; die Differenz zum Ende steht als tatsaechliche
+    # Abbuchung im Protokoll und in run_params.json neben GPTScans Schaetzung.
+    $balanceBefore = $null
+    if ($Provider -eq 'deepseek' -and $Mode -ne 'dry') {
+        $balanceBefore = Get-DeepSeekBalanceUsd
+        if ($null -ne $balanceBefore) { Write-Log ("Guthaben vor Start: {0:N2} USD" -f $balanceBefore) }
+        else { Write-Log "Guthaben vor Start: Abfrage fehlgeschlagen." }
+    }
     # Image-ID festhalten (auch in run_params.json): der Tag bleibt bei einem
     # Neubau gleich, die ID nicht.
     $imageId = @(cmd /c 'docker image inspect --format "{{.Id}}" smartbugs/gptscan:1.0 2>nul') | Select-Object -First 1
@@ -307,7 +329,18 @@ try {
     $sbVersion = (cmd /c """$Python"" -c ""import sb.cfg;print(sb.cfg.SB_VERSION)"" 2>nul")
     Pop-Location
     if (-not $sbVersion) { $sbVersion = 'unbekannt' }
+    $balanceAfter = $null
+    if ($null -ne $balanceBefore) {
+        $balanceAfter = Get-DeepSeekBalanceUsd
+        if ($null -ne $balanceAfter) {
+            Write-Log ("Guthaben nach Ende: {0:N2} USD; abgebucht {1:N2} USD" -f $balanceAfter, ($balanceBefore - $balanceAfter))
+        }
+        else { Write-Log "Guthaben nach Ende: Abfrage fehlgeschlagen, Abbuchung nicht ermittelt." }
+    }
     $params = [ordered]@{
+        balance_before_usd = $balanceBefore
+        balance_after_usd  = $balanceAfter
+        charged_usd        = $(if ($null -ne $balanceBefore -and $null -ne $balanceAfter) { [math]::Round($balanceBefore - $balanceAfter, 2) } else { $null })
         run_id            = $RunId
         mode              = $Mode
         started_utc       = $started.ToUniversalTime().ToString('o')

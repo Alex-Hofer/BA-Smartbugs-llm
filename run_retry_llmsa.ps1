@@ -114,8 +114,28 @@ function Write-Log {
 
 # Preise wie in run_full_v2_llmsa.ps1 und analysis_tools/build_eval.py.
 # Naeherung fuer die Bremse; verbindlich ist die DeepSeek-Abrechnung.
+# Gemessen am 24.09.2026 (Nachlauf llmsa_mwefixed_v2_ctx1m): Schaetzung nach
+# diesen Saetzen 11,42 USD, abgebucht 5,55 USD (Faktor 2,06), weil der Anbieter
+# Cache-Treffer im Prompt mit einem Bruchteil des Satzes abrechnet. Die Saetze
+# bleiben bewusst so: der Deckel soll zu frueh greifen, nie zu spaet. Die
+# tatsaechliche Abbuchung steht seitdem als Kontostand-Differenz im Protokoll.
 $PricePromptPerM     = 0.0908
 $PriceCompletionPerM = 0.3695
+
+
+function Get-DeepSeekBalanceUsd {
+    # Kontostand in USD laut https://api.deepseek.com/user/balance; $null, wenn
+    # kein Schluessel gesetzt ist oder die Abfrage scheitert. Der Schluessel
+    # wird nicht protokolliert. Zweck: die tatsaechliche Abbuchung eines Laufs
+    # als Differenz vor/nach festhalten, neben der Schaetzung aus den Tokens.
+    if (-not $env:DEEPSEEK_API_KEY) { return $null }
+    try {
+        $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
+        $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
+        if ($null -eq $usd) { return $null }
+        return [double]$usd
+    } catch { return $null }
+}
 
 function Get-RunCost {
     param([string]$Id)
@@ -212,6 +232,7 @@ if ($Provider -eq 'deepseek') {
     }
     $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
     Write-Log "Guthaben: is_available=$($bal.is_available), USD=$usd"
+    $balanceBefore = [double]$usd
     if (-not $bal.is_available) { throw "DeepSeek meldet is_available=false -- Konto nicht gedeckt. Kein Start; genau daran sind die vier Tasks im Hauptlauf gescheitert." }
     if ([double]$usd -lt $CostCeiling) { throw "Guthaben $usd USD liegt unter dem Kostendeckel $CostCeiling USD. Erst aufladen." }
 }
@@ -271,5 +292,15 @@ finally {
 
 $final = Get-RunCost -Id $RunId
 Write-Log ("FERTIG: {0} Tasks, {1:N0} Prompt-, {2:N0} Completion-Tokens, geschaetzt ~{3:N2} USD" -f $final.Tasks, $final.Prompt, $final.Completion, $final.Cost)
+# Tatsaechliche Abbuchung: Kontostand nach dem Lauf gegen den vor dem Start.
+# Die Schaetzung oben liegt nach der Messung vom 24.09.2026 um etwa Faktor 2
+# zu hoch (Cache-Rabatt des Anbieters); massgeblich ist die Differenz hier.
+if ($Provider -eq 'deepseek' -and $null -ne $balanceBefore) {
+    $balanceAfter = Get-DeepSeekBalanceUsd
+    if ($null -ne $balanceAfter) {
+        Write-Log ("Guthaben nach Ende: {0:N2} USD; abgebucht {1:N2} USD (Schaetzung {2:N2} USD)" -f $balanceAfter, ($balanceBefore - $balanceAfter), $final.Cost)
+    }
+    else { Write-Log "Guthaben nach Ende: Abfrage fehlgeschlagen, Abbuchung nicht ermittelt." }
+}
 Write-Log "Protokoll: $LogFile"
 Write-Log "Naechster Schritt: python analysis_tools\build_eval.py llmsa_mwefixed_v2 --merge-run $RunId"

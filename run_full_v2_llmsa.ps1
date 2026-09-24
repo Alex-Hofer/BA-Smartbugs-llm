@@ -105,8 +105,28 @@ function Write-Log {
 # Input/Output-Verhaeltnisses 1:4,07 der veroeffentlichten deepseek-chat-Preise.
 # Naeherung fuer die Bremse -- die verbindliche Zahl kommt aus der
 # DeepSeek-Abrechnung und gehoert so in run_meta.json.
+# Gemessen am 24.09.2026 (Nachlauf llmsa_mwefixed_v2_ctx1m): Schaetzung nach
+# diesen Saetzen 11,42 USD, abgebucht 5,55 USD (Faktor 2,06), weil der Anbieter
+# Cache-Treffer im Prompt mit einem Bruchteil des Satzes abrechnet. Die Saetze
+# bleiben bewusst so: der Deckel soll zu frueh greifen, nie zu spaet. Die
+# tatsaechliche Abbuchung steht seitdem als Kontostand-Differenz im Protokoll.
 $PricePromptPerM     = 0.0908
 $PriceCompletionPerM = 0.3695
+
+
+function Get-DeepSeekBalanceUsd {
+    # Kontostand in USD laut https://api.deepseek.com/user/balance; $null, wenn
+    # kein Schluessel gesetzt ist oder die Abfrage scheitert. Der Schluessel
+    # wird nicht protokolliert. Zweck: die tatsaechliche Abbuchung eines Laufs
+    # als Differenz vor/nach festhalten, neben der Schaetzung aus den Tokens.
+    if (-not $env:DEEPSEEK_API_KEY) { return $null }
+    try {
+        $bal = Invoke-RestMethod -Uri 'https://api.deepseek.com/user/balance' -Headers @{ Authorization = "Bearer $($env:DEEPSEEK_API_KEY)" } -Method Get
+        $usd = ($bal.balance_infos | Where-Object { $_.currency -eq 'USD' } | Select-Object -First 1).total_balance
+        if ($null -eq $usd) { return $null }
+        return [double]$usd
+    } catch { return $null }
+}
 
 function Get-RunCost {
     param([string[]]$RunIds)
@@ -194,6 +214,14 @@ if ($fromEnv.Count) {
                " (ein ausdruecklicher Parameter haette Vorrang).")
 }
 Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+# Kontostand vor dem Start, damit am Ende die tatsaechliche Abbuchung neben der
+# Schaetzung steht (nur DeepSeek bietet diese Auskunft).
+$balanceBefore = $null
+if ($Provider -eq 'deepseek') {
+    $balanceBefore = Get-DeepSeekBalanceUsd
+    if ($null -ne $balanceBefore) { Write-Log ("Guthaben vor Start: {0:N2} USD" -f $balanceBefore) }
+    else { Write-Log "Guthaben vor Start: Abfrage fehlgeschlagen." }
+}
 # Image-ID festhalten: der Tag bleibt bei einem Neubau gleich, die ID nicht.
 $imageId = @(cmd /c 'docker image inspect --format "{{.Id}}" smartbugs/llmsmartaudit:1.0 2>nul') | Select-Object -First 1
 Write-Log "Image: smartbugs/llmsmartaudit:1.0 $imageId"
@@ -264,4 +292,11 @@ finally {
 
 $final = Get-RunCost -RunIds $allRunIds
 Write-Log ("FERTIG: {0} Tasks, {1:N0} Prompt-, {2:N0} Completion-Tokens, geschaetzt ~`${3:N2}" -f $final.Tasks, $final.Prompt, $final.Completion, $final.Cost)
+if ($null -ne $balanceBefore) {
+    $balanceAfter = Get-DeepSeekBalanceUsd
+    if ($null -ne $balanceAfter) {
+        Write-Log ("Guthaben nach Ende: {0:N2} USD; abgebucht {1:N2} USD (Schaetzung {2:N2} USD)" -f $balanceAfter, ($balanceBefore - $balanceAfter), $final.Cost)
+    }
+    else { Write-Log "Guthaben nach Ende: Abfrage fehlgeschlagen, Abbuchung nicht ermittelt." }
+}
 Write-Log "Protokoll: $LogFile"
