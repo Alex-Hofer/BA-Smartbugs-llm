@@ -240,15 +240,19 @@ an den Langpfaden des Tool-Baums.
 
 Gemessene Größen: `smartbugs/gptscan:1.0` 2,14 GB (Neubau 18.08.2026,
 `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5), `smartbugs/llmsmartaudit:1.0`
-**587 MB** (Neubau 20.09.2026 aus dem aktuellen Repo-Stand),
+**587 MB** (Neubau 24.09.2026 aus dem Repo-Stand mit einstellbarer Kontextgrenze
+und Modell-Wächter, ID `fe758cf6410c`; davor 20.09.2026 mit gleicher Größe),
 `smartbugs/slither:0.11.3-glibc` **316 MB** (Bau 24.09.2026, ID `a7a63792a158`).
 
-Am 21.09.2026 gegengeprüft — `docker images` bestätigt beide Werte und beide
-Baudaten:
+Am 21.09.2026 gegengeprüft — `docker images` bestätigte damals beide Werte
+und beide Baudaten; das LLMSmartAudit-Image wurde am 24.09.2026 zweimal neu
+gebaut (Kontextgrenze über `LLM_CONTEXT_TOKENS`, dann Modell-Wächter):
 
 ```
-smartbugs/llmsmartaudit:1.0   587MB    2026-09-20 15:46
-smartbugs/gptscan:1.0         2.14GB   2026-08-18 18:16
+smartbugs/llmsmartaudit:1.0   587MB    2026-09-24   fe758cf6410c
+smartbugs/gptscan:1.0         2.14GB   2026-08-18   de5ae99da7e7
+smartbugs/slither:0.11.3-glibc 316MB   2026-09-24   a7a63792a158
+smartbugs/slither:0.11.3      490MB    Docker Hub   475f5b72c25d
 ```
 
 Beim selben Termin geprüft: Beide Images enthalten **keine `.env`-Datei** und

@@ -90,8 +90,11 @@ der Lauf scheiterte vollständig, aber erst nach dem Retry-Budget des Werkzeugs.
 Seit dem 24.09.2026 trägt das Image kein Modell mehr, und der Entrypoint bricht
 bei leerem `LLM_MODEL` sofort ab: Platzhalterreport mit `error: LLM_MODEL not
 set`, Exit-Code 2, im Ergebnis als `errors`, kein LLM-Aufruf
-(`tests/test_entrypoint_model_guard.py`). Die Runner setzen die Variable immer;
-beim direkten `sb`-Aufruf ist sie von Hand zu setzen.
+(`tests/test_entrypoint_model_guard.py`). Am 24.09.2026 gegen den lokalen
+Prüfstand nachgestellt (Image `fe758cf6410c`): ohne Variable endet der Task
+nach 15 s mit Exit 2 und den drei `errors`, mit gesetzter Variable läuft er
+durch alle 41 Kategorien. Die Runner setzen die Variable immer; beim direkten
+`sb`-Aufruf ist sie von Hand zu setzen.
 
 **3 — LLMSmartAudit hat keinen Stub-Modus.**
 `LLM_MODEL=STUB` wird wörtlich an die API geschickt und mit HTTP 400 abgelehnt.

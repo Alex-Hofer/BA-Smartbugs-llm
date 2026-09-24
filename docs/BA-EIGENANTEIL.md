@@ -408,6 +408,14 @@ und der aufbewahrte Beispielreport unter `WareHouse/VaultDS5_sb_20260630223101/`
   > Der Unterschied ist ausschließlich der zur Laufzeit nie referenzierte
   > `evaluation/`-Ordner. Unter dem Tag liegt jetzt allerdings nicht mehr
   > bitgleich dasselbe Image, mit dem gemessen wurde.
+  >
+  > **Stand 24.09.2026.** Der Tag wurde an diesem Tag zweimal neu gebaut:
+  > zuerst mit der über `LLM_CONTEXT_TOKENS` einstellbaren Agentengrenze in
+  > `camel/utils.py` (ID `7c111aa6b366`, damit lief der Nachlauf
+  > `llmsa_mwefixed_v2_ctx1m`), dann ohne eingebranntes `LLM_MODEL` und mit
+  > dem Modell-Wächter im Entrypoint (ID `fe758cf6410c`, weiterhin 587 MB).
+  > Die Runner protokollieren seit dem 24.09.2026 die Image-ID jedes Laufs,
+  > damit sich diese Frage künftig aus dem Protokoll beantwortet.
 * `LLMSmartAuditTool-main/.../WareHouse/VaultDS*`: Reste eigener
   Integrationstests vom 2026-06-30. Bis auf einen Beispielreport entfernt;
   ebenfalls extern gesichert und über den Initial-Commit `f85946e` weiterhin
