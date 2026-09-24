@@ -451,7 +451,12 @@ Dinge drücken sie systematisch:
 1. curated labelt genau *eine* Primärschwachstelle je Contract. Ein zutreffender
    Sekundärbefund zählt als False Positive.
 2. 468 der 1 124 Findings tragen keine DASP-Klassifikation und fallen ganz aus
-   der Rechnung.
+   der Rechnung. Welche der 41 Detektoren eine DASP-Nummer tragen, nach
+   welcher Regel und mit welchem Beleg im Prompt, steht seit dem 24.09.2026 in
+   [`smartbugs/tools/llmsmartaudit/mapping.md`](../smartbugs/tools/llmsmartaudit/mapping.md);
+   dort auch die zwei Zuordnungen auf der Kippe (`Centralization Risk` mit
+   DASP-2, `Incorrect Constructor Name` ohne) und was ihre Änderung an den
+   30 % bewegen würde (30,9 % beziehungsweise 29,5 %).
 3. Stichproben am Quellcode ergaben 15 plausibel / 4 generisch / 0 falsch bei
    19 geprüften Extra-Kategorie-Treffern
    ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md),

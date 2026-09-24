@@ -115,7 +115,7 @@ schreibe „die tatsächlich installierten Versionen fest“. Text korrigiert in
 |---|---|---|
 | A1 | GPTScans 0 % auf curated hängt auch am Parser, nicht nur am Vorfilter | quantifiziert (Nachtrag 4.7); die Aussage „127 ohne Schlüsselwort“ ist nur für 56 vollständig geparste Tasks belegt |
 | A2 | Die Kontextgrenze 65 536 war eine selbst gesetzte Konstante | Anbieterdokumentation nennt für `deepseek-v4-flash` 1M Token; die Grenze ist seit `8a53d79` über `LLM_CONTEXT_TOKENS` einstellbar; Nachlauf über die 37 Contracts in Abschnitt 4.2 |
-| A3 | DASP-Zuordnung der 41 LLMSmartAudit-Detektoren ohne Begründung je Detektor; keine Regel, wann nachgemappt wird | offen; Basisrate je Kategorie steht jetzt neben der Precision (`metriken.md`) |
+| A3 | DASP-Zuordnung der 41 LLMSmartAudit-Detektoren ohne Begründung je Detektor; keine Regel, wann nachgemappt wird | erledigt am 24.09.2026: `smartbugs/tools/llmsmartaudit/mapping.md` begründet alle 41 Zuordnungen am Prompt, nennt die Regel und weist zwei Grenzfälle mit ihrer Wirkung auf die Metrik aus; keine Klassifikation geändert. Basisrate je Kategorie steht neben der Precision (`metriken.md`) |
 | A4 | Kosten je analysiertem Contract vergleicht 96 mit 59 Contracts | Tabelle 4.2 benennt es; unverändert |
 | A5 | Zwei Läufe sind keine Streuung; keine Einzelzahl trägt eine Spanne | Wilson-Intervalle für den Recall je Kategorie ergänzt (`4520f3b`); Lauf-zu-Lauf-Spannen weiterhin nur in 4.4 |
 | A6 | Timeout-Nachweis auf je einem Contract | unverändert, steht als Limitation 7 |

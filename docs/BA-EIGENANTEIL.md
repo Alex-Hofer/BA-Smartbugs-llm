@@ -65,7 +65,8 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 
 `smartbugs/tools/gptscan/` und `smartbugs/tools/llmsmartaudit/` sind vollständig
 selbst geschrieben. Ursprünglich je vier Dateien nach dem SmartBugs-Schema,
-inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat:
+inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat;
+bei LLMSmartAudit seit dem 24.09.2026 dazu `mapping.md`:
 
 | Datei | Aufgabe |
 |---|---|
@@ -73,6 +74,7 @@ inzwischen je sechs — zwei sind später hinzugekommen und stehen unten separat
 | `scripts/do_solidity.sh` | Entrypoint im Container: Quellordner vorbereiten, Provider/Modell aus der Umgebung wählen, Tool starten, Metadatenzeile ausgeben, `/output.json` garantieren |
 | `parser.py` | `parse(exit_code, log, output) -> (findings, infos, errors, fails)` |
 | `findings.yaml` | Finding-Name → SWC/DASP-Klassifikation, Severity, Beschreibung |
+| `mapping.md` (nur LLMSmartAudit) | Begründung je Detektor, warum er seine SWC/DASP-Klassifikation trägt, mit Beleg aus dem Prompt und der Regel, wann eine DASP-Nummer vergeben wird; durch `tests/test_llmsa_mapping_doc.py` an `findings.yaml` gebunden |
 | `scripts/main_contract.py` | *(AP6)* Reduziert eine Solidity-Datei bei `MAIN=1` auf den Hauptcontract, weil weder GPTScan noch LLMSmartAudit eine eigene Contract-Auswahl anbietet |
 | `scripts/mark_timeout.py` | *(AP5)* Stempelt den Marker `sb_timeout` auf einen Report, wenn das Netz (90 % von `TIMEOUT`) den Lauf von außen beendet hat, bevor das Werkzeug selbst dazu kam |
 
@@ -115,17 +117,17 @@ Gegen den Upstream-Stand `7ddaf6c` unterscheiden sich in `sb/` genau **zwei**
 Dateien: `docker.py` (37 Code-Zeilen) und `tools.py` (2 Code-Zeilen). Sie
 bilden zusammen den Mechanismus zur Schlüsselübergabe. Hinzu kommt eine
 Korrektur an `smartbugs/.gitignore`. Mehr ist es nicht; der vollständige
-Hash-Abgleich über alle 776 getrackten Dateien unter `smartbugs/` ergibt:
+Hash-Abgleich über alle 777 getrackten Dateien unter `smartbugs/` ergibt:
 
 | | Dateien |
 |---|---:|
 | unverändert gegenüber `7ddaf6c` | 515 |
 | geändert | 3 (`sb/docker.py`, `sb/tools.py`, `.gitignore`) |
-| neu: eigene Tool-Integrationen | 15 (`tools/gptscan/`, `tools/llmsmartaudit/`; dazu `config.yaml`, `Dockerfile`, `scripts/do_solidity.sh` in `tools/slither-0.11.3-glibc/`) |
+| neu: eigene Tool-Integrationen | 16 (`tools/gptscan/`, `tools/llmsmartaudit/` samt `mapping.md`; dazu `config.yaml`, `Dockerfile`, `scripts/do_solidity.sh` in `tools/slither-0.11.3-glibc/`) |
 | neu: unveränderte Kopien aus `tools/slither-0.11.3/` | 2 (`findings.yaml`, `parser.py` in `tools/slither-0.11.3-glibc/`) |
 | neu: abgelegte Korpus-Dateien | 241 (`samples/gptscan/**.sol` — fremde Contracts, kein eigener Code) |
 
-Summe: 515 + 3 + 15 + 2 + 241 = 776 (bis 24.09.2026 dazu eine leere `uv.lock`,
+Summe: 515 + 3 + 16 + 2 + 241 = 777 (bis 24.09.2026 dazu eine leere `uv.lock`,
 siehe Kasten unten). Nachprüfbar mit einem Befehl:
 
 ```

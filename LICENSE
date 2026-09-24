@@ -41,7 +41,8 @@ Diese Lizenz gilt ausschliesslich fuer den Eigenanteil dieser Bachelorarbeit:
     smartbugs/tools/gptscan/       (Tool-Integration: config.yaml, findings.yaml,
     smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh,
                                     scripts/main_contract.py,
-                                    scripts/mark_timeout.py)
+                                    scripts/mark_timeout.py; bei
+                                    llmsmartaudit dazu mapping.md)
     smartbugs/tools/slither-0.11.3-glibc/
                                    (nur config.yaml, Dockerfile und
                                     scripts/do_solidity.sh; findings.yaml und

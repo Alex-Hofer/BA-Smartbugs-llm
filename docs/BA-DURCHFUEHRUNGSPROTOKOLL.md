@@ -487,7 +487,7 @@ unverändert stehen, der Nachlauf wird nicht eingemischt. Auswertung in
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.
-2. **DASP-only-Mapping:** Findings ohne DASP-Klassifikation (LLMSA: 468; Slither: 1 763 seit dem Nachtrag 4.6, zuvor 1 854) fließen nicht in Recall/Precision ein; fünf kanonische Zusatz-Mappings wurden dokumentiert ergänzt (Fehler #9 und Nachtrag 4.6).
+2. **DASP-only-Mapping:** Findings ohne DASP-Klassifikation (LLMSA: 468; Slither: 1 763 seit dem Nachtrag 4.6, zuvor 1 854) fließen nicht in Recall/Precision ein; fünf kanonische Zusatz-Mappings wurden dokumentiert ergänzt (Fehler #9 und Nachtrag 4.6). Die Zuordnung je LLMSA-Detektor ist seit dem 24.09.2026 in `smartbugs/tools/llmsmartaudit/mapping.md` begründet, samt Regel und zwei offen ausgewiesenen Grenzfällen.
 3. **Nicht-Determinismus:** 74 % Lauf-zu-Lauf-Übereinstimmung bei GPTScan (4.3); LLMSA-Ergebnisse sind ebenfalls nicht deterministisch (nicht separat quantifiziert).
 4. **Degradierte Static-Stufe:** Auf mwevariety war GPTScans Präzisions-Schutzmechanismus mangels kompilierbarer Dateien überwiegend inaktiv.
 5. **Severity-Werte** beider LLM-Tools sind Kategorie-Defaults (4.2) — severity-gewichtete Metriken wären irreführend.

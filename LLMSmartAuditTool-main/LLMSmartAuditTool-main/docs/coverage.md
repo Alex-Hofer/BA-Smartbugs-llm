@@ -112,6 +112,12 @@ analogue rather than an exact match.
 | 9. Short Address / Other | — (not specifically covered) |
 | 10. Unknown Unknowns | The large logic/DeFi detector set (Price, Oracle, FlashLoan, FundingCalc, SourceSwapping, InconsistentTokens, PartialWithdrawals, UnlimitedToken, …) effectively targets this bucket |
 
+Which classification actually enters the curated metric, why, and the two borderline cases
+(`CentralizationRiskDetector` with DASP-2, `MisdeclaredConstructorDetector` without) are worked
+out per detector in `smartbugs/tools/llmsmartaudit/mapping.md` (German, 2026-09-24). The table
+above lists thematic coverage; `FlashLoanDetector` and `PrecisionLossDetector` appear there
+without carrying a DASP number in `findings.yaml`.
+
 **Gaps / honesty notes:**
 - DASP-9 (short address / other) and several bytecode-level SWCs (delegatecall-to-user-address
   SWC-112, arbitrary jump SWC-127, arbitrary storage write SWC-124) are **not** covered — these

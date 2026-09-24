@@ -3,7 +3,8 @@ Dateien zeigen.
 
 Geprueft werden alle getrackten ``.md``-Dateien ausserhalb der drei Fremdbaeume
 (``smartbugs/``, ``GPTScan/``, ``LLMSmartAuditTool-main/``) sowie die eigene
-Integrationsdokumentation ``GPTScan/docs/SMARTBUGS_INTEGRATION.md``. Externe
+Integrationsdokumentation ``GPTScan/docs/SMARTBUGS_INTEGRATION.md`` und
+``smartbugs/tools/llmsmartaudit/mapping.md``. Externe
 Links (``http``, ``https``, ``mailto``) und reine Anker werden nicht geprueft;
 ein Anker hinter einem Dateinamen wird abgeschnitten, die Datei selbst muss
 existieren.
@@ -19,7 +20,8 @@ REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)\)")
 FOREIGN = ("smartbugs/", "GPTScan/", "LLMSmartAuditTool-main/")
-KEEP = ("GPTScan/docs/SMARTBUGS_INTEGRATION.md",)
+KEEP = ("GPTScan/docs/SMARTBUGS_INTEGRATION.md",
+        "smartbugs/tools/llmsmartaudit/mapping.md")
 
 
 def tracked_markdown():
