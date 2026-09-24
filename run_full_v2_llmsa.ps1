@@ -89,7 +89,13 @@ function Write-Log {
     param([string]$Message)
     $line = "[{0:yyyy-MM-dd HH:mm:ss}] {1}" -f (Get-Date), $Message
     Write-Host $line
-    Add-Content -Path $LogFile -Value $line -Encoding utf8
+    # Eine kurz gesperrte Protokolldatei darf den Lauf nicht beenden, sonst
+    # laeuft SmartBugs ohne Kostenwaechter weiter (siehe run_retry_llmsa.ps1).
+    for ($try = 1; $try -le 5; $try++) {
+        try { Add-Content -Path $LogFile -Value $line -Encoding utf8 -ErrorAction Stop; return }
+        catch [System.IO.IOException] { Start-Sleep -Milliseconds (200 * $try) }
+    }
+    Write-Host "  (Protokollzeile konnte nicht geschrieben werden: $LogFile ist gesperrt)"
 }
 
 # --- Preise -----------------------------------------------------------------

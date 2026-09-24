@@ -102,7 +102,14 @@ function Write-Log {
     param([string]$Message)
     $line = "[{0:yyyy-MM-dd HH:mm:ss}] {1}" -f (Get-Date), $Message
     Write-Host $line
-    Add-Content -Path $LogFile -Value $line -Encoding utf8
+    # Eine kurz von einem anderen Prozess gehaltene Datei (Editor, Virenscanner,
+    # git) darf den Lauf nicht beenden: am 24.09.2026 warf Add-Content hier eine
+    # IOException, der Runner starb und SmartBugs lief ohne Kostenwaechter weiter.
+    for ($try = 1; $try -le 5; $try++) {
+        try { Add-Content -Path $LogFile -Value $line -Encoding utf8 -ErrorAction Stop; return }
+        catch [System.IO.IOException] { Start-Sleep -Milliseconds (200 * $try) }
+    }
+    Write-Host "  (Protokollzeile konnte nicht geschrieben werden: $LogFile ist gesperrt)"
 }
 
 # Preise wie in run_full_v2_llmsa.ps1 und analysis_tools/build_eval.py.
