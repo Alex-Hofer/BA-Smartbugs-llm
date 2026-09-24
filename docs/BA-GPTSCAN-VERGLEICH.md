@@ -48,6 +48,15 @@ Nur **16 von 143** Contracts enthielten überhaupt Schlüsselbegriffe eines
 DeFi-Szenarios und lösten damit einen LLM-Aufruf aus. Die übrigen 127 werden ohne
 LLM-Aufruf verworfen — für sie *kann* definitionsgemäß kein Finding entstehen.
 
+*Vorbehalt (24.09.2026):* Bei 87 der 143 Contracts, alle Solidity 0.4, lehnte
+GPTScans ANTLR-Grammatik Teile des Quelltexts ab, vor allem
+`constant`-Konstrukte, und zählte im Median nur ein Viertel der deklarierten
+Funktionen. Der Vorfilter prüfte dort eine unvollständige Funktionsliste; ob
+ein Schlüsselwort fehlte oder nie gesehen wurde, lässt sich für diese Contracts
+nicht trennen (`BA-DURCHFUEHRUNGSPROTOKOLL.md`, Nachtrag 4.7). An der
+Schlussfolgerung dieses Abschnitts ändert das nichts, an der Schärfe der
+Zahl 127 schon.
+
 **Stufe 2 — LLM und statische Bestätigung.**
 Aus den 16 Kandidaten resultierten **6 Findings, alle vom Typ `MWE-207`**. Diese
 lagen auf Real-World-Contracts, deren *Primär*-Label im curated-Ground-Truth ein

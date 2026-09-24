@@ -114,6 +114,18 @@ Reparierter Ersatz: `samples/gptscan/mwevariety_fixed/` (siehe
 verliert eine Funktion an einen Falcon-IR-Konvertierungsfehler (der Contract
 selbst übersetzt). Beides ist seit dem Parser-Fix im Ergebnis sichtbar.
 
+**10 — Slither-Image und solc 0.7.6 bis 0.8.12 vertragen sich nicht.**
+SmartBugs kopiert den zur `pragma` passenden Compiler aus
+`~/.smartbugs/solc/artifacts/` als `$BIN/solc` in den Container. Das Image
+`smartbugs/slither:0.11.3` ist Alpine Linux (musl); die von solc-select
+geladenen Linux-Binaries 0.7.6 und 0.8.1 bis 0.8.12 sind gegen glibc gelinkt
+(`/lib64/ld-linux-x86-64.so.2`) und lassen sich dort nicht starten — Slither
+meldet `No such file or directory: '/sb/bin/solc'`, obwohl die Datei da ist.
+0.6.x und 0.8.36 sind statisch gelinkt und laufen. Im Lauf
+`slither_mwefixed_v1` (24.09.2026) blieben deshalb 45 von 96 DeFi-Contracts
+ohne Ergebnis; auf `smartbugs-curated` (Solidity 0.4) tritt das nicht auf. Das
+GPTScan-Image ist Debian-basiert und nicht betroffen.
+
 ## 5. Images bauen
 
 ```powershell

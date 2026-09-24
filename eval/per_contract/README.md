@@ -33,14 +33,16 @@ gemacht.
 | `curated_v1_20260705__slither-0.11.3.csv` | Slither über `smartbugs-curated` | 143 |
 | `curated_mwefixed_live__gptscan.csv` | GPTScan über `mwevariety_fixed`, ohne MAIN | 96 |
 | `gptscan_mwefixed_v2_main__gptscan.csv` | GPTScan über `mwevariety_fixed`, MAIN=1, mit eingemischtem Nachlauf `_nomain` | 96 |
+| `slither_mwefixed_v1__slither-0.11.3.csv` | Slither über `mwevariety_fixed` (24.09.2026); 45 Contracts ohne Ergebnis, Ursache in `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
 
 Die beiden LLMSmartAudit-v2-Läufe (`llmsa_curated_v2`, `llmsa_mwefixed_v2`)
-fehlen hier. Ihre Rohergebnisse liegen nicht auf dieser Maschine, sondern auf dem
-Rechner des zweiten Verfassers (siehe Runlog
-`eval/_runlogs/llmsa_full_20260815-181854.log`). **Auch wenn sie vorliegen, taugt
-das Skript für sie nicht:** In `llmsa_mwefixed_v2` brachen 37 Contracts am
-Kontextfenster ab, und für abgebrochene Tasks bleiben die Token- und
-Kostenzellen leer (Einschränkung 1). Für diese Läufe gelten die Gesamtzahlen in
+fehlen hier. Die Rohergebnisse von `llmsa_curated_v2` liegen nicht auf dieser
+Maschine, sondern auf dem Rechner des zweiten Verfassers (siehe Runlog
+`eval/_runlogs/llmsa_full_20260815-181854.log`); die von `llmsa_mwefixed_v2`
+sind seit dem 20.09.2026 hier. **Auch wenn sie vorliegen, taugt das Skript für
+sie nicht:** In `llmsa_mwefixed_v2` brachen 37 Contracts am Kontextfenster ab,
+und für abgebrochene Tasks bleiben die Token- und Kostenzellen leer
+(Einschränkung 1). Für diese Läufe gelten die Gesamtzahlen in
 `eval/llmsa_*_v2/run_meta.json`.
 
 ## Woher jede Spalte kommt

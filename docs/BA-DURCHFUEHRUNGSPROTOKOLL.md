@@ -381,6 +381,65 @@ Taxonomien wurden nicht angefasst. Die fortgeschriebenen Zahlen stehen in
 [`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md)
 und in [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md).
 
+### 4.7 Nachtrag (24.09.2026) — Grammatik-Ablehnungen im GPTScan-Hauptlauf
+
+Die Zahlen in 4.1 bleiben unverändert stehen. Dieser Nachtrag ordnet ein, was
+im GPTScan-Lauf `curated_v1_20260705` **vor** dem Vorfilter geschieht.
+
+GPTScan liest den Quelltext mit einem ANTLR-Parser
+(`GPTScan/src/antlr4helper/`), zählt daraus Contracts und Funktionen
+(`GPTSCAN_META`, Feld `functions`, gezählt in `src/analyze_pipeline.py` vor
+jedem Filter) und wendet den Schlüsselwort-Vorfilter auf diese Funktionen an.
+In **87 der 143 Tasks** enthält `result.log` Ablehnungen dieses Parsers
+(`mismatched input`, `extraneous input`, `missing`; zusammen 1 773 Meldungen,
+Median 5 je betroffenem Task). Alle 87 Contracts sind Solidity 0.4; das am
+häufigsten abgelehnte Schlüsselwort ist `constant` (95-mal als `extraneous
+input`, 70-mal als `missing 'constant'`), dazu `public` und die Satzzeichen,
+die auf ein solches Konstrukt folgen. Die Grammatik kennt die 0.4-Syntax nicht
+vollständig. Von den 56 Tasks ohne Ablehnung sind 55 ebenfalls 0.4; die
+Version allein entscheidet also nicht, sondern die verwendeten Konstrukte.
+
+Messbar ist die Folge an der Funktionszählung. In 86 der 87 betroffenen Tasks
+liegt `functions` unter der Zahl der Funktionsdeklarationen im Quelltext
+(Median 25 %), bei den 56 nicht betroffenen in 35 (Median 45 %). Die
+Quelltextzählung ist grob — alle `function`-Deklarationen nach Entfernen der
+Kommentare, auch Schnittstellen ohne Rumpf —, der Unterschied zwischen den
+Gruppen ist aber deutlich. Zwei Beispiele: `BECToken.sol` (arithmetic) liefert
+11 Meldungen, 4 gezählte Funktionen bei 24 Deklarationen und keinen
+LLM-Aufruf; `parity_wallet_bug_1.sol` (access_control) 274 Meldungen, 14 bei
+38. Von den 87 betroffenen Tasks lösten 6 einen LLM-Aufruf aus (7 %), von den
+56 übrigen 10 (18 %).
+
+Was daraus folgt und was nicht. **Belegt** ist, dass ein Teil der 127
+Contracts, die der Vorfilter verwarf, nur unvollständig geparst wurde; der
+Vorfilter sah dort weniger Funktionen, als der Quelltext enthält. **Nicht
+belegt** ist, dass vollständiges Parsen Findings ergeben hätte: GPTScans zehn
+Regeln zielen auf DeFi-Logik, die curated nicht labelt (Abschnitt 2 in
+[`BA-GPTSCAN-VERGLEICH.md`](BA-GPTSCAN-VERGLEICH.md)); 0 % themengerechte
+Findings wären nach allem, was die Regeln prüfen, geblieben. Die Aussage „127
+Contracts passierten den Vorfilter nicht, weil kein Schlüsselwort vorkam“ ist
+damit ungenauer, als sie klingt: Für die 87 Tasks mit Ablehnungen lässt sich
+nicht trennen, ob das Schlüsselwort fehlte oder die Funktion nie gezählt
+wurde. Ein Nachlauf mit vollständigem Parsen wurde nicht durchgeführt. Auf
+dem DeFi-Korpus (Solidity 0.6 bis 0.8) tritt das Problem nicht auf: In
+`curated_mwefixed_live` und `gptscan_mwefixed_v2_main` enthält kein einziges
+`result.log` eine Grammatik-Ablehnung.
+
+### 4.8 Nachtrag (24.09.2026) — Slither auf `mwevariety_fixed`
+
+Bis zum 24.09.2026 gab es für den DeFi-Korpus keine statische Baseline; der
+Lauf `slither_mwefixed_v1` (Slither 0.11.3 über SmartBugs, `--timeout 600`,
+4 Prozesse, 8:46 min Wanduhr) holt das nach, mit einer Einschränkung: 51 von
+96 Contracts wurden analysiert (50 mit Findings, 4 319 Findings, 46
+verschiedene Detektoren, 1 ohne Findings), 45 blieben ohne Ergebnis. Ursache
+ist nicht der Contract, sondern die Kombination aus SmartBugs' Compiler-Bereit-
+stellung und dem Alpine-basierten Slither-Image: Die solc-Binaries 0.7.6 und
+0.8.1 bis 0.8.12 sind gegen glibc gelinkt und im Container nicht startbar
+(`BA-BETRIEB.md`, Fallstrick 10; nachgestellt mit den fünf Binaries im
+Container). Ausgewertet in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 und
+`eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv`; Rohdaten unter
+`smartbugs/results/slither-0.11.3/slither_mwefixed_v1/`.
+
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.
@@ -391,6 +450,7 @@ und in [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md).
 6. **Contract-Level-Metrik:** Bei hoher Finding-Dichte (LLMSA Ø 7,9) ist Contract-Level-Recall wohlwollend; Zeilen-genaue Auswertung war nicht möglich, da LLMSA keine Zeilennummern emittiert.
 7. **Reichweite des Timeout-Nachweises (4.5):** Der Teilmengen-Nachweis stützt sich auf je einen Contract pro Werkzeug (Kostenrahmen). Er zeigt, dass der Teillauf nichts erfindet — er quantifiziert nicht, wie viel ein Teillauf im Mittel verpasst. Bei GPTScan fiel das Teilergebnis im gemessenen Fall sogar auf null Findings.
 8. **`evaluate_curated.py` kennt den Timeout-Marker nicht:** Die Auswertung liest ausschließlich das Feld `findings` aus jeder `result.json` (siehe Kopfkommentar der Datei) und betrachtet weder `errors`/`fails` noch `degraded` — ein legitim unvollständiger, aber sauber geparster Teillauf (`sb_timeout`, seit AP5) ginge dort wie ein Volllauf in Recall und Precision ein. Bewusste Arbeitsteilung, kein Codefehler; für die AP5-Messläufe (4.5.1) ohne Wirkung, da sie nicht durch `evaluate_curated.py` liefen.
+9. **Grammatik-Ablehnungen bei Solidity 0.4 (4.7):** GPTScans ANTLR-Parser lehnte in 87 der 143 curated-Tasks Teile des Quelltexts ab und zählte dort im Median nur ein Viertel der deklarierten Funktionen; der Vorfilter arbeitete auf dieser unvollständigen Sicht. Die 0 % themengerechten Findings bleiben aus inhaltlichen Gründen erwartbar, die Begründung „kein Schlüsselwort“ ist aber nur für die 56 vollständig geparsten Tasks belegt.
 
 ## 6. Artefakte & Reproduktion
 

@@ -86,8 +86,10 @@ Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 `curated_v1_20260705` (143 Tasks je Werkzeug). Dazu kommen der GPTScan-Volllauf
 mit MAIN über `mwevariety_fixed` (15.08.2026), die LLMSmartAudit-Volläufe über
-beide Korpora (15./16.08.2026, Nachlauf 15.09.2026) und die Prüfläufe zum
-Timeout (17./18.08.2026).
+beide Korpora (15./16.08.2026, Nachlauf 15.09.2026), die Prüfläufe zum
+Timeout (17./18.08.2026) und Slither über `mwevariety_fixed` (24.09.2026,
+`slither_mwefixed_v1`; 51 von 96 Contracts analysiert, Ursache in
+`docs/BA-BETRIEB.md`, Fallstrick 10).
 
 > Ein Lauf fehlt in diesem Arbeitsbaum: `llmsa_curated_v2` wurde auf dem
 > Rechner des Co-Autors gefahren, seine Rohergebnisse liegen dort. Die
@@ -582,7 +584,7 @@ Upstream-Stände per Hash abgeglichen.
 | Dokument | Inhalt |
 |---|---|
 | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge und ihre Gegenüberstellung anhand der Messdaten |
-| [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 9 bekannte Fallstricke |
+| [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 10 bekannte Fallstricke |
 | [`docs/BA-WERKZEUG-BEDIENUNG.md`](docs/BA-WERKZEUG-BEDIENUNG.md) | Bedienung der beiden KI-Scanner Schritt für Schritt, Ist-Zustand |
 | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) | Eigenanteil und jede Änderung an Fremdcode, mit Begründung |
 | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) | Herleitung der errors/fails-Semantik aus `smartbugs/sb/parse_utils.py` |
