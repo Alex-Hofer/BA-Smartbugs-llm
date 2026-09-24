@@ -5,11 +5,20 @@ Unabhängige Überprüfung der Arbeit vom 2026-08-02, dokumentiert in
 
 **Maßstab:** Jede Behauptung wurde mit dem Ziel geprüft, sie zu *widerlegen*.
 Jede Aussage in diesem Bericht ist mit dem tatsächlich ausgeführten Befehl
-belegt. Befunde, die ein Prüfagent gemeldet hat, sind nur dann als bestätigt
+belegt. Befunde aus der ersten Durchsicht sind nur dann als bestätigt
 geführt, wenn sie anschließend selbst nachgerechnet wurden.
 
-Stand: 2026-08-02. Rohdaten und Prüfskripte lagen im Sitzungs-Scratchpad;
-die verwendeten Befehle stehen bei jedem Punkt.
+Stand: 2026-08-02. Rohdaten und Prüfskripte lagen in einem temporären
+Arbeitsverzeichnis; die verwendeten Befehle stehen bei jedem Punkt.
+
+> **Nachtrag 24.09.2026.** Befund 3.1 und die Reparatur in Abschnitt 6
+> beruhten auf dem Vergleich gegen den Tag `v2.1.1`. Gegen den tatsächlich
+> geklonten Stand `7ddaf6c` weichen in `smartbugs/sb/` nur `docker.py` und
+> `tools.py` ab; `solidity.py`, `analysis.py` und `io.py` sind Upstream-Arbeit
+> (`BA-EIGENANTEIL.md` 2.1, Korrektur vom 21.09.2026). Zeilenangaben zu
+> `sb/docker.py` in 2.4 haben sich durch spätere Einfügungen verschoben. Die
+> übrigen Befunde gelten unverändert; der Stand vom 24.09.2026 steht in
+> `BA-VERIFIKATIONSBERICHT-20260924.md`.
 
 ---
 

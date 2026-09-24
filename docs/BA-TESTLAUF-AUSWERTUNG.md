@@ -6,6 +6,13 @@
 **Läufe:** `gptscan_mwefixed_v2_main` (2026-08-15) · `llmsa_mwefixed_v2` (2026-08-16)
 **Belege:** `eval/gptscan_mwefixed_v2_main/summary.md`, `eval/llmsa_mwefixed_v2/summary.md`
 
+> **Stand dieses Dokuments: 18.08.2026**, vor dem Nachlauf
+> `llmsa_mwefixed_v2_retry` vom 15.09.2026 und vor AP5. Aktuelle Zahlen des
+> LLMSmartAudit-Laufs einschließlich Nachlauf: 59 Contracts mit Findings,
+> 437 Findings, 2 624 LLM-Aufrufe, 90 206 s, ≈ $8,37
+> (`eval/llmsa_mwefixed_v2/README.md`, `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2).
+> Dieses Dokument wird nicht nachgeführt.
+
 ---
 
 ## 1. Was ist passiert? (Vorgehen)
@@ -75,7 +82,8 @@ Terminologie ausgewertet (`docs/BA-ERRORS-VS-FAILS.md`):
 - Alle 74 Findings tragen Severity **high** — das ist ein Kategorie-Default des
   Detektors, kein Einzelfallurteil.
 - **Wichtiger Vorbehalt:** Der Timeout wird derzeit **nur von Docker**
-  durchgesetzt, nicht vom Werkzeug selbst (offener Punkt AP5).
+  durchgesetzt, nicht vom Werkzeug selbst (offener Punkt AP5; seit
+  18.08.2026 erledigt, Protokoll 4.5).
 
 ### 2.2 LLMSmartAudit — `llmsa_mwefixed_v2`
 
@@ -113,7 +121,7 @@ Terminologie ausgewertet (`docs/BA-ERRORS-VS-FAILS.md`):
 | Kosten | $0,36 | ≈ $8,00 (geschätzt) |
 | Laufzeit-Summe | ≈ 3,3 h | ≈ 24,6 h |
 | Zeilennummern | ja | nein |
-| Zentrale Störung | Static-Stufe/Timeout (AP5) | **Token-/Kontextlimit auf 38,5 % der Contracts** |
+| Zentrale Störung | Static-Stufe/Timeout (AP5, seit 18.08.2026 erledigt, Protokoll 4.5) | **Token-/Kontextlimit auf 38,5 % der Contracts** |
 
 **Kernaussage:** GPTScan ist fokussiert, günstig und schnell, deckt aber nur
 DeFi-Logik ab. LLMSmartAudit meldet breiter, ist aber um ~Faktor 22 teurer,

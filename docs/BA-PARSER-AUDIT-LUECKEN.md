@@ -108,6 +108,11 @@ schon vorher als gescheitert. Die Reparatur ersetzt den *Text* der
 Fehlermeldung, nicht das Urteil über den Task. Deshalb bewegt sich keine Zahl
 der Arbeit; was sich ändert, ist allein die Diagnosetiefe.
 
+Der Katalog erfasst Log-Records der Stufen ERROR und CRITICAL. WARNING-Records
+wie `Cannot find functionB or same` (`5_Pools.sol` und `70_VaderPoolV2.sol`
+im Lauf `curated_mwefixed_live`) liegen weiterhin außerhalb; „0 Lücken“ gilt
+relativ zu diesem Katalog (`BA-VERIFIKATIONSBERICHT.md` 3.2).
+
 Vorher und nachher, an einem Beispiel:
 
 ```

@@ -50,6 +50,8 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 
 ### 4.1 smartbugs-curated (143 Contracts, Contract-Level, DASP-Mapping)
 
+Stand der Durchführung 06.07.2026. Slither steht seit dem 20.09.2026 bei 67 / 45 / 54 mit 391 DASP-zugeordneten Findings, Herleitung in 4.6.
+
 | Tool | Recall | Precision | F1 | Findings (DASP-mapped) | Kosten | Laufzeit |
 |---|---|---|---|---|---|---|
 | Slither 0.11.3 | 64 % | 45 % | 52 % | 2 154 (300) | $0 | 1:24 min |
@@ -382,7 +384,7 @@ und in [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md).
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.
-2. **DASP-only-Mapping:** Findings ohne DASP-Klassifikation (LLMSA: 468; Slither: 1 854) fließen nicht in Recall/Precision ein; zwei kanonische Zusatz-Mappings wurden dokumentiert ergänzt (Fehler #9).
+2. **DASP-only-Mapping:** Findings ohne DASP-Klassifikation (LLMSA: 468; Slither: 1 763 seit dem Nachtrag 4.6, zuvor 1 854) fließen nicht in Recall/Precision ein; fünf kanonische Zusatz-Mappings wurden dokumentiert ergänzt (Fehler #9 und Nachtrag 4.6).
 3. **Nicht-Determinismus:** 74 % Lauf-zu-Lauf-Übereinstimmung bei GPTScan (4.3); LLMSA-Ergebnisse sind ebenfalls nicht deterministisch (nicht separat quantifiziert).
 4. **Degradierte Static-Stufe:** Auf mwevariety war GPTScans Präzisions-Schutzmechanismus mangels kompilierbarer Dateien überwiegend inaktiv.
 5. **Severity-Werte** beider LLM-Tools sind Kategorie-Defaults (4.2) — severity-gewichtete Metriken wären irreführend.

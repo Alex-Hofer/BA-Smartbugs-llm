@@ -553,23 +553,36 @@ Upstream-Stände per Hash abgeglichen.
 
 ## Dokumentation
 
+**Lebende Dokumente** (werden nachgeführt):
+
 | Dokument | Inhalt |
 |---|---|
 | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge und ihre Gegenüberstellung anhand der Messdaten |
 | [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 9 bekannte Fallstricke |
+| [`docs/BA-WERKZEUG-BEDIENUNG.md`](docs/BA-WERKZEUG-BEDIENUNG.md) | Bedienung der beiden KI-Scanner Schritt für Schritt, Ist-Zustand |
 | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) | Eigenanteil und jede Änderung an Fremdcode, mit Begründung |
 | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) | Herleitung der errors/fails-Semantik aus `smartbugs/sb/parse_utils.py` |
-| [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md) | Protokoll der Durchführung |
+| [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md) | Protokoll der Durchführung mit datierten Nachträgen |
 | [`docs/BA-BETREUERGESPRAECH-AUFGABEN.md`](docs/BA-BETREUERGESPRAECH-AUFGABEN.md) | Arbeitspakete AP1–AP8 aus dem Betreuergespräch |
-| [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen |
-| [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed` |
-| [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Unabhängige Überprüfung des Repositorys |
-| [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
 | [`docs/BA-PARSER-AUDIT-LUECKEN.md`](docs/BA-PARSER-AUDIT-LUECKEN.md) | Ein Ausnahme-Defekt im Zusammenspiel von SmartBugs und LLMSmartAudit: Fund, Ursache, Behebung |
 | [`docs/BA-KORPUS-REPARATUR.md`](docs/BA-KORPUS-REPARATUR.md) | Rekonstruktion des mwevariety-Korpus |
 | [`docs/BA-GPTSCAN-VERGLEICH.md`](docs/BA-GPTSCAN-VERGLEICH.md) | GPTScan auf curated gegen GPTScan auf seiner Zieldomäne |
+| [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
 | [`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](GPTScan/docs/SMARTBUGS_INTEGRATION.md) | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |
 | [`corpus_tools/README.md`](corpus_tools/README.md) | Werkzeuge der Korpus-Reparatur |
+
+**Datierte Berichte** (Stand bleibt, spätere Änderungen stehen als Nachtrag oder in den lebenden Dokumenten):
+
+| Dokument | Inhalt |
+|---|---|
+| [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Überprüfung des Repositorys, Stand 02.08.2026, mit Nachtrag vom 24.09.2026 |
+| [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed`, Stand 18.08.2026 vor dem Nachlauf; aktuelle Zahlen in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 |
+| [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen, Stand 18.08.2026; Vorprüfung, Entwurf und Plan liegen daneben (`BA-AP5-*.md`) |
+| [`docs/BA-AUFGABEN-UND-STATUS.md`](docs/BA-AUFGABEN-UND-STATUS.md) | Aufgaben und Status vom 02.08.2026, mit Nachtrag vom 21.09.2026 |
+| [`docs/BA-ARBEITSBERICHT-20260802.md`](docs/BA-ARBEITSBERICHT-20260802.md) | Arbeitsbericht vom 02.08.2026 |
+| [`docs/BA-DEMOLAUF-ERGEBNIS.md`](docs/BA-DEMOLAUF-ERGEBNIS.md) | Demonstrationslauf beider KI-Scanner vom 02.08.2026 |
+| [`docs/Update_Bericht.md`](docs/Update_Bericht.md) | Zwischenbericht zum Arbeitsstand vom 03.08.2026 |
+| [`docs/BA-Kontext-Stand-Juli-2026.md`](docs/BA-Kontext-Stand-Juli-2026.md) | Kontextpapier zum Projektstand Juli 2026 |
 
 Dokumentation und Auswertungen liegen ausschließlich als `.md`, `.json` und
 `.csv` vor. Die früheren `.tex`-, `.pdf`- und `.pptx`-Fassungen wurden nach

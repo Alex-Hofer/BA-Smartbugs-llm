@@ -28,8 +28,9 @@
   eigener Zustand "context window exceeded" im Parser -- ausdruecklich NICHT
   als "keine Findings".
 
-  TIMEOUT wird derzeit nur von Docker durchgesetzt; das Werkzeug selbst hat
-  keine Zeitbremse (AP5 offen).
+  TIMEOUT: Dieser Lauf (15./16.08.2026) entstand vor AP5; damals griff nur
+  der Docker-Abschuss. Seit 18.08.2026 wirkt --timeout auch im Container
+  (docs/BA-AP5-ABSCHLUSSBERICHT.md).
 
   KOSTENBREMSE: das Werkzeug hat keine. chatdev/statistics.py::prompt_cost
   kennt deepseek-v4-flash nicht und meldet durchgehend $0,0000, die
