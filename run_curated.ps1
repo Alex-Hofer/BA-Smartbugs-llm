@@ -251,12 +251,42 @@ try {
     }
     Write-Log "Backend: provider=$Provider, GPTScan-Modell=$GptscanModel, LLMSA-Modell=$LlmModel$(if ($BaseUrl) { ", base_url=$BaseUrl" })"
 
+    # Schluessel, die der gewaehlte Anbieter nicht braucht, wieder aus der
+    # Prozessumgebung nehmen. Die Allowlist (env: in config.yaml) reicht sonst
+    # auch den Schluessel des jeweils anderen Anbieters in beide Container.
+    $dropKeys = switch ($Provider) {
+        'deepseek' { @('OPENAI_API_KEY', 'GPTSCAN_API_KEY') }
+        'openai'   { @('DEEPSEEK_API_KEY', 'GPTSCAN_API_KEY') }
+        'custom'   { @('DEEPSEEK_API_KEY') }
+    }
+    $dropped = @($dropKeys | Where-Object { Test-Path "Env:$_" })
+    foreach ($k in $dropped) { Remove-Item "Env:$k" }
+    if ($dropped.Count) {
+        Write-Log ("Nicht benoetigte Schluessel aus der Umgebung entfernt: " + ($dropped -join ', '))
+    }
+
     # ---------------------------------------------------------------- Datensatz
+    # Ground Truth auf einen festen Stand pinnen. Alle aufgezeichneten Laeufe
+    # nutzten diesen Commit; ein spaeterer Stand koennte Labels oder Dateien
+    # aendern und die Kennzahlen unvergleichbar machen.
+    $DatasetCommit = '230e649123477eff332742a59a1c7cc6dc286cab'   # 16.06.2024
     if (-not $SkipClone) {
         if (-not (Test-Path (Join-Path $DatasetDir 'dataset'))) {
             Write-Log "Klone smartbugs-curated nach $DatasetDir ..."
-            cmd /c "git clone --depth 1 --quiet https://github.com/smartbugs/smartbugs-curated ""$DatasetDir"" 2>&1"
+            cmd /c "git clone --quiet https://github.com/smartbugs/smartbugs-curated ""$DatasetDir"" 2>&1"
             if ($LASTEXITCODE -ne 0) { throw "git clone von smartbugs-curated fehlgeschlagen." }
+            cmd /c "git -C ""$DatasetDir"" checkout --quiet $DatasetCommit 2>&1"
+            if ($LASTEXITCODE -ne 0) { throw "git checkout $DatasetCommit in smartbugs-curated fehlgeschlagen." }
+        }
+        $have = @(cmd /c "git -C ""$DatasetDir"" rev-parse HEAD 2>nul") | Select-Object -First 1
+        if ($have) { $have = "$have".Trim() }
+        if ($have -and $have -ne $DatasetCommit) {
+            Write-Log ("WARNUNG: smartbugs-curated steht auf " + $have.Substring(0, 7) +
+                       ", erwartet " + $DatasetCommit.Substring(0, 7) +
+                       ". Labels und Dateien koennen vom aufgezeichneten Stand abweichen.")
+        }
+        elseif ($have) {
+            Write-Log "smartbugs-curated auf $($DatasetCommit.Substring(0, 7)) (16.06.2024), wie in allen aufgezeichneten Laeufen."
         }
         $solCount = (Get-ChildItem -Path (Join-Path $DatasetDir 'dataset') -Recurse -Filter *.sol | Measure-Object).Count
         Write-Log "Datensatz bereit: $solCount .sol-Dateien unter smartbugs-curated\dataset\"

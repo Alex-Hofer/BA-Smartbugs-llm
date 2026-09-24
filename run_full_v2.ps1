@@ -232,6 +232,21 @@ try {
     if ($Mode -eq 'dry') { $env:GPTSCAN_DRY_RUN = '1' }
     else { Remove-Item Env:GPTSCAN_DRY_RUN -ErrorAction SilentlyContinue }
 
+    # Schluessel, die dieser Lauf nicht braucht, wieder aus der Prozessumgebung
+    # nehmen; die Allowlist (env: in config.yaml) reicht sonst jeden gesetzten
+    # Schluessel in den Container. Im Dry-Run braucht es gar keinen.
+    $dropKeys = switch ($Provider) {
+        'deepseek' { @('OPENAI_API_KEY', 'GPTSCAN_API_KEY') }
+        'openai'   { @('DEEPSEEK_API_KEY', 'GPTSCAN_API_KEY') }
+        'custom'   { @('DEEPSEEK_API_KEY', 'OPENAI_API_KEY') }
+    }
+    if ($Mode -eq 'dry') { $dropKeys = @('DEEPSEEK_API_KEY', 'OPENAI_API_KEY', 'GPTSCAN_API_KEY') }
+    $dropped = @($dropKeys | Where-Object { Test-Path "Env:$_" })
+    foreach ($k in $dropped) { Remove-Item "Env:$k" }
+    if ($dropped.Count) {
+        Write-Log ("Nicht benoetigte Schluessel aus der Umgebung entfernt: " + ($dropped -join ', '))
+    }
+
     # ---------------------------------------------------------------- Muster
     $pattern = $Corpus
     if ($Mode -eq 'smoke') {

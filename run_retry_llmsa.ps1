@@ -4,6 +4,10 @@
   ohne Ergebnis blieben, WEIL DAS GUTHABEN AUSGING -- nicht, weil das Werkzeug
   oder der Contract ein Problem hatte.
 
+  INTERPRETER: Der aufgezeichnete Nachlauf lief auf einem Rechner mit
+  smartbugs\venv; der Pfad ist seit 24.09.2026 an README und die uebrigen
+  Runner angeglichen (smartbugs\.venv).
+
 .DESCRIPTION
   Befund vom 2026-09-15, abgelesen an den result.log der vier Tasks:
 
@@ -70,7 +74,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $SbDir    = Join-Path $RepoRoot 'smartbugs'
-$Py       = Join-Path $SbDir 'venv\Scripts\python.exe'
+$Py       = Join-Path $SbDir '.venv\Scripts\python.exe'
 $LogDir   = Join-Path $RepoRoot 'eval\_runlogs'
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $Stamp    = Get-Date -Format 'yyyyMMdd-HHmmss'
@@ -157,6 +161,17 @@ if ($BaseUrl) { $env:LLM_BASE_URL = $BaseUrl }
 else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
 if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }
 else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
+
+# Schluessel, die dieser Lauf nicht braucht, wieder aus der Prozessumgebung
+# nehmen; die Allowlist (env: in config.yaml) reicht sonst jeden gesetzten
+# Schluessel in den Container.
+$dropKeys = if ($Provider -eq 'deepseek') { @('OPENAI_API_KEY', 'GPTSCAN_API_KEY') }
+            else { @('DEEPSEEK_API_KEY', 'GPTSCAN_API_KEY') }
+$dropped = @($dropKeys | Where-Object { Test-Path "Env:$_" })
+foreach ($k in $dropped) { Remove-Item "Env:$k" }
+if ($dropped.Count) {
+    Write-Log ("Nicht benoetigte Schluessel aus der Umgebung entfernt: " + ($dropped -join ', '))
+}
 
 # --- Guthabenpruefung -------------------------------------------------------
 # Der Grund fuer diesen Nachlauf. Ohne gedecktes Konto antwortet die API mit

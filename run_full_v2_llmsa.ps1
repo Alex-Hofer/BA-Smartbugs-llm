@@ -9,6 +9,10 @@
   dieses Skript spaeter einziehen. Der Altlauf curated_v1_20260705 wird nicht
   beruehrt.
 
+  INTERPRETER: Die aufgezeichneten Laeufe liefen auf einem Rechner mit
+  smartbugs\venv; der Pfad ist seit 24.09.2026 an README und die uebrigen
+  Runner angeglichen (smartbugs\.venv).
+
   KEIN --main. Begruendung, gemessen am 2026-08-15:
   SmartBugs setzt --main selbst beim Einsammeln der Tasks durch
   (sb/smartbugs.py:124, exakter Vergleich Dateiname == Contractname) und bricht
@@ -73,7 +77,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $RepoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $SbDir    = Join-Path $RepoRoot 'smartbugs'
-$Py       = Join-Path $SbDir 'venv\Scripts\python.exe'
+$Py       = Join-Path $SbDir '.venv\Scripts\python.exe'
 $LogDir   = Join-Path $RepoRoot 'eval\_runlogs'
 New-Item -ItemType Directory -Force -Path $LogDir | Out-Null
 $Stamp    = Get-Date -Format 'yyyyMMdd-HHmmss'
@@ -165,7 +169,18 @@ else { Remove-Item Env:LLM_BASE_URL -ErrorAction SilentlyContinue }
 if ($MaxCompletionTokens -gt 0) { $env:LLM_MAX_COMPLETION_TOKENS = "$MaxCompletionTokens" }
 else { Remove-Item Env:LLM_MAX_COMPLETION_TOKENS -ErrorAction SilentlyContinue }
 
+# Schluessel, die dieser Lauf nicht braucht, wieder aus der Prozessumgebung
+# nehmen; die Allowlist (env: in config.yaml) reicht sonst jeden gesetzten
+# Schluessel in den Container.
+$dropKeys = if ($Provider -eq 'deepseek') { @('OPENAI_API_KEY', 'GPTSCAN_API_KEY') }
+            else { @('DEEPSEEK_API_KEY', 'GPTSCAN_API_KEY') }
+$dropped = @($dropKeys | Where-Object { Test-Path "Env:$_" })
+foreach ($k in $dropped) { Remove-Item "Env:$k" }
+
 Write-Log "Volllauf LLMSmartAudit, Korpus=$Corpus, Processes=$Processes, Kostendeckel=`$$CostCeiling"
+if ($dropped.Count) {
+    Write-Log ("Nicht benoetigte Schluessel aus der Umgebung entfernt: " + ($dropped -join ', '))
+}
 if ($fromEnv.Count) {
     Write-Log ("Aus $EnvFile uebernommen: " + ($fromEnv -join ', ') +
                " (ein ausdruecklicher Parameter haette Vorrang).")
