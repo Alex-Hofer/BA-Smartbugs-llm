@@ -349,7 +349,7 @@ anpassen und per Mail schicken.
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1 368 → 0** verlorene Rohmeldungen |
 | Regressionstests | **258**, Fixtures aus echten Läufen |
-| Belegter Kalenderzeitraum | 2026-07-01 bis 2026-09-15 (frühester und spätester Task-Start laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
+| Belegter Kalenderzeitraum | 2026-07-01 bis 2026-09-24 (frühester und spätester Task-Start laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
 
 Zählweise: Codezeilen mit `wc -l` über die per `git ls-files` erfassten
 Dateien mit den Endungen `.py`, `.ps1`, `.sh`, `.yaml` sowie die drei

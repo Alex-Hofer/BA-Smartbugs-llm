@@ -55,6 +55,7 @@ SmartBugs-Code hergeleitet.
 │   ├── sb/                     … mit gekennzeichneten Eingriffen (BA MODIFICATION)
 │   ├── tools/gptscan/          Tool-Integration (eigener Code)
 │   ├── tools/llmsmartaudit/    Tool-Integration (eigener Code)
+│   ├── tools/slither-0.11.3-glibc/  Slither im glibc-Image (Kopie des Upstream-Werkzeugs mit eigenem Dockerfile)
 │   ├── samples/                Testkorpora, u. a. gptscan/mwevariety_fixed/
 │   └── results/                Messdaten — git-ignoriert, siehe unten
 ├── GPTScan/                    GPTScan (fremd, AGPL-3.0) mit Änderungen
