@@ -229,6 +229,10 @@ try {
     if ($Provider -eq 'custom' -and $BaseUrl) { $env:GPTSCAN_BASE_URL = $BaseUrl }
     else { Remove-Item Env:GPTSCAN_BASE_URL -ErrorAction SilentlyContinue }
     Write-Log "Backend: provider=$Provider model=$Model$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+    # Image-ID festhalten (auch in run_params.json): der Tag bleibt bei einem
+    # Neubau gleich, die ID nicht.
+    $imageId = @(cmd /c 'docker image inspect --format "{{.Id}}" smartbugs/gptscan:1.0 2>nul') | Select-Object -First 1
+    Write-Log "Image: smartbugs/gptscan:1.0 $imageId"
     if ($Mode -eq 'dry') { $env:GPTSCAN_DRY_RUN = '1' }
     else { Remove-Item Env:GPTSCAN_DRY_RUN -ErrorAction SilentlyContinue }
 
@@ -311,6 +315,7 @@ try {
         wallclock_seconds = [math]::Round(($ended - $started).TotalSeconds, 1)
         smartbugs_version = $sbVersion
         docker_image      = 'smartbugs/gptscan:1.0'
+        docker_image_id   = "$imageId"
         provider          = $env:GPTSCAN_PROVIDER
         model             = $env:GPTSCAN_MODEL
         dry_run           = ($Mode -eq 'dry')

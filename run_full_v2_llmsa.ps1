@@ -188,6 +188,9 @@ if ($fromEnv.Count) {
                " (ein ausdruecklicher Parameter haette Vorrang).")
 }
 Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+# Image-ID festhalten: der Tag bleibt bei einem Neubau gleich, die ID nicht.
+$imageId = @(cmd /c 'docker image inspect --format "{{.Id}}" smartbugs/llmsmartaudit:1.0 2>nul') | Select-Object -First 1
+Write-Log "Image: smartbugs/llmsmartaudit:1.0 $imageId"
 Write-Log "API-Key gesetzt: ja, $keyVar ($((Get-Item -Path ""Env:$keyVar"").Value.Length) Zeichen, Wert wird nicht protokolliert)"
 Write-Log "MAIN: nicht gesetzt (siehe Kopfkommentar)"
 

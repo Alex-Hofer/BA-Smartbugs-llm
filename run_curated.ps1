@@ -250,6 +250,11 @@ try {
         }
     }
     Write-Log "Backend: provider=$Provider, GPTScan-Modell=$GptscanModel, LLMSA-Modell=$LlmModel$(if ($BaseUrl) { ", base_url=$BaseUrl" })"
+    # Image-IDs festhalten: die Tags bleiben bei einem Neubau gleich, die IDs nicht.
+    foreach ($img in @('smartbugs/gptscan:1.0', 'smartbugs/llmsmartaudit:1.0')) {
+        $imageId = @(cmd /c "docker image inspect --format ""{{.Id}}"" $img 2>nul") | Select-Object -First 1
+        if ($imageId) { Write-Log "Image: $img $imageId" }
+    }
 
     # Schluessel, die der gewaehlte Anbieter nicht braucht, wieder aus der
     # Prozessumgebung nehmen. Die Allowlist (env: in config.yaml) reicht sonst

@@ -218,6 +218,10 @@ if ($fromEnv.Count) {
                " (ein ausdruecklicher Parameter haette Vorrang).")
 }
 Write-Log "Backend: provider=$($env:LLM_PROVIDER) model=$($env:LLM_MODEL) context=$($env:LLM_CONTEXT_TOKENS)$(if ($BaseUrl) { " base_url=$BaseUrl" })"
+# Image-ID festhalten: der Tag smartbugs/llmsmartaudit:1.0 bleibt bei einem
+# Neubau gleich, die ID nicht (24.09.2026: e72f37d07212 -> 7c111aa6b366).
+$imageId = @(cmd /c 'docker image inspect --format "{{.Id}}" smartbugs/llmsmartaudit:1.0 2>nul') | Select-Object -First 1
+Write-Log "Image: smartbugs/llmsmartaudit:1.0 $imageId"
 if ($Main) { Write-Log "MAIN: gesetzt (--main), Korpus $Corpus" }
 else { Write-Log "MAIN: nicht gesetzt, wie im Hauptlauf" }
 
