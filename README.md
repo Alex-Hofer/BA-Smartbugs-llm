@@ -255,7 +255,9 @@ auf dem Host gesetzt sind, kommen an; nichts steckt im Image.
 
 Die vier Runner-Skripte nehmen die Wahl als Parameter entgegen — `-Provider`,
 `-Model`, `-BaseUrl` und bei LLMSmartAudit zusätzlich `-ContextTokens` und
-`-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen. Wer eine
+`-MaxCompletionTokens` — und setzen daraus die Umgebungsvariablen.
+`-ContextTokens` hebt die Agentengrenze bei Provider `deepseek` nicht an,
+siehe die Tabelle der Variablen unten. Wer eine
 Einstellung **dauerhaft** will, trägt sie stattdessen in `GPTScan\.env` ein;
 welche der beiden Angaben gewinnt, klärt der nächste Abschnitt. Wer ohne
 Runner arbeitet, setzt die Variablen selbst (letztes Beispiel unten).
@@ -342,7 +344,7 @@ bricht der Runner mit einer Meldung ab, statt sich einen auszusuchen.
 | `LLM_PROVIDER` | LLMSmartAudit | `deepseek` | `scripts/do_solidity.sh` → `--provider`; `chatdev/chat_chain.py` |
 | `LLM_MODEL` | LLMSmartAudit | `deepseek-v4-flash` aus dem Runner — **muss gesetzt sein**, siehe unten | `scripts/do_solidity.sh` → `--model` → `run.py` setzt `LLM_MODEL_ID` → `camel/model_backend.py` |
 | `LLM_BASE_URL` | LLMSmartAudit | Provider-Standard | `scripts/do_solidity.sh` exportiert als `BASE_URL`; `camel/model_backend.py:_resolve_endpoint` |
-| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | `16384` | `camel/model_backend.py:_context_limit`, `camel/utils.py` |
+| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | `16384` | `camel/model_backend.py:_context_limit` für das Completion-Budget bei Modell-IDs ohne Eintrag in `num_max_token_map`; `camel/utils.py` nur für Provider `custom`. Für Provider `deepseek` gilt für den Agenten-Abbruch (`max_tokens_exceeded_by_camel`) fest 65 536 aus `camel/utils.py`, unabhängig von dieser Variablen |
 | `LLM_MAX_COMPLETION_TOKENS` | LLMSmartAudit | keine zusätzliche Grenze | `camel/model_backend.py:_cap_completion_tokens` |
 
 Jede Variable ist mit Zweck, Standardwert und Folgen des Fehlens in

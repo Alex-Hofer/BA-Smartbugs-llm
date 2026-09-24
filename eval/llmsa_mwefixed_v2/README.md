@@ -86,7 +86,11 @@ analysiert.** Auf dem curated-Korpus war es genau einer von 143. Der Unterschied
 ist der Korpus: Die geflatteten DeFi-Contracts enthalten ihren vollständigen
 Import-Closure und sind um ein Vielfaches größer. Am Verhältnis der Token sieht
 man dasselbe von der anderen Seite — 54,9 Mio. Prompt-Token auf nur 2 624
-Aufrufe, also im Mittel rund 20 900 Token je Aufruf.
+Aufrufe, also im Mittel rund 20 900 Token je Aufruf. Die Grenze ist die
+Konstante 65 536 in `camel/utils.py`, die das Werkzeug vor jedem Aufruf selbst
+prüft, nicht eine Ablehnung der API; die Anbieterdokumentation nennt für
+`deepseek-v4-flash` 1M Token Kontext (`BA-WERKZEUGE-IM-VERGLEICH.md`,
+Abschnitt „Kontextgrenze“).
 
 ## Was man daraus schließen darf
 

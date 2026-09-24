@@ -50,10 +50,15 @@ smartbugs -t gptscan -f Contract.sol
 
 SmartBugs does not forward host environment variables into tool containers and
 rejects unknown `config.yaml` fields, so the API key cannot be passed the usual
-way. A small, documented hook in `smartbugs/sb/docker.py` (`__docker_args`)
-forwards a fixed allow-list — `DEEPSEEK_API_KEY`, `OPENAI_API_KEY`,
-`GPTSCAN_PROVIDER`, `GPTSCAN_MODEL`, `GPTSCAN_DRY_RUN` — into the container when
-they are set on the host. The key is never baked into the image.
+way. The tool's `config.yaml` therefore declares an allow-list in a new `env:`
+field — `DEEPSEEK_API_KEY`, `OPENAI_API_KEY`, `GPTSCAN_PROVIDER`,
+`GPTSCAN_MODEL`, `GPTSCAN_DRY_RUN`, `GPTSCAN_BASE_URL`, `GPTSCAN_API_KEY`.
+Two small, marked patches make SmartBugs honour it: `smartbugs/sb/tools.py`
+accepts the field, and `smartbugs/sb/docker.py` (block `BA MODIFICATION 2`)
+forwards the listed variables into the container when they are set on the
+host. Before the Docker arguments are persisted into `smartbugs.json`, the
+forwarded values are replaced by `<redacted>` (block `BA MODIFICATION 5`).
+The key is never baked into the image.
 
 ## 3. Building the image
 
@@ -83,9 +88,11 @@ Useful environment variables (all forwarded into the container):
 | Variable | Effect |
 | --- | --- |
 | `DEEPSEEK_API_KEY` / `OPENAI_API_KEY` | API key for the selected provider. |
-| `GPTSCAN_PROVIDER` | `deepseek` (default) or `openai`. |
+| `GPTSCAN_PROVIDER` | `deepseek` (default), `openai` or `custom`. |
 | `GPTSCAN_MODEL` | Override the model (e.g. `deepseek-v4-pro`). |
 | `GPTSCAN_DRY_RUN=1` | Estimate calls/cost without any network request (no key needed). |
+| `GPTSCAN_BASE_URL` | Endpoint of an OpenAI-compatible server; only used with `GPTSCAN_PROVIDER=custom`. |
+| `GPTSCAN_API_KEY` | API key for the `custom` provider; only used with `GPTSCAN_PROVIDER=custom`. |
 
 The parsed result (`result.json`) lists the findings; the `infos` field carries
 a one-line cost summary, e.g.
@@ -120,7 +127,8 @@ to `tools/gptscan/findings.yaml`, where SmartBugs uses it to enrich findings.
 
 Under SmartBugs the per-task report is `result.json`; an aggregated
 cross-contract Markdown summary for a whole run is produced separately from the
-collected results (see the Phase 6 batch workflow).
+collected results (`analysis_tools/gptscan_eval.py` in the repository root
+does this for the recorded runs and writes the folders under `eval/`).
 
 ## 8. Cost control
 

@@ -120,11 +120,27 @@ des Modells.
 
 ### Kontextgrenze
 
-`camel/model_backend.py` schlägt für Modell-IDs ohne Eintrag in
-`num_max_token_map` auf `LLM_CONTEXT_TOKENS` zurück (Default 16 384); alle Läufe
-dieser Arbeit setzen 65 536. Reicht das nicht, bricht ein Agent mit
-`max_tokens_exceeded_by_camel` ab — der Contract wurde dann **nicht analysiert**.
-Der Parser führt diesen Zustand getrennt als `context_exceeded`.
+Zwei Grenzen wirken getrennt voneinander.
+
+1. **Agentengrenze.** `camel/utils.py:get_model_token_limit` liefert für
+   `ModelType.DEEPSEEK_CHAT` fest 65 536; `run.py` setzt diesen Typ für jeden
+   Provider `deepseek`. `chat_agent.py` zählt die Token der wachsenden
+   Konversation vor jedem Aufruf und bricht ab, wenn sie die Grenze erreichen,
+   Meldung `max_tokens_exceeded_by_camel`. Das ist der Abbruch der 37
+   Contracts im DeFi-Lauf (`30_Vault.sol`: 76 456 Token). `LLM_CONTEXT_TOKENS`
+   ändert an dieser Grenze nichts; die Variable wirkt in `camel/utils.py` nur
+   für Provider `custom`.
+2. **Completion-Budget.** `camel/model_backend.py:_context_limit` schlägt für
+   Modell-IDs ohne Eintrag in `num_max_token_map` auf `LLM_CONTEXT_TOKENS`
+   zurück (Default 16 384); alle Läufe dieser Arbeit setzen 65 536. Ohne den
+   Wert fiele das Completion-Budget großer Prompts auf 1 Token.
+
+Der Contract wurde beim Abbruch **nicht analysiert**; der Parser führt diesen
+Zustand getrennt als `context_exceeded`. Das Log zeigt keinen API-Fehler,
+sondern den werkzeuginternen Abbruch. Die Anbieterdokumentation nennt für
+`deepseek-v4-flash` ein Kontextfenster von 1M Token (api-docs.deepseek.com,
+abgerufen 24.09.2026); die 65 536 sind also allein die Konstante des
+Werkzeugs, die aus der Zeit von `deepseek-chat` stammt.
 
 ### Aufruf im Container
 

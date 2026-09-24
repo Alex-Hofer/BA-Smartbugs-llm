@@ -17,12 +17,12 @@
   Einordnung, aber die Ursache liegt ausserhalb des Werkzeugs und ausserhalb
   des Contracts.
 
-  ABGRENZUNG zu den 38 Tasks mit "Kontext ueberschritten": die sind NICHT
+  ABGRENZUNG zu den 37 Tasks mit "Kontext ueberschritten": die sind NICHT
   Gegenstand dieses Skripts. Deren Abbruch (max_tokens_exceeded_by_camel,
-  num_tokens > 65.536) ist das echte Kontextfenster von deepseek-chat, das in
-  camel/utils.py:134 und camel/model_backend.py:139 steht, weil die DeepSeek-API
-  nicht mehr annimmt. Ein Wiederholungslauf ohne Aenderung am Verfahren wuerde
-  dort dasselbe Ergebnis und echte Kosten erzeugen.
+  num_tokens > 65.536) ist die in camel/utils.py:134 fest eingetragene Grenze
+  von 65.536 Token, die camel vor dem Aufruf selbst prueft; ob die API mehr
+  annaehme, ist nicht geprueft. Ein Wiederholungslauf ohne Aenderung am
+  Verfahren wuerde dort dasselbe Ergebnis und echte Kosten erzeugen.
 
   AUSSICHT: alle vier Contracts liegen mit 445 bis 1.355 Zeilen unterhalb der
   im Smoke-Test gemessenen Grenze von rund 1.447 Zeilen, ab der die wachsende
