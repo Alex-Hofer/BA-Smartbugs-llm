@@ -143,7 +143,9 @@ Zustand getrennt als `context_exceeded`. Das Log zeigt keinen API-Fehler,
 sondern den werkzeuginternen Abbruch. Die Anbieterdokumentation nennt für
 `deepseek-v4-flash` ein Kontextfenster von 1M Token (api-docs.deepseek.com,
 abgerufen 24.09.2026); die 65 536 sind also allein die Konstante des
-Werkzeugs, die aus der Zeit von `deepseek-chat` stammt.
+Werkzeugs, die aus der Zeit von `deepseek-chat` stammt. Der Nachlauf vom
+24.09.2026 mit `LLM_CONTEXT_TOKENS=1000000` bestätigt das: Alle 37 Contracts
+liefen vollständig durch (Abschnitt 4.2, `eval/llmsa_mwefixed_v2_ctx1m/`).
 
 ### Aufruf im Container
 
@@ -257,19 +259,19 @@ Contract, und 299,2 s gegen 2,1 s Rechenzeit je Contract. Slither ist rund
 `eval/llmsa_mwefixed_v2/run_meta.json`,
 `eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv`.
 
-| | GPTScan (`curated_mwefixed_live`) | GPTScan (`gptscan_mwefixed_v2_main`, MAIN) | LLMSmartAudit (`llmsa_mwefixed_v2`) | Slither 0.11.3 (`slither_mwefixed_v1`) |
-|---|---:|---:|---:|---:|
-| Contracts | 96 | 96 | 96 | 96 |
-| **davon überhaupt analysiert** | **96** | **96** | **59** | **51** |
-| Kontext überschritten | – | – | **37** | – |
-| kein lauffähiger Compiler im Container | – | – | – | **45** |
-| Contracts mit Findings | 40 | 37 | 59 | 50 |
-| Findings gesamt | 77 | 74 | 437 | 4 319 |
-| verschiedene Regeln/Kategorien | 8 von 10 | – | 34 von 41 | 46 Detektoren |
-| Kosten | $0,2769 | $0,3638 | ≈ $8,37 | $0 |
-| Wanduhr | 36,7 min | 50,9 min | – | 8,8 min |
-| Container-Zeit gesamt | 8 217,2 s | 11 771,7 s | 90 206,2 s | 2 031,3 s |
-| Kosten je **analysiertem** Contract | $0,0029 | $0,0038 | $0,142 | $0 |
+| | GPTScan (`curated_mwefixed_live`) | GPTScan (`gptscan_mwefixed_v2_main`, MAIN) | LLMSmartAudit (`llmsa_mwefixed_v2`) | Slither 0.11.3 (`slither_mwefixed_v1`) | LLMSmartAudit (`llmsa_mwefixed_v2_ctx1m`, nur die 37 Kontext-Contracts) |
+|---|---:|---:|---:|---:|---:|
+| Contracts | 96 | 96 | 96 | 96 | 37 |
+| **davon überhaupt analysiert** | **96** | **96** | **59** | **51** | **37** |
+| Kontext überschritten | – | – | **37** | – | 0 |
+| kein lauffähiger Compiler im Container | – | – | – | **45** | – |
+| Contracts mit Findings | 40 | 37 | 59 | 50 | 37 |
+| Findings gesamt | 77 | 74 | 437 | 4 319 | 317 |
+| verschiedene Regeln/Kategorien | 8 von 10 | – | 34 von 41 | 46 Detektoren | 34 von 41 |
+| Kosten | $0,2769 | $0,3638 | ≈ $8,37 | $0 | $5,55 abgebucht (geschätzt $11,42) |
+| Wanduhr | 36,7 min | 50,9 min | – | 8,8 min | 5,0 h in zwei Teilen |
+| Container-Zeit gesamt | 8 217,2 s | 11 771,7 s | 90 206,2 s | 2 031,3 s | 35 027,9 s |
+| Kosten je **analysiertem** Contract | $0,0029 | $0,0038 | $0,142 | $0 | $0,15 |
 
 **Der entscheidende Unterschied steht in der zweiten Zeile.** GPTScan kam auf
 allen 96 Contracts zu einem Ergebnis, LLMSmartAudit auf 59 — **37 Contracts
@@ -292,6 +294,17 @@ Impact-Stufe auf 3 268 Informational, 50 Optimization, 581 Low, 358 Medium und
 `naming-convention` (885), also Stilhinweise. Im Median meldet Slither 64
 Findings je analysiertem Contract, GPTScan auf denselben 96 Contracts 0 bis 2.
 Ohne Ground Truth bleibt das ein Mengen-, kein Qualitätsvergleich.
+
+**Die 37 Kontext-Contracts mit angehobener Grenze** (Nachlauf
+`llmsa_mwefixed_v2_ctx1m`, 24.09.2026, `LLM_CONTEXT_TOKENS=1000000`, Image
+vom selben Tag, zwei Prozesse): Alle 37 liefen durch alle 41 Detektoren, kein
+Abbruch, 317 Findings (2 bis 19 je Contract, Median 9), 1 625 LLM-Aufrufe mit
+im Mittel 61 700 Prompt-Token je Aufruf, Median 954 s je Contract. Der
+38,5-Prozent-Befund des Hauptlaufs ist damit eine Eigenschaft der Konstante
+65 536 im Werkzeug, nicht des Modells. Die Zahlen des Hauptlaufs bleiben
+unverändert stehen; der Nachlauf lief auf einem anderen Modellstand
+(DeepSeek-V4.1-Flash hinter demselben Namen) und wird nicht eingemischt.
+Auswertung in [`eval/llmsa_mwefixed_v2_ctx1m/`](../eval/llmsa_mwefixed_v2_ctx1m/README.md).
 
 Absolute Findingzahlen zwischen diesen beiden Spalten zu vergleichen, wäre
 deshalb falsch: 437 zu 77 ist auch ein Vergleich von 59 zu 96 Contracts und von

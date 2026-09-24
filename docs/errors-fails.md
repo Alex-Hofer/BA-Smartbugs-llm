@@ -55,13 +55,14 @@ Erzeugt mit `python analysis_tools/errors_fails_report.py --md ... --csv ...`.
 | llmsmartaudit | curated_llmsa_demo_swc_llm | 5 | 5 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | curated_llmsa_v1_20260705 | 143 | 143 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | llmsa_mwefixed_v2 | 96 | 55 | 41 | 41 | 160 | 45 | 0 | 0 |
+| llmsmartaudit | llmsa_mwefixed_v2_ctx1m | 37 | 37 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | llmsa_mwefixed_v2_retry | 4 | 4 | 0 | 0 | 0 | 0 | 0 | 0 |
 | llmsmartaudit | llmsa_smoke_curated | 3 | 2 | 1 | 1 | 4 | 1 | 0 | 0 |
 | llmsmartaudit | smoke1_stub | 1 | 0 | 1 | 1 | 3 | 2 | 0 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 140 | 3 | 3 | 3 | 9 | 0 | 0 |
 | slither-0.11.3 | slither_mwefixed_v1 | 96 | 51 | 45 | 45 | 45 | 180 | 0 | 0 |
-| **Summe** | | **1368** | **831** | **531** | **143** | **2375** | **329** | **249** | **10** |
+| **Summe** | | **1405** | **868** | **531** | **143** | **2375** | **329** | **249** | **10** |
 
 Spalte *sauber*: Tasks ohne jeden Error und Fail. Spalte *nicht uebersetzt*:
 Tasks, deren Contract nicht kompiliert werden konnte — dort ist ein leeres

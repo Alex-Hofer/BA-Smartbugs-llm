@@ -57,6 +57,7 @@ der Tabelle oben.
 | [`eval/curated_v1_20260705__slither-0.11.3/`](curated_v1_20260705__slither-0.11.3/README.md) | slither-0.11.3 | 143 | 2154 |
 | [`eval/llmsa_curated_v2/`](llmsa_curated_v2/README.md) | llmsmartaudit | 143 | 1028 |
 | [`eval/llmsa_mwefixed_v2/`](llmsa_mwefixed_v2/README.md) | llmsmartaudit | 96 | 437 |
+| [`eval/llmsa_mwefixed_v2_ctx1m/`](llmsa_mwefixed_v2_ctx1m/README.md) | llmsmartaudit | 37 | 317 |
 
 Dazu kommen `eval/per_contract/` (eine Zeile je Contract, `analysis_tools/per_contract_stats.py`) und `eval/_runlogs/` (Konsolenprotokolle der Massenlaeufe) -- beide mit eigener `README.md`.
 

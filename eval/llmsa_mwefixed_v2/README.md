@@ -90,7 +90,10 @@ Aufrufe, also im Mittel rund 20 900 Token je Aufruf. Die Grenze ist die
 Konstante 65 536 in `camel/utils.py`, die das Werkzeug vor jedem Aufruf selbst
 prüft, nicht eine Ablehnung der API; die Anbieterdokumentation nennt für
 `deepseek-v4-flash` 1M Token Kontext (`BA-WERKZEUGE-IM-VERGLEICH.md`,
-Abschnitt „Kontextgrenze“).
+Abschnitt „Kontextgrenze“). Am 24.09.2026 wurden dieselben 37 Contracts mit
+`LLM_CONTEXT_TOKENS=1000000` nachgefahren: alle 37 liefen vollständig durch
+(`eval/llmsa_mwefixed_v2_ctx1m/`). Die Zahlen dieses Ordners bleiben der Stand
+des Hauptlaufs; der Nachlauf wird nicht eingemischt.
 
 ## Was man daraus schließen darf
 

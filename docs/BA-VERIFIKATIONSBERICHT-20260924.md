@@ -157,22 +157,34 @@ seit September 2026 auf DeepSeek-V4.1-Flash geleitet; die Ergebnisse sind
 deshalb mit einem anderen Modellstand zu erwarten als im Hauptlauf vom
 16.08.2026.
 
-**Ergebnis: kein Ergebnis.** Der Lauf startete um 15:20 Uhr mit vier
-parallelen Tasks und wurde nach 13 Minuten zusammen mit dem MAIN-Lauf
-(4.3) vom Host beendet, weil der Rechner an die Speichergrenze kam (3,9 GB
-frei von 31,8 GB bei sieben LLMSmartAudit-Containern neben anderen laufenden
-Containern). Die verwaisten Container wurden gestoppt, kein Task war
-abgeschlossen, die leeren Task-Ordner wurden aus `smartbugs/results/`
-entfernt. Protokoll: `eval/_runlogs/llmsa_retry_20260924-152005.log`. Die
-Frage, ob die 37 Contracts mit angehobener Grenze analysierbar sind, bleibt
-offen. Die Voraussetzungen stehen (Image, Runner, Variable); ein neuer Anlauf
-braucht weniger parallele Prozesse (zwei statt vier) und einen Rechner ohne
-konkurrierende Container. Der Aufruf:
+**Ergebnis: 37 von 37 Contracts vollständig analysiert.** Ein erster Anlauf
+um 15:20 Uhr mit vier parallelen Tasks wurde nach 13 Minuten zusammen mit dem
+MAIN-Lauf (4.3) vom Host beendet, weil der Rechner an die Speichergrenze kam
+(3,9 GB frei von 31,8 GB bei sieben LLMSmartAudit-Containern neben anderen
+laufenden Containern); die verwaisten Container wurden gestoppt, die leeren
+Task-Ordner entfernt (Protokoll `eval/_runlogs/llmsa_retry_20260924-152005.log`).
+Der zweite Anlauf ab 15:47 Uhr mit zwei Prozessen lief durch, in zwei Teilen:
+Der Runner selbst brach nach sechs Minuten an einer kurzen Dateisperre auf
+seinem Protokoll ab (seither schreibt er mit Wiederholung, `d53f22a`),
+SmartBugs lief weiter; ein Ersatz-Kostenwächter mit denselben Preissätzen
+stoppte nach 26 fertigen Contracts bei geschätzten 8,16 USD, tatsächlich
+abgebucht 4,00 USD. Die restlichen 11 liefen 19:25 bis 20:54 Uhr unter
+derselben `runid`.
 
-```powershell
-.\run_retry_llmsa.ps1 -Files @(<die 37 Namen>) -RunId llmsa_mwefixed_v2_ctx1m `
-    -Processes 2 -CostCeiling 8 -ContextTokens 1000000 -MaxCompletionTokens 32768
-```
+| | Wert |
+|---|---:|
+| analysiert | 37 von 37, kein Kontextabbruch, kein `fail`, kein Timeout |
+| Findings | 317 (2 bis 19 je Contract, Median 9), 34 Kategorien |
+| LLM-Aufrufe | 1 625 (44 je Contract, wie im Hauptlauf bei durchgelaufenen Contracts) |
+| Prompt-Token | 100,3 Mio., im Mittel 61 700 je Aufruf (Hauptlauf: 20 900) |
+| Container-Zeit | 35 028 s, Median 954 s, Maximum 1 249 s je Contract |
+| Kosten | abgebucht 5,55 USD (Kontostand 13,69 → 8,14); Schätzung des Runners 11,42 USD |
+
+Die 37 Contracts scheiterten im August also an der Konstante des Werkzeugs,
+nicht am Modell. Die Zahlen des Hauptlaufs bleiben unverändert stehen, der
+Nachlauf wird nicht eingemischt (anderer Modellstand: der Anbieter leitet
+`deepseek-v4-flash` seit September 2026 auf DeepSeek-V4.1-Flash).
+Auswertung: `eval/llmsa_mwefixed_v2_ctx1m/`; Protokoll 4.9; `WERKZEUGE` 4.2.
 
 ### 4.3 LLMSmartAudit mit MAIN über dieselben 37 Contracts (`llmsa_mwefixed_v2_main37`)
 
@@ -206,10 +218,10 @@ erscheint; Protokoll `eval/_runlogs/llmsa_retry_20260924-152514.log`.
 
 1. **Slither-Baseline vervollständigen:** glibc-basiertes Slither-Image oder
    statische solc-Builds für 0.7.6 bis 0.8.12, dann die 45 Contracts nachfahren.
-2. **Nachlauf mit angehobener Kontextgrenze** (4.2): Ergebnis abwarten
-   beziehungsweise bei erneutem Abbruch mit zwei Prozessen wiederholen; er
-   entscheidet, ob die 37 Contracts ein Befund über das Werkzeug oder über die
-   frühere Konstante sind.
+2. **Kostenschätzung der Runner** an die tatsächliche Abrechnung anpassen: Die
+   Preissätze aus `run_retry_llmsa.ps1` überschätzten den Nachlauf um den
+   Faktor 2 (11,42 gegen 5,55 USD), weil sie den Cache-Rabatt des Anbieters
+   nicht kennen; der Deckel greift dadurch zu früh.
 3. **DASP-Zuordnung der LLMSmartAudit-Detektoren** je Detektor begründen, wie
    `GPTScan/taxonomy/mapping.md` es für GPTScan tut (A3).
 4. **Betrieb:** `ENV LLM_MODEL` mit Wächter im LLMSmartAudit-Entrypoint
@@ -235,8 +247,8 @@ und zwei Sachfragen berührten die Interpretation der beiden Hauptergebnisse.
 Beide sind jetzt beantwortet: Die Grammatik-Ablehnungen betreffen 87 der 143
 curated-Contracts und schwächen die Begründung „kein Schlüsselwort“, nicht das
 Ergebnis 0 %; die Kontextgrenze von 65 536 war eine Konstante des Werkzeugs,
-nicht des Anbieters, und ist seit dem 24.09.2026 einstellbar. Offen bleiben
-der Nachlauf mit angehobener Grenze, der am 24.09. am Arbeitsspeicher des
-Rechners scheiterte, und die zweite Hälfte der Slither-Baseline. Die
-Rohdaten von `llmsa_curated_v2` sind endgültig verloren; dieser Lauf trägt nur
-noch über seine abgeleitete Auswertung zur Streuungsangabe bei.
+nicht des Anbieters, und ist seit dem 24.09.2026 einstellbar; mit angehobener
+Grenze liefen alle 37 Contracts durch. Offen bleibt die zweite Hälfte der
+Slither-Baseline. Die Rohdaten von `llmsa_curated_v2` sind endgültig verloren;
+dieser Lauf trägt nur noch über seine abgeleitete Auswertung zur
+Streuungsangabe bei.

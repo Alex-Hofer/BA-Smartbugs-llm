@@ -73,23 +73,26 @@ SmartBugs-Code hergeleitet.
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
 reproduzierbar.
 
-**Stand 24.09.2026: 49 Läufe, 1 368 Tasks, 6 838 Dateien, 1,24 GB** (1,15 GiB).
+**Stand 24.09.2026: 50 Läufe, 1 405 Tasks, 7 013 Dateien, 2,40 GB** (2,23 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
 `analysis_tools/errors_fails_report.py` ausliest:
 
 | Werkzeug | Läufe | Tasks |
 |---|---:|---:|
 | `gptscan` | 33 | 863 |
-| `llmsmartaudit` | 14 | 266 |
+| `llmsmartaudit` | 15 | 303 |
 | `slither-0.11.3` | 2 | 239 |
 
 Der Hauptlauf über den curated-Datensatz heißt in allen drei Fällen
 `curated_v1_20260705` (143 Tasks je Werkzeug). Dazu kommen der GPTScan-Volllauf
 mit MAIN über `mwevariety_fixed` (15.08.2026), die LLMSmartAudit-Volläufe über
 beide Korpora (15./16.08.2026, Nachlauf 15.09.2026), die Prüfläufe zum
-Timeout (17./18.08.2026) und Slither über `mwevariety_fixed` (24.09.2026,
+Timeout (17./18.08.2026), Slither über `mwevariety_fixed` (24.09.2026,
 `slither_mwefixed_v1`; 51 von 96 Contracts analysiert, Ursache in
-`docs/BA-BETRIEB.md`, Fallstrick 10).
+`docs/BA-BETRIEB.md`, Fallstrick 10) und der LLMSmartAudit-Nachlauf über die
+37 Kontext-Contracts mit angehobener Grenze (24.09.2026,
+`llmsa_mwefixed_v2_ctx1m`; 37 von 37 analysiert, Auswertung in
+`eval/llmsa_mwefixed_v2_ctx1m/`).
 
 > Ein Lauf fehlt: `llmsa_curated_v2` wurde auf dem Rechner des Co-Autors
 > gefahren, und seine Rohergebnisse existieren seit dem 24.09.2026 nirgends

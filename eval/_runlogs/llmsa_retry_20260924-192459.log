@@ -1,0 +1,56 @@
+﻿[2026-09-24 19:24:59] Pruefe DeepSeek-Guthaben vor dem Start
+[2026-09-24 19:24:59] Guthaben: is_available=True, USD=9.66
+[2026-09-24 19:24:59] Nachlauf LLMSmartAudit, runid=llmsa_mwefixed_v2_ctx1m, Contracts=106_NFTLoanFacilitator, 30_Vault, 74_TimeswapPair, 78_FlashGovernanceArbiter, 36_Basket, 13_RCFactory, 13_RCOrderbook, 13_RCMarket, 26_RCOrderbook, 14_PrizePool, 8_NFTXVaultUpgradeable
+[2026-09-24 19:24:59] Backend: provider=deepseek model=deepseek-v4-flash context=1000000
+[2026-09-24 19:25:00] Image: smartbugs/llmsmartaudit:1.0 sha256:7c111aa6b366a3116076fb2923ce094dcaef5c455b3bec7c75435fb73f1e163b
+[2026-09-24 19:25:00] MAIN: nicht gesetzt, wie im Hauptlauf
+[2026-09-24 19:25:00] Aufruf: python -m sb -t llmsmartaudit -f samples/gptscan/mwevariety_fixed:106_NFTLoanFacilitator.sol samples/gptscan/mwevariety_fixed:30_Vault.sol samples/gptscan/mwevariety_fixed:74_TimeswapPair.sol samples/gptscan/mwevariety_fixed:78_FlashGovernanceArbiter.sol samples/gptscan/mwevariety_fixed:36_Basket.sol samples/gptscan/mwevariety_fixed:13_RCFactory.sol samples/gptscan/mwevariety_fixed:13_RCOrderbook.sol samples/gptscan/mwevariety_fixed:13_RCMarket.sol samples/gptscan/mwevariety_fixed:26_RCOrderbook.sol samples/gptscan/mwevariety_fixed:14_PrizePool.sol samples/gptscan/mwevariety_fixed:8_NFTXVaultUpgradeable.sol --timeout 7200 --processes 2 --runid llmsa_mwefixed_v2_ctx1m
+[2026-09-24 19:27:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:29:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:31:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:33:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:35:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:37:00] Zwischenstand: 0 Tasks, 0 Prompt-, 0 Completion-Tokens, ~0,00 USD
+[2026-09-24 19:39:00] Zwischenstand: 1 Tasks, 2.197.392 Prompt-, 139.560 Completion-Tokens, ~0,25 USD
+[2026-09-24 19:41:00] Zwischenstand: 1 Tasks, 2.197.392 Prompt-, 139.560 Completion-Tokens, ~0,25 USD
+[2026-09-24 19:43:01] Zwischenstand: 2 Tasks, 5.516.571 Prompt-, 336.734 Completion-Tokens, ~0,63 USD
+[2026-09-24 19:45:01] Zwischenstand: 2 Tasks, 5.516.571 Prompt-, 336.734 Completion-Tokens, ~0,63 USD
+[2026-09-24 19:47:02] Zwischenstand: 2 Tasks, 5.516.571 Prompt-, 336.734 Completion-Tokens, ~0,63 USD
+[2026-09-24 19:49:02] Zwischenstand: 2 Tasks, 5.516.571 Prompt-, 336.734 Completion-Tokens, ~0,63 USD
+[2026-09-24 19:51:02] Zwischenstand: 2 Tasks, 5.516.571 Prompt-, 336.734 Completion-Tokens, ~0,63 USD
+[2026-09-24 19:53:03] Zwischenstand: 3 Tasks, 6.709.640 Prompt-, 490.421 Completion-Tokens, ~0,79 USD
+[2026-09-24 19:55:03] Zwischenstand: 3 Tasks, 6.709.640 Prompt-, 490.421 Completion-Tokens, ~0,79 USD
+[2026-09-24 19:57:04] Zwischenstand: 3 Tasks, 6.709.640 Prompt-, 490.421 Completion-Tokens, ~0,79 USD
+[2026-09-24 19:59:04] Zwischenstand: 4 Tasks, 9.610.830 Prompt-, 661.768 Completion-Tokens, ~1,12 USD
+[2026-09-24 20:01:05] Zwischenstand: 4 Tasks, 9.610.830 Prompt-, 661.768 Completion-Tokens, ~1,12 USD
+[2026-09-24 20:03:06] Zwischenstand: 4 Tasks, 9.610.830 Prompt-, 661.768 Completion-Tokens, ~1,12 USD
+[2026-09-24 20:05:06] Zwischenstand: 5 Tasks, 11.103.249 Prompt-, 794.718 Completion-Tokens, ~1,30 USD
+[2026-09-24 20:07:07] Zwischenstand: 5 Tasks, 11.103.249 Prompt-, 794.718 Completion-Tokens, ~1,30 USD
+[2026-09-24 20:09:08] Zwischenstand: 5 Tasks, 11.103.249 Prompt-, 794.718 Completion-Tokens, ~1,30 USD
+[2026-09-24 20:11:08] Zwischenstand: 5 Tasks, 11.103.249 Prompt-, 794.718 Completion-Tokens, ~1,30 USD
+[2026-09-24 20:13:09] Zwischenstand: 5 Tasks, 11.103.249 Prompt-, 794.718 Completion-Tokens, ~1,30 USD
+[2026-09-24 20:15:10] Zwischenstand: 6 Tasks, 14.206.641 Prompt-, 975.184 Completion-Tokens, ~1,65 USD
+[2026-09-24 20:17:11] Zwischenstand: 6 Tasks, 14.206.641 Prompt-, 975.184 Completion-Tokens, ~1,65 USD
+[2026-09-24 20:19:13] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:21:14] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:23:15] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:25:16] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:27:17] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:29:19] Zwischenstand: 7 Tasks, 15.249.957 Prompt-, 1.137.311 Completion-Tokens, ~1,80 USD
+[2026-09-24 20:31:20] Zwischenstand: 8 Tasks, 18.571.611 Prompt-, 1.308.340 Completion-Tokens, ~2,17 USD
+[2026-09-24 20:33:22] Zwischenstand: 8 Tasks, 18.571.611 Prompt-, 1.308.340 Completion-Tokens, ~2,17 USD
+[2026-09-24 20:35:24] Zwischenstand: 8 Tasks, 18.571.611 Prompt-, 1.308.340 Completion-Tokens, ~2,17 USD
+[2026-09-24 20:37:26] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:39:28] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:41:30] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:43:32] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:45:34] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:47:36] Zwischenstand: 9 Tasks, 21.816.933 Prompt-, 1.486.671 Completion-Tokens, ~2,53 USD
+[2026-09-24 20:49:38] Zwischenstand: 10 Tasks, 24.712.473 Prompt-, 1.670.038 Completion-Tokens, ~2,86 USD
+[2026-09-24 20:51:40] Zwischenstand: 10 Tasks, 24.712.473 Prompt-, 1.670.038 Completion-Tokens, ~2,86 USD
+[2026-09-24 20:53:42] Zwischenstand: 11 Tasks, 28.362.974 Prompt-, 1.845.960 Completion-Tokens, ~3,26 USD
+[2026-09-24 20:53:42] === Ende, ExitCode=
+[2026-09-24 20:53:42] Reparse results\llmsmartaudit\llmsa_mwefixed_v2_ctx1m
+[2026-09-24 20:53:53] FERTIG: 11 Tasks, 28.362.974 Prompt-, 1.845.960 Completion-Tokens, geschaetzt ~3,26 USD
+[2026-09-24 20:53:53] Protokoll: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\eval\_runlogs\llmsa_retry_20260924-192459.log
+[2026-09-24 20:53:53] Naechster Schritt: python analysis_tools\build_eval.py llmsa_mwefixed_v2 --merge-run llmsa_mwefixed_v2_ctx1m

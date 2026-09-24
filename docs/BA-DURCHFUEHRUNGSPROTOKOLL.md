@@ -442,6 +442,30 @@ Container). Ausgewertet in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 und
 `eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv`; Rohdaten unter
 `smartbugs/results/slither-0.11.3/slither_mwefixed_v1/`.
 
+### 4.9 Nachtrag (24.09.2026) — Die 37 Kontext-Contracts mit angehobener Grenze
+
+Der Hauptlauf `llmsa_mwefixed_v2` führte 37 der 96 DeFi-Contracts als
+„Kontext überschritten, nicht analysiert“. Ursache war die Konstante 65 536 in
+`camel/utils.py`, die das Werkzeug vor jedem Aufruf gegen die wachsende
+Konversation prüft; die Anbieterdokumentation nennt für `deepseek-v4-flash`
+1M Token. Seit dem 24.09.2026 liest `camel/utils.py` die Grenze aus
+`LLM_CONTEXT_TOKENS` (Default unverändert 65 536). Der Nachlauf
+`llmsa_mwefixed_v2_ctx1m` über genau diese 37 Contracts mit
+`LLM_CONTEXT_TOKENS=1000000`, `LLM_MAX_COMPLETION_TOKENS=32768`, Timeout
+7 200 s und zwei Prozessen ergab: **37 von 37 vollständig analysiert**, kein
+Abbruch, 317 Findings aus 34 Kategorien, 1 625 LLM-Aufrufe, 100,3 Mio.
+Prompt-Token (im Mittel 61 700 je Aufruf gegen 20 900 im Hauptlauf), 35 028 s
+Container-Zeit, Median 954 s je Contract, abgebucht 5,55 USD (Schätzung nach
+den Preissätzen des Runners 11,42 USD). Der Lauf entstand in zwei Teilen (26
+und 11 Contracts), weil der Runner an einer Dateisperre abbrach und ein
+Ersatz-Kostenwächter bei geschätzten 8 USD stoppte; die Ergebnisse sind davon
+nicht berührt. Zwei Vorbehalte: Der Anbieter leitet den Modellnamen seit
+September 2026 auf DeepSeek-V4.1-Flash, der Nachlauf lief also auf einem
+anderen Modellstand als der Hauptlauf; und die Zahlen des Hauptlaufs bleiben
+unverändert stehen, der Nachlauf wird nicht eingemischt. Auswertung in
+`eval/llmsa_mwefixed_v2_ctx1m/`, Einordnung in `BA-WERKZEUGE-IM-VERGLEICH.md`
+4.2 und im Abschnitt „Kontextgrenze“.
+
 ## 5. Methodische Limitationen
 
 1. **Single-Label-Ground-Truth:** curated annotiert eine Primär-Schwachstelle pro Contract; echte Sekundär-Befunde zählen als False Positives → Precision-Werte sind Untergrenzen.

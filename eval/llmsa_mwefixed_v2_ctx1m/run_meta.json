@@ -1,0 +1,47 @@
+{
+  "run_id": "llmsa_mwefixed_v2_ctx1m",
+  "generated": "2026-09-24T18:55:25+00:00",
+  "smartbugs_version": "2.1.1",
+  "tool_yaml_version": "smartbugs/tools/llmsmartaudit/config.yaml @ 1.0",
+  "parser_version": "2026/08/02 + context-state (2026-08-15)",
+  "taxonomy": "smartbugs/tools/llmsmartaudit/findings.yaml (41 detectors)",
+  "image": "smartbugs/llmsmartaudit:1.0",
+  "provider": "deepseek",
+  "model": "deepseek-v4-flash",
+  "analysis_mode": "SmartContractTA (fixed in scripts/do_solidity.sh)",
+  "invocation": {
+    "main": false,
+    "main_note": "--main not used: SmartBugs enforces it itself at task collection (sb/smartbugs.py:124, exact filename==contract); 4/143 curated and 0/96 mwevariety files pass that check.",
+    "processes": 3,
+    "timeout_s": 7200,
+    "env": {
+      "LLM_PROVIDER": "deepseek",
+      "LLM_MODEL": "deepseek-v4-flash",
+      "LLM_CONTEXT_TOKENS": "65536"
+    }
+  },
+  "contracts": 37,
+  "merged_runs": [],
+  "merged_replaced": [],
+  "states": {
+    "findings": 37
+  },
+  "findings_total": 317,
+  "categories_seen": 34,
+  "categories_unmapped": [],
+  "duration_s_sum": 35027.9,
+  "tokens": {
+    "prompt": 100250727,
+    "completion": 6267999,
+    "llm_calls": 1625
+  },
+  "cost_usd_estimated": 11.42,
+  "cost_note": "Estimated from token counts; the tool reports $0.0000 because chatdev/statistics.py::prompt_cost has no entry for deepseek-v4-flash. Authoritative figure: DeepSeek invoice.",
+  "fields_not_emitted_by_tool": [
+    "function",
+    "lines",
+    "severity",
+    "confidence"
+  ],
+  "failures": []
+}

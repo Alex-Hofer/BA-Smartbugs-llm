@@ -345,7 +345,7 @@ anpassen und per Mail schicken.
 | Geänderte Fremddateien | **18** (7 GPTScan · 9 LLMSmartAudit · 2 SmartBugs, dazu `smartbugs/.gitignore`), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser) |
 | Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 587 MB reduziert |
-| Messläufe | **49 Läufe · 1 368 Tasks · 6 838 Dateien · 1,24 GB** |
+| Messläufe | **50 Läufe · 1 405 Tasks · 7 013 Dateien · 2,40 GB** |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1 368 → 0** verlorene Rohmeldungen |
 | Regressionstests | **244**, Fixtures aus echten Läufen |
