@@ -9,6 +9,11 @@ Commits behoben; Abschnitt 3 nennt zu jedem Befund den Commit. Der erste
 Verifikationsbericht vom 02.08.2026 ([`BA-VERIFIKATIONSBERICHT.md`](BA-VERIFIKATIONSBERICHT.md))
 bleibt als datierter Stand stehen und trägt einen Nachtrag.
 
+**Nachtrag 25.09.2026:** Die Empfehlungen aus Abschnitt 5 wurden in einem
+zweiten Teil umgesetzt (Commits `d4860b1` bis `7fda8e0`). Abschnitte 3.3 (M8),
+3.4 (A3), 4.1 und 5 tragen den Stand danach; die Tabelle in Abschnitt 1 bleibt
+der Stand vor allen Korrekturen.
+
 **Maßstab wie beim ersten Bericht:** Jede Behauptung wurde mit dem Ziel
 geprüft, sie zu widerlegen. Eingestellte Arbeitspakete (AP2, AP4, AP7) und das
 im Repository nicht prüfbare AP8 zählen nicht als Mangel. Prüfskripte und
@@ -64,7 +69,7 @@ wirkt (Mutationsprobe: 2 bzw. 5 Tests rot, wenn man sie entfernt).
 | F2 | `BA-EIGENANTEIL.md:462-467` | „nur die Blöcke 1–7 und 10“, „Blöcke 8 und 9“, „Regex-Korrektur“ | sieben Blöcke in `docker.py` und `tools.py`; die Regex-Korrektur ist Upstream-Arbeit | `603d511` |
 | F2b | dieselbe Datei `:48`, `:184`, `:286` | „(nicht ganz vollständig noch)“, „vier inhaltlich geänderten“, „übrigen 18 Dateien“ | Überschrift bereinigt, zwei Dateien, 22 übrige (`git ls-files smartbugs/sb` = 24) | `603d511` |
 | F3 | `BA-BETREUERGESPRAECH-AUFGABEN.md:345` | „21 (7 · 9 · 5 SmartBugs)“ | 18 (7 · 9 · 2, dazu `.gitignore`) | `603d511` |
-| F3b | dieselbe Datei `:343-344`, `:348`, `:351` | 6 121 Zeilen, ~31 600 Wörter, 4 in LaTeX, 19 Läufe, 168 Tests | 13 881 Zeilen (davon 3 485 Tests), rund 65 000 Wörter in 27 handgeschriebenen Dokumenten, kein LaTeX, 48 Läufe, aktuelle Testzahl; Zählweise steht jetzt unter der Tabelle | `603d511`, Testzahl im Abschlusscommit |
+| F3b | dieselbe Datei `:343-344`, `:348`, `:351` | 6 121 Zeilen, ~31 600 Wörter, 4 in LaTeX, 19 Läufe, 168 Tests | 13 881 Zeilen (davon 3 485 Tests), rund 65 000 Wörter in 27 handgeschriebenen Dokumenten, kein LaTeX, 48 Läufe, aktuelle Testzahl; Zählweise steht jetzt unter der Tabelle. Am 25.09.2026 nach derselben Regel neu gezählt: 15 017 Zeilen (davon 4 015 Tests), rund 75 000 Wörter in 30 Dokumenten | `603d511`, Testzahl im Abschlusscommit |
 | F4 | `BA-BETRIEB.md:41` | GPTScan „Median ~$0,0009“ je Contract | curated_v1: Mittel $0,00007, Median $0 (127 von 143 ohne LLM-Aufruf); DeFi-Korpus: Median $0,0013, Mittel $0,0029, Maximum $0,020 | `e227c4b` |
 | F4b | `BA-BETRIEB.md:3` | „aus den 19 durchgeführten Läufen (Stand 2026-08-02)“ | 48 Läufe, Stand 24.09.2026 | `e227c4b` |
 | F5 | `BA-WERKZEUGE-IM-VERGLEICH.md:401`, `:218` | „171-mal so teuer“, „drei Größenordnungen“ | rund 250-mal ($2,44 gegen $0,0098), „mehr als zwei Größenordnungen“ | `e227c4b` |
@@ -94,7 +99,7 @@ schreibe „die tatsächlich installierten Versionen fest“. Text korrigiert in
 | K2 | `core.hooksPath` und `core.longpaths` waren in diesem Clone nicht gesetzt; der Secret-Scan-Hook war inaktiv | lokal gesetzt (kein Commit); jeder Clone muss das nach `BA-BETRIEB.md` 7 selbst tun | – |
 | K3 | `eval/curated_v1_20260705__gptscan/README.md` und `__slither-0.11.3/README.md` enthielten Sätze, die der Generator nicht schrieb; der dokumentierte Aufruf hätte sie überschrieben | Sätze in `curated_eval.py::write_readme` übernommen, Zahlen darin berechnet; `eval/` regeneriert, Zahlenartefakte unverändert | `4520f3b` |
 | K4 | Kein Befehl im Repository legte `smartbugs/.venv` an oder installierte `pyyaml`/`pytest` für das System-Python | README-Abschnitt „Umgebung anlegen“, `requirements-dev.txt`, Verweise in BETRIEB 7 und BEDIENUNG 1; der Weg wurde in einer frischen venv nachvollzogen | `6557e9f` |
-| K5 | Docker lief bei der Prüfung nicht | Am 24.09. lief Docker: Images `smartbugs/gptscan:1.0` 2,14 GB, `smartbugs/llmsmartaudit:1.0` 587 MB, `smartbugs/slither:0.11.3` 490 MB vorhanden; das LLMSmartAudit-Image wurde nach `8a53d79` neu gebaut (ID `7c111aa6b366`, vorher `e72f37d07212`) | – |
+| K5 | Docker lief bei der Prüfung nicht | Am 24.09. lief Docker: Images `smartbugs/gptscan:1.0` 2,14 GB, `smartbugs/llmsmartaudit:1.0` 587 MB, `smartbugs/slither:0.11.3` 490 MB vorhanden; das LLMSmartAudit-Image wurde nach `8a53d79` neu gebaut (ID `7c111aa6b366`, vorher `e72f37d07212`) und nach `0358f46` erneut, ohne eingebranntes `LLM_MODEL` (ID `fe758cf6410c`); dazu seit `d4860b1` `smartbugs/slither:0.11.3-glibc` (316 MB, `a7a63792a158`) | – |
 
 ### 3.3 Fehlt
 
@@ -107,7 +112,7 @@ schreibe „die tatsächlich installierten Versionen fest“. Text korrigiert in
 | M5 | Rohdaten von `llmsa_curated_v2` fehlen | Der zweite Verfasser hat sie nicht mehr (Auskunft vom 24.09.2026). Die Auswertung unter `eval/llmsa_curated_v2/` ist die einzige erhaltene Fassung; so in README, `eval/_runlogs/README.md`, `eval/llmsa_curated_v2/README.md` und `WERKZEUGE` 4.4 vermerkt | Abschlusscommit |
 | M6 | Formulierungen aus einem Arbeitsprozess in `BA-VERIFIKATIONSBERICHT.md:8,11` | neutral formuliert | `bfa30f7` |
 | M7 | `LICENSE` ordnete eigene Dateien in den Fremdbäumen nicht zu | Zuordnung ergänzt: eigene Dateien im LLMSmartAudit-Baum unter MIT, eigene Dateien im GPTScan-Baum als Teil des bearbeiteten GPTScan unter AGPL-3.0; am 24.09.2026 vom Verfasser bestätigt | `603d511` |
-| M8 | Was der Fließtext braucht | Slither-Spalte für den DeFi-Korpus ergänzt (4.2); Wanduhr-Begriffe benannt; Spannen an Einzelzahlen weiterhin nur in 4.4; keine Abbildung im Repository | teils |
+| M8 | Was der Fließtext braucht | Slither-Spalte für den DeFi-Korpus ergänzt (4.2), seit `d4860b1` mit vollständiger Baseline; Wanduhr-Begriffe benannt; Spannen an Einzelzahlen weiterhin nur in 4.4; Werkzeugkette und Timeout-Mechanik als Mermaid-Diagramme in `BA-WERKZEUGKETTE.md` (`7fda8e0`) | erledigt |
 
 ### 3.4 Angreifbar
 
@@ -145,6 +150,18 @@ Slither-Image nicht starten (nachgestellt im Container; `BA-BETRIEB.md`
 Fallstrick 10, Protokoll 4.8, `WERKZEUGE` 4.2). Die Baseline-Lücke ist damit
 zur Hälfte geschlossen; der Rest braucht ein glibc-basiertes Slither-Image
 oder statisch gelinkte Compiler.
+
+**Nachtrag (Commit `d4860b1`):** Das eigene Werkzeugverzeichnis
+`smartbugs/tools/slither-0.11.3-glibc/` mit einem Debian-basierten Image
+(`smartbugs/slither:0.11.3-glibc`, 316 MB, ID `a7a63792a158`) schließt die
+Lücke: Lauf `slither_mwefixed_v2`, 96 Tasks, 2:48 min Wanduhr, 646,6 s
+Container-Zeit, 95 Contracts analysiert (94 mit Findings), 7 096 Findings aus
+48 Detektoren (4 858 Informational, 112 Optimization, 1 254 Low, 748 Medium,
+124 High). Für die 51 schon in v1 analysierten Contracts sind Findingzahl und
+Detektorverteilung identisch. Der letzte Contract, `58_UniV3Vault.sol` (0.8.9),
+scheitert am Compiler (`Stack too deep when compiling inline assembly`; der
+Korpusbau hatte ihn nur mit `--optimize` übersetzt), nicht am Image. Results
+damit 51 Läufe, 1 501 Tasks, 7 494 Dateien, 2,68 GB.
 
 ### 4.2 LLMSmartAudit über die 37 Kontext-Contracts mit angehobener Grenze (`llmsa_mwefixed_v2_ctx1m`)
 
@@ -216,19 +233,40 @@ erscheint; Protokoll `eval/_runlogs/llmsa_retry_20260924-152514.log`.
 
 ## 5. Offen und Empfehlungen
 
-1. **Slither-Baseline vervollständigen:** glibc-basiertes Slither-Image oder
-   statische solc-Builds für 0.7.6 bis 0.8.12, dann die 45 Contracts nachfahren.
-2. **Kostenschätzung der Runner** an die tatsächliche Abrechnung anpassen: Die
-   Preissätze aus `run_retry_llmsa.ps1` überschätzten den Nachlauf um den
-   Faktor 2 (11,42 gegen 5,55 USD), weil sie den Cache-Rabatt des Anbieters
-   nicht kennen; der Deckel greift dadurch zu früh.
-3. **DASP-Zuordnung der LLMSmartAudit-Detektoren** je Detektor begründen, wie
-   `GPTScan/taxonomy/mapping.md` es für GPTScan tut (A3).
-4. **Betrieb:** `ENV LLM_MODEL` mit Wächter im LLMSmartAudit-Entrypoint
-   (verändert das Image); Demolauf-Dateien nach `docs/demolauf/`.
-5. **Für den Fließtext:** mindestens eine Abbildung der Werkzeugkette
-   (SmartBugs, Container, Entrypoint, Parser, Auswertung); das Repository
-   enthält keine.
+Stand 25.09.2026, nach dem zweiten Teil der Prüfung. Die fünf Empfehlungen der
+ersten Fassung sind umgesetzt:
+
+1. **Slither-Baseline vervollständigt** (`d4860b1`): 95 von 96 Contracts mit
+   dem eigenen glibc-Image (Abschnitt 4.1); der letzte scheitert am Compiler.
+2. **Kostenschätzung eingeordnet** (`7ddc32c`): Die Preissätze bleiben, weil
+   der Deckel konservativ sein soll; alle vier Runner protokollieren jetzt den
+   Kontostand vor und nach dem Lauf und damit die tatsächliche Abbuchung
+   (`BA-BETRIEB.md`, Abschnitt 3, „Schätzung gegen Abrechnung“).
+3. **DASP-Zuordnung je Detektor begründet** (`731c99f`):
+   `smartbugs/tools/llmsmartaudit/mapping.md` mit Regel, Prompt-Beleg je
+   Detektor und zwei ausgewiesenen Grenzfällen; keine Klassifikation geändert
+   (A3).
+4. **Modell-Wächter** (`0358f46`, Image `fe758cf6410c`): kein eingebranntes
+   `LLM_MODEL` mehr, ein leerer Wert bricht mit Exit 2 und Platzhalterreport
+   ab; gegen den lokalen Prüfstand nachgestellt. Die Demolauf-Dateien bleiben
+   an ihrem Ort; ihre Pfade sind dokumentiert, ein Umzug brächte nichts.
+5. **Abbildung der Werkzeugkette** (`7fda8e0`): `BA-WERKZEUGKETTE.md`, zwei
+   Mermaid-Diagramme mit Quellen je Kasten und Exportweg für den Fließtext.
+
+Ohne Empfehlung in der ersten Fassung, aber im selben Zug erledigt: Der Block
+`invocation` in `run_meta.json` wird seit `0d5a3f1` aus dem Entrypoint in
+`smartbugs.json` und dem Runner-Protokoll gelesen statt fest hinterlegt;
+`llmsa_curated_v2` behält den alten Block, weil seine Rohdaten fehlen.
+
+Offen bleiben:
+
+* `58_UniV3Vault.sol` in der Slither-Baseline: Compilerfehler ohne
+  `--optimize`; ein Lauf mit `--solc-args` wäre der nächste Schritt.
+* Die zwei Grenzfälle der DASP-Zuordnung (`Centralization Risk` mit DASP-2,
+  `Incorrect Constructor Name` ohne). Eine Änderung bewegt die Precision um
+  etwa einen Prozentpunkt (`mapping.md`, „Offene Punkte“) und ist Sache der
+  Verfasser.
+* Die Rohdaten von `llmsa_curated_v2` (endgültig verloren, M5).
 
 Erledigt seit der ersten Fassung dieses Abschnitts: Rohdaten von
 `llmsa_curated_v2` sind endgültig nicht mehr vorhanden und so dokumentiert
@@ -248,7 +286,7 @@ Beide sind jetzt beantwortet: Die Grammatik-Ablehnungen betreffen 87 der 143
 curated-Contracts und schwächen die Begründung „kein Schlüsselwort“, nicht das
 Ergebnis 0 %; die Kontextgrenze von 65 536 war eine Konstante des Werkzeugs,
 nicht des Anbieters, und ist seit dem 24.09.2026 einstellbar; mit angehobener
-Grenze liefen alle 37 Contracts durch. Offen bleibt die zweite Hälfte der
-Slither-Baseline. Die Rohdaten von `llmsa_curated_v2` sind endgültig verloren;
-dieser Lauf trägt nur noch über seine abgeleitete Auswertung zur
-Streuungsangabe bei.
+Grenze liefen alle 37 Contracts durch. Die zweite Hälfte der Slither-Baseline
+ist mit dem eigenen glibc-Image nachgeholt (95 von 96 Contracts, Abschnitt
+4.1). Die Rohdaten von `llmsa_curated_v2` sind endgültig verloren; dieser Lauf
+trägt nur noch über seine abgeleitete Auswertung zur Streuungsangabe bei.
