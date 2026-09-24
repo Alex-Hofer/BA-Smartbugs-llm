@@ -65,6 +65,14 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 python analysis_tools\build_eval.py llmsa_curated_v2
 ```
 
+Der Block `invocation` in `run_meta.json` ist hier noch die alte, im Skript
+fest hinterlegte Fassung vom 16.08.2026 (`processes: 3`, `timeout_s: 3600`,
+`main: false`, `LLM_CONTEXT_TOKENS: 65536`). Seit dem 24.09.2026 liest
+`build_eval.py` diese Werte aus den Rohdaten und dem Runner-Protokoll; für
+diesen Lauf lässt sich das nicht mehr nachholen, weil die Rohdaten fehlen. Die
+Werte stimmen mit dem Protokoll `eval/_runlogs/llmsa_full_20260815-181854.log`
+überein (Processes=3, context=65536, timeout=3600s).
+
 ## Kernzahlen
 
 | | |

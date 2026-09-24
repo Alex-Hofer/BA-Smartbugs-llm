@@ -217,3 +217,81 @@ def test_an_ambiguous_follow_up_is_refused_rather_than_guessed():
 
     with pytest.raises(ValueError, match="0x627fa62c"):
         be.merge_tasks(main, extra)
+
+
+# --------------------------------------------------------------------------- #
+# read_invocation: run parameters come from the run, not from a constant
+# --------------------------------------------------------------------------- #
+#
+# Until 2026-09-24 the ``invocation`` block in run_meta.json was hard-coded
+# (processes 3, LLM_CONTEXT_TOKENS 65536, main False). For the ctx1m follow-up
+# every one of those was wrong. The block is now read from the entrypoint that
+# SmartBugs records and from the runner protocol; what no source has stays
+# null and says why.
+
+ENTRY = "'/sb/bin/do_solidity.sh' '/sb/a.sol' '600' '/sb/bin' '1'"
+PROTOCOL = """[2026-09-24 15:47:37] Nachlauf LLMSmartAudit, runid=x, Contracts=a
+[2026-09-24 15:47:37] Backend: provider=deepseek model=deepseek-v4-flash context=1000000
+[2026-09-24 15:47:37] Image: smartbugs/llmsmartaudit:1.0 sha256:7c111aa6b366
+[2026-09-24 15:47:37] Aufruf: python -m sb -t llmsmartaudit -f samples:a.sol --timeout 600 --processes 2 --runid x
+[2026-09-24 16:00:00] FERTIG: 1 Tasks, 1 Prompt-, 1 Completion-Tokens, geschaetzt ~0,01 USD
+"""
+
+
+def inv_task(run_id="x", entrypoint=ENTRY):
+    return {"run_id": run_id, "entrypoint": entrypoint,
+            "env_keys": ["LLM_CONTEXT_TOKENS", "LLM_MODEL", "LLM_PROVIDER"],
+            "infos": ["LLMSmartAudit run: backend=deepseek/deepseek-v4-flash"]}
+
+
+def test_invocation_is_read_from_entrypoint_and_protocol(tmp_path):
+    (tmp_path / "llmsa_retry_x.log").write_text(PROTOCOL, encoding="utf-8")
+
+    inv = be.read_invocation([inv_task()], "x", runlogs=str(tmp_path))
+
+    assert inv["timeout_s"] == 600
+    assert inv["main"] is True
+    assert inv["processes"] == 2
+    assert inv["env"] == {"LLM_PROVIDER": "deepseek", "LLM_MODEL": "deepseek-v4-flash",
+                          "LLM_CONTEXT_TOKENS": "1000000"}
+    assert inv["image_id"] == "sha256:7c111aa6b366"
+    assert inv["invocation_note"] is None
+    assert inv["protocols"][0]["completed"] is True
+
+
+def test_invocation_without_protocol_stays_null_instead_of_a_default(tmp_path):
+    inv = be.read_invocation([inv_task()], "x", runlogs=str(tmp_path))
+
+    assert (inv["timeout_s"], inv["main"]) == (600, True)      # the entrypoint is still there
+    assert inv["processes"] is None
+    assert inv["env"]["LLM_CONTEXT_TOKENS"] is None
+    assert inv["image_id"] is None
+    assert "runid=x" in inv["invocation_note"]
+
+
+def test_invocation_does_not_confuse_run_ids_that_share_a_prefix(tmp_path):
+    """llmsa_mwefixed_v2 must not pick up the protocol of llmsa_mwefixed_v2_retry."""
+    other = PROTOCOL.replace("runid=x", "runid=x_retry").replace("--runid x", "--runid x_retry")
+    (tmp_path / "a.log").write_text(other, encoding="utf-8")
+
+    inv = be.read_invocation([inv_task()], "x", runlogs=str(tmp_path))
+
+    assert inv["protocols"] == []
+    assert inv["processes"] is None
+
+
+def test_disagreeing_protocols_leave_the_field_null_and_say_so(tmp_path):
+    (tmp_path / "a.log").write_text(PROTOCOL, encoding="utf-8")
+    (tmp_path / "b.log").write_text(PROTOCOL.replace("--processes 2", "--processes 4"), encoding="utf-8")
+
+    inv = be.read_invocation([inv_task()], "x", runlogs=str(tmp_path))
+
+    assert inv["processes"] is None
+    assert "processes: Quellen widersprechen sich (2, 4)" in inv["invocation_note"]
+    assert [p["processes"] for p in inv["protocols"]] == [2, 4]
+    assert inv["env"]["LLM_CONTEXT_TOKENS"] == "1000000"      # the protocols agree on this one
+
+
+def test_main_flag_comes_from_the_entrypoint(tmp_path):
+    inv = be.read_invocation([inv_task(entrypoint=ENTRY.replace("'1'", "'0'"))], "x", runlogs=str(tmp_path))
+    assert inv["main"] is False

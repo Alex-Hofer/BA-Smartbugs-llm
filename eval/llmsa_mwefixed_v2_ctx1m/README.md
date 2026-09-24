@@ -34,13 +34,20 @@ einem Laufordner; die Ergebnisse sind von der Teilung nicht berührt.
 python analysis_tools/build_eval.py llmsa_mwefixed_v2_ctx1m
 ```
 
-`findings.jsonl`, `run_meta.json` und `summary.md` sind Generatorausgabe. **Der
-Block `invocation` in `run_meta.json` ist im Skript fest hinterlegt und
-beschreibt den Hauptlauf** (`processes: 3`, `LLM_CONTEXT_TOKENS: 65536`,
-`parser_version` vom 15.08.2026); das Skript wurde für diesen Nachlauf nicht
-angepasst. Für diesen Lauf gelten die Parameter in der Tabelle oben und im
-Runner-Protokoll (`context=1000000`, 2 Prozesse, Parser-Version `2026/09/21`
-in jeder `result.json`).
+`findings.jsonl`, `run_meta.json` und `summary.md` sind Generatorausgabe. Der
+Block `invocation` in `run_meta.json` wird seit dem 24.09.2026 aus den Quellen
+gelesen statt fest hinterlegt: `timeout_s` und `main` aus dem Entrypoint in
+jeder `smartbugs.json`, Modell und Anbieter aus der Info-Zeile des Werkzeugs in
+`result.json`, `processes`, `LLM_CONTEXT_TOKENS` und die Image-ID aus den
+Runner-Protokollen unter `eval/_runlogs/`, die diese `runid` nennen. Für diesen
+Lauf nennen drei Protokolle die `runid`: der am Speicher gescheiterte erste
+Versuch mit 4 Prozessen (15:20 Uhr, keine Ergebnisse übernommen) und die beiden
+Teile mit 2 Prozessen. Weil sich die Protokolle bei `processes` widersprechen,
+steht dort `null` mit dem Vermerk `Quellen widersprechen sich (2, 4)`; die
+Einzelwerte stehen unter `protocols`. `LLM_CONTEXT_TOKENS=1000000` und die
+Image-ID `7c111aa6b366…` sind eindeutig belegt. Das Feld `parser_version` in
+`run_meta.json` ist weiterhin eine Konstante des Skripts (Stand 15.08.2026);
+maßgeblich ist die Parser-Version `2026/09/21` in jeder `result.json`.
 
 ## Der zentrale Befund
 

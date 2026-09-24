@@ -32,7 +32,7 @@ Multi-Agenten-Pipeline auf großen DeFi-Contracts überhaupt bis zum Ende kommt.
 | Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
 | Parameter | `--processes 3`, `--timeout 7200`, MAIN nicht gesetzt |
 | Durchführung | 15./16.08.2026, Nachlauf 15.09.2026; Protokolle in [`eval/_runlogs/`](../_runlogs/README.md) |
-| Auswertung erzeugt | 15.09.2026 |
+| Auswertung erzeugt | 15.09.2026; `run_meta.json` am 24.09.2026 neu erzeugt, seitdem liest `build_eval.py` den Block `invocation` aus dem Entrypoint und dem Runner-Protokoll (`llmsa_full_20260815-181854.log`) statt aus einer Konstante; alle übrigen Felder unverändert |
 
 Der Nachlauf ersetzte genau vier Tasks, die der Hauptlauf nicht entschieden
 hatte: `12_Witch`, `25_CompositeMultiOracle`, `43_DelegatedStaking`, `62_Locke`.

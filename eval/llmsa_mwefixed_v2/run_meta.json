@@ -1,6 +1,6 @@
 {
   "run_id": "llmsa_mwefixed_v2",
-  "generated": "2026-09-21T16:54:49+00:00",
+  "generated": "2026-09-24T21:40:01+00:00",
   "smartbugs_version": "2.1.1",
   "tool_yaml_version": "smartbugs/tools/llmsmartaudit/config.yaml @ 1.0",
   "parser_version": "2026/08/02 + context-state (2026-08-15)",
@@ -11,13 +11,76 @@
   "analysis_mode": "SmartContractTA (fixed in scripts/do_solidity.sh)",
   "invocation": {
     "main": false,
-    "main_note": "--main not used: SmartBugs enforces it itself at task collection (sb/smartbugs.py:124, exact filename==contract); 4/143 curated and 0/96 mwevariety files pass that check.",
-    "processes": 3,
     "timeout_s": 7200,
+    "processes": 3,
     "env": {
       "LLM_PROVIDER": "deepseek",
       "LLM_MODEL": "deepseek-v4-flash",
       "LLM_CONTEXT_TOKENS": "65536"
+    },
+    "env_keys_set": [
+      "DEEPSEEK_API_KEY",
+      "LLM_CONTEXT_TOKENS",
+      "LLM_MODEL",
+      "LLM_PROVIDER"
+    ],
+    "image_id": null,
+    "protocols": [
+      {
+        "file": "eval/_runlogs/llmsa_full_20260815-181854.log",
+        "processes": 3,
+        "provider": "deepseek",
+        "model": "deepseek-v4-flash",
+        "context_tokens": "65536",
+        "image_id": null,
+        "completed": true
+      }
+    ],
+    "sources": {
+      "main": "entrypoint in smartbugs.json (fifth argument, MAIN)",
+      "timeout_s": "entrypoint in smartbugs.json (third argument, TIMEOUT)",
+      "env.LLM_PROVIDER, env.LLM_MODEL": "info line 'LLMSmartAudit run: backend=' in result.json",
+      "processes, env.LLM_CONTEXT_TOKENS, image_id": "runner protocol(s) under eval/_runlogs/ naming this run id",
+      "env_keys_set": "names of the variables SmartBugs passed into the container (values are redacted)"
+    },
+    "invocation_note": "image_id: in keiner Quelle belegt",
+    "merged_runs": {
+      "llmsa_mwefixed_v2_retry": {
+        "main": false,
+        "timeout_s": 7200,
+        "processes": 3,
+        "env": {
+          "LLM_PROVIDER": "deepseek",
+          "LLM_MODEL": "deepseek-v4-flash",
+          "LLM_CONTEXT_TOKENS": "65536"
+        },
+        "env_keys_set": [
+          "DEEPSEEK_API_KEY",
+          "LLM_CONTEXT_TOKENS",
+          "LLM_MODEL",
+          "LLM_PROVIDER"
+        ],
+        "image_id": null,
+        "protocols": [
+          {
+            "file": "eval/_runlogs/llmsa_retry_20260915-141858.log",
+            "processes": 3,
+            "provider": "deepseek",
+            "model": "deepseek-v4-flash",
+            "context_tokens": "65536",
+            "image_id": null,
+            "completed": true
+          }
+        ],
+        "sources": {
+          "main": "entrypoint in smartbugs.json (fifth argument, MAIN)",
+          "timeout_s": "entrypoint in smartbugs.json (third argument, TIMEOUT)",
+          "env.LLM_PROVIDER, env.LLM_MODEL": "info line 'LLMSmartAudit run: backend=' in result.json",
+          "processes, env.LLM_CONTEXT_TOKENS, image_id": "runner protocol(s) under eval/_runlogs/ naming this run id",
+          "env_keys_set": "names of the variables SmartBugs passed into the container (values are redacted)"
+        },
+        "invocation_note": "image_id: in keiner Quelle belegt"
+      }
     }
   },
   "contracts": 96,

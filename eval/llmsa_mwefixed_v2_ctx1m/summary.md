@@ -1,6 +1,6 @@
 # llmsa_mwefixed_v2_ctx1m
 
-Erzeugt 2026-09-24T18:55:25+00:00 aus `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2_ctx1m`.
+Erzeugt 2026-09-24T21:40:08+00:00 aus `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2_ctx1m`.
 Backend deepseek/deepseek-v4-flash, Modus SmartContractTA (fixed in scripts/do_solidity.sh), MAIN=0.
 
 ## Zustaende

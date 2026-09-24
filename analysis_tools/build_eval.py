@@ -56,6 +56,19 @@ PRICE_COMPLETION_PER_M = 0.3695
 
 USAGE = re.compile(r"prompt_tokens: (\d+)\s*\ncompletion_tokens: (\d+)")
 
+# Sources of the ``invocation`` block in run_meta.json (since 2026-09-24; before
+# that the block was a constant in this file). The entrypoint SmartBugs records
+# in every smartbugs.json is ``do_solidity.sh FILENAME TIMEOUT BIN MAIN``; the
+# process count, the context limit and the image id are in no result file --
+# the container environment in smartbugs.json is redacted -- and come from the
+# runner protocols under eval/_runlogs/.
+RUNLOGS = os.path.join(REPO_ROOT, "eval", "_runlogs")
+ENTRYPOINT_ARG = re.compile(r"'([^']*)'")
+LOG_RUNID = r"runid[= ]%s\b"
+LOG_BACKEND = re.compile(r"Backend: provider=(\S+) model=(\S+) context=(\d+)")
+LOG_PROCESSES = re.compile(r"(?:--processes|Processes=)\s*(\d+)")
+LOG_IMAGE = re.compile(r"Image: smartbugs/llmsmartaudit:1\.0 (sha256:[0-9a-f]+)")
+
 
 def dasp10(classification: str) -> str:
     """The DASP class findings.yaml states, or "" if it states none."""
@@ -167,13 +180,16 @@ def read_task(directory: str, runid: str = "") -> dict:
     meta = os.path.join(directory, "smartbugs.json")
     out = {"dir": directory, "run_id": runid, "contract_file": None, "duration": None,
            "exit_code": None, "findings": [], "infos": [], "errors": [],
-           "fails": [], "prompt": 0, "completion": 0, "calls": 0}
+           "fails": [], "prompt": 0, "completion": 0, "calls": 0,
+           "entrypoint": None, "env_keys": []}
     if os.path.exists(meta):
         m = json.load(open(meta, encoding="utf-8"))
         out["contract_file"] = m.get("filename")
         out["duration"] = (m.get("result") or {}).get("duration")
         out["exit_code"] = (m.get("result") or {}).get("exit_code")
         out["start"] = (m.get("result") or {}).get("start")
+        out["entrypoint"] = (m.get("docker") or {}).get("entrypoint")
+        out["env_keys"] = sorted((m.get("docker") or {}).get("environment") or {})
     if os.path.exists(result):
         r = json.load(open(result, encoding="utf-8"))
         for k in ("findings", "infos", "errors", "fails"):
@@ -195,6 +211,84 @@ def read_run(runid: str) -> list:
     if not os.path.isdir(run_dir):
         raise SystemExit("kein Lauf unter %s" % run_dir)
     return [read_task(d, runid) for d in sorted(glob.glob(os.path.join(run_dir, "*/")))]
+
+
+def read_invocation(tasks: list, runid: str, runlogs: str = RUNLOGS) -> dict:
+    """How the run was invoked, read from the run instead of hard-coded.
+
+    ``timeout_s`` and ``main`` come from the entrypoint in ``smartbugs.json``;
+    provider and model from the tool's own info line in ``result.json``;
+    ``processes``, ``LLM_CONTEXT_TOKENS`` and the image id from the runner
+    protocol(s) under ``eval/_runlogs/`` that name this run id. A value that no
+    source has, or that the protocols disagree on, stays ``None`` and is
+    explained in ``invocation_note``. Nothing is filled in from a default.
+    """
+    notes = []
+
+    def single(values, what):
+        values = sorted(set(v for v in values if v is not None))
+        if len(values) == 1:
+            return values[0]
+        notes.append("%s: %s" % (what, "Quellen widersprechen sich (%s)" % ", ".join(map(str, values))
+                                 if values else "in keiner Quelle belegt"))
+        return None
+
+    timeouts, mains = [], []
+    for t in tasks:
+        args = ENTRYPOINT_ARG.findall(t.get("entrypoint") or "")
+        if len(args) >= 5:
+            timeouts.append(int(args[2]))
+            mains.append(args[4] == "1")
+    provider = model = None
+    for t in tasks:
+        p, m = backend(t.get("infos") or [])
+        provider, model = provider or p or None, model or m or None
+
+    protocols = []
+    for path in sorted(glob.glob(os.path.join(runlogs, "*.log"))):
+        text = open(path, encoding="utf-8", errors="replace").read()
+        if not re.search(LOG_RUNID % re.escape(runid), text):
+            continue
+        be_, pr, im = LOG_BACKEND.search(text), LOG_PROCESSES.search(text), LOG_IMAGE.search(text)
+        protocols.append({
+            "file": "eval/_runlogs/" + os.path.basename(path),
+            "processes": int(pr.group(1)) if pr else None,
+            "provider": be_.group(1) if be_ else None,
+            "model": be_.group(2) if be_ else None,
+            "context_tokens": be_.group(3) if be_ else None,
+            "image_id": im.group(1) if im else None,
+            "completed": "FERTIG:" in text,
+        })
+    if not protocols:
+        notes.append("kein Runner-Protokoll unter eval/_runlogs/ nennt runid=%s; "
+                     "processes, LLM_CONTEXT_TOKENS und image_id bleiben offen" % runid)
+
+    def from_protocols(key, what):
+        if not protocols:
+            return None
+        return single([p[key] for p in protocols], what)
+
+    return {
+        "main": single(mains, "main"),
+        "timeout_s": single(timeouts, "timeout_s"),
+        "processes": from_protocols("processes", "processes"),
+        "env": {
+            "LLM_PROVIDER": provider,
+            "LLM_MODEL": model,
+            "LLM_CONTEXT_TOKENS": from_protocols("context_tokens", "LLM_CONTEXT_TOKENS"),
+        },
+        "env_keys_set": sorted({k for t in tasks for k in t.get("env_keys") or []}),
+        "image_id": from_protocols("image_id", "image_id"),
+        "protocols": protocols,
+        "sources": {
+            "main": "entrypoint in smartbugs.json (fifth argument, MAIN)",
+            "timeout_s": "entrypoint in smartbugs.json (third argument, TIMEOUT)",
+            "env.LLM_PROVIDER, env.LLM_MODEL": "info line 'LLMSmartAudit run: backend=' in result.json",
+            "processes, env.LLM_CONTEXT_TOKENS, image_id": "runner protocol(s) under eval/_runlogs/ naming this run id",
+            "env_keys_set": "names of the variables SmartBugs passed into the container (values are redacted)",
+        },
+        "invocation_note": "; ".join(notes) or None,
+    }
 
 
 def export(runid: str, merge_runs: list = ()) -> dict:
@@ -262,6 +356,12 @@ def export(runid: str, merge_runs: list = ()) -> dict:
     cost = prompt / 1e6 * PRICE_PROMPT_PER_M + completion / 1e6 * PRICE_COMPLETION_PER_M
     duration = sum(t["duration"] or 0 for t in tasks)
 
+    by_run: dict = {}
+    for t in tasks:
+        by_run.setdefault(t["run_id"] or runid, []).append(t)
+    invocation = read_invocation(by_run.get(runid, []), runid)
+    invocation["merged_runs"] = {r: read_invocation(ts, r) for r, ts in by_run.items() if r != runid}
+
     failures = [
         {"contract_id": t["contract_id"],
          "run_id": t["run_id"] or runid,
@@ -282,16 +382,7 @@ def export(runid: str, merge_runs: list = ()) -> dict:
         "provider": provider,
         "model": model,
         "analysis_mode": "SmartContractTA (fixed in scripts/do_solidity.sh)",
-        "invocation": {
-            "main": False,
-            "main_note": ("--main not used: SmartBugs enforces it itself at task "
-                          "collection (sb/smartbugs.py:124, exact filename==contract); "
-                          "4/143 curated and 0/96 mwevariety files pass that check."),
-            "processes": 3,
-            "timeout_s": 3600 if "curated" in runid else 7200,
-            "env": {"LLM_PROVIDER": "deepseek", "LLM_MODEL": "deepseek-v4-flash",
-                    "LLM_CONTEXT_TOKENS": "65536"},
-        },
+        "invocation": invocation,
         "contracts": len(tasks),
         "merged_runs": list(merged),
         "merged_replaced": sorted(replaced_all),
