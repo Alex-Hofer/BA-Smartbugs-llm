@@ -37,8 +37,27 @@ Diese Lizenz gilt ausschliesslich fuer den Eigenanteil dieser Bachelorarbeit:
     run_retry_llmsa.ps1
     evaluate_curated.py
     smartbugs/tools/gptscan/       (Tool-Integration: config.yaml, findings.yaml,
-    smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh)
+    smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh,
+                                    scripts/main_contract.py,
+                                    scripts/mark_timeout.py)
     docs/                          (Ausarbeitungen und Protokolle)
+
+Ebenfalls unter dieser Lizenz stehen die eigenen, neu angelegten Dateien im
+Baum von LLMSmartAuditTool-main/ (LLMSmartAuditTool-main/LLMSmartAuditTool-main/):
+
+    chatdev/audit_report.py
+    Dockerfile.smartbugs
+    .dockerignore
+    docs/coverage.md
+
+Die eigenen, neu angelegten Dateien im Baum von GPTScan/ werden dagegen als
+Teil des bearbeiteten GPTScan unter dessen Lizenz (AGPL-3.0) weitergegeben:
+
+    src/llm_backend.py, src/report_md.py
+    Dockerfile, requirements-docker.txt, .dockerignore, .env.example
+    taxonomy/findings.yaml, taxonomy/mapping.md
+    docs/SMARTBUGS_INTEGRATION.md
+    scripts/aggregate_smartbugs.py, scripts/prettify_sol.py
 
 Die mitgelieferten Fremdkomponenten stehen weiterhin unter ihren eigenen
 Lizenzen und werden davon NICHT beruehrt:
@@ -56,8 +75,9 @@ Lizenzen und werden davon NICHT beruehrt:
                              keinen Unterschied. Ausgenommen sind die oben
                              genannten eigenen Verzeichnisse sowie die
                              gekennzeichneten Patches in smartbugs/sb/:
-                             docker.py, tools.py, solidity.py, analysis.py
-                             und io.py
+                             docker.py und tools.py (dazu die Korrektur an
+                             smartbugs/.gitignore). Die uebrigen Dateien in
+                             smartbugs/sb/ sind unveraenderter Upstream-Code.
 
 Welche Datei zu welcher Kategorie gehoert, ist vollstaendig und mit Diff belegt
 in docs/BA-EIGENANTEIL.md aufgefuehrt.

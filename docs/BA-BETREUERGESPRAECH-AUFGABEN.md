@@ -338,18 +338,29 @@ anpassen und per Mail schicken.
 
 ### 4.1 Was messbar vorliegt
 
-| Größe | Wert |
+| Größe | Wert (Stand 24.09.2026) |
 |---|---|
-| Eigener Code | **6.121 Zeilen** (Python, PowerShell, Shell, YAML) |
-| Eigene Dokumentation | **~31.600 Wörter** über 24 Dokumente, davon 4 in LaTeX |
-| Geänderte Fremddateien | **21** (7 GPTScan · 9 LLMSmartAudit · 5 SmartBugs), je per Datei-Hash gegen Upstream belegt |
+| Eigener Code | **13 881 Zeilen** (Python, PowerShell, Shell, YAML, Dockerfile), davon 3 485 in Tests |
+| Eigene Dokumentation | **rund 65 000 Wörter** über 27 handgeschriebene Dokumente (README, 22 unter `docs/`, `corpus_tools/README.md`, 3 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, READMEs unter `eval/`) nicht mitgezählt |
+| Geänderte Fremddateien | **18** (7 GPTScan · 9 LLMSmartAudit · 2 SmartBugs, dazu `smartbugs/.gitignore`), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser) |
 | Docker-Images | **2** selbst gebaut, eines von 5,13 GB auf 587 MB reduziert |
-| Messläufe | **19 Läufe · 930 Tasks · 4.461 Dateien · 258 MB** (Stand 02.08.2026) |
+| Messläufe | **48 Läufe · 1 272 Tasks · 6 401 Dateien · 1,09 GB** |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
-| Parser-Reparatur | **1368 → 0** verlorene Rohmeldungen |
-| Regressionstests | **168** (Stand 16.09.2026), Fixtures aus echten Läufen |
-| Belegter Kalenderzeitraum | 2026-07-01 bis 2026-08-03 (früheste Messläufe laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
+| Parser-Reparatur | **1 368 → 0** verlorene Rohmeldungen |
+| Regressionstests | **230**, Fixtures aus echten Läufen |
+| Belegter Kalenderzeitraum | 2026-07-01 bis 2026-09-15 (frühester und spätester Task-Start laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
+
+Zählweise: Codezeilen mit `wc -l` über die per `git ls-files` erfassten
+Dateien mit den Endungen `.py`, `.ps1`, `.sh`, `.yaml` sowie die beiden
+Dockerfiles in `analysis_tools/`, `tests/`, `corpus_tools/`, `testing_tools/`,
+`evaluate_curated.py`, `run_*.ps1`, `smartbugs/tools/{gptscan,llmsmartaudit}/`
+und den in `BA-EIGENANTEIL.md` Abschnitt 1 genannten eigenen Dateien der
+Fremdbäume. Wörter mit `wc -w` über alle getrackten `.md`-Dateien außerhalb
+der drei Fremdbäume zuzüglich `GPTScan/docs/SMARTBUGS_INTEGRATION.md`,
+`GPTScan/taxonomy/mapping.md` und `LLMSmartAuditTool-main/.../docs/coverage.md`.
+Messläufe: Anzahl der `smartbugs.json` unter `smartbugs/results/`, Tasks und
+Dateien per Verzeichnislauf. Tests: `python -m pytest tests -q`.
 
 Zur Vorphase: die Läufe `assign6_*` und `phase6_*` sowie die fertigen
 Auswertungen unter `GPTScan/reports/` sind **älter als der erste Commit**. Die

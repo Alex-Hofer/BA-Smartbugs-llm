@@ -45,7 +45,7 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 
 ---
 
-## 1. Eigener Code (nicht ganz vollständig noch)
+## 1. Eigener Code
 
 ### Neu angelegte Verzeichnisse im Repo-Root
 
@@ -181,8 +181,8 @@ der Zeichenkette `<redacted>` authentifizieren würde. Mutationsprobe am
 21.09.2026: Entfernt man die Redaktion, werden 2 Tests rot; entfernt man die
 Weitergabe, 5; redigiert man vor statt nach dem Lauf, 2.
 
-> **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in den vier
-> inhaltlich geänderten SmartBugs-Dateien sind in nummerierte Marker
+> **Markierung im Quelltext.** Sämtliche eigenen Eingriffe in den beiden
+> geänderten SmartBugs-Quelldateien sind in nummerierte Marker
 > eingefasst — `# --- BA MODIFICATION <n>: BEGIN ---` bis
 > `# --- BA MODIFICATION <n>: END ---`. `grep -rn "BA MODIFICATION" smartbugs/sb`
 > listet alle auf; ein Kopfkommentar in `docker.py` erklärt die Konvention.
@@ -191,8 +191,6 @@ Weitergabe, 5; redigiert man vor statt nach dem Lauf, 2.
 > |---|---:|---|
 > | `sb/docker.py` | 5 | eigener Code |
 > | `sb/tools.py` | 2 | eigener Code |
-> | `sb/analysis.py` | 2 | gegenstandslos, siehe Kasten in 2.1 |
-> | `sb/solidity.py` | 1 | gegenstandslos, siehe Kasten in 2.1 |
 >
 > Wo ein Block Upstream-Code **ersetzt** statt nur ergänzt, steht die ersetzte
 > Fassung wörtlich als Kommentar im Block, eingeleitet mit „restore it to undo
@@ -283,7 +281,7 @@ sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:
 | `templates/results.sql` | SQL-Schema für die Ergebnisausgabe |
 | `.github.off/results-ubuntu-{hx,rt,sol}.csv`, `.github.off/old/results-ubuntu.csv` | Referenzergebnisse der (upstream selbst deaktivierten) CI |
 
-*Nicht geändert:* Die übrigen 18 Dateien in `smartbugs/sb/`. Insbesondere
+*Nicht geändert:* Die übrigen 22 Dateien in `smartbugs/sb/`. Insbesondere
 `parse_utils.py`, `parsing.py`, `results2csv.py` und `reparse.py` sind
 unverändert — die Parser-Reparatur (siehe `docs/BA-ERRORS-VS-FAILS.md`) findet
 ausschließlich in den eigenen Tool-Parsern statt, damit sie sich per
@@ -459,10 +457,9 @@ Aufbau.
 
 #### Was daraus für einen späteren Pull Request folgt
 
-Ein PR an `smartbugs/smartbugs` sollte **nur** die Blöcke 1–7 und 10 enthalten,
-also den `env:`-Mechanismus samt Redaktion, das robuste Aufräumen und die
-Regex-Korrektur. Blöcke 8 und 9 gehören nicht hinein: Block 8 ist
-Diagnosekosmetik, Block 9 ändert nichts. Alles andere sind Änderungen an den
+Ein PR an `smartbugs/smartbugs` sollte **nur** die sieben Blöcke in
+`docker.py` und `tools.py` enthalten, also den `env:`-Mechanismus samt
+Redaktion und das robuste Aufräumen. Alles andere sind Änderungen an den
 beiden Werkzeugen und gehörte, wenn überhaupt, in PRs an deren eigene
 Repositories.
 
