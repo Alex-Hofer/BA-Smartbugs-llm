@@ -71,7 +71,7 @@ bei LLMSmartAudit seit dem 24.09.2026 dazu `mapping.md`:
 | Datei | Aufgabe |
 |---|---|
 | `config.yaml` | Image, `output: /output.json`, **`network: bridge`** (SmartBugs setzt Tool-Container sonst auf `network: none`, was jeden API-Aufruf stillschweigend bricht), `env:`-Allowlist, Entrypoint; bei GPTScan seit AP5 zusätzlich `GPTSCAN_BASE_URL`/`GPTSCAN_API_KEY` in der Allowlist, damit ein frei wählbarer Endpunkt (z. B. der lokale Prüfstand) aus einem SmartBugs-Lauf heraus erreichbar ist |
-| `scripts/do_solidity.sh` | Entrypoint im Container: Quellordner vorbereiten, Provider/Modell aus der Umgebung wählen, Tool starten, Metadatenzeile ausgeben, `/output.json` garantieren |
+| `scripts/do_solidity.sh` | Entrypoint im Container: Quellordner vorbereiten, Provider/Modell aus der Umgebung wählen, Tool starten, Metadatenzeile ausgeben, `/output.json` garantieren; bei LLMSmartAudit seit 24.09.2026 ein Modell-Wächter: leeres `LLM_MODEL` beendet den Task mit Exit 2 und Platzhalterreport, bevor das Werkzeug startet |
 | `parser.py` | `parse(exit_code, log, output) -> (findings, infos, errors, fails)` |
 | `findings.yaml` | Finding-Name → SWC/DASP-Klassifikation, Severity, Beschreibung |
 | `mapping.md` (nur LLMSmartAudit) | Begründung je Detektor, warum er seine SWC/DASP-Klassifikation trägt, mit Beleg aus dem Prompt und der Regel, wann eine DASP-Nummer vergeben wird; durch `tests/test_llmsa_mapping_doc.py` an `findings.yaml` gebunden |
@@ -98,7 +98,7 @@ bleiben dessen Code. Grund: `BA-BETRIEB.md`, Fallstrick 10.
 | `GPTScan/docs/SMARTBUGS_INTEGRATION.md` | Integrationsdokumentation |
 | `GPTScan/scripts/aggregate_smartbugs.py`, `prettify_sol.py` | Hilfsskripte |
 | `LLMSmartAuditTool-main/.../chatdev/audit_report.py` | Sammelt die Ergebnisse aller 41 Detektor-Phasen und rendert einen standardisierten Report; seit AP5 zusätzlich: schreibt den Report **nach jeder einzelnen Phase** atomar als Zwischenstand (`categories_checked`/`categories_total`), damit der Entrypoint bei einem harten Timeout-Abbruch etwas zu bergen hat |
-| `LLMSmartAuditTool-main/.../Dockerfile.smartbugs`, `.dockerignore` | Containerisierung für SmartBugs |
+| `LLMSmartAuditTool-main/.../Dockerfile.smartbugs`, `.dockerignore` | Containerisierung für SmartBugs; seit 24.09.2026 ohne eingebranntes `LLM_MODEL` (Gegenstück zum Wächter im Entrypoint) |
 | `LLMSmartAuditTool-main/.../docs/coverage.md` | Welche Detektor-Kategorien `SmartContractTA` tatsächlich prüft |
 
 > **Zur Abgrenzung:** Von den 19 gegenüber dem Upstream neuen Dateien im

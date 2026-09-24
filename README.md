@@ -175,7 +175,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 253 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 258 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -257,8 +257,9 @@ die vier Treffer auf `sk-…` stammen sämtlich aus der SPDX-Lizenzliste
 `packaging/licenses/_spdx.py`, wo `asterisk-linking-protocols-exception`
 steht). Im LLMSmartAudit-Image liegt **kein** `evaluation/`-Verzeichnis — der
 benutzte Tag trägt also die verkleinerte Fassung, nicht das 5,13-GB-Original.
-Die einzige eingebrannte Variable ist `LLM_MODEL=deepseek-chat`, weshalb die
-Host-Variable Pflicht ist (siehe unten).
+Eingebrannt war bis zum 24.09.2026 nur `LLM_MODEL=deepseek-chat`; seit dem
+Neubau vom 24.09.2026 trägt das Image kein Modell mehr, und der Entrypoint
+bricht ohne `LLM_MODEL` ab (siehe unten).
 
 ### API-Schlüssel setzen
 
@@ -392,19 +393,26 @@ Jede Variable ist mit Zweck, Standardwert und Folgen des Fehlens in
 
 ### `LLM_MODEL=deepseek-v4-flash` ist Pflicht
 
-Das LLMSmartAudit-Image trägt `ENV LLM_MODEL=deepseek-chat` eingebrannt
-(`Dockerfile.smartbugs`). Dieses Modell ist seit 24.07.2026 abgeschaltet, und
-der Name geht **verbatim** an die DeepSeek-API. Ohne die Host-Variable scheitert
-deshalb jeder Lauf mit HTTP 400 — hergeleitet in
+Bis zum 24.09.2026 trug das LLMSmartAudit-Image `ENV LLM_MODEL=deepseek-chat`
+eingebrannt (`Dockerfile.smartbugs`), und `run.py` hat denselben Standardwert.
+Dieses Modell ist seit 24.07.2026 abgeschaltet, und der Name geht **verbatim**
+an die DeepSeek-API: Ohne die Host-Variable scheiterte jeder Lauf mit HTTP 400,
+aber erst nach dem Retry-Budget des Werkzeugs, Stunden später und ohne Report —
+hergeleitet in
 [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md),
-Fehler #1. Die Host-Variable überschreibt die Image-ENV; ein Rebuild ist nicht
-nötig.
+Fehler #1. Seit dem 24.09.2026 ist kein Modell mehr eingebrannt, und der
+Entrypoint `smartbugs/tools/llmsmartaudit/scripts/do_solidity.sh` bricht bei
+leerem `LLM_MODEL` sofort ab: Platzhalterreport mit `error: LLM_MODEL not set`,
+Exit-Code 2, in der `result.json` als `errors` (`EXIT_CODE_2`, `checked 0 of
+41`), kein LLM-Aufruf. Ein stiller Rückfall auf ein Standardmodell wäre der
+schlechtere Fehler, weil er das Backend für den Benutzer wählt; wer einen
+Standard will, setzt ihn in der `.env`.
 
 **Über die Runner ist das erledigt:** Sie setzen `LLM_MODEL` bei jedem Lauf —
 aus dem Parameter, aus der `.env` oder aus ihrem Standardwert, in dieser
-Reihenfolge. Das eingebrannte `deepseek-chat` kommt also nie zum Tragen.
-Aufpassen muss nur, wer SmartBugs **ohne** Runner aufruft (letzter Abschnitt
-dieses Kapitels) — dort ist die Variable von Hand zu setzen.
+Reihenfolge. Aufpassen muss nur, wer SmartBugs **ohne** Runner aufruft (letzter
+Abschnitt dieses Kapitels) — dort ist die Variable von Hand zu setzen; fehlt
+sie, endet der Task nach Sekunden mit dem Fehler statt nach Stunden.
 
 ### Beispiel 1 — anderes Modell beim selben Anbieter
 
@@ -528,7 +536,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-253 Tests (Stand 24.09.2026): Regressionstests für beide Tool-Parser, das
+258 Tests (Stand 24.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:

@@ -83,9 +83,15 @@ Der Entrypoint `tools/gptscan/scripts/do_solidity.sh` kopiert die Datei deshalb
 grundsätzlich nach `/work/input`.
 
 **2 — `LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit Pflicht.**
-Das Image `smartbugs/llmsmartaudit:1.0` hat `deepseek-chat` eingebrannt. Dieses
-Modell hat DeepSeek am 2026-07-24 abgeschaltet; ohne Override antwortet die API
-mit HTTP 400 und der Lauf scheitert vollständig.
+Bis zum 24.09.2026 hatte das Image `smartbugs/llmsmartaudit:1.0` `deepseek-chat`
+eingebrannt, und `run.py` hat denselben Standardwert. Dieses Modell hat DeepSeek
+am 2026-07-24 abgeschaltet; ohne Override antwortete die API mit HTTP 400, und
+der Lauf scheiterte vollständig, aber erst nach dem Retry-Budget des Werkzeugs.
+Seit dem 24.09.2026 trägt das Image kein Modell mehr, und der Entrypoint bricht
+bei leerem `LLM_MODEL` sofort ab: Platzhalterreport mit `error: LLM_MODEL not
+set`, Exit-Code 2, im Ergebnis als `errors`, kein LLM-Aufruf
+(`tests/test_entrypoint_model_guard.py`). Die Runner setzen die Variable immer;
+beim direkten `sb`-Aufruf ist sie von Hand zu setzen.
 
 **3 — LLMSmartAudit hat keinen Stub-Modus.**
 `LLM_MODEL=STUB` wird wörtlich an die API geschickt und mit HTTP 400 abgelehnt.

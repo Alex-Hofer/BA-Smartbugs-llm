@@ -23,9 +23,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # pre_processing lists WareHouse/ at startup; ensure it exists (its contents are .dockerignored).
 RUN mkdir -p /app/WareHouse
 
-# Provider/model can be overridden per run via env (read by the SmartBugs wrapper).
+# Provider can be overridden per run via env (read by the SmartBugs wrapper).
 ENV LLM_PROVIDER=deepseek
-ENV LLM_MODEL=deepseek-chat
+# LLM_MODEL is deliberately NOT baked in (since 2026-09-24). The former default
+# deepseek-chat was switched off by the provider on 2026-07-24, and a baked value
+# let a host that forgot the variable run for hours against HTTP 400. The
+# SmartBugs entrypoint (tools/llmsmartaudit/scripts/do_solidity.sh) now refuses
+# to start without LLM_MODEL, so the mistake surfaces in seconds, as an error.
 # Avoid UnicodeEncodeError when the tool prints emoji in its post-processing summary.
 ENV PYTHONIOENCODING=utf-8
 

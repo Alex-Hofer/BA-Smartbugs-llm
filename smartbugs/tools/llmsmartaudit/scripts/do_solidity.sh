@@ -89,6 +89,23 @@ export SB_CONTRACT_NAME
 # "deepseek" --- the same run described two ways.
 export LLM_PROVIDER="$PROVIDER"
 
+# Where the report goes. SmartBugs collects /output.json (config.yaml: output);
+# the override exists only so the guard below can be tested on a host.
+OUTPUT="${SB_OUTPUT_JSON:-/output.json}"
+
+# --- Model guard (2026-09-24) ------------------------------------------------
+# The image no longer bakes an LLM_MODEL, and run.py would otherwise fall back
+# to its own default (deepseek-chat), a model the provider switched off on
+# 2026-07-24: the run would burn its retry budget on HTTP 400 and end hours
+# later without a report (docs/BA-BETRIEB.md, Fallstrick 2). Refuse now,
+# visibly, before any tool code runs. Exit 2 lands in SmartBugs' *errors*
+# (EXIT_CODE_2), and the placeholder report says why; nothing reaches *fails*.
+if [ -z "$MODEL" ]; then
+    echo "LLMSmartAudit: LLM_MODEL is not set -- refusing to start; set LLM_MODEL on the host (e.g. deepseek-v4-flash), see docs/BA-BETRIEB.md, Fallstrick 2"
+    printf '%s' "{\"tool\":\"LLMSmartAudit\",\"config\":\"SmartContractTA\",\"contract\":\"$NAME\",\"provider\":\"$PROVIDER\",\"model\":\"\",\"categories_total\":41,\"categories_checked\":0,\"checked\":[],\"summary\":\"\",\"findings\":[],\"error\":\"LLM_MODEL not set: no model to call, analysis not started\"}" > "$OUTPUT"
+    exit 2
+fi
+
 echo "LLMSA_META {\"provider\":\"$PROVIDER\",\"model\":\"${MODEL:-<provider default>}\",\"filename\":\"$(basename "$FILENAME")\"}"
 
 cd /app || exit 1
@@ -122,24 +139,24 @@ fi
 # Copy the machine-readable report to the fixed location SmartBugs retrieves.
 REPORT=$(ls -t WareHouse/"${NAME}_${ORG}_"*/"${NAME}_audit_report.json" 2>/dev/null | head -1)
 if [ -n "$REPORT" ] && [ -f "$REPORT" ]; then
-    cp "$REPORT" /output.json
+    cp "$REPORT" "$OUTPUT"
 elif [ "$TIMED_OUT" = "1" ] && [ -f "${SB_PARTIAL_REPORT:-/nonexistent}" ]; then
     # The tool was stopped before it could write its final report, but every
     # finished detector left a complete snapshot behind. That snapshot IS the
     # result: only the detector in flight is lost (AP5).
-    cp "$SB_PARTIAL_REPORT" /output.json
+    cp "$SB_PARTIAL_REPORT" "$OUTPUT"
     echo "LLMSmartAudit: salvaged the partial report after the timeout"
 else
     # Guarantee a well-formed (empty-findings) report so SmartBugs can always
     # retrieve /output.json; force a non-zero exit so the failure is visible.
-    printf '%s' "{\"tool\":\"LLMSmartAudit\",\"config\":\"SmartContractTA\",\"contract\":\"$NAME\",\"provider\":\"$PROVIDER\",\"model\":\"$MODEL\",\"categories_total\":41,\"categories_checked\":0,\"checked\":[],\"summary\":\"\",\"findings\":[],\"error\":\"no report produced\"}" > /output.json
+    printf '%s' "{\"tool\":\"LLMSmartAudit\",\"config\":\"SmartContractTA\",\"contract\":\"$NAME\",\"provider\":\"$PROVIDER\",\"model\":\"$MODEL\",\"categories_total\":41,\"categories_checked\":0,\"checked\":[],\"summary\":\"\",\"findings\":[],\"error\":\"no report produced\"}" > "$OUTPUT"
     if [ "$RC" -eq 0 ]; then
         RC=1
     fi
 fi
 
 if [ "$TIMED_OUT" = "1" ]; then
-    python3 "$BIN/mark_timeout.py" /output.json net \
+    python3 "$BIN/mark_timeout.py" "$OUTPUT" net \
         "LLMSmartAudit nach ${NET}s hart beendet; Zwischenstand geborgen" \
         || echo "LLMSmartAudit: could not stamp the timeout marker"
 fi

@@ -68,11 +68,14 @@ System-Python über `requirements-dev.txt`).
 
 ## 2. Modellwahl — der wichtigste Fallstrick
 
-**`LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit Pflicht.** Das im Image
-eingebrannte `deepseek-chat` ist beim Anbieter abgeschaltet; jeder Lauf ohne
-diese Variable scheitert mit HTTP 400 (siehe `BA-DURCHFUEHRUNGSPROTOKOLL`,
-Fehler #1). `run_curated.ps1` setzt sie selbst — beim direkten `sb`-Aufruf muss
-man daran denken.
+**`LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit Pflicht.** Das bis zum
+24.09.2026 im Image eingebrannte `deepseek-chat` ist beim Anbieter abgeschaltet;
+jeder Lauf ohne diese Variable scheiterte mit HTTP 400 (siehe
+`BA-DURCHFUEHRUNGSPROTOKOLL`, Fehler #1). Seit dem 24.09.2026 ist kein Modell
+mehr eingebrannt, und der Entrypoint bricht ohne `LLM_MODEL` sofort mit Exit 2
+und einem Platzhalterreport ab (`BA-BETRIEB.md`, Fallstrick 2).
+`run_curated.ps1` setzt sie selbst — beim direkten `sb`-Aufruf muss man daran
+denken.
 
 Für GPTScan gilt das Gegenstück über `GPTSCAN_PROVIDER` und `GPTSCAN_MODEL`.
 

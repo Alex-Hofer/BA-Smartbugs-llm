@@ -17,7 +17,8 @@ network: bridge
 # Host environment variables forwarded into the container (API keys and
 # runtime backend selection). Only variables set on the host are forwarded.
 #   LLM_PROVIDER  deepseek (default) | openai | custom
-#   LLM_MODEL     model id (provider default if unset)
+#   LLM_MODEL     model id -- required: the entrypoint exits 2 with a
+#                 placeholder report when it is unset (since 2026-09-24)
 #   LLM_BASE_URL  OpenAI-compatible endpoint URL (for LLM_PROVIDER=custom)
 env: DEEPSEEK_API_KEY, OPENAI_API_KEY, LLM_PROVIDER, LLM_MODEL, LLM_BASE_URL, LLM_CONTEXT_TOKENS, LLM_MAX_COMPLETION_TOKENS
 solidity:

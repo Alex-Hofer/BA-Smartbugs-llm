@@ -277,3 +277,29 @@ def test_synthetic_comfortable_budget_raises_no_error(llmsmartaudit):
                b'"categories_checked":41,"findings":[]}')
     _f, _i, errors, _fa = llmsmartaudit.parse(0, log, synthetic_tar(payload))
     assert errors == set()
+
+
+def test_synthetic_missing_model_guard_is_an_error_not_a_fail(llmsmartaudit):
+    """Entrypoint guard (2026-09-24): LLM_MODEL unset -> placeholder report, exit 2.
+
+    Exit 2 lands in *errors* (``EXIT_CODE_2``), the report's ``error`` field says
+    why, and nothing may end up in *fails*: no exception escaped, the run was
+    refused on purpose before the tool started. Synthetic because no recorded
+    run ever hit the guard.
+    """
+    payload = json.dumps({
+        "tool": "LLMSmartAudit", "config": "SmartContractTA", "contract": "sb_a",
+        "provider": "deepseek", "model": "", "categories_total": 41,
+        "categories_checked": 0, "checked": [], "summary": "", "findings": [],
+        "error": "LLM_MODEL not set: no model to call, analysis not started",
+    }).encode("utf-8")
+    log = ["LLMSmartAudit: LLM_MODEL is not set -- refusing to start; set LLM_MODEL "
+           "on the host (e.g. deepseek-v4-flash), see docs/BA-BETRIEB.md, Fallstrick 2"]
+
+    findings, _i, errors, fails = llmsmartaudit.parse(2, log, synthetic_tar(payload))
+
+    assert findings == []
+    assert "EXIT_CODE_2" in errors
+    assert contains(errors, "LLM_MODEL not set")
+    assert contains(errors, "checked 0 of 41")
+    assert fails == set()
