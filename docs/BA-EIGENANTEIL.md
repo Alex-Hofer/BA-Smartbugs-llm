@@ -53,11 +53,13 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 |---|---|
 | `analysis_tools/` | Auswertungswerkzeuge: Parser-Audit, Errors/Fails-Report, Rohlog-Zugriff, Redaktion, CSV-Vergleich |
 | `tests/` | pytest-Regressionstests beider Parser und, seit AP5, der Timeout-Mechanik (Deadline-Wächter, Zwischenstand, Entrypoint-Marken) samt Fixtures aus echten Altläufen und synthetischem Material |
-| `corpus_tools/` | Rekonstruktion des `mwevariety`-Korpus (`build_fixed.py`), Laufanalyse (`analyze_run.py`) |
+| `corpus_tools/` | Rekonstruktion des `mwevariety`-Korpus (`build_fixed.py`), Laufanalyse (`analyze_run.py`), Korpuskopie mit Hauptcontract-Namen für `--main` (`make_main_corpus.py`, seit 24.09.2026) |
 | `testing_tools/` | *(AP5)* Lokaler, OpenAI-kompatibler Prüfstand-Endpunkt (`fake_llm_endpoint.py`), der Timeout-Pfade ohne echte API-Kosten und deterministisch auslösbar macht |
 | `docs/` | Ausarbeitungen, Protokolle, Berichte |
 | `run_curated.ps1` | Massenlauf-Runner über den curated-Datensatz |
 | `evaluate_curated.py` | Recall/Precision/F1 gegen die Ground Truth |
+| `requirements-dev.txt` | Host-Abhängigkeiten für `analysis_tools/`, `tests/`, `corpus_tools/` (seit 24.09.2026) |
+| `.github/workflows/tests.yml` | CI: Testsuite und Secret-Scan bei jedem Push (seit 24.09.2026) |
 
 ### SmartBugs-Tool-Integrationen (eigene Ergänzungen im Fremdbaum)
 

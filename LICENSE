@@ -36,6 +36,8 @@ Diese Lizenz gilt ausschliesslich fuer den Eigenanteil dieser Bachelorarbeit:
     run_full_v2_llmsa.ps1
     run_retry_llmsa.ps1
     evaluate_curated.py
+    requirements-dev.txt
+    .github/                       (CI: Tests und Secret-Scan)
     smartbugs/tools/gptscan/       (Tool-Integration: config.yaml, findings.yaml,
     smartbugs/tools/llmsmartaudit/  parser.py, scripts/do_solidity.sh,
                                     scripts/main_contract.py,

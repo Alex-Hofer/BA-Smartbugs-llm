@@ -522,6 +522,11 @@ Die Fixtures sind unveränderte Rohdaten echter Läufe, ihre Herkunft steht in
 auftraten (Timeout, leeres Archiv, kaputtes JSON), sind synthetisch und tragen
 `synthetic` im Testnamen.
 
+Dieselbe Suite und der Secret-Scan laufen bei jedem Push auf `main` und bei
+jedem Pull Request als GitHub-Actions-Workflow
+([`.github/workflows/tests.yml`](.github/workflows/tests.yml), Ubuntu,
+Python 3.12; am 24.09.2026 in einem Linux-Container nachvollzogen).
+
 ## Secret-Scan
 
 ```powershell

@@ -1,0 +1,28 @@
+# Dieselben Pruefungen, die README "Tests" und "Secret-Scan" fuer die lokale
+# Arbeit beschreiben, bei jedem Push und Pull Request auf einem frischen Linux.
+# Kein Docker, keine LLM-Aufrufe: die Fixtures unter tests/fixtures/ sind
+# aufgezeichnete Rohdaten. Am 24.09.2026 in einem python:3.12-slim-Container
+# nachvollzogen: 244 passed.
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Host-Werkzeuge (pyyaml, pytest)
+        run: python -m pip install -r requirements-dev.txt
+      - name: SmartBugs (sb.parse_utils, sb.docker fuer die Parser- und Patch-Tests)
+        run: python -m pip install -e smartbugs
+      - name: Testsuite
+        run: python -m pytest tests -q
+      - name: Secret-Scan ueber den Arbeitsbaum
+        run: python analysis_tools/secret_scan.py --all
