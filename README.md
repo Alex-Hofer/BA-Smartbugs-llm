@@ -91,11 +91,12 @@ Timeout (17./18.08.2026) und Slither über `mwevariety_fixed` (24.09.2026,
 `slither_mwefixed_v1`; 51 von 96 Contracts analysiert, Ursache in
 `docs/BA-BETRIEB.md`, Fallstrick 10).
 
-> Ein Lauf fehlt in diesem Arbeitsbaum: `llmsa_curated_v2` wurde auf dem
-> Rechner des Co-Autors gefahren, seine Rohergebnisse liegen dort. Die
-> Auswertung unter `eval/llmsa_curated_v2/` ist vollständig. Für LLMSmartAudit
-> auf `smartbugs-curated` ist ohnehin `curated_v1_20260705` der Bezugslauf, der
-> mit allen Rohdaten vorliegt. Einzelheiten in
+> Ein Lauf fehlt: `llmsa_curated_v2` wurde auf dem Rechner des Co-Autors
+> gefahren, und seine Rohergebnisse existieren seit dem 24.09.2026 nirgends
+> mehr. Die Auswertung unter `eval/llmsa_curated_v2/` ist die einzige erhaltene
+> Fassung; ein Reparse ist nicht mehr möglich. Für LLMSmartAudit auf
+> `smartbugs-curated` ist ohnehin `curated_v1_20260705` der Bezugslauf, der mit
+> allen Rohdaten vorliegt. Einzelheiten in
 > [`eval/_runlogs/README.md`](eval/_runlogs/README.md).
 
 Die aggregierten Auswertungen sind versioniert:
@@ -151,7 +152,7 @@ python -m pip install -r requirements-dev.txt       # PyYAML und pytest für ana
 
 Die venv gehört nach `smartbugs\.venv`; alle vier Runner erwarten sie dort.
 Welche Abhängigkeiten SmartBugs zieht, steht in `smartbugs\pyproject.toml`
-(`smartbugs\uv.lock` enthält keine Paketeinträge und pinnt nichts). Die
+(eine `uv.lock` gibt es seit dem 24.09.2026 nicht mehr; die frühere war leer). Die
 Werkzeuge in `analysis_tools\` und die Tests laufen mit dem System-Python;
 `evaluate_curated.py` läuft unter beiden Interpretern.
 

@@ -19,6 +19,13 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 > frühere Fassung dieses Absatzes behauptete, die Rohdaten existierten
 > nirgends mehr — das war falsch und ist hiermit richtiggestellt.
 >
+> **Stand 24.09.2026: Die Rohergebnisse existieren nicht mehr.** Der Co-Autor
+> hat sie nach eigener Auskunft nicht mehr; übertragen wurden sie nie. Damit
+> ist dieser Ordner endgültig die einzige Fassung des Laufs: kein Reparse, kein
+> `build_eval.py`, keine Nachprüfung einzelner Tasks am Rohmaterial. Die
+> Gegenprüfung vom 21.09.2026 (Absatz darüber) ist der letzte Beleg für die
+> Treue der `findings.jsonl` zum Rohmaterial.
+>
 > Für diesen Arbeitsbaum bleibt die Folge dieselbe: Solange die Daten nicht
 > übertragen sind, lässt sich der Lauf **hier** weder reparsen noch in die
 > Errors/Fails-Bilanz oder das Parser-Audit aufnehmen. Beides wäre nach einer

@@ -91,6 +91,8 @@ Finding-Dichte: Ø 7,9/Contract (Median 7, Max 18); **kein Contract blieb ohne F
 - **Severity-Caveat:** Über alle 1 124 LLMSA-Findings ist die Severity je Detektorname zu 100 % konstant → dokumentations-zugewiesene Kategorie-Defaults, keine Einzelfall-Urteile des Modells.
 - **GPTScan-Review-Kandidaten (curated):** Alle 4 geprüft — die Static-Stufe lief und verwarf 5 LLM-Kandidaten bestimmungsgemäß (False-Positive-Filtering, kein Datenproblem).
 
+- **Archivierung (Stand 24.09.2026):** Die Einzelurteile der Stichproben in 4.2 und 4.3 (19, 10, 6 und 4 Findings) wurden nicht festgehalten; nachvollziehbar sind nur die Summen. Wer die Urteile prüfen will, muss die Stichprobe neu ziehen.
+
 ### 4.3 GPTScan auf Zieldomäne (mwevariety, 96 DeFi-Contracts)
 
 - **11 Findings auf 7 Contracts** (alle high): MWE-200 „Insecure LP Token Value" ×6, MWE-207 ×2, MWE-209 ×2, MWE-203 ×1 — im Kontrast zu 0 themengerechten Findings auf curated.

@@ -80,10 +80,11 @@ wirkt (Mutationsprobe: 2 bzw. 5 Tests rot, wenn man sie entfernt).
 | F14 | `BA-VERIFIKATIONSBERICHT.md` 3.1, 6 | „fünf geänderte Dateien“, Vergleichsstand `v2.1.1` | Nachtrag vom 24.09.2026 im Dokument; README führt es als datierten Bericht | `bfa30f7` |
 | F15 | `analysis_tools/redact_results.py:9` | Redaktion in `sb/docker.py:159-163` | Verweis auf Block `BA MODIFICATION 5` statt Zeilennummern | `e227c4b` |
 
-Zusätzlich bei der Umsetzung gefunden: `smartbugs/uv.lock` ist 52 Byte groß
-und enthält keinen Paketeintrag; `BA-EIGENANTEIL.md` behauptete, die Datei
-schreibe „die tatsächlich installierten Versionen fest“. Korrigiert in
-`6557e9f`; ob die Datei bleibt, entscheiden die Autoren.
+Zusätzlich bei der Umsetzung gefunden: `smartbugs/uv.lock` war 52 Byte groß
+und enthielt keinen Paketeintrag; `BA-EIGENANTEIL.md` behauptete, die Datei
+schreibe „die tatsächlich installierten Versionen fest“. Text korrigiert in
+`6557e9f`, Datei im Abschlusscommit entfernt (Eigenanteil-Zählung jetzt
+515/3/253).
 
 ### 3.2 Kaputt
 
@@ -103,9 +104,9 @@ schreibe „die tatsächlich installierten Versionen fest“. Korrigiert in
 | M2 | ANTLR-Frage seit 02.08. offen | Protokoll Nachtrag 4.7 und Limitation 9: 87 von 143 Tasks mit Grammatik-Ablehnungen, alle Solidity 0.4, `functions` im Median ein Viertel der Deklarationen; Vorbehalt in `WERKZEUGE` 5 und `GPTSCAN-VERGLEICH` 2 | `dc8516f` |
 | M3 | WARNING-Records außerhalb des Parser-Audit-Katalogs | in `BA-PARSER-AUDIT-LUECKEN.md` 4 benannt (`Cannot find functionB`, zwei Tasks); Katalog nicht erweitert | `bfa30f7` |
 | M4 | Kein Test verlangte, dass ein Treffer die gelabelte Kategorie trifft; Zeilennummern des GPTScan-Parsers ungetestet | zwei Tests; dazu Link-Test über alle Dokumente und Abgleich der Tabelle 4.1 mit `run_meta.json` | `4520f3b`, `7acb55a` |
-| M5 | Rohdaten von `llmsa_curated_v2` fehlen | unverändert; die Dateien liegen beim zweiten Verfasser (`eval/_runlogs/README.md`) | offen |
+| M5 | Rohdaten von `llmsa_curated_v2` fehlen | Der zweite Verfasser hat sie nicht mehr (Auskunft vom 24.09.2026). Die Auswertung unter `eval/llmsa_curated_v2/` ist die einzige erhaltene Fassung; so in README, `eval/_runlogs/README.md`, `eval/llmsa_curated_v2/README.md` und `WERKZEUGE` 4.4 vermerkt | Abschlusscommit |
 | M6 | Formulierungen aus einem Arbeitsprozess in `BA-VERIFIKATIONSBERICHT.md:8,11` | neutral formuliert | `bfa30f7` |
-| M7 | `LICENSE` ordnete eigene Dateien in den Fremdbäumen nicht zu | Zuordnung ergänzt: eigene Dateien im LLMSmartAudit-Baum unter MIT, eigene Dateien im GPTScan-Baum als Teil des bearbeiteten GPTScan unter AGPL-3.0. **Diese Zuordnung ist ein Vorschlag, den die Autoren bestätigen müssen.** | `603d511` |
+| M7 | `LICENSE` ordnete eigene Dateien in den Fremdbäumen nicht zu | Zuordnung ergänzt: eigene Dateien im LLMSmartAudit-Baum unter MIT, eigene Dateien im GPTScan-Baum als Teil des bearbeiteten GPTScan unter AGPL-3.0; am 24.09.2026 vom Verfasser bestätigt | `603d511` |
 | M8 | Was der Fließtext braucht | Slither-Spalte für den DeFi-Korpus ergänzt (4.2); Wanduhr-Begriffe benannt; Spannen an Einzelzahlen weiterhin nur in 4.4; keine Abbildung im Repository | teils |
 
 ### 3.4 Angreifbar
@@ -126,7 +127,7 @@ schreibe „die tatsächlich installierten Versionen fest“. Korrigiert in
 |---|---|---|---|
 | N1 | Ground Truth ungepinnt: `run_curated.ps1` klonte `smartbugs-curated` ohne Commit; der lokale Clone steht auf `230e649` (16.06.2024), nirgends dokumentiert | Clone gepinnt, Warnung bei Abweichung; Stand in README, `evaluate_curated.py`, `run_meta.json` (`ground_truth_commit`) und `metriken.md` | `6913bc6`, `6557e9f`, `4520f3b` |
 | N2 | `VERSION` beider Parser stand auf „2026/08/02“ trotz Änderungen am 17.08. und 21.09.; SmartBugs schreibt den Wert in jede `result.json` | Stempel auf das Datum der letzten Änderung, Konvention als Kommentar, alle Läufe neu geparst (Zahlen unverändert) | `040216a` |
-| N3 | Qualitative Stichproben (19, 10, 6 und 4 Urteile) ohne Liste im Repository | offen; braucht die Notizen der Autoren | offen |
+| N3 | Qualitative Stichproben (19, 10, 6 und 4 Urteile) ohne Liste im Repository | Es gibt keine Notizen; das Protokoll 4.2 sagt jetzt, dass die Einzelurteile nicht archiviert wurden | Abschlusscommit |
 | N4 | Beide Allowlists reichen `OPENAI_API_KEY` auch bei Provider `deepseek` in den Container | die Runner entfernen vor dem Start die Schlüssel, die der Anbieter nicht braucht | `6913bc6` |
 
 ---
@@ -203,26 +204,25 @@ erscheint; Protokoll `eval/_runlogs/llmsa_retry_20260924-152514.log`.
 
 ## 5. Offen und Empfehlungen
 
-1. **Rohdaten von `llmsa_curated_v2`** vom zweiten Verfasser übernehmen und mit
-   `build_eval.py` gegen `eval/llmsa_curated_v2/findings.jsonl` prüfen (M5).
-2. **Stichprobenliste** der qualitativen Urteile anlegen oder im Protokoll 4.2
-   vermerken, dass die Einzelurteile nicht archiviert wurden (N3).
-3. **Lizenzzuordnung** der eigenen Dateien in den Fremdbäumen bestätigen (M7).
-4. **`smartbugs/uv.lock`** entfernen oder durch eine echte Festschreibung
-   ersetzen; die Datei pinnt nichts.
-5. **Slither-Baseline vervollständigen:** glibc-basiertes Slither-Image oder
+1. **Slither-Baseline vervollständigen:** glibc-basiertes Slither-Image oder
    statische solc-Builds für 0.7.6 bis 0.8.12, dann die 45 Contracts nachfahren.
-5a. **Nachlauf mit angehobener Kontextgrenze wiederholen** (4.2), mit zwei
-   Prozessen und Kostendeckel 8 USD; er entscheidet, ob die 37 Contracts ein
-   Befund über das Werkzeug oder über die frühere Konstante sind.
-6. **DASP-Zuordnung der LLMSmartAudit-Detektoren** je Detektor begründen, wie
+2. **Nachlauf mit angehobener Kontextgrenze** (4.2): Ergebnis abwarten
+   beziehungsweise bei erneutem Abbruch mit zwei Prozessen wiederholen; er
+   entscheidet, ob die 37 Contracts ein Befund über das Werkzeug oder über die
+   frühere Konstante sind.
+3. **DASP-Zuordnung der LLMSmartAudit-Detektoren** je Detektor begründen, wie
    `GPTScan/taxonomy/mapping.md` es für GPTScan tut (A3).
-7. **Betrieb:** Image-ID je Lauf in `run_params.json` aller Runner; `ENV
-   LLM_MODEL` mit Wächter im LLMSmartAudit-Entrypoint; eine CI, die `pytest`,
-   `secret_scan.py --all` und den Link-Test ausführt.
-8. **Für den Fließtext:** mindestens eine Abbildung der Werkzeugkette
+4. **Betrieb:** `ENV LLM_MODEL` mit Wächter im LLMSmartAudit-Entrypoint
+   (verändert das Image); Demolauf-Dateien nach `docs/demolauf/`.
+5. **Für den Fließtext:** mindestens eine Abbildung der Werkzeugkette
    (SmartBugs, Container, Entrypoint, Parser, Auswertung); das Repository
    enthält keine.
+
+Erledigt seit der ersten Fassung dieses Abschnitts: Rohdaten von
+`llmsa_curated_v2` sind endgültig nicht mehr vorhanden und so dokumentiert
+(M5); die Einzelurteile der Stichproben wurden nicht archiviert, das Protokoll
+sagt es (N3); die Lizenzzuordnung ist bestätigt (M7); `uv.lock` ist entfernt;
+die Runner protokollieren die Image-ID des verwendeten Docker-Images.
 
 ---
 
@@ -237,6 +237,6 @@ curated-Contracts und schwächen die Begründung „kein Schlüsselwort“, nich
 Ergebnis 0 %; die Kontextgrenze von 65 536 war eine Konstante des Werkzeugs,
 nicht des Anbieters, und ist seit dem 24.09.2026 einstellbar. Offen bleiben
 der Nachlauf mit angehobener Grenze, der am 24.09. am Arbeitsspeicher des
-Rechners scheiterte, die Rohdaten eines Laufs, die Liste der
-Stichprobenurteile, die Bestätigung der Lizenzzuordnung und die zweite Hälfte
-der Slither-Baseline.
+Rechners scheiterte, und die zweite Hälfte der Slither-Baseline. Die
+Rohdaten von `llmsa_curated_v2` sind endgültig verloren; dieser Lauf trägt nur
+noch über seine abgeleitete Auswertung zur Streuungsangabe bei.

@@ -104,7 +104,7 @@ Gegen den Upstream-Stand `7ddaf6c` unterscheiden sich in `sb/` genau **zwei**
 Dateien: `docker.py` (37 Code-Zeilen) und `tools.py` (2 Code-Zeilen). Sie
 bilden zusammen den Mechanismus zur Schlüsselübergabe. Hinzu kommt eine
 Korrektur an `smartbugs/.gitignore`. Mehr ist es nicht; der vollständige
-Hash-Abgleich über alle 772 getrackten Dateien unter `smartbugs/` ergibt:
+Hash-Abgleich über alle 771 getrackten Dateien unter `smartbugs/` ergibt:
 
 | | Dateien |
 |---|---:|
@@ -112,9 +112,9 @@ Hash-Abgleich über alle 772 getrackten Dateien unter `smartbugs/` ergibt:
 | geändert | 3 (`sb/docker.py`, `sb/tools.py`, `.gitignore`) |
 | neu: eigene Tool-Integrationen | 12 (`tools/gptscan/`, `tools/llmsmartaudit/`) |
 | neu: abgelegte Korpus-Dateien | 241 (`samples/gptscan/**.sol` — fremde Contracts, kein eigener Code) |
-| neu: Werkzeug-Nebenprodukt | 1 (`uv.lock`, siehe unten) |
 
-Summe: 515 + 3 + 12 + 241 + 1 = 772. Nachprüfbar mit einem Befehl:
+Summe: 515 + 3 + 12 + 241 = 771 (bis 24.09.2026 dazu eine leere `uv.lock`,
+siehe Kasten unten). Nachprüfbar mit einem Befehl:
 
 ```
 $ diff -r -q --exclude=.git smartbugs/sb up-sb/sb
@@ -264,17 +264,14 @@ vorübergehende Sperre, dauerhafte Sperre).
 > `921f9b5` („add tests, push coverage to 100 %"), der zwischen dem Tag
 > `v2.1.1` und dem hier geklonten Stand liegt.
 
-> **`uv.lock` ist kein Eigenanteil und pinnt nichts.** Die Datei ist gegenüber
-> dem Upstream neu und dort nicht vorhanden. Sie ist das Nebenprodukt eines
-> `uv`-Aufrufs und enthält nur den Kopf (`version`, `revision`,
-> `requires-python`), aber keinen einzigen Paketeintrag — 52 Byte. Sie legt
-> also keine Versionen fest und macht die Umgebung nicht reproduzierbar
-> (Korrektur vom 24.09.2026; bis dahin stand hier das Gegenteil). Die
-> Abhängigkeiten definiert `pyproject.toml`; die venv dieses Arbeitsbaums
-> entstand mit `python -m venv` und `pip install -e .` (README, „Umgebung
-> anlegen“). `poetry.lock` bleibt unverändert daneben stehen. Ob `uv.lock`
-> bleibt oder entfernt wird, ist offen; oben zählt sie als
-> Werkzeug-Nebenprodukt.
+> **`uv.lock` wurde am 24.09.2026 entfernt.** Die Datei war gegenüber dem
+> Upstream neu, das Nebenprodukt eines `uv`-Aufrufs, und enthielt nur den Kopf
+> (`version`, `revision`, `requires-python`), aber keinen einzigen
+> Paketeintrag — 52 Byte. Sie legte also keine Versionen fest und machte die
+> Umgebung nicht reproduzierbar; frühere Fassungen dieses Dokuments behaupteten
+> das Gegenteil. Die Abhängigkeiten definiert `pyproject.toml`; die venv dieses
+> Arbeitsbaums entstand mit `python -m venv` und `pip install -e .` (README,
+> „Umgebung anlegen“). `poetry.lock` bleibt unverändert daneben stehen.
 
 Die sechs durch die `.gitignore`-Korrektur zurückgewonnenen Dateien sind
 sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:

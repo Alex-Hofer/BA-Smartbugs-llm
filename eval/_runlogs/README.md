@@ -63,9 +63,11 @@ Die Protokolle nennen als Ablageort
   Bei derselben Gelegenheit kam der bis dahin unbekannte Lauf
   `llmsa_smoke_curated` (3 Contracts) dazu; er hat keine eigene Auswertung,
   taucht aber in der Errors/Fails-Bilanz und im Parser-Audit auf.
-* **`llmsa_curated_v2`**: die Rohergebnisse liegen beim Co-Autor und wurden
-  nicht übertragen; in diesem Arbeitsbaum fehlen sie (Stand 21.09.2026 dort
-  nachgeprüft, 143 Task-Verzeichnisse). Für LLMSmartAudit auf
+* **`llmsa_curated_v2`**: die Rohergebnisse wurden nie übertragen und
+  existieren seit dem 24.09.2026 nirgends mehr; der Co-Autor hat sie nicht
+  mehr. Am 21.09.2026 lagen sie dort noch (143 Task-Verzeichnisse, Summe der
+  Findings 1 028, identisch mit der eingecheckten `findings.jsonl`). Für
+  LLMSmartAudit auf
   `smartbugs-curated` ist ohnehin
   `curated_v1_20260705` der Bezugslauf — er liegt vollständig vor und ist in
   [`eval/curated_v1_20260705__llmsmartaudit/`](../curated_v1_20260705__llmsmartaudit/README.md)

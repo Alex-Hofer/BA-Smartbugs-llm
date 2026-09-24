@@ -36,10 +36,10 @@ gemacht.
 | `slither_mwefixed_v1__slither-0.11.3.csv` | Slither über `mwevariety_fixed` (24.09.2026); 45 Contracts ohne Ergebnis, Ursache in `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
 
 Die beiden LLMSmartAudit-v2-Läufe (`llmsa_curated_v2`, `llmsa_mwefixed_v2`)
-fehlen hier. Die Rohergebnisse von `llmsa_curated_v2` liegen nicht auf dieser
-Maschine, sondern auf dem Rechner des zweiten Verfassers (siehe Runlog
-`eval/_runlogs/llmsa_full_20260815-181854.log`); die von `llmsa_mwefixed_v2`
-sind seit dem 20.09.2026 hier. **Auch wenn sie vorliegen, taugt das Skript für
+fehlen hier. Die Rohergebnisse von `llmsa_curated_v2` existieren seit dem
+24.09.2026 nirgends mehr (bis dahin auf dem Rechner des zweiten Verfassers,
+siehe Runlog `eval/_runlogs/llmsa_full_20260815-181854.log`); die von
+`llmsa_mwefixed_v2` sind seit dem 20.09.2026 hier. **Auch wenn sie vorliegen, taugt das Skript für
 sie nicht:** In `llmsa_mwefixed_v2` brachen 37 Contracts am Kontextfenster ab,
 und für abgebrochene Tasks bleiben die Token- und Kostenzellen leer
 (Einschränkung 1). Für diese Läufe gelten die Gesamtzahlen in

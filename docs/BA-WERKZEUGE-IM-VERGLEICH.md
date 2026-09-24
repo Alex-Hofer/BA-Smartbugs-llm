@@ -381,11 +381,13 @@ fairere Maß.
    Validation 105 → 87, Reentrancy 70 → 56). Zufallsstreuung wäre symmetrisch.
    Die Zahl ist deshalb eine **Obergrenze für die Stabilität**, nicht eine
    Messung reiner Sampling-Varianz.
-4. Die Rohergebnisse von `llmsa_curated_v2` liegen beim Co-Autor und nicht in
-   diesem Arbeitsbaum; hier ist seine Seite des Vergleichs über die
-   abgeleitete `findings.jsonl` belegt. Deren Treue zum Rohmaterial wurde am
-   21.09.2026 auf dem Rechner des Co-Autors gegengeprüft: 143 Task-Ordner,
-   Summe der Findings 1 028 — identisch mit der `findings.jsonl`.
+4. Die Rohergebnisse von `llmsa_curated_v2` existieren nicht mehr (Stand
+   24.09.2026; der Co-Autor hat sie nicht mehr). Seine Seite des Vergleichs ist
+   allein über die abgeleitete `findings.jsonl` belegt. Deren Treue zum
+   Rohmaterial wurde am 21.09.2026, als die Rohdaten noch vorlagen, auf dem
+   Rechner des Co-Autors gegengeprüft: 143 Task-Ordner, Summe der Findings
+   1 028 — identisch mit der `findings.jsonl`. Ein erneuter Reparse oder eine
+   Wiederholung von `build_eval.py` ist für diesen Lauf nicht mehr möglich.
 
 Slither ist deterministisch.
 
