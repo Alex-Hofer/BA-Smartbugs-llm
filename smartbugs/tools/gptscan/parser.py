@@ -55,7 +55,10 @@ from typing import Optional
 import sb.parse_utils
 
 
-VERSION = "2026/08/02"
+# Date of the last change to the parsing logic. SmartBugs writes the value
+# into every result.json under parser.version, so a stale date hides which
+# parser produced a file; bump it with every behavioural change.
+VERSION = "2026/08/17"
 
 # All finding names GPTScan can emit (the rule output titles). `findings`
 # returned by parse() is a subset of this set.

@@ -60,7 +60,8 @@ Erzeugt mit `python analysis_tools/errors_fails_report.py --md ... --csv ...`.
 | llmsmartaudit | smoke1_stub | 1 | 0 | 1 | 1 | 3 | 2 | 0 | 0 |
 | llmsmartaudit | smoke2_live | 3 | 3 | 0 | 0 | 0 | 0 | 0 | 0 |
 | slither-0.11.3 | curated_slither_v1_20260705 | 143 | 140 | 3 | 3 | 3 | 9 | 0 | 0 |
-| **Summe** | | **1272** | **780** | **486** | **98** | **2330** | **149** | **249** | **10** |
+| slither-0.11.3 | slither_mwefixed_v1 | 96 | 51 | 45 | 45 | 45 | 180 | 0 | 0 |
+| **Summe** | | **1368** | **831** | **531** | **143** | **2375** | **329** | **249** | **10** |
 
 Spalte *sauber*: Tasks ohne jeden Error und Fail. Spalte *nicht uebersetzt*:
 Tasks, deren Contract nicht kompiliert werden konnte — dort ist ein leeres
@@ -76,6 +77,10 @@ Meldung — jede wird unveraendert wiedergegeben.
 
 | Tool | Lauf | Art | Klassifikation | Contracts | Meldung |
 |---|---|---|---|---:|---|
+| slither-0.11.3 | slither_mwefixed_v1 | fail | independent | 45 | analysis unsuccessful, check output.json |
+| slither-0.11.3 | slither_mwefixed_v1 | fail | independent | 45 | error parsing results: file could not be opened successfully: - method gz: ReadError('empty file') - method bz2: ReadError('not a bzip2 file') - method xz: ReadError('not an lzma file') - method tar: ReadError('empty file') |
+| slither-0.11.3 | slither_mwefixed_v1 | fail | independent | 45 | exception (FileNotFoundError: [Errno 2] No such file or directory: '/sb/bin/solc') |
+| slither-0.11.3 | slither_mwefixed_v1 | fail | root_cause | 45 | exception (crytic_compile.platform.exceptions.InvalidCompilation: [Errno 2] No such file or directory: '/sb/bin/solc') |
 | gptscan | curated_gptscan_mwe_20260706 | fail | consequence | 20 | exception (TypeError: 'NoneType' object is not subscriptable) |
 | gptscan | curated_gptscan_mwe_20260706 | fail | consequence | 20 | exception (UnboundLocalError: local variable 'match_flag' referenced before assignment) |
 | gptscan | mwevar_dry | fail | consequence | 20 | exception (TypeError: 'NoneType' object is not subscriptable) |
@@ -132,8 +137,4 @@ Meldung — jede wird unveraendert wiedergegeben.
 | llmsmartaudit | llmsa_smoke_curated | fail | independent | 1 | exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 68978}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (openai.BadRequestError: Error code: 400 - {'error': {'message': 'The supported API model names are deepseek-v4-pro or deepseek-v4-flash, but you passed STUB.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}}) |
 | llmsmartaudit | smoke1_stub | fail | independent | 1 | exception (tenacity.RetryError: RetryError[<Future at 0x7ff553bdcbe0 state=finished raised BadRequestError>]) |
-| slither-0.11.3 | curated_slither_v1_20260705 | fail | independent | 1 | exception (slither.visitors.expression.constants_folding.NotConstant) |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 54 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | gptscan_mwefixed_v2_dry | error | independent | 50 | ERROR    tasks: Static analysis failed: Invalid args |
-| gptscan | curated_gptscan_mwefixed_dry | error | independent | 47 | ERROR    tasks: Traceback (most recent call last): File "/opt/gptscan/src/tasks.py", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType |
-| ... | | | | | *1380 weitere Meldungen, vollstaendig in der CSV* |
+| ... | | | | | *1385 weitere Meldungen, vollstaendig in der CSV* |

@@ -54,7 +54,10 @@ from typing import Optional
 import sb.io
 import sb.parse_utils
 
-VERSION = "2026/08/02"
+# Date of the last change to the parsing logic. SmartBugs writes the value
+# into every result.json under parser.version, so a stale date hides which
+# parser produced a file; bump it with every behavioural change.
+VERSION = "2026/09/21"
 
 # All finding names the tool can emit: exactly the keys of findings.yaml,
 # which mirror the 41 detector titles in chatdev/audit_report.py::DETECTORS.
