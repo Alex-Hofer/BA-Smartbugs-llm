@@ -17,7 +17,8 @@ Entrypoint-Skripte) ist Teil dieser Arbeit — siehe
 [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md).
 
 Datensatz ist [smartbugs-curated](https://github.com/smartbugs/smartbugs-curated)
-(143 gelabelte Contracts, DASP-Top-10-Kategorien). Ergänzend ein aus Web3Bugs
+(143 gelabelte Contracts, DASP-Top-10-Kategorien), Stand `230e649`
+(16.06.2024); `run_curated.ps1` klont und pinnt genau diesen Stand. Ergänzend ein aus Web3Bugs
 rekonstruierter DeFi-Korpus mit 96 Contracts für GPTScans eigentliches
 Einsatzgebiet.
 
@@ -136,6 +137,22 @@ Einschränkungen dokumentiert.
   `~/.smartbugs/solc` ab. Für GPTScan reicht SmartBugs den passenden Compiler
   als `$BIN/solc` in den Container.
 
+### Umgebung anlegen
+
+```powershell
+cd smartbugs
+python -m venv .venv
+.venv\Scripts\python.exe -m pip install -e .        # SmartBugs 2.1.1 samt Docker-SDK und PyYAML
+cd ..
+python -m pip install -r requirements-dev.txt       # PyYAML und pytest für analysis_tools\, tests\, evaluate_curated.py
+```
+
+Die venv gehört nach `smartbugs\.venv`; alle vier Runner erwarten sie dort.
+Welche Abhängigkeiten SmartBugs zieht, steht in `smartbugs\pyproject.toml`
+(`smartbugs\uv.lock` enthält keine Paketeinträge und pinnt nichts). Die
+Werkzeuge in `analysis_tools\` und die Tests laufen mit dem System-Python;
+`evaluate_curated.py` läuft unter beiden Interpretern.
+
 ---
 
 ## Docker: was im Container läuft und was nicht
@@ -240,6 +257,10 @@ entfernt sie am Ende wieder. Der gepatchte `smartbugs/sb/docker.py` reicht sie
 in den Container durch und **redigiert sie unmittelbar danach**, bevor die
 Docker-Argumente ins Task-Log geschrieben werden — sonst stünde der Schlüssel im
 Klartext in jeder `results/**/smartbugs.json`.
+
+Stehen in der `.env` mehrere Schlüssel, entfernen die Runner vor dem Start
+diejenigen wieder aus der Prozessumgebung, die der gewählte Anbieter nicht
+braucht. In den Container gelangt so nur der Schlüssel des aktiven Anbieters.
 
 In kein Image gelangt je ein Schlüssel: `.dockerignore` schließt `.env` aus.
 

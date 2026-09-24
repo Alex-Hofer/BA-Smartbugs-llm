@@ -21,6 +21,10 @@ schreibt sie in einen Ergebnisordner.
 | API-Schlüssel | `Test-Path GPTScan\.env` | `True` |
 | SmartBugs-venv | `Test-Path smartbugs\.venv\Scripts\python.exe` | `True` |
 
+Fehlt die venv oder `pytest`/`PyYAML` im System-Python: README, Abschnitt
+„Umgebung anlegen“ (`python -m venv .venv` in `smartbugs\`, dann
+`pip install -e .`; im Wurzelverzeichnis `pip install -r requirements-dev.txt`).
+
 > Die stderr-Umleitung wird bewusst an `cmd /c` delegiert. PowerShell 5.1
 > wandelt umgeleitete native stderr-Zeilen in ErrorRecords um, und Docker
 > schreibt Warnungen auf stderr.
@@ -52,7 +56,9 @@ ausgegeben; in `smartbugs.json` wird er durch `<redacted>` ersetzt
 | `analysis_tools\`, `tests\`, `evaluate_curated.py` | System-`python` |
 
 Die venv hat kein `pytest`; das System-Python hat kein Docker-SDK. Das ist kein
-Versehen, sondern die Aufgabenteilung.
+Versehen, sondern die Aufgabenteilung. `evaluate_curated.py` läuft unter
+beiden, sofern PyYAML vorhanden ist (in der venv über SmartBugs, im
+System-Python über `requirements-dev.txt`).
 
 ---
 

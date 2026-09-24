@@ -41,8 +41,12 @@ unauffaellig, wenn er auch uebersetzt werden konnte. Fuer den Hauptlauf
 curated_v1_20260705 trifft das auf alle 143 Contracts zu; in anderen Laeufen
 nicht (siehe docs/errors-fails.md, Spalte "nicht uebersetzt").
 
-Aufruf (aus dem Repo-Root, venv von SmartBugs nutzen):
-  smartbugs\\.venv\\Scripts\\python.exe evaluate_curated.py --suffix v1_20260705
+Ground Truth ist smartbugs-curated auf Commit 230e649 (16.06.2024);
+run_curated.ps1 klont und pinnt genau diesen Stand.
+
+Aufruf (aus dem Repo-Root; System-Python und SmartBugs-venv gehen beide,
+sofern PyYAML installiert ist):
+  python evaluate_curated.py --suffix v1_20260705
 """
 import argparse
 import csv

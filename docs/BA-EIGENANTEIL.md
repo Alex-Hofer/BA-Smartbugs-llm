@@ -264,13 +264,17 @@ vorübergehende Sperre, dauerhafte Sperre).
 > `921f9b5` („add tests, push coverage to 100 %"), der zwischen dem Tag
 > `v2.1.1` und dem hier geklonten Stand liegt.
 
-> **`uv.lock` ist kein Eigenanteil.** Die Datei ist gegenüber dem Upstream neu
-> und dort nicht vorhanden. Sie entsteht, wenn `uv` das in SmartBugs'
-> `pyproject.toml` bereits deklarierte Abhängigkeitsgefüge auflöst — sie
-> enthält keine eigene Auswahl und keinen eigenen Code, sondern schreibt die
-> tatsächlich installierten Versionen fest. Sie ist versioniert, weil sie die
-> Umgebung reproduzierbar macht, in der die Messungen gelaufen sind.
-> `poetry.lock` bleibt unverändert daneben stehen.
+> **`uv.lock` ist kein Eigenanteil und pinnt nichts.** Die Datei ist gegenüber
+> dem Upstream neu und dort nicht vorhanden. Sie ist das Nebenprodukt eines
+> `uv`-Aufrufs und enthält nur den Kopf (`version`, `revision`,
+> `requires-python`), aber keinen einzigen Paketeintrag — 52 Byte. Sie legt
+> also keine Versionen fest und macht die Umgebung nicht reproduzierbar
+> (Korrektur vom 24.09.2026; bis dahin stand hier das Gegenteil). Die
+> Abhängigkeiten definiert `pyproject.toml`; die venv dieses Arbeitsbaums
+> entstand mit `python -m venv` und `pip install -e .` (README, „Umgebung
+> anlegen“). `poetry.lock` bleibt unverändert daneben stehen. Ob `uv.lock`
+> bleibt oder entfernt wird, ist offen; oben zählt sie als
+> Werkzeug-Nebenprodukt.
 
 Die sechs durch die `.gitignore`-Korrektur zurückgewonnenen Dateien sind
 sämtlich **byte-identisch zum Upstream** und ab sofort versioniert:

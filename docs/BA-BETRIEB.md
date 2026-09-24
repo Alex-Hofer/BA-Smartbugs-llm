@@ -151,6 +151,10 @@ Schlüssel kommt zur Laufzeit aus der Prozessumgebung.
 
 ## 7. Einrichtung nach dem Klonen
 
+Die Python-Umgebungen (SmartBugs-venv unter `smartbugs\.venv`, Host-Werkzeuge
+über `requirements-dev.txt`) beschreibt die README im Abschnitt „Umgebung
+anlegen“.
+
 Zwei Git-Einstellungen sind **lokal pro Clone** und werden deshalb nicht
 mitgeliefert. Beide gehören unmittelbar nach `git clone` gesetzt:
 
