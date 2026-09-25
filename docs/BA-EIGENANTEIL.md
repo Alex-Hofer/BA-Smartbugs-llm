@@ -117,19 +117,20 @@ Gegen den Upstream-Stand `7ddaf6c` unterscheiden sich in `sb/` genau **zwei**
 Dateien: `docker.py` (37 Code-Zeilen) und `tools.py` (2 Code-Zeilen). Sie
 bilden zusammen den Mechanismus zur Schlüsselübergabe. Hinzu kommt eine
 Korrektur an `smartbugs/.gitignore`. Mehr ist es nicht; der vollständige
-Hash-Abgleich über alle 777 getrackten Dateien unter `smartbugs/` (Stand
-25.09.2026) ergibt:
+Hash-Abgleich über alle 3 780 getrackten Dateien unter `smartbugs/` (Stand
+25.09.2026, seit diesem Tag einschließlich der versionierten Rohdaten) ergibt:
 
 | | Dateien |
 |---|---:|
-| unverändert gegenüber `7ddaf6c` | 515 |
+| unverändert gegenüber `7ddaf6c` | 516 (seit 25.09.2026 mit dem Wrapper `results2csv`, siehe Kasten unten) |
 | geändert | 3 (`sb/docker.py`, `sb/tools.py`, `.gitignore`) |
 | neu: eigene Tool-Integrationen | 16 (`tools/gptscan/`, `tools/llmsmartaudit/` samt `mapping.md`; dazu `config.yaml`, `Dockerfile`, `scripts/do_solidity.sh` in `tools/slither-0.11.3-glibc/`) |
 | neu: unveränderte Kopien aus `tools/slither-0.11.3/` | 2 (`findings.yaml`, `parser.py` in `tools/slither-0.11.3-glibc/`) |
 | neu: abgelegte Korpus-Dateien | 241 (`samples/gptscan/**.sol` — fremde Contracts, kein eigener Code) |
+| neu: Rohdaten der Messläufe | 3 002 (`results/**/result.json` und `smartbugs.json`, je Task eine; Messdaten, kein Code; seit 25.09.2026, README „Wo die Ergebnisse liegen“) |
 
-Summe: 515 + 3 + 16 + 2 + 241 = 777 (bis 24.09.2026 dazu eine leere `uv.lock`,
-siehe Kasten unten). Nachprüfbar mit einem Befehl:
+Summe: 516 + 3 + 16 + 2 + 241 + 3 002 = 3 780 (bis 24.09.2026 dazu eine leere
+`uv.lock`, siehe Kasten unten; bis 25.09.2026 ohne die Rohdaten 777). Nachprüfbar mit einem Befehl:
 
 ```
 $ diff -r -q --exclude=.git smartbugs/sb up-sb/sb
@@ -255,20 +256,19 @@ vorübergehende Sperre, dauerhafte Sperre).
 |---|---|---|
 | `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` blieb ignoriert; seit dem 25.09.2026 nimmt das Muster (`/results/**` mit Ausnahmen) je Task `result.json` und `smartbugs.json` wieder auf, Begründung im Kommentar der Datei und in der README, „Wo die Ergebnisse liegen“ |
 
-> **Eine siebte Upstream-Datei ist weiterhin ausgeschlossen.** Der Anker
-> `/results*` greift im Verzeichnis `smartbugs/` selbst und trifft dort neben
-> `results/` auch den Bash-Wrapper `smartbugs/results2csv`:
+> **Eine siebte Upstream-Datei war bis zum 25.09.2026 ausgeschlossen.** Der
+> Anker `/results*` griff im Verzeichnis `smartbugs/` selbst und traf dort
+> neben `results/` auch den Bash-Wrapper `smartbugs/results2csv`:
 >
 > ```
 > $ git check-ignore -v smartbugs/results2csv
 > smartbugs/.gitignore:45:/results*   smartbugs/results2csv
 > ```
 >
-> Die Datei liegt im Arbeitsbaum, erreicht aber keinen Commit und fehlt daher
-> in einem frischen Klon. Folgenlos für den dokumentierten Ablauf: `README.md`
-> schreibt `python -m sb.results2csv results` vor, und das Modul
-> `sb/results2csv.py` ist versioniert. Betroffen ist allein der
-> Kommandozeilen-Wrapper neben `smartbugs` und `reparse`.
+> Seit das Muster `/results/**` heißt, ist der Wrapper versioniert
+> (byte-identisch zum Upstream, geprüft gegen Version 2.1.6). Folgenlos für
+> den dokumentierten Ablauf: `README.md` schreibt `python -m sb.results2csv
+> results` vor, und das Modul `sb/results2csv.py` war immer versioniert.
 
 > **`sb/io.py` ist kein Eigenanteil und steht deshalb nicht mehr in dieser
 > Tabelle.** Frühere Fassungen führten die Datei mit den Abweichungen
