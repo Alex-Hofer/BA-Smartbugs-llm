@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 1800 s |
 | Rohergebnisse | `smartbugs/results/gptscan/curated_v1_20260705` (result.json und smartbugs.json je Task versioniert; Logs und Archive im Release-Zip, siehe README) |
-| Erzeugt am | 2026-09-25T09:58:51+00:00 |
+| Erzeugt am | 2026-09-25T16:33:39+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Von den
 Rohergebnissen sind je Task `result.json` und `smartbugs.json` versioniert;

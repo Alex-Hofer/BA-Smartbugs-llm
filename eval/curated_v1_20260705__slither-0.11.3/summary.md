@@ -1,6 +1,6 @@
 # curated_v1_20260705 -- slither-0.11.3
 
-Erzeugt 2026-09-25T09:58:51+00:00 aus `smartbugs/results/slither-0.11.3/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
+Erzeugt 2026-09-25T16:33:39+00:00 aus `smartbugs/results/slither-0.11.3/curated_v1_20260705` durch `analysis_tools/curated_eval.py`.
 Statische Analyse, Image `smartbugs/slither:0.11.3`, Timeout 600 s.
 
 ## Zustaende

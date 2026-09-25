@@ -324,3 +324,21 @@ def test_a_missing_rate_is_a_dash_and_not_zero_percent(value, expected):
 def test_thousands_are_grouped_the_way_the_rest_of_the_repo_writes_them():
     assert ce.num(1124) == "1 124"
     assert ce.num(6) == "6"
+
+
+# --------------------------------------------------------------------------- #
+# Ground Truth fehlt
+# --------------------------------------------------------------------------- #
+
+def test_missing_ground_truth_aborts_instead_of_writing_empty_metrics_synthetic(tmp_path, monkeypatch):
+    """Ohne smartbugs-curated/vulnerabilities.json bricht die Auswertung ab.
+
+    In einem frischen Klon fehlt der git-ignorierte Datensatz. Liefe das Skript
+    trotzdem durch, ueberschriebe es die versionierten eval/-Dateien mit
+    Recall "-" und leeren Labels, ohne dass jemand es bemerkt.
+    """
+    monkeypatch.setattr(ce, "REPO", tmp_path)
+    with pytest.raises(SystemExit) as exc:
+        ce.ground_truth()
+    assert "smartbugs-curated" in str(exc.value)
+    assert "230e649" in str(exc.value)

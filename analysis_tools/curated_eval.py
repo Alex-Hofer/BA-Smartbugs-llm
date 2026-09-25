@@ -94,10 +94,21 @@ def taxonomy(tool):
 
 
 def ground_truth():
-    """(Kategorieordner, Dateiname) -> gelabelte Kategorien des Datensatzes."""
+    """(Kategorieordner, Dateiname) -> gelabelte Kategorien des Datensatzes.
+
+    Bricht ab, wenn der Datensatz fehlt: Ohne Ground Truth entstuenden
+    Auswertungen mit Recall "-" und leeren Labels, die die versionierten
+    Dateien unter eval/ stillschweigend ueberschreiben wuerden.
+    """
     path = REPO / "smartbugs-curated" / "vulnerabilities.json"
     if not path.exists():
-        return {}
+        raise SystemExit(
+            f"Ground Truth fehlt: {path}\n"
+            "Der Datensatz smartbugs-curated ist nicht versioniert. Holen mit\n"
+            "  git clone https://github.com/smartbugs/smartbugs-curated\n"
+            "  git -C smartbugs-curated checkout 230e649\n"
+            "(README, 'Wo die Ergebnisse liegen'); run_curated.ps1 tut dasselbe."
+        )
     out = {}
     for entry in json.loads(path.read_text(encoding="utf-8")):
         p = pathlib.Path(entry["path"])
@@ -703,8 +714,8 @@ def write_metrics(path, runid, per_tool):
         A("des Laufs -- die Precision, die ein Werkzeug erreichte, das die Kategorie")
         A("auf jedem Contract meldet. Eine Precision knapp ueber der Basisrate")
         A("unterscheidet sich kaum vom Raten. *Recall 95-%-Intervall*: Wilson-Intervall;")
-        A("bei Kategorien mit acht oder weniger Contracts ist es breiter als 40")
-        A("Prozentpunkte, der Punktwert allein traegt dort wenig.")
+        A("bei Kategorien mit acht oder weniger Contracts ist es mindestens 30")
+        A("Prozentpunkte breit, der Punktwert allein traegt dort wenig.")
         A("")
         A("%s der %s Findings tragen keine DASP-Klassifikation und gehen weder in"
           % (num(meta["findings_unmapped"]), num(meta["findings_total"])))

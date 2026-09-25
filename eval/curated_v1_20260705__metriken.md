@@ -46,8 +46,8 @@ DASP-Klassifikation auf die gelabelte Kategorie abbildet.
 des Laufs -- die Precision, die ein Werkzeug erreichte, das die Kategorie
 auf jedem Contract meldet. Eine Precision knapp ueber der Basisrate
 unterscheidet sich kaum vom Raten. *Recall 95-%-Intervall*: Wilson-Intervall;
-bei Kategorien mit acht oder weniger Contracts ist es breiter als 40
-Prozentpunkte, der Punktwert allein traegt dort wenig.
+bei Kategorien mit acht oder weniger Contracts ist es mindestens 30
+Prozentpunkte breit, der Punktwert allein traegt dort wenig.
 
 0 der 6 Findings tragen keine DASP-Klassifikation und gehen weder in
 Recall noch in Precision ein (0.0 %).
@@ -72,8 +72,8 @@ Recall noch in Precision ein (0.0 %).
 des Laufs -- die Precision, die ein Werkzeug erreichte, das die Kategorie
 auf jedem Contract meldet. Eine Precision knapp ueber der Basisrate
 unterscheidet sich kaum vom Raten. *Recall 95-%-Intervall*: Wilson-Intervall;
-bei Kategorien mit acht oder weniger Contracts ist es breiter als 40
-Prozentpunkte, der Punktwert allein traegt dort wenig.
+bei Kategorien mit acht oder weniger Contracts ist es mindestens 30
+Prozentpunkte breit, der Punktwert allein traegt dort wenig.
 
 468 der 1 124 Findings tragen keine DASP-Klassifikation und gehen weder in
 Recall noch in Precision ein (41.6 %).
@@ -98,8 +98,8 @@ Recall noch in Precision ein (41.6 %).
 des Laufs -- die Precision, die ein Werkzeug erreichte, das die Kategorie
 auf jedem Contract meldet. Eine Precision knapp ueber der Basisrate
 unterscheidet sich kaum vom Raten. *Recall 95-%-Intervall*: Wilson-Intervall;
-bei Kategorien mit acht oder weniger Contracts ist es breiter als 40
-Prozentpunkte, der Punktwert allein traegt dort wenig.
+bei Kategorien mit acht oder weniger Contracts ist es mindestens 30
+Prozentpunkte breit, der Punktwert allein traegt dort wenig.
 
 1 763 der 2 154 Findings tragen keine DASP-Klassifikation und gehen weder in
 Recall noch in Precision ein (81.8 %).
