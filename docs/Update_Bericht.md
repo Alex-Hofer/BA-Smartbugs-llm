@@ -5,7 +5,7 @@
 | | |
 |---|---|
 | Berichtszeitraum | Juli 2026 (letzter Bericht) bis 3. August 2026 |
-| Bezugsdokument | `docs/BA-Kontext-Stand-Juli-2026.md` (Stand des Decks `BA-Arbeitsfortschritt.pptx`) |
+| Bezugsdokument | Kontextpapier zum Projektstand Juli 2026, abgeleitet aus dem Foliendeck `BA-Arbeitsfortschritt.pptx`; beides am 25.09.2026 beziehungsweise früher aus dem Repository entfernt, die Prioritäten stehen in Abschnitt 2 |
 | Gegenstand | Commits `f85946e` … `a2be0f3` (10 Commits), Zweig `main`, auf `origin` gespiegelt |
 | Verfasst am | 2026-08-03 |
 
@@ -78,7 +78,7 @@ SmartBugs zutage gefördert hat.
 
 ## 2. Fortschreibung gegenüber dem Stand Juli 2026
 
-Die Prioritätenliste aus `BA-Kontext-Stand-Juli-2026.md`, Abschnitt 6, im
+Die Prioritätenliste des Kontextpapiers vom Juli 2026 (P0 bis P2) im
 Soll-Ist-Vergleich:
 
 | Prio | Punkt (Juli 2026) | Stand August 2026 |
@@ -768,7 +768,7 @@ reproduzierbar.
 
 | Dokument | Rolle |
 |---|---|
-| `docs/BA-Kontext-Stand-Juli-2026.md` | Bezugsstand dieses Berichts |
+| Kontextpapier Juli 2026 (entfernt) | Bezugsstand dieses Berichts; seine Prioritätenliste steht in Abschnitt 2 |
 | `docs/BA-ARBEITSBERICHT-20260802.md` | Ausführungsprotokoll in der Reihenfolge der Durchführung |
 | `docs/BA-AUFGABEN-UND-STATUS.md` | Soll-Ist-Abgleich je Teilaufgabe |
 | `docs/BA-VERIFIKATIONSBERICHT.md` | unabhängige Überprüfung, bestätigte und widerlegte Befunde |

@@ -744,12 +744,11 @@ Upstream-Stände per Hash abgeglichen.
 | [`docs/BA-VERIFIKATIONSBERICHT-20260924.md`](docs/BA-VERIFIKATIONSBERICHT-20260924.md) | Zweitprüfung des Repositorys, Stand 24.09.2026: Befunde, Korrekturen mit Commit, neue Messungen |
 | [`docs/BA-VERIFIKATIONSBERICHT.md`](docs/BA-VERIFIKATIONSBERICHT.md) | Überprüfung des Repositorys, Stand 02.08.2026, mit Nachtrag vom 24.09.2026 |
 | [`docs/BA-TESTLAUF-AUSWERTUNG.md`](docs/BA-TESTLAUF-AUSWERTUNG.md) | Auswertung der v2-Läufe über `mwevariety_fixed`, Stand 18.08.2026 vor dem Nachlauf; aktuelle Zahlen in `BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 |
-| [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen, Stand 18.08.2026; Vorprüfung, Entwurf und Plan liegen daneben (`BA-AP5-*.md`) |
+| [`docs/BA-AP5-ABSCHLUSSBERICHT.md`](docs/BA-AP5-ABSCHLUSSBERICHT.md) | AP5: Timeout ins Werkzeug durchreichen, Stand 18.08.2026; Vorprüfung und Entwurf liegen daneben (`BA-AP5-VORPRUEFUNG.md`, `BA-AP5-TIMEOUT-DESIGN.md`) |
 | [`docs/BA-AUFGABEN-UND-STATUS.md`](docs/BA-AUFGABEN-UND-STATUS.md) | Aufgaben und Status vom 02.08.2026, mit Nachtrag vom 21.09.2026 |
 | [`docs/BA-ARBEITSBERICHT-20260802.md`](docs/BA-ARBEITSBERICHT-20260802.md) | Arbeitsbericht vom 02.08.2026 |
 | [`docs/BA-DEMOLAUF-ERGEBNIS.md`](docs/BA-DEMOLAUF-ERGEBNIS.md) | Demonstrationslauf beider KI-Scanner vom 02.08.2026 |
 | [`docs/Update_Bericht.md`](docs/Update_Bericht.md) | Zwischenbericht zum Arbeitsstand vom 03.08.2026 |
-| [`docs/BA-Kontext-Stand-Juli-2026.md`](docs/BA-Kontext-Stand-Juli-2026.md) | Kontextpapier zum Projektstand Juli 2026 |
 
 Dokumentation und Auswertungen liegen ausschließlich als `.md`, `.json` und
 `.csv` vor. Die früheren `.tex`-, `.pdf`- und `.pptx`-Fassungen wurden nach

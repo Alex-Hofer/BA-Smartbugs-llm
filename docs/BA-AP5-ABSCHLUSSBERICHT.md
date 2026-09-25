@@ -17,8 +17,10 @@ Branch `ap5-timeout`, abgezweigt von `main` bei `f03fe98` · Stand: 2026-08-18
 > nicht dokumentiert.
 
 Zugehörige Dokumente: `BA-AP5-TIMEOUT-DESIGN.md` (Entwurf),
-`BA-AP5-TIMEOUT-PLAN.md` (Arbeitsplan), `BA-AP5-VORPRUEFUNG.md` (Vorprüfung),
-`BA-DURCHFUEHRUNGSPROTOKOLL.md` (Messläufe).
+`BA-AP5-VORPRUEFUNG.md` (Vorprüfung), `BA-DURCHFUEHRUNGSPROTOKOLL.md`
+(Messläufe). Der Schritt-für-Schritt-Arbeitsplan, nach dem die 14 Aufgaben
+umgesetzt wurden, ist am 25.09.2026 aus dem Repository entfernt worden; was er
+festlegte, steht in diesem Bericht und im Code.
 
 ---
 
