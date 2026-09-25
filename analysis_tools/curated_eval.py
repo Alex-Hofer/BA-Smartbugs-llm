@@ -233,7 +233,12 @@ def metrics(tasks, mapping):
         for cat in found:
             per_cat[cat]["flagged"] += 1
     out = {}
-    for cat, v in per_cat.items():
+    # Alphabetisch, nicht in Begegnungsreihenfolge: per_cat wird auch aus dem
+    # Set `found` befuellt, dessen Reihenfolge je Python-Prozess wechselt
+    # (Hash-Randomisierung). Ohne Sortierung unterscheiden sich zwei Laeufe
+    # des Skripts in der Reihenfolge der Kategorien in run_meta.json, obwohl
+    # alle Zahlen gleich sind.
+    for cat, v in sorted(per_cat.items()):
         rec = v["detected"] / v["contracts"] if v["contracts"] else None
         prec = v["detected"] / v["flagged"] if v["flagged"] else None
         f1 = (2 * prec * rec / (prec + rec)

@@ -107,10 +107,11 @@ Nachgewiesen ist die Mechanik in `BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5
 | Auswertung | `analysis_tools/`, `evaluate_curated.py`; Beschreibung in `eval/README.md` |
 | Timeout-Marken | `BA-AP5-TIMEOUT-DESIGN.md` 4.1 bis 4.4; Docker-Kill in `smartbugs/sb/docker.py` |
 
-## Für den Fließtext exportieren
+## Diagramme exportieren
 
-Das Repository enthält bewusst keine Bilddateien. Wer die Diagramme in die
-Arbeit übernehmen will, hat drei Wege, alle ohne Binärdatei hier:
+Das Repository enthält bewusst keine Bilddateien; die Diagramme werden aus den
+Mermaid-Blöcken gerendert. Wer sie als Bild braucht, etwa für einen Vortrag,
+hat drei Wege, alle ohne Binärdatei hier:
 
 1. **GitHub-Ansicht:** Die Datei im Browser öffnen; GitHub rendert die
    Mermaid-Blöcke. Ein Rechtsklick auf das Diagramm erlaubt „Bild speichern“
@@ -121,8 +122,7 @@ Arbeit übernehmen will, hat drei Wege, alle ohne Binärdatei hier:
    sind vektorbasiert und für LaTeX geeignet (`\includegraphics` für PDF,
    `svg`-Paket für SVG).
 3. **mermaid.live:** Den Codeblock in den Online-Editor einfügen und als SVG
-   oder PNG herunterladen; für die Arbeit reicht das, im Repository landet
-   nichts davon.
+   oder PNG herunterladen; im Repository landet nichts davon.
 
-Ändert sich die Kette, ist diese Datei nachzuführen; die Bilder in der Arbeit
-sind dann neu zu erzeugen.
+Ändert sich die Kette, ist diese Datei nachzuführen; exportierte Bilder sind
+dann neu zu erzeugen.

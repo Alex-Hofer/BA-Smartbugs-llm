@@ -5,9 +5,11 @@ Grundlage sind die Mitschriften aus dem Bachelorgespräch mit Betreuer
 ist* — nicht, wie es umgesetzt wird. Die Umsetzungsplanung folgt je Arbeitspaket
 separat.
 
-> **Status:** Entwurf. Die Arbeitspakete sind aus Stichworten rekonstruiert und
-> vor Arbeitsbeginn mit dem Betreuer abzugleichen. Offene Rückfragen stehen in
-> Abschnitt 2.
+> **Status:** Die Arbeitspakete sind aus den Stichworten der Mitschrift
+> rekonstruiert. Stand 25.09.2026 sind AP1, AP3, AP5 und AP6 erledigt; AP2,
+> AP4 und AP7 wurden nicht bearbeitet und bleiben offen; AP8 steht aus.
+> Offene Rückfragen stehen in Abschnitt 2, die Schätzung in Abschnitt 4 trägt
+> den Stand ihrer Erstellung.
 
 ---
 
@@ -386,7 +388,7 @@ berücksichtigt.
 | Parser-Audit und -Reparatur (inkl. Silent-Failure-Diagnose) | 30–40 |
 | Qualitätssicherung: Regressionstests, Verifikationsbericht, Errors/Fails-Report | 25–35 |
 | Sicherheit und Repo-Hygiene (Secret-Scan, Redaktion, Neugründung, Lizenzen) | 15–20 |
-| Dokumentation (~31.600 Wörter, Eigenanteil-Nachweis per Hash) | 45–60 |
+| Dokumentation (Stand dieser Schätzung: rund 31 600 Wörter; heutiger Umfang in 4.1) und Eigenanteil-Nachweis per Hash | 45–60 |
 | Betreuung, Abstimmung, Organisation | 8–12 |
 | **Summe** | **320–435** |
 

@@ -1,8 +1,16 @@
-# Benchmark dreier Smart-Contract-Scanner unter SmartBugs
+# KI-gestützte Smart-Contract-Scanner im SmartBugs-Framework
 
-Begleitrepository zur Bachelorarbeit. Untersucht wird, was zwei
-LLM-gestützte Analysewerkzeuge auf einem etablierten Benchmark leisten — gemessen
-gegen einen klassischen statischen Analysator als Referenz.
+Bachelorarbeit von Alex Hofer und Alex Unterleitner, TU Wien, Betreuer Gernot
+Salzer. **Dieses Repository ist die Abgabe.** Es enthält den Code, die
+Auswertungen der Messläufe und die Dokumentation; eine gesonderte schriftliche
+Ausarbeitung gibt es nicht.
+
+Untersucht wird, was zwei LLM-gestützte Analysewerkzeuge für Smart Contracts
+leisten, wenn man sie als reguläre Werkzeuge unter SmartBugs betreibt, gemessen
+an einem klassischen statischen Analysator als Referenz. Fragestellung,
+Vorgehen, Ergebnisse, Grenzen und Fazit in einem Stück stehen in
+**[`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md)**; dieses README ist der
+Wegweiser durch das Repository und die Anleitung zum Betrieb.
 
 | Werkzeug | Art | Rolle | Upstream |
 |---|---|---|---|
@@ -22,11 +30,81 @@ Datensatz ist [smartbugs-curated](https://github.com/smartbugs/smartbugs-curated
 rekonstruierter DeFi-Korpus mit 96 Contracts für GPTScans eigentliches
 Einsatzgebiet.
 
-Zur Wortwahl: Ein Werkzeug meldet **Findings** — Verdachtsfälle, keine
-festgestellten Fehler. Was ein Finding von einem `error` und einem `fail`
-unterscheidet, ist in
-[`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) aus dem
-SmartBugs-Code hergeleitet.
+## Ergebnisse in Kürze
+
+Stand 25.09.2026. Jede Zahl steht mit Quelle und Einschränkung in
+[`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md), Abschnitt 5, und in
+[`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md),
+Abschnitt 4; die Rohwerte in `eval/`.
+
+* **Auf `smartbugs-curated`** (143 Contracts, Ground Truth): LLMSmartAudit
+  Recall 97 %, Precision 30 %, F1 45 %; Slither 67 %, 45 %, 54 %; GPTScan 0 %
+  (6 Findings, keines themengerecht). LLMSmartAudit brauchte dafür $2,44 und
+  3 Stunden, GPTScan einen Cent und 3 Minuten, Slither nichts und 1,3 Minuten.
+* **Auf dem DeFi-Korpus** (96 Contracts, keine Ground Truth): GPTScan meldet
+  77 Findings auf 40 Contracts für $0,28. LLMSmartAudit analysierte nur 59 der
+  96 Contracts; 37 scheiterten an einer Kontextgrenze von 65 536 Token, die
+  sich als Konstante des Werkzeugs erwies, nicht als Grenze des Modells: mit
+  angehobener Grenze liefen alle 37 durch. Slither erreichte 95 von 96
+  Contracts mit 7 096 Findings, überwiegend Stilhinweise.
+* **Reproduzierbarkeit:** Zwischen zwei Läufen liefert GPTScan bei 74 % der
+  Contracts denselben Finding-Satz, LLMSmartAudit stimmt in 61 % der
+  (Contract, Detektor)-Paare überein; Slither ist deterministisch.
+* **Zwei Zahlen täuschen:** GPTScans 0 % ist kein Werkzeugbefund, der
+  Datensatz enthält keine DeFi-Logik. LLMSmartAudits 30 % Precision ist eine
+  Untergrenze: ein Label je Datei, und 468 seiner 1 124 Findings tragen keine
+  DASP-Nummer und fallen aus der Wertung.
+* **Integration:** Beide Scanner laufen als reguläre SmartBugs-Werkzeuge mit
+  Parser, Taxonomie, Timeout-Durchreichung und `MAIN`. SmartBugs fehlten dafür
+  die Weitergabe von Umgebungsvariablen in den Container und deren Redaktion
+  im Ergebnis; das sind die sieben markierten Eingriffe in `smartbugs/sb/`,
+  als zwei Pull Requests an das SmartBugs-Projekt vorbereitet.
+
+## Lesepfad
+
+| Wenn Sie wissen wollen … | lesen Sie |
+|---|---|
+| worum es geht, wie gemessen wurde, was herauskam und was das bedeutet | [`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md) |
+| wie die drei Werkzeuge arbeiten und wie sie im Detail abschneiden, mit Diskussion | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md), das Ergebnis- und Diskussionskapitel |
+| die Recall-, Precision- und F1-Tabellen je Kategorie, mit Basisrate und Intervall | [`eval/curated_v1_20260705__metriken.md`](eval/curated_v1_20260705__metriken.md) |
+| was aus einem einzelnen Lauf geschlossen werden darf und was nicht | die `README.md` im jeweiligen Ordner unter [`eval/`](eval/README.md) |
+| warum GPTScan auf `smartbugs-curated` 0 % erreicht und trotzdem brauchbar ist | [`docs/BA-GPTSCAN-VERGLEICH.md`](docs/BA-GPTSCAN-VERGLEICH.md) |
+| wie der DeFi-Korpus entstand und warum er repariert werden musste | [`docs/BA-KORPUS-REPARATUR.md`](docs/BA-KORPUS-REPARATUR.md) |
+| welcher Code eigen ist, welcher fremd, und jede Änderung an Fremdcode | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) |
+| wie die Messungen abliefen, mit Fehlern, Diagnosen und datierten Nachträgen | [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md) |
+| wie man einen Lauf selbst startet | dieses README ab „Voraussetzungen“, dann [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) und [`docs/BA-WERKZEUG-BEDIENUNG.md`](docs/BA-WERKZEUG-BEDIENUNG.md) |
+| wie geprüft wurde, dass Zahlen und Dokumente stimmen | [`docs/BA-VERIFIKATIONSBERICHT-20260924.md`](docs/BA-VERIFIKATIONSBERICHT-20260924.md) |
+| was ein Finding von einem `error` und einem `fail` unterscheidet | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) |
+| welche Arbeitspakete der Betreuer gestellt hat und welche erledigt sind | [`docs/BA-BETREUERGESPRAECH-AUFGABEN.md`](docs/BA-BETREUERGESPRAECH-AUFGABEN.md) |
+
+## Begriffe
+
+* **Finding:** ein Verdachtsfall, den ein Werkzeug meldet, kein festgestellter
+  Fehler. Was ein Finding von einem `error` (das Werkzeug hat ein Problem
+  bemerkt und weitergearbeitet) und einem `fail` (kein Ergebnis zustande
+  gekommen) unterscheidet, ist in
+  [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) aus dem
+  SmartBugs-Code hergeleitet.
+* **Task, Lauf, `runid`:** SmartBugs analysiert jeden Contract in einem eigenen
+  Container; das ist ein Task. Alle Tasks eines Aufrufs bilden einen Lauf mit
+  einer `runid`; seine Ergebnisse liegen unter
+  `smartbugs/results/<werkzeug>/<runid>/<contract>/`.
+* **DASP-Top-10, SWC:** zwei Klassifikationsschemata für
+  Smart-Contract-Schwachstellen. `smartbugs-curated` labelt nach DASP; die
+  `findings.yaml` jedes Werkzeugs ordnet jedem Finding-Namen eine SWC- und,
+  wo möglich, eine DASP-Klasse zu. Nur DASP-zugeordnete Findings gehen in
+  Recall und Precision ein.
+* **`MWE-200` bis `MWE-209`:** die zehn DeFi-Logik-Regeln GPTScans.
+* **`MAIN`:** SmartBugs-Parameter. Bei `MAIN=1` reduziert der Entrypoint die
+  Datei auf den Contract, nach dem sie benannt ist (Arbeitspaket AP6).
+* **Kontext-Contracts:** die 37 Contracts des DeFi-Korpus, bei denen
+  LLMSmartAudit im Hauptlauf die Kontextgrenze von 65 536 Token überschritt.
+* **Dry-Run, Smoke:** ein Dry-Run durchläuft die Pipeline ohne LLM-Aufruf
+  (nur GPTScan kann das); ein Smoke-Lauf ist eine Live-Stichprobe über wenige
+  Contracts.
+* **Wanduhr, Container-Zeit:** Wanduhr ist die Spanne vom ersten Task-Start
+  bis zum letzten Task-Ende; Container-Zeit die Summe der Laufzeiten aller
+  Container eines Laufs.
 
 ---
 
@@ -34,6 +112,7 @@ SmartBugs-Code hergeleitet.
 
 ```
 ├── .githooks/          versionierter pre-commit-Hook (Secret-Scan)
+├── .github/workflows/  CI: Testsuite und Secret-Scan bei jedem Push
 ├── analysis_tools/     Auswertungswerkzeuge (eigener Code)
 │   ├── parser_audit.py         prüft, ob Rohsignal im Parser verlorengeht
 │   ├── errors_fails_report.py  Errors/Fails je Lauf, als CSV und Markdown
@@ -60,11 +139,14 @@ SmartBugs-Code hergeleitet.
 │   └── results/                Messdaten — git-ignoriert, siehe unten
 ├── GPTScan/                    GPTScan (fremd, AGPL-3.0) mit Änderungen
 ├── LLMSmartAuditTool-main/     LLMSmartAudit (fremd, Apache-2.0) mit Änderungen
+├── smartbugs-curated/          der Benchmark-Datensatz — git-ignoriert, run_curated.ps1 klont ihn
 ├── run_curated.ps1             Massenlauf-Runner (curated, beide Werkzeuge)
 ├── run_full_v2.ps1             GPTScan-Volllauf über mwevariety_fixed, mit MAIN
 ├── run_full_v2_llmsa.ps1       LLMSmartAudit-Volllauf über beide Korpora
 ├── run_retry_llmsa.ps1         Nachlauf einzelner LLMSmartAudit-Contracts
 ├── evaluate_curated.py         Recall/Precision/F1 gegen die Ground Truth
+├── demolauf_satz*.sbd          Dateilisten des Demonstrationslaufs vom 02.08.2026 (docs/BA-DEMOLAUF-ERGEBNIS.md)
+├── requirements-dev.txt        Host-Abhängigkeiten für analysis_tools/, tests/, evaluate_curated.py
 └── LICENSE                     MIT für den Eigenanteil; Fremdlizenzen separat
 ```
 
@@ -618,13 +700,14 @@ Upstream-Stände per Hash abgeglichen.
 
 | Dokument | Inhalt |
 |---|---|
-| [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge und ihre Gegenüberstellung anhand der Messdaten |
+| [`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md) | Die Arbeit in einem Stück: Fragestellung, Daten, Vorgehen, Ergebnisse, Einordnung, Grenzen, Fazit, mit Verweisen auf die Belege |
+| [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge, Gegenüberstellung anhand der Messdaten und Einordnung: das Ergebnis- und Diskussionskapitel |
 | [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 10 bekannte Fallstricke |
 | [`docs/BA-WERKZEUG-BEDIENUNG.md`](docs/BA-WERKZEUG-BEDIENUNG.md) | Bedienung der beiden KI-Scanner Schritt für Schritt, Ist-Zustand |
 | [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md) | Eigenanteil und jede Änderung an Fremdcode, mit Begründung |
 | [`docs/BA-ERRORS-VS-FAILS.md`](docs/BA-ERRORS-VS-FAILS.md) | Herleitung der errors/fails-Semantik aus `smartbugs/sb/parse_utils.py` |
 | [`docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`](docs/BA-DURCHFUEHRUNGSPROTOKOLL.md) | Protokoll der Durchführung mit datierten Nachträgen |
-| [`docs/BA-WERKZEUGKETTE.md`](docs/BA-WERKZEUGKETTE.md) | Die Werkzeugkette und die Timeout-Mechanik als Mermaid-Diagramme, mit Exportweg für den Fließtext |
+| [`docs/BA-WERKZEUGKETTE.md`](docs/BA-WERKZEUGKETTE.md) | Die Werkzeugkette und die Timeout-Mechanik als Mermaid-Diagramme |
 | [`docs/BA-BETREUERGESPRAECH-AUFGABEN.md`](docs/BA-BETREUERGESPRAECH-AUFGABEN.md) | Arbeitspakete AP1–AP8 aus dem Betreuergespräch |
 | [`docs/BA-PARSER-AUDIT-LUECKEN.md`](docs/BA-PARSER-AUDIT-LUECKEN.md) | Ein Ausnahme-Defekt im Zusammenspiel von SmartBugs und LLMSmartAudit: Fund, Ursache, Behebung |
 | [`docs/BA-KORPUS-REPARATUR.md`](docs/BA-KORPUS-REPARATUR.md) | Rekonstruktion des mwevariety-Korpus |
