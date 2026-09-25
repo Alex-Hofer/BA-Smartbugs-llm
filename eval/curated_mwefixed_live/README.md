@@ -17,7 +17,7 @@ GPTScan auf seiner Zieldomäne nennen.
 | Modell | `deepseek/deepseek-v4-flash` |
 | Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
 | Parameter | `--timeout 1800`, MAIN nicht gesetzt (`'0'` im Entrypoint); Prozesszahl nicht protokolliert, der Lauf liegt vor der Einführung von `run_params.json` |
-| Durchführung | 21.07.2026, 12:39 bis 13:12 Uhr (36,7 min Wanduhr, 8 217,2 s Container-Zeit) |
+| Durchführung | 21.07.2026, 12:39 bis 13:16 Uhr (36,7 min Wanduhr, 8 217,2 s Container-Zeit) |
 | Rohergebnisse | `smartbugs/results/gptscan/curated_mwefixed_live/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 | Trockenlauf davor | `curated_mwefixed_dry` (96 Contracts, 0 API-Aufrufe, nur in `docs/errors-fails.md`) |
 

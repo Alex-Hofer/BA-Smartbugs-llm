@@ -236,8 +236,8 @@ Recall, Precision und F1 je DASP-Kategorie stehen in
 [`eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md),
 seit dem 24.09.2026 mit Basisrate und Wilson-Intervall (95 %) für den Recall.
 Sechs der zehn Kategorien haben acht oder weniger Contracts; ihre Intervalle
-sind breiter als 40 Prozentpunkte, ein Recall von 100 % bei vier Contracts
-heißt nur „zwischen 51 % und 100 %“.
+sind je nach Werkzeug zwischen 32 und 79 Prozentpunkte breit, ein Recall von
+100 % bei vier Contracts heißt nur „zwischen 51 % und 100 %“.
 
 **Drei Dinge fallen auf.**
 
@@ -307,8 +307,8 @@ auf 4 858 Informational, 112 Optimization, 1 254 Low, 748 Medium und
 124 High; die häufigsten Detektoren sind `too-many-digits` (2 020) und
 `naming-convention` (1 886), also Stilhinweise. Im Median meldet Slither 55
 Findings je analysiertem Contract (Spanne 0 bis 349), GPTScan auf denselben
-96 Contracts 0 bis 2. Ohne Ground Truth bleibt das ein Mengen-, kein
-Qualitätsvergleich.
+96 Contracts im Median 0 (Spanne 0 bis 6; im Lauf mit `MAIN` 0 bis 7). Ohne
+Ground Truth bleibt das ein Mengen-, kein Qualitätsvergleich.
 
 **Die 37 Kontext-Contracts mit angehobener Grenze** (Nachlauf
 `llmsa_mwefixed_v2_ctx1m`, 24.09.2026, `LLM_CONTEXT_TOKENS=1000000`, Image
@@ -386,6 +386,13 @@ mindestens ein Finding melden:
 > willkürlich — ein Contract ohne jedes Finding trägt zur Frage, wie stabil die
 > *Detektor-Auswahl* ist, nichts bei. Beide Zahlen stehen hier, damit die
 > Entscheidung nachvollziehbar bleibt.
+
+Schlüssel des Vergleichs ist `contract_id`; die in curated doppelt geführte
+Datei `0x627fa62…` zählt damit einmal. Mit dem eindeutigen Schlüssel
+(`label_dir`, `contract_id`) ergeben sich 810 gemeinsame Paare, 61,2 % und
+60,4 % sowie identische Detektor-Sätze bei 7 von 142 Contracts (nachgerechnet
+am 25.09.2026 aus den beiden `findings.jsonl`); an der Aussage ändert das
+nichts.
 
 Das ist deutlich instabiler als GPTScan. Dort stimmten 74 % der Contracts im
 Finding-Satz überein, hier 5 %. Der Grund liegt in der Finding-Dichte: Bei

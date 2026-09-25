@@ -373,9 +373,9 @@ Abschnitte 4.2 und 4.3).
   bei `MAIN=1` reduziert `main_contract.py` die Datei auf den Contract, nach
   dem sie benannt ist ([`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md), AP6).
 - **Auswertungsskripte** unter `analysis_tools/`, `evaluate_curated.py`, die
-  Runner, ein lokaler LLM-Prüfstand für kostenlose Tests und 275
+  Runner, ein lokaler LLM-Prüfstand für kostenlose Tests und 276
   Regressionstests, die ohne Docker und Schlüssel gegen aufgezeichnete Rohdaten
-  laufen und bei jedem Push ausgeführt werden; insgesamt 15 857 Zeilen eigener
+  laufen und bei jedem Push ausgeführt werden; insgesamt 15 907 Zeilen eigener
   Code ([`../tests/README.md`](../tests/README.md);
   [`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md),
   Abschnitt 4.1).
@@ -412,9 +412,9 @@ Slither steht seit dem 20.09.2026 bei 67 / 45 / 54; ältere Dokumente nennen
 Zusatz-Mapping ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md),
 Nachtrag 4.6).
 
-Je Kategorie: LLMSmartAudit erreicht 100 % Recall in acht der zehn Kategorien;
-die zwei verfehlten, `other` und `short_addresses`, haben unter den 41
-Detektoren kein Gegenstück. Seine Precision reicht von 79 % bei
+Je Kategorie: LLMSmartAudit erreicht 100 % Recall in sieben der zehn
+Kategorien und 88 % bei `bad_randomness` (7 von 8); die zwei verfehlten,
+`other` und `short_addresses`, haben unter den 41 Detektoren kein Gegenstück. Seine Precision reicht von 79 % bei
 `unchecked_low_level_calls` (Basisrate 36 %) bis 8 % bei `denial_of_service`
 (Basisrate 4 %). Slither ist bei `reentrancy` (Recall 94 %, Precision 74 %)
 und `unchecked_low_level_calls` (98 %, 58 %) stark und hat bei `arithmetic`
@@ -422,8 +422,9 @@ und `front_running` keine passenden Detektoren (0 %). GPTScan löste auf 16 der
 143 Contracts überhaupt einen LLM-Aufruf aus; seine 6 Findings, alle zur Regel
 `MWE-207` (Unauthorized Transfer), liegen auf Contracts mit anderem
 Primärlabel. Sechs der zehn Kategorien haben
-acht oder weniger Contracts; ihre Recall-Intervalle sind breiter als 40
-Prozentpunkte ([`../eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md)).
+acht oder weniger Contracts; ihre Recall-Intervalle sind je nach Werkzeug
+zwischen 32 und 79 Prozentpunkte breit
+([`../eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md)).
 
 Ausfälle: Slither stürzte in 3 von 143 Tasks im IR-Generator ab (`fails`);
 GPTScan meldete in 2 Tasks `errors`; LLMSmartAudit lief ohne `error` und `fail`
@@ -450,7 +451,7 @@ Quelle: `eval/curated_mwefixed_live/run_meta.json`,
 | LLM-Aufrufe | 1 614 | 1 518 | 2 624 | 0 | 1 625 |
 | Kosten | $0,2769 | $0,3638 | ≈ $8,37 (geschätzt) | $0 | $5,55 abgebucht ($11,42 geschätzt) |
 | Container-Zeit gesamt | 8 217 s | 11 772 s | 90 206 s | 647 s | 35 028 s |
-| Wanduhr | 36,7 min | 50,9 min | nicht ausgewiesen (Hauptlauf und Nachlauf an verschiedenen Tagen) | 2,8 min | 5,0 h in zwei Teilen |
+| Wanduhr | 36,7 min | 50,9 min (Hauptlauf; mit dem Nachlauf `_nomain` 53,5 min) | nicht ausgewiesen (Hauptlauf und Nachlauf an verschiedenen Tagen) | 2,8 min | 5,0 h in zwei Teilen |
 
 **GPTScan** liefert auf seiner Zieldomäne 77 Findings aus acht seiner zehn
 Regeln, 44 davon `MWE-200` (Insecure LP Token Value Calculation), für 28 Cent
@@ -551,7 +552,7 @@ Beide LLM-Werkzeuge sind nicht deterministisch, auch bei `temperature=0`:
 |---|---|---|
 | GPTScan | 27 Contracts, zwei Läufe über den unreparierten Korpus, also im degradierten Modus ohne statische Stufe | 20 von 27 (74 %) mit identischem Finding-Satz |
 | GPTScan | 96 Contracts des reparierten Korpus, `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` | 58 von 77 Referenz-Findings reproduziert (75,3 %); vermischt mit dem Effekt von `MAIN` |
-| LLMSmartAudit | 143 Contracts, `curated_v1_20260705` gegen `llmsa_curated_v2` | 805 gemeinsame (Contract, Detektor)-Paare; Jaccard 61,4 % über die 141 Contracts mit Findings in beiden Läufen, 60,5 % über die 142 mit Findings in mindestens einem (der Unterschied ist der Contract, der im zweiten Lauf am Kontextfenster scheiterte); identischer Detektor-Satz bei 7 von 141 |
+| LLMSmartAudit | 143 Contracts, `curated_v1_20260705` gegen `llmsa_curated_v2`, Schlüssel `contract_id` | 805 gemeinsame (Contract, Detektor)-Paare; Jaccard 61,4 % über die 141 Contracts mit Findings in beiden Läufen, 60,5 % über die 142 mit Findings in mindestens einem (der Unterschied ist der Contract, der im zweiten Lauf am Kontextfenster scheiterte); identischer Detektor-Satz bei 7 von 141 |
 | Slither | 51 Contracts in `slither_mwefixed_v1` und `_v2` | identisch; deterministisch |
 
 Quellen: [`BA-GPTSCAN-VERGLEICH.md`](BA-GPTSCAN-VERGLEICH.md), Abschnitt 4;

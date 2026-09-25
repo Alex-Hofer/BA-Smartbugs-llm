@@ -11,7 +11,7 @@ anders vermerkt.
 | `DEEPSEEK_API_KEY` | beide KI-Scanner | **ja** | Wird von `run_curated.ps1` aus `GPTScan/.env` gelesen und in die Prozessumgebung gesetzt. Der gepatchte `sb/docker.py` reicht ihn in den Container durch und redigiert ihn anschließend im Task-Log. |
 | `LLM_MODEL` | LLMSmartAudit | **ja** | Muss auf `deepseek-v4-flash` stehen. Siehe Fallstrick 2. |
 | `LLM_PROVIDER` | LLMSmartAudit | nein | Default `deepseek`. |
-| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | nein | `65536` als Versicherung gegen `context_length_exceeded`. |
+| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | nein | `65536`. Setzt das Completion-Budget für Modell-IDs ohne Eintrag in `num_max_token_map`. Die Agentengrenze des Werkzeugs war bis zum 24.09.2026 davon unabhängig fest 65 536 (Ursache der 37 Kontextabbrüche); seitdem hebt die Variable auch sie an, sofern das Image nach diesem Datum gebaut wurde (README, „Modell wählen und wechseln“). |
 | `LLM_BASE_URL` | LLMSmartAudit | nein | Nur für `LLM_PROVIDER=custom`. |
 | `GPTSCAN_PROVIDER` | GPTScan | nein | Default `deepseek`. |
 | `GPTSCAN_MODEL` | GPTScan | nein | Default `deepseek-v4-flash` (der „cheap"-Tier des Providers). |
@@ -61,7 +61,7 @@ Belegte Paare:
 |---|---:|---:|---|
 | `curated_v1_20260705` LLMSmartAudit | 2,44 USD | 2,44 USD | Sätze aus genau diesem Lauf zurückgerechnet, kein unabhängiger Beleg |
 | `llmsa_mwefixed_v2` (+ Nachlauf) | ≈ 8,37 USD | nicht erfasst | Kontostand vor/nach damals nicht protokolliert |
-| `llmsa_mwefixed_v2_ctx1m` | 11,42 USD | 5,55 USD | Kontostand 14,31 → 8,14 USD am 24.09.2026, abzüglich der Anteile abgebrochener Läufe; Faktor 2,06 |
+| `llmsa_mwefixed_v2_ctx1m` | 11,42 USD | 5,55 USD | Kontostand 14,31 → 8,14 USD am 24.09.2026, abzüglich 0,62 USD für zwei abgebrochene Läufe (`BA-VERIFIKATIONSBERICHT-20260924.md` 4.3; der Nachlauf selbst begann bei 13,69 USD); Faktor 2,06 |
 
 Die Sätze bleiben, wie sie sind: Der Kostendeckel der Runner arbeitet auf der
 Schätzung und soll zu früh greifen, nie zu spät. Seit dem 24.09.2026 fragen
@@ -250,6 +250,11 @@ dort keinen Treffer; sie dauert allerdings rund 10 Sekunden, weshalb die Grenze
 für den Hook-Betrieb bestehen bleibt.
 
 ## 8. Timeout-Verhalten und Prüfstand (AP5)
+
+Dieser Abschnitt nennt die Betriebsregeln (Marken, Kennzeichnung eines
+Teilergebnisses, Prüfstand ohne Kosten). Die Bedienung Schritt für Schritt,
+mit Aufrufen und Beispielausgaben, steht in `BA-WERKZEUG-BEDIENUNG.md`,
+Abschnitt 8; beide Abschnitte beschreiben denselben Mechanismus.
 
 **Ausgangslage.** Keines der beiden Werkzeuge bringt einen Timeout für den
 gesamten Lauf mit — GPTScan kennt nur eine Frist je einzelnem LLM-Aufruf,

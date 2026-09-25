@@ -105,7 +105,7 @@ Finding-Dichte: Ø 7,9/Contract (Median 7, Max 18); **kein Contract blieb ohne F
 - **Keine Rate-Limits** über ~6 640 DeepSeek-API-Calls gesamt (6 174 LLMSA-curated + 129 LLMSA-Smoke + 257 + 72 + 9 GPTScan); keine Retries nötig (LLMSA nutzt tenacity-Backoff, GPTScan fixe 30-s-Retries — beides wurde nie ausgelöst).
 - Validierte Parameter: `--processes 4`; Timeouts 1 800 s (GPTScan) / 5 400 s (LLMSA); Läufe sequenziell; `LLM_CONTEXT_TOKENS=65536` als Versicherung.
 - **Kosten der hier protokollierten Läufe (05./06.07.2026): ≈ $2.55** (Smoke $0.06 + curated GPTScan $0.01 + curated LLMSA $2.44 + mwevariety $0.05); Slither $0. Alle Kostenwerte aus den Token-Zahlen der Logs bzw. GPTScans eigenem Kosten-Estimator nachgerechnet.
-  > **Nicht die Gesamtsumme der Arbeit.** Eine frühere Fassung führte diese Zahl als „Gesamtkosten aller Experimente". Hinzu kommen vor allem die beiden LLMSmartAudit-Volläufe vom 15./16.08.2026 mit ≈ $13,16 (Runner-Schätzung) bzw. $5,16 + $8,37 = $13,53 (Schätzung aus den `run_meta.json`; die Differenz erklärt `eval/_runlogs/README.md` aus unterschiedlichen Preisannahmen). Die Gesamtkosten liegen damit in der Größenordnung von **rund $16**, nicht $2,55.
+  > **Nicht die Gesamtsumme der Arbeit.** Eine frühere Fassung führte diese Zahl als „Gesamtkosten aller Experimente". Hinzu kommen vor allem die beiden LLMSmartAudit-Volläufe vom 15./16.08.2026 mit ≈ $13,16 (Runner-Schätzung) bzw. $5,16 + $8,37 = $13,53 (Schätzung aus den `run_meta.json`; die Differenz erklärt `eval/_runlogs/README.md` aus unterschiedlichen Preisannahmen). Die Gesamtkosten liegen damit in der Größenordnung von **rund $16**, nicht $2,55. *(Stand 18.08.2026; mit dem Nachlauf über die 37 Kontext-Contracts und den abgebrochenen Läufen vom 24.09.2026 summieren sich die dokumentierten Posten auf rund 23 USD, `BA-ARBEIT.md` 5.3.)*
 
 ### 4.5 AP5 — Nachweis des Timeout-Verhaltens (18.08.2026)
 
@@ -257,7 +257,7 @@ rechnen mit den aus `curated_v1_20260705` zurückgerechneten Sätzen,
 GPTScans Budget-Wächter (`MAX_COST_USD = 0.5` je Contract) wurde nicht
 ausgelöst (`budget_exceeded = null`).
 
-Ergebnisbäume (lokal, git-ignoriert), keine Altmessung berührt:
+Ergebnisbäume (je Task `result.json` und `smartbugs.json` seit dem 25.09.2026 versioniert, Logs und Archive im Release-Zip), keine Altmessung berührt:
 `smartbugs/results/{gptscan,llmsmartaudit}/ap5_{free_brake,free_net,free_notimeout,live_full,live_partial}/`;
 die Wiederholungsläufe aus 4.5.6 unter
 `ap5_{verify_brake,verify_net,verify_notimeout,verify2_full,verify2_part}/`.
@@ -504,7 +504,7 @@ unverändert stehen, der Nachlauf wird nicht eingemischt. Auswertung in
 |---|---|
 | Massentest-Skript | `run_curated.ps1` (Repo-Root; Prechecks, sequenzielle Läufe, Manifeste, Kosten-Summe) |
 | Auswertung | `evaluate_curated.py` (Recall/Precision/F1 pro DASP-Kategorie, Detail-CSV) |
-| Ergebnisse | `smartbugs/results/{gptscan,llmsmartaudit,slither-0.11.3}/curated_v1_20260705/` · `smartbugs/results/gptscan/curated_mwe_20260706/` (lokal, git-ignoriert) |
+| Ergebnisse | `smartbugs/results/{gptscan,llmsmartaudit,slither-0.11.3}/curated_v1_20260705/` · `smartbugs/results/gptscan/curated_mwe_20260706/` (je Task `result.json` und `smartbugs.json` versioniert, Logs und Archive im Release-Zip, `README.md` „Wo die Ergebnisse liegen“) |
 | Manifeste/CSVs | `smartbugs/results/curated_*_v1_20260705.csv` · `evaluation_curated_v1_20260705.csv` · `curated_results.csv` |
 | Tool-Integration | `smartbugs/tools/{gptscan,llmsmartaudit}/{config.yaml,findings.yaml,parser.py,scripts/}` |
 

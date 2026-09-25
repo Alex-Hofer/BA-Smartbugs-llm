@@ -167,17 +167,26 @@ Abschnitt 4; die Rohwerte in `eval/`.
 `smartbugs/results/` enthält je Task vier Dateien. Zwei davon sind seit dem
 25.09.2026 **versioniert**: `result.json` (die geparsten Findings, Errors und
 Fails) und `smartbugs.json` (Aufrufparameter, Image, Zeiten), zusammen
-3 002 Dateien und 16 MB. Aus ihnen entstehen alle Zahlen unter `eval/`; ein
-frischer Klon kann `curated_eval.py`, `build_eval.py`, `gptscan_eval.py` und
-`per_contract_stats.py` damit ausführen. Nicht im Git sind `result.log`,
-`result.tar`, die SARIF-Dateien und die Konsolenprotokolle unter
-`results/logs/` (zusammen 2,5 GB, `smartbugs/.gitignore`); sie braucht nur, wer
-neu parsen (`sb.reparse`), das Parser-Audit wiederholen oder Token und Kosten
-aus den Logs nachrechnen will.
+3 002 Dateien und 16 MB. Aus ihnen entstehen Findings, Zustände, Recall und
+Precision unter `eval/`; ein frischer Klon kann `curated_eval.py`,
+`build_eval.py`, `gptscan_eval.py` und `per_contract_stats.py` damit
+ausführen. Nicht im Git sind `result.log`, `result.tar`, die SARIF-Dateien und
+die Konsolenprotokolle unter `results/logs/` (zusammen 2,66 GB, das sind
+2,48 GiB; `smartbugs/.gitignore`). Sie braucht, wer neu parsen (`sb.reparse`)
+oder das Parser-Audit wiederholen will, und sie braucht auch, wer die
+Auswertungen vollständig reproduzieren will: Token, Kosten, LLM-Aufrufe,
+Anbieter und Modell sowie die `MAIN`-Herkunft lesen die Generatoren aus
+`result.log`; ohne die Logs stehen diese Felder auf 0 oder leer, während
+Findings, Zustände, Recall und Precision unverändert herauskommen (am
+25.09.2026 in einem frischen Klon nachvollzogen). `curated_eval.py` und
+`evaluate_curated.py` brauchen zusätzlich den Datensatz `smartbugs-curated`
+auf dem Stand `230e649`; ohne Docker holt ihn
+`git clone https://github.com/smartbugs/smartbugs-curated` gefolgt von
+`git -C smartbugs-curated checkout 230e649`.
 
 **Die vollständigen Rohdaten** liegen als Zip an einem GitHub-Release dieses
 Repositorys: [Release `rohdaten-20260925`](https://github.com/Alex-Hofer/BA-Smartbugs-llm/releases/tag/rohdaten-20260925),
-Datei `smartbugs-results-20260925.zip`, 360 MB, SHA-256
+Datei `smartbugs-results-20260925.zip`, 360 MiB (377 491 386 Byte), SHA-256
 `03528a36ef7f41e2917a246ba37641ae47c86d40ddc3ae699c7dc0def7ea9b92`. Entpackt
 nach `smartbugs/` ergibt sie das Verzeichnis `results/` mit allen 7 494
 Dateien; API-Schlüssel sind darin redigiert (Prüfung mit den Mustern von
@@ -230,7 +239,7 @@ Die aggregierten Auswertungen sind versioniert:
 * [`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md) — alle 50 Laufverzeichnisse mit Korpus, Datum, Zweck und Auswertungsort
 * [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für neun Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
 * [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut
-* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Lückenbericht der Parser über alle Läufe
+* [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Lückenbericht der Parser über alle Läufe; [`docs/parser-audit-vorher.md`](docs/parser-audit-vorher.md) ist derselbe Bericht vor der Parser-Reparatur (Stand 02.08.2026, 930 Tasks)
 * [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
 
 ### Die beiden CSVs im Wurzelverzeichnis
@@ -295,7 +304,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 275 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 276 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -322,7 +331,7 @@ Linux-Basis (Debian statt Alpine) und installiert dieselbe Version mit
 `pip install slither-analyzer==0.11.3`.
 
 > Am 21.09.2026 nachgeprüft, nicht bloß behauptet: Unter `/opt/gptscan/src/`
-> im Image liegen alle sieben geänderten Dateien — `tasks.py`, `config.py`,
+> im Image liegen die fünf geänderten Quelldateien — `tasks.py`, `config.py`,
 > `chatgpt_api.py`, `analyze_pipeline.py`, `rich_utils.py` — sowie die beiden
 > eigenen, `llm_backend.py` und `report_md.py`, jede **byte-identisch** zum
 > Stand in diesem Repository. Das Image trägt also tatsächlich modifizierten
@@ -666,7 +675,7 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-275 Tests (Stand 25.09.2026): Regressionstests für beide Tool-Parser, das
+276 Tests (Stand 25.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
 (AP6), den lokalen LLM-Prüfstand, die Auswertungsskripte `build_eval.py`,
 `per_contract_stats.py`, `curated_eval.py`, `evaluate_curated.py`,
@@ -713,7 +722,8 @@ er namentlich, statt es stillschweigend zu überspringen.
 27.662 Dateien, 3,7 GB. Zur Laufzeit nirgends referenziert: der Entrypoint
 startet `run.py --config SmartContractTA` aus `/app`. Das Docker-Image schrumpft
 dadurch von 5,13 GB auf 587 MB, und das Repository bleibt handhabbar (Pack
-66 MB statt 461,50 MiB). Das Verzeichnis enthält die Evaluationsdaten der
+rund 71 MiB am 25.09.2026, einschließlich der seit diesem Tag versionierten
+Rohdaten, statt 461,50 MiB). Das Verzeichnis enthält die Evaluationsdaten der
 ursprünglichen Veröffentlichung und wird für diese Arbeit nicht gebraucht — die
 eigenen Messungen liegen unter `smartbugs/results/`.
 **Extern gesichert** unter
