@@ -1,7 +1,7 @@
 {
  "run_id": "curated_v1_20260705",
  "tool": "llmsmartaudit",
- "generated": "2026-09-24T13:06:08+00:00",
+ "generated": "2026-09-25T08:44:40+00:00",
  "generated_by": "analysis_tools/curated_eval.py",
  "smartbugs_version": "2.1.1",
  "results_dir": "smartbugs/results/llmsmartaudit/curated_v1_20260705",
@@ -65,17 +65,17 @@
     1.0
    ]
   },
-  "reentrancy": {
-   "contracts": 31,
-   "detected": 31,
-   "flagged": 72,
-   "recall": 1.0,
-   "precision": 0.4305555555555556,
-   "f1": 0.6019417475728156,
-   "prevalence": 0.21678321678321677,
+  "bad_randomness": {
+   "contracts": 8,
+   "detected": 7,
+   "flagged": 16,
+   "recall": 0.875,
+   "precision": 0.4375,
+   "f1": 0.5833333333333334,
+   "prevalence": 0.055944055944055944,
    "recall_ci95": [
-    0.89,
-    1.0
+    0.529,
+    0.978
    ]
   },
   "denial_of_service": {
@@ -104,6 +104,45 @@
     1.0
    ]
   },
+  "other": {
+   "contracts": 3,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null,
+   "prevalence": 0.02097902097902098,
+   "recall_ci95": [
+    0.0,
+    0.562
+   ]
+  },
+  "reentrancy": {
+   "contracts": 31,
+   "detected": 31,
+   "flagged": 72,
+   "recall": 1.0,
+   "precision": 0.4305555555555556,
+   "f1": 0.6019417475728156,
+   "prevalence": 0.21678321678321677,
+   "recall_ci95": [
+    0.89,
+    1.0
+   ]
+  },
+  "short_addresses": {
+   "contracts": 1,
+   "detected": 0,
+   "flagged": 0,
+   "recall": 0.0,
+   "precision": null,
+   "f1": null,
+   "prevalence": 0.006993006993006993,
+   "recall_ci95": [
+    0.0,
+    0.793
+   ]
+  },
   "time_manipulation": {
    "contracts": 5,
    "detected": 5,
@@ -128,45 +167,6 @@
    "recall_ci95": [
     0.931,
     1.0
-   ]
-  },
-  "bad_randomness": {
-   "contracts": 8,
-   "detected": 7,
-   "flagged": 16,
-   "recall": 0.875,
-   "precision": 0.4375,
-   "f1": 0.5833333333333334,
-   "prevalence": 0.055944055944055944,
-   "recall_ci95": [
-    0.529,
-    0.978
-   ]
-  },
-  "other": {
-   "contracts": 3,
-   "detected": 0,
-   "flagged": 0,
-   "recall": 0.0,
-   "precision": null,
-   "f1": null,
-   "prevalence": 0.02097902097902098,
-   "recall_ci95": [
-    0.0,
-    0.562
-   ]
-  },
-  "short_addresses": {
-   "contracts": 1,
-   "detected": 0,
-   "flagged": 0,
-   "recall": 0.0,
-   "precision": null,
-   "f1": null,
-   "prevalence": 0.006993006993006993,
-   "recall_ci95": [
-    0.0,
-    0.793
    ]
   },
   "GESAMT": {
