@@ -121,5 +121,10 @@ corpus_tools/
   vendor/               nachgeladene npm-Pakete (git-ignoriert)
   make_main_corpus.py   Kopie des Korpus mit Hauptcontract-Namen für SmartBugs' --main
                         (Zielordner mwevariety_fixed_main/, git-ignoriert, seit 24.09.2026)
+  analyze_run.py        aggregiert einen GPTScan-Lauf über den Korpus (Stufen des
+                        Vorfilters, Findings je Regel) nach <lauf>.analysis.json
+  curated_mwefixed_live.analysis.json
+                        diese Aggregation für den Referenzlauf vom 21.07.2026
+                        (Einzel-Findings des Laufs: eval/curated_mwefixed_live/)
 smartbugs/samples/gptscan/mwevariety_fixed/   96 selbstständige .sol
 ```

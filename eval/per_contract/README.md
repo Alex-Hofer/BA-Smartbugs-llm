@@ -10,7 +10,8 @@ am 2026-09-16.
 > Parser und Entrypoints bleiben unverändert, und eine Instrumentierung der
 > Werkzeuge wird nicht verfolgt.
 >
-> **Verlässlich sind die Werte für die sechs Läufe unten.** Auf andere Läufe
+> **Verlässlich sind die Werte für die neun Läufe (zwölf Dateien) unten**, mit
+> der bei `llmsa_mwefixed_v2` genannten Einschränkung. Auf andere Läufe
 > angewendet liefert das Skript in seiner jetzigen Form an bestimmten Stellen
 > irreführende Werte — siehe „Bekannte Einschränkungen". **Insbesondere die
 > LLMSmartAudit-v2-Läufe nicht damit auswerten**, sondern deren Gesamtzahlen aus
@@ -35,16 +36,20 @@ gemacht.
 | `gptscan_mwefixed_v2_main__gptscan.csv` | GPTScan über `mwevariety_fixed`, MAIN=1, mit eingemischtem Nachlauf `_nomain` | 96 |
 | `slither_mwefixed_v1__slither-0.11.3.csv` | Slither über `mwevariety_fixed` (24.09.2026, Upstream-Image); 45 Contracts ohne Ergebnis, Ursache in `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
 | `slither_mwefixed_v2__slither-0.11.3-glibc.csv` | Slither über `mwevariety_fixed` (24.09.2026, eigenes glibc-Image); 95 von 96 analysiert, der Rest ein Compilerfehler, siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.2 | 96 |
+| `llmsa_mwefixed_v2__llmsmartaudit.csv` | LLMSmartAudit über `mwevariety_fixed` (16.08.2026) mit eingemischtem Nachlauf `llmsa_mwefixed_v2_retry` (15.09.2026). **Vorbehalt:** Bei den 37 am Kontextfenster abgebrochenen Contracts bleiben `prompt_tokens`, `completion_tokens` und `cost_usd_est` leer (Einschränkung 1); Zustand, Findings, Aufrufe und Laufzeit sind vollständig. Die Summen treffen `eval/llmsa_mwefixed_v2/run_meta.json` (437 Findings, 2 624 Aufrufe, 90 206 s); die Kostensumme der 59 durchgelaufenen Contracts ist 8,10 USD gegen 8,37 USD für alle 96 | 96 |
+| `llmsa_mwefixed_v2__llmsmartaudit__phases.csv` | dieselbe Messung, je Detektor-Phase | 2 661 |
+| `llmsa_mwefixed_v2_ctx1m__llmsmartaudit.csv` | LLMSmartAudit über die 37 Kontext-Contracts mit angehobener Grenze (24.09.2026); kein Abbruch, alle Spalten gefüllt; Summen treffen `eval/llmsa_mwefixed_v2_ctx1m/run_meta.json` (317 Findings, 1 625 Aufrufe, 35 028 s, 11,42 USD geschätzt) | 37 |
+| `llmsa_mwefixed_v2_ctx1m__llmsmartaudit__phases.csv` | dieselbe Messung, je Detektor-Phase | 1 625 |
 
-Die beiden LLMSmartAudit-v2-Läufe (`llmsa_curated_v2`, `llmsa_mwefixed_v2`)
-fehlen hier. Die Rohergebnisse von `llmsa_curated_v2` existieren seit dem
-24.09.2026 nirgends mehr (bis dahin auf dem Rechner des zweiten Verfassers,
-siehe Runlog `eval/_runlogs/llmsa_full_20260815-181854.log`); die von
-`llmsa_mwefixed_v2` sind seit dem 20.09.2026 hier. **Auch wenn sie vorliegen, taugt das Skript für
-sie nicht:** In `llmsa_mwefixed_v2` brachen 37 Contracts am Kontextfenster ab,
-und für abgebrochene Tasks bleiben die Token- und Kostenzellen leer
-(Einschränkung 1). Für diese Läufe gelten die Gesamtzahlen in
-`eval/llmsa_*_v2/run_meta.json`.
+`llmsa_curated_v2` fehlt hier und wird fehlen: Seine Rohergebnisse existieren
+seit dem 24.09.2026 nirgends mehr (bis dahin auf dem Rechner des zweiten
+Verfassers, siehe Runlog `eval/_runlogs/llmsa_full_20260815-181854.log`).
+`llmsa_mwefixed_v2` (Rohdaten seit dem 20.09.2026 hier) und der Nachlauf
+`llmsa_mwefixed_v2_ctx1m` sind seit dem 25.09.2026 aufgenommen; bei den 37
+im Hauptlauf am Kontextfenster abgebrochenen Contracts bleiben die Token- und
+Kostenzellen leer (Einschränkung 1), und das Skript meldet diese 37 beim
+Erzeugen als „Phasenmarker ≠ Usage-Blöcke“. Für Kosten- und Token-Summen
+dieses Laufs gelten die Werte in `eval/llmsa_mwefixed_v2/run_meta.json`.
 
 ## Woher jede Spalte kommt
 
@@ -86,7 +91,7 @@ einem festgelegten Muster.
 | `llm_calls` | Zahl der Usage-Blöcke (`prompt_tokens: …` / `completion_tokens: …`) |
 | `phases`, `calls_match_phases` | Zahl der Phasenmarker und die Prüfung, ob zu jeder Phase ein Aufruf gehört |
 | `max_prompt_est` | größter Wert aus `num_prompt_tokens (before adjustment)` — die Auslastung je Aufruf |
-| `context_limit` | `num_max_token` (bei DeepSeek fest 65 536, `LLM_CONTEXT_TOKENS` hebt das nicht an) |
+| `context_limit` | `num_max_token` (bei DeepSeek fest 65 536 in allen Läufen bis zum 24.09.2026; `LLM_CONTEXT_TOKENS` hob das damals nicht an, seit dem Image vom 24.09.2026 tut es das, `README.md`, Tabelle der Variablen) |
 | `categories_checked` | aus `result.json` („categories checked: n/41") |
 | `cost_usd_est` | **Hochrechnung**, nicht abgelesen: Preise aus `build_eval.py` (dort aus `curated_v1` zurückgerechnet). Das Werkzeug meldet $0,0000. Maßgeblich bleibt die DeepSeek-Rechnung |
 | `sb_timeout_stage` | gedacht für `brake` oder `net` aus dem AP5-Marker — **derzeit immer leer**, siehe Einschränkung 3 |
@@ -163,8 +168,9 @@ sich erstmals sagen, welche Phasen die Kosten treiben. Die Phasentabelle enthäl
 
 ## Bekannte Einschränkungen
 
-Gefunden bei einer unabhängigen Prüfung am 2026-09-16. **Auf die Werte der sechs
-Tabellen oben wirken sie sich nicht aus:** Keiner dieser Läufe wurde per Timeout
+Gefunden bei einer unabhängigen Prüfung am 2026-09-16. **Auf die Werte der zwölf
+Dateien oben wirken sie sich nicht aus**, mit der oben genannten Ausnahme
+der leeren Token- und Kostenzellen in `llmsa_mwefixed_v2`:** Keiner dieser Läufe wurde per Timeout
 abgebrochen, keiner lief gegen den lokalen Prüfstand, und die drei im
 GPTScan-Nachlauf ersetzten Tasks (`31_veCVXStrategy`, `62_Locke`,
 `8_NFTXEligiblityManager`) scheiterten mit Exit-Code 127 an der MAIN-Prüfung der

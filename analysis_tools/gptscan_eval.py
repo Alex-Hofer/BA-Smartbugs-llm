@@ -143,6 +143,8 @@ def function_spans(src: str) -> list[tuple[int, int, str]]:
             nl.append(i + 1)
 
     def line_of(pos: int) -> int:
+        """Zeilennummer (ab 1) zur Zeichenposition *pos*, per Binaersuche
+        ueber die Zeilenanfaenge in ``nl``."""
         lo, hi = 0, len(nl) - 1
         while lo < hi:
             mid = (lo + hi + 1) // 2
@@ -213,6 +215,8 @@ def analysed_source(contract_file: pathlib.Path, meta: dict, main: bool,
 # --------------------------------------------------------------------------- #
 
 def meta_of(log: pathlib.Path) -> dict:
+    """Die letzte GPTSCAN_META-Zeile eines result.log als dict; {} ohne Zeile
+    oder ohne Datei."""
     m = {}
     try:
         for line in log.read_text(encoding="utf-8", errors="replace").splitlines():
@@ -302,6 +306,12 @@ def read_run(rundir: pathlib.Path, tax: dict, python: str, run_id: str) -> list[
 
 
 def finding_rows(tasks: list[dict], tax: dict) -> list[dict]:
+    """Eine Zeile je Finding aller Tasks, mit den Feldern von findings.jsonl.
+
+    Klassifikation aus *tax*, code/recommendation aus GPTScans Rohbefund an
+    derselben Position, die Funktion heuristisch aus den Funktionsspannen des
+    Tasks (leer, wo keine Spanne die Zeile umschliesst).
+    """
     rows = []
     for t in tasks:
         meta = t["meta"]
@@ -361,6 +371,8 @@ def finding_rows(tasks: list[dict], tax: dict) -> list[dict]:
 
 def build_meta(run_id: str, tasks: list[dict], rows: list[dict],
                params: dict, merged: list[str]) -> dict:
+    """Der Inhalt von run_meta.json: Laufparameter, SHA1 der Tool-Dateien,
+    Zaehlungen je Quelle und Zustand, Laufzeit, Tokens, Kosten, Fehlerliste."""
     costs = [t["meta"].get("estimated_cost") for t in tasks
              if isinstance(t["meta"].get("estimated_cost"), (int, float))]
     durs = [t["duration"] for t in tasks if isinstance(t["duration"], (int, float))]
@@ -416,6 +428,9 @@ def build_meta(run_id: str, tasks: list[dict], rows: list[dict],
 
 def write_summary(path: pathlib.Path, run_id: str, tasks: list[dict],
                   rows: list[dict], m: dict, tax: dict) -> None:
+    """summary.md schreiben: Eckdaten, Zustaende, Findings je Kategorie,
+    Severity und Contract, Contracts ohne Findings, Vorbehalte zu den Feldern.
+    *m* ist das Ergebnis von build_meta."""
     by_cat = collections.Counter(r["category_raw"] for r in rows)
     by_con = collections.Counter(r["contract_id"] for r in rows)
     by_sev = collections.Counter(r["severity"] for r in rows)
@@ -559,6 +574,7 @@ def write_comparison(path: pathlib.Path, run_id: str, base_id: str,
     """Vergleich auf (Contract, MWE-Regel). Zeilennummern taugen dafuer nicht:
     unter --main zaehlen sie in der reduzierten Datei."""
     def key(r):
+        """Vergleichsschluessel eines Findings: (Contract, MWE-Regel)."""
         return (r["contract_id"], r["mwe"])
 
     # Nur Contracts vergleichen, die in BEIDEN Laeufen einen Task haben. Sonst
@@ -639,6 +655,12 @@ def write_comparison(path: pathlib.Path, run_id: str, base_id: str,
 
 
 def write_readme(entries: list[dict], others: list[tuple] = ()) -> None:
+    """eval/README.md neu schreiben.
+
+    *entries* sind die GPTScan-Laeufe fuer die Tabelle (run_id, main, dry,
+    contracts, findings, cost, zweck); *others* die uebrigen Auswertungen als
+    Tupel (Ordner, Werkzeug, Contracts, Findings), auf die nur verwiesen wird.
+    """
     L = [
         "# eval/ -- Auswertungen der aufgezeichneten Laeufe", "",
         "Hier liegen ausschliesslich ABGELEITETE Daten. Die Rohergebnisse stehen unter",
@@ -668,8 +690,10 @@ def write_readme(entries: list[dict], others: list[tuple] = ()) -> None:
         "und MWE-207 (DASP-2) haben ein redliches Gegenstueck. `dasp10` bleibt sonst leer.", "",
         "## Laeufe", "",
         "Kosten in Klammern sind SIMULIERT: im Dry-Run wird kein API-Call abgesetzt,",
-        "GPTScan schaetzt den Betrag nur. Gemessen an den Live-Laeufen ueberschaetzt",
-        "diese Schaetzung die tatsaechlichen Kosten um rund die Haelfte.", "",
+        "GPTScan schaetzt den Betrag nur. Gemessen an den Live-Laeufen liegt diese",
+        "Schaetzung ueber den tatsaechlichen Kosten: Dry $0,3838 gegen $0,3638 im",
+        "Live-Lauf mit MAIN und $0,2769 im Referenzlauf ohne MAIN, also 6 % bzw. 39 %",
+        "darueber.", "",
         "| Ordner | Rohergebnis | MAIN | Contracts | Findings | Kosten | Zweck |",
         "|---|---|---|---:|---:|---:|---|",
     ]
@@ -696,16 +720,19 @@ def write_readme(entries: list[dict], others: list[tuple] = ()) -> None:
         L += [
             "",
             "Dazu kommen `eval/per_contract/` (eine Zeile je Contract, "
-            "`analysis_tools/per_contract_stats.py`) und `eval/_runlogs/` "
-            "(Konsolenprotokolle der Massenlaeufe) -- beide mit eigener `README.md`.",
+            "`analysis_tools/per_contract_stats.py`), `eval/slither_mwefixed_v2/` "
+            "(Slither auf dem DeFi-Korpus, Export von `sb.results2csv`) und "
+            "`eval/_runlogs/` (Konsolenprotokolle der Massenlaeufe) -- alle mit "
+            "eigener `README.md`. Welcher der Laeufe unter `smartbugs/results/` "
+            "wozu diente und wo er ausgewertet ist, steht in `eval/LAUFREGISTER.md`.",
         ]
     L += [
         "", "## Verhaeltnis zu den Altlaeufen", "",
-        "Unter `smartbugs/results/gptscan/` liegen 17 aeltere Laeufe. Sie sind SAEMTLICH",
+        "Alle GPTScan-Laeufe unter `smartbugs/results/gptscan/` vor dem 15.08.2026 sind",
         "ohne `--main` entstanden -- nachpruefbar am Docker-Entrypoint in der jeweiligen",
-        "`smartbugs.json`, der dort auf `'0'` endet. Der Volllauf mit `--main` ist der",
-        "erste seiner Art; der Vergleich Alt gegen Neu ist damit ein Vergleich",
-        "MAIN=0 gegen MAIN=1 auf demselben Korpus, Image und Modell.", "",
+        "`smartbugs.json`, der dort auf `'0'` endet. Der Volllauf mit `--main` vom",
+        "15.08.2026 ist der erste seiner Art; der Vergleich Alt gegen Neu ist damit ein",
+        "Vergleich MAIN=0 gegen MAIN=1 auf demselben Korpus, Image und Modell.", "",
         "Referenzlauf fuer den Vergleich ist `curated_mwefixed_live`",
         "(96 Contracts, 77 Findings auf 40 Contracts, $0.2769).", "",
         "## Zustaende", "",
@@ -724,6 +751,9 @@ def write_readme(entries: list[dict], others: list[tuple] = ()) -> None:
 # --------------------------------------------------------------------------- #
 
 def main() -> int:
+    """Kommandozeile: Lauf einlesen, Nachlaeufe einmischen, findings.jsonl,
+    run_meta.json, summary.md und den Vergleich schreiben, eval/README.md
+    fortschreiben. Rueckgabe 0; 2, wenn der Lauf fehlt."""
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("runid")
@@ -847,6 +877,8 @@ def main() -> int:
                  "full": "Volllauf"}.get(p.get("mode"))
         if not zweck:
             zweck = "Pipelinetest, 0 API-Calls" if dry else "Live-Lauf"
+        if e["run_id"] == args.baseline:
+            zweck = "Referenzlauf ohne MAIN, Baseline der Vergleiche"
         if e.get("merged_runs"):
             zweck += " (inkl. Nachlauf " + ", ".join(e["merged_runs"]) + ")"
         entries.append({

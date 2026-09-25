@@ -11,7 +11,7 @@ python evaluate_curated.py --suffix v1_20260705 `
     --tools gptscan llmsmartaudit slither-0.11.3 --csv
 ```
 
-Ground Truth: `smartbugs-curated/dataset/vulnerabilities.json` auf Commit `230e649`
+Ground Truth: `smartbugs-curated/vulnerabilities.json` auf Commit `230e649`
 (`run_curated.ps1` pinnt den Clone auf `230e649`, 16.06.2024).
 
 Alle Werte sind **Contract-Level**: ein gelabelter Contract gilt als

@@ -33,11 +33,14 @@ und MWE-207 (DASP-2) haben ein redliches Gegenstueck. `dasp10` bleibt sonst leer
 ## Laeufe
 
 Kosten in Klammern sind SIMULIERT: im Dry-Run wird kein API-Call abgesetzt,
-GPTScan schaetzt den Betrag nur. Gemessen an den Live-Laeufen ueberschaetzt
-diese Schaetzung die tatsaechlichen Kosten um rund die Haelfte.
+GPTScan schaetzt den Betrag nur. Gemessen an den Live-Laeufen liegt diese
+Schaetzung ueber den tatsaechlichen Kosten: Dry $0,3838 gegen $0,3638 im
+Live-Lauf mit MAIN und $0,2769 im Referenzlauf ohne MAIN, also 6 % bzw. 39 %
+darueber.
 
 | Ordner | Rohergebnis | MAIN | Contracts | Findings | Kosten | Zweck |
 |---|---|---|---:|---:|---:|---|
+| `eval/curated_mwefixed_live/` | `smartbugs/results/gptscan/curated_mwefixed_live/` | nein | 96 | 77 | $0.2769 | Referenzlauf ohne MAIN, Baseline der Vergleiche |
 | `eval/gptscan_mwefixed_v2_dry/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_dry/` | ja | 96 | 5 | (0.3838) | Pipelinetest, 0 API-Calls |
 | `eval/gptscan_mwefixed_v2_main/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_main/` | ja | 96 | 74 | $0.3638 | Volllauf (inkl. Nachlauf gptscan_mwefixed_v2_main_nomain) |
 | `eval/gptscan_mwefixed_v2_smoke/` | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke/` | ja | 3 | 0 | $0.0177 | Live-Stichprobe |
@@ -59,15 +62,15 @@ der Tabelle oben.
 | [`eval/llmsa_mwefixed_v2/`](llmsa_mwefixed_v2/README.md) | llmsmartaudit | 96 | 437 |
 | [`eval/llmsa_mwefixed_v2_ctx1m/`](llmsa_mwefixed_v2_ctx1m/README.md) | llmsmartaudit | 37 | 317 |
 
-Dazu kommen `eval/per_contract/` (eine Zeile je Contract, `analysis_tools/per_contract_stats.py`) und `eval/_runlogs/` (Konsolenprotokolle der Massenlaeufe) -- beide mit eigener `README.md`.
+Dazu kommen `eval/per_contract/` (eine Zeile je Contract, `analysis_tools/per_contract_stats.py`), `eval/slither_mwefixed_v2/` (Slither auf dem DeFi-Korpus, Export von `sb.results2csv`) und `eval/_runlogs/` (Konsolenprotokolle der Massenlaeufe) -- alle mit eigener `README.md`. Welcher der Laeufe unter `smartbugs/results/` wozu diente und wo er ausgewertet ist, steht in `eval/LAUFREGISTER.md`.
 
 ## Verhaeltnis zu den Altlaeufen
 
-Unter `smartbugs/results/gptscan/` liegen 17 aeltere Laeufe. Sie sind SAEMTLICH
+Alle GPTScan-Laeufe unter `smartbugs/results/gptscan/` vor dem 15.08.2026 sind
 ohne `--main` entstanden -- nachpruefbar am Docker-Entrypoint in der jeweiligen
-`smartbugs.json`, der dort auf `'0'` endet. Der Volllauf mit `--main` ist der
-erste seiner Art; der Vergleich Alt gegen Neu ist damit ein Vergleich
-MAIN=0 gegen MAIN=1 auf demselben Korpus, Image und Modell.
+`smartbugs.json`, der dort auf `'0'` endet. Der Volllauf mit `--main` vom
+15.08.2026 ist der erste seiner Art; der Vergleich Alt gegen Neu ist damit ein
+Vergleich MAIN=0 gegen MAIN=1 auf demselben Korpus, Image und Modell.
 
 Referenzlauf fuer den Vergleich ist `curated_mwefixed_live`
 (96 Contracts, 77 Findings auf 40 Contracts, $0.2769).

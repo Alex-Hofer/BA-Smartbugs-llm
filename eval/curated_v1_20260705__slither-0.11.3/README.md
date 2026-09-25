@@ -12,7 +12,7 @@
 | Contracts im Lauf | 143 |
 | Timeout je Task | 600 s |
 | Rohergebnisse | `smartbugs/results/slither-0.11.3/curated_v1_20260705` (git-ignoriert) |
-| Erzeugt am | 2026-09-25T08:44:40+00:00 |
+| Erzeugt am | 2026-09-25T09:19:26+00:00 |
 
 Der Lauf fand am 05./06.07.2026 statt (Datum im Laufnamen). Die
 Rohergebnisse liegen nicht im Repository -- `smartbugs/.gitignore`

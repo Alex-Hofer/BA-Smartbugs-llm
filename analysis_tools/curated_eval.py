@@ -307,6 +307,12 @@ def ground_truth_commit():
 
 
 def build_meta(tool, runid, tasks, rows, mapping, stamp):
+    """Der Inhalt von run_meta.json fuer ein Werkzeug: Herkunft, Zustaende,
+    Kennzahlen, Recall/Precision je Kategorie und die Fehlerliste.
+
+    Tokens und Kosten je nach Werkzeug: GPTScan aus GPTSCAN_META, LLMSmartAudit
+    aus den Token-Zahlen mit den Preisen aus build_eval, Slither keine.
+    """
     durations = [t["duration"] for t in tasks if t["duration"]]
     starts = [(t.get("start"), t["duration"]) for t in tasks
               if t.get("start") and t["duration"]]
@@ -324,7 +330,7 @@ def build_meta(tool, runid, tasks, rows, mapping, stamp):
         "smartbugs_version": "2.1.1",
         "results_dir": "smartbugs/results/%s/%s" % (tool, runid),
         "taxonomy": "smartbugs/tools/%s/findings.yaml" % tool,
-        "ground_truth": "smartbugs-curated/dataset/vulnerabilities.json",
+        "ground_truth": "smartbugs-curated/vulnerabilities.json",
         "ground_truth_commit": ground_truth_commit(),
         "image": first.get("image"),
         "network": first.get("network"),
@@ -412,6 +418,7 @@ def ci(interval):
 
 
 def pct(v):
+    """Anteil als ganze Prozentzahl, Gedankenstrich wenn undefiniert."""
     return "%.0f %%" % (100 * v) if v is not None else "–"
 
 
@@ -421,6 +428,8 @@ def num(n):
 
 
 def write_summary(path, tool, runid, tasks, rows, meta, tax):
+    """summary.md schreiben: Zustaende, Recall/Precision/F1 je Kategorie,
+    Findings je Kategorie und die 15 Contracts mit den meisten Findings."""
     L = []
     A = L.append
     A("# %s -- %s" % (runid, tool))
@@ -504,6 +513,9 @@ def write_summary(path, tool, runid, tasks, rows, meta, tax):
 
 
 def write_readme(path, tool, runid, meta):
+    """README.md des Ordners schreiben: Herkunft, Entstehung, Bedeutung der
+    Spalten und was sich aus den Zahlen schliessen laesst und was nicht, mit
+    eigenen Absaetzen je Werkzeug."""
     L = []
     A = L.append
     A("# %s__%s" % (runid, tool))
@@ -630,6 +642,9 @@ def write_readme(path, tool, runid, meta):
 
 
 def write_metrics(path, runid, per_tool):
+    """eval/<runid>__metriken.md schreiben: Gesamtbild und je Werkzeug die
+    Kategorietabelle mit Wilson-Intervall und Basisrate. *per_tool* ordnet
+    jedem Werkzeug sein run_meta zu."""
     L = []
     A = L.append
     A("# Recall, Precision und F1 je DASP-Kategorie -- `%s`" % runid)
@@ -648,7 +663,7 @@ def write_metrics(path, runid, per_tool):
     A("")
     gt = next((m.get("ground_truth_commit") for m in per_tool.values()
                if m.get("ground_truth_commit")), None)
-    A("Ground Truth: `smartbugs-curated/dataset/vulnerabilities.json` auf Commit `%s`"
+    A("Ground Truth: `smartbugs-curated/vulnerabilities.json` auf Commit `%s`"
       % (gt or "unbekannt (kein lokaler Clone)"))
     A("(`run_curated.ps1` pinnt den Clone auf `230e649`, 16.06.2024).")
     A("")
@@ -726,6 +741,8 @@ def write_metrics(path, runid, per_tool):
 # -------------------------------------------------------------------- Main ---
 
 def export(tool, runid, stamp):
+    """Einen Lauf fuer ein Werkzeug auswerten und nach eval/<runid>__<tool>/
+    schreiben. Gibt (run_meta, Ausgabeordner) zurueck."""
     tax = taxonomy(tool)
     mapping = evaluate_curated.load_mapping(
         REPO / "smartbugs" / "tools" / tool / "findings.yaml", tool)
@@ -747,6 +764,8 @@ def export(tool, runid, stamp):
 
 
 def main(argv=None):
+    """Kommandozeile: jedes Werkzeug aus --tools exportieren, bei mehr als
+    einem zusaetzlich die Metrikdatei schreiben. Rueckgabe 0."""
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     ap.add_argument("--run", default="curated_v1_20260705")
     ap.add_argument("--tools", nargs="+", default=list(TOOLS))
