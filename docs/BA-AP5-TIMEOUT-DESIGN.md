@@ -5,7 +5,8 @@ Dokument legt fest, *wie* der SmartBugs-Timeout in GPTScan und LLMSmartAudit
 ankommt und was beim Ablaufen herauskommt. Der ausführbare Arbeitsplan entsteht
 getrennt daraus.
 
-Datum: 2026-08-17 · Status: abgestimmt, Umsetzung ausstehend
+Datum: 2026-08-17 · Status bei Erstellung: abgestimmt, Umsetzung ausstehend ·
+Umgesetzt am 18.08.2026, siehe `BA-AP5-ABSCHLUSSBERICHT.md`
 
 ---
 
@@ -97,8 +98,10 @@ heutigen Zustand.
 | E2 | Umfang | Beide Werkzeuge voll, plus harter Abbruch als Netz |
 | E3 | Nachweis | Lokaler Fake-Endpunkt für wiederholbare Tests **und** ein kleiner scharfer Lauf fürs Protokoll |
 
-Zu E1: die Rückfrage an den Betreuer bleibt offen, ist aber entschärft — die
-gelieferte Variante ist die stärkere von beiden und schließt die schwächere ein.
+Zu E1: die Rückfrage an den Betreuer war bei Erstellung offen (inzwischen
+beantwortet: Teilergebnis, `BA-BETREUERGESPRAECH-AUFGABEN.md` Abschnitt 2,
+Punkt 3), war aber entschärft — die gelieferte Variante ist die stärkere von
+beiden und schließt die schwächere ein.
 
 ## 4. Entwurf
 

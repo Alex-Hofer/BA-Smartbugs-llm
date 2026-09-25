@@ -5,6 +5,17 @@ was belegt ist und was nicht, wie es entstand, und was offen bleibt.
 
 Branch `ap5-timeout`, abgezweigt von `main` bei `f03fe98` · Stand: 2026-08-18
 
+> **Nachtrag 25.09.2026.** Datierter Bericht. Der Branch ist in `main`
+> aufgegangen; AP5 ist seit dem 18.08.2026 im Einsatz (`README.md`,
+> `BA-BETRIEB.md` 8). Die Zeile „SmartBugs `sb/` 5“ in Abschnitt 6 zählt gegen
+> den Tag `v2.1.1`; gegen den tatsächlich geklonten Upstream-Stand `7ddaf6c`
+> sind es 2 Dateien (`BA-EIGENANTEIL.md` 2.1). Von den offenen Punkten in
+> Abschnitt 8 ist der Merge erledigt; eine Kostenzahl aus dem
+> Anbieter-Dashboard liegt für die Altläufe weiterhin nicht vor, für neue
+> Läufe protokollieren die Runner seit dem 24.09.2026 die Abbuchung
+> (`BA-BETRIEB.md` 3); ob der Schlüssel getauscht wurde, ist im Repository
+> nicht dokumentiert.
+
 Zugehörige Dokumente: `BA-AP5-TIMEOUT-DESIGN.md` (Entwurf),
 `BA-AP5-TIMEOUT-PLAN.md` (Arbeitsplan), `BA-AP5-VORPRUEFUNG.md` (Vorprüfung),
 `BA-DURCHFUEHRUNGSPROTOKOLL.md` (Messläufe).

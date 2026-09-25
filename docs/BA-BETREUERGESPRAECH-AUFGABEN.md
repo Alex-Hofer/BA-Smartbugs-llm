@@ -295,8 +295,8 @@ Empfehlungen, Standards ausgegeben werden." Und: „Dokument aus METAFINDINGS
 Analysewerkzeuge und formuliert als Empfehlung, was ein solches Werkzeug
 mitbringen muss.
 
-**Form.** Eigenständiges Dokument, zunächst getrennt von der Arbeit. Die
-Bachelorarbeit wird später ohnehin neu verfasst; dann wandert der Inhalt dorthin.
+**Form.** Eigenständiges Dokument unter `docs/`. Da das Repository die
+Abgabe ist, bliebe es dort; ein gesonderter Fließtext ist nicht vorgesehen.
 
 **Material, das schon vorliegt** — jeder Punkt ist am eigenen Material belegt:
 
@@ -382,7 +382,7 @@ berücksichtigt.
 | Integration GPTScan (inkl. Keyword-Filter-Falle, Metadaten-Kanal) | 30–40 |
 | Integration LLMSmartAudit (Image-Reduktion, Report-Lokalisierung, 41 Detektoren abbilden) | 30–40 |
 | Patches in `smartbugs/sb/` (Schlüssel-Durchreichung samt Redaktion) | 8–12 |
-| Messkampagne: 19 Läufe, Smoke/Dry/Gates, Kosten- und Rate-Limit-Forensik | 35–45 |
+| Messkampagne (bei Erstellung der Schätzung 19 Läufe, heute 51), Smoke/Dry/Gates, Kosten- und Rate-Limit-Forensik | 35–45 |
 | Auswertung: Recall/Precision/F1, DASP-Mapping, Stichproben am Quellcode | 30–40 |
 | Korpus-Rekonstruktion `mwevariety_fixed` | 40–55 |
 | Parser-Audit und -Reparatur (inkl. Silent-Failure-Diagnose) | 30–40 |

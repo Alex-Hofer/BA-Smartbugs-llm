@@ -124,8 +124,10 @@ Material geprüft, nicht vermutet. Betroffen sind lange Pfade
 
 **Offen — beides bewusst nicht gemacht:**
 
-* **Die fünf Commits sind nicht gepusht.** Ich pushe nicht ungefragt.
-* **Der Betreuer ist nicht eingeladen.**
+* **Die fünf Commits waren zunächst nicht gepusht** (Push erst nach
+  Freigabe; inzwischen erledigt, siehe Nachtrag in Teil C).
+* **Der Betreuer war noch nicht eingeladen** (inzwischen erledigt, AP3 in
+  `BA-BETREUERGESPRAECH-AUFGABEN.md`).
 
 ### 4. Alle Fehlermeldungen einbeziehen, auch die falschen
 
@@ -179,11 +181,12 @@ Commits, nichts liegt lokal).
 **2. Das Durchführungsprotokoll ist an einer Stelle überholt.** In
 `BA-DURCHFUEHRUNGSPROTOKOLL.md` steht bei Fehler #4 (Silent Failure) als
 Maßnahme *„Parser-Fix als Empfehlung dokumentiert"*. Der Fix ist jetzt gemacht.
-Das ist BA-Prosa und wird **nicht eigenmächtig umformuliert.** Der neue Eintrag
-ist festzulegen und einzusetzen. *(Nachtrag 21.09.2026: nur noch in der
+Der Eintrag gehört zur Darstellung der Arbeit und wurde zunächst nicht
+geändert. *(Nachtrag 21.09.2026: nur noch in der
 `.md`-Fassung — die `.tex`-Fassungen wurden nach Markdown überführt und aus dem
-Repository entfernt, siehe `README.md`, Abschnitt „Dokumentation". Der Punkt
-selbst ist weiterhin offen.)*
+Repository entfernt, siehe `README.md`, Abschnitt „Dokumentation". Nachtrag
+25.09.2026: Der Eintrag zu Fehler #4 im Protokoll nennt jetzt die erfolgte
+Reparatur.)*
 
 **3. Ein neuer Befund, der die Aussagen zum reparierten Korpus betrifft.**
 Im Lauf `curated_mwefixed_live` (96 Contracts) wird jetzt sichtbar:

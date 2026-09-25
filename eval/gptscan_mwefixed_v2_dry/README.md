@@ -54,9 +54,10 @@ python analysis_tools\gptscan_eval.py gptscan_mwefixed_v2_dry
    GPTScan erzeugt Platzhalterausgaben. Sie sagen nichts über den Korpus aus.
 2. **Der Kostenwert ist erfunden — im wörtlichen Sinn.** GPTScan schätzt den
    Betrag, den ein echter Lauf gekostet hätte. Gemessen an den Live-Läufen
-   überschätzt diese Schätzung die tatsächlichen Kosten um rund die Hälfte
-   (Dry $0,3838 gegen Live $0,3638 bei deutlich mehr Findings; vgl.
-   `eval/README.md`).
+   liegt diese Schätzung über den tatsächlichen Kosten: Dry $0,3838 gegen
+   $0,3638 im Live-Lauf mit MAIN (`gptscan_mwefixed_v2_main`) und $0,2769 im
+   Referenzlauf ohne MAIN (`curated_mwefixed_live`), also 6 % beziehungsweise
+   39 % darüber (vgl. `eval/README.md`).
 3. **Die Static-Bestätigungsstufe läuft im Dry-Run nie.** Jede Aussage über
    Präzisionsfilterung ist hier bedeutungslos — genau deshalb hat die
    Manifest-Logik des Runners einen `dry_run`-Guard

@@ -1,5 +1,11 @@
 # Vorher/Nachher-Vergleich der Parser-Ausgabe
 
+Stand 02.08.2026: Ausgabe von `analysis_tools/compare_csv.py` über die 930
+Tasks der damals 19 Läufe, einmal mit dem Parser vor und einmal nach der
+Reparatur vom 02.08.2026. Die Spalte `findings` blieb für jeden Task gleich;
+`errors` und `infos` kamen hinzu. Einordnung: `BA-ERRORS-VS-FAILS.md` und
+`BA-ARBEITSBERICHT-20260802.md`.
+
 ```
 Rows: 930 before, 930 after (0 disappeared, 0 appeared)
 

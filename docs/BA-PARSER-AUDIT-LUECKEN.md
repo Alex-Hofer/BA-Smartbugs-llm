@@ -1,8 +1,9 @@
 # Der Ausnahme-Defekt im LLMSmartAudit-Parser
 
 Wie am 21.09.2026 zehn Lücken im Parser-Audit sichtbar wurden, woran sie lagen
-und wie sie geschlossen wurden. Endstand: **1 272 Tasks, 2 417 Rohmeldungen,
-0 Lücken** — siehe [`parser-audit-nachher.md`](parser-audit-nachher.md).
+und wie sie geschlossen wurden. Stand 21.09.2026: **1 272 Tasks, 2 417 Rohmeldungen,
+0 Lücken**; nach den Läufen vom 24.09.2026 sind es 1 501 Tasks, 2 555 Rohmeldungen,
+weiterhin 0 Lücken — siehe [`parser-audit-nachher.md`](parser-audit-nachher.md).
 
 ---
 
@@ -91,7 +92,7 @@ Reparatur tatsächlich in `parse()` verdrahtet ist und nicht bloß definiert.
 
 ## 4. Was sich dadurch geändert hat — und was nicht
 
-Nach `python -m sb.reparse --sarif --processes 4 results` über alle 48 Läufe:
+Nach `python -m sb.reparse --sarif --processes 4 results` über alle damals 48 Läufe (heute 51, unverändert 0 Lücken):
 
 | | vorher | nachher |
 |---|---|---|

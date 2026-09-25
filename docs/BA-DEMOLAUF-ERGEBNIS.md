@@ -7,6 +7,11 @@ Werkzeugausgabe zu wenig deterministisch (siehe Abschnitt 8).
 
 Bedienung der Werkzeuge: `BA-WERKZEUG-BEDIENUNG.md`.
 
+Die im Text genannten Bilanzdateien `docs/errors-fails-demo_*.md` und `.csv`
+sind git-ignoriert (`.gitignore`) und liegen nur im Arbeitsbaum des
+Erhebungsrechners; ihr Inhalt ist in den Abschnitten 5 und 7 wiedergegeben.
+Die Dateilisten `demolauf_satz*.sbd` im Wurzelverzeichnis sind versioniert.
+
 ---
 
 ## 1. Was gelaufen ist

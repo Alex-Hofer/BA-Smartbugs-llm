@@ -1,4 +1,4 @@
-# KI-Scanner im SmartBugs-Framework — Auswertung der jüngsten Testläufe
+# KI-Scanner im SmartBugs-Framework — Auswertung der v2-Läufe über `mwevariety_fixed` (Stand 18.08.2026)
 
 **Werkzeuge:** GPTScan · LLMSmartAudit (llmaudit)
 **Korpus:** `mwevariety_fixed`, 96 DeFi-Contracts

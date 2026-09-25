@@ -3,6 +3,13 @@
 **Zweck dieses Dokuments:** Kontextpapier zum Projektstand, wie er im Deck
 `BA-Arbeitsfortschritt.pptx` (Stand **Juli 2026**, 5 Folien) dokumentiert ist.
 
+> **Stand 25.09.2026:** Datiertes Kontextpapier zu einem inzwischen aus dem
+> Repository entfernten Foliendeck. Die darin genannten Blocker sind seit dem
+> 21.07.2026 gelöst (Korpus 96 von 96 übersetzbar, `BA-KORPUS-REPARATUR.md`);
+> die Ergebnisse der Arbeit stehen in `BA-UEBERBLICK.md`. Die Abschnitte 6
+> bis 8 beschreiben offene Punkte und Arbeitsregeln der damaligen
+> Projektphase, keine Ergebnisse.
+
 **Wichtig beim Lesen:**
 
 - Abschnitte 1–6 sind **belegte Fakten aus dem Deck**. Sie dürfen als gegeben behandelt werden.

@@ -19,13 +19,16 @@ Arbeitsverzeichnis; die verwendeten Befehle stehen bei jedem Punkt.
 > `sb/docker.py` in 2.4 haben sich durch spätere Einfügungen verschoben. Die
 > übrigen Befunde gelten unverändert; der Stand vom 24.09.2026 steht in
 > [`BA-VERIFIKATIONSBERICHT-20260924.md`](BA-VERIFIKATIONSBERICHT-20260924.md).
+> Von den in Abschnitt 6 „bewusst offen“ gebliebenen Befunden ist 3.3 (ANTLR)
+> am 24.09.2026 geklärt (`BA-DURCHFUEHRUNGSPROTOKOLL.md` 4.7) und 3.9
+> (Testsuite-Lücken) teilweise geschlossen (M4 im Bericht vom 24.09.2026).
 
 ---
 
 ## 1. Vorgehen
 
 Sieben Prüfpakete. Drei davon (Sicherheit, Testsuite/Mutationsprobe,
-Eigenanteil-Diff) haben wir bewusst getrennt und ohne Kenntnis der übrigen
+Eigenanteil-Diff) wurden bewusst getrennt und ohne Kenntnis der übrigen
 Befunde bearbeitet, die vier anderen (Parser-Audit, Errors/Fails-Semantik,
 Zahlenkontrolle, Reproduzierbarkeit) im Zusammenhang.
 

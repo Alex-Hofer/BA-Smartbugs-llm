@@ -35,7 +35,7 @@ Alle Läufe erfolgten über die SmartBugs-Integration (`smartbugs/tools/{gptscan
 | 1 | Totes LLM-Modell im LLMSA-Image | Jeder Lauf wäre mit HTTP 400 gescheitert | Stub-Experiment (`LLM_MODEL=STUB`) zeigte: der Modellname geht verbatim an die DeepSeek-API; deren Fehlermeldung nannte nur noch `deepseek-v4-pro/flash` als gültig — das im Image eingebrannte `deepseek-chat` ist abgeschaltet. Code-Analyse (run.py/model_backend.py) bestätigte den Datenfluss | Host-seitig `LLM_MODEL=deepseek-v4-flash` setzen (überschreibt Image-ENV); kein Rebuild nötig |
 | 2 | Kein Offline-/Stub-Modus bei LLMSA | „Stub"-Testlauf erzeugte echte (abgelehnte) API-Roundtrips | `run.py` mappt `--model` unter provider=deepseek nie auf das interne StubModel | Akzeptiert & dokumentiert; Dry-Testing nur über GPTScans `GPTSCAN_DRY_RUN=1` |
 | 3 | Korrupte Test-Samples | `_chk/20_Pool.sol`: solc `extraneous input '<EOF>'` | Ab Z. 22 fehlen alle Zeilenumbrüche → `//`-Kommentar verschluckt den Restvertrag; 4 von 6 `_chk`-Dateien betroffen (Ein-Zeilen-Blobs) | Für den Smoke-Test Austausch gegen `74_TimeswapPair.sol` (wohlgeformt; hatte dennoch einen echten solc-Fehler Z. 51 → GPTScan degradierte nachweislich graceful auf LLM-only) |
-| 4 | **Silent Failure bei GPTScan** | Compile-Fehler erscheinen NUR im result.log; result.json zeigt `errors=[]`, 0 Findings — ununterscheidbar von „sauber, nichts gefunden" | Verifiziert an zwei Fällen; drei ununterscheidbare Zustände identifiziert (sauber / compile-failed / degradiert) | Massentest-Skript erzeugt Post-Run-Manifeste aus den Logs (`curated_compile_failures_*.csv`, `curated_review_candidates_*.csv`); Parser-Fix als Empfehlung dokumentiert |
+| 4 | **Silent Failure bei GPTScan** | Compile-Fehler erscheinen NUR im result.log; result.json zeigt `errors=[]`, 0 Findings — ununterscheidbar von „sauber, nichts gefunden" | Verifiziert an zwei Fällen; drei ununterscheidbare Zustände identifiziert (sauber / compile-failed / degradiert) | Massentest-Skript erzeugt Post-Run-Manifeste aus den Logs (`curated_compile_failures_*.csv`, `curated_review_candidates_*.csv`); Parser-Fix als Empfehlung dokumentiert; am 02.08.2026 umgesetzt (`parser-fix-vorher-nachher.md`, `BA-ERRORS-VS-FAILS.md`) |
 | 5 | PowerShell-5.1-Falle: stderr-Umleitung | `docker info *> $null` warf `NativeCommandError` (Docker-WARNING auf stderr + `$ErrorActionPreference='Stop'`) | PS 5.1 wandelt umgeleitete native stderr-Zeilen in ErrorRecords | Umleitung an `cmd /c` delegiert |
 | 6 | Exit-Code-Capture-Bug im Skript | „ExitCode=Welcome to SmartBugs…" | PowerShell-Funktionen geben den gesamten Pipeline-Output zurück, nicht nur `return`-Werte | sb-Ausgabe via `\| Out-Host` zur Konsole; nur `$LASTEXITCODE` zurückgeben |
 | 7 | Fehlalarm im Degradations-Manifest (Dry-Run) | Dry-Testlauf flaggte intakten Contract als „degradiert" | Im Dry-Run läuft die Static-Bestätigung nie → Signatur dort bedeutungslos | `dry_run`-Guard in der Manifest-Logik |
@@ -82,7 +82,7 @@ darauf.
 
 Finding-Dichte: Ø 7,9/Contract (Median 7, Max 18); **kein Contract blieb ohne Findings**.
 
-**Slither pro Kategorie** (Auszug): reentrancy 94/74/83 · unchecked_low_level_calls 88/59/71 · time_manipulation 100/21/34 · arithmetic und front_running 0 % (keine passenden Detektoren). 1 854 der 2 154 Slither-Findings (86,1 %) haben weder in SmartBugs' `findings.yaml` noch über die beiden Zusatz-Mappings (Fehler #9) eine DASP-Zuordnung und gehen deshalb nicht in Recall und Precision ein (Abschnitt 5, Punkt 2). Keine Zuordnung heißt nicht belanglos: Nach der Impact-Stufe des jeweiligen Detektors sind 1 480 davon Informational oder Optimization, 166 Low, 148 Medium und 60 High.
+**Slither pro Kategorie** (Auszug): reentrancy 94/74/83 · unchecked_low_level_calls 88/59/71 · time_manipulation 100/21/34 · arithmetic und front_running 0 % (keine passenden Detektoren). 1 854 der 2 154 Slither-Findings (86,1 %) haben weder in SmartBugs' `findings.yaml` noch über die beiden Zusatz-Mappings (Fehler #9) eine DASP-Zuordnung und gehen deshalb nicht in Recall und Precision ein (Abschnitt 5, Punkt 2). Keine Zuordnung heißt nicht belanglos: Nach der Impact-Stufe des jeweiligen Detektors sind 1 480 davon Informational oder Optimization, 166 Low, 148 Medium und 60 High. *(Stand 06.07.2026; seit dem Nachtrag 4.6 sind es 1 763 Findings ohne Zuordnung, davon 60 Medium und 57 High, und Slither steht bei 67 / 45 / 54.)*
 
 ### 4.2 Qualitative Einordnung (Stichproben am Quellcode verifiziert)
 
@@ -251,7 +251,9 @@ zusätzlicher Schreibvorgang statt.
 Kosten des scharfen Laufs: GPTScan **$0,0098** (vom Werkzeug selbst gerechnet:
 $0,0067 voll + $0,0031 teil). LLMSmartAudit protokolliert keine Tokenzahlen;
 abgeschätzt über Contractgröße × Aufrufzahl zu DeepSeek-v4-flash-Preisen
-(0,14 / 0,28 USD je 1 M Token) ergeben sich **≈ $0,033**. **Gesamt ≈ $0,04.**
+(0,14 / 0,28 USD je 1 M Token, Preisannahme dieses Nachweises; die Runner
+rechnen mit den aus `curated_v1_20260705` zurückgerechneten Sätzen,
+`BA-BETRIEB.md` 3) ergeben sich **≈ $0,033**. **Gesamt ≈ $0,04.**
 GPTScans Budget-Wächter (`MAX_COST_USD = 0.5` je Contract) wurde nicht
 ausgelöst (`budget_exceeded = null`).
 

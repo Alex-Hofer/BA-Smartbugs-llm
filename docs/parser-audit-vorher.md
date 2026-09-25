@@ -3,8 +3,8 @@
 Geprueft: **930 Task-Verzeichnisse** aus 19 Laeufen, **1464 extrahierte Rohmeldungen**, davon **1368** im Parser-Output nicht wiederauffindbar.
 
 **Laufbestand: Stand 02.08.2026, vor der Parser-Reparatur** — die damals
-vorhandenen 19 Laeufe. Der Gegenbericht `parser-audit-nachher.md` ist am
-20.09.2026 ueber einen inzwischen auf 48 Laeufe angewachsenen Bestand
+vorhandenen 19 Laeufe. Der Gegenbericht `parser-audit-nachher.md` ist zuletzt am
+24.09.2026 ueber einen inzwischen auf 51 Laeufe angewachsenen Bestand
 erzeugt worden. Die beiden Kopfzahlen sind deshalb **nicht** direkt
 gegenueberzustellen: Sie messen verschiedene Grundmengen. Den Vorher/Nachher-
 Vergleich auf *identischer* Datenbasis fuehrt

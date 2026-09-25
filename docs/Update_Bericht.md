@@ -9,6 +9,18 @@
 | Gegenstand | Commits `f85946e` … `a2be0f3` (10 Commits), Zweig `main`, auf `origin` gespiegelt |
 | Verfasst am | 2026-08-03 |
 
+> **Nachtrag 25.09.2026.** Datierter Bericht. Überholt sind: die Zählung der
+> Eingriffe in SmartBugs (Abschnitte 6.3, 6.4 und 11) gegen den Tag `v2.1.1`;
+> gegen den tatsächlich geklonten Stand `7ddaf6c` sind es 7 Blöcke in 2
+> Dateien (`BA-EIGENANTEIL.md` 2.1). Von den offenen Punkten in Abschnitt 10
+> sind erledigt: die ANTLR-Frage (`BA-DURCHFUEHRUNGSPROTOKOLL.md` 4.7), die
+> Evaluation des Hauptlaufs (`../eval/curated_v1_20260705__metriken.md`), der
+> GPTScan-Massenlauf nach der Parser-Reparatur (`gptscan_mwefixed_v2_main`,
+> 15.08.2026), die Kostenmessung für neue Läufe über den Kontostand
+> (`BA-BETRIEB.md` 3) und der Eintrag zu Fehler #4 im Protokoll. Offen bleiben
+> die Ursache des Static-Absturzes auf 35 von 96 Contracts, die Streuung über
+> mehr als zwei Läufe und der WARNING-Blindfleck.
+
 ---
 
 ## 0. Vorbemerkung: Zweck, Aufbau und Belegprinzip
@@ -595,19 +607,20 @@ Code*.
 
 Der gesamte Arbeitsstand wurde einer Überprüfung unterzogen, deren Maßstab war,
 jede Behauptung zu **widerlegen** (`docs/BA-VERIFIKATIONSBERICHT.md`): sieben
-Prüfpakete, davon drei als unabhängige Prüfinstanzen. Alle Prüfungen liefen
+Prüfpakete, davon drei unabhängig voneinander bearbeitet. Alle Prüfungen liefen
 lesend; schreibende Tests fanden in Klonen außerhalb des Repositories statt.
 
 Die drei tragenden Aussagen haben standgehalten (1368 → 0 Lücken; Messwerte
 unberührt; Fehlersemantik hergeleitet statt erfunden). Der Bericht führt
 zusätzlich **sieben gescheiterte Angriffe** auf — ein Prüfbericht ohne
 gescheiterte Angriffe sagt nichts über seine eigene Strenge aus. In vier Fällen
-lag die Prüfinstanz falsch und die Dokumentation richtig; das ist protokolliert.
+erwies sich der Verdacht als unbegründet und die Dokumentation als richtig; das
+ist protokolliert.
 
 Elf bestätigte Befunde wurden nach Schwere geordnet; sieben davon sind behoben
 (Abschnitt 6.4), sechs bewusst offen geblieben (Abschnitt 9 und 10) — jeweils
-mit Begründung, warum die Entscheidung beim Autor der Arbeit liegt und nicht
-beim Prüfer.
+mit Begründung, warum die Entscheidung den Verfassern der Arbeit vorbehalten
+bleibt.
 
 ---
 
@@ -718,7 +731,7 @@ der Messwerte betrifft**, und deshalb der erste zu klärende Punkt
 | **P2** | Streuung quantifizieren (Mehrfachläufe) | Ohne Maß für den Nichtdeterminismus (7.2) ist unklar, ab welcher Differenz zwei Läufe sich unterscheiden |
 | **P2** | Kostenmessung für LLMSmartAudit | Das Werkzeug weist keine Kosten aus; die bisherige Angabe ist eine Schätzung aus dem Smoke-Test, keine Messung |
 | **P2** | WARNING-Blindfleck schließen (9.1) | Erhöht `errors` in zwei Tasks — Entscheidung des Autors |
-| **P3** | Durchführungsprotokoll bei Fehler #4 nachziehen | Dort steht als Maßnahme „Parser-Fix als Empfehlung dokumentiert"; der Fix ist gemacht. Es handelt sich um BA-Prosa und wird nicht eigenmächtig umformuliert |
+| **P3** | Durchführungsprotokoll bei Fehler #4 nachziehen | Dort steht als Maßnahme „Parser-Fix als Empfehlung dokumentiert"; der Fix ist gemacht. Der Eintrag gehört zur Darstellung der Arbeit und war zu diesem Zeitpunkt noch nicht geändert (seit 25.09.2026 nachgeführt) |
 
 ---
 

@@ -1,6 +1,6 @@
 # Betriebsdoku: validierte Parameter, Pflichtvariablen, Fallstricke, Kosten
 
-Alle Zahlen stammen aus den aufgezeichneten Läufen (48 Läufe, Stand
+Alle Zahlen stammen aus den aufgezeichneten Läufen (51 Läufe, Stand
 24.09.2026) und sind gemessen, nicht geschätzt, sofern nicht ausdrücklich
 anders vermerkt.
 

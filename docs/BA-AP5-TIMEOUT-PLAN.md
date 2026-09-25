@@ -1,8 +1,13 @@
 # AP5 — Timeout durchreichen: Implementierungsplan
 
-> **Zum Gebrauch:** Wir arbeiten diesen Plan Aufgabe für Aufgabe ab. Die Schritte
-> tragen Checkbox-Syntax (`- [ ]`), damit sich der Fortschritt direkt darin
-> abhaken lässt.
+> **Stand:** Implementierungsplan vom 17./18.08.2026 in 14 Aufgaben mit
+> Checkbox-Syntax (`- [ ]`). Alle 14 Aufgaben sind umgesetzt und abgenommen
+> (`BA-AP5-ABSCHLUSSBERICHT.md`, Abschnitt 7); die Checkboxen wurden nicht
+> nachgeführt. Das Dokument bleibt als Entstehungsnachweis stehen; der gültige
+> Code liegt in `smartbugs/tools/*/scripts/`, `testing_tools/` und `tests/`,
+> nicht in den Codeblöcken hier. Die Zahl „7 / 9 / 5“ geänderter Fremddateien
+> ist überholt (7 / 9 / 2 gegen den Upstream-Stand `7ddaf6c`,
+> `BA-EIGENANTEIL.md`).
 
 **Ziel:** Der von SmartBugs übergebene Timeout wirkt innerhalb des Containers, und
 was ein Werkzeug bis zum Ablaufen ermittelt hat, landet gekennzeichnet im Ergebnis.
