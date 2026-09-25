@@ -258,8 +258,14 @@ Ohne Empfehlung in der ersten Fassung, aber im selben Zug erledigt: Der Block
 `smartbugs.json` und dem Runner-Protokoll gelesen statt fest hinterlegt;
 `llmsa_curated_v2` behält den alten Block, weil seine Rohdaten fehlen.
 
+Dazu am 25.09.2026: Die sieben Eingriffe in `smartbugs/sb/` sind als zwei
+Pull Requests an `smartbugs/smartbugs` vorbereitet (Branches auf dem
+Upstream-Stand 2.1.6, mit Tests, unter Linux und Windows geprüft; Einzelheiten
+in `BA-EIGENANTEIL.md` 2.5). Eingereicht sind sie noch nicht.
+
 Offen bleiben:
 
+* Fork, Push und Öffnen der beiden Pull Requests durch die Verfasser.
 * `58_UniV3Vault.sol` in der Slither-Baseline: Compilerfehler ohne
   `--optimize`; ein Lauf mit `--solc-args` wäre der nächste Schritt.
 * Die zwei Grenzfälle der DASP-Zuordnung (`Centralization Risk` mit DASP-2,

@@ -600,7 +600,8 @@ reicht die Allowlist durch und redigiert die Werte anschließend im Task-Log.
 Die eigenen Eingriffe in `smartbugs/sb/` beschränken sich auf genau diese
 beiden Dateien — sieben Blöcke, im Quelltext als `BA MODIFICATION`
 gekennzeichnet und in [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)
-begründet. Alle übrigen Dateien unter `smartbugs/sb/` sind byte-identisch zum
+begründet; als zwei Pull Requests an `smartbugs/smartbugs` vorbereitet
+(ebendort, Abschnitt 2.5). Alle übrigen Dateien unter `smartbugs/sb/` sind byte-identisch zum
 Upstream-Stand `7ddaf6c`; nachprüfbar mit einem `diff -r` gegen einen frischen
 Klon (Befehl ebendort).
 

@@ -478,7 +478,7 @@ Aufbau.
 | **AP5-Ergänzungen in beiden Werkzeugen** (`sb_timeout`-Marker, Deadline-Wächter, Snapshot je Phase) | SmartBugs' `--timeout` wirkte für beide Werkzeuge nur als harter Containerabbruch: Der Lauf landete in **fails** und hinterließ nichts | Beim Containerabbruch bleiben und Teilergebnisse aufgeben. **Null Aufwand**, aber bei Laufzeiten bis 7 200 s je Contract verliert man damit Stunden Rechenzeit und bezahlte Token | **Eigenheit dieses Aufbaus.** Der Mechanismus hängt an SmartBugs' Timeout-Vertrag; ein PR gehörte, wenn überhaupt, zu SmartBugs und nicht zu den Werkzeugen. Entwurf und Nachweis in `docs/BA-AP5-TIMEOUT-DESIGN.md` und `docs/BA-AP5-ABSCHLUSSBERICHT.md` |
 | **Entfernen von `evaluation/`** (27 662 Dateien, 3,7 GB) | Zur Laufzeit nirgends referenziert; das Repository bliebe sonst unhandhabbar | Den Ordner behalten und nur per `.dockerignore` aus dem Image halten. **Klein** — löst aber nur das Image-Problem, nicht die Repository-Größe | **Eigenheit, kein PR.** Extern gesichert, siehe 2.4 |
 
-#### Was daraus für einen späteren Pull Request folgt
+#### Was daraus für einen Pull Request folgt, und was davon vorbereitet ist
 
 Ein PR an `smartbugs/smartbugs` sollte **nur** die sieben Blöcke in
 `docker.py` und `tools.py` enthalten, also den `env:`-Mechanismus samt
@@ -486,8 +486,25 @@ Redaktion und das robuste Aufräumen. Alles andere sind Änderungen an den
 beiden Werkzeugen und gehörte, wenn überhaupt, in PRs an deren eigene
 Repositories.
 
-**Angelegt ist davon bisher nichts** — kein Branch, kein Fork, kein PR. Dieser
-Abschnitt ist die Vorarbeit, nicht der Vollzug.
+**Stand 25.09.2026: vorbereitet, noch nicht eingereicht.** Die sieben Blöcke
+sind in zwei getrennte Änderungen auf dem aktuellen Upstream-Stand
+(`smartbugs/smartbugs`, Version 2.1.6; `sb/docker.py` und `sb/tools.py` sind
+dort seit `7ddaf6c` unverändert) übertragen, ohne die hiesigen Markerkommentare
+und im Stil des Upstreams (Docstrings, Typannotationen, `black`/`ruff`):
+
+| Branch | Inhalt | Blöcke | Tests |
+|---|---|---|---|
+| `feat/env-passthrough` | Feld `env:` in `config.yaml`, Weitergabe nur gesetzter Host-Variablen, Redaktion der Werte vor dem Schreiben nach `smartbugs.json`; Eintrag in `templates/tools/template/config.yaml` | 2, 5, 6, 7 | 8 neue |
+| `fix/tempdir-cleanup-retry` | `_remove_tempdir()` mit Wiederholung statt `shutil.rmtree()` im `finally` von `execute()` | 1, 3, 4 | 4 neue |
+
+Beide Branches bestehen die Upstream-Prüfungen: unter Linux 495 beziehungsweise
+491 Tests bei 100 % Abdeckung (Upstream-Stand: 487), `ruff` ohne Befund,
+`mypy` ohne neue Befunde, `black` ohne Änderung an den berührten Dateien.
+Unter Windows scheitern im Upstream-Stand 12 Tests an Pfadannahmen; die
+beiden Branches ändern daran nichts. Die Branches liegen in einem lokalen Klon
+außerhalb dieses Repositorys, zusammen mit den PR-Beschreibungen; Fork, Push
+und das Öffnen der PRs sind der Schritt, der noch aussteht und die Verfasser
+als Absender braucht.
 
 ---
 
