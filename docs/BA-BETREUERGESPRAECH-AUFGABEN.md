@@ -343,7 +343,7 @@ anpassen und per Mail schicken.
 | Größe | Wert (Stand 25.09.2026) |
 |---|---|
 | Eigener Code | **15 857 Zeilen** (Python, PowerShell, Shell, YAML, Dockerfile), davon 4 333 in Tests |
-| Eigene Dokumentation | **rund 83 000 Wörter** über 34 handgeschriebene Dokumente (README, 24 unter `docs/`, `eval/LAUFREGISTER.md`, die READMEs von `analysis_tools/`, `corpus_tools/`, `testing_tools/` und `tests/`, 4 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, `docs/parser-fix-vorher-nachher.md`, READMEs und Tabellen unter `eval/`) nicht mitgezählt |
+| Eigene Dokumentation | **rund 73 000 Wörter** über 32 handgeschriebene Dokumente (README, 22 unter `docs/`, `eval/LAUFREGISTER.md`, die READMEs von `analysis_tools/`, `corpus_tools/`, `testing_tools/` und `tests/`, 4 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, `docs/parser-fix-vorher-nachher.md`, READMEs und Tabellen unter `eval/`) nicht mitgezählt |
 | Geänderte Fremddateien | **18** (7 GPTScan · 9 LLMSmartAudit · 2 SmartBugs, dazu `smartbugs/.gitignore`), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser); dazu seit 24.09.2026 ein eigenes glibc-Werkzeugverzeichnis für Slither (Kopie mit eigenem Image, kein neuer Parser) |
 | Docker-Images | **3** selbst gebaut (GPTScan, LLMSmartAudit, Slither im glibc-Image), eines von 5,13 GB auf 587 MB reduziert |
