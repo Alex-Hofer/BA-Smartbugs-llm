@@ -209,6 +209,13 @@ etwas anderes: GPTScans **Static-Bestätigungsstufe stürzt auf 35 von 96
 der Argumentation geht, und es war vor dem Parser-Fix unsichtbar. Ob und wie das
 in die Arbeit einfließt, ist noch zu entscheiden.
 
+*(Nachtrag 25.09.2026: Eingeordnet. Die Ausnahme trifft die Prüfung eines
+einzelnen Kandidaten, nicht die Stufe; `GPTScan/src/tasks.py` setzt dessen
+Ergebnis auf `False`, der Kandidat entfällt. Die Abbrüche kosten deshalb
+Recall, nicht Precision, und jedes gemeldete Finding hat eine bestandene
+statische Prüfung hinter sich. In `curated_mwefixed_live` sind es 80 Kandidaten
+auf 35 Contracts; `BA-WERKZEUGE-IM-VERGLEICH.md` 4.3 und `BA-ARBEIT.md` 5.2.)*
+
 **4. `GPTScan/reports/`** (≈340 KB HTML/PDF/CSV aus früheren Läufen) bleibt
 unangetastet. Kandidat für weiteres Aufräumen, aber es sind eigene
 Auswertungen — bei Bedarf entfernbar.

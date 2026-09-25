@@ -76,7 +76,7 @@ dieses Laufs gelten die Werte in `eval/llmsa_mwefixed_v2/run_meta.json`.
 | `contracts_after_filter`, `…_step_1`, `…_step_2`, `…_static` | der Trichter: was nach Keyword-Vorfilter, den beiden LLM-Stufen und der statischen Bestätigung übrig blieb |
 | `vul_before_static`, `vul_after_static`, `vul_after_merge` | Kandidaten vor und nach der Static-Stufe, danach dedupliziert |
 | `degraded` | Contract nicht übersetzt — Ergebnis unbestimmt, **nie „keine Findings"** |
-| `static_invalid_args` | die Static-Stufe ist abgestürzt (`Static analysis failed: Invalid args`) |
+| `static_invalid_args` | mindestens eine statische Kandidatenprüfung endete mit einer Ausnahme (`Static analysis failed: Invalid args`); der Kandidat gilt dann als nicht bestätigt und entfällt (`GPTScan/src/tasks.py`; `docs/BA-WERKZEUGE-IM-VERGLEICH.md` 4.3) |
 
 ### Nur LLMSmartAudit (aus dem `result.log`)
 

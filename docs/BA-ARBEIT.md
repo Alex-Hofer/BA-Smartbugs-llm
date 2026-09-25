@@ -435,14 +435,16 @@ Regeln, 44 davon `MWE-200` (Insecure LP Token Value Calculation), für 28 Cent
 ([`../eval/curated_mwefixed_live/README.md`](../eval/curated_mwefixed_live/README.md)).
 Auf 56 der 96 Contracts übergab die LLM-Stufe Kandidaten an die statische
 Bestätigung, auf 39 verwarf diese welche
-([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md), Abschnitt 9). Zugleich
-protokolliert der Lauf auf 35 der 96 Contracts mindestens einen Abbruch der
-statischen Prüfung (`Static analysis failed: Invalid args`); 53 der 77 Findings
-liegen auf 23 dieser Contracts, und auf 30 der 35 verwarf die Stufe dennoch
-Kandidaten. Ob jedes dieser 53 Findings eine bestandene statische Prüfung
-hinter sich hat, lässt sich aus den Auswertungsdateien nicht entscheiden
-(`eval/per_contract/curated_mwefixed_live__gptscan.csv`, Spalten
-`static_invalid_args`, `vul_before_static`, `vul_after_static`;
+([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md), Abschnitt 9). Auf 35 der
+96 Contracts endete die statische Prüfung einzelner Kandidaten mit einer
+Ausnahme (`Static analysis failed: Invalid args`), insgesamt 80 Kandidaten, 77
+davon zur Regel `MWE-200`; meist hatte die Antwort des LLM auf den
+Static-Prompt eine Validierungsregel nicht passiert. GPTScan wertet einen
+solchen Kandidaten als nicht bestätigt und verwirft ihn
+(`GPTScan/src/tasks.py`). Die Abbrüche kosten deshalb Recall, nicht Precision:
+Jedes der 77 gemeldeten Findings hat eine bestandene statische Prüfung hinter
+sich; wie viele echte Findings unter den 80 verworfenen Kandidaten waren, ist
+nicht untersucht (`eval/curated_mwefixed_live/run_meta.json`, `error_list`;
 [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md), Abschnitt 4.3).
 Der Lauf mit `MAIN` reduzierte 41 der 96 Dateien auf ihren Hauptcontract; bei
 drei passte der Dateiname zu keinem Contract (Exit 127), sie wurden ohne `MAIN`
@@ -674,11 +676,12 @@ Dokument nicht geschrieben ([`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESP
 9. **Grammatik-Ablehnungen.** GPTScans Vorfilter sah in 87 der 143
    curated-Tasks nur einen Teil des Quelltexts; ein Nachlauf mit vollständigem
    Parsen wurde nicht durchgeführt.
-10. **Statische Abbrüche auf dem DeFi-Korpus.** Auf 35 der 96 Contracts brach
-    mindestens eine statische Prüfung GPTScans mit `Invalid args` ab; die
-    Ursache ist nicht untersucht, und welche der 77 Findings eine bestandene
-    statische Prüfung hinter sich haben, ist aus den Auswertungsdateien nicht
-    zu entscheiden (Abschnitt 5.2).
+10. **Verworfene Kandidaten auf dem DeFi-Korpus.** Auf 35 der 96 Contracts
+    endete die statische Prüfung von zusammen 80 GPTScan-Kandidaten mit einer
+    Ausnahme; sie gelten als nicht bestätigt und fehlen im Ergebnis. Wie viele
+    echte Findings darunter waren, ist nicht untersucht; die 77 Findings sind
+    eine Untergrenze dessen, was die zehn Regeln auf diesem Korpus treffen
+    (Abschnitt 5.2).
 11. **Rohdaten fehlen teilweise.** `llmsa_curated_v2` existiert nur noch als
     abgeleitete Auswertung; von allen übrigen Läufen sind `result.json` und
     `smartbugs.json` versioniert, Logs und Archive liegen außerhalb des Git
@@ -739,9 +742,9 @@ Integrationstreue durch Läufe der Originalwerkzeuge außerhalb von SmartBugs
 (AP2) und eine Wiederholungsmessung über mehrere Läufe (AP4); ein stärkeres
 Modell, das ohne Code-Änderung einsetzbar ist; eine Ground Truth für den
 DeFi-Korpus aus den Audit-Reports der Web3Bugs-Contests, aus denen er stammt;
-die Frage, ob GPTScan und Slither zusammen LLMSmartAudit ersetzen; die
-Untersuchung der statischen Abbrüche auf dem DeFi-Korpus an den Rohlogs; und
-das verallgemeinernde Anforderungsdokument an LLM-Analysewerkzeuge (AP7), für
+die Frage, ob GPTScan und Slither zusammen LLMSmartAudit ersetzen; eine
+Durchsicht der 80 auf dem DeFi-Korpus verworfenen GPTScan-Kandidaten am
+Quelltext; und das verallgemeinernde Anforderungsdokument an LLM-Analysewerkzeuge (AP7), für
 das das Material vorliegt.
 
 ---

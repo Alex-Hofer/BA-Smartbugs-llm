@@ -335,7 +335,7 @@ zustande. Die Herleitung aus `smartbugs/sb/parse_utils.py` steht in
 
 | Werkzeug | typisches Fehlerbild | Auswirkung |
 |---|---|---|
-| GPTScan | `Static analysis failed: Invalid args` — die statische Stufe stürzt ab; auf `mwevariety_fixed` bei 35 von 96 Contracts | Findings entstehen, aber ungefiltert: der Präzisionsschutz fehlt |
+| GPTScan | `Static analysis failed: Invalid args` — die statische Prüfung eines einzelnen Kandidaten endet mit einer Ausnahme; in `curated_mwefixed_live` bei 35 von 96 Contracts und 80 Kandidaten (77 davon zur Regel `MWE-200`), überwiegend weil die Antwort des LLM auf den Static-Prompt eine Validierungsregel nicht passiert (`GPTScan/src/tasks.py`, `validate_description`), dreimal weil sie kein JSON ist | Der Kandidat gilt als nicht bestätigt und entfällt (`tasks.py` setzt sein Ergebnis auf `False`). Das kostet Recall, nicht Precision: Jedes gemeldete Finding hat eine bestandene Prüfung hinter sich; wie viele echte Findings unter den verworfenen Kandidaten waren, ist nicht untersucht |
 | GPTScan | `InvalidCompilation` — Contract nicht übersetzbar | Lauf degradiert auf LLM-only, Ergebnis unbestimmt |
 | GPTScan | Exit 127 bei `MAIN=1` — Dateiname passt zu keinem Contract | Task als `fails`; Nachlauf ohne MAIN nötig |
 | LLMSmartAudit | `max_tokens_exceeded_by_camel` | Contract **nicht analysiert**; darf nie als sauber zählen |
