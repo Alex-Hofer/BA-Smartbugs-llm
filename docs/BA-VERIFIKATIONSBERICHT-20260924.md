@@ -280,6 +280,29 @@ Erledigt seit der ersten Fassung dieses Abschnitts: Rohdaten von
 sagt es (N3); die Lizenzzuordnung ist bestätigt (M7); `uv.lock` ist entfernt;
 die Runner protokollieren die Image-ID des verwendeten Docker-Images.
 
+**Durchsicht vom 25.09.2026 aus Gutachtersicht.** Nachdem feststand, dass das
+Repository selbst die Abgabe ist, wurde es einmal als Ganzes gelesen, von der
+README aus. Die Änderungen daraus stehen in den Commits vom 25.09.2026 ab
+`89a9863`: ein Dokument, das die Arbeit in einem Stück erzählt
+(`BA-UEBERBLICK.md`), Lesepfad und Begriffe in der README; Stand-Vermerke
+und Zahlenkorrekturen in 17 datierten Dokumenten; ein Auswertungsordner für
+den GPTScan-Referenzlauf (`eval/curated_mwefixed_live/`), ein Export der
+Slither-Baseline auf dem DeFi-Korpus (`eval/slither_mwefixed_v2/`),
+per-Contract-Tabellen der LLMSmartAudit-DeFi-Läufe und ein Register aller
+50 Laufverzeichnisse (`eval/LAUFREGISTER.md`);
+`analysis_tools/metrics_from_eval.py`, das Recall und Precision allein aus den
+versionierten Dateien nachrechnet; 17 neue Tests (Recall-Rechnung in
+`evaluate_curated.py`, Findings im GPTScan-Parser, Werkzeugkopien,
+Nachrechnung), Docstrings in 16 Dateien und READMEs für `analysis_tools/`,
+`tests/` und `testing_tools/`. Zwei Befunde an den Generatoren: Die
+Reihenfolge der Kategorien in `run_meta.json` hing von der
+Hash-Randomisierung ab (behoben, `68e4903`), und der Pfad der Ground Truth
+war als `dataset/vulnerabilities.json` angegeben (berichtigt). Offen bleiben
+zusätzlich: Die Eingriffe in `GPTScan/` und `LLMSmartAuditTool-main/` sind im
+Code nicht als solche markiert, nur in `BA-EIGENANTEIL.md` aufgeführt; für
+die Rohdaten der Läufe nach dem 02.08.2026 nennt das Repository keinen
+Sicherungsort; der Beitrag je Verfasser ist nirgends ausgewiesen.
+
 ---
 
 ## 6. Fazit

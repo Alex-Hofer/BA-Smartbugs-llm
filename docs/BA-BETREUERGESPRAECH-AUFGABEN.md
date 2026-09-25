@@ -342,15 +342,15 @@ anpassen und per Mail schicken.
 
 | Größe | Wert (Stand 25.09.2026) |
 |---|---|
-| Eigener Code | **15 017 Zeilen** (Python, PowerShell, Shell, YAML, Dockerfile), davon 4 015 in Tests |
-| Eigene Dokumentation | **rund 75 000 Wörter** über 30 handgeschriebene Dokumente (README, 24 unter `docs/`, `corpus_tools/README.md`, 4 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, READMEs unter `eval/`) nicht mitgezählt |
+| Eigener Code | **15 857 Zeilen** (Python, PowerShell, Shell, YAML, Dockerfile), davon 4 333 in Tests |
+| Eigene Dokumentation | **rund 83 000 Wörter** über 34 handgeschriebene Dokumente (README, 24 unter `docs/`, `eval/LAUFREGISTER.md`, die READMEs von `analysis_tools/`, `corpus_tools/`, `testing_tools/` und `tests/`, 4 in den Fremdbäumen); generierte Berichte (`docs/errors-fails.md`, `docs/parser-audit-*.md`, `docs/parser-fix-vorher-nachher.md`, READMEs und Tabellen unter `eval/`) nicht mitgezählt |
 | Geänderte Fremddateien | **18** (7 GPTScan · 9 LLMSmartAudit · 2 SmartBugs, dazu `smartbugs/.gitignore`), je per Datei-Hash gegen Upstream belegt |
 | Werkzeug-Integrationen | **2** vollständig (Dockerfile, Entrypoint, Config, Findings-Mapping, Parser); dazu seit 24.09.2026 ein eigenes glibc-Werkzeugverzeichnis für Slither (Kopie mit eigenem Image, kein neuer Parser) |
 | Docker-Images | **3** selbst gebaut (GPTScan, LLMSmartAudit, Slither im glibc-Image), eines von 5,13 GB auf 587 MB reduziert |
 | Messläufe | **51 Läufe · 1 501 Tasks · 7 494 Dateien · 2,68 GB** |
 | Rekonstruierter Korpus | **96 Contracts**, von 1/96 auf 96/96 kompilierbar gebracht |
 | Parser-Reparatur | **1 368 → 0** verlorene Rohmeldungen |
-| Regressionstests | **258**, Fixtures aus echten Läufen |
+| Regressionstests | **275**, Fixtures aus echten Läufen |
 | Belegter Kalenderzeitraum | 2026-07-01 bis 2026-09-24 (frühester und spätester Task-Start laut `smartbugs.json`; die Git-Historie beginnt erst am 2026-08-02), zuzüglich einer Vorphase |
 
 Zählweise: Codezeilen mit `wc -l` über die per `git ls-files` erfassten
@@ -363,8 +363,9 @@ Wörter mit `wc -w` über alle getrackten `.md`-Dateien außerhalb der drei
 Fremdbäume zuzüglich `GPTScan/docs/SMARTBUGS_INTEGRATION.md`,
 `GPTScan/taxonomy/mapping.md`, `LLMSmartAuditTool-main/.../docs/coverage.md`
 und `smartbugs/tools/llmsmartaudit/mapping.md`; generierte Berichte
-(`docs/errors-fails.md`, `docs/parser-audit-*.md`, READMEs unter `eval/`)
-zählen nicht.
+(`docs/errors-fails.md`, `docs/parser-audit-*.md`,
+`docs/parser-fix-vorher-nachher.md`, READMEs und Tabellen unter `eval/` außer
+`eval/LAUFREGISTER.md`) zählen nicht.
 Messläufe: Anzahl der `smartbugs.json` unter `smartbugs/results/`, Tasks und
 Dateien per Verzeichnislauf. Tests: `python -m pytest tests -q`.
 
