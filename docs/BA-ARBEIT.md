@@ -89,14 +89,15 @@ betreiben und zu vergleichen, ist der Gegenstand dieser Arbeit.
 
 ## 2. Forschungsfrage
 
-**Die Fragestellung ist rekonstruiert.** Kein Dokument aus der
-Durchführungszeit formuliert sie ausdrücklich; die Arbeitspakete des
-Betreuergesprächs ([`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md))
-und das Vorgehen im Durchführungsprotokoll
+Die Fragestellung wurde vor der Durchführung nicht schriftlich festgehalten;
+kein Dokument aus der Durchführungszeit formuliert sie ausdrücklich. Die
+Arbeitspakete des Betreuergesprächs
+([`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md)) und
+das Vorgehen im Durchführungsprotokoll
 ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md), Abschnitt 1)
-legen fest, was getan wurde, nicht, welche Frage damit beantwortet werden
-sollte. Die folgende Formulierung leitet die Frage aus dem ab, was tatsächlich
-gemessen wurde.
+legen fest, was getan wurde. Die folgende Formulierung leitet die Frage aus
+dem ab, was tatsächlich gemessen wurde; die Verfasser haben sie am 25.09.2026
+als ihre Fragestellung bestätigt.
 
 **Was leisten LLM-gestützte Schwachstellenscanner für Smart Contracts, wenn
 man sie als reguläre Werkzeuge unter SmartBugs betreibt, gemessen an einem
@@ -803,3 +804,21 @@ alle drei Werkzeuge und prüft die Tabellen der Dokumentation gegen
 entpackt) erzeugen `curated_eval.py`, `parser_audit.py` und
 `errors_fails_report.py` die versionierten Auswertungen bis auf den
 Zeitstempel identisch neu ([`../README.md`](../README.md), „Auswerten“).
+
+---
+
+## Anhang: Verlauf
+
+| Wann | Was |
+|---|---|
+| Juli 2026 | Integration beider Werkzeuge, Vorphasen- und Smoke-Läufe (ab 01.07.); Hauptlauf `curated_v1_20260705` (05./06.07.); GPTScan über den unreparierten DeFi-Korpus (06.07.); Korpus-Reparatur und Referenzlauf `curated_mwefixed_live` (21.07.) |
+| 02./03.08.2026 | Neugründung des Repositorys ohne das 3,7-GB-Evaluationsverzeichnis; Parser-Audit und Parser-Reparatur; Herleitung der `errors`/`fails`-Semantik; Demonstrationslauf |
+| 15./16.08.2026 | GPTScan-Volllauf mit `MAIN`; LLMSmartAudit-Volläufe über beide Korpora |
+| 17./18.08.2026 | Timeout-Durchreichung (AP5) mit Prüfstand und Nachweisläufen |
+| 15.09.2026 | Nachlauf über vier unentschiedene DeFi-Contracts |
+| 20./21.09.2026 | Modellwahl zur Laufzeit; drei Slither-Detektoren im Zusatz-Mapping; Streuung von LLMSmartAudit beziffert |
+| 24./25.09.2026 | Zweitprüfung des Repositorys; Slither-Baseline auf dem DeFi-Korpus; Kontextgrenze einstellbar und Nachlauf über die 37 Contracts; Pull Requests vorbereitet; Rohdaten versioniert und als Release abgelegt |
+
+Daten der Läufe: [`../eval/LAUFREGISTER.md`](../eval/LAUFREGISTER.md); die
+datierten Berichte zu den einzelnen Schritten stehen in der
+[`../README.md`](../README.md) unter „Dokumentation“.
