@@ -14,7 +14,7 @@ Volllauf. **Kein Messergebnis über den Korpus.**
 | Parameter | `--processes 3`, `--timeout 1800`, `--mem-limit 4g`, MAIN aktiv |
 | Wanduhr | 298,2 s |
 | Durchführung | 15.08.2026, Git-Commit `58971ba`, Skript `run_full_v2.ps1` |
-| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 
 ## Wie die Dateien entstanden sind
 
@@ -49,5 +49,6 @@ python analysis_tools\gptscan_eval.py gptscan_mwefixed_v2_smoke
    in Größe und in der Zahl der Funktionen, die den Vorfilter passieren.
 3. **Zwei Tasks mit `errors` sind kein Defekt.** Das Werkzeug hat ein Problem
    bemerkt, abgefangen und weitergearbeitet (`docs/BA-ERRORS-VS-FAILS.md`).
-4. **Die Rohergebnisse liegen nicht im Repository** und ein Nachfahren erzeugt
-   keine bitgleichen Ergebnisse.
+4. **Logs und Archive liegen nicht im Repository** (nur `result.json` und
+   `smartbugs.json` je Task, Rest im Release-Zip, README „Wo die Ergebnisse
+   liegen“), und ein Nachfahren erzeugt keine bitgleichen Ergebnisse.

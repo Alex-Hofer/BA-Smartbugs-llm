@@ -16,7 +16,7 @@ Contracts am Modell scheiterten oder an der Konstante 65 536 in
 | Modell | `deepseek/deepseek-v4-flash`. Diesen Namen leitet der Anbieter seit September 2026 auf DeepSeek-V4.1-Flash; der Hauptlauf vom August lief auf V4-Flash |
 | Parameter | `LLM_CONTEXT_TOKENS=1000000`, `LLM_MAX_COMPLETION_TOKENS=32768`, `--timeout 7200`, 2 Prozesse, kein `--main` |
 | Korpus | 37 der 96 Dateien unter `smartbugs/samples/gptscan/mwevariety_fixed/`, Auswahl = alle Tasks des Hauptlaufs mit Kontextabbruch |
-| Rohergebnisse | `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2_ctx1m/` (git-ignoriert), 37 Task-Ordner mit `result.json`, `result.log`, `result.tar`, `smartbugs.json` |
+| Rohergebnisse | `smartbugs/results/llmsmartaudit/llmsa_mwefixed_v2_ctx1m/` 37 Task-Ordner mit `result.json`, `result.log`, `result.tar`, `smartbugs.json`; `result.json` und `smartbugs.json` sind versioniert, Logs und Archive liegen im Release-Zip (README „Wo die Ergebnisse liegen“) |
 | Protokolle | `eval/_runlogs/llmsa_retry_20260924-154737.log` (Teil 1, Runner), `llmsa_ctx1m_kostenwaechter_20260924.log` (Teil 1, Kostenwächter), `llmsa_retry_20260924-192459.log` (Teil 2) |
 
 Warum zwei Teile: Der Runner `run_retry_llmsa.ps1` brach in Teil 1 nach sechs

@@ -160,8 +160,10 @@ Kostendeckel im Runner. Die Hauptläufe:
 Insgesamt liegen 51 Läufe mit 1 501 Tasks vor, darunter Probe-, Trocken- und
 Prüfläufe ([`../README.md`](../README.md), „Wo die Ergebnisse liegen“;
 Protokoll: [`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md)).
-Die Rohergebnisse sind git-ignoriert (2,68 GB); versioniert sind die
-abgeleiteten Auswertungen unter [`../eval/`](../eval/README.md).
+Von den Rohergebnissen (2,68 GB) sind je Task `result.json` und
+`smartbugs.json` versioniert (16 MB); Logs und Archive liegen als Zip an einem
+GitHub-Release des Repositorys (`../README.md`, „Wo die Ergebnisse liegen“).
+Die abgeleiteten Auswertungen stehen unter [`../eval/`](../eval/README.md).
 
 ### 4.3 Wie gemessen wird
 
@@ -431,7 +433,8 @@ und ohne Schlüssel gegen aufgezeichnete Rohdaten; sie enthält Tests, die die
 Tabellen der Dokumentation gegen `run_meta.json` prüfen und diese Nachrechnung
 für alle drei Werkzeuge des curated-Laufs ausführen.
 
-**Mit den Rohdaten** (2,68 GB unter `smartbugs/results/`, bei den Verfassern):
+**Mit den vollständigen Rohdaten** (2,68 GB; `result.json` und `smartbugs.json`
+im Repository, alles Übrige im Release-Zip, entpackt nach `smartbugs/results/`):
 `python analysis_tools/curated_eval.py` erzeugt die `eval/`-Ordner des
 curated-Laufs neu, `python analysis_tools/parser_audit.py` den Lückenbericht,
 `python analysis_tools/errors_fails_report.py` die Errors/Fails-Bilanz; alle

@@ -15,7 +15,7 @@ der Auswahl lag. **Kein Messergebnis über den Korpus.**
 | Parameter | `--processes 3`, `--timeout 1800`, `--mem-limit 4g`, MAIN aktiv |
 | Wanduhr | 352,8 s |
 | Durchführung | 15.08.2026, Git-Commit `58971ba`, Skript `run_full_v2.ps1`; Auswertung nachgezogen am 17.08.2026 |
-| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 
 ## Wie die Dateien entstanden sind
 
@@ -49,5 +49,6 @@ python analysis_tools\gptscan_eval.py gptscan_mwefixed_v2_smoke2
    Es sind andere Contracts; ein Wiederholungslauf über dieselben Contracts
    wurde hier nicht gefahren. Die Reproduzierbarkeitszahl steht in
    `docs/BA-GPTSCAN-VERGLEICH.md`, Abschnitt 4.
-3. **Die Rohergebnisse liegen nicht im Repository** und ein Nachfahren erzeugt
-   keine bitgleichen Ergebnisse.
+3. **Logs und Archive liegen nicht im Repository** (nur `result.json` und
+   `smartbugs.json` je Task, Rest im Release-Zip, README „Wo die Ergebnisse
+   liegen“), und ein Nachfahren erzeugt keine bitgleichen Ergebnisse.

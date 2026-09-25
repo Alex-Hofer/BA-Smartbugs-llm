@@ -137,7 +137,7 @@ Abschnitt 4; die Rohwerte in `eval/`.
 │   ├── tools/llmsmartaudit/    Tool-Integration (eigener Code)
 │   ├── tools/slither-0.11.3-glibc/  Slither im glibc-Image (Kopie des Upstream-Werkzeugs mit eigenem Dockerfile)
 │   ├── samples/                Testkorpora, u. a. gptscan/mwevariety_fixed/
-│   └── results/                Messdaten — git-ignoriert, siehe unten
+│   └── results/                Messdaten — result.json und smartbugs.json je Task versioniert, der Rest im Release-Zip, siehe unten
 ├── GPTScan/                    GPTScan (fremd, AGPL-3.0) mit Änderungen
 ├── LLMSmartAuditTool-main/     LLMSmartAudit (fremd, Apache-2.0) mit Änderungen
 ├── smartbugs-curated/          der Benchmark-Datensatz — git-ignoriert, run_curated.ps1 klont ihn
@@ -153,11 +153,28 @@ Abschnitt 4; die Rohwerte in `eval/`.
 
 ### Wo die Ergebnisse liegen
 
-`smartbugs/results/` — **bewusst nicht im Git** (`smartbugs/.gitignore` schließt
-`results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
-reproduzierbar. Die Rohdaten liegen bei den Verfassern; welcher Lauf wozu
-diente und wo er ausgewertet ist, steht für alle Laufverzeichnisse in
-[`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md).
+`smartbugs/results/` enthält je Task vier Dateien. Zwei davon sind seit dem
+25.09.2026 **versioniert**: `result.json` (die geparsten Findings, Errors und
+Fails) und `smartbugs.json` (Aufrufparameter, Image, Zeiten), zusammen
+3 002 Dateien und 16 MB. Aus ihnen entstehen alle Zahlen unter `eval/`; ein
+frischer Klon kann `curated_eval.py`, `build_eval.py`, `gptscan_eval.py` und
+`per_contract_stats.py` damit ausführen. Nicht im Git sind `result.log`,
+`result.tar`, die SARIF-Dateien und die Konsolenprotokolle unter
+`results/logs/` (zusammen 2,5 GB, `smartbugs/.gitignore`); sie braucht nur, wer
+neu parsen (`sb.reparse`), das Parser-Audit wiederholen oder Token und Kosten
+aus den Logs nachrechnen will.
+
+**Die vollständigen Rohdaten** liegen als Zip an einem GitHub-Release dieses
+Repositorys: [Release `rohdaten-20260925`](https://github.com/Alex-Hofer/BA-Smartbugs-llm/releases/tag/rohdaten-20260925),
+Datei `smartbugs-results-20260925.zip`, 360 MB, SHA-256
+`03528a36ef7f41e2917a246ba37641ae47c86d40ddc3ae699c7dc0def7ea9b92`. Entpackt
+nach `smartbugs/` ergibt sie das Verzeichnis `results/` mit allen 7 494
+Dateien; API-Schlüssel sind darin redigiert (Prüfung mit den Mustern von
+`analysis_tools/secret_scan.py` vor dem Hochladen). Daneben halten die
+Verfasser zwei Sicherungen außerhalb des Repositorys (Stand 02.08.2026 und
+21.09.2026). Die Läufe selbst sind ohne neue, kostenpflichtige LLM-Aufrufe
+nicht reproduzierbar; welcher Lauf wozu diente und wo er ausgewertet ist,
+steht für alle Laufverzeichnisse in [`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md).
 
 **Stand 24.09.2026: 51 Läufe, 1 501 Tasks, 7 494 Dateien, 2,68 GB** (2,50 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie

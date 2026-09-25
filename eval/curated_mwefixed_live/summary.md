@@ -1,6 +1,6 @@
 # GPTScan-Lauf `curated_mwefixed_live` -- Auswertung
 
-Erzeugt 2026-09-25T09:32:28.584436+00:00 von `analysis_tools/gptscan_eval.py`.
+Erzeugt 2026-09-25T09:58:54.332588+00:00 von `analysis_tools/gptscan_eval.py`.
 Rohergebnisse: `smartbugs/results/gptscan/curated_mwefixed_live` (unveraendert).
 
 ## Eckdaten

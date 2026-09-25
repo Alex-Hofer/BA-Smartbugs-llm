@@ -15,7 +15,7 @@ Volllauf gestartet wurde.
 | Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
 | MAIN | aktiv |
 | Durchführung | 15.08.2026 |
-| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_dry/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_dry/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 
 Es gibt **kein `run_params.json`**: Der Lauf entstand vor dem Protokoll bzw. der
 Runner kam nicht bis dorthin. Was sich aus den Rohergebnissen selbst belegen

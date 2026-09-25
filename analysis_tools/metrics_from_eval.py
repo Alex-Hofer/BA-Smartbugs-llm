@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Recall, Precision und F1 allein aus den versionierten Dateien unter eval/.
 
-Wozu: Die Rohergebnisse unter smartbugs/results/ sind git-ignoriert, und die
-Ground Truth (smartbugs-curated/) wird geklont, nicht mitgefuehrt. Wer nur das
+Wozu: Von den Rohergebnissen unter smartbugs/results/ sind nur result.json und
+smartbugs.json je Task versioniert, und die Ground Truth (smartbugs-curated/)
+wird geklont, nicht mitgefuehrt. Wer nur das
 Repository hat, kann mit diesem Skript trotzdem nachrechnen, ob die Kennzahlen
 in eval/curated_v1_20260705__metriken.md und in den run_meta.json stimmen --
 aus zwei Dateien, die beide versioniert sind:

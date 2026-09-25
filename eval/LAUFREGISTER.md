@@ -1,7 +1,9 @@
 # Laufregister: alle Läufe unter `smartbugs/results/`
 
 Stand 25.09.2026, gezählt über die `smartbugs.json` jedes Task-Verzeichnisses.
-Die Rohergebnisse sind git-ignoriert; dieses Register sagt für jedes
+Von den Rohergebnissen sind je Task `result.json` und `smartbugs.json`
+versioniert, Logs und Archive liegen im Release-Zip (README, „Wo die
+Ergebnisse liegen“); dieses Register sagt für jedes
 Laufverzeichnis, wozu der Lauf diente und wo er ausgewertet ist. Läufe ohne
 Ordner unter `eval/` erscheinen in `docs/errors-fails.md` (Zustände je Lauf)
 und `docs/parser-audit-nachher.md` (Parser-Deckung), sonst nirgends.

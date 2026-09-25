@@ -13,7 +13,7 @@ dieser Ordner macht seine Einzelergebnisse je Contract versioniert nachlesbar.
 | Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
 | Parameter | `--timeout 600`, 4 Prozesse, MAIN nicht gesetzt |
 | Durchführung | 24.09.2026, 23:11 bis 23:14 Uhr (2:48 min Wanduhr, 646,6 s Container-Zeit) |
-| Rohergebnisse | `smartbugs/results/slither-0.11.3-glibc/slither_mwefixed_v2/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/slither-0.11.3-glibc/slither_mwefixed_v2/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 | Vorlauf | `slither_mwefixed_v1` mit dem Upstream-Image (Alpine): 51 von 96 Contracts, Ursache in `docs/BA-BETRIEB.md`, Fallstrick 10; nur als `eval/per_contract/slither_mwefixed_v1__slither-0.11.3.csv` versioniert |
 
 ## Wie die Datei entstanden ist
@@ -81,7 +81,7 @@ Nachtrag 4.8; `docs/BA-VERIFIKATIONSBERICHT-20260924.md`, Abschnitt 4.1.
    mit GPTScan (77 Findings) und LLMSmartAudit (437) auf demselben Korpus ist
    ein Mengen-, kein Qualitätsvergleich.
 2. **Detektorname ist kein Schweregrad.** Die Impact-Stufe steht nicht in
-   dieser CSV, sondern in der `result.json` je Task (git-ignoriert); die
+   dieser CSV, sondern in der `result.json` je Task (versioniert); die
    Verteilung oben ist daraus gerechnet.
 3. **`58_UniV3Vault.sol` ist kein Slither-Befund.** Der Contract scheiterte am
    Compiler, nicht am Werkzeug; ein Lauf mit `--solc-args --optimize` wäre der

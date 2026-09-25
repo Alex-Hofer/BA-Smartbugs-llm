@@ -1,7 +1,7 @@
 {
  "run_id": "curated_v1_20260705",
  "tool": "slither-0.11.3",
- "generated": "2026-09-25T09:19:26+00:00",
+ "generated": "2026-09-25T09:58:51+00:00",
  "generated_by": "analysis_tools/curated_eval.py",
  "smartbugs_version": "2.1.1",
  "results_dir": "smartbugs/results/slither-0.11.3/curated_v1_20260705",

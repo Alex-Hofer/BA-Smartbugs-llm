@@ -253,7 +253,7 @@ vorübergehende Sperre, dauerhafte Sperre).
 
 | Datei | Was | Warum |
 |---|---|---|
-| `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` bleibt unverändert ignoriert |
+| `smartbugs/.gitignore` | Muster `results*` an das Verzeichnis der Datei geankert: `/results*` | Ohne Anker traf das Muster jeden Pfad, der mit „results" beginnt — und schloss damit **sechs Upstream-Dateien** von der Versionierung aus (siehe unten). `smartbugs/results/` blieb ignoriert; seit dem 25.09.2026 nimmt das Muster (`/results/**` mit Ausnahmen) je Task `result.json` und `smartbugs.json` wieder auf, Begründung im Kommentar der Datei und in der README, „Wo die Ergebnisse liegen“ |
 
 > **Eine siebte Upstream-Datei ist weiterhin ausgeschlossen.** Der Anker
 > `/results*` greift im Verzeichnis `smartbugs/` selbst und trifft dort neben

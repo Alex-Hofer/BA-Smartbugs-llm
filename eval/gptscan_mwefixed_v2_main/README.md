@@ -15,7 +15,7 @@ damit die Referenz für die Frage, was der MAIN-Parameter (AP6) an den Ergebniss
 | Parameter | `--processes 4`, `--timeout 1800`, `--mem-limit 4g`, MAIN aktiv mit Fallback |
 | Wanduhr | 3 055 s (50:55 min), Task-Summe 11 771,7 s |
 | Durchführung | 15.08.2026, Git-Commit `58971ba`, Skript `run_full_v2.ps1` |
-| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_main/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/gptscan/gptscan_mwefixed_v2_main/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 
 Die genauen Aufrufparameter samt SHA1 aller beteiligten Tool-Dateien stehen in
 `run_params.json`. Der Nachlauf `_nomain` wiederholt die drei Contracts, die im
@@ -86,7 +86,6 @@ als `BUSINESS-LOGIC (no SWC/DASP)` führt — das betrifft 8 der 10 Regeln.
    übersetzt; sein Befund ist unbestimmt.
 5. **Die Kostenangabe ist GPTScans eigene Schätzung** aus `GPTSCAN_META`, nicht
    die Abrechnung des Anbieters.
-6. **Die Rohergebnisse liegen nicht im Repository.** In einem frischen Clone
-   existiert `smartbugs/results/` nicht; was hier liegt, ist die einzige
-   versionierte Fassung dieses Laufs. Ein Nachfahren erzeugt keine bitgleichen
-   Ergebnisse.
+6. **Logs und Archive liegen nicht im Repository**, nur `result.json` und
+   `smartbugs.json` je Task (Rest im Release-Zip, README „Wo die Ergebnisse
+   liegen“). Ein Nachfahren erzeugt keine bitgleichen Ergebnisse.

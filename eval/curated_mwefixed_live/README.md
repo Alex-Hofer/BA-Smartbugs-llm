@@ -18,7 +18,7 @@ GPTScan auf seiner Zieldomäne nennen.
 | Korpus | `smartbugs/samples/gptscan/mwevariety_fixed/`, 96 DeFi-Contracts |
 | Parameter | `--timeout 1800`, MAIN nicht gesetzt (`'0'` im Entrypoint); Prozesszahl nicht protokolliert, der Lauf liegt vor der Einführung von `run_params.json` |
 | Durchführung | 21.07.2026, 12:39 bis 13:12 Uhr (36,7 min Wanduhr, 8 217,2 s Container-Zeit) |
-| Rohergebnisse | `smartbugs/results/gptscan/curated_mwefixed_live/` (git-ignoriert) |
+| Rohergebnisse | `smartbugs/results/gptscan/curated_mwefixed_live/` (`result.json` und `smartbugs.json` je Task versioniert; Logs und Archive im Release-Zip, siehe README „Wo die Ergebnisse liegen“) |
 | Trockenlauf davor | `curated_mwefixed_dry` (96 Contracts, 0 API-Aufrufe, nur in `docs/errors-fails.md`) |
 
 ## Wie die Dateien entstanden sind
@@ -89,5 +89,6 @@ Stufen in `corpus_tools/curated_mwefixed_live.analysis.json`
    Nicht-Determinismus (`eval/gptscan_mwefixed_v2_main/README.md`).
 4. **Die Kosten sind GPTScans eigene Schätzung** aus `GPTSCAN_META`, nicht die
    Abrechnung des Anbieters.
-5. **Die Rohergebnisse liegen nicht im Repository.** Was hier liegt, ist die
-   einzige versionierte Fassung der Einzel-Findings dieses Laufs.
+5. **Logs und Archive liegen nicht im Repository**, nur `result.json` und
+   `smartbugs.json` je Task (Rest im Release-Zip, README „Wo die Ergebnisse
+   liegen“); dieser Ordner ist die daraus abgeleitete Auswertung.
