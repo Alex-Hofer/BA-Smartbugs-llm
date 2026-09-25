@@ -1,8 +1,9 @@
 # Die Arbeit im Überblick
 
 Bachelorarbeit **„KI-gestützte Smart-Contract-Scanner im SmartBugs-Framework“**,
-Alex Hofer und Alex Unterleitner, TU Wien, Betreuer Gernot Salzer.
-**Dieses Repository ist die Abgabe.** Eine gesonderte schriftliche Ausarbeitung
+Alex Hofer und Alex Unterleitner, TU Wien, Betreuer Gernot Salzer. Beide
+Verfasser haben zu gleichen Teilen beigetragen; eine Aufteilung nach Personen
+wird nicht ausgewiesen. **Dieses Repository ist die Abgabe.** Eine gesonderte schriftliche Ausarbeitung
 gibt es nicht; was die Arbeit fragt, wie sie misst und was sie findet, steht in
 den Dokumenten, dem Code und den Auswertungen dieses Repositorys.
 

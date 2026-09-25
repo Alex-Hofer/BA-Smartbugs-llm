@@ -301,7 +301,9 @@ war als `dataset/vulnerabilities.json` angegeben (berichtigt). Offen bleiben
 zusätzlich: Die Eingriffe in `GPTScan/` und `LLMSmartAuditTool-main/` sind im
 Code nicht als solche markiert, nur in `BA-EIGENANTEIL.md` aufgeführt; für
 die Rohdaten der Läufe nach dem 02.08.2026 nennt das Repository keinen
-Sicherungsort; der Beitrag je Verfasser ist nirgends ausgewiesen.
+Sicherungsort. Eine Aufteilung des Beitrags nach Personen wird nicht
+ausgewiesen; beide Verfasser haben nach eigener Angabe zu gleichen Teilen
+beigetragen (`BA-UEBERBLICK.md`).
 
 ---
 
