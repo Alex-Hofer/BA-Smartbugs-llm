@@ -185,9 +185,13 @@ Schlüssel kommt zur Laufzeit aus der Prozessumgebung.
 * **Git-Bash-Pfadumwandlung.** MSYS wandelt führende `/` in Argumenten in
   Windows-Pfade um (`!/foo/` wird zu `!C:/Program Files/Git/foo/`). Bei
   Pfadmustern `MSYS_NO_PATHCONV=1` voranstellen.
-* **PowerShell-Umleitung schreibt ein BOM.** `> datei.csv` erzeugt UTF-8 mit
-  BOM; Leser müssen `encoding="utf-8-sig"` verwenden (so macht es
-  `analysis_tools/compare_csv.py`).
+* **PowerShell-Umleitung und Kodierung.** Was `> datei.csv` in Windows
+  PowerShell 5.1 schreibt, hängt von der Sitzung ab: ohne Vorgabe UTF-16LE,
+  mit `$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'` UTF-8 mit
+  BOM. `analysis_tools/compare_csv.py` liest `utf-8-sig` und bricht auf einer
+  UTF-16-Datei ab. Deshalb Exporte ausdrücklich kodieren:
+  `... | Out-File -Encoding utf8 datei.csv` (PowerShell 5.1 schreibt dann UTF-8
+  mit BOM, das `utf-8-sig` verträgt).
 * **Windows-Pfadlänge.** `core.longpaths=true` ist **pro Clone zu setzen** — die
   Option ist eine lokale Git-Konfiguration und wird nicht mitgeklont. Ohne sie
   scheitern Operationen, die tiefer als der Arbeitsbaum liegen, mit

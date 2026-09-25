@@ -630,9 +630,11 @@ python analysis_tools\curated_eval.py
 # (findings.jsonl + per_contract-Tabelle); --check vergleicht mit run_meta.json
 python analysis_tools\metrics_from_eval.py eval\curated_v1_20260705__llmsmartaudit --check
 
-# Rohdaten als CSV
+# Rohdaten als CSV. Kodierung ausdruecklich setzen: ein blosses '>' schreibt in
+# Windows PowerShell 5.1 je nach Sitzung UTF-16LE, das compare_csv.py nicht liest
+# (docs/BA-BETRIEB.md, Abschnitt 6).
 cd smartbugs
-.venv\Scripts\python.exe -m sb.results2csv results > ..\curated_results.csv
+.venv\Scripts\python.exe -m sb.results2csv results | Out-File -Encoding utf8 ..\curated_results.csv
 cd ..
 
 # Errors und Fails getrennt, mit Wortlaut

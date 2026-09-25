@@ -226,6 +226,13 @@ python analysis_tools\per_contract_stats.py slither-0.11.3 curated_v1_20260705
 python analysis_tools\per_contract_stats.py slither-0.11.3 slither_mwefixed_v1
 python analysis_tools\per_contract_stats.py slither-0.11.3-glibc slither_mwefixed_v2
 python analysis_tools\per_contract_stats.py llmsmartaudit curated_v1_20260705
+python analysis_tools\per_contract_stats.py llmsmartaudit llmsa_mwefixed_v2 --merge-run llmsa_mwefixed_v2_retry
+python analysis_tools\per_contract_stats.py llmsmartaudit llmsa_mwefixed_v2_ctx1m
 ```
+
+Alle zwölf Dateien reproduzieren mit diesen Aufrufen byteidentisch (zuletzt
+am 25.09.2026 geprüft). Bei `llmsa_mwefixed_v2` meldet das Skript „Phasenmarker
+!= Usage-Bloecke bei 37 Contract(s)“; das sind die 37 Kontext-Contracts, siehe
+oben.
 
 Regressionstests: `python -m pytest tests/test_per_contract_stats.py -q`

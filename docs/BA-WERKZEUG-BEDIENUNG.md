@@ -269,9 +269,10 @@ python analysis_tools\parser_audit.py smartbugs\results\<tool>\<lauf>
 # --suffix ist PFLICHT und meint den RunIdSuffix, nicht den Ordnernamen.
 python evaluate_curated.py --suffix v1_20260705 --tools gptscan llmsmartaudit --csv
 
-# Tabellarische Gesamtsicht
+# Tabellarische Gesamtsicht. Kodierung ausdruecklich setzen: ein blosses '>'
+# schreibt in Windows PowerShell 5.1 je nach Sitzung UTF-16LE (BA-BETRIEB.md, 6).
 Push-Location smartbugs
-& '.\.venv\Scripts\python.exe' -m sb.results2csv results\gptscan\<lauf> > ..\ergebnis.csv
+& '.\.venv\Scripts\python.exe' -m sb.results2csv results\gptscan\<lauf> | Out-File -Encoding utf8 ..\ergebnis.csv
 Pop-Location
 ```
 

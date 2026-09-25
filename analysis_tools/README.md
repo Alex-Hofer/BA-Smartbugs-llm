@@ -19,19 +19,26 @@ anlegen“). Aufruf immer aus dem Repository-Wurzelverzeichnis.
 | `gptscan_eval.py` | Auswertung eines GPTScan-Laufs samt Vergleich gegen den Referenzlauf `curated_mwefixed_live`; schreibt außerdem `eval/README.md` neu | `smartbugs/results/gptscan/<runid>/`, `eval/<runid>/run_params.json` (falls vorhanden) | `eval/<runid>/`, `eval/README.md` | `python analysis_tools\gptscan_eval.py <runid> [--merge-run <runid>] [--no-compare]` |
 | `metrics_from_eval.py` | Recall/Precision/F1 je Kategorie **ohne Rohdaten**, allein aus `findings.jsonl` und der per_contract-Tabelle eines Ordners; `--check` vergleicht mit `run_meta.json` | `eval/<ordner>/findings.jsonl`, `eval/per_contract/<ordner>.csv` | Konsole | `python analysis_tools\metrics_from_eval.py eval\curated_v1_20260705__llmsmartaudit --check` |
 | `per_contract_stats.py` | eine Zeile je Contract (Zustand, Findings, Laufzeit, Token, Kosten, GPTScan-Stufen bzw. LLMSmartAudit-Phasen) | Rohergebnisse eines Laufs | `eval/per_contract/<runid>__<tool>.csv` (+ `__phases.csv` bei LLMSmartAudit) | `python analysis_tools\per_contract_stats.py <tool> <runid> [--merge-run <runid>] [--out-dir <pfad>]` |
-| `gptscan_run_stats.py` | Token-, Kosten- und Laufzeitkennzahlen eines GPTScan-Laufs aus den `GPTSCAN_META`-Zeilen, für die Runner | `result.log` je Task | Konsole | `python analysis_tools\gptscan_run_stats.py <runid>` |
+| `gptscan_run_stats.py` | Token-, Kosten- und Laufzeitkennzahlen eines GPTScan-Laufs aus den `GPTSCAN_META`-Zeilen, für die Runner | `result.log` je Task eines Laufverzeichnisses | Konsole (mit `--json` eine Datei) | `python analysis_tools\gptscan_run_stats.py smartbugs\results\gptscan\<runid> [--json OUT.json]` (erwartet das Verzeichnis, nicht die `runid`) |
 | `errors_fails_report.py` | Bilanz `errors` gegen `fails` je Lauf und Werkzeug, mit jeder Meldung im Wortlaut | `result.json` aller Läufe | `docs/errors-fails.md`, `docs/errors-fails.csv` | `python analysis_tools\errors_fails_report.py --md docs\errors-fails.md --csv docs\errors-fails.csv` |
-| `parser_audit.py` | prüft, ob Rohsignal (Tracebacks, Fehlerzeilen, Marker) auf dem Weg vom Container in `result.json` verlorengeht | `result.log`, `result.tar`, `result.json` aller Läufe | `docs/parser-audit-nachher.md` (und `.csv`, git-ignoriert) | `python analysis_tools\parser_audit.py` |
+| `parser_audit.py` | prüft, ob Rohsignal (Tracebacks, Fehlerzeilen, Marker) auf dem Weg vom Container in `result.json` verlorengeht | `result.log`, `result.tar`, `result.json` aller Läufe (oder eines Laufverzeichnisses) | Konsole; mit `--md`/`--csv` zusätzlich `docs/parser-audit-nachher.md` und `.csv` (git-ignoriert); ohne die Optionen wird keine Datei geschrieben | `python analysis_tools\parser_audit.py [--md docs\parser-audit-nachher.md --csv docs\parser-audit-nachher.csv] [<laufverzeichnis>]` |
 | `compare_csv.py` | Vorher/Nachher-Vergleich zweier `sb.results2csv`-Exporte, etwa vor und nach einer Parser-Änderung | zwei CSV-Dateien | Konsole (`docs/parser-fix-vorher-nachher.md` ist eine solche Ausgabe) | `python analysis_tools\compare_csv.py <vorher.csv> <nachher.csv>` |
 | `redact_results.py` | entfernt API-Schlüssel aus Task-Logs, die vor der Redaktion in `sb/docker.py` entstanden sind; verweigert, wenn sich mehr als der Schlüsselwert ändern würde | Task-Logs | dieselben Task-Logs | `python analysis_tools\redact_results.py` (siehe Kopfkommentar) |
 | `secret_scan.py` | verhindert, dass ein Schlüssel in einen Commit gelangt; läuft als pre-commit-Hook und in der CI | gestagte Dateien oder der ganze Arbeitsbaum, Archive entpackt | Exit-Code, Fundstellen ohne Wert | `python analysis_tools\secret_scan.py [--all] [--install]` |
 | `rawlog.py` | gemeinsame Lesefunktionen für `result.log`, `result.tar` und `rich`-formatierte Logs; wird von `parser_audit.py`, `errors_fails_report.py` und `redact_results.py` importiert | – | – | Bibliothek, kein eigener Aufruf |
 | `__init__.py` | macht das Verzeichnis importierbar; Modultabelle im Docstring | – | – | – |
 
+Läufe mit Nachlauf reproduzieren den eingecheckten Stand nur mit
+`--merge-run`: `llmsa_mwefixed_v2` braucht `--merge-run llmsa_mwefixed_v2_retry`,
+`gptscan_mwefixed_v2_main` braucht `--merge-run gptscan_mwefixed_v2_main_nomain`
+(sonst 414 statt 437 beziehungsweise 73 statt 74 Findings). Der genaue Aufruf
+steht in der `README.md` des jeweiligen `eval/`-Ordners.
+
 Die Auswertungen unter `eval/` sind bis auf Zeitstempel reproduzierbar: Ein
 erneuter Lauf von `curated_eval.py`, `errors_fails_report.py` und
-`parser_audit.py` erzeugt die eingecheckten Dateien inhaltsgleich
-(`docs/BA-VERIFIKATIONSBERICHT-20260924.md`, Abschnitt 1).
+`parser_audit.py` (mit `--md` und `--csv`) erzeugt die eingecheckten Dateien
+inhaltsgleich (`docs/BA-VERIFIKATIONSBERICHT-20260924.md`, Abschnitt 1;
+zuletzt am 25.09.2026 für alle Generatoren nachvollzogen).
 
 ## Wo die Zählweise steht
 
