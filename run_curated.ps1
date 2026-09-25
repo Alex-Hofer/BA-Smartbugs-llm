@@ -4,11 +4,18 @@
   smartbugs-curated-Datensatz (143 Solidity-Contracts) via SmartBugs.
 
 .DESCRIPTION
-  Validiert durch Smoke-Test am 2026-07-05 (runids smoke1_*/smoke2_live):
+  Validiert durch Smoke-Test am 2026-07-05 (runids smoke1_*/smoke2_live). Die
+  Messwerte in diesem Absatz sind der Stand jenes Tages; die heutigen Zahlen
+  stehen in docs\BA-BETRIEB.md, Abschnitte 2 und 3:
     - GPTScan:       deepseek/deepseek-v4-flash, $0.50-Kostenbremse pro Contract.
-                     Gemessen: Median ~$0.0009/Contract, laengster Task 600 s.
-    - LLMSmartAudit: Host-Env LLM_MODEL=deepseek-v4-flash ist PFLICHT (das Image
-                     hat das abgeschaltete "deepseek-chat" eingebrannt -> HTTP 400).
+                     Im Smoke-Test: Median ~$0.0009/Contract, laengster Task 600 s
+                     (im curated-Hauptlauf: Mittel $0.00007, Median $0, weil 127
+                     von 143 Contracts keinen LLM-Aufruf ausloesen).
+    - LLMSmartAudit: Host-Env LLM_MODEL=deepseek-v4-flash ist PFLICHT. Bis zum
+                     24.09.2026 hatte das Image das abgeschaltete "deepseek-chat"
+                     eingebrannt (-> HTTP 400); seitdem traegt es kein Modell mehr,
+                     und der Entrypoint bricht ohne LLM_MODEL sofort mit Exit 2 ab.
+                     Dieses Skript setzt LLM_MODEL bei jedem Lauf.
                      Gemessen: ~366 s/Contract (max 559 s). KEINE Kostenbremse im Tool!
     - Keine Rate-Limits ueber ~580 Live-Calls bei processes=3 -> keine Delays noetig.
 
@@ -53,8 +60,10 @@
 .PARAMETER Model
   Modell-ID fuer beide Werkzeuge (Default: deepseek-v4-flash). Der Wert geht
   unveraendert als --model an das jeweilige Werkzeug und von dort an die API.
-  Fuer LLMSmartAudit ist eine explizite Angabe PFLICHT - das Image hat das
-  abgeschaltete "deepseek-chat" eingebrannt.
+  Fuer LLMSmartAudit ist eine Angabe PFLICHT: Seit dem 24.09.2026 traegt das
+  Image kein Modell mehr, und der Entrypoint bricht ohne LLM_MODEL mit Exit 2 ab;
+  davor haette das eingebrannte, abgeschaltete "deepseek-chat" gegriffen
+  (HTTP 400). Dieses Skript setzt die Variable immer (Parameter, .env, Standard).
 .PARAMETER GptscanModel
   Abweichende Modell-ID nur fuer GPTScan (Default: Wert von -Model).
 .PARAMETER LlmModel
@@ -64,7 +73,11 @@
   Wird als GPTSCAN_BASE_URL bzw. LLM_BASE_URL gesetzt.
 .PARAMETER ContextTokens
   Kontextfenster in Token fuer LLMSmartAudit (Default: 65536). Rueckfallwert fuer
-  Modell-IDs, die camel/model_backend.py nicht kennt.
+  Modell-IDs, die camel/model_backend.py nicht kennt. Seit dem 24.09.2026 hebt
+  der Wert bei Provider deepseek auch die Agentengrenze in camel/utils.py an
+  (Image nach diesem Datum gebaut); alle aufgezeichneten Laeufe vor dem
+  24.09.2026 liefen mit der festen Grenze 65536 (README, "Modell waehlen und
+  wechseln").
 .PARAMETER MaxCompletionTokens
   Obergrenze fuer die Antwortlaenge je Aufruf (LLMSmartAudit). 0 = nicht setzen.
 

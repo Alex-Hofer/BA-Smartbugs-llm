@@ -17,9 +17,15 @@
 > Evaluation des Hauptlaufs (`../eval/curated_v1_20260705__metriken.md`), der
 > GPTScan-Massenlauf nach der Parser-Reparatur (`gptscan_mwefixed_v2_main`,
 > 15.08.2026), die Kostenmessung für neue Läufe über den Kontostand
-> (`BA-BETRIEB.md` 3) und der Eintrag zu Fehler #4 im Protokoll. Offen bleiben
-> die Ursache des Static-Absturzes auf 35 von 96 Contracts, die Streuung über
-> mehr als zwei Läufe und der WARNING-Blindfleck.
+> (`BA-BETRIEB.md` 3) und der Eintrag zu Fehler #4 im Protokoll. Der
+> Static-Abbruch auf 35 von 96 Contracts ist am 25.09.2026 eingeordnet: eine
+> Ausnahme in der Prüfung eines einzelnen Kandidaten, der Kandidat entfällt
+> (`BA-WERKZEUGE-IM-VERGLEICH.md` 4.3). Offen bleiben die Streuung über mehr
+> als zwei Läufe und der WARNING-Blindfleck.
+>
+> Die Arbeitspakete AP1 bis AP4 dieses Berichts (Abschnitte 3 bis 6) sind
+> seine eigene Zählung und nicht die Arbeitspakete AP1 bis AP8 des
+> Betreuergesprächs in `BA-BETREUERGESPRAECH-AUFGABEN.md`.
 
 ---
 

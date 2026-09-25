@@ -1,6 +1,6 @@
 # Durchführungsprotokoll: Evaluation KI-gestützter Smart-Contract-Scanner
 
-**Zeitraum:** 05.–06.07.2026 · **Umgebung:** Windows 11, Docker Desktop (Linux-Engine), SmartBugs 2.1.1 (Python 3.13, venv), LLM-Backend DeepSeek `deepseek-v4-flash`
+**Zeitraum:** 05.–06.07.2026 (Kern; die Nachträge 4.5 bis 4.9 reichen bis zum 24.09.2026) · **Umgebung:** Windows 11, Docker Desktop (Linux-Engine), SmartBugs 2.1.1 (Python 3.13, venv), LLM-Backend DeepSeek `deepseek-v4-flash`
 **Evaluierte Tools:** GPTScan (LLM + statische Bestätigung, 10 DeFi-Logik-Regeln MWE-200..209) · LLMSmartAudit (ChatDev/CAMEL-Multi-Agent-Pipeline, 41 Detektor-Prompts) · Slither 0.11.3 (statische Baseline)
 **Datensätze:** [smartbugs-curated](https://github.com/smartbugs/smartbugs-curated) (143 Contracts, 10 DASP-Kategorien, Single-Label-Ground-Truth) · `smartbugs/samples/gptscan/mwevariety` (96 DeFi-Contracts aus GPTScans eigenem Benchmark-Umfeld, ohne vendorte Ground Truth)
 

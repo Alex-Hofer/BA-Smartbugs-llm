@@ -783,6 +783,7 @@ Der Eigenanteil steht unter der **MIT-Lizenz** (siehe [`LICENSE`](LICENSE)).
 
 Die mitgelieferten Fremdkomponenten behalten ihre eigenen Lizenzen. Zu beachten:
 **GPTScan steht unter AGPL-3.0** (Copyleft), und dieser Baum enthält Änderungen
-am GPTScan-Quellcode. Eine Veröffentlichung des Repositorys müsste die
-AGPL-3.0-Bedingungen für diesen Teil erfüllen. Die vollständige Aufstellung
+am GPTScan-Quellcode. Das Repository ist privat (der Betreuer hat Zugriff
+als Collaborator); eine Veröffentlichung müsste die AGPL-3.0-Bedingungen für
+diesen Teil erfüllen. Die vollständige Aufstellung
 steht in [`LICENSE`](LICENSE) und [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md).

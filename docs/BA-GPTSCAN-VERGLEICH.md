@@ -203,3 +203,30 @@ gemessen ist — die Werte selbst sind unverändert.
 | Lauf B: 11 Findings auf 7 Contracts, Regelverteilung 6/2/2/1 | alle `result.json` in `smartbugs/results/gptscan/curated_mwe_20260706/` | bestätigt |
 | Lauf B: $0.046 / 257 LLM-Calls | `GPTSCAN_META` je `result.log` ($0,0461; 257 Calls) | bestätigt |
 | 74 % Lauf-zu-Lauf-Übereinstimmung | `mwevar_live` (27 Contracts) gegen dieselben 27 aus `curated_mwe_20260706` | bestätigt — 20 von 27 Contracts mit identischem Finding-Satz (74,1 %); die Einheit ist der **Contract**, nicht das einzelne Finding |
+
+---
+
+## Nachtrag (25.09.2026): der reparierte Korpus
+
+Die Abschnitte 3 und 4 beschreiben den Lauf über den **unreparierten** Korpus
+vom 06.07.2026, in dem GPTScans statische Bestätigungsstufe mangels Compilat
+überwiegend nicht lief. Nach der Korpus-Reparatur
+([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md)) ergab der Referenzlauf
+`curated_mwefixed_live` vom 21.07.2026 über dieselben 96 Contracts 77 Findings
+auf 40 Contracts aus acht der zehn Regeln, für $0,2769; auf 56 Contracts lief
+die statische Stufe und verwarf auf 39 davon Kandidaten
+([`../eval/curated_mwefixed_live/README.md`](../eval/curated_mwefixed_live/README.md);
+`BA-KORPUS-REPARATUR.md`, Abschnitt 9). Das sind die Zahlen, die
+[`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md) 4.2 und
+[`BA-ARBEIT.md`](BA-ARBEIT.md) 5.2 für GPTScan auf seiner Zieldomäne nennen.
+Der Anstieg von 11 auf 77 misst nicht, dass das Werkzeug besser wurde, sondern
+dass seine Pipeline erstmals vollständig lief.
+
+Die 74 % Lauf-zu-Lauf-Übereinstimmung aus Abschnitt 4 stammen aus den zwei
+Läufen über den unreparierten Korpus, also aus dem degradierten Modus ohne
+statische Stufe. Auf dem reparierten Korpus liegt als zweiter Messpunkt nur der
+Vergleich `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` vor: 58 von
+77 Referenz-Findings wiedergefunden (75,3 %), vermischt mit dem Effekt von
+`MAIN` ([`../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md`](../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md)).
+Die Schlussfolgerung dieses Dokuments bleibt: Die 0 % auf curated sind eine
+Frage der Domäne, nicht des Werkzeugs.
