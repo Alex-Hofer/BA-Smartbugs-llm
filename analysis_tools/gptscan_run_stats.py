@@ -34,6 +34,9 @@ def meta_of(log_path: pathlib.Path) -> dict | None:
 
 
 def task_rows(rundir: pathlib.Path) -> list[dict]:
+    """Eine Zeile je Task-Ordner unter *rundir*: Laufzeit und Exit-Code aus
+    smartbugs.json, Findings/errors/fails aus result.json, Kosten und Tokens
+    aus GPTSCAN_META. Fehlende Werte bleiben None."""
     rows = []
     for sbjson in sorted(rundir.rglob("smartbugs.json")):
         taskdir = sbjson.parent
@@ -80,7 +83,10 @@ def task_rows(rundir: pathlib.Path) -> list[dict]:
 
 
 def summarise(rows: list[dict]) -> dict:
+    """Summe, Mittel, Median und Maximum ueber die Zeilen von task_rows, dazu
+    die Zahl der Tasks mit errors, fails, degraded und ohne META."""
     def nums(key):
+        """Alle numerischen Werte der Spalte *key*."""
         return [r[key] for r in rows if isinstance(r.get(key), (int, float))]
 
     costs, durs = nums("cost"), nums("duration")
@@ -107,6 +113,8 @@ def summarise(rows: list[dict]) -> dict:
 
 
 def main() -> int:
+    """Kommandozeile: Kennzahlen des Laufs ausgeben, mit --json die Zeilen
+    ablegen. Rueckgabe 0; 2, wenn das Verzeichnis fehlt."""
     ap = argparse.ArgumentParser(description=__doc__)
     ap.add_argument("rundir", type=pathlib.Path)
     ap.add_argument("--json", type=pathlib.Path, help="Rohzeilen als JSON ablegen")

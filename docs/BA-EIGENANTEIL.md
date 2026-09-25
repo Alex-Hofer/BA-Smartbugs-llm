@@ -51,7 +51,7 @@ nicht und gehören daher in keine der Kategorien. Verglichene Upstream-Stände:
 
 | Pfad | Inhalt |
 |---|---|
-| `analysis_tools/` | Auswertungswerkzeuge: Parser-Audit, Errors/Fails-Report, Rohlog-Zugriff, Redaktion, CSV-Vergleich |
+| `analysis_tools/` | Auswertungswerkzeuge: die Generatoren der `eval/`-Ordner (`curated_eval.py`, `build_eval.py`, `gptscan_eval.py`, `per_contract_stats.py`), Nachrechnung ohne Rohdaten (`metrics_from_eval.py`), Parser-Audit, Errors/Fails-Report, Rohlog-Zugriff, Redaktion, CSV-Vergleich, Secret-Scan; je Skript Eingabe, Ausgabe und Aufruf in `analysis_tools/README.md` |
 | `tests/` | pytest-Regressionstests beider Parser und, seit AP5, der Timeout-Mechanik (Deadline-Wächter, Zwischenstand, Entrypoint-Marken) samt Fixtures aus echten Altläufen und synthetischem Material |
 | `corpus_tools/` | Rekonstruktion des `mwevariety`-Korpus (`build_fixed.py`), Laufanalyse (`analyze_run.py`), Korpuskopie mit Hauptcontract-Namen für `--main` (`make_main_corpus.py`, seit 24.09.2026) |
 | `testing_tools/` | *(AP5)* Lokaler, OpenAI-kompatibler Prüfstand-Endpunkt (`fake_llm_endpoint.py`), der Timeout-Pfade ohne echte API-Kosten und deterministisch auslösbar macht |
@@ -117,7 +117,8 @@ Gegen den Upstream-Stand `7ddaf6c` unterscheiden sich in `sb/` genau **zwei**
 Dateien: `docker.py` (37 Code-Zeilen) und `tools.py` (2 Code-Zeilen). Sie
 bilden zusammen den Mechanismus zur Schlüsselübergabe. Hinzu kommt eine
 Korrektur an `smartbugs/.gitignore`. Mehr ist es nicht; der vollständige
-Hash-Abgleich über alle 777 getrackten Dateien unter `smartbugs/` ergibt:
+Hash-Abgleich über alle 777 getrackten Dateien unter `smartbugs/` (Stand
+25.09.2026) ergibt:
 
 | | Dateien |
 |---|---:|

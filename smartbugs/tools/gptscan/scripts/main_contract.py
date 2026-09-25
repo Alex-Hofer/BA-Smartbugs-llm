@@ -28,6 +28,18 @@ including in an unrelated position), so it errs towards keeping too much. With
 source is restored if it no longer compiles. The reduction can therefore cost
 context, but not a run.
 
+Usage
+-----
+::
+
+    python main_contract.py [--verify-compile] SRC DST
+    python main_contract.py --list SRC
+
+The entrypoint ``do_solidity.sh`` of each tool calls it at ``MAIN=1`` with the
+file SmartBugs passed in as SRC and a path under ``$TMPDIR/sb_main`` as DST.
+GPTScan's entrypoint adds ``--verify-compile``; LLMSmartAudit's calls it
+without the flag, because that image has no solc.
+
 Exit codes
 ----------
 0    the target file was written (reduced, or restored in full after a failed
@@ -256,6 +268,14 @@ def compiles(path):
 
 
 def main(argv=None):
+    """Command line: read SRC, resolve the main contract from the file name
+    and write the reduction to DST.
+
+    Returns 0 when DST was written (reduced, or restored in full after a
+    failed ``--verify-compile``), 127 when the name matches no definition
+    (nothing is written); with ``--list`` only the definition names are
+    printed.
+    """
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
     parser.add_argument("source", help="the .sol file SmartBugs passed in")
     parser.add_argument("target", nargs="?", help="where to write the reduction")

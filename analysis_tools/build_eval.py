@@ -155,12 +155,15 @@ def merge_tasks(main: list, extra: list) -> tuple:
 
 
 def load_taxonomy() -> dict:
+    """Parse findings.yaml into a dict keyed by detector name."""
     import yaml
     with open(TAXONOMY, encoding="utf-8") as fh:
         return yaml.safe_load(fh)
 
 
 def backend(infos: list) -> tuple:
+    """Provider and model from the tool's own info line in *infos*, as a
+    ``(provider, model)`` pair; ``("", "")`` when the line is missing."""
     for i in infos:
         if i.startswith("LLMSmartAudit run: backend="):
             value = i.split("backend=", 1)[1]
@@ -176,6 +179,14 @@ def contract_id(contract_file: str) -> str:
 
 
 def read_task(directory: str, runid: str = "") -> dict:
+    """Gather one task directory into a flat dict.
+
+    Reads ``smartbugs.json`` (contract file, duration, exit code, start,
+    entrypoint, names of the forwarded environment variables), ``result.json``
+    (findings, infos, errors, fails) and ``result.log`` (token usage per LLM
+    call). A missing file leaves its fields at their defaults; ``contract_id``
+    is always set.
+    """
     result = os.path.join(directory, "result.json")
     meta = os.path.join(directory, "smartbugs.json")
     out = {"dir": directory, "run_id": runid, "contract_file": None, "duration": None,
@@ -207,6 +218,8 @@ def read_task(directory: str, runid: str = "") -> dict:
 
 
 def read_run(runid: str) -> list:
+    """All tasks of ``smartbugs/results/llmsmartaudit/<runid>/``, one dict per
+    task directory in sorted order. Exits when the run does not exist."""
     run_dir = os.path.join(SB, "results", "llmsmartaudit", runid)
     if not os.path.isdir(run_dir):
         raise SystemExit("kein Lauf unter %s" % run_dir)
@@ -226,6 +239,8 @@ def read_invocation(tasks: list, runid: str, runlogs: str = RUNLOGS) -> dict:
     notes = []
 
     def single(values, what):
+        """The one distinct non-None value in *values*; None, with a note in
+        ``notes``, when there is none or the sources disagree."""
         values = sorted(set(v for v in values if v is not None))
         if len(values) == 1:
             return values[0]
@@ -264,6 +279,8 @@ def read_invocation(tasks: list, runid: str, runlogs: str = RUNLOGS) -> dict:
                      "processes, LLM_CONTEXT_TOKENS und image_id bleiben offen" % runid)
 
     def from_protocols(key, what):
+        """The value the runner protocols agree on for *key*; None when no
+        protocol names this run."""
         if not protocols:
             return None
         return single([p[key] for p in protocols], what)
@@ -292,6 +309,13 @@ def read_invocation(tasks: list, runid: str, runlogs: str = RUNLOGS) -> dict:
 
 
 def export(runid: str, merge_runs: list = ()) -> dict:
+    """Write ``findings.jsonl``, ``run_meta.json`` and ``summary.md`` for a run.
+
+    Reads the run from ``smartbugs/results/llmsmartaudit/<runid>/``, folds in
+    every follow-up run in *merge_runs* (see ``merge_tasks``) and writes under
+    ``eval/<runid>/``. Returns the run_meta dict; the cost in it is estimated
+    from the token counts.
+    """
     taxonomy = load_taxonomy()
     out_dir = os.path.join(REPO_ROOT, "eval", runid)
     os.makedirs(out_dir, exist_ok=True)
@@ -409,6 +433,12 @@ def export(runid: str, merge_runs: list = ()) -> dict:
 
 
 def write_summary(path, runid, meta, categories, per_contract, taxonomy) -> None:
+    """Render ``summary.md``: states, findings per category and per contract,
+    effort, and the fields the tool does not emit.
+
+    *categories* counts findings per detector name; *per_contract* maps a
+    contract id to ``(finding count, state)``.
+    """
     total = meta["contracts"]
     states = meta["states"]
     lines = [
@@ -498,6 +528,8 @@ def write_summary(path, runid, meta, categories, per_contract, taxonomy) -> None
 
 
 def main(argv: list) -> None:
+    """Command line: export every RUNID, optionally with ``--merge-run``, and
+    print one result line per run."""
     import argparse
     ap = argparse.ArgumentParser(
         description="Export a SmartBugs LLMSmartAudit run into the evaluation format.")

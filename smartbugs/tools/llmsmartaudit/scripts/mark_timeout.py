@@ -41,6 +41,12 @@ def stamp(path, stage, detail=""):
 
 
 def main(argv):
+    """Command line ``mark_timeout.py <report.json> <brake|net> [detail]``.
+
+    *argv* is ``sys.argv`` including the program name. Returns 0 when the
+    marker was written, 1 when the report could not be read or written, 2 on
+    a usage error.
+    """
     if len(argv) < 3:
         print("usage: mark_timeout.py <report.json> <brake|net> [detail]",
               file=sys.stderr)

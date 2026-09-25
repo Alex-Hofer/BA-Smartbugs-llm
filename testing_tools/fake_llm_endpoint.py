@@ -10,6 +10,20 @@ it is told to, which makes the timeout path free, deterministic and repeatable.
 
 It is a test fixture, not a mock of the models: the *content* it returns is a
 fixed string. Anything asserting on findings must use a real backend.
+
+Usage
+-----
+::
+
+    python testing_tools/fake_llm_endpoint.py --port 8000 --delay 5
+
+``--host`` is the bind address (default 0.0.0.0, so containers can reach it),
+``--port`` the TCP port (default 8099), ``--delay`` the seconds to wait before
+answering (default 0) and ``--reply`` the assistant message returned every
+time (default "yes"). README.md, example 3 ("Test ohne Kosten gegen den
+lokalen Prüfstand"), shows how a SmartBugs run is pointed at this server from
+``run_curated.ps1`` with ``-Provider custom`` and a ``-BaseUrl`` of the form
+``http://host.docker.internal:<port>/v1``.
 """
 
 import argparse
@@ -44,10 +58,20 @@ def _completion(model, reply, prompt_tokens):
 
 
 class _Handler(BaseHTTPRequestHandler):
+    """Answers every POST on a Chat-Completions path.
+
+    ``delay`` and ``reply`` are class attributes so that ``serve`` can bind
+    them per server by subclassing.
+    """
     delay = 0.0
     reply = "yes"
 
     def do_POST(self):  # noqa: N802 - name fixed by BaseHTTPRequestHandler
+        """Answer one Chat-Completions request after the configured delay.
+
+        404 for any other path, 400 for a body that is not JSON; otherwise a
+        200 with the fixed reply and a word-count token usage.
+        """
         if self.path.rstrip("/") not in PATHS:
             self.send_error(404, "no such endpoint")
             return
@@ -99,6 +123,8 @@ def serve(host="127.0.0.1", port=8099, delay=0.0, reply="yes"):
 
 
 def main():
+    """Command line: parse the options and serve in the foreground until
+    Ctrl-C."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--host", default="0.0.0.0",
                         help="bind address; 0.0.0.0 so containers can reach it")

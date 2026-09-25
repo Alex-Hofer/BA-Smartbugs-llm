@@ -3,11 +3,20 @@
 
 The local samples under smartbugs/samples/gptscan/mwevariety/ are
 whitespace-corrupted single-file extracts of Web3Bugs contest projects
-(https://github.com/ZhangZhuoSJTU/Web3Bugs). This tool
+(https://github.com/ZhangZhuoSJTU/Web3Bugs). The Web3Bugs checkout is expected
+under ~/w3b/contracts (``W3B`` below), one directory per contest id. This tool
+has six subcommands, run from the repository root as
+``python corpus_tools/build_fixed.py <command>``, in pipeline order:
 
   map      locates the pristine original for every sample and PROVES the
            match by comparing the whitespace-stripped byte streams
            (corruption only mangled whitespace, so equality is exact),
+  scan     walks every sample's import closure and lists the npm packages
+           that cannot be resolved from the contest tree,
+  vendor   downloads those packages per contest and Solidity era into
+           corpus_tools/vendor/,
+  fetch    fills in files the Web3Bugs snapshot lacks, from the gap sources
+           (LLM4SMAPR mirrors, protocol repositories, npm),
   flatten  resolves each original's import tree (project files + vendored
            npm packages) into one self-contained .sol per sample,
   check    compiles every flattened file with a pragma-matching solc.

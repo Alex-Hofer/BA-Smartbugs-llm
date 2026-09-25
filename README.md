@@ -121,6 +121,7 @@ Abschnitt 4; die Rohwerte in `eval/`.
 │   ├── build_eval.py           Auswertung eines LLMSmartAudit-Laufs nach eval/<runid>/
 │   ├── curated_eval.py         curated-Hauptlauf, alle drei Werkzeuge, nach eval/<runid>__<tool>/
 │   ├── per_contract_stats.py   eine Zeile je Contract nach eval/per_contract/
+│   ├── metrics_from_eval.py    Recall/Precision allein aus den versionierten eval/-Dateien, ohne Rohdaten
 │   ├── compare_csv.py          Vorher/Nachher-Vergleich zweier results2csv-Exporte
 │   ├── redact_results.py       entfernt API-Schlüssel aus alten Task-Logs
 │   ├── secret_scan.py          Leak-Vorsorge, auch als pre-commit-Hook
@@ -154,7 +155,9 @@ Abschnitt 4; die Rohwerte in `eval/`.
 
 `smartbugs/results/` — **bewusst nicht im Git** (`smartbugs/.gitignore` schließt
 `results*` aus). Die Läufe sind ohne neue, kostenpflichtige LLM-Aufrufe nicht
-reproduzierbar.
+reproduzierbar. Die Rohdaten liegen bei den Verfassern; welcher Lauf wozu
+diente und wo er ausgewertet ist, steht für alle Laufverzeichnisse in
+[`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md).
 
 **Stand 24.09.2026: 51 Läufe, 1 501 Tasks, 7 494 Dateien, 2,68 GB** (2,50 GiB).
 Gezählt nach der `runid` aus jeder `smartbugs.json`, wie sie
@@ -187,11 +190,17 @@ eigenen glibc-Image 95 von 96) und der LLMSmartAudit-Nachlauf über die
 > allen Rohdaten vorliegt. Einzelheiten in
 > [`eval/_runlogs/README.md`](eval/_runlogs/README.md).
 
+Zwei Zählweisen kommen vor: 50 Laufverzeichnisse, aber 51 `runid`-Werte, weil
+ein AP5-Verzeichnis zwei Tasks mit verschiedenem `runid`-Feld enthält; die
+Bilanzen unter `docs/` zählen nach dem Feld, `eval/` und die Dokumente nennen
+den Verzeichnisnamen (Einzelheiten im Laufregister).
+
 Die aggregierten Auswertungen sind versioniert:
 
 * [`eval/curated_v1_20260705__metriken.md`](eval/curated_v1_20260705__metriken.md) — Recall/Precision/F1 je DASP-Kategorie für alle drei Werkzeuge
-* [`eval/`](eval/README.md) — je Lauf ein Ordner mit `findings.jsonl`, `run_meta.json`, `summary.md` und einer `README.md`, die sagt, was man daraus schließen darf und was nicht
-* [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für acht Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
+* [`eval/`](eval/README.md) — je Lauf ein Ordner mit `findings.jsonl`, `run_meta.json`, `summary.md` und einer `README.md`, die sagt, was man daraus schließen darf und was nicht; darunter der GPTScan-Referenzlauf [`eval/curated_mwefixed_live/`](eval/curated_mwefixed_live/README.md) und die Slither-Baseline auf dem DeFi-Korpus [`eval/slither_mwefixed_v2/`](eval/slither_mwefixed_v2/README.md)
+* [`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md) — alle 50 Laufverzeichnisse mit Korpus, Datum, Zweck und Auswertungsort
+* [`eval/per_contract/`](eval/per_contract/README.md) — eine Zeile je Contract für neun Läufe, als Auswertungshilfe mit dokumentierten Einschränkungen
 * [`docs/errors-fails.md`](docs/errors-fails.md) — Errors/Fails je Lauf, mit Wortlaut
 * [`docs/parser-audit-nachher.md`](docs/parser-audit-nachher.md) — Lückenbericht der Parser über alle Läufe
 * [`docs/parser-fix-vorher-nachher.md`](docs/parser-fix-vorher-nachher.md) — Auswirkung der Parser-Reparatur
@@ -205,7 +214,7 @@ API-Aufruf neu erzeugen lassen, solange die Rohergebnisse vorliegen:
 
 | Datei | Was drinsteht | Wie sie entsteht |
 |---|---|---|
-| `curated_results.csv` | Rohexport aller Findings aller Läufe, eine Zeile je Finding | `python -m sb.results2csv results` aus `smartbugs/` |
+| `curated_results.csv` | Export aller Läufe, eine Zeile je Task, mit Findings, Infos, Errors und Fails als Listen in je einer Spalte | `python -m sb.results2csv results` aus `smartbugs/` |
 | `evaluation_curated_v1_20260705.csv` | eine Zeile je Contract und Werkzeug: Label, erkannt ja/nein, Findingzahl, getroffene Kategorien | `evaluate_curated.py --suffix v1_20260705 --csv` |
 
 Kein Skript und kein Dokument verlangt sie an dieser Stelle — sie werden nur
@@ -258,7 +267,7 @@ entscheidet darüber, was man installiert haben muss.
 | die vier Runner-Skripte (`run_*.ps1`) | |
 | alles unter `analysis_tools/` und `corpus_tools/` | |
 | `evaluate_curated.py` | |
-| die 258 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
+| die 275 pytest-Tests — **kein Docker nötig**, die Fixtures sind aufgezeichnete Rohdaten | |
 
 SmartBugs startet für **jeden einzelnen Contract** einen frischen Container,
 hängt ein temporäres Verzeichnis als `/sb` hinein, überschreibt den Entrypoint
@@ -594,6 +603,10 @@ smartbugs\.venv\Scripts\python.exe evaluate_curated.py --suffix v1_20260705 `
 # und eval/curated_v1_20260705__metriken.md
 python analysis_tools\curated_eval.py
 
+# Ohne Rohdaten nachrechnen, nur aus den versionierten eval/-Dateien
+# (findings.jsonl + per_contract-Tabelle); --check vergleicht mit run_meta.json
+python analysis_tools\metrics_from_eval.py eval\curated_v1_20260705__llmsmartaudit --check
+
 # Rohdaten als CSV
 cd smartbugs
 .venv\Scripts\python.exe -m sb.results2csv results > ..\curated_results.csv
@@ -623,10 +636,14 @@ schreibt sie nur mit diesem Schalter neu.
 python -m pytest tests -q
 ```
 
-258 Tests (Stand 24.09.2026): Regressionstests für beide Tool-Parser, das
+275 Tests (Stand 25.09.2026): Regressionstests für beide Tool-Parser, das
 Aufräumen der Container, das Timeout-Verhalten (AP5), den `MAIN`-Parameter
-(AP6), den lokalen LLM-Prüfstand und die Auswertungsskripte `build_eval.py`,
-`per_contract_stats.py`, `curated_eval.py` und `parser_audit.py`. Sie brauchen **kein Docker**:
+(AP6), den lokalen LLM-Prüfstand, die Auswertungsskripte `build_eval.py`,
+`per_contract_stats.py`, `curated_eval.py`, `evaluate_curated.py`,
+`metrics_from_eval.py` und `parser_audit.py`, die Identität der kopierten
+Werkzeugdateien sowie die Dokumentation (relative Links, Tabelle 4.1 gegen
+`run_meta.json`, `mapping.md` gegen `findings.yaml`). Welche Datei was prüft,
+steht in [`tests/README.md`](tests/README.md). Sie brauchen **kein Docker**:
 Die Fixtures sind unveränderte Rohdaten echter Läufe, ihre Herkunft steht in
 `tests/fixtures/MANIFEST.json`. Fälle, die in den aufgezeichneten Läufen nie
 auftraten (Timeout, leeres Archiv, kaputtes JSON), sind synthetisch und tragen
@@ -714,7 +731,11 @@ Upstream-Stände per Hash abgeglichen.
 | [`docs/BA-GPTSCAN-VERGLEICH.md`](docs/BA-GPTSCAN-VERGLEICH.md) | GPTScan auf curated gegen GPTScan auf seiner Zieldomäne |
 | [`eval/README.md`](eval/README.md) | Wie die Auswertungen unter `eval/` entstehen |
 | [`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](GPTScan/docs/SMARTBUGS_INTEGRATION.md) | Wie GPTScan als SmartBugs-Werkzeug verpackt ist |
+| [`GPTScan/taxonomy/mapping.md`](GPTScan/taxonomy/mapping.md) | Warum die zehn GPTScan-Regeln ihre SWC/DASP-Zuordnung tragen (acht bewusst ohne) |
+| [`smartbugs/tools/llmsmartaudit/mapping.md`](smartbugs/tools/llmsmartaudit/mapping.md) | Warum jeder der 41 LLMSmartAudit-Detektoren seine SWC/DASP-Zuordnung trägt, mit Regel und zwei Grenzfällen |
 | [`corpus_tools/README.md`](corpus_tools/README.md) | Werkzeuge der Korpus-Reparatur |
+| [`analysis_tools/README.md`](analysis_tools/README.md), [`tests/README.md`](tests/README.md), [`testing_tools/README.md`](testing_tools/README.md) | Kurz-READMEs der eigenen Verzeichnisse: welches Skript was liest und schreibt, welche Testdatei was prüft, wozu der lokale Prüfstand dient |
+| [`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md) | Alle Laufverzeichnisse unter `smartbugs/results/` mit Korpus, Datum, Zweck und Auswertungsort |
 
 **Datierte Berichte** (Stand bleibt, spätere Änderungen stehen als Nachtrag oder in den lebenden Dokumenten):
 

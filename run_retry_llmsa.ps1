@@ -69,6 +69,38 @@
   Seit 24.09.2026 dient das Skript ueber die vier 402-Faelle hinaus als
   allgemeiner Nachlauf-Runner fuer eine Dateiliste (Laeufe
   llmsa_mwefixed_v2_ctx1m und llmsa_mwefixed_v2_main37).
+
+.EXAMPLE
+  .\run_retry_llmsa.ps1
+
+  Die vier 402-Faelle (12_Witch, 25_CompositeMultiOracle, 43_DelegatedStaking,
+  62_Locke) aus samples/gptscan/mwevariety_fixed unter der runid
+  llmsa_mwefixed_v2_retry, Deckel 3 USD -- der Nachlauf vom 15.09.2026.
+
+.EXAMPLE
+  .\run_retry_llmsa.ps1 -Files 29_HybridPool,30_Vault,10_Visor -RunId llmsa_mwefixed_v2_ctx1m -ContextTokens 1000000 -Processes 4 -CostCeiling 8
+
+  Eine Dateiliste mit angehobener Kontextgrenze unter eigener runid, wie beim
+  Nachlauf llmsa_mwefixed_v2_ctx1m vom 24.09.2026 (37 Contracts,
+  context=1000000). Der Deckel muss dafuer ueber dem Default von 3 USD liegen.
+
+.EXAMPLE
+  .\run_retry_llmsa.ps1 -Main -Corpus samples/gptscan/mwevariety_fixed_main -Files '13/RCOrderbook','30/Vault' -RunId llmsa_mwefixed_v2_main37
+
+  MAIN-Lauf auf dem von corpus_tools\make_main_corpus.py erzeugten Ordner; die
+  Dateien heissen dort <contest>/<Hauptcontract>. SmartBugs bekommt --main und
+  --results results/${TOOL}/<RunId>/${RELDIR}/${FILENAME}.
+
+.OUTPUTS
+  Keine Pipeline-Objekte. Das Skript schreibt:
+  - smartbugs\results\llmsmartaudit\<RunId>\<Datei>.sol\  je Task
+    smartbugs.json, result.log, result.tar und nach dem Reparse result.json;
+    mit -Main stattdessen <RunId>\<contest>\<Hauptcontract>.sol\;
+  - eval\_runlogs\llmsa_retry_<Zeitstempel>.log  das Protokoll dieses Laufs
+    (Guthaben vor und nach, Backend, Image-ID, Kostenzwischenstaende).
+  Zusammengefuehrt wird mit dem Hauptlauf durch
+  python analysis_tools\build_eval.py llmsa_mwefixed_v2 --merge-run <RunId>,
+  das nach eval\llmsa_mwefixed_v2\ schreibt.
 #>
 [CmdletBinding()]
 param(

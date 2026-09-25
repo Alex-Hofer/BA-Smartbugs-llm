@@ -52,6 +52,11 @@ DECL = re.compile(r"\b(?:contract|library|interface)\s+(\w+)")
 
 
 def main(argv=None):
+    """Die gewuenschten Dateien (Argumente ohne .sol; ohne Argumente alle aus
+    mapping.json) nach mwevariety_fixed_main/<contest>/<Hauptcontract>.sol
+    kopieren. Uebersprungen wird, was nicht in mapping.json steht oder keinen
+    Contract des Originalnamens deklariert. Rueckgabe 0, wenn mindestens eine
+    Datei geschrieben wurde, sonst 1."""
     argv = sys.argv[1:] if argv is None else argv
     mapping = json.loads(MAPPING.read_text(encoding="utf-8"))
     argv = [a.strip() for a in argv if a.strip()]

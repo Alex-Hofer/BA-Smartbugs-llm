@@ -111,6 +111,7 @@ def columns(tool):
 
 
 def _read_json(path):
+    """JSON-Datei als Objekt; {} wenn sie fehlt oder nicht parsbar ist."""
     try:
         with open(path, encoding="utf-8-sig") as fh:
             return json.load(fh)
@@ -119,6 +120,7 @@ def _read_json(path):
 
 
 def _read_log(directory):
+    """Inhalt des result.log im Task-Ordner; "" wenn es fehlt."""
     path = os.path.join(directory, "result.log")
     try:
         with open(path, encoding="utf-8", errors="replace") as fh:
@@ -147,11 +149,16 @@ def _number(value):
 
 
 def _last_int(pattern, text):
+    """Letzter Treffer von *pattern* in *text* als int, sonst None -- der
+    letzte, weil die ChatDev-Statistik am Ende des Logs die Summe traegt."""
     hits = pattern.findall(text)
     return int(hits[-1]) if hits else None
 
 
 def _shared_row(tool, directory, run_id, source_run, run_root=None):
+    """Die Spalten, die alle Werkzeuge teilen, aus smartbugs.json und
+    result.json. Die rohen Listen findings/infos/errors/fails bleiben fuer
+    Zustand und Merge in der Zeile, ohne selbst Spalte zu sein."""
     smartbugs = _read_json(os.path.join(directory, "smartbugs.json"))
     result = _read_json(os.path.join(directory, "result.json"))
     findings = result.get("findings") or []
@@ -205,6 +212,8 @@ def _gptscan_state(row, degraded):
 
 
 def _gptscan_row(directory, row):
+    """GPTScan-Spalten aus GPTSCAN_META im result.log ergaenzen und den Zustand
+    setzen; Zaehler, die dort als Fliesskommazahl stehen, werden int."""
     meta = gptscan_run_stats.meta_of(
         pathlib.Path(directory) / "result.log") or {}
     degraded = any(DEGRADED_MARK in i for i in row["infos"])
@@ -240,6 +249,9 @@ def _gptscan_row(directory, row):
 
 
 def _llmsa_row(directory, row):
+    """LLMSmartAudit-Spalten ergaenzen: Phasen, Usage-Bloecke und
+    ChatDev-Statistik aus result.log, sb_timeout aus output.json, Kosten nach
+    den Preisen in build_eval; Zustand ueber build_eval.task_state."""
     log = _read_log(directory)
     phases = PHASE.findall(log)
     calls = USAGE_ONE.findall(log)
@@ -269,6 +281,8 @@ def _llmsa_row(directory, row):
 
 
 def _categories_checked(infos):
+    """Zahl der geprueften Kategorien aus der Info-Zeile
+    'categories checked: k/n', sonst None."""
     for info in infos:
         hit = re.search(r"categories checked: (\d+)/(\d+)", info)
         if hit:
@@ -277,6 +291,7 @@ def _categories_checked(infos):
 
 
 def _shared_state(row):
+    """Zustand ohne werkzeugspezifische Marker: failed, findings oder clean."""
     if row["fails"]:
         return "failed"
     if row["findings"]:
@@ -360,6 +375,7 @@ def merge_rows(tool, main, extra):
 
 
 def _cell(value):
+    """Wert fuer die CSV-Zelle: None bleibt leer, bool wird true/false."""
     if value is None:
         return None          # csv schreibt dafuer eine leere Zelle
     if isinstance(value, bool):
@@ -395,11 +411,16 @@ def read_run(tool, runid, results=RESULTS):
 
 
 def _sum(rows, key):
+    """(Summe, Anzahl) der numerischen Werte einer Spalte."""
     values = [r.get(key) for r in rows if isinstance(r.get(key), (int, float))]
     return sum(values), len(values)
 
 
 def main(argv=None):
+    """Kommandozeile: Lauf einlesen, Nachlaeufe einmischen, die CSV je
+    Contract (bei LLMSmartAudit auch je Phase) schreiben und Summen sowie
+    Verstoesse gegen die Invariante Phasenmarker = Usage-Bloecke ausgeben.
+    Rueckgabe 0."""
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("tool", help="gptscan, llmsmartaudit oder slither-0.11.3")

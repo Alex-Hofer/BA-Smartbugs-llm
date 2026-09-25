@@ -57,6 +57,40 @@
 
 .PARAMETER RunSuffix
   Suffix der runids. Default 'v2'.
+
+.EXAMPLE
+  .\run_full_v2_llmsa.ps1
+
+  Beide Korpora mit den Standardwerten (deepseek / deepseek-v4-flash, 3
+  Prozesse, Deckel 21 USD) unter den runids llmsa_curated_v2 und
+  llmsa_mwefixed_v2 -- so sind die aufgezeichneten Laeufe entstanden.
+
+.EXAMPLE
+  .\run_full_v2_llmsa.ps1 -Corpus mwefixed -RunSuffix v3 -CostCeiling 12 -ContextTokens 1000000
+
+  Nur mwevariety_fixed (96 Contracts) unter der runid llmsa_mwefixed_v3 mit
+  angehobener Kontextgrenze; Abbruch, sobald die geschaetzte Summe 12 USD
+  uebersteigt. Die Kontextgrenze wirkt auf die Agentengrenze nur mit einem
+  Image ab 24.09.2026 (siehe Beschreibung).
+
+.EXAMPLE
+  .\run_full_v2_llmsa.ps1 -Corpus curated -Provider custom -Model custom-cheap -BaseUrl 'http://host.docker.internal:8000/v1' -RunSuffix pruefstand
+
+  curated gegen einen OpenAI-kompatiblen Endpunkt, etwa den lokalen
+  Pruefstand testing_tools\fake_llm_endpoint.py. -Provider custom liest
+  OPENAI_API_KEY aus GPTScan\.env; ein abweichendes Backend gehoert immer
+  unter einen eigenen -RunSuffix.
+
+.OUTPUTS
+  Keine Pipeline-Objekte. Das Skript schreibt:
+  - smartbugs\results\llmsmartaudit\<runid>\<Datei>.sol\  je Task
+    smartbugs.json, result.log, result.tar und nach dem Reparse result.json
+    (runid = llmsa_curated_<RunSuffix> bzw. llmsa_mwefixed_<RunSuffix>;
+    SmartBugs-Standardmuster results/${TOOL}/${RUNID}/${FILENAME});
+  - eval\_runlogs\llmsa_full_<Zeitstempel>.log  das Protokoll dieses Laufs
+    (Backend, Image-ID, Kostenzwischenstaende, Guthaben vor und nach).
+  Die Auswertung unter eval\<runid>\ (findings.jsonl, run_meta.json,
+  summary.md) erzeugt danach: python analysis_tools\build_eval.py <runid>
 #>
 [CmdletBinding()]
 param(
