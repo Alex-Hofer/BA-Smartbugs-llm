@@ -741,7 +741,6 @@ Upstream-Stände per Hash abgeglichen.
 | Dokument | Inhalt |
 |---|---|
 | [`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md) | Die Arbeit als Ganzes: Motivation, Forschungsfrage mit Abgrenzung, Ausgangslage, Vorgehen, Ergebnisse, Diskussion, Limitationen, Fazit, Eigenleistung und Lesepfad; das erste Dokument für Gutachter |
-| [`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md) | Die Arbeit in einem Stück: Fragestellung, Daten, Vorgehen, Ergebnisse, Einordnung, Grenzen, Fazit, mit Verweisen auf die Belege |
 | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge, Gegenüberstellung anhand der Messdaten und Einordnung: das Ergebnis- und Diskussionskapitel |
 | [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 10 bekannte Fallstricke |
 | [`docs/BA-WERKZEUG-BEDIENUNG.md`](docs/BA-WERKZEUG-BEDIENUNG.md) | Bedienung der beiden KI-Scanner Schritt für Schritt, Ist-Zustand |

@@ -284,7 +284,8 @@ die Runner protokollieren die Image-ID des verwendeten Docker-Images.
 Repository selbst die Abgabe ist, wurde es einmal als Ganzes gelesen, von der
 README aus. Die Änderungen daraus stehen in den Commits vom 25.09.2026 ab
 `89a9863`: ein Dokument, das die Arbeit in einem Stück erzählt
-(`BA-UEBERBLICK.md`), Lesepfad und Begriffe in der README; Stand-Vermerke
+(`BA-UEBERBLICK.md`, am Abend desselben Tages in das vollständigere
+`BA-ARBEIT.md` aufgegangen und entfernt), Lesepfad und Begriffe in der README; Stand-Vermerke
 und Zahlenkorrekturen in 17 datierten Dokumenten; ein Auswertungsordner für
 den GPTScan-Referenzlauf (`eval/curated_mwefixed_live/`), ein Export der
 Slither-Baseline auf dem DeFi-Korpus (`eval/slither_mwefixed_v2/`),
@@ -303,7 +304,7 @@ Code nicht als solche markiert, nur in `BA-EIGENANTEIL.md` aufgeführt; für
 die Rohdaten der Läufe nach dem 02.08.2026 nennt das Repository keinen
 Sicherungsort. Eine Aufteilung des Beitrags nach Personen wird nicht
 ausgewiesen; beide Verfasser haben nach eigener Angabe zu gleichen Teilen
-beigetragen (`BA-UEBERBLICK.md`).
+beigetragen (`BA-ARBEIT.md`).
 
 ---
 
