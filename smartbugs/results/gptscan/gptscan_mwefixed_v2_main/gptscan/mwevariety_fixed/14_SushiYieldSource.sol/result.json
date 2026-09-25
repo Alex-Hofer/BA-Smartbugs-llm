@@ -1,0 +1,20 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: balanceOfToken, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: redeemToken, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/14_SushiYieldSource.sol, current function: supplyTokenTo, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=9, est_cost_usd=0.0038",
+        "static confirmation filtered LLM candidates: 3 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

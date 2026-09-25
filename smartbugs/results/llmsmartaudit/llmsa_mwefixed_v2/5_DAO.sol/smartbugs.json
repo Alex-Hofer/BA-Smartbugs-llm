@@ -1,0 +1,65 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/5_DAO.sol' '7200' '/sb/bin' '0'",
+        "environment": {
+            "DEEPSEEK_API_KEY": "<redacted>",
+            "LLM_CONTEXT_TOKENS": "<redacted>",
+            "LLM_MODEL": "<redacted>",
+            "LLM_PROVIDER": "<redacted>"
+        },
+        "image": "smartbugs/llmsmartaudit:1.0",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Alex Unterleitner\\AppData\\Local\\Temp\\tmpvdr1aiis": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "5_DAO.sol",
+    "platform": {
+        "cpu": "AMD Ryzen 9 3900X 12-Core Processor",
+        "host": 8463893379115320082,
+        "machine": "AMD64",
+        "python": "3.11.2.final.0 (64 bit)",
+        "release": "10",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": 4252514532878388137,
+        "version": "10.0.26100"
+    },
+    "result": {
+        "duration": 1587.7324388027191,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1786862007.6178322
+    },
+    "runid": "llmsa_mwefixed_v2",
+    "solc": null,
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "env": "DEEPSEEK_API_KEY, OPENAI_API_KEY, LLM_PROVIDER, LLM_MODEL, LLM_BASE_URL, LLM_CONTEXT_TOKENS, LLM_MAX_COMPLETION_TOKENS",
+        "id": "llmsmartaudit",
+        "image": "smartbugs/llmsmartaudit:1.0",
+        "info": "LLMSmartAudit analyses Solidity source with a ChatDev/CAMEL multi-agent LLM pipeline (41 detector prompts, SmartContractTA mode). The LLM backend (provider, model, base URL) is selected at run time via environment variables and defaults to DeepSeek. Runs take many LLM calls; use a generous --timeout (>= 3600s recommended).",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "LLMSmartAudit",
+        "network": "bridge",
+        "origin": "https://github.com/LLMAudit/LLMSmartAuditTool",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": null,
+        "version": "1.0"
+    }
+}

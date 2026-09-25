@@ -1,0 +1,594 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "earn",
+            "impact": "Medium",
+            "line": 1118,
+            "line_end": 1144,
+            "message": "Reentrancy in Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144):\n\tExternal calls:\n\t- IERC20(_token).safeTransfer(address(_converter),_amount) (30_Controller.sol#1133)\n\t- _amount = _converter.convert(_token,_want,_amount,1) (30_Controller.sol#1135)\n\t- IERC20(_want).safeTransfer(_strategy,_amount) (30_Controller.sol#1136)\n\t- IERC20(_token).safeTransfer(_strategy,_amount) (30_Controller.sol#1138)\n\tState variables written after the call(s):\n\t- _vaultDetails[msg.sender].balance = _vaultDetails[msg.sender].balance.add(_amount) (30_Controller.sol#1140)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1154,
+            "line_end": 1185,
+            "message": "Reentrancy in Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185):\n\tExternal calls:\n\t- IStrategy(_strategies[i]).withdraw(_amounts[i]) (30_Controller.sol#1172)\n\t- IERC20(_want).safeTransfer(_converter,_amounts[i]) (30_Controller.sol#1177)\n\t- IConverter(_converter).convert(_want,_token,_amounts[i],1) (30_Controller.sol#1179)\n\tState variables written after the call(s):\n\t- updateBalance(msg.sender,_strategies[i]) (30_Controller.sol#1173)\n\t\t- _vaultDetails[_vault].balances[_strategy] = IStrategy(_strategy).balanceOf() (30_Controller.sol#1341)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n\t- _vaultDetails[msg.sender].balance = _vaultDetails[msg.sender].balance.sub(_amount) (30_Controller.sol#1183)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "earn",
+            "impact": "Medium",
+            "line": 1118,
+            "line_end": 1144,
+            "message": "Reentrancy in Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144):\n\tExternal calls:\n\t- IERC20(_token).safeTransfer(address(_converter),_amount) (30_Controller.sol#1133)\n\t- _amount = _converter.convert(_token,_want,_amount,1) (30_Controller.sol#1135)\n\t- IERC20(_want).safeTransfer(_strategy,_amount) (30_Controller.sol#1136)\n\t- IERC20(_token).safeTransfer(_strategy,_amount) (30_Controller.sol#1138)\n\t- IStrategy(_strategy).deposit() (30_Controller.sol#1142)\n\tState variables written after the call(s):\n\t- updateBalance(msg.sender,_strategy) (30_Controller.sol#1143)\n\t\t- _vaultDetails[_vault].balances[_strategy] = IStrategy(_strategy).balanceOf() (30_Controller.sol#1341)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "setCap",
+            "impact": "Medium",
+            "line": 955,
+            "line_end": 986,
+            "message": "Reentrancy in Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986):\n\tExternal calls:\n\t- IStrategy(_strategy).withdraw(_diff) (30_Controller.sol#971)\n\tState variables written after the call(s):\n\t- updateBalance(_vault,_strategy) (30_Controller.sol#972)\n\t\t- _vaultDetails[_vault].balances[_strategy] = IStrategy(_strategy).balanceOf() (30_Controller.sol#1341)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n\t- _vaultDetails[_vault].balance = _vaultDetails[_vault].balance.sub(_diff) (30_Controller.sol#974)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdrawAll",
+            "impact": "Medium",
+            "line": 1050,
+            "line_end": 1078,
+            "message": "Reentrancy in Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078):\n\tExternal calls:\n\t- IStrategy(_strategy).withdrawAll() (30_Controller.sol#1060)\n\t- IERC20(_want).safeTransfer(address(_converter),_amount) (30_Controller.sol#1066)\n\t- _amount = _converter.convert(_want,_convert,_amount,1) (30_Controller.sol#1067)\n\t- IERC20(_convert).safeTransfer(_vault,_amount) (30_Controller.sol#1068)\n\t- IERC20(_want).safeTransfer(_vault,_amount) (30_Controller.sol#1070)\n\tState variables written after the call(s):\n\t- _vaultDetails[_vault].balance = _balance.sub(_amount) (30_Controller.sol#1074)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n\t- _vaultDetails[_vault].balance = 0 (30_Controller.sol#1076)\n\tController._vaultDetails (30_Controller.sol#752) can be used in cross function reentrancies:\n\t- Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836)\n\t- Controller.balanceOf() (30_Controller.sol#1196-1203)\n\t- Controller.converter(address) (30_Controller.sol#1209-1218)\n\t- Controller.earn(address,address,uint256) (30_Controller.sol#1118-1144)\n\t- Controller.getBestStrategyWithdraw(address,uint256) (30_Controller.sol#1292-1328)\n\t- Controller.getCap(address,address) (30_Controller.sol#1225-1234)\n\t- Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106)\n\t- Controller.investEnabled() (30_Controller.sol#1240-1250)\n\t- Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914)\n\t- Controller.reorderStrategies(address,address,address) (30_Controller.sol#922-945)\n\t- Controller.setCap(address,address,uint256,address) (30_Controller.sol#955-986)\n\t- Controller.setConverter(address,address) (30_Controller.sol#993-1003)\n\t- Controller.strategies(address) (30_Controller.sol#1256-1264)\n\t- Controller.strategies() (30_Controller.sol#1270-1277)\n\t- Controller.updateBalance(address,address) (30_Controller.sol#1335-1342)\n\t- Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185)\n\t- Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1154,
+            "line_end": 1185,
+            "message": "Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185) ignores return value by IConverter(_converter).convert(_want,_token,_amounts[i],1) (30_Controller.sol#1179)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Medium",
+            "line": 967,
+            "message": "Controller.setCap(address,address,uint256,address)._balance (30_Controller.sol#967) is written in both\n\t_balance = IStrategy(_strategy).balanceOf() (30_Controller.sol#973)\n\t_balance = IERC20(_want).balanceOf(address(this)) (30_Controller.sol#976)\n",
+            "name": "write-after-write"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1154,
+            "line_end": 1185,
+            "message": "Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185) has external calls inside a loop: _want = IStrategy(_strategies[i]).want() (30_Controller.sol#1174)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1154,
+            "line_end": 1185,
+            "message": "Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185) has external calls inside a loop: IConverter(_converter).convert(_want,_token,_amounts[i],1) (30_Controller.sol#1179)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "updateBalance",
+            "impact": "Low",
+            "line": 1335,
+            "line_end": 1342,
+            "message": "Controller.updateBalance(address,address) (30_Controller.sol#1335-1342) has external calls inside a loop: _vaultDetails[_vault].balances[_strategy] = IStrategy(_strategy).balanceOf() (30_Controller.sol#1341)\n\tCalls stack containing the loop:\n\t\tController.withdraw(address,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1154,
+            "line_end": 1185,
+            "message": "Controller.withdraw(address,uint256) (30_Controller.sol#1154-1185) has external calls inside a loop: IStrategy(_strategies[i]).withdraw(_amounts[i]) (30_Controller.sol#1172)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "harvestStrategy",
+            "impact": "Low",
+            "line": 1088,
+            "line_end": 1106,
+            "message": "Reentrancy in Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106):\n\tExternal calls:\n\t- IStrategy(_strategy).harvest(_estimatedWETH,_estimatedYAXIS) (30_Controller.sol#1100)\n\tState variables written after the call(s):\n\t- _vaultDetails[_vault].balance = _vaultDetails[_vault].balance.add(_after.sub(_before)) (30_Controller.sol#1103)\n\t- _vaultDetails[_vault].balances[_strategy] = _after (30_Controller.sol#1104)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 1050,
+            "line_end": 1078,
+            "message": "Reentrancy in Controller.withdrawAll(address,address) (30_Controller.sol#1050-1078):\n\tExternal calls:\n\t- IStrategy(_strategy).withdrawAll() (30_Controller.sol#1060)\n\tState variables written after the call(s):\n\t- updateBalance(_vault,_strategy) (30_Controller.sol#1063)\n\t\t- _vaultDetails[_vault].balances[_strategy] = IStrategy(_strategy).balanceOf() (30_Controller.sol#1341)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "removeStrategy",
+            "impact": "Low",
+            "line": 878,
+            "line_end": 914,
+            "message": "Reentrancy in Controller.removeStrategy(address,address,uint256) (30_Controller.sol#878-914):\n\tExternal calls:\n\t- IStrategy(_strategy).withdrawAll() (30_Controller.sol#910)\n\t- IHarvester(manager.harvester()).removeStrategy(_vault,_strategy,_timeout) (30_Controller.sol#912)\n\tEvent emitted after the call(s):\n\t- StrategyRemoved(_vault,_strategy) (30_Controller.sol#913)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "addStrategy",
+            "impact": "Low",
+            "line": 804,
+            "line_end": 836,
+            "message": "Reentrancy in Controller.addStrategy(address,address,uint256,uint256) (30_Controller.sol#804-836):\n\tExternal calls:\n\t- IHarvester(manager.harvester()).addStrategy(_vault,_strategy,_timeout) (30_Controller.sol#833)\n\tEvent emitted after the call(s):\n\t- StrategyAdded(_vault,_strategy,_cap) (30_Controller.sol#835)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Controller",
+            "filename": "30_Controller.sol",
+            "function": "harvestStrategy",
+            "impact": "Low",
+            "line": 1088,
+            "line_end": 1106,
+            "message": "Reentrancy in Controller.harvestStrategy(address,uint256,uint256) (30_Controller.sol#1088-1106):\n\tExternal calls:\n\t- IStrategy(_strategy).harvest(_estimatedWETH,_estimatedYAXIS) (30_Controller.sol#1100)\n\tEvent emitted after the call(s):\n\t- Harvest(_strategy) (30_Controller.sol#1105)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 326,
+            "line_end": 335,
+            "message": "Address.isContract(address) (30_Controller.sol#326-335) uses assembly\n\t- INLINE ASM (30_Controller.sol#333)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 471,
+            "line_end": 488,
+            "message": "Address._verifyCallResult(bool,bytes,string) (30_Controller.sol#471-488) uses assembly\n\t- INLINE ASM (30_Controller.sol#480-483)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (30_Controller.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 439,
+            "line_end": 445,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (30_Controller.sol#439-445):\n\t- (success,returndata) = target.staticcall(data) (30_Controller.sol#443)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 353,
+            "line_end": 359,
+            "message": "Low level call in Address.sendValue(address,uint256) (30_Controller.sol#353-359):\n\t- (success,None) = recipient.call{value: amount}() (30_Controller.sol#357)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 414,
+            "line_end": 421,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (30_Controller.sol#414-421):\n\t- (success,returndata) = target.call{value: value}(data) (30_Controller.sol#419)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "30_Controller.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 463,
+            "line_end": 469,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (30_Controller.sol#463-469):\n\t- (success,returndata) = target.delegatecall(data) (30_Controller.sol#467)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 808,
+            "message": "Parameter Controller.addStrategy(address,address,uint256,uint256)._timeout (30_Controller.sol#808) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1120,
+            "message": "Parameter Controller.earn(address,address,uint256)._token (30_Controller.sol#1120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1293,
+            "message": "Parameter Controller.getBestStrategyWithdraw(address,uint256)._token (30_Controller.sol#1293) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1024,
+            "message": "Parameter Controller.setMaxStrategies(uint256)._maxStrategies (30_Controller.sol#1024) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1294,
+            "message": "Parameter Controller.getBestStrategyWithdraw(address,uint256)._amount (30_Controller.sol#1294) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 995,
+            "message": "Parameter Controller.setConverter(address,address)._converter (30_Controller.sol#995) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 994,
+            "message": "Parameter Controller.setConverter(address,address)._vault (30_Controller.sol#994) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 864,
+            "message": "Parameter Controller.inCaseTokensGetStuck(address,uint256)._amount (30_Controller.sol#864) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1336,
+            "message": "Parameter Controller.updateBalance(address,address)._vault (30_Controller.sol#1336) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1156,
+            "message": "Parameter Controller.withdraw(address,uint256)._amount (30_Controller.sol#1156) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 924,
+            "message": "Parameter Controller.reorderStrategies(address,address,address)._strategy1 (30_Controller.sol#924) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1226,
+            "message": "Parameter Controller.getCap(address,address)._vault (30_Controller.sol#1226) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 925,
+            "message": "Parameter Controller.reorderStrategies(address,address,address)._strategy2 (30_Controller.sol#925) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 863,
+            "message": "Parameter Controller.inCaseTokensGetStuck(address,uint256)._token (30_Controller.sol#863) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 957,
+            "message": "Parameter Controller.setCap(address,address,uint256,address)._strategy (30_Controller.sol#957) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 879,
+            "message": "Parameter Controller.removeStrategy(address,address,uint256)._vault (30_Controller.sol#879) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1051,
+            "message": "Parameter Controller.withdrawAll(address,address)._strategy (30_Controller.sol#1051) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 844,
+            "message": "Parameter Controller.inCaseStrategyGetStuck(address,address)._strategy (30_Controller.sol#844) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1337,
+            "message": "Parameter Controller.updateBalance(address,address)._strategy (30_Controller.sol#1337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 806,
+            "message": "Parameter Controller.addStrategy(address,address,uint256,uint256)._strategy (30_Controller.sol#806) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1155,
+            "message": "Parameter Controller.withdraw(address,uint256)._token (30_Controller.sol#1155) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1034,
+            "message": "Parameter Controller.skim(address)._strategy (30_Controller.sol#1034) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1090,
+            "message": "Parameter Controller.harvestStrategy(address,uint256,uint256)._estimatedWETH (30_Controller.sol#1090) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 959,
+            "message": "Parameter Controller.setCap(address,address,uint256,address)._convert (30_Controller.sol#959) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Parameter Controller.harvestStrategy(address,uint256,uint256)._estimatedYAXIS (30_Controller.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 845,
+            "message": "Parameter Controller.inCaseStrategyGetStuck(address,address)._token (30_Controller.sol#845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 958,
+            "message": "Parameter Controller.setCap(address,address,uint256,address)._cap (30_Controller.sol#958) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 881,
+            "message": "Parameter Controller.removeStrategy(address,address,uint256)._timeout (30_Controller.sol#881) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 956,
+            "message": "Parameter Controller.setCap(address,address,uint256,address)._vault (30_Controller.sol#956) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1010,
+            "message": "Parameter Controller.setInvestEnabled(bool)._investEnabled (30_Controller.sol#1010) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1121,
+            "message": "Parameter Controller.earn(address,address,uint256)._amount (30_Controller.sol#1121) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 805,
+            "message": "Parameter Controller.addStrategy(address,address,uint256,uint256)._vault (30_Controller.sol#805) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1119,
+            "message": "Parameter Controller.earn(address,address,uint256)._strategy (30_Controller.sol#1119) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1089,
+            "message": "Parameter Controller.harvestStrategy(address,uint256,uint256)._strategy (30_Controller.sol#1089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 807,
+            "message": "Parameter Controller.addStrategy(address,address,uint256,uint256)._cap (30_Controller.sol#807) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter Controller.reorderStrategies(address,address,address)._vault (30_Controller.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1052,
+            "message": "Parameter Controller.withdrawAll(address,address)._convert (30_Controller.sol#1052) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1257,
+            "message": "Parameter Controller.strategies(address)._vault (30_Controller.sol#1257) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1210,
+            "message": "Parameter Controller.converter(address)._vault (30_Controller.sol#1210) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 1227,
+            "message": "Parameter Controller.getCap(address,address)._strategy (30_Controller.sol#1227) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "30_Controller.sol",
+            "impact": "Informational",
+            "line": 880,
+            "message": "Parameter Controller.removeStrategy(address,address,uint256)._strategy (30_Controller.sol#880) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

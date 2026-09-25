@@ -1,0 +1,46 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/29_HybridPool.sol, current function: _burn, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/29_HybridPool.sol, current function: burn, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "TimeoutError: Timeout"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "29_HybridPool.sol",
+            "line": 337,
+            "line_end": 345,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 29_HybridPool.sol:464-487\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "29_HybridPool.sol",
+            "line": 464,
+            "line_end": 487,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        },
+        {
+            "filename": "29_HybridPool.sol",
+            "line": 491,
+            "line_end": 524,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=28, est_cost_usd=0.0107",
+        "static confirmation filtered LLM candidates: 5 before, 4 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

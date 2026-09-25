@@ -1,0 +1,723 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "LockeERC20",
+            "filename": "62_Locke.sol",
+            "function": "constructor",
+            "impact": "High",
+            "line": 255,
+            "line_end": 273,
+            "message": "LockeERC20.constructor(address,uint256,uint32) (../sb/62_Locke.sol#255-273) calls abi.encodePacked() with multiple dynamic arguments:\n\t- symbol = string(abi.encodePacked(locke,ERC20(depositToken).symbol(),toString(streamId))) (../sb/62_Locke.sol#266)\n",
+            "name": "encode-packed-collision"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LockeERC20",
+            "filename": "62_Locke.sol",
+            "function": "toString",
+            "impact": "Medium",
+            "line": 411,
+            "line_end": 435,
+            "message": "LockeERC20.toString(uint256) (../sb/62_Locke.sol#411-435) performs a multiplication on the result of a division:\n\t- temp = (48 + uint8(_i - _i / 10 * 10)) (../sb/62_Locke.sol#429)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "updateStreamInternal",
+            "impact": "Medium",
+            "line": 702,
+            "line_end": 749,
+            "message": "Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749) performs a multiplication on the result of a division:\n\t- globalStreamingSpeedPerSecond = (uint256(unstreamed) * 10 ** 6) / (endStream - lastUpdate) (../sb/62_Locke.sol#736)\n\t- unstreamed -= uint112((uint256(tdelta) * globalStreamingSpeedPerSecond) / 10 ** 6) (../sb/62_Locke.sol#737)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "rewardPerToken",
+            "impact": "Medium",
+            "line": 842,
+            "line_end": 852,
+            "message": "Stream.rewardPerToken() (../sb/62_Locke.sol#842-852) uses a dangerous strict equality:\n\t- totalVirtualBalance == 0 (../sb/62_Locke.sol#843)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "arbitraryCall",
+            "impact": "Medium",
+            "line": 1232,
+            "line_end": 1249,
+            "message": "Stream.arbitraryCall(address,bytes) (../sb/62_Locke.sol#1232-1249) uses a dangerous strict equality:\n\t- require(bool,string)(preDepositTokenBalance == postDepositTokenBalance && preRewardTokenBalance == postRewardTokenBalance,erc) (../sb/62_Locke.sol#1248)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "updateStreamInternal",
+            "impact": "Medium",
+            "line": 702,
+            "line_end": 749,
+            "message": "Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749) uses a dangerous strict equality:\n\t- lastUpdate == 0 (../sb/62_Locke.sol#711)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "updateStreamInternal",
+            "impact": "Medium",
+            "line": 702,
+            "line_end": 749,
+            "message": "Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749) uses a dangerous strict equality:\n\t- lastUpdate == 0 (../sb/62_Locke.sol#745)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "stake",
+            "impact": "Medium",
+            "line": 916,
+            "line_end": 946,
+            "message": "Reentrancy in Stream.stake(uint112) (../sb/62_Locke.sol#916-946):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#924)\n\tState variables written after the call(s):\n\t- ts.tokens += trueDepositAmt (../sb/62_Locke.sol#932)\n\tStream.tokensNotYetStreamed (../sb/62_Locke.sol#677) can be used in cross function reentrancies:\n\t- Stream.claimReward() (../sb/62_Locke.sol#1054-1077)\n\t- Stream.exit() (../sb/62_Locke.sol#986-993)\n\t- Stream.getEarned(address) (../sb/62_Locke.sol#864-867)\n\t- Stream.stake(uint112) (../sb/62_Locke.sol#916-946)\n\t- Stream.tokensNotYetStreamed (../sb/62_Locke.sol#677)\n\t- Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749)\n\t- Stream.withdraw(uint112) (../sb/62_Locke.sol#954-978)\n\t- ts.virtualBalance += virtualBal (../sb/62_Locke.sol#935)\n\tStream.tokensNotYetStreamed (../sb/62_Locke.sol#677) can be used in cross function reentrancies:\n\t- Stream.claimReward() (../sb/62_Locke.sol#1054-1077)\n\t- Stream.exit() (../sb/62_Locke.sol#986-993)\n\t- Stream.getEarned(address) (../sb/62_Locke.sol#864-867)\n\t- Stream.stake(uint112) (../sb/62_Locke.sol#916-946)\n\t- Stream.tokensNotYetStreamed (../sb/62_Locke.sol#677)\n\t- Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749)\n\t- Stream.withdraw(uint112) (../sb/62_Locke.sol#954-978)\n\t- totalVirtualBalance += virtualBal (../sb/62_Locke.sol#936)\n\tStream.totalVirtualBalance (../sb/62_Locke.sol#667) can be used in cross function reentrancies:\n\t- Stream.rewardPerToken() (../sb/62_Locke.sol#842-852)\n\t- Stream.stake(uint112) (../sb/62_Locke.sol#916-946)\n\t- Stream.withdraw(uint112) (../sb/62_Locke.sol#954-978)\n\t- unstreamed += trueDepositAmt (../sb/62_Locke.sol#937)\n\tStream.unstreamed (../sb/62_Locke.sol#671) can be used in cross function reentrancies:\n\t- Stream.stake(uint112) (../sb/62_Locke.sol#916-946)\n\t- Stream.unstreamed (../sb/62_Locke.sol#671)\n\t- Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governed",
+            "filename": "62_Locke.sol",
+            "function": "setEmergencyGov",
+            "impact": "Low",
+            "line": 540,
+            "line_end": 542,
+            "message": "Governed.setEmergencyGov(address) (../sb/62_Locke.sol#540-542) should emit an event for: \n\t- emergency_gov = who (../sb/62_Locke.sol#541) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "62_Locke.sol",
+            "impact": "Low",
+            "line": 766,
+            "message": "Stream.constructor(uint64,address,bool,address,address,uint32,uint32,uint32,uint32,uint16,bool)._rewardToken (../sb/62_Locke.sol#766) lacks a zero-check on :\n\t\t- rewardToken = _rewardToken (../sb/62_Locke.sol#799)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "62_Locke.sol",
+            "impact": "Low",
+            "line": 526,
+            "message": "Governed.setPendingGov(address).newPendingGov (../sb/62_Locke.sol#526) lacks a zero-check on :\n\t\t- pendingGov = newPendingGov (../sb/62_Locke.sol#528)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "62_Locke.sol",
+            "impact": "Low",
+            "line": 764,
+            "message": "Stream.constructor(uint64,address,bool,address,address,uint32,uint32,uint32,uint32,uint16,bool).creator (../sb/62_Locke.sol#764) lacks a zero-check on :\n\t\t- streamCreator = creator (../sb/62_Locke.sol#807)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "62_Locke.sol",
+            "impact": "Low",
+            "line": 767,
+            "message": "Stream.constructor(uint64,address,bool,address,address,uint32,uint32,uint32,uint32,uint16,bool)._depositToken (../sb/62_Locke.sol#767) lacks a zero-check on :\n\t\t- depositToken = _depositToken (../sb/62_Locke.sol#798)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "62_Locke.sol",
+            "impact": "Low",
+            "line": 540,
+            "message": "Governed.setEmergencyGov(address).who (../sb/62_Locke.sol#540) lacks a zero-check on :\n\t\t- emergency_gov = who (../sb/62_Locke.sol#541)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "flashloan",
+            "impact": "Low",
+            "line": 1195,
+            "line_end": 1223,
+            "message": "Reentrancy in Stream.flashloan(address,address,uint112,bytes) (../sb/62_Locke.sol#1195-1223):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(to,amount) (../sb/62_Locke.sol#1201)\n\t- LockeCallee(to).lockeCall(msg.sender,token,amount,data) (../sb/62_Locke.sol#1205)\n\tState variables written after the call(s):\n\t- depositTokenFlashloanFeeAmount += feeAmt (../sb/62_Locke.sol#1213)\n\t- rewardTokenFeeAmount += feeAmt (../sb/62_Locke.sol#1217)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "createIncentive",
+            "impact": "Low",
+            "line": 999,
+            "line_end": 1010,
+            "message": "Reentrancy in Stream.createIncentive(address,uint112) (../sb/62_Locke.sol#999-1010):\n\tExternal calls:\n\t- ERC20(token).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#1003)\n\tState variables written after the call(s):\n\t- incentives[token] += amt (../sb/62_Locke.sol#1008)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 916,
+            "line_end": 946,
+            "message": "Reentrancy in Stream.stake(uint112) (../sb/62_Locke.sol#916-946):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#924)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,trueDepositAmt) (../sb/62_Locke.sol#941)\n\t\t- balanceOf[to] += amount (../sb/62_Locke.sol#391)\n\t- depositTokenAmount += trueDepositAmt (../sb/62_Locke.sol#930)\n\t- _mint(msg.sender,trueDepositAmt) (../sb/62_Locke.sol#941)\n\t\t- totalSupply += amount (../sb/62_Locke.sol#386)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "fundStream",
+            "impact": "Low",
+            "line": 876,
+            "line_end": 909,
+            "message": "Reentrancy in Stream.fundStream(uint112) (../sb/62_Locke.sol#876-909):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#883)\n\tState variables written after the call(s):\n\t- rewardTokenAmount += amt (../sb/62_Locke.sol#902)\n\t- rewardTokenAmount += amt (../sb/62_Locke.sol#905)\n\t- rewardTokenFeeAmount += feeAmt (../sb/62_Locke.sol#901)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimFees",
+            "impact": "Low",
+            "line": 1105,
+            "line_end": 1129,
+            "message": "Reentrancy in Stream.claimFees(address) (../sb/62_Locke.sol#1105-1129):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransfer(destination,fees) (../sb/62_Locke.sol#1115)\n\tState variables written after the call(s):\n\t- depositTokenFlashloanFeeAmount = 0 (../sb/62_Locke.sol#1121)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimIncentive",
+            "impact": "Low",
+            "line": 1015,
+            "line_end": 1025,
+            "message": "Reentrancy in Stream.claimIncentive(address) (../sb/62_Locke.sol#1015-1025):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(msg.sender,amount) (../sb/62_Locke.sol#1023)\n\tEvent emitted after the call(s):\n\t- StreamIncentiveClaimed(token,amount) (../sb/62_Locke.sol#1024)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimFees",
+            "impact": "Low",
+            "line": 1105,
+            "line_end": 1129,
+            "message": "Reentrancy in Stream.claimFees(address) (../sb/62_Locke.sol#1105-1129):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransfer(destination,fees) (../sb/62_Locke.sol#1115)\n\t- ERC20(depositToken).safeTransfer(destination,fees) (../sb/62_Locke.sol#1124)\n\tEvent emitted after the call(s):\n\t- FeesClaimed(depositToken,destination,fees) (../sb/62_Locke.sol#1126)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimReward",
+            "impact": "Low",
+            "line": 1054,
+            "line_end": 1077,
+            "message": "Reentrancy in Stream.claimReward() (../sb/62_Locke.sol#1054-1077):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransfer(msg.sender,rewardAmt) (../sb/62_Locke.sol#1074)\n\tEvent emitted after the call(s):\n\t- RewardsClaimed(msg.sender,rewardAmt) (../sb/62_Locke.sol#1076)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "stake",
+            "impact": "Low",
+            "line": 916,
+            "line_end": 946,
+            "message": "Reentrancy in Stream.stake(uint112) (../sb/62_Locke.sol#916-946):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#924)\n\tEvent emitted after the call(s):\n\t- Staked(msg.sender,trueDepositAmt) (../sb/62_Locke.sol#945)\n\t- Transfer(address(0),to,amount) (../sb/62_Locke.sol#394)\n\t\t- _mint(msg.sender,trueDepositAmt) (../sb/62_Locke.sol#941)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimDepositTokens",
+            "impact": "Low",
+            "line": 1031,
+            "line_end": 1049,
+            "message": "Reentrancy in Stream.claimDepositTokens(uint112) (../sb/62_Locke.sol#1031-1049):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransfer(msg.sender,amount) (../sb/62_Locke.sol#1046)\n\tEvent emitted after the call(s):\n\t- DepositTokensReclaimed(msg.sender,amount) (../sb/62_Locke.sol#1048)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "recoverTokens",
+            "impact": "Low",
+            "line": 1145,
+            "line_end": 1190,
+            "message": "Reentrancy in Stream.recoverTokens(address,address) (../sb/62_Locke.sol#1145-1190):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(recipient,bal) (../sb/62_Locke.sol#1188)\n\tEvent emitted after the call(s):\n\t- RecoveredTokens(token,recipient,bal) (../sb/62_Locke.sol#1189)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "flashloan",
+            "impact": "Low",
+            "line": 1195,
+            "line_end": 1223,
+            "message": "Reentrancy in Stream.flashloan(address,address,uint112,bytes) (../sb/62_Locke.sol#1195-1223):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(to,amount) (../sb/62_Locke.sol#1201)\n\t- LockeCallee(to).lockeCall(msg.sender,token,amount,data) (../sb/62_Locke.sol#1205)\n\tEvent emitted after the call(s):\n\t- Flashloaned(token,msg.sender,amount,feeAmt) (../sb/62_Locke.sol#1222)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "recoverTokens",
+            "impact": "Low",
+            "line": 1145,
+            "line_end": 1190,
+            "message": "Reentrancy in Stream.recoverTokens(address,address) (../sb/62_Locke.sol#1145-1190):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(recipient,excess_scope_0) (../sb/62_Locke.sol#1172)\n\tEvent emitted after the call(s):\n\t- RecoveredTokens(token,recipient,excess_scope_0) (../sb/62_Locke.sol#1174)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "recoverTokens",
+            "impact": "Low",
+            "line": 1145,
+            "line_end": 1190,
+            "message": "Reentrancy in Stream.recoverTokens(address,address) (../sb/62_Locke.sol#1145-1190):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(recipient,excess_scope_1) (../sb/62_Locke.sol#1181)\n\tEvent emitted after the call(s):\n\t- RecoveredTokens(token,recipient,excess_scope_1) (../sb/62_Locke.sol#1182)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "recoverTokens",
+            "impact": "Low",
+            "line": 1145,
+            "line_end": 1190,
+            "message": "Reentrancy in Stream.recoverTokens(address,address) (../sb/62_Locke.sol#1145-1190):\n\tExternal calls:\n\t- ERC20(token).safeTransfer(recipient,excess) (../sb/62_Locke.sol#1155)\n\tEvent emitted after the call(s):\n\t- RecoveredTokens(token,recipient,excess) (../sb/62_Locke.sol#1157)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "fundStream",
+            "impact": "Low",
+            "line": 876,
+            "line_end": 909,
+            "message": "Reentrancy in Stream.fundStream(uint112) (../sb/62_Locke.sol#876-909):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#883)\n\tEvent emitted after the call(s):\n\t- StreamFunded(amt) (../sb/62_Locke.sol#908)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "createIncentive",
+            "impact": "Low",
+            "line": 999,
+            "line_end": 1010,
+            "message": "Reentrancy in Stream.createIncentive(address,uint112) (../sb/62_Locke.sol#999-1010):\n\tExternal calls:\n\t- ERC20(token).safeTransferFrom(msg.sender,address(this),amount) (../sb/62_Locke.sol#1003)\n\tEvent emitted after the call(s):\n\t- StreamIncentivized(token,amt) (../sb/62_Locke.sol#1009)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimFees",
+            "impact": "Low",
+            "line": 1105,
+            "line_end": 1129,
+            "message": "Reentrancy in Stream.claimFees(address) (../sb/62_Locke.sol#1105-1129):\n\tExternal calls:\n\t- ERC20(rewardToken).safeTransfer(destination,fees) (../sb/62_Locke.sol#1115)\n\tEvent emitted after the call(s):\n\t- FeesClaimed(rewardToken,destination,fees) (../sb/62_Locke.sol#1116)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "creatorClaimSoldTokens",
+            "impact": "Low",
+            "line": 1082,
+            "line_end": 1099,
+            "message": "Reentrancy in Stream.creatorClaimSoldTokens(address) (../sb/62_Locke.sol#1082-1099):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransfer(destination,amount) (../sb/62_Locke.sol#1096)\n\tEvent emitted after the call(s):\n\t- SoldTokensClaimed(destination,amount) (../sb/62_Locke.sol#1098)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 954,
+            "line_end": 978,
+            "message": "Reentrancy in Stream.withdraw(uint112) (../sb/62_Locke.sol#954-978):\n\tExternal calls:\n\t- ERC20(depositToken).safeTransfer(msg.sender,amount) (../sb/62_Locke.sol#975)\n\tEvent emitted after the call(s):\n\t- Withdrawn(msg.sender,amount) (../sb/62_Locke.sol#977)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "62_Locke.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 122,
+            "line_end": 151,
+            "message": "ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/62_Locke.sol#122-151) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (../sb/62_Locke.sol#131)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimFees",
+            "impact": "Low",
+            "line": 1105,
+            "line_end": 1129,
+            "message": "Stream.claimFees(address) (../sb/62_Locke.sol#1105-1129) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= endStream,stream) (../sb/62_Locke.sol#1107)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "creatorClaimSoldTokens",
+            "impact": "Low",
+            "line": 1082,
+            "line_end": 1099,
+            "message": "Stream.creatorClaimSoldTokens(address) (../sb/62_Locke.sol#1082-1099) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= endStream,stream) (../sb/62_Locke.sol#1091)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StreamFactory",
+            "filename": "62_Locke.sol",
+            "function": "createStream",
+            "impact": "Low",
+            "line": 1294,
+            "line_end": 1338,
+            "message": "StreamFactory.createStream(address,address,uint32,uint32,uint32,uint32,bool) (../sb/62_Locke.sol#1294-1338) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(startTime >= block.timestamp,past) (../sb/62_Locke.sol#1309)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimDepositTokens",
+            "impact": "Low",
+            "line": 1031,
+            "line_end": 1049,
+            "message": "Stream.claimDepositTokens(uint112) (../sb/62_Locke.sol#1031-1049) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > endDepositLock,lock) (../sb/62_Locke.sol#1038)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimIncentive",
+            "impact": "Low",
+            "line": 1015,
+            "line_end": 1025,
+            "message": "Stream.claimIncentive(address) (../sb/62_Locke.sol#1015-1025) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= endStream,stream) (../sb/62_Locke.sol#1019)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "dilutedBalance",
+            "impact": "Low",
+            "line": 854,
+            "line_end": 862,
+            "message": "Stream.dilutedBalance(uint112) (../sb/62_Locke.sol#854-862) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp < startTime (../sb/62_Locke.sol#856)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "rewardPerToken",
+            "impact": "Low",
+            "line": 842,
+            "line_end": 852,
+            "message": "Stream.rewardPerToken() (../sb/62_Locke.sol#842-852) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- totalVirtualBalance == 0 (../sb/62_Locke.sol#843)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "recoverTokens",
+            "impact": "Low",
+            "line": 1145,
+            "line_end": 1190,
+            "message": "Stream.recoverTokens(address,address) (../sb/62_Locke.sol#1145-1190) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > endDepositLock,time) (../sb/62_Locke.sol#1150)\n\t- require(bool,string)(block.timestamp > endRewardLock,time) (../sb/62_Locke.sol#1162)\n\t- require(bool,string)(block.timestamp >= endStream,stream) (../sb/62_Locke.sol#1179)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "lastApplicableTime",
+            "impact": "Low",
+            "line": 838,
+            "line_end": 840,
+            "message": "Stream.lastApplicableTime() (../sb/62_Locke.sol#838-840) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp <= endStream (../sb/62_Locke.sol#839)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "claimReward",
+            "impact": "Low",
+            "line": 1054,
+            "line_end": 1077,
+            "message": "Stream.claimReward() (../sb/62_Locke.sol#1054-1077) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > endRewardLock,lock) (../sb/62_Locke.sol#1055)\n\t- require(bool,string)(rewardAmt > 0,amt) (../sb/62_Locke.sol#1071)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LockeERC20",
+            "filename": "62_Locke.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 333,
+            "line_end": 362,
+            "message": "LockeERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/62_Locke.sol#333-362) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (../sb/62_Locke.sol#342)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "updateStreamInternal",
+            "impact": "Low",
+            "line": 702,
+            "line_end": 749,
+            "message": "Stream.updateStreamInternal(address) (../sb/62_Locke.sol#702-749) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < endStream,!stream) (../sb/62_Locke.sol#703)\n\t- block.timestamp >= startTime (../sb/62_Locke.sol#706)\n\t- lastUpdate == 0 (../sb/62_Locke.sol#711)\n\t- acctTimeDelta > 0 && ts.tokens > 0 (../sb/62_Locke.sol#725)\n\t- tdelta > 0 && unstreamed > 0 (../sb/62_Locke.sol#735)\n\t- lastUpdate == 0 (../sb/62_Locke.sol#745)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "fundStream",
+            "impact": "Low",
+            "line": 876,
+            "line_end": 909,
+            "message": "Stream.fundStream(uint112) (../sb/62_Locke.sol#876-909) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < startTime,time) (../sb/62_Locke.sol#878)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 954,
+            "line_end": 978,
+            "message": "Stream.withdraw(uint112) (../sb/62_Locke.sol#954-978) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(ts.tokens >= amount,amt) (../sb/62_Locke.sol#962)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "62_Locke.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 186,
+            "line_end": 196,
+            "message": "ERC20._burn(address,uint256) (../sb/62_Locke.sol#186-196) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "62_Locke.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 174,
+            "line_end": 184,
+            "message": "ERC20._mint(address,uint256) (../sb/62_Locke.sol#174-184) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "62_Locke.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 461,
+            "line_end": 472,
+            "message": "Low level call in SafeTransferLib.safeTransferFrom(ERC20,address,address,uint256) (../sb/62_Locke.sol#461-472):\n\t- (success,data) = address(token).call(abi.encodeWithSelector(ERC20.transferFrom.selector,from,to,amount)) (../sb/62_Locke.sol#467-469)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "62_Locke.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 486,
+            "line_end": 496,
+            "message": "Low level call in SafeTransferLib.safeApprove(ERC20,address,uint256) (../sb/62_Locke.sol#486-496):\n\t- (success,data) = address(token).call(abi.encodeWithSelector(ERC20.approve.selector,to,amount)) (../sb/62_Locke.sol#491-493)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "62_Locke.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 474,
+            "line_end": 484,
+            "message": "Low level call in SafeTransferLib.safeTransfer(ERC20,address,uint256) (../sb/62_Locke.sol#474-484):\n\t- (success,data) = address(token).call(abi.encodeWithSelector(ERC20.transfer.selector,to,amount)) (../sb/62_Locke.sol#479-481)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "62_Locke.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 451,
+            "line_end": 455,
+            "message": "Low level call in SafeTransferLib.safeTransferETH(address,uint256) (../sb/62_Locke.sol#451-455):\n\t- (success,None) = to.call{value: amount}(new bytes(0)) (../sb/62_Locke.sol#452)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Stream",
+            "filename": "62_Locke.sol",
+            "function": "arbitraryCall",
+            "impact": "Informational",
+            "line": 1232,
+            "line_end": 1249,
+            "message": "Low level call in Stream.arbitraryCall(address,bytes) (../sb/62_Locke.sol#1232-1249):\n\t- (success,_ret) = who.call(data) (../sb/62_Locke.sol#1242)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "LockeERC20",
+            "filename": "62_Locke.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 364,
+            "line_end": 366,
+            "message": "Function LockeERC20.DOMAIN_SEPARATOR() (../sb/62_Locke.sol#364-366) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 245,
+            "message": "Variable LockeERC20.INITIAL_CHAIN_ID (../sb/62_Locke.sol#245) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 47,
+            "message": "Variable ERC20.INITIAL_CHAIN_ID (../sb/62_Locke.sol#47) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "62_Locke.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 153,
+            "line_end": 155,
+            "message": "Function ERC20.DOMAIN_SEPARATOR() (../sb/62_Locke.sol#153-155) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 511,
+            "message": "Variable Governed.emergency_gov (../sb/62_Locke.sol#511) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IGoverned",
+            "filename": "62_Locke.sol",
+            "function": "emergency_gov",
+            "impact": "Informational",
+            "line": 567,
+            "message": "Function IGoverned.emergency_gov() (../sb/62_Locke.sol#567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Governed",
+            "filename": "62_Locke.sol",
+            "function": "emergency_governed",
+            "impact": "Informational",
+            "line": 559,
+            "line_end": 562,
+            "message": "Modifier Governed.emergency_governed() (../sb/62_Locke.sol#559-562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 411,
+            "message": "Parameter LockeERC20.toString(uint256)._i (../sb/62_Locke.sol#411) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Variable ERC20.INITIAL_DOMAIN_SEPARATOR (../sb/62_Locke.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Governed",
+            "filename": "62_Locke.sol",
+            "function": "__abdicate",
+            "impact": "Informational",
+            "line": 545,
+            "line_end": 549,
+            "message": "Function Governed.__abdicate() (../sb/62_Locke.sol#545-549) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Informational",
+            "line": 247,
+            "message": "Variable LockeERC20.INITIAL_DOMAIN_SEPARATOR (../sb/62_Locke.sol#247) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "62_Locke.sol",
+            "impact": "Optimization",
+            "line": 571,
+            "message": "ExternallyGoverned.gov (../sb/62_Locke.sol#571) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

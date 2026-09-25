@@ -1,0 +1,23 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "AccessControl",
+            "filename": "12_AccessControl.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 44,
+            "line_end": 260,
+            "message": "AccessControl.slitherConstructorConstantVariables() (12_AccessControl.sol#44-260) uses literals with too many digits:\n\t- ROOT = 0x00000000 (12_AccessControl.sol#52)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

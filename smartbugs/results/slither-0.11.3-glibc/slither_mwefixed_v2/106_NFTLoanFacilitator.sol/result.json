@@ -1,0 +1,376 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "_interestOwed",
+            "impact": "Medium",
+            "line": 1301,
+            "line_end": 1316,
+            "message": "NFTLoanFacilitator._interestOwed(uint256,uint256,uint256,uint256) (106_NFTLoanFacilitator.sol#1301-1316) performs a multiplication on the result of a division:\n\t- loanAmount * (block.timestamp - lastAccumulatedTimestamp) * (perAnumInterestRate * 1e18 / 31536000) / 1e21 + accumulatedInterest (106_NFTLoanFacilitator.sol#1311-1315)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Low",
+            "line": 1218,
+            "message": "NFTLoanFacilitator.setBorrowTicketContract(address)._contract (106_NFTLoanFacilitator.sol#1218) lacks a zero-check on :\n\t\t- borrowTicketContract = _contract (106_NFTLoanFacilitator.sol#1221)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Low",
+            "line": 1208,
+            "message": "NFTLoanFacilitator.setLendTicketContract(address)._contract (106_NFTLoanFacilitator.sol#1208) lacks a zero-check on :\n\t\t- lendTicketContract = _contract (106_NFTLoanFacilitator.sol#1211)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "createLoan",
+            "impact": "Low",
+            "line": 997,
+            "line_end": 1042,
+            "message": "Reentrancy in NFTLoanFacilitator.createLoan(uint256,address,uint16,uint128,address,uint32,address) (106_NFTLoanFacilitator.sol#997-1042):\n\tExternal calls:\n\t- IERC721(collateralContractAddress).transferFrom(msg.sender,address(this),collateralTokenId) (106_NFTLoanFacilitator.sol#1017)\n\tState variables written after the call(s):\n\t- id = _nonce ++ (106_NFTLoanFacilitator.sol#1020)\n\t- loan.loanAssetContractAddress = loanAssetContractAddress (106_NFTLoanFacilitator.sol#1024)\n\t- loan.loanAmount = minLoanAmount (106_NFTLoanFacilitator.sol#1025)\n\t- loan.collateralTokenId = collateralTokenId (106_NFTLoanFacilitator.sol#1026)\n\t- loan.collateralContractAddress = collateralContractAddress (106_NFTLoanFacilitator.sol#1027)\n\t- loan.perAnumInterestRate = maxPerAnumInterest (106_NFTLoanFacilitator.sol#1028)\n\t- loan.durationSeconds = minDurationSeconds (106_NFTLoanFacilitator.sol#1029)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "closeLoan",
+            "impact": "Low",
+            "line": 1045,
+            "line_end": 1055,
+            "message": "Reentrancy in NFTLoanFacilitator.closeLoan(uint256,address) (106_NFTLoanFacilitator.sol#1045-1055):\n\tExternal calls:\n\t- IERC721(loan.collateralContractAddress).transferFrom(address(this),sendCollateralTo,loan.collateralTokenId) (106_NFTLoanFacilitator.sol#1053)\n\tEvent emitted after the call(s):\n\t- Close(loanId) (106_NFTLoanFacilitator.sol#1054)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "lend",
+            "impact": "Low",
+            "line": 1058,
+            "line_end": 1156,
+            "message": "Reentrancy in NFTLoanFacilitator.lend(uint256,uint16,uint128,uint32,address) (106_NFTLoanFacilitator.sol#1058-1156):\n\tExternal calls:\n\t- IERC721Mintable(lendTicketContract).mint(sendLendTicketTo,loanId) (106_NFTLoanFacilitator.sol#1090)\n\t- ILendTicket(lendTicketContract).loanFacilitatorTransfer(currentLoanOwner,sendLendTicketTo,loanId) (106_NFTLoanFacilitator.sol#1150)\n\tEvent emitted after the call(s):\n\t- Lend(loanId,msg.sender,interestRate,amount,durationSeconds) (106_NFTLoanFacilitator.sol#1155)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "seizeCollateral",
+            "impact": "Low",
+            "line": 1182,
+            "line_end": 1199,
+            "message": "Reentrancy in NFTLoanFacilitator.seizeCollateral(uint256,address) (106_NFTLoanFacilitator.sol#1182-1199):\n\tExternal calls:\n\t- IERC721(loan.collateralContractAddress).safeTransferFrom(address(this),sendCollateralTo,loan.collateralTokenId) (106_NFTLoanFacilitator.sol#1191-1195)\n\tEvent emitted after the call(s):\n\t- Close(loanId) (106_NFTLoanFacilitator.sol#1198)\n\t- SeizeCollateral(loanId) (106_NFTLoanFacilitator.sol#1197)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "repayAndCloseLoan",
+            "impact": "Low",
+            "line": 1159,
+            "line_end": 1179,
+            "message": "Reentrancy in NFTLoanFacilitator.repayAndCloseLoan(uint256) (106_NFTLoanFacilitator.sol#1159-1179):\n\tExternal calls:\n\t- IERC721(loan.collateralContractAddress).safeTransferFrom(address(this),IERC721(borrowTicketContract).ownerOf(loanId),loan.collateralTokenId) (106_NFTLoanFacilitator.sol#1171-1175)\n\tEvent emitted after the call(s):\n\t- Close(loanId) (106_NFTLoanFacilitator.sol#1178)\n\t- Repay(loanId,msg.sender,lender,interest,loan.loanAmount) (106_NFTLoanFacilitator.sol#1177)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "createLoan",
+            "impact": "Low",
+            "line": 997,
+            "line_end": 1042,
+            "message": "Reentrancy in NFTLoanFacilitator.createLoan(uint256,address,uint16,uint128,address,uint32,address) (106_NFTLoanFacilitator.sol#997-1042):\n\tExternal calls:\n\t- IERC721(collateralContractAddress).transferFrom(msg.sender,address(this),collateralTokenId) (106_NFTLoanFacilitator.sol#1017)\n\t- IERC721Mintable(borrowTicketContract).mint(mintBorrowTicketTo,id) (106_NFTLoanFacilitator.sol#1031)\n\tEvent emitted after the call(s):\n\t- CreateLoan(id,msg.sender,collateralTokenId,collateralContractAddress,maxPerAnumInterest,loanAssetContractAddress,minLoanAmount,minDurationSeconds) (106_NFTLoanFacilitator.sol#1032-1041)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "lend",
+            "impact": "Low",
+            "line": 1058,
+            "line_end": 1156,
+            "message": "Reentrancy in NFTLoanFacilitator.lend(uint256,uint16,uint128,uint32,address) (106_NFTLoanFacilitator.sol#1058-1156):\n\tExternal calls:\n\t- ILendTicket(lendTicketContract).loanFacilitatorTransfer(currentLoanOwner,sendLendTicketTo,loanId) (106_NFTLoanFacilitator.sol#1150)\n\tEvent emitted after the call(s):\n\t- BuyoutLender(loanId,msg.sender,currentLoanOwner,accumulatedInterest,previousLoanAmount) (106_NFTLoanFacilitator.sol#1152)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 281,
+            "line_end": 311,
+            "message": "ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (106_NFTLoanFacilitator.sol#281-311) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (106_NFTLoanFacilitator.sol#290)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "lend",
+            "impact": "Low",
+            "line": 1058,
+            "line_end": 1156,
+            "message": "NFTLoanFacilitator.lend(uint256,uint16,uint128,uint32,address) (106_NFTLoanFacilitator.sol#1058-1156) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(interestRate <= loan.perAnumInterestRate,NFTLoanFacilitator: rate too high) (106_NFTLoanFacilitator.sol#1075)\n\t- require(bool,string)(durationSeconds >= loan.durationSeconds,NFTLoanFacilitator: duration too low) (106_NFTLoanFacilitator.sol#1076)\n\t- require(bool,string)(amount >= loan.loanAmount,NFTLoanFacilitator: amount too low) (106_NFTLoanFacilitator.sol#1077)\n\t- require(bool,string)(accumulatedInterest <= type()(uint128).max,NFTLoanFacilitator: accumulated interest exceeds uint128) (106_NFTLoanFacilitator.sol#1117-1118)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "closeLoan",
+            "impact": "Low",
+            "line": 1045,
+            "line_end": 1055,
+            "message": "NFTLoanFacilitator.closeLoan(uint256,address) (106_NFTLoanFacilitator.sol#1045-1055) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(loan.lastAccumulatedTimestamp == 0,NFTLoanFacilitator: has lender, use repayAndCloseLoan) (106_NFTLoanFacilitator.sol#1050)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "seizeCollateral",
+            "impact": "Low",
+            "line": 1182,
+            "line_end": 1199,
+            "message": "NFTLoanFacilitator.seizeCollateral(uint256,address) (106_NFTLoanFacilitator.sol#1182-1199) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > loan.durationSeconds + loan.lastAccumulatedTimestamp,NFTLoanFacilitator: payment is not late) (106_NFTLoanFacilitator.sol#1187-1188)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 439,
+            "line_end": 461,
+            "message": "SafeTransferLib.safeApprove(ERC20,address,uint256) (106_NFTLoanFacilitator.sol#439-461) uses assembly\n\t- INLINE ASM (106_NFTLoanFacilitator.sol#446-458)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeTransferETH",
+            "impact": "Informational",
+            "line": 374,
+            "line_end": 383,
+            "message": "SafeTransferLib.safeTransferETH(address,uint256) (106_NFTLoanFacilitator.sol#374-383) uses assembly\n\t- INLINE ASM (106_NFTLoanFacilitator.sol#377-380)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 415,
+            "line_end": 437,
+            "message": "SafeTransferLib.safeTransfer(ERC20,address,uint256) (106_NFTLoanFacilitator.sol#415-437) uses assembly\n\t- INLINE ASM (106_NFTLoanFacilitator.sol#422-434)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 389,
+            "line_end": 413,
+            "message": "SafeTransferLib.safeTransferFrom(ERC20,address,address,uint256) (106_NFTLoanFacilitator.sol#389-413) uses assembly\n\t- INLINE ASM (106_NFTLoanFacilitator.sol#397-410)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "didLastOptionalReturnCallSucceed",
+            "impact": "Informational",
+            "line": 467,
+            "line_end": 498,
+            "message": "SafeTransferLib.didLastOptionalReturnCallSucceed(bool) (106_NFTLoanFacilitator.sol#467-498) uses assembly\n\t- INLINE ASM (106_NFTLoanFacilitator.sol#468-497)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 346,
+            "line_end": 356,
+            "message": "ERC20._burn(address,uint256) (106_NFTLoanFacilitator.sol#346-356) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 521,
+            "line_end": 524,
+            "message": "Context._msgData() (106_NFTLoanFacilitator.sol#521-524) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 334,
+            "line_end": 344,
+            "message": "ERC20._mint(address,uint256) (106_NFTLoanFacilitator.sol#334-344) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- AbiEncodeCallLiteralAsFixedBytesBug.\nIt is used by:\n\t- 0.8.12 (106_NFTLoanFacilitator.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "INTEREST_RATE_DECIMALS",
+            "impact": "Informational",
+            "line": 619,
+            "message": "Function INFTLoanFacilitator.INTEREST_RATE_DECIMALS() (106_NFTLoanFacilitator.sol#619) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 1218,
+            "message": "Parameter NFTLoanFacilitator.setBorrowTicketContract(address)._contract (106_NFTLoanFacilitator.sol#1218) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 206,
+            "message": "Variable ERC20.INITIAL_CHAIN_ID (106_NFTLoanFacilitator.sol#206) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTLoanFacilitator",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "SCALAR",
+            "impact": "Informational",
+            "line": 625,
+            "message": "Function INFTLoanFacilitator.SCALAR() (106_NFTLoanFacilitator.sol#625) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 313,
+            "line_end": 315,
+            "message": "Function ERC20.DOMAIN_SEPARATOR() (106_NFTLoanFacilitator.sol#313-315) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 1208,
+            "message": "Parameter NFTLoanFacilitator.setLendTicketContract(address)._contract (106_NFTLoanFacilitator.sol#1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 208,
+            "message": "Variable ERC20.INITIAL_DOMAIN_SEPARATOR (106_NFTLoanFacilitator.sol#208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 1235,
+            "message": "Parameter NFTLoanFacilitator.updateOriginationFeeRate(uint32)._originationFeeRate (106_NFTLoanFacilitator.sol#1235) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 1249,
+            "message": "Parameter NFTLoanFacilitator.updateRequiredImprovementRate(uint256)._improvementRate (106_NFTLoanFacilitator.sol#1249) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "impact": "Informational",
+            "line": 522,
+            "message": "Redundant expression \"this (106_NFTLoanFacilitator.sol#522)\" inContext (106_NFTLoanFacilitator.sol#516-525)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 415,
+            "line_end": 437,
+            "message": "SafeTransferLib.safeTransfer(ERC20,address,uint256) (106_NFTLoanFacilitator.sol#415-437) uses literals with too many digits:\n\t- mstore(uint256,uint256)(freeMemoryPointer_safeTransfer_asm_0,0xa9059cbb00000000000000000000000000000000000000000000000000000000) (106_NFTLoanFacilitator.sol#427)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeApprove",
+            "impact": "Informational",
+            "line": 439,
+            "line_end": 461,
+            "message": "SafeTransferLib.safeApprove(ERC20,address,uint256) (106_NFTLoanFacilitator.sol#439-461) uses literals with too many digits:\n\t- mstore(uint256,uint256)(freeMemoryPointer_safeApprove_asm_0,0x095ea7b300000000000000000000000000000000000000000000000000000000) (106_NFTLoanFacilitator.sol#451)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransferLib",
+            "filename": "106_NFTLoanFacilitator.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 389,
+            "line_end": 413,
+            "message": "SafeTransferLib.safeTransferFrom(ERC20,address,address,uint256) (106_NFTLoanFacilitator.sol#389-413) uses literals with too many digits:\n\t- mstore(uint256,uint256)(freeMemoryPointer_safeTransferFrom_asm_0,0x23b872dd00000000000000000000000000000000000000000000000000000000) (106_NFTLoanFacilitator.sol#402)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,25 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: borrow, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: burn, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: getAsset, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: getCollateral, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: getLiquidity, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: lend, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/74_TimeswapPair.sol, current function: mint, current vul: first-deposit",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=23, est_cost_usd=0.0030",
+        "static confirmation filtered LLM candidates: 8 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,824 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "insure",
+            "impact": "Medium",
+            "line": 1282,
+            "line_end": 1357,
+            "message": "PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357) performs a multiplication on the result of a division:\n\t- _attributionForIndex = (_newAttribution[0] * _totalCredit) / _liquidity (71_PoolTemplate.sol#1339-1340)\n\t- rewardPerCredit += ((_attributionForIndex * MAGIC_SCALE_1E6) / _totalCredit) (71_PoolTemplate.sol#1342-1343)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Medium",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) uses a dangerous strict equality:\n\t- insurances[_id].status == false (71_PoolTemplate.sol#1177)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Medium",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) uses a dangerous strict equality:\n\t- require(bool,string)(insurances[_id].status == true && marketStatus == MarketStatus.Trading && insurances[_id].endTime + parameters.getGrace(msg.sender) < block.timestamp,ERROR: UNLOCK_BAD_COINDITIONS) (71_PoolTemplate.sol#1170-1176)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1049,
+            "line_end": 1064,
+            "message": "Reentrancy in PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064):\n\tExternal calls:\n\t- vault.addValue(_amount,msg.sender,address(this)) (71_PoolTemplate.sol#1058)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,_mintAmount) (71_PoolTemplate.sol#1063)\n\t\t- _totalSupply += amount (71_PoolTemplate.sol#465)\n\tInsureDAOERC20._totalSupply (71_PoolTemplate.sol#201) can be used in cross function reentrancies:\n\t- InsureDAOERC20._burn(address,uint256) (71_PoolTemplate.sol#483-497)\n\t- InsureDAOERC20._mint(address,uint256) (71_PoolTemplate.sol#460-470)\n\t- InsureDAOERC20.totalSupply() (71_PoolTemplate.sol#261-263)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "allocateCredit",
+            "impact": "Medium",
+            "line": 1194,
+            "line_end": 1226,
+            "message": "Reentrancy in PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226):\n\tExternal calls:\n\t- vault.transferAttribution(_pending,msg.sender) (71_PoolTemplate.sol#1214)\n\tState variables written after the call(s):\n\t- _index.credit += _credit (71_PoolTemplate.sol#1220)\n\tPoolTemplate.indicies (71_PoolTemplate.sol#909) can be used in cross function reentrancies:\n\t- PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226)\n\t- PoolTemplate.allocatedCredit(address) (71_PoolTemplate.sol#1633-1640)\n\t- PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503)\n\t- PoolTemplate.indicies (71_PoolTemplate.sol#909)\n\t- PoolTemplate.pendingPremium(address) (71_PoolTemplate.sol#1593-1609)\n\t- PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551)\n\t- PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268)\n\t- _index.rewardDebt = (_index.credit * _rewardPerCredit) / MAGIC_SCALE_1E6 (71_PoolTemplate.sol#1223-1225)\n\tPoolTemplate.indicies (71_PoolTemplate.sol#909) can be used in cross function reentrancies:\n\t- PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226)\n\t- PoolTemplate.allocatedCredit(address) (71_PoolTemplate.sol#1633-1640)\n\t- PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503)\n\t- PoolTemplate.indicies (71_PoolTemplate.sol#909)\n\t- PoolTemplate.pendingPremium(address) (71_PoolTemplate.sol#1593-1609)\n\t- PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551)\n\t- PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "withdrawCredit",
+            "impact": "Medium",
+            "line": 1233,
+            "line_end": 1268,
+            "message": "Reentrancy in PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268):\n\tExternal calls:\n\t- vault.transferAttribution(_pending,msg.sender) (71_PoolTemplate.sol#1262)\n\tState variables written after the call(s):\n\t- attributionDebt -= _pending (71_PoolTemplate.sol#1263)\n\tPoolTemplate.attributionDebt (71_PoolTemplate.sol#896) can be used in cross function reentrancies:\n\t- PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226)\n\t- PoolTemplate.attributionDebt (71_PoolTemplate.sol#896)\n\t- PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357)\n\t- PoolTemplate.originalLiquidity() (71_PoolTemplate.sol#1683-1687)\n\t- PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268)\n\t- _index.rewardDebt = (_index.credit * _rewardPerCredit) / MAGIC_SCALE_1E6 (71_PoolTemplate.sol#1264-1266)\n\tPoolTemplate.indicies (71_PoolTemplate.sol#909) can be used in cross function reentrancies:\n\t- PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226)\n\t- PoolTemplate.allocatedCredit(address) (71_PoolTemplate.sol#1633-1640)\n\t- PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503)\n\t- PoolTemplate.indicies (71_PoolTemplate.sol#909)\n\t- PoolTemplate.pendingPremium(address) (71_PoolTemplate.sol#1593-1609)\n\t- PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551)\n\t- PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_depositFrom",
+            "impact": "Medium",
+            "line": 1072,
+            "line_end": 1090,
+            "message": "Reentrancy in PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090):\n\tExternal calls:\n\t- vault.addValue(_amount,_from,address(this)) (71_PoolTemplate.sol#1084)\n\tState variables written after the call(s):\n\t- _mint(_from,_mintAmount) (71_PoolTemplate.sol#1089)\n\t\t- _totalSupply += amount (71_PoolTemplate.sol#465)\n\tInsureDAOERC20._totalSupply (71_PoolTemplate.sol#201) can be used in cross function reentrancies:\n\t- InsureDAOERC20._burn(address,uint256) (71_PoolTemplate.sol#483-497)\n\t- InsureDAOERC20._mint(address,uint256) (71_PoolTemplate.sol#460-470)\n\t- InsureDAOERC20.totalSupply() (71_PoolTemplate.sol#261-263)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "resume",
+            "impact": "Medium",
+            "line": 1508,
+            "line_end": 1551,
+            "message": "Reentrancy in PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551):\n\tExternal calls:\n\t- _actualDeduction += IIndexTemplate(_index).compensate(_redeemAmount) (71_PoolTemplate.sol#1530-1532)\n\t- vault.offsetDebt(_deductionFromPool,address(this)) (71_PoolTemplate.sol#1544)\n\t- vault.transferDebt(_shortage) (71_PoolTemplate.sol#1547)\n\tState variables written after the call(s):\n\t- marketStatus = MarketStatus.Trading (71_PoolTemplate.sol#1549)\n\tPoolTemplate.marketStatus (71_PoolTemplate.sol#932) can be used in cross function reentrancies:\n\t- PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090)\n\t- PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503)\n\t- PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064)\n\t- PoolTemplate.initialize(string,uint256[],address[]) (71_PoolTemplate.sol#995-1038)\n\t- PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357)\n\t- PoolTemplate.marketStatus (71_PoolTemplate.sol#932)\n\t- PoolTemplate.redeem(uint256,bytes32[]) (71_PoolTemplate.sol#1365-1415)\n\t- PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551)\n\t- PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182)\n\t- PoolTemplate.withdraw(uint256) (71_PoolTemplate.sol#1110-1153)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "insure",
+            "impact": "Medium",
+            "line": 1282,
+            "line_end": 1357,
+            "message": "Reentrancy in PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357):\n\tExternal calls:\n\t- _newAttribution = vault.addValueBatch(_premium,msg.sender,(address(this),parameters.getOwner()),(MAGIC_SCALE_1E6 - _fee,_fee)) (71_PoolTemplate.sol#1315-1320)\n\tState variables written after the call(s):\n\t- attributionDebt += _attributionForIndex (71_PoolTemplate.sol#1341)\n\tPoolTemplate.attributionDebt (71_PoolTemplate.sol#896) can be used in cross function reentrancies:\n\t- PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226)\n\t- PoolTemplate.attributionDebt (71_PoolTemplate.sol#896)\n\t- PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357)\n\t- PoolTemplate.originalLiquidity() (71_PoolTemplate.sol#1683-1687)\n\t- PoolTemplate.withdrawCredit(uint256) (71_PoolTemplate.sol#1233-1268)\n\t- lockedAmount += _amount (71_PoolTemplate.sol#1324)\n\tPoolTemplate.lockedAmount (71_PoolTemplate.sol#897) can be used in cross function reentrancies:\n\t- PoolTemplate.availableBalance() (71_PoolTemplate.sol#1646-1657)\n\t- PoolTemplate.getPremium(uint256,uint256) (71_PoolTemplate.sol#1442-1455)\n\t- PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357)\n\t- PoolTemplate.lockedAmount (71_PoolTemplate.sol#897)\n\t- PoolTemplate.redeem(uint256,bytes32[]) (71_PoolTemplate.sol#1365-1415)\n\t- PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182)\n\t- PoolTemplate.utilizationRate() (71_PoolTemplate.sol#1663-1669)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Medium",
+            "line": 1519,
+            "message": "PoolTemplate.resume()._actualDeduction (71_PoolTemplate.sol#1519) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_depositFrom",
+            "impact": "Medium",
+            "line": 1072,
+            "line_end": 1090,
+            "message": "PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090) ignores return value by vault.addValue(_amount,_from,address(this)) (71_PoolTemplate.sol#1084)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "resume",
+            "impact": "Medium",
+            "line": 1508,
+            "line_end": 1551,
+            "message": "PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551) ignores return value by vault.offsetDebt(_deductionFromPool,address(this)) (71_PoolTemplate.sol#1544)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1049,
+            "line_end": 1064,
+            "message": "PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064) ignores return value by vault.addValue(_amount,msg.sender,address(this)) (71_PoolTemplate.sol#1058)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1110,
+            "line_end": 1153,
+            "message": "PoolTemplate.withdraw(uint256) (71_PoolTemplate.sol#1110-1153) ignores return value by vault.withdrawValue(_retVal,msg.sender) (71_PoolTemplate.sol#1150)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Low",
+            "line": 1013,
+            "line_end": 1019,
+            "message": "PoolTemplate.initialize(string,uint256[],address[])._name (71_PoolTemplate.sol#1013-1019) shadows:\n\t- InsureDAOERC20._name (71_PoolTemplate.sol#204) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Low",
+            "line": 1023,
+            "message": "PoolTemplate.initialize(string,uint256[],address[])._decimals (71_PoolTemplate.sol#1023) shadows:\n\t- InsureDAOERC20._decimals (71_PoolTemplate.sol#206) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Low",
+            "line": 1020,
+            "line_end": 1022,
+            "message": "PoolTemplate.initialize(string,uint256[],address[])._symbol (71_PoolTemplate.sol#1020-1022) shadows:\n\t- InsureDAOERC20._symbol (71_PoolTemplate.sol#205) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "applyCover",
+            "impact": "Low",
+            "line": 1472,
+            "line_end": 1503,
+            "message": "PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503) has external calls inside a loop: IIndexTemplate(indexList[i]).lock() (71_PoolTemplate.sol#1490)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "resume",
+            "impact": "Low",
+            "line": 1508,
+            "line_end": 1551,
+            "message": "PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551) has external calls inside a loop: _actualDeduction += IIndexTemplate(_index).compensate(_redeemAmount) (71_PoolTemplate.sol#1530-1532)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Low",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) has external calls inside a loop: require(bool,string)(insurances[_id].status == true && marketStatus == MarketStatus.Trading && insurances[_id].endTime + parameters.getGrace(msg.sender) < block.timestamp,ERROR: UNLOCK_BAD_COINDITIONS) (71_PoolTemplate.sol#1170-1176)\n\tCalls stack containing the loop:\n\t\tPoolTemplate.unlockBatch(uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_depositFrom",
+            "impact": "Low",
+            "line": 1072,
+            "line_end": 1090,
+            "message": "Reentrancy in PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090):\n\tExternal calls:\n\t- vault.addValue(_amount,_from,address(this)) (71_PoolTemplate.sol#1084)\n\tState variables written after the call(s):\n\t- _mint(_from,_mintAmount) (71_PoolTemplate.sol#1089)\n\t\t- _balances[account] += amount (71_PoolTemplate.sol#466)\n\t- _mint(_from,_mintAmount) (71_PoolTemplate.sol#1089)\n\t\t- withdrawalReq[from].amount = _after (71_PoolTemplate.sol#1737)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1049,
+            "line_end": 1064,
+            "message": "Reentrancy in PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064):\n\tExternal calls:\n\t- vault.addValue(_amount,msg.sender,address(this)) (71_PoolTemplate.sol#1058)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,_mintAmount) (71_PoolTemplate.sol#1063)\n\t\t- _balances[account] += amount (71_PoolTemplate.sol#466)\n\t- _mint(msg.sender,_mintAmount) (71_PoolTemplate.sol#1063)\n\t\t- withdrawalReq[from].amount = _after (71_PoolTemplate.sol#1737)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "insure",
+            "impact": "Low",
+            "line": 1282,
+            "line_end": 1357,
+            "message": "Reentrancy in PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357):\n\tExternal calls:\n\t- _newAttribution = vault.addValueBatch(_premium,msg.sender,(address(this),parameters.getOwner()),(MAGIC_SCALE_1E6 - _fee,_fee)) (71_PoolTemplate.sol#1315-1320)\n\tState variables written after the call(s):\n\t- allInsuranceCount += 1 (71_PoolTemplate.sol#1335)\n\t- insurances[_id] = _insurance (71_PoolTemplate.sol#1334)\n\t- rewardPerCredit += ((_attributionForIndex * MAGIC_SCALE_1E6) / _totalCredit) (71_PoolTemplate.sol#1342-1343)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "allocateCredit",
+            "impact": "Low",
+            "line": 1194,
+            "line_end": 1226,
+            "message": "Reentrancy in PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226):\n\tExternal calls:\n\t- vault.transferAttribution(_pending,msg.sender) (71_PoolTemplate.sol#1214)\n\tState variables written after the call(s):\n\t- attributionDebt -= _pending (71_PoolTemplate.sol#1215)\n\t- totalCredit += _credit (71_PoolTemplate.sol#1219)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1110,
+            "line_end": 1153,
+            "message": "Reentrancy in PoolTemplate.withdraw(uint256) (71_PoolTemplate.sol#1110-1153):\n\tExternal calls:\n\t- vault.withdrawValue(_retVal,msg.sender) (71_PoolTemplate.sol#1150)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,_amount,_retVal) (71_PoolTemplate.sol#1152)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "insure",
+            "impact": "Low",
+            "line": 1282,
+            "line_end": 1357,
+            "message": "Reentrancy in PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357):\n\tExternal calls:\n\t- _newAttribution = vault.addValueBatch(_premium,msg.sender,(address(this),parameters.getOwner()),(MAGIC_SCALE_1E6 - _fee,_fee)) (71_PoolTemplate.sol#1315-1320)\n\tEvent emitted after the call(s):\n\t- Insured(_id,_amount,_target,block.timestamp,_endTime,msg.sender,_premium) (71_PoolTemplate.sol#1346-1354)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "resume",
+            "impact": "Low",
+            "line": 1508,
+            "line_end": 1551,
+            "message": "Reentrancy in PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551):\n\tExternal calls:\n\t- _actualDeduction += IIndexTemplate(_index).compensate(_redeemAmount) (71_PoolTemplate.sol#1530-1532)\n\t- vault.offsetDebt(_deductionFromPool,address(this)) (71_PoolTemplate.sol#1544)\n\t- vault.transferDebt(_shortage) (71_PoolTemplate.sol#1547)\n\tEvent emitted after the call(s):\n\t- MarketStatusChanged(MarketStatus.Trading) (71_PoolTemplate.sol#1550)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "redeem",
+            "impact": "Low",
+            "line": 1365,
+            "line_end": 1415,
+            "message": "Reentrancy in PoolTemplate.redeem(uint256,bytes32[]) (71_PoolTemplate.sol#1365-1415):\n\tExternal calls:\n\t- vault.borrowValue(_payoutAmount,msg.sender) (71_PoolTemplate.sol#1406)\n\tEvent emitted after the call(s):\n\t- Redeemed(_id,msg.sender,_insurance.target,_insurance.amount,_payoutAmount) (71_PoolTemplate.sol#1408-1414)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 1049,
+            "line_end": 1064,
+            "message": "Reentrancy in PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064):\n\tExternal calls:\n\t- vault.addValue(_amount,msg.sender,address(this)) (71_PoolTemplate.sol#1058)\n\tEvent emitted after the call(s):\n\t- Deposit(msg.sender,_amount,_mintAmount) (71_PoolTemplate.sol#1060)\n\t- Transfer(address(0),account,amount) (71_PoolTemplate.sol#467)\n\t\t- _mint(msg.sender,_mintAmount) (71_PoolTemplate.sol#1063)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "allocateCredit",
+            "impact": "Low",
+            "line": 1194,
+            "line_end": 1226,
+            "message": "Reentrancy in PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226):\n\tExternal calls:\n\t- vault.transferAttribution(_pending,msg.sender) (71_PoolTemplate.sol#1214)\n\tEvent emitted after the call(s):\n\t- CreditIncrease(msg.sender,_credit) (71_PoolTemplate.sol#1221)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "applyCover",
+            "impact": "Low",
+            "line": 1472,
+            "line_end": 1503,
+            "message": "Reentrancy in PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503):\n\tExternal calls:\n\t- IIndexTemplate(indexList[i]).lock() (71_PoolTemplate.sol#1490)\n\tEvent emitted after the call(s):\n\t- CoverApplied(_pending,_payoutNumerator,_payoutDenominator,_incidentTimestamp,_merkleRoot,_rawdata,_memo) (71_PoolTemplate.sol#1493-1501)\n\t- MarketStatusChanged(marketStatus) (71_PoolTemplate.sol#1502)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_depositFrom",
+            "impact": "Low",
+            "line": 1072,
+            "line_end": 1090,
+            "message": "Reentrancy in PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090):\n\tExternal calls:\n\t- vault.addValue(_amount,_from,address(this)) (71_PoolTemplate.sol#1084)\n\tEvent emitted after the call(s):\n\t- Deposit(_from,_amount,_mintAmount) (71_PoolTemplate.sol#1086)\n\t- Transfer(address(0),account,amount) (71_PoolTemplate.sol#467)\n\t\t- _mint(_from,_mintAmount) (71_PoolTemplate.sol#1089)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "resume",
+            "impact": "Low",
+            "line": 1508,
+            "line_end": 1551,
+            "message": "PoolTemplate.resume() (71_PoolTemplate.sol#1508-1551) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(marketStatus == MarketStatus.Payingout && pendingEnd < block.timestamp,ERROR: UNABLE_TO_RESUME) (71_PoolTemplate.sol#1509-1513)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1110,
+            "line_end": 1153,
+            "message": "PoolTemplate.withdraw(uint256) (71_PoolTemplate.sol#1110-1153) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(withdrawalReq[msg.sender].timestamp + parameters.getLockup(msg.sender) < block.timestamp,ERROR: WITHDRAWAL_QUEUE) (71_PoolTemplate.sol#1121-1126)\n\t- require(bool,string)(withdrawalReq[msg.sender].timestamp + parameters.getLockup(msg.sender) + parameters.getWithdrawable(msg.sender) > block.timestamp,ERROR: WITHDRAWAL_NO_ACTIVE_REQUEST) (71_PoolTemplate.sol#1127-1133)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "transferInsurance",
+            "impact": "Low",
+            "line": 1422,
+            "line_end": 1435,
+            "message": "PoolTemplate.transferInsurance(uint256,address) (71_PoolTemplate.sol#1422-1435) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_to != address(0) && insurance.insured == msg.sender && insurance.endTime >= block.timestamp && insurance.status == true,ERROR: INSURANCE_TRANSFER_BAD_CONDITIONS) (71_PoolTemplate.sol#1425-1431)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Low",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(insurances[_id].status == true && marketStatus == MarketStatus.Trading && insurances[_id].endTime + parameters.getGrace(msg.sender) < block.timestamp,ERROR: UNLOCK_BAD_COINDITIONS) (71_PoolTemplate.sol#1170-1176)\n\t- insurances[_id].status == false (71_PoolTemplate.sol#1177)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "redeem",
+            "impact": "Low",
+            "line": 1365,
+            "line_end": 1415,
+            "message": "PoolTemplate.redeem(uint256,bytes32[]) (71_PoolTemplate.sol#1365-1415) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_insurance.status == true,ERROR: INSURANCE_NOT_ACTIVE) (71_PoolTemplate.sol#1367)\n\t- require(bool,string)(_insurance.insured == msg.sender,ERROR: NOT_YOUR_INSURANCE) (71_PoolTemplate.sol#1378)\n\t- require(bool,string)(marketStatus == MarketStatus.Payingout && _insurance.startTime <= _incidentTimestamp && _insurance.endTime >= _incidentTimestamp,ERROR: INSURANCE_NOT_APPLICABLE) (71_PoolTemplate.sol#1379-1384)\n\t- require(bool,string)(MerkleProof.verify(_merkleProof,_targets,keccak256(bytes)(abi.encodePacked(_insurance.target,_insurance.insured))) || MerkleProof.verify(_merkleProof,_targets,keccak256(bytes)(abi.encodePacked(_insurance.target,address(0)))),ERROR: INSURANCE_EXEMPTED) (71_PoolTemplate.sol#1385-1399)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "utilizationRate",
+            "impact": "Low",
+            "line": 1663,
+            "line_end": 1669,
+            "message": "PoolTemplate.utilizationRate() (71_PoolTemplate.sol#1663-1669) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lockedAmount > 0 (71_PoolTemplate.sol#1664)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "allocateCredit",
+            "impact": "Informational",
+            "line": 1194,
+            "line_end": 1226,
+            "message": "PoolTemplate.allocateCredit(uint256) (71_PoolTemplate.sol#1194-1226) compares to a boolean constant:\n\t-_index.exist == false (71_PoolTemplate.sol#1205)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "redeem",
+            "impact": "Informational",
+            "line": 1365,
+            "line_end": 1415,
+            "message": "PoolTemplate.redeem(uint256,bytes32[]) (71_PoolTemplate.sol#1365-1415) compares to a boolean constant:\n\t-require(bool,string)(_insurance.status == true,ERROR: INSURANCE_NOT_ACTIVE) (71_PoolTemplate.sol#1367)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "initialize",
+            "impact": "Informational",
+            "line": 995,
+            "line_end": 1038,
+            "message": "PoolTemplate.initialize(string,uint256[],address[]) (71_PoolTemplate.sol#995-1038) compares to a boolean constant:\n\t-require(bool,string)(initialized == false && bytes(_metaData).length > 0 && _references[0] != address(0) && _references[1] != address(0) && _references[2] != address(0) && _references[3] != address(0) && _references[4] != address(0) && _conditions[0] <= _conditions[1],ERROR: INITIALIZATION_BAD_CONDITIONS) (71_PoolTemplate.sol#1000-1010)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "insure",
+            "impact": "Informational",
+            "line": 1282,
+            "line_end": 1357,
+            "message": "PoolTemplate.insure(uint256,uint256,uint256,bytes32) (71_PoolTemplate.sol#1282-1357) compares to a boolean constant:\n\t-require(bool,string)(paused == false,ERROR: INSURE_MARKET_PAUSED) (71_PoolTemplate.sol#1308)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Informational",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) compares to a boolean constant:\n\t-require(bool,string)(insurances[_id].status == true && marketStatus == MarketStatus.Trading && insurances[_id].endTime + parameters.getGrace(msg.sender) < block.timestamp,ERROR: UNLOCK_BAD_COINDITIONS) (71_PoolTemplate.sol#1170-1176)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "transferInsurance",
+            "impact": "Informational",
+            "line": 1422,
+            "line_end": 1435,
+            "message": "PoolTemplate.transferInsurance(uint256,address) (71_PoolTemplate.sol#1422-1435) compares to a boolean constant:\n\t-require(bool,string)(_to != address(0) && insurance.insured == msg.sender && insurance.endTime >= block.timestamp && insurance.status == true,ERROR: INSURANCE_TRANSFER_BAD_CONDITIONS) (71_PoolTemplate.sol#1425-1431)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Informational",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) compares to a boolean constant:\n\t-insurances[_id].status == false (71_PoolTemplate.sol#1177)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "applyCover",
+            "impact": "Informational",
+            "line": 1472,
+            "line_end": 1503,
+            "message": "PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string) (71_PoolTemplate.sol#1472-1503) compares to a boolean constant:\n\t-require(bool,string)(paused == false,ERROR: UNABLE_TO_APPLY) (71_PoolTemplate.sol#1481)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "deposit",
+            "impact": "Informational",
+            "line": 1049,
+            "line_end": 1064,
+            "message": "PoolTemplate.deposit(uint256) (71_PoolTemplate.sol#1049-1064) compares to a boolean constant:\n\t-require(bool,string)(marketStatus == MarketStatus.Trading && paused == false,ERROR: DEPOSIT_DISABLED) (71_PoolTemplate.sol#1050-1053)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_depositFrom",
+            "impact": "Informational",
+            "line": 1072,
+            "line_end": 1090,
+            "message": "PoolTemplate._depositFrom(uint256,address) (71_PoolTemplate.sol#1072-1090) compares to a boolean constant:\n\t-require(bool,string)(marketStatus == MarketStatus.Trading && paused == false,ERROR: DEPOSIT_DISABLED) (71_PoolTemplate.sol#1076-1079)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PoolTemplate",
+            "filename": "71_PoolTemplate.sol",
+            "function": "unlock",
+            "impact": "Informational",
+            "line": 1169,
+            "line_end": 1182,
+            "message": "PoolTemplate.unlock(uint256) (71_PoolTemplate.sol#1169-1182) has costly operations inside a loop:\n\t- lockedAmount = lockedAmount - insurances[_id].amount (71_PoolTemplate.sol#1179)\n\tCalls stack containing the loop:\n\t\tPoolTemplate.unlockBatch(uint256[])\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "71_PoolTemplate.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 182,
+            "line_end": 184,
+            "message": "Context._msgData() (71_PoolTemplate.sol#182-184) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.7 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.7 (71_PoolTemplate.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Parameter PoolTemplate.insure(uint256,uint256,uint256,bytes32)._span (71_PoolTemplate.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1474,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._payoutNumerator (71_PoolTemplate.sol#1474) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1365,
+            "message": "Parameter PoolTemplate.redeem(uint256,bytes32[])._merkleProof (71_PoolTemplate.sol#1365) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1422,
+            "message": "Parameter PoolTemplate.transferInsurance(uint256,address)._to (71_PoolTemplate.sol#1422) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1442,
+            "message": "Parameter PoolTemplate.getPremium(uint256,uint256)._span (71_PoolTemplate.sol#1442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1169,
+            "message": "Parameter PoolTemplate.unlock(uint256)._id (71_PoolTemplate.sol#1169) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1159,
+            "message": "Parameter PoolTemplate.unlockBatch(uint256[])._ids (71_PoolTemplate.sol#1159) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1110,
+            "message": "Parameter PoolTemplate.withdraw(uint256)._amount (71_PoolTemplate.sol#1110) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 998,
+            "message": "Parameter PoolTemplate.initialize(string,uint256[],address[])._references (71_PoolTemplate.sol#998) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1233,
+            "message": "Parameter PoolTemplate.withdrawCredit(uint256)._credit (71_PoolTemplate.sol#1233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1574,
+            "message": "Parameter PoolTemplate.valueOfUnderlying(address)._owner (71_PoolTemplate.sol#1574) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1479,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._memo (71_PoolTemplate.sol#1479) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1049,
+            "message": "Parameter PoolTemplate.deposit(uint256)._amount (71_PoolTemplate.sol#1049) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1476,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._incidentTimestamp (71_PoolTemplate.sol#1476) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1473,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._pending (71_PoolTemplate.sol#1473) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1633,
+            "message": "Parameter PoolTemplate.allocatedCredit(address)._index (71_PoolTemplate.sol#1633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 996,
+            "message": "Parameter PoolTemplate.initialize(string,uint256[],address[])._metaData (71_PoolTemplate.sol#996) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 997,
+            "message": "Parameter PoolTemplate.initialize(string,uint256[],address[])._conditions (71_PoolTemplate.sol#997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1194,
+            "message": "Parameter PoolTemplate.allocateCredit(uint256)._credit (71_PoolTemplate.sol#1194) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1422,
+            "message": "Parameter PoolTemplate.transferInsurance(uint256,address)._id (71_PoolTemplate.sol#1422) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1365,
+            "message": "Parameter PoolTemplate.redeem(uint256,bytes32[])._id (71_PoolTemplate.sol#1365) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1697,
+            "message": "Parameter PoolTemplate.setPaused(bool)._state (71_PoolTemplate.sol#1697) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1286,
+            "message": "Parameter PoolTemplate.insure(uint256,uint256,uint256,bytes32)._target (71_PoolTemplate.sol#1286) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1442,
+            "message": "Parameter PoolTemplate.getPremium(uint256,uint256)._amount (71_PoolTemplate.sol#1442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1477,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._merkleRoot (71_PoolTemplate.sol#1477) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1096,
+            "message": "Parameter PoolTemplate.requestWithdraw(uint256)._amount (71_PoolTemplate.sol#1096) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1284,
+            "message": "Parameter PoolTemplate.insure(uint256,uint256,uint256,bytes32)._maxCost (71_PoolTemplate.sol#1284) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1475,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._payoutDenominator (71_PoolTemplate.sol#1475) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1478,
+            "message": "Parameter PoolTemplate.applyCover(uint256,uint256,uint256,uint256,bytes32,string,string)._rawdata (71_PoolTemplate.sol#1478) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1616,
+            "message": "Parameter PoolTemplate.worth(uint256)._value (71_PoolTemplate.sol#1616) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1708,
+            "message": "Parameter PoolTemplate.changeMetadata(string)._metadata (71_PoolTemplate.sol#1708) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1283,
+            "message": "Parameter PoolTemplate.insure(uint256,uint256,uint256,bytes32)._amount (71_PoolTemplate.sol#1283) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_PoolTemplate.sol",
+            "impact": "Informational",
+            "line": 1593,
+            "message": "Parameter PoolTemplate.pendingPremium(address)._index (71_PoolTemplate.sol#1593) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

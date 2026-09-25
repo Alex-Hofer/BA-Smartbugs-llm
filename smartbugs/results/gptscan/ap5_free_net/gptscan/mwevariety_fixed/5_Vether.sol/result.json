@@ -1,0 +1,13 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=custom/custom-cheap, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

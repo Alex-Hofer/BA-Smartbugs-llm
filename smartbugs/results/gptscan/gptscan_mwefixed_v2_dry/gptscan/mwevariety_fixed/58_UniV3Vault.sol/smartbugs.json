@@ -1,0 +1,66 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/58_UniV3Vault.sol' '1800' '/sb/bin' '1'",
+        "environment": {
+            "DEEPSEEK_API_KEY": "<redacted>",
+            "GPTSCAN_DRY_RUN": "<redacted>",
+            "GPTSCAN_MODEL": "<redacted>",
+            "GPTSCAN_PROVIDER": "<redacted>"
+        },
+        "image": "smartbugs/gptscan:1.0",
+        "mem_limit": "4g",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmpuoircseh": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "gptscan/mwevariety_fixed\\58_UniV3Vault.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": 5680173585678099984,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": -5592905271179420406,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 19.441258192062378,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1786805628.5632799
+    },
+    "runid": "gptscan_mwefixed_v2_dry",
+    "solc": "0.8.9",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "env": "DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN",
+        "id": "gptscan",
+        "image": "smartbugs/gptscan:1.0",
+        "info": "GPTScan reports suspected DeFi logic weaknesses (10 MWE scenarios) by combining an LLM (OpenAI or DeepSeek) with program analysis; a static confirmation stage discards candidates it cannot corroborate. This build talks to an OpenAI-compatible backend selected at run time.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "GPTScan",
+        "network": "bridge",
+        "origin": "https://github.com/GPTScan/GPTScan",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "1.0"
+    }
+}

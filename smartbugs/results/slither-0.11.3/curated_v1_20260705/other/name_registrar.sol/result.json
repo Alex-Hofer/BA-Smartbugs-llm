@@ -1,0 +1,59 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "High",
+            "line": 23,
+            "message": "NameRegistrar.register(bytes32,address).newRecord (../sb/name_registrar.sol#23) is a storage variable never initialized\n",
+            "name": "uninitialized-storage"
+        },
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.15 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector.\nIt is used by:\n\t- ^0.4.15 (../sb/name_registrar.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Parameter NameRegistrar.register(bytes32,address)._mappedAddress (../sb/name_registrar.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Parameter NameRegistrar.register(bytes32,address)._name (../sb/name_registrar.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "other\\name_registrar.sol",
+            "impact": "Optimization",
+            "line": 10,
+            "message": "NameRegistrar.unlocked (../sb/name_registrar.sol#10) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

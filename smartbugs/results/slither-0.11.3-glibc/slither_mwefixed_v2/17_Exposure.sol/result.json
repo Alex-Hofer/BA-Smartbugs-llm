@@ -1,0 +1,616 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "calculatePercentOfSystem",
+            "impact": "Medium",
+            "line": 1346,
+            "line_end": 1358,
+            "message": "Exposure.calculatePercentOfSystem(address,uint256,uint256,uint256) (17_Exposure.sol#1346-1358) performs a multiplication on the result of a division:\n\t- strategyAssetsPercent = IVault(vault).getStrategyAssets(index).mul(PERCENTAGE_DECIMAL_FACTOR).div(vaultAssets) (17_Exposure.sol#1353-1355)\n\t- percentOfSystem = vaultAssetsPercent.mul(strategyAssetsPercent).div(PERCENTAGE_DECIMAL_FACTOR) (17_Exposure.sol#1357)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_Exposure.sol",
+            "impact": "Medium",
+            "line": 1313,
+            "message": "Exposure.sortVaultsByDelta(bool,uint256,uint256[3],uint256[3]).maxIndex (17_Exposure.sol#1313) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_Exposure.sol",
+            "impact": "Medium",
+            "line": 1314,
+            "message": "Exposure.sortVaultsByDelta(bool,uint256,uint256[3],uint256[3]).minIndex (17_Exposure.sol#1314) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_Exposure.sol",
+            "impact": "Medium",
+            "line": 1316,
+            "message": "Exposure.sortVaultsByDelta(bool,uint256,uint256[3],uint256[3]).minDelta (17_Exposure.sol#1316) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_Exposure.sol",
+            "impact": "Medium",
+            "line": 1282,
+            "message": "Exposure.calcRoughDelta(uint256[3],address[3],uint256).totalDelta (17_Exposure.sol#1282) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_Exposure.sol",
+            "impact": "Medium",
+            "line": 1315,
+            "message": "Exposure.sortVaultsByDelta(bool,uint256,uint256[3],uint256[3]).maxDelta (17_Exposure.sol#1315) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getExactRiskExposure",
+            "impact": "Low",
+            "line": 1208,
+            "line_end": 1224,
+            "message": "Exposure.getExactRiskExposure(SystemState) (17_Exposure.sol#1208-1224) has external calls inside a loop: assetsUsd = buoy.singleStableToUsd(assets,i) (17_Exposure.sol#1219)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getUnifiedAssets",
+            "impact": "Low",
+            "line": 1252,
+            "line_end": 1266,
+            "message": "Exposure.getUnifiedAssets(address[3]) (17_Exposure.sol#1252-1266) has external calls inside a loop: unifiedAssets[i] = assets.mul(DEFAULT_DECIMALS_FACTOR).div(uint256(10) ** IERC20Detailed(IVault(vaults[i]).token()).decimals()) (17_Exposure.sol#1261-1263)\n\tCalls stack containing the loop:\n\t\tExposure.calcRoughDelta(uint256[3],address[3],uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getUnifiedAssets",
+            "impact": "Low",
+            "line": 1252,
+            "line_end": 1266,
+            "message": "Exposure.getUnifiedAssets(address[3]) (17_Exposure.sol#1252-1266) has external calls inside a loop: assets = IVault(vaults[i]).totalAssets() (17_Exposure.sol#1260)\n\tCalls stack containing the loop:\n\t\tExposure.calcRoughDelta(uint256[3],address[3],uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "calculatePercentOfSystem",
+            "impact": "Low",
+            "line": 1346,
+            "line_end": 1358,
+            "message": "Exposure.calculatePercentOfSystem(address,uint256,uint256,uint256) (17_Exposure.sol#1346-1358) has external calls inside a loop: strategyAssetsPercent = IVault(vault).getStrategyAssets(index).mul(PERCENTAGE_DECIMAL_FACTOR).div(vaultAssets) (17_Exposure.sol#1353-1355)\n\tCalls stack containing the loop:\n\t\tExposure.calcRiskExposure(SystemState)\n\t\tExposure._calcRiskExposure(SystemState,bool)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getUnifiedAssets",
+            "impact": "Low",
+            "line": 1252,
+            "line_end": 1266,
+            "message": "Exposure.getUnifiedAssets(address[3]) (17_Exposure.sol#1252-1266) has external calls inside a loop: unifiedAssets[i] = assets.mul(DEFAULT_DECIMALS_FACTOR).div(uint256(10) ** IERC20Detailed(IVault(vaults[i]).token()).decimals()) (17_Exposure.sol#1261-1263)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "calculatePercentOfSystem",
+            "impact": "Low",
+            "line": 1346,
+            "line_end": 1358,
+            "message": "Exposure.calculatePercentOfSystem(address,uint256,uint256,uint256) (17_Exposure.sol#1346-1358) has external calls inside a loop: strategyAssetsPercent = IVault(vault).getStrategyAssets(index).mul(PERCENTAGE_DECIMAL_FACTOR).div(vaultAssets) (17_Exposure.sol#1353-1355)\n\tCalls stack containing the loop:\n\t\tExposure.getExactRiskExposure(SystemState)\n\t\tExposure._calcRiskExposure(SystemState,bool)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getExactRiskExposure",
+            "impact": "Low",
+            "line": 1208,
+            "line_end": 1224,
+            "message": "Exposure.getExactRiskExposure(SystemState) (17_Exposure.sol#1208-1224) has external calls inside a loop: assets = lifeguard.assets(i) (17_Exposure.sol#1218)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Exposure",
+            "filename": "17_Exposure.sol",
+            "function": "getUnifiedAssets",
+            "impact": "Low",
+            "line": 1252,
+            "line_end": 1266,
+            "message": "Exposure.getUnifiedAssets(address[3]) (17_Exposure.sol#1252-1266) has external calls inside a loop: assets = IVault(vaults[i]).totalAssets() (17_Exposure.sol#1260)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_Exposure.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 272,
+            "line_end": 281,
+            "message": "Address.isContract(address) (17_Exposure.sol#272-281) uses assembly\n\t- INLINE ASM (17_Exposure.sol#279)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_Exposure.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 393,
+            "line_end": 410,
+            "message": "Address._verifyCallResult(bool,bytes,string) (17_Exposure.sol#393-410) uses assembly\n\t- INLINE ASM (17_Exposure.sol#402-405)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "17_Exposure.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 570,
+            "line_end": 573,
+            "message": "Context._msgData() (17_Exposure.sol#570-573) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (17_Exposure.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_Exposure.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 299,
+            "line_end": 305,
+            "message": "Low level call in Address.sendValue(address,uint256) (17_Exposure.sol#299-305):\n\t- (success,None) = recipient.call{value: amount}() (17_Exposure.sol#303)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_Exposure.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 360,
+            "line_end": 367,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (17_Exposure.sol#360-367):\n\t- (success,returndata) = target.call{value: value}(data) (17_Exposure.sol#365)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_Exposure.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 385,
+            "line_end": 391,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (17_Exposure.sol#385-391):\n\t- (success,returndata) = target.staticcall(data) (17_Exposure.sol#389)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 968,
+            "message": "Parameter ICurve3Pool.calc_withdraw_one_coin(uint256,int128)._token_amount (17_Exposure.sol#968) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity",
+            "impact": "Informational",
+            "line": 1036,
+            "message": "Function ICurveZap.remove_liquidity(uint256,uint256[4]) (17_Exposure.sol#1036) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1034,
+            "message": "Parameter ICurveZap.add_liquidity(uint256[4],uint256).min_mint_amount (17_Exposure.sol#1034) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1203,
+            "message": "Parameter Exposure.setMakerUSDCExposure(uint256)._makerUSDCExposure (17_Exposure.sol#1203) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Deposit",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity",
+            "impact": "Informational",
+            "line": 985,
+            "message": "Function ICurve3Deposit.remove_liquidity(uint256,uint256[3]) (17_Exposure.sol#985) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 990,
+            "message": "Parameter ICurve3Deposit.remove_liquidity_one_coin(uint256,int128,uint256)._token_amount (17_Exposure.sol#990) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 983,
+            "message": "Parameter ICurve3Deposit.add_liquidity(uint256[3],uint256).min_mint_amount (17_Exposure.sol#983) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity_one_coin",
+            "impact": "Informational",
+            "line": 1040,
+            "line_end": 1044,
+            "message": "Function ICurveZap.remove_liquidity_one_coin(uint256,int128,uint256) (17_Exposure.sol#1040-1044) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Pool",
+            "filename": "17_Exposure.sol",
+            "function": "get_dy",
+            "impact": "Informational",
+            "line": 962,
+            "line_end": 966,
+            "message": "Function ICurve3Pool.get_dy(int128,int128,uint256) (17_Exposure.sol#962-966) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity_imbalance",
+            "impact": "Informational",
+            "line": 1038,
+            "message": "Function ICurveZap.remove_liquidity_imbalance(uint256[4],uint256) (17_Exposure.sol#1038) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1038,
+            "message": "Parameter ICurveZap.remove_liquidity_imbalance(uint256[4],uint256).max_burn_amount (17_Exposure.sol#1038) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1013,
+            "message": "Parameter ICurveMetaPool.calc_withdraw_one_coin(uint256,int128)._token_amount (17_Exposure.sol#1013) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1029,
+            "message": "Parameter ICurveMetaPool.remove_liquidity_one_coin(uint256,int128,uint256).min_uamount (17_Exposure.sol#1029) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "get_dy_underlying",
+            "impact": "Informational",
+            "line": 1007,
+            "line_end": 1011,
+            "message": "Function ICurveMetaPool.get_dy_underlying(int128,int128,uint256) (17_Exposure.sol#1007-1011) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 987,
+            "message": "Parameter ICurve3Deposit.remove_liquidity_imbalance(uint256[3],uint256).max_burn_amount (17_Exposure.sol#987) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1196,
+            "message": "Parameter Exposure.setProtocolCount(uint256)._protocolCount (17_Exposure.sol#1196) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "calc_withdraw_one_coin",
+            "impact": "Informational",
+            "line": 1013,
+            "message": "Function ICurveMetaPool.calc_withdraw_one_coin(uint256,int128) (17_Exposure.sol#1013) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1041,
+            "message": "Parameter ICurveZap.remove_liquidity_one_coin(uint256,int128,uint256)._token_amount (17_Exposure.sol#1041) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "calc_withdraw_one_coin",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Function ICurveZap.calc_withdraw_one_coin(uint256,int128) (17_Exposure.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity_one_coin",
+            "impact": "Informational",
+            "line": 1026,
+            "line_end": 1030,
+            "message": "Function ICurveMetaPool.remove_liquidity_one_coin(uint256,int128,uint256) (17_Exposure.sol#1026-1030) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Pool",
+            "filename": "17_Exposure.sol",
+            "function": "calc_token_amount",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Function ICurve3Pool.calc_token_amount(uint256[3],bool) (17_Exposure.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Deposit",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity_one_coin",
+            "impact": "Informational",
+            "line": 989,
+            "line_end": 993,
+            "message": "Function ICurve3Deposit.remove_liquidity_one_coin(uint256,int128,uint256) (17_Exposure.sol#989-993) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "calc_token_amount",
+            "impact": "Informational",
+            "line": 1015,
+            "message": "Function ICurveMetaPool.calc_token_amount(uint256[2],bool) (17_Exposure.sol#1015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1036,
+            "message": "Parameter ICurveZap.remove_liquidity(uint256,uint256[4]).min_uamounts (17_Exposure.sol#1036) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "add_liquidity",
+            "impact": "Informational",
+            "line": 1034,
+            "message": "Function ICurveZap.add_liquidity(uint256[4],uint256) (17_Exposure.sol#1034) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Deposit",
+            "filename": "17_Exposure.sol",
+            "function": "remove_liquidity_imbalance",
+            "impact": "Informational",
+            "line": 987,
+            "message": "Function ICurve3Deposit.remove_liquidity_imbalance(uint256[3],uint256) (17_Exposure.sol#987) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Parameter ICurveZap.calc_withdraw_one_coin(uint256,int128)._token_amount (17_Exposure.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 980,
+            "message": "Parameter ICurve3Deposit.exchange(int128,int128,uint256,uint256).min_dy (17_Exposure.sol#980) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Pool",
+            "filename": "17_Exposure.sol",
+            "function": "calc_withdraw_one_coin",
+            "impact": "Informational",
+            "line": 968,
+            "message": "Function ICurve3Pool.calc_withdraw_one_coin(uint256,int128) (17_Exposure.sol#968) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Pool",
+            "filename": "17_Exposure.sol",
+            "function": "get_virtual_price",
+            "impact": "Informational",
+            "line": 960,
+            "message": "Function ICurve3Pool.get_virtual_price() (17_Exposure.sol#960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1027,
+            "message": "Parameter ICurveMetaPool.remove_liquidity_one_coin(uint256,int128,uint256)._token_amount (17_Exposure.sol#1027) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "add_liquidity",
+            "impact": "Informational",
+            "line": 1024,
+            "message": "Function ICurveMetaPool.add_liquidity(uint256[2],uint256) (17_Exposure.sol#1024) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 992,
+            "message": "Parameter ICurve3Deposit.remove_liquidity_one_coin(uint256,int128,uint256).min_uamount (17_Exposure.sol#992) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 985,
+            "message": "Parameter ICurve3Deposit.remove_liquidity(uint256,uint256[3]).min_uamounts (17_Exposure.sol#985) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveZap",
+            "filename": "17_Exposure.sol",
+            "function": "calc_token_amount",
+            "impact": "Informational",
+            "line": 1048,
+            "message": "Function ICurveZap.calc_token_amount(uint256[4],bool) (17_Exposure.sol#1048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1024,
+            "message": "Parameter ICurveMetaPool.add_liquidity(uint256[2],uint256).min_mint_amount (17_Exposure.sol#1024) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1021,
+            "message": "Parameter ICurveMetaPool.exchange(int128,int128,uint256,uint256).min_dy (17_Exposure.sol#1021) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 1043,
+            "message": "Parameter ICurveZap.remove_liquidity_one_coin(uint256,int128,uint256).min_uamount (17_Exposure.sol#1043) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurveMetaPool",
+            "filename": "17_Exposure.sol",
+            "function": "get_virtual_price",
+            "impact": "Informational",
+            "line": 1005,
+            "message": "Function ICurveMetaPool.get_virtual_price() (17_Exposure.sol#1005) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Deposit",
+            "filename": "17_Exposure.sol",
+            "function": "add_liquidity",
+            "impact": "Informational",
+            "line": 983,
+            "message": "Function ICurve3Deposit.add_liquidity(uint256[3],uint256) (17_Exposure.sol#983) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ICurve3Deposit",
+            "filename": "17_Exposure.sol",
+            "function": "get_dy",
+            "impact": "Informational",
+            "line": 995,
+            "line_end": 999,
+            "message": "Function ICurve3Deposit.get_dy(int128,int128,uint256) (17_Exposure.sol#995-999) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_Exposure.sol",
+            "impact": "Informational",
+            "line": 571,
+            "message": "Redundant expression \"this (17_Exposure.sol#571)\" inContext (17_Exposure.sol#565-574)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

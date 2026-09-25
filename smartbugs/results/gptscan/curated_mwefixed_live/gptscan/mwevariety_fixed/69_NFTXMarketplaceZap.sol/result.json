@@ -1,0 +1,27 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/69_NFTXMarketplaceZap.sol, current function: _mint1155, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\69_NFTXMarketplaceZap.sol",
+            "line": 1744,
+            "line_end": 1759,
+            "message": "Buying tokens via swap or AMM can be manipulated to cause sandwich attacks.\nRecommendation: Do not use swap or AMM to buy tokens.\nGPTScan code: insecure-buying-behavior",
+            "name": "MWE-202: Insecure Token Buying Behavior",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=39, est_cost_usd=0.0065",
+        "static confirmation filtered LLM candidates: 7 before, 6 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

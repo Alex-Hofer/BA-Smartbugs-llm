@@ -1,0 +1,221 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "High",
+            "line": 62,
+            "line_end": 86,
+            "message": "Log (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#62-86) contract sets array length with a user-controlled value:\n\t- History.push(LastMsg) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#83)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Collect",
+            "impact": "High",
+            "line": 21,
+            "line_end": 35,
+            "message": "Reentrancy in X_WALLET.Collect(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21-35):\n\tExternal calls:\n\t- msg.sender.call.value(_am)() (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#29)\n\tState variables written after the call(s):\n\t- acc.balance -= _am (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#31)\n\tX_WALLET.Acc (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#50) can be used in cross function reentrancies:\n\t- X_WALLET.Acc (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#50)\n\t- X_WALLET.Collect(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21-35)\n\t- X_WALLET.Put(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#11-19)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Collect",
+            "impact": "Low",
+            "line": 21,
+            "line_end": 35,
+            "message": "X_WALLET.Collect(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21-35) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- acc.balance >= MinSum && acc.balance >= _am && now > acc.unlockTime (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#26)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Put",
+            "impact": "Low",
+            "line": 11,
+            "line_end": 19,
+            "message": "X_WALLET.Put(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#11-19) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- _unlockTime > now (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#17)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.25 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x.\nIt is used by:\n\t- ^0.4.25 (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 21,
+            "line_end": 35,
+            "message": "Low level call in X_WALLET.Collect(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21-35):\n\t- msg.sender.call.value(_am)() (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#29)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 72,
+            "message": "Variable Log.History (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#72) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 74,
+            "message": "Variable Log.LastMsg (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#74) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 11,
+            "message": "Parameter X_WALLET.Put(uint256)._unlockTime (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#11) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 59,
+            "message": "Contract X_WALLET (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#9-59) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._adr (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 50,
+            "message": "Variable X_WALLET.Acc (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#50) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 21,
+            "line_end": 35,
+            "message": "Function X_WALLET.Collect(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21-35) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Log",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "AddMessage",
+            "impact": "Informational",
+            "line": 76,
+            "line_end": 84,
+            "message": "Function Log.AddMessage(address,uint256,string) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#76-84) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._data (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 52,
+            "message": "Variable X_WALLET.LogFile (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#52) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._val (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 54,
+            "message": "Variable X_WALLET.MinSum (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#54) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Parameter X_WALLET.Collect(uint256)._am (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#21) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "X_WALLET",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "Put",
+            "impact": "Informational",
+            "line": 11,
+            "line_end": 19,
+            "message": "Function X_WALLET.Put(uint256) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#11-19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "impact": "Optimization",
+            "line": 54,
+            "message": "X_WALLET.MinSum (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#54) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "contract": "Log",
+            "filename": "reentrancy\\0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol",
+            "function": "AddMessage",
+            "impact": "Optimization",
+            "line": 76,
+            "line_end": 84,
+            "message": "AddMessage(address,uint256,string) should be declared external:\n\t- Log.AddMessage(address,uint256,string) (../sb/0x93c32845fae42c83a70e5f06214c8433665c2ab5.sol#76-84)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,64 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "CompositeMultiOracle",
+            "filename": "25_CompositeMultiOracle.sol",
+            "function": "_get",
+            "impact": "Low",
+            "line": 416,
+            "line_end": 424,
+            "message": "CompositeMultiOracle._get(bytes6,bytes6,uint256,uint256) (25_CompositeMultiOracle.sol#416-424) has external calls inside a loop: (priceOut,updateTimeOut) = IOracle(source.source).get(base,quote,10 ** source.decimals) (25_CompositeMultiOracle.sol#421)\n\tCalls stack containing the loop:\n\t\tCompositeMultiOracle.get(bytes32,bytes32,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "CompositeMultiOracle",
+            "filename": "25_CompositeMultiOracle.sol",
+            "function": "_setSource",
+            "impact": "Low",
+            "line": 426,
+            "line_end": 434,
+            "message": "CompositeMultiOracle._setSource(bytes6,bytes6,address) (25_CompositeMultiOracle.sol#426-434) has external calls inside a loop: decimals_ = IOracle(source).decimals() (25_CompositeMultiOracle.sol#427)\n\tCalls stack containing the loop:\n\t\tCompositeMultiOracle.setSources(bytes6[],bytes6[],address[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "CompositeMultiOracle",
+            "filename": "25_CompositeMultiOracle.sol",
+            "function": "_peek",
+            "impact": "Low",
+            "line": 406,
+            "line_end": 414,
+            "message": "CompositeMultiOracle._peek(bytes6,bytes6,uint256,uint256) (25_CompositeMultiOracle.sol#406-414) has external calls inside a loop: (priceOut,updateTimeOut) = IOracle(source.source).peek(base,quote,10 ** source.decimals) (25_CompositeMultiOracle.sol#411)\n\tCalls stack containing the loop:\n\t\tCompositeMultiOracle.peek(bytes32,bytes32,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompositeMultiOracle.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.1 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.8.1 (25_CompositeMultiOracle.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "CompositeMultiOracle",
+            "filename": "25_CompositeMultiOracle.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 308,
+            "line_end": 445,
+            "message": "CompositeMultiOracle.slitherConstructorConstantVariables() (25_CompositeMultiOracle.sol#308-445) uses literals with too many digits:\n\t- ROOT = 0x00000000 (25_CompositeMultiOracle.sol#52)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

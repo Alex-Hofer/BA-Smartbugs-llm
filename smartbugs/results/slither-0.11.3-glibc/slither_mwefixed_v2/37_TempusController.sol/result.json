@@ -1,0 +1,152 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "UntrustedERC20",
+            "filename": "37_TempusController.sol",
+            "function": "untrustedTransferFrom",
+            "impact": "High",
+            "line": 1120,
+            "line_end": 1129,
+            "message": "UntrustedERC20.untrustedTransferFrom(IERC20,address,address,uint256) (37_TempusController.sol#1120-1129) uses arbitrary from in transferFrom: token.safeTransferFrom(from,to,value) (37_TempusController.sol#1127)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "TempusController",
+            "filename": "37_TempusController.sol",
+            "function": "_depositAndFix",
+            "impact": "Medium",
+            "line": 1501,
+            "line_end": 1523,
+            "message": "TempusController._depositAndFix(ITempusAMM,uint256,bool,uint256) (37_TempusController.sol#1501-1523) uses a dangerous strict equality:\n\t- assert(bool)(yieldShares.balanceOf(address(this)) == 0) (37_TempusController.sol#1520)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "TempusController",
+            "filename": "37_TempusController.sol",
+            "function": "_exitTempusAMM",
+            "impact": "Medium",
+            "line": 1656,
+            "line_end": 1670,
+            "message": "TempusController._exitTempusAMM(ITempusAMM,uint256,uint256,uint256,bool) (37_TempusController.sol#1656-1670) uses a dangerous strict equality:\n\t- assert(bool)(tempusAMM.balanceOf(address(this)) == 0) (37_TempusController.sol#1669)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TempusController",
+            "filename": "37_TempusController.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 1406,
+            "line_end": 1434,
+            "message": "TempusController.swap(ITempusAMM,uint256,IERC20,IERC20,uint256) (37_TempusController.sol#1406-1434) ignores return value by vault.swap(singleSwap,fundManagement,minReturn,block.timestamp) (37_TempusController.sol#1433)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TempusController",
+            "filename": "37_TempusController.sol",
+            "function": "_getAMMDetailsAndEnsureInitialized",
+            "impact": "Medium",
+            "line": 1805,
+            "line_end": 1822,
+            "message": "TempusController._getAMMDetailsAndEnsureInitialized(ITempusAMM) (37_TempusController.sol#1805-1822) ignores return value by (ammTokens,ammBalances,None) = vault.getPoolTokens(poolId) (37_TempusController.sol#1817)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 144,
+            "line_end": 154,
+            "message": "Address.isContract(address) (37_TempusController.sol#144-154) uses assembly\n\t- INLINE ASM (37_TempusController.sol#150-152)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 307,
+            "line_end": 327,
+            "message": "Address._verifyCallResult(bool,bytes,string) (37_TempusController.sol#307-327) uses assembly\n\t- INLINE ASM (37_TempusController.sol#319-322)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "37_TempusController.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 960,
+            "line_end": 962,
+            "message": "Context._msgData() (37_TempusController.sol#960-962) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "37_TempusController.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.6 (37_TempusController.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 172,
+            "line_end": 177,
+            "message": "Low level call in Address.sendValue(address,uint256) (37_TempusController.sol#172-177):\n\t- (success,None) = recipient.call{value: amount}() (37_TempusController.sol#175)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 240,
+            "line_end": 251,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (37_TempusController.sol#240-251):\n\t- (success,returndata) = target.call{value: value}(data) (37_TempusController.sol#249)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 305,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (37_TempusController.sol#296-305):\n\t- (success,returndata) = target.delegatecall(data) (37_TempusController.sol#303)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "37_TempusController.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 269,
+            "line_end": 278,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (37_TempusController.sol#269-278):\n\t- (success,returndata) = target.staticcall(data) (37_TempusController.sol#276)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

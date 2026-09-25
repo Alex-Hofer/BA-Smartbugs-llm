@@ -1,0 +1,25 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: _addLiquidity1155WETH, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: _addLiquidity721WETH, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: addLiquidity1155ETHTo, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: addLiquidity1155To, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: addLiquidity721ETHTo, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/69_NFTXStakingZap.sol, current function: addLiquidity721To, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "IndexError: list index out of range"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=73, est_cost_usd=0.0092",
+        "static confirmation filtered LLM candidates: 29 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

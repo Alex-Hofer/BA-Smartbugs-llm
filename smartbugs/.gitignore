@@ -38,12 +38,19 @@ dmypy.json
 *~
 .DS_Store
 
-# SmartBugs results
-results/
-# Anchored to this directory on purpose: the unanchored "results*" also matched
-# the source file sb/results2csv.py, which then never reached a commit.
-/results*
-results/*.*
+# SmartBugs results. Anchored to this directory on purpose: the unanchored
+# "results*" also matched the source file sb/results2csv.py, which then never
+# reached a commit.
+# Since 2026-09-25 only two files per task are versioned (result.json and
+# smartbugs.json, about 16 MB in total): they carry every number the
+# evaluations under ../eval/ are built from. Logs, archives, SARIF and the
+# console logs under results/logs/ stay out of git; the complete raw data are
+# attached to a GitHub release of this repository (see ../README.md, section
+# "Wo die Ergebnisse liegen").
+/results/**
+!/results/**/
+!/results/**/result.json
+!/results/**/smartbugs.json
 
 # Default remote datasets
 dataset/solidiFI

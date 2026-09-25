@@ -1,0 +1,40 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "arithmetic\\integer_overflow_mapping_sym_1.sol",
+            "message": "Integer Overflow/Underflow Identified.\n\n```\nInteger Underflow\n'''\nThe `init` function performs an unchecked subtraction `map[k] -= v` on line 16. Since `map[k]` and `v` are `uint256` (unsigned integers), if `v` is greater than the current value of `map[k]`, the result wraps around to a very large number (underflow). This can allow an attacker to artificially inflate the stored value, leading to unexpected behavior or further exploits.\n\n**Mitigation:**  \n- Use `require(map[k] >= v, \"Underflow prevented\");` before the subtraction to revert if underflow would occur.  \n- Alternatively, replace the operation with `map[k] = map[k] - v;` and rely on Solidity 0.8+'s built-in overflow/underflow checks when upgrading the compiler version.  \n- For codebase consistency, consider importing OpenZeppelin's `SafeMath` library and using `map[k].sub(v)`.\n'''\n```\nDetector: ArithmeticDetector\nClassification: SWC-101, DASP-3",
+            "name": "Integer Overflow / Underflow",
+            "severity": "high"
+        },
+        {
+            "filename": "arithmetic\\integer_overflow_mapping_sym_1.sol",
+            "message": "Lack of Withdrawal Function Identified.\n\nInteger Underflow\n'''\nThe contract's `init` function performs `map[k] -= v` without verifying that `map[k] >= v`. In Solidity 0.4.x, arithmetic operations wrap around, so if `map[k]` is less than `v`, the result underflows to a large number (e.g., `0 - 1 = 2^256 - 1`). This violates the intended logic and can lead to incorrect state updates, enabling an attacker to arbitrarily increase mapping values.\n\n**Mitigation:** Use a safe math library (e.g., OpenZeppelin's SafeMath) or add a require statement before the subtraction:\n\n```solidity\nrequire(map[k] >= v, \"Underflow: insufficient balance\");\nmap[k] -= v;\n```\n'''\nDetector: WithdrawalFunctionDetector\nClassification: logic (locked funds)",
+            "name": "Missing Withdrawal Function (locked funds)",
+            "severity": "medium"
+        },
+        {
+            "filename": "arithmetic\\integer_overflow_mapping_sym_1.sol",
+            "message": "Lack of Authorization Identified.\n\nLack of Access Control\n'''\nThe `init` function is declared as `public` with no access control modifier. Any externally owned account or contract can call `init(uint256 k, uint256 v)` and modify the `map` storage arbitrarily. This lack of authorization allows any user to set or subtract arbitrary values from any mapping slot, potentially breaking the intended state logic (e.g., inflating balances, corrupting accounting).\n\n**Mitigation:** Restrict access to the `init` function to only authorized addresses, such as a contract owner or a whitelist. For example, declare an `owner` variable and add a `modifier onlyOwner`:\n\n1. Add a state variable `address public owner;` set in the constructor.\n2. Create a modifier: `modifier onlyOwner() { require(msg.sender == owner); _; }`\n3. Apply the modifier to the function: `function init(uint256 k, uint256 v) public onlyOwner { ... }`\n\nThis ensures only the contract owner can change the mapping values.\n'''\nDetector: LackAuthorizationDetector\nClassification: SWC-105 (approx.), DASP-2",
+            "name": "Missing Access Control / Authorization",
+            "severity": "high"
+        },
+        {
+            "filename": "arithmetic\\integer_overflow_mapping_sym_1.sol",
+            "message": "Lack of Input Validation Identified.\n```\nLack of Input Validation (Integer Underflow)\n'''\nDescription: The `init` function performs `map[k] -= v` without validating that `v` is less than or equal to the current value of `map[k]`. Since `map[k]` is initialized to 0 (default for mapping), any non-zero `v` will cause an integer underflow, resulting in a very large uint256 value (e.g., 2^256 - v). This can be exploited to arbitrarily inflate the stored value, potentially leading to unauthorized state manipulation or corruption of contract logic.\n\nRecommended Mitigation: Add a require statement to ensure that `v` is not greater than `map[k]` before performing the subtraction. For example: `require(map[k] >= v, \"Underflow: value exceeds balance\");`. Alternatively, use a safe math library (e.g., OpenZeppelin's SafeMath) or upgrade to Solidity 0.8+ which has built-in overflow/underflow checks.\n'''\n```\nDetector: InputValidationDetector\nClassification: SWC-123 (approx.)",
+            "name": "Lack of Input Validation",
+            "severity": "medium"
+        }
+    ],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/deepseek-v4-flash",
+        "categories checked: 41/41",
+        "context window: 65536 tokens, smallest completion budget: 8192"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

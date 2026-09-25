@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "EXIT_CODE_124",
+        "GPTScan reported success=false: no output produced",
+        "TIMEOUT_NET: run cut short (net) -- GPTScan nach 54s hart beendet; Bremse bei 42s griff nicht"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

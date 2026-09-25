@@ -1,0 +1,102 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "transferNotionalFrom",
+            "impact": "Medium",
+            "line": 168,
+            "line_end": 220,
+            "message": "Reentrancy in VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220):\n\tExternal calls:\n\t- exchangeRate = CErc20(cTokenAddr).exchangeRateCurrent() (39_VaultTracker.sol#176)\n\tState variables written after the call(s):\n\t- vaults[f] = from (39_VaultTracker.sol#193)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n\t- vaults[t] = to (39_VaultTracker.sol#217)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "removeNotional",
+            "impact": "Medium",
+            "line": 94,
+            "line_end": 122,
+            "message": "Reentrancy in VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122):\n\tExternal calls:\n\t- exchangeRate = CErc20(cTokenAddr).exchangeRateCurrent() (39_VaultTracker.sol#102)\n\tState variables written after the call(s):\n\t- vaults[o] = vlt (39_VaultTracker.sol#119)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "transferNotionalFee",
+            "impact": "Medium",
+            "line": 225,
+            "line_end": 263,
+            "message": "Reentrancy in VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263):\n\tExternal calls:\n\t- exchangeRate = CErc20(cTokenAddr).exchangeRateCurrent() (39_VaultTracker.sol#232)\n\tState variables written after the call(s):\n\t- vaults[swivel] = sVault (39_VaultTracker.sol#260)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n\t- vaults[f] = oVault (39_VaultTracker.sol#261)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "redeemInterest",
+            "impact": "Medium",
+            "line": 126,
+            "line_end": 153,
+            "message": "Reentrancy in VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153):\n\tExternal calls:\n\t- exchangeRate = CErc20(cTokenAddr).exchangeRateCurrent() (39_VaultTracker.sol#133)\n\tState variables written after the call(s):\n\t- vaults[o] = vlt (39_VaultTracker.sol#149)\n\tVaultTracker.vaults (39_VaultTracker.sol#38) can be used in cross function reentrancies:\n\t- VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89)\n\t- VaultTracker.balancesOf(address) (39_VaultTracker.sol#267-269)\n\t- VaultTracker.redeemInterest(address) (39_VaultTracker.sol#126-153)\n\t- VaultTracker.removeNotional(address,uint256) (39_VaultTracker.sol#94-122)\n\t- VaultTracker.transferNotionalFee(address,uint256) (39_VaultTracker.sol#225-263)\n\t- VaultTracker.transferNotionalFrom(address,address,uint256) (39_VaultTracker.sol#168-220)\n\t- VaultTracker.vaults (39_VaultTracker.sol#38)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "39_VaultTracker.sol",
+            "impact": "Low",
+            "line": 50,
+            "message": "VaultTracker.constructor(uint256,address,address).c (39_VaultTracker.sol#50) lacks a zero-check on :\n\t\t- cTokenAddr = c (39_VaultTracker.sol#53)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "39_VaultTracker.sol",
+            "impact": "Low",
+            "line": 50,
+            "message": "VaultTracker.constructor(uint256,address,address).s (39_VaultTracker.sol#50) lacks a zero-check on :\n\t\t- swivel = s (39_VaultTracker.sol#54)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "addNotional",
+            "impact": "Low",
+            "line": 60,
+            "line_end": 89,
+            "message": "Reentrancy in VaultTracker.addNotional(address,uint256) (39_VaultTracker.sol#60-89):\n\tExternal calls:\n\t- exchangeRate = CErc20(cTokenAddr).exchangeRateCurrent() (39_VaultTracker.sol#61)\n\tState variables written after the call(s):\n\t- vaults[o] = vlt (39_VaultTracker.sol#86)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaultTracker",
+            "filename": "39_VaultTracker.sol",
+            "function": "matureVault",
+            "impact": "Low",
+            "line": 156,
+            "line_end": 162,
+            "message": "VaultTracker.matureVault() (39_VaultTracker.sol#156-162) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= maturity,maturity has not been reached) (39_VaultTracker.sol#158)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "39_VaultTracker.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (39_VaultTracker.sol#3)\n",
+            "name": "solc-version"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

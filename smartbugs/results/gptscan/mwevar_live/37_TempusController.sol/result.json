@@ -1,0 +1,26 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... (IVault vault,bytes32 poolId,IERC20[] memory amm ... |                                         ^^^^^",
+        "solc rejected 37_TempusController.sol: Error: Expected ',' but got identifier --> /work/input/37_Tem ... | 218 |  ... mpusAMM)privateviewreturns (IVault vault,bytes32 poolId,IERC20[] memory amm ... | ^^^^^"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "\\Users\\Carlo\\Desktop\\Familie\\Alex\\Uni\\BACHELORARBEIT\\2. step\\Code\\smartbugs\\samples\\gptscan\\mwevariety_live\\37_TempusController.sol",
+            "line": 80,
+            "line_end": 93,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=8, est_cost_usd=0.0012"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,15 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "LLMSmartAudit run: backend=custom/pruefstand-modell",
+        "categories checked: 41/41",
+        "context window: 65536 tokens, smallest completion budget: 61588"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

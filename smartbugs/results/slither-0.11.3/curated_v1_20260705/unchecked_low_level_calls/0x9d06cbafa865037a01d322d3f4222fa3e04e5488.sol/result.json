@@ -1,0 +1,197 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "tokens_buy",
+            "impact": "Medium",
+            "line": 39,
+            "line_end": 57,
+            "message": "Delta.tokens_buy() (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#39-57) ignores return value by owner2.send(sum2) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#54)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 60,
+            "line_end": 67,
+            "message": "Delta.withdraw(uint256) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#60-67) ignores return value by owner.send(balance) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#65)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "High",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "tokens_buy",
+            "impact": "Low",
+            "line": 44,
+            "message": "Delta.tokens_buy().tokens_buy (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#44) shadows:\n\t- Delta.tokens_buy() (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#39-57) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "change_token_price",
+            "impact": "Low",
+            "line": 70,
+            "line_end": 73,
+            "message": "Delta.change_token_price(uint256) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#70-73) should emit an event for: \n\t- token_price = _token_price (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#71) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "change_active",
+            "impact": "Low",
+            "line": 76,
+            "line_end": 79,
+            "message": "Delta.change_active(uint256) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#76-79) should emit an event for: \n\t- active = _active (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#77) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 48,
+            "message": "Deprecated standard detected ! c.call(bytes4(sha3()(transferFrom(address,address,uint256))),owner,msg.sender,tokens_buy) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#48):\n\t- Usage of \"sha3()\" should be replaced with \"keccak256()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 84,
+            "message": "Deprecated standard detected THROW (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#84):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.23 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData.\nIt is used by:\n\t- ^0.4.23 (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "tokens_buy",
+            "impact": "Informational",
+            "line": 39,
+            "line_end": 57,
+            "message": "Low level call in Delta.tokens_buy() (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#39-57):\n\t- ! c.call(bytes4(sha3()(transferFrom(address,address,uint256))),owner,msg.sender,tokens_buy) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#48)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 29,
+            "message": "Variable Delta.token_price (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#29) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter Delta.withdraw(uint256)._amount (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "change_token_price",
+            "impact": "Informational",
+            "line": 70,
+            "line_end": 73,
+            "message": "Function Delta.change_token_price(uint256) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#70-73) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 70,
+            "message": "Parameter Delta.change_token_price(uint256)._token_price (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#70) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "change_active",
+            "impact": "Informational",
+            "line": 76,
+            "line_end": 79,
+            "message": "Function Delta.change_active(uint256) (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#76-79) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter Delta.change_active(uint256)._active (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Delta",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "function": "tokens_buy",
+            "impact": "Informational",
+            "line": 39,
+            "line_end": 57,
+            "message": "Function Delta.tokens_buy() (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#39-57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Optimization",
+            "line": 24,
+            "message": "Delta.c (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#24) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Optimization",
+            "line": 25,
+            "message": "Delta.owner (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#25) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol",
+            "impact": "Optimization",
+            "line": 26,
+            "message": "Delta.owner2 (../sb/0x9d06cbafa865037a01d322d3f4222fa3e04e5488.sol#26) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,40 @@
+{
+    "errors": [
+        "AttributeError: 'NoneType' object has no attribute 'lower'",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: _burn, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: _mint, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: addForMember, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: addForMember, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: burnSynth, current vul: unauthorized-transfer",
+        "ERROR    tasks: Current File: /work/input/20_Synth.sol, current function: removeForMember, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 250, in si ... ower() in answer[to_exclude_key].lower(): AttributeError: 'NoneType' object has no attribute 'lower'",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... ingle return {answer_key: list(data.values())[0]} IndexError: list index out of range call_arg_check",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "IndexError: list index out of range",
+        "IndexError: list index out of range call_arg_check",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\20_Synth.sol",
+            "line": 343,
+            "line_end": 356,
+            "message": "Users are required to transfer assets in advance and minting token/liquidity/earning thus could be frontrun.\nRecommendation: Put asset transfering and token minting in the same function to keep atomicity.\nGPTScan code: front-running",
+            "name": "MWE-205: Front Running",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=156, est_cost_usd=0.0186",
+        "static confirmation filtered LLM candidates: 60 before, 1 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,141 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Governmental",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "resetInvestment",
+            "impact": "High",
+            "line": 30,
+            "line_end": 40,
+            "message": "Governmental.resetInvestment() (../sb/governmental_survey.sol#30-40) sends eth to arbitrary user\n\tDangerous calls:\n\t- owner.send(this.balance - 1000000000000000000) (../sb/governmental_survey.sol#35)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "High",
+            "contract": "Attacker",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "attack",
+            "impact": "Medium",
+            "line": 45,
+            "line_end": 52,
+            "message": "Attacker.attack(address,uint256) (../sb/governmental_survey.sol#45-52) contains a tautology or contradiction:\n\t- 0 <= count && count < 1023 (../sb/governmental_survey.sol#46)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governmental",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "resetInvestment",
+            "impact": "Medium",
+            "line": 30,
+            "line_end": 40,
+            "message": "Governmental.resetInvestment() (../sb/governmental_survey.sol#30-40) ignores return value by lastInvestor.send(jackpot) (../sb/governmental_survey.sol#34)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governmental",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "resetInvestment",
+            "impact": "Medium",
+            "line": 30,
+            "line_end": 40,
+            "message": "Governmental.resetInvestment() (../sb/governmental_survey.sol#30-40) ignores return value by owner.send(this.balance - 1000000000000000000) (../sb/governmental_survey.sol#35)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governmental",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "resetInvestment",
+            "impact": "Low",
+            "line": 30,
+            "line_end": 40,
+            "message": "Governmental.resetInvestment() (../sb/governmental_survey.sol#30-40) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp < lastInvestmentTimestamp + ONE_MINUTE (../sb/governmental_survey.sol#31)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 23,
+            "message": "Deprecated standard detected THROW (../sb/governmental_survey.sol#23):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 32,
+            "message": "Deprecated standard detected THROW (../sb/governmental_survey.sol#32):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Deprecated standard detected THROW (../sb/governmental_survey.sol#19):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 47,
+            "message": "Deprecated standard detected this.attack.gas(msg.gas - 2000)(target,count + 1) (../sb/governmental_survey.sol#47):\n\t- Usage of \"msg.gas\" should be replaced with \"gasleft()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 8,
+            "message": "Version constraint ^0.4.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction\n\t- IdentityPrecompileReturnIgnored\n\t- HighOrderByteCleanStorage\n\t- OptimizerStaleKnowledgeAboutSHA3\n\t- LibrariesNotCallableFromPayableFunctions.\nIt is used by:\n\t- ^0.4.0 (../sb/governmental_survey.sol#8)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Variable Governmental.ONE_MINUTE (../sb/governmental_survey.sol#15) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governmental",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "function": "resetInvestment",
+            "impact": "Informational",
+            "line": 30,
+            "line_end": 40,
+            "message": "Reentrancy in Governmental.resetInvestment() (../sb/governmental_survey.sol#30-40):\n\tExternal calls:\n\t- lastInvestor.send(jackpot) (../sb/governmental_survey.sol#34)\n\t- owner.send(this.balance - 1000000000000000000) (../sb/governmental_survey.sol#35)\n\tState variables written after the call(s):\n\t- jackpot = 1000000000000000000 (../sb/governmental_survey.sol#38)\n\t- lastInvestmentTimestamp = 0 (../sb/governmental_survey.sol#39)\n\t- lastInvestor = 0 (../sb/governmental_survey.sol#37)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "time_manipulation\\governmental_survey.sol",
+            "impact": "Optimization",
+            "line": 15,
+            "message": "Governmental.ONE_MINUTE (../sb/governmental_survey.sol#15) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

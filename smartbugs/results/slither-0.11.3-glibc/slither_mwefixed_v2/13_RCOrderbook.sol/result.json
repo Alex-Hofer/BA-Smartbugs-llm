@@ -1,0 +1,815 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCOrderbook.sol",
+            "function": "executeMetaTransaction",
+            "impact": "Medium",
+            "line": 2458,
+            "line_end": 3319,
+            "message": "Contract locking ether found:\n\tContract RCOrderbook (13_RCOrderbook.sol#2458-3319) has payable functions:\n\t - NativeMetaTransaction.executeMetaTransaction(address,bytes,bytes32,bytes32,uint8) (13_RCOrderbook.sol#2020-2056)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeBidFromOrderbook",
+            "impact": "Medium",
+            "line": 2885,
+            "line_end": 2932,
+            "message": "Reentrancy in RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2893)\n\t- transferCard(_market,_card,_user,_currUser.next,_price) (13_RCOrderbook.sol#2899)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\t- treasury.updateRentalRate(_user,_currUser.next,_currUser.price,_price,block.timestamp) (13_RCOrderbook.sol#2900-2906)\n\tState variables written after the call(s):\n\t- index[_user][_market][_card] = 0 (13_RCOrderbook.sol#2925)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- index[_user][user[_user][_index].market][user[_user][_index].token] = _index (13_RCOrderbook.sol#2927-2929)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- user[_tempNext][index[_tempNext][_market][_card]].prev = _tempPrev (13_RCOrderbook.sol#2911)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_tempPrev][index[_tempPrev][_market][_card]].next = _tempNext (13_RCOrderbook.sol#2912)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user][_index] = user[_user][_lastRecord] (13_RCOrderbook.sol#2920)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user].pop() (13_RCOrderbook.sol#2922)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_newBidInOrderbook",
+            "impact": "Medium",
+            "line": 2723,
+            "line_end": 2783,
+            "message": "Reentrancy in RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783):\n\tExternal calls:\n\t- treasury.increaseBidRate(_user,_price) (13_RCOrderbook.sol#2771)\n\t- transferCard(_market,_card,_oldOwner,_user,_price) (13_RCOrderbook.sol#2774)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_oldOwner,_user,_price) (13_RCOrderbook.sol#2774)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n\tRCOrderbook.ownerOf (13_RCOrderbook.sol#2490) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook.ownerOf (13_RCOrderbook.sol#2490)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_removeBidFromOrderbookIgnoreOwner",
+            "impact": "Medium",
+            "line": 2935,
+            "line_end": 2970,
+            "message": "Reentrancy in RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2942)\n\tState variables written after the call(s):\n\t- index[_user][_market][_card] = 0 (13_RCOrderbook.sol#2963)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- index[_user][user[_user][_index].market][user[_user][_index].token] = _index (13_RCOrderbook.sol#2965-2967)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- user[_tempNext][index[_tempNext][_market][_card]].prev = _tempPrev (13_RCOrderbook.sol#2947)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_tempPrev][index[_tempPrev][_market][_card]].next = _tempNext (13_RCOrderbook.sol#2948)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user][_index] = user[_user][_lastRecord] (13_RCOrderbook.sol#2958)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user].pop() (13_RCOrderbook.sol#2960)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeOldBids",
+            "impact": "Medium",
+            "line": 3117,
+            "line_end": 3156,
+            "message": "Reentrancy in RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_price) (13_RCOrderbook.sol#3133)\n\tState variables written after the call(s):\n\t- index[_user][_market][i] = 0 (13_RCOrderbook.sol#3148)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- user[_tempNext][index[_tempNext][_market][i]].prev = _tempPrev (13_RCOrderbook.sol#3141-3142)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_tempPrev][index[_tempPrev][_market][i]].next = _tempNext (13_RCOrderbook.sol#3143-3144)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user].pop() (13_RCOrderbook.sol#3147)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- userClosedMarketIndex[_user] ++ (13_RCOrderbook.sol#3154)\n\tRCOrderbook.userClosedMarketIndex (13_RCOrderbook.sol#2495) can be used in cross function reentrancies:\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.userClosedMarketIndex (13_RCOrderbook.sol#2495)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeUserFromOrderbook",
+            "impact": "Medium",
+            "line": 3018,
+            "line_end": 3072,
+            "message": "Reentrancy in RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072):\n\tExternal calls:\n\t- treasury.updateRentalRate(_user,_tempNext,user[_user][i].price,_price,block.timestamp) (13_RCOrderbook.sol#3044-3050)\n\t- transferCard(_market,_card,_user,_tempNext,_price) (13_RCOrderbook.sol#3051)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\t- treasury.decreaseBidRate(_user,user[_user][i].price) (13_RCOrderbook.sol#3054)\n\tState variables written after the call(s):\n\t- index[_user][user[_user][i].market][user[_user][i].token] = 0 (13_RCOrderbook.sol#3034)\n\tRCOrderbook.index (13_RCOrderbook.sol#2475-2476) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.index (13_RCOrderbook.sol#2475-2476)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- user[_tempNext][index[_tempNext][user[_user][i].market][user[_user][i].token]].prev = _tempPrev (13_RCOrderbook.sol#3056-3059)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_tempPrev][index[_tempPrev][user[_user][i].market][user[_user][i].token]].next = _tempNext (13_RCOrderbook.sol#3060-3063)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_user].pop() (13_RCOrderbook.sol#3064)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "closeMarket",
+            "impact": "Medium",
+            "line": 3076,
+            "line_end": 3112,
+            "message": "Reentrancy in RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112):\n\tExternal calls:\n\t- treasury.updateRentalRate(_owner,_market,_price,0,block.timestamp) (13_RCOrderbook.sol#3084-3090)\n\tState variables written after the call(s):\n\t- user[_market][index[_market][_market][i]].prev = _market (13_RCOrderbook.sol#3097)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_market][index[_market][_market][i]].next = _market (13_RCOrderbook.sol#3098)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_firstBid][index[_market][_firstBid][i]].prev = address(this) (13_RCOrderbook.sol#3099)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[_lastBid][index[_market][_lastBid][i]].next = address(this) (13_RCOrderbook.sol#3100)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n\t- user[address(this)].push(_newBid) (13_RCOrderbook.sol#3110)\n\tRCOrderbook.user (13_RCOrderbook.sol#2473) can be used in cross function reentrancies:\n\t- RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2723-2783)\n\t- RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970)\n\t- RCOrderbook._searchOrderbook(RCOrderbook.Bid,address,uint256,uint256) (13_RCOrderbook.sol#2682-2720)\n\t- RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877)\n\t- RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address) (13_RCOrderbook.sol#2629-2678)\n\t- RCOrderbook.addMarket(address,uint256,uint256) (13_RCOrderbook.sol#2595-2621)\n\t- RCOrderbook.bidExists(address,address,uint256) (13_RCOrderbook.sol#3213-3234)\n\t- RCOrderbook.cleanWastePile() (13_RCOrderbook.sol#3159-3202)\n\t- RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112)\n\t- RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013)\n\t- RCOrderbook.getBid(address,address,uint256) (13_RCOrderbook.sol#3252-3270)\n\t- RCOrderbook.getBidValue(address,uint256) (13_RCOrderbook.sol#3236-3248)\n\t- RCOrderbook.getTimeHeldlimit(address,uint256) (13_RCOrderbook.sol#3272-3280)\n\t- RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256) (13_RCOrderbook.sol#3293-3300)\n\t- RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932)\n\t- RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156)\n\t- RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072)\n\t- RCOrderbook.setTimeHeldlimit(address,uint256,uint256) (13_RCOrderbook.sol#3282-3291)\n\t- RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314)\n\t- RCOrderbook.user (13_RCOrderbook.sol#2473)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Medium",
+            "line": 2611,
+            "message": "RCOrderbook.addMarket(address,uint256,uint256)._newBid (13_RCOrderbook.sol#2611) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Medium",
+            "line": 3119,
+            "message": "RCOrderbook.removeOldBids(address)._cardCount (13_RCOrderbook.sol#3119) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Medium",
+            "line": 2744,
+            "message": "RCOrderbook._newBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid)._newBid (13_RCOrderbook.sol#2744) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Medium",
+            "line": 3103,
+            "message": "RCOrderbook.closeMarket()._newBid (13_RCOrderbook.sol#3103) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Medium",
+            "line": 3261,
+            "message": "RCOrderbook.getBid(address,address,uint256)._newBid (13_RCOrderbook.sol#3261) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Low",
+            "line": 2801,
+            "message": "RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid)._owner (13_RCOrderbook.sol#2801) shadows:\n\t- Ownable._owner (13_RCOrderbook.sol#50) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Low",
+            "line": 3082,
+            "message": "RCOrderbook.closeMarket()._owner (13_RCOrderbook.sol#3082) shadows:\n\t- Ownable._owner (13_RCOrderbook.sol#50) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "setLimits",
+            "impact": "Low",
+            "line": 2572,
+            "line_end": 2587,
+            "message": "RCOrderbook.setLimits(uint256,uint256,uint256) (13_RCOrderbook.sol#2572-2587) should emit an event for: \n\t- maxDeletions = _deletionLimit (13_RCOrderbook.sol#2579) \n\t- cleaningLoops = _cleaningLimit (13_RCOrderbook.sol#2582) \n\t- maxSearchIterations = _searchLimit (13_RCOrderbook.sol#2585) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Low",
+            "line": 2549,
+            "message": "RCOrderbook.constructor(address,address)._treasuryAddress (13_RCOrderbook.sol#2549) lacks a zero-check on :\n\t\t- treasuryAddress = _treasuryAddress (13_RCOrderbook.sol#2551)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Low",
+            "line": 2549,
+            "message": "RCOrderbook.constructor(address,address)._factoryAddress (13_RCOrderbook.sol#2549) lacks a zero-check on :\n\t\t- factoryAddress = _factoryAddress (13_RCOrderbook.sol#2550)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_removeBidFromOrderbookIgnoreOwner",
+            "impact": "Low",
+            "line": 2935,
+            "line_end": 2970,
+            "message": "RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970) has external calls inside a loop: treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2942)\n\tCalls stack containing the loop:\n\t\tRCOrderbook.findNewOwner(uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeUserFromOrderbook",
+            "impact": "Low",
+            "line": 3018,
+            "line_end": 3072,
+            "message": "RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072) has external calls inside a loop: treasury.updateRentalRate(_user,_tempNext,user[_user][i].price,_price,block.timestamp) (13_RCOrderbook.sol#3044-3050)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeOldBids",
+            "impact": "Low",
+            "line": 3117,
+            "line_end": 3156,
+            "message": "RCOrderbook.removeOldBids(address) (13_RCOrderbook.sol#3117-3156) has external calls inside a loop: treasury.decreaseBidRate(_user,_price) (13_RCOrderbook.sol#3133)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeUserFromOrderbook",
+            "impact": "Low",
+            "line": 3018,
+            "line_end": 3072,
+            "message": "RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072) has external calls inside a loop: treasury.decreaseBidRate(_user,user[_user][i].price) (13_RCOrderbook.sol#3054)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "findNewOwner",
+            "impact": "Low",
+            "line": 2975,
+            "line_end": 3013,
+            "message": "RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013) has external calls inside a loop: treasury.foreclosureTimeUser(_head.next,_newPrice,_timeOwnershipChanged) < minimumTimeToOwnTo (13_RCOrderbook.sol#2996-3000)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "transferCard",
+            "impact": "Low",
+            "line": 3302,
+            "line_end": 3314,
+            "message": "RCOrderbook.transferCard(address,uint256,address,address,uint256) (13_RCOrderbook.sol#3302-3314) has external calls inside a loop: _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tCalls stack containing the loop:\n\t\tRCOrderbook.removeUserFromOrderbook(address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "closeMarket",
+            "impact": "Low",
+            "line": 3076,
+            "line_end": 3112,
+            "message": "RCOrderbook.closeMarket() (13_RCOrderbook.sol#3076-3112) has external calls inside a loop: treasury.updateRentalRate(_owner,_market,_price,0,block.timestamp) (13_RCOrderbook.sol#3084-3090)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "findNewOwner",
+            "impact": "Low",
+            "line": 2975,
+            "line_end": 3013,
+            "message": "Reentrancy in RCOrderbook.findNewOwner(uint256,uint256) (13_RCOrderbook.sol#2975-3013):\n\tExternal calls:\n\t- _newPrice = _removeBidFromOrderbookIgnoreOwner(_head.next,_card) (13_RCOrderbook.sol#2993)\n\t\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2942)\n\t- treasury.updateRentalRate(_oldOwner,_newOwner,_oldPrice,_newPrice,_timeOwnershipChanged) (13_RCOrderbook.sol#3005-3011)\n\t- transferCard(_market,_card,_oldOwner,_newOwner,_newPrice) (13_RCOrderbook.sol#3012)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_oldOwner,_newOwner,_newPrice) (13_RCOrderbook.sol#3012)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeUserFromOrderbook",
+            "impact": "Low",
+            "line": 3018,
+            "line_end": 3072,
+            "message": "Reentrancy in RCOrderbook.removeUserFromOrderbook(address) (13_RCOrderbook.sol#3018-3072):\n\tExternal calls:\n\t- treasury.updateRentalRate(_user,_tempNext,user[_user][i].price,_price,block.timestamp) (13_RCOrderbook.sol#3044-3050)\n\t- transferCard(_market,_card,_user,_tempNext,_price) (13_RCOrderbook.sol#3051)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\t- treasury.decreaseBidRate(_user,user[_user][i].price) (13_RCOrderbook.sol#3054)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_user,_tempNext,_price) (13_RCOrderbook.sol#3051)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_updateBidInOrderbook",
+            "impact": "Low",
+            "line": 2786,
+            "line_end": 2877,
+            "message": "Reentrancy in RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877):\n\tExternal calls:\n\t- treasury.increaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2837)\n\t- treasury.decreaseBidRate(_user,_price) (13_RCOrderbook.sol#2838)\n\t- transferCard(_market,_card,_user,_user,_currUser.price) (13_RCOrderbook.sol#2841)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_user,_user,_currUser.price) (13_RCOrderbook.sol#2841)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeBidFromOrderbook",
+            "impact": "Low",
+            "line": 2885,
+            "line_end": 2932,
+            "message": "Reentrancy in RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2893)\n\t- transferCard(_market,_card,_user,_currUser.next,_price) (13_RCOrderbook.sol#2899)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_user,_currUser.next,_price) (13_RCOrderbook.sol#2899)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_updateBidInOrderbook",
+            "impact": "Low",
+            "line": 2786,
+            "line_end": 2877,
+            "message": "Reentrancy in RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877):\n\tExternal calls:\n\t- treasury.increaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2837)\n\t- treasury.decreaseBidRate(_user,_price) (13_RCOrderbook.sol#2838)\n\t- treasury.updateRentalRate(_oldOwner,_user,_oldPrice,_currUser.price,block.timestamp) (13_RCOrderbook.sol#2868-2874)\n\t- transferCard(_market,_card,_oldOwner,_user,_currUser.price) (13_RCOrderbook.sol#2875)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_oldOwner,_user,_currUser.price) (13_RCOrderbook.sol#2875)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_updateBidInOrderbook",
+            "impact": "Low",
+            "line": 2786,
+            "line_end": 2877,
+            "message": "Reentrancy in RCOrderbook._updateBidInOrderbook(address,address,uint256,uint256,uint256,RCOrderbook.Bid) (13_RCOrderbook.sol#2786-2877):\n\tExternal calls:\n\t- treasury.increaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2837)\n\t- treasury.decreaseBidRate(_user,_price) (13_RCOrderbook.sol#2838)\n\t- treasury.updateRentalRate(_user,_newOwner,_price,_newPrice,block.timestamp) (13_RCOrderbook.sol#2855-2861)\n\t- transferCard(_market,_card,_user,_newOwner,_newPrice) (13_RCOrderbook.sol#2862)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\tState variables written after the call(s):\n\t- transferCard(_market,_card,_user,_newOwner,_newPrice) (13_RCOrderbook.sol#2862)\n\t\t- ownerOf[_market][_card] = _newOwner (13_RCOrderbook.sol#3309)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "removeBidFromOrderbook",
+            "impact": "Low",
+            "line": 2885,
+            "line_end": 2932,
+            "message": "Reentrancy in RCOrderbook.removeBidFromOrderbook(address,uint256) (13_RCOrderbook.sol#2885-2932):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2893)\n\t- transferCard(_market,_card,_user,_currUser.next,_price) (13_RCOrderbook.sol#2899)\n\t\t- _rcmarket.transferCard(_oldOwner,_newOwner,_card,_price,_timeLimit) (13_RCOrderbook.sol#3313)\n\t- treasury.updateRentalRate(_user,_currUser.next,_currUser.price,_price,block.timestamp) (13_RCOrderbook.sol#2900-2906)\n\tEvent emitted after the call(s):\n\t- LogRemoveFromOrderbook(_user,_market,_card) (13_RCOrderbook.sol#2931)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCOrderbook",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_removeBidFromOrderbookIgnoreOwner",
+            "impact": "Low",
+            "line": 2935,
+            "line_end": 2970,
+            "message": "Reentrancy in RCOrderbook._removeBidFromOrderbookIgnoreOwner(address,uint256) (13_RCOrderbook.sol#2935-2970):\n\tExternal calls:\n\t- treasury.decreaseBidRate(_user,_currUser.price) (13_RCOrderbook.sol#2942)\n\tEvent emitted after the call(s):\n\t- LogRemoveFromOrderbook(_user,_market,_card) (13_RCOrderbook.sol#2969)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 320,
+            "line_end": 335,
+            "message": "console._sendLogPayloadImplementation(bytes) (13_RCOrderbook.sol#320-335) uses assembly\n\t- INLINE ASM (13_RCOrderbook.sol#323-334)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCOrderbook.sol",
+            "function": "msgSender",
+            "impact": "Informational",
+            "line": 2096,
+            "line_end": 2111,
+            "message": "NativeMetaTransaction.msgSender() (13_RCOrderbook.sol#2096-2111) uses assembly\n\t- INLINE ASM (13_RCOrderbook.sol#2100-2106)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 337,
+            "line_end": 343,
+            "message": "console._castToPure(function(bytes)) (13_RCOrderbook.sol#337-343) uses assembly\n\t- INLINE ASM (13_RCOrderbook.sol#340-342)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EIP712Base",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_setDomainSeperator",
+            "impact": "Informational",
+            "line": 1948,
+            "line_end": 1960,
+            "message": "EIP712Base._setDomainSeperator(string,string) (13_RCOrderbook.sol#1948-1960) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EIP712Base",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_initializeEIP712",
+            "impact": "Informational",
+            "line": 1941,
+            "line_end": 1946,
+            "message": "EIP712Base._initializeEIP712(string,string) (13_RCOrderbook.sol#1941-1946) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "13_RCOrderbook.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 28,
+            "message": "Context._msgData() (13_RCOrderbook.sol#25-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (13_RCOrderbook.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCOrderbook.sol",
+            "function": "executeMetaTransaction",
+            "impact": "Informational",
+            "line": 2020,
+            "line_end": 2056,
+            "message": "Low level call in NativeMetaTransaction.executeMetaTransaction(address,bytes,bytes32,bytes32,uint8) (13_RCOrderbook.sol#2020-2056):\n\t- (success,returnData) = address(this).call(abi.encodePacked(functionSignature,userAddress)) (13_RCOrderbook.sol#2049-2052)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3306,
+            "message": "Parameter RCOrderbook.transferCard(address,uint256,address,address,uint256)._newOwner (13_RCOrderbook.sol#3306) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2566,
+            "message": "Parameter RCOrderbook.setFactoryAddress(address)._newFactory (13_RCOrderbook.sol#2566) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3253,
+            "message": "Parameter RCOrderbook.getBid(address,address,uint256)._market (13_RCOrderbook.sol#3253) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2574,
+            "message": "Parameter RCOrderbook.setLimits(uint256,uint256,uint256)._cleaningLimit (13_RCOrderbook.sol#2574) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2314,
+            "message": "Parameter IRealitio.isFinalized(bytes32).question_id (13_RCOrderbook.sol#2314) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2632,
+            "message": "Parameter RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address)._price (13_RCOrderbook.sol#2632) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2975,
+            "message": "Parameter RCOrderbook.findNewOwner(uint256,uint256)._timeOwnershipChanged (13_RCOrderbook.sol#2975) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3284,
+            "message": "Parameter RCOrderbook.setTimeHeldlimit(address,uint256,uint256)._card (13_RCOrderbook.sol#3284) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2885,
+            "message": "Parameter RCOrderbook.removeBidFromOrderbook(address,uint256)._user (13_RCOrderbook.sol#2885) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2596,
+            "message": "Parameter RCOrderbook.addMarket(address,uint256,uint256)._market (13_RCOrderbook.sol#2596) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3236,
+            "message": "Parameter RCOrderbook.getBidValue(address,uint256)._card (13_RCOrderbook.sol#3236) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2304,
+            "message": "Parameter IRealitio.askQuestion(uint256,string,address,uint32,uint32,uint256).template_id (13_RCOrderbook.sol#2304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3272,
+            "message": "Parameter RCOrderbook.getTimeHeldlimit(address,uint256)._user (13_RCOrderbook.sol#3272) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2975,
+            "message": "Parameter RCOrderbook.findNewOwner(uint256,uint256)._card (13_RCOrderbook.sol#2975) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3255,
+            "message": "Parameter RCOrderbook.getBid(address,address,uint256)._card (13_RCOrderbook.sol#3255) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2575,
+            "message": "Parameter RCOrderbook.setLimits(uint256,uint256,uint256)._searchLimit (13_RCOrderbook.sol#2575) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3294,
+            "message": "Parameter RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256)._user (13_RCOrderbook.sol#3294) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2630,
+            "message": "Parameter RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address)._user (13_RCOrderbook.sol#2630) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2631,
+            "message": "Parameter RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address)._card (13_RCOrderbook.sol#2631) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 316,
+            "line_end": 1864,
+            "message": "Contract console (13_RCOrderbook.sol#316-1864) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3236,
+            "message": "Parameter RCOrderbook.getBidValue(address,uint256)._user (13_RCOrderbook.sol#3236) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2597,
+            "message": "Parameter RCOrderbook.addMarket(address,uint256,uint256)._cardCount (13_RCOrderbook.sol#2597) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2573,
+            "message": "Parameter RCOrderbook.setLimits(uint256,uint256,uint256)._deletionLimit (13_RCOrderbook.sol#2573) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3254,
+            "message": "Parameter RCOrderbook.getBid(address,address,uint256)._user (13_RCOrderbook.sol#3254) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3296,
+            "message": "Parameter RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256)._timeToReduce (13_RCOrderbook.sol#3296) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3215,
+            "message": "Parameter RCOrderbook.bidExists(address,address,uint256)._market (13_RCOrderbook.sol#3215) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3117,
+            "message": "Parameter RCOrderbook.removeOldBids(address)._user (13_RCOrderbook.sol#3117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3216,
+            "message": "Parameter RCOrderbook.bidExists(address,address,uint256)._card (13_RCOrderbook.sol#3216) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2560,
+            "message": "Parameter RCOrderbook.changeUberOwner(address)._newUberOwner (13_RCOrderbook.sol#2560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3303,
+            "message": "Parameter RCOrderbook.transferCard(address,uint256,address,address,uint256)._market (13_RCOrderbook.sol#3303) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3285,
+            "message": "Parameter RCOrderbook.setTimeHeldlimit(address,uint256,uint256)._timeHeldLimit (13_RCOrderbook.sol#3285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2634,
+            "message": "Parameter RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address)._prevUserAddress (13_RCOrderbook.sol#2634) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3018,
+            "message": "Parameter RCOrderbook.removeUserFromOrderbook(address)._user (13_RCOrderbook.sol#3018) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2312,
+            "message": "Parameter IRealitio.resultFor(bytes32).question_id (13_RCOrderbook.sol#2312) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3283,
+            "message": "Parameter RCOrderbook.setTimeHeldlimit(address,uint256,uint256)._user (13_RCOrderbook.sol#3283) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2316,
+            "message": "Parameter IRealitio.getContentHash(bytes32).question_id (13_RCOrderbook.sol#2316) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3272,
+            "message": "Parameter RCOrderbook.getTimeHeldlimit(address,uint256)._card (13_RCOrderbook.sol#3272) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3295,
+            "message": "Parameter RCOrderbook.reduceTimeHeldLimit(address,uint256,uint256)._card (13_RCOrderbook.sol#3295) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2885,
+            "message": "Parameter RCOrderbook.removeBidFromOrderbook(address,uint256)._card (13_RCOrderbook.sol#2885) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3214,
+            "message": "Parameter RCOrderbook.bidExists(address,address,uint256)._user (13_RCOrderbook.sol#3214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2598,
+            "message": "Parameter RCOrderbook.addMarket(address,uint256,uint256)._minIncrease (13_RCOrderbook.sol#2598) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3305,
+            "message": "Parameter RCOrderbook.transferCard(address,uint256,address,address,uint256)._oldOwner (13_RCOrderbook.sol#3305) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3307,
+            "message": "Parameter RCOrderbook.transferCard(address,uint256,address,address,uint256)._price (13_RCOrderbook.sol#3307) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2633,
+            "message": "Parameter RCOrderbook.addBidToOrderbook(address,uint256,uint256,uint256,address)._timeHeldLimit (13_RCOrderbook.sol#2633) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 3304,
+            "message": "Parameter RCOrderbook.transferCard(address,uint256,address,address,uint256)._card (13_RCOrderbook.sol#3304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 2308,
+            "message": "Parameter IRealitio.askQuestion(uint256,string,address,uint32,uint32,uint256).opening_ts (13_RCOrderbook.sol#2308) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Informational",
+            "line": 26,
+            "message": "Redundant expression \"this (13_RCOrderbook.sol#26)\" inContext (13_RCOrderbook.sol#20-29)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Optimization",
+            "line": 2504,
+            "message": "RCOrderbook.treasury (13_RCOrderbook.sol#2504) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCOrderbook.sol",
+            "impact": "Optimization",
+            "line": 2503,
+            "message": "RCOrderbook.treasuryAddress (13_RCOrderbook.sol#2503) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

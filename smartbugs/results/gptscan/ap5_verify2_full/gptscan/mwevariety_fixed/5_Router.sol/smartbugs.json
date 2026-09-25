@@ -1,0 +1,63 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/5_Router.sol' '0' '/sb/bin' '0'",
+        "environment": {
+            "DEEPSEEK_API_KEY": "<redacted>",
+            "GPTSCAN_PROVIDER": "<redacted>"
+        },
+        "image": "smartbugs/gptscan:1.0",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmp6xu2t50m": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "gptscan/mwevariety_fixed/5_Router.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": 309517710420775176,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": -3538210728518681357,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 233.37874698638916,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1787082802.6964428
+    },
+    "runid": "ap5_verify2_gptscan_full",
+    "solc": "0.8.3",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "env": "DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN, GPTSCAN_BASE_URL, GPTSCAN_API_KEY",
+        "id": "gptscan",
+        "image": "smartbugs/gptscan:1.0",
+        "info": "GPTScan reports suspected DeFi logic weaknesses (10 MWE scenarios) by combining an LLM (OpenAI or DeepSeek) with program analysis; a static confirmation stage discards candidates it cannot corroborate. This build talks to an OpenAI-compatible backend selected at run time.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "GPTScan",
+        "network": "bridge",
+        "origin": "https://github.com/GPTScan/GPTScan",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "1.0"
+    }
+}

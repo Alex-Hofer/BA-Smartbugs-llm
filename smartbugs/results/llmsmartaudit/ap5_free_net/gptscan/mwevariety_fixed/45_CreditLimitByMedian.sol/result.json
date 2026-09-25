@@ -1,0 +1,18 @@
+{
+    "errors": [
+        "EXIT_CODE_124",
+        "TIMEOUT_NET: run cut short after 24 of 41 detector categories -- LLMSmartAudit nach 270s hart beendet; Zwischenstand geborgen"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "LLMSmartAudit run: backend=custom/pruefstand-modell",
+        "categories checked: 24/41",
+        "context window: 65536 tokens, smallest completion budget: 58423"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

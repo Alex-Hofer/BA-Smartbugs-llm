@@ -1,0 +1,23 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\13_RCTreasury.sol",
+            "line": 3232,
+            "line_end": 3274,
+            "message": "Users are required to transfer assets in advance and minting token/liquidity/earning thus could be frontrun.\nRecommendation: Put asset transfering and token minting in the same function to keep atomicity.\nGPTScan code: front-running",
+            "name": "MWE-205: Front Running",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=10, est_cost_usd=0.0016",
+        "static confirmation filtered LLM candidates: 2 before, 1 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

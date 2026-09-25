@@ -1,0 +1,39 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\5_Router.sol",
+            "line": 1794,
+            "line_end": 1799,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\5_Router.sol",
+            "line": 1926,
+            "line_end": 1933,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\5_Router.sol",
+            "line": 1951,
+            "line_end": 1957,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=42, est_cost_usd=0.0059",
+        "static confirmation filtered LLM candidates: 7 before, 4 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

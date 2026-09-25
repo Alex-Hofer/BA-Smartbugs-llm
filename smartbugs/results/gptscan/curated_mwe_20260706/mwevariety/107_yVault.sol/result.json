@@ -1,0 +1,24 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/107_yVault.sol, current function: deposit, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/107_yVault.sol, current function: getPricePerFullShare, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/107_yVault.sol, current function: withdraw, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Warning: SPDX license i ... Vault.sol:7:1: | 7 | import \"../../interfaces/IYVault.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "solc rejected 107_yVault.sol: Warning: SPDX license identifier not provided in source file. Before p ... Vault.sol:7:1: | 7 | import \"../../interfaces/IYVault.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=11, est_cost_usd=0.0023",
+        "static confirmation filtered LLM candidates: 4 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

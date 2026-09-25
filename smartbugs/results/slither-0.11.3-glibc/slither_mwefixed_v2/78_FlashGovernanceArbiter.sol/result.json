@@ -1,0 +1,238 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertGovernanceApproved",
+            "impact": "High",
+            "line": 1865,
+            "line_end": 1886,
+            "message": "FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886) uses arbitrary from in transferFrom: IERC20(flashGovernanceConfig.asset).transferFrom(sender,address(this),flashGovernanceConfig.amount) && pendingFlashDecision[target][sender].unlockTime < block.timestamp (78_FlashGovernanceArbiter.sol#1871-1872)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "withdrawGovernanceAsset",
+            "impact": "High",
+            "line": 1947,
+            "line_end": 1959,
+            "message": "FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959) ignores return value by IERC20(pendingFlashDecision[targetContract][msg.sender].asset).transfer(msg.sender,pendingFlashDecision[targetContract][msg.sender].amount) (78_FlashGovernanceArbiter.sol#1954-1957)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "withdrawGovernanceAsset",
+            "impact": "Medium",
+            "line": 1947,
+            "line_end": 1959,
+            "message": "Reentrancy in FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959):\n\tExternal calls:\n\t- IERC20(pendingFlashDecision[targetContract][msg.sender].asset).transfer(msg.sender,pendingFlashDecision[targetContract][msg.sender].amount) (78_FlashGovernanceArbiter.sol#1954-1957)\n\tState variables written after the call(s):\n\t- delete pendingFlashDecision[targetContract][msg.sender] (78_FlashGovernanceArbiter.sol#1958)\n\tFlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855) can be used in cross function reentrancies:\n\t- FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886)\n\t- FlashGovernanceArbiter.burnFlashGovernanceAsset(address,address,address,uint256) (78_FlashGovernanceArbiter.sol#1929-1940)\n\t- FlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855)\n\t- FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "burnFlashGovernanceAsset",
+            "impact": "Medium",
+            "line": 1929,
+            "line_end": 1940,
+            "message": "Reentrancy in FlashGovernanceArbiter.burnFlashGovernanceAsset(address,address,address,uint256) (78_FlashGovernanceArbiter.sol#1929-1940):\n\tExternal calls:\n\t- Burnable(asset).burn(amount) (78_FlashGovernanceArbiter.sol#1936)\n\tState variables written after the call(s):\n\t- pendingFlashDecision[targetContract][user] = flashGovernanceConfig (78_FlashGovernanceArbiter.sol#1939)\n\tFlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855) can be used in cross function reentrancies:\n\t- FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886)\n\t- FlashGovernanceArbiter.burnFlashGovernanceAsset(address,address,address,uint256) (78_FlashGovernanceArbiter.sol#1929-1940)\n\t- FlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855)\n\t- FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertGovernanceApproved",
+            "impact": "Medium",
+            "line": 1865,
+            "line_end": 1886,
+            "message": "Reentrancy in FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886):\n\tExternal calls:\n\t- IERC20(flashGovernanceConfig.asset).transferFrom(sender,address(this),flashGovernanceConfig.amount) && pendingFlashDecision[target][sender].unlockTime < block.timestamp (78_FlashGovernanceArbiter.sol#1871-1872)\n\tState variables written after the call(s):\n\t- pendingFlashDecision[target][sender] = flashGovernanceConfig (78_FlashGovernanceArbiter.sol#1878)\n\tFlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855) can be used in cross function reentrancies:\n\t- FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886)\n\t- FlashGovernanceArbiter.burnFlashGovernanceAsset(address,address,address,uint256) (78_FlashGovernanceArbiter.sol#1929-1940)\n\t- FlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855)\n\t- FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959)\n\t- pendingFlashDecision[target][sender].unlockTime += block.timestamp (78_FlashGovernanceArbiter.sol#1879)\n\tFlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855) can be used in cross function reentrancies:\n\t- FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886)\n\t- FlashGovernanceArbiter.burnFlashGovernanceAsset(address,address,address,uint256) (78_FlashGovernanceArbiter.sol#1929-1940)\n\t- FlashGovernanceArbiter.pendingFlashDecision (78_FlashGovernanceArbiter.sol#1855)\n\t- FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governable",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertSoulUpdateProposal",
+            "impact": "Medium",
+            "line": 208,
+            "line_end": 212,
+            "message": "Governable.assertSoulUpdateProposal(address) (78_FlashGovernanceArbiter.sol#208-212) ignores return value by (None,None,proposalFactory) = LimboDAOLike(DAO).proposalConfig() (78_FlashGovernanceArbiter.sol#209)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Low",
+            "line": 236,
+            "message": "Governable.setDAO(address).dao (78_FlashGovernanceArbiter.sol#236) lacks a zero-check on :\n\t\t- DAO = dao (78_FlashGovernanceArbiter.sol#238)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertGovernanceApproved",
+            "impact": "Low",
+            "line": 1865,
+            "line_end": 1886,
+            "message": "Reentrancy in FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886):\n\tExternal calls:\n\t- IERC20(flashGovernanceConfig.asset).transferFrom(sender,address(this),flashGovernanceConfig.amount) && pendingFlashDecision[target][sender].unlockTime < block.timestamp (78_FlashGovernanceArbiter.sol#1871-1872)\n\tState variables written after the call(s):\n\t- security.lastFlashGovernanceAct = block.timestamp (78_FlashGovernanceArbiter.sol#1881)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertGovernanceApproved",
+            "impact": "Low",
+            "line": 1865,
+            "line_end": 1886,
+            "message": "Reentrancy in FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886):\n\tExternal calls:\n\t- IERC20(flashGovernanceConfig.asset).transferFrom(sender,address(this),flashGovernanceConfig.amount) && pendingFlashDecision[target][sender].unlockTime < block.timestamp (78_FlashGovernanceArbiter.sol#1871-1872)\n\tEvent emitted after the call(s):\n\t- flashDecision(sender,flashGovernanceConfig.asset,flashGovernanceConfig.amount,target) (78_FlashGovernanceArbiter.sol#1882)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertGovernanceApproved",
+            "impact": "Low",
+            "line": 1865,
+            "line_end": 1886,
+            "message": "FlashGovernanceArbiter.assertGovernanceApproved(address,address,bool) (78_FlashGovernanceArbiter.sol#1865-1886) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- IERC20(flashGovernanceConfig.asset).transferFrom(sender,address(this),flashGovernanceConfig.amount) && pendingFlashDecision[target][sender].unlockTime < block.timestamp (78_FlashGovernanceArbiter.sol#1871-1872)\n\t- require(bool,string)(emergency || (block.timestamp - security.lastFlashGovernanceAct > security.epochSize),Limbo: flash governance disabled for rest of epoch) (78_FlashGovernanceArbiter.sol#1874-1877)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "configureSecurityParameters",
+            "impact": "Low",
+            "line": 1911,
+            "line_end": 1920,
+            "message": "FlashGovernanceArbiter.configureSecurityParameters(uint8,uint256,uint8) (78_FlashGovernanceArbiter.sol#1911-1920) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(security.changeTolerance < 100,Limbo: % between 0 and 100) (78_FlashGovernanceArbiter.sol#1918)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "withdrawGovernanceAsset",
+            "impact": "Low",
+            "line": 1947,
+            "line_end": 1959,
+            "message": "FlashGovernanceArbiter.withdrawGovernanceAsset(address,address) (78_FlashGovernanceArbiter.sol#1947-1959) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(pendingFlashDecision[targetContract][msg.sender].asset == asset && pendingFlashDecision[targetContract][msg.sender].amount > 0 && pendingFlashDecision[targetContract][msg.sender].unlockTime < block.timestamp,Limbo: Flashgovernance decision pending.) (78_FlashGovernanceArbiter.sol#1948-1953)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FlashGovernanceArbiter",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "enforceTolerance",
+            "impact": "Low",
+            "line": 1980,
+            "line_end": 1990,
+            "message": "FlashGovernanceArbiter.enforceTolerance(uint256,uint256) (78_FlashGovernanceArbiter.sol#1980-1990) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(((v1 - v2) * 100) < security.changeTolerance * v1,FE1) (78_FlashGovernanceArbiter.sol#1985)\n\t- require(bool,string)(((v2 - v1) * 100) < security.changeTolerance * v1,FE1) (78_FlashGovernanceArbiter.sol#1988)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 268,
+            "line_end": 274,
+            "message": "console._castToPure(function(bytes)) (78_FlashGovernanceArbiter.sol#268-274) uses assembly\n\t- INLINE ASM (78_FlashGovernanceArbiter.sol#271-273)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 251,
+            "line_end": 266,
+            "message": "console._sendLogPayloadImplementation(bytes) (78_FlashGovernanceArbiter.sol#251-266) uses assembly\n\t- INLINE ASM (78_FlashGovernanceArbiter.sol#254-265)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governable",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "assertSoulUpdateProposal",
+            "impact": "Informational",
+            "line": 208,
+            "line_end": 212,
+            "message": "Governable.assertSoulUpdateProposal(address) (78_FlashGovernanceArbiter.sol#208-212) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Governable",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "function": "_governanceApproved",
+            "impact": "Informational",
+            "line": 214,
+            "line_end": 219,
+            "message": "Governable._governanceApproved(bool) (78_FlashGovernanceArbiter.sol#214-219) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (78_FlashGovernanceArbiter.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Informational",
+            "line": 1820,
+            "line_end": 1991,
+            "message": "FlashGovernanceArbiter (78_FlashGovernanceArbiter.sol#1820-1991) should inherit from FlashGovernanceArbiterLike (78_FlashGovernanceArbiter.sol#140-157)\n",
+            "name": "missing-inheritance"
+        },
+        {
+            "confidence": "High",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Informational",
+            "line": 247,
+            "line_end": 1795,
+            "message": "Contract console (78_FlashGovernanceArbiter.sol#247-1795) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Informational",
+            "line": 187,
+            "message": "Variable Governable.DAO (78_FlashGovernanceArbiter.sol#187) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "78_FlashGovernanceArbiter.sol",
+            "impact": "Informational",
+            "line": 1827,
+            "message": "Event FlashGovernanceArbiter.flashDecision(address,address,uint256,address) (78_FlashGovernanceArbiter.sol#1827) is not in CapWords\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

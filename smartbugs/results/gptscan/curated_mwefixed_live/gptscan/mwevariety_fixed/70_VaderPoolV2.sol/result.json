@@ -1,0 +1,52 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/70_VaderPoolV2.sol, current function: _mint, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\70_VaderPoolV2.sol",
+            "line": 797,
+            "line_end": 806,
+            "message": "Approval is not revoked or reset after the code functionality finishes.\nRecommendation: Try to remove the approval after the code finishes its job.\nGPTScan code: approval-not-clear",
+            "name": "MWE-203: Approval Not Revoked",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\70_VaderPoolV2.sol",
+            "line": 1940,
+            "line_end": 1983,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\70_VaderPoolV2.sol",
+            "line": 3049,
+            "line_end": 3090,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\70_VaderPoolV2.sol",
+            "line": 3271,
+            "line_end": 3319,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=44, est_cost_usd=0.0095",
+        "static confirmation filtered LLM candidates: 14 before, 5 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

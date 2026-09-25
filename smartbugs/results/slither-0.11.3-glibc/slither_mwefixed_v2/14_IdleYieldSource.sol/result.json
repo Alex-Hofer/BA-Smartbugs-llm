@@ -1,0 +1,427 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Low",
+            "line": 1506,
+            "message": "AssetManager.setAssetManager(address).newAssetManager (14_IdleYieldSource.sol#1506) lacks a zero-check on :\n\t\t- _assetManager = newAssetManager (14_IdleYieldSource.sol#1507)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Low",
+            "line": 1570,
+            "message": "IdleYieldSource.initialize(address)._idleToken (14_IdleYieldSource.sol#1570) lacks a zero-check on :\n\t\t- idleToken = _idleToken (14_IdleYieldSource.sol#1575)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IdleYieldSource",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "Low",
+            "line": 1631,
+            "line_end": 1636,
+            "message": "Reentrancy in IdleYieldSource.supplyTokenTo(uint256,address) (14_IdleYieldSource.sol#1631-1636):\n\tExternal calls:\n\t- _depositToIdle(mintAmount) (14_IdleYieldSource.sol#1633)\n\t\t- IERC20Upgradeable(underlyingAsset).safeTransferFrom(msg.sender,address(this),mintAmount) (14_IdleYieldSource.sol#1624)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (14_IdleYieldSource.sol#1165)\n\t\t- IIdleToken(idleToken).mintIdleToken(mintAmount,false,address(0)) (14_IdleYieldSource.sol#1625)\n\t\t- (success,returndata) = target.call{value: value}(data) (14_IdleYieldSource.sol#140)\n\tExternal calls sending eth:\n\t- _depositToIdle(mintAmount) (14_IdleYieldSource.sol#1633)\n\t\t- (success,returndata) = target.call{value: value}(data) (14_IdleYieldSource.sol#140)\n\tState variables written after the call(s):\n\t- _mint(to,mintedTokenShares) (14_IdleYieldSource.sol#1634)\n\t\t- _balances[account] += amount (14_IdleYieldSource.sol#836)\n\t- _mint(to,mintedTokenShares) (14_IdleYieldSource.sol#1634)\n\t\t- _totalSupply += amount (14_IdleYieldSource.sol#833)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IdleYieldSource",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "sponsor",
+            "impact": "Low",
+            "line": 1663,
+            "line_end": 1666,
+            "message": "Reentrancy in IdleYieldSource.sponsor(uint256) (14_IdleYieldSource.sol#1663-1666):\n\tExternal calls:\n\t- _depositToIdle(amount) (14_IdleYieldSource.sol#1664)\n\t\t- IERC20Upgradeable(underlyingAsset).safeTransferFrom(msg.sender,address(this),mintAmount) (14_IdleYieldSource.sol#1624)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (14_IdleYieldSource.sol#1165)\n\t\t- IIdleToken(idleToken).mintIdleToken(mintAmount,false,address(0)) (14_IdleYieldSource.sol#1625)\n\t\t- (success,returndata) = target.call{value: value}(data) (14_IdleYieldSource.sol#140)\n\tExternal calls sending eth:\n\t- _depositToIdle(amount) (14_IdleYieldSource.sol#1664)\n\t\t- (success,returndata) = target.call{value: value}(data) (14_IdleYieldSource.sol#140)\n\tEvent emitted after the call(s):\n\t- Sponsored(msg.sender,amount) (14_IdleYieldSource.sol#1665)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IdleYieldSource",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 1569,
+            "line_end": 1580,
+            "message": "Reentrancy in IdleYieldSource.initialize(address) (14_IdleYieldSource.sol#1569-1580):\n\tExternal calls:\n\t- IERC20Upgradeable(underlyingAsset).safeApprove(idleToken,type()(uint256).max) (14_IdleYieldSource.sol#1578)\n\tEvent emitted after the call(s):\n\t- IdleYieldSourceInitialized(idleToken) (14_IdleYieldSource.sol#1579)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IdleYieldSource",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "transferERC20",
+            "impact": "Low",
+            "line": 1654,
+            "line_end": 1658,
+            "message": "Reentrancy in IdleYieldSource.transferERC20(address,address,uint256) (14_IdleYieldSource.sol#1654-1658):\n\tExternal calls:\n\t- IERC20Upgradeable(erc20Token).safeTransfer(to,amount) (14_IdleYieldSource.sol#1656)\n\tEvent emitted after the call(s):\n\t- TransferredERC20(msg.sender,to,amount,erc20Token) (14_IdleYieldSource.sol#1657)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_revert",
+            "impact": "Informational",
+            "line": 236,
+            "line_end": 248,
+            "message": "AddressUpgradeable._revert(bytes,string) (14_IdleYieldSource.sol#236-248) uses assembly\n\t- INLINE ASM (14_IdleYieldSource.sol#241-244)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 556,
+            "line_end": 558,
+            "message": "ContextUpgradeable._msgData() (14_IdleYieldSource.sol#556-558) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Initializable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_isInitializing",
+            "impact": "Informational",
+            "line": 414,
+            "line_end": 416,
+            "message": "Initializable._isInitializing() (14_IdleYieldSource.sol#414-416) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_contextSuffixLength",
+            "impact": "Informational",
+            "line": 560,
+            "line_end": 562,
+            "message": "ContextUpgradeable._contextSuffixLength() (14_IdleYieldSource.sol#560-562) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IdleYieldSource",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_totalShare",
+            "impact": "Informational",
+            "line": 1596,
+            "line_end": 1598,
+            "message": "IdleYieldSource._totalShare() (14_IdleYieldSource.sol#1596-1598) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 550,
+            "line_end": 551,
+            "message": "ContextUpgradeable.__Context_init_unchained() (14_IdleYieldSource.sol#550-551) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_reentrancyGuardEntered",
+            "impact": "Informational",
+            "line": 1267,
+            "line_end": 1269,
+            "message": "ReentrancyGuardUpgradeable._reentrancyGuardEntered() (14_IdleYieldSource.sol#1267-1269) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1228,
+            "line_end": 1230,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (14_IdleYieldSource.sol#1228-1230) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 627,
+            "line_end": 629,
+            "message": "ERC20Upgradeable.__ERC20_init(string,string) (14_IdleYieldSource.sol#627-629) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Initializable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_getInitializedVersion",
+            "impact": "Informational",
+            "line": 407,
+            "line_end": 409,
+            "message": "Initializable._getInitializedVersion() (14_IdleYieldSource.sol#407-409) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 631,
+            "line_end": 634,
+            "message": "ERC20Upgradeable.__ERC20_init_unchained(string,string) (14_IdleYieldSource.sol#631-634) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1232,
+            "line_end": 1234,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (14_IdleYieldSource.sol#1232-1234) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Initializable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_disableInitializers",
+            "impact": "Informational",
+            "line": 396,
+            "line_end": 402,
+            "message": "Initializable._disableInitializers() (14_IdleYieldSource.sol#396-402) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 547,
+            "line_end": 548,
+            "message": "ContextUpgradeable.__Context_init() (14_IdleYieldSource.sol#547-548) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (14_IdleYieldSource.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeERC20Upgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "_callOptionalReturnBool",
+            "impact": "Informational",
+            "line": 1177,
+            "line_end": 1185,
+            "message": "Low level call in SafeERC20Upgradeable._callOptionalReturnBool(IERC20Upgradeable,bytes) (14_IdleYieldSource.sol#1177-1185):\n\t- (success,returndata) = address(token).call(data) (14_IdleYieldSource.sol#1182)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 185,
+            "line_end": 192,
+            "message": "Low level call in AddressUpgradeable.functionDelegateCall(address,bytes,string) (14_IdleYieldSource.sol#185-192):\n\t- (success,returndata) = target.delegatecall(data) (14_IdleYieldSource.sol#190)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 69,
+            "line_end": 74,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (14_IdleYieldSource.sol#69-74):\n\t- (success,None) = recipient.call{value: amount}() (14_IdleYieldSource.sol#72)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 160,
+            "line_end": 167,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (14_IdleYieldSource.sol#160-167):\n\t- (success,returndata) = target.staticcall(data) (14_IdleYieldSource.sol#165)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 133,
+            "line_end": 142,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (14_IdleYieldSource.sol#133-142):\n\t- (success,returndata) = target.call{value: value}(data) (14_IdleYieldSource.sol#140)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20PermitUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1040,
+            "message": "Function IERC20PermitUpgradeable.DOMAIN_SEPARATOR() (14_IdleYieldSource.sol#1040) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 569,
+            "message": "Variable ContextUpgradeable.__gap (14_IdleYieldSource.sol#569) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1232,
+            "line_end": 1234,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (14_IdleYieldSource.sol#1232-1234) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 1385,
+            "line_end": 1387,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (14_IdleYieldSource.sol#1385-1387) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 1450,
+            "message": "Variable OwnableUpgradeable.__gap (14_IdleYieldSource.sol#1450) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 631,
+            "line_end": 634,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (14_IdleYieldSource.sol#631-634) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 1570,
+            "message": "Parameter IdleYieldSource.initialize(address)._idleToken (14_IdleYieldSource.sol#1570) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 627,
+            "line_end": 629,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (14_IdleYieldSource.sol#627-629) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1228,
+            "line_end": 1230,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (14_IdleYieldSource.sol#1228-1230) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 550,
+            "line_end": 551,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (14_IdleYieldSource.sol#550-551) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 948,
+            "message": "Variable ERC20Upgradeable.__gap (14_IdleYieldSource.sol#948) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_IdleYieldSource.sol",
+            "impact": "Informational",
+            "line": 1276,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (14_IdleYieldSource.sol#1276) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 1389,
+            "line_end": 1391,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (14_IdleYieldSource.sol#1389-1391) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "14_IdleYieldSource.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 547,
+            "line_end": 548,
+            "message": "Function ContextUpgradeable.__Context_init() (14_IdleYieldSource.sol#547-548) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

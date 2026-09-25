@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "AttributeError: 'NoneType' object has no attribute 'lower'",
+        "ERROR    tasks: Current File: /work/input/43_DelegatedStaking.sol, current function: transferUnstakedOut, current vul: unauthorized-transfer",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 250, in si ... ower() in answer[to_exclude_key].lower(): AttributeError: 'NoneType' object has no attribute 'lower'"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=74, est_cost_usd=0.0105",
+        "static confirmation filtered LLM candidates: 27 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

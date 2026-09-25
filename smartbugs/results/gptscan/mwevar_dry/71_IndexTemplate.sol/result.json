@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Function, variab ... 3:10200: | 33 |  ... .pendingPremium(address(this));}}}} |                                         ^",
+        "solc rejected 71_IndexTemplate.sol: Error: Function, variable, struct or modifier declaration expected. --> /work/input/71_IndexTemplate.sol:33:102 00: | 33 |  ... .pendingPremium(address(this));}}}} | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

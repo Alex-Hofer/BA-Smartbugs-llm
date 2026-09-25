@@ -1,0 +1,991 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "getPseudoRand",
+            "impact": "High",
+            "line": 4063,
+            "line_end": 4072,
+            "message": "NFTXVaultUpgradeable.getPseudoRand(uint256) (8_NFTXVaultUpgradeable.sol#4063-4072) uses a weak PRNG: \"uint256(keccak256(bytes)(abi.encodePacked(blockhash(uint256)(block.number - 1),randNonce))) % modulus (8_NFTXVaultUpgradeable.sol#4065-4071)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Medium",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "Reentrancy in NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047):\n\tExternal calls:\n\t- IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\t- IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tState variables written after the call(s):\n\t- quantity1155[tokenId] = quantity1155[tokenId].sub(1) (8_NFTXVaultUpgradeable.sol#4033)\n\tNFTXVaultUpgradeable.quantity1155 (8_NFTXVaultUpgradeable.sol#3707) can be used in cross function reentrancies:\n\t- NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007)\n\t- NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047)\n\t- tokenId = getRandomTokenIdFromFund() (8_NFTXVaultUpgradeable.sol#4019-4021)\n\t\t- randNonce += 1 (8_NFTXVaultUpgradeable.sol#4064)\n\tNFTXVaultUpgradeable.randNonce (8_NFTXVaultUpgradeable.sol#3689) can be used in cross function reentrancies:\n\t- NFTXVaultUpgradeable.getPseudoRand(uint256) (8_NFTXVaultUpgradeable.sol#4063-4072)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "swapTo",
+            "impact": "Medium",
+            "line": 3912,
+            "line_end": 3934,
+            "message": "Reentrancy in NFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3912-3934):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3924)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\t- _distributeFees(fee) (8_NFTXVaultUpgradeable.sol#3930)\n\t\t- INFTXFeeDistributor(feeReceiver).distribute(vaultId) (8_NFTXVaultUpgradeable.sol#4054)\n\t- ids = withdrawNFTsTo(count,specificIds,to) (8_NFTXVaultUpgradeable.sol#3931)\n\t\t- IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\t\t- IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tState variables written after the call(s):\n\t- ids = withdrawNFTsTo(count,specificIds,to) (8_NFTXVaultUpgradeable.sol#3931)\n\t\t- quantity1155[tokenId] = quantity1155[tokenId].sub(1) (8_NFTXVaultUpgradeable.sol#4033)\n\tNFTXVaultUpgradeable.quantity1155 (8_NFTXVaultUpgradeable.sol#3707) can be used in cross function reentrancies:\n\t- NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007)\n\t- NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20FlashMintUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "flashLoan",
+            "impact": "Medium",
+            "line": 1191,
+            "line_end": 1207,
+            "message": "Reentrancy in ERC20FlashMintUpgradeable.flashLoan(IERC3156FlashBorrowerUpgradeable,address,uint256,bytes) (8_NFTXVaultUpgradeable.sol#1191-1207):\n\tExternal calls:\n\t- require(bool,string)(receiver.onFlashLoan(msg.sender,token,amount,fee,data) == RETURN_VALUE,ERC20FlashMint: invalid return value) (8_NFTXVaultUpgradeable.sol#1201)\n\tState variables written after the call(s):\n\t- _burn(address(receiver),amount + fee) (8_NFTXVaultUpgradeable.sol#1205)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (8_NFTXVaultUpgradeable.sol#941-944)\n\tERC20Upgradeable._balances (8_NFTXVaultUpgradeable.sol#653) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (8_NFTXVaultUpgradeable.sol#936-947)\n\t- ERC20Upgradeable._mint(address,uint256) (8_NFTXVaultUpgradeable.sol#915-923)\n\t- ERC20Upgradeable._transfer(address,address,uint256) (8_NFTXVaultUpgradeable.sol#889-904)\n\t- ERC20Upgradeable.balanceOf(address) (8_NFTXVaultUpgradeable.sol#731-739)\n\t- _burn(address(receiver),amount + fee) (8_NFTXVaultUpgradeable.sol#1205)\n\t\t- _totalSupply = _totalSupply.sub(amount) (8_NFTXVaultUpgradeable.sol#945)\n\tERC20Upgradeable._totalSupply (8_NFTXVaultUpgradeable.sol#657) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (8_NFTXVaultUpgradeable.sol#936-947)\n\t- ERC20Upgradeable._mint(address,uint256) (8_NFTXVaultUpgradeable.sol#915-923)\n\t- ERC20Upgradeable.totalSupply() (8_NFTXVaultUpgradeable.sol#724-726)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Medium",
+            "line": 3987,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]).count (8_NFTXVaultUpgradeable.sol#3987) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Medium",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) ignores return value by holdings.add(tokenId) (8_NFTXVaultUpgradeable.sol#3992)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Medium",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) ignores return value by holdings.remove(tokenId) (8_NFTXVaultUpgradeable.sol#4043)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Medium",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) ignores return value by holdings.add(tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4003)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Medium",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) ignores return value by holdings.remove(tokenId) (8_NFTXVaultUpgradeable.sol#4035)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Low",
+            "line": 3746,
+            "message": "NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._name (8_NFTXVaultUpgradeable.sol#3746) shadows:\n\t- ERC20Upgradeable._name (8_NFTXVaultUpgradeable.sol#659) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Low",
+            "line": 3747,
+            "message": "NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._symbol (8_NFTXVaultUpgradeable.sol#3747) shadows:\n\t- ERC20Upgradeable._symbol (8_NFTXVaultUpgradeable.sol#660) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Low",
+            "line": 3748,
+            "message": "NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._assetAddress (8_NFTXVaultUpgradeable.sol#3748) lacks a zero-check on :\n\t\t- assetAddress = _assetAddress (8_NFTXVaultUpgradeable.sol#3756)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Low",
+            "line": 3839,
+            "message": "NFTXVaultUpgradeable.setManager(address)._manager (8_NFTXVaultUpgradeable.sol#3839) lacks a zero-check on :\n\t\t- manager = _manager (8_NFTXVaultUpgradeable.sol#3841)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Low",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) has external calls inside a loop: erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.mintTo(uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swap(uint256[],uint256[],uint256[])\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Low",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) has external calls inside a loop: erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.redeemTo(uint256,uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swap(uint256[],uint256[],uint256[])\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Low",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) has external calls inside a loop: erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.mint(uint256[],uint256[])\n\t\tNFTXVaultUpgradeable.mintTo(uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.redeem(uint256,uint256[])\n\t\tNFTXVaultUpgradeable.redeemTo(uint256,uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.redeem(uint256,uint256[])\n\t\tNFTXVaultUpgradeable.redeemTo(uint256,uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "withdrawNFTsTo",
+            "impact": "Low",
+            "line": 4009,
+            "line_end": 4047,
+            "message": "NFTXVaultUpgradeable.withdrawNFTsTo(uint256,uint256[],address) (8_NFTXVaultUpgradeable.sol#4009-4047) has external calls inside a loop: IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.redeemTo(uint256,uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Low",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007) has external calls inside a loop: erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tCalls stack containing the loop:\n\t\tNFTXVaultUpgradeable.swap(uint256[],uint256[],uint256[])\n\t\tNFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20FlashMintUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1191,
+            "line_end": 1207,
+            "message": "Reentrancy in ERC20FlashMintUpgradeable.flashLoan(IERC3156FlashBorrowerUpgradeable,address,uint256,bytes) (8_NFTXVaultUpgradeable.sol#1191-1207):\n\tExternal calls:\n\t- require(bool,string)(receiver.onFlashLoan(msg.sender,token,amount,fee,data) == RETURN_VALUE,ERC20FlashMint: invalid return value) (8_NFTXVaultUpgradeable.sol#1201)\n\tState variables written after the call(s):\n\t- _approve(address(receiver),address(this),currentAllowance - amount - fee) (8_NFTXVaultUpgradeable.sol#1204)\n\t\t- _allowances[owner][spender] = amount (8_NFTXVaultUpgradeable.sol#969)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "receiveNFTs",
+            "impact": "Low",
+            "line": 3972,
+            "line_end": 4007,
+            "message": "Reentrancy in NFTXVaultUpgradeable.receiveNFTs(uint256[],uint256[]) (8_NFTXVaultUpgradeable.sol#3972-4007):\n\tExternal calls:\n\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\tState variables written after the call(s):\n\t- quantity1155[tokenId] = quantity1155[tokenId].add(amount) (8_NFTXVaultUpgradeable.sol#3994)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "deployEligibilityStorage",
+            "impact": "Low",
+            "line": 3808,
+            "line_end": 3822,
+            "message": "Reentrancy in NFTXVaultUpgradeable.deployEligibilityStorage(uint256,bytes) (8_NFTXVaultUpgradeable.sol#3808-3822):\n\tExternal calls:\n\t- _eligibility = eligManager.deployEligibility(moduleIndex,initData) (8_NFTXVaultUpgradeable.sol#3816-3819)\n\tState variables written after the call(s):\n\t- setEligibilityStorage(_eligibility) (8_NFTXVaultUpgradeable.sol#3820)\n\t\t- allowAllItems = false (8_NFTXVaultUpgradeable.sol#3834)\n\t- setEligibilityStorage(_eligibility) (8_NFTXVaultUpgradeable.sol#3820)\n\t\t- eligibilityStorage = INFTXEligibility(_newEligibility) (8_NFTXVaultUpgradeable.sol#3832)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "swapTo",
+            "impact": "Low",
+            "line": 3912,
+            "line_end": 3934,
+            "message": "Reentrancy in NFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3912-3934):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3924)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tState variables written after the call(s):\n\t- _burnFrom(msg.sender,fee) (8_NFTXVaultUpgradeable.sol#3929)\n\t\t- _allowances[owner][spender] = amount (8_NFTXVaultUpgradeable.sol#969)\n\t- _burnFrom(msg.sender,fee) (8_NFTXVaultUpgradeable.sol#3929)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (8_NFTXVaultUpgradeable.sol#941-944)\n\t- _burnFrom(msg.sender,fee) (8_NFTXVaultUpgradeable.sol#3929)\n\t\t- _totalSupply = _totalSupply.sub(amount) (8_NFTXVaultUpgradeable.sol#945)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "mintTo",
+            "impact": "Low",
+            "line": 3852,
+            "line_end": 3868,
+            "message": "Reentrancy in NFTXVaultUpgradeable.mintTo(uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3852-3868):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3860)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tState variables written after the call(s):\n\t- _mint(to,base.mul(count).sub(fee)) (8_NFTXVaultUpgradeable.sol#3863)\n\t\t- _balances[account] = _balances[account].add(amount) (8_NFTXVaultUpgradeable.sol#921)\n\t- _mint(to,base.mul(count).sub(fee)) (8_NFTXVaultUpgradeable.sol#3863)\n\t\t- _totalSupply = _totalSupply.add(amount) (8_NFTXVaultUpgradeable.sol#920)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20FlashMintUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "flashLoan",
+            "impact": "Low",
+            "line": 1191,
+            "line_end": 1207,
+            "message": "Reentrancy in ERC20FlashMintUpgradeable.flashLoan(IERC3156FlashBorrowerUpgradeable,address,uint256,bytes) (8_NFTXVaultUpgradeable.sol#1191-1207):\n\tExternal calls:\n\t- require(bool,string)(receiver.onFlashLoan(msg.sender,token,amount,fee,data) == RETURN_VALUE,ERC20FlashMint: invalid return value) (8_NFTXVaultUpgradeable.sol#1201)\n\tEvent emitted after the call(s):\n\t- Approval(owner,spender,amount) (8_NFTXVaultUpgradeable.sol#970)\n\t\t- _approve(address(receiver),address(this),currentAllowance - amount - fee) (8_NFTXVaultUpgradeable.sol#1204)\n\t- Transfer(account,address(0),amount) (8_NFTXVaultUpgradeable.sol#946)\n\t\t- _burn(address(receiver),amount + fee) (8_NFTXVaultUpgradeable.sol#1205)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "deployEligibilityStorage",
+            "impact": "Low",
+            "line": 3808,
+            "line_end": 3822,
+            "message": "Reentrancy in NFTXVaultUpgradeable.deployEligibilityStorage(uint256,bytes) (8_NFTXVaultUpgradeable.sol#3808-3822):\n\tExternal calls:\n\t- _eligibility = eligManager.deployEligibility(moduleIndex,initData) (8_NFTXVaultUpgradeable.sol#3816-3819)\n\tEvent emitted after the call(s):\n\t- EligibilityDeployed(address(_newEligibility)) (8_NFTXVaultUpgradeable.sol#3835)\n\t\t- setEligibilityStorage(_eligibility) (8_NFTXVaultUpgradeable.sol#3820)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "swapTo",
+            "impact": "Low",
+            "line": 3912,
+            "line_end": 3934,
+            "message": "Reentrancy in NFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3912-3934):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3924)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\tEvent emitted after the call(s):\n\t- Approval(owner,spender,amount) (8_NFTXVaultUpgradeable.sol#970)\n\t\t- _burnFrom(msg.sender,fee) (8_NFTXVaultUpgradeable.sol#3929)\n\t- Transfer(account,address(0),amount) (8_NFTXVaultUpgradeable.sol#946)\n\t\t- _burnFrom(msg.sender,fee) (8_NFTXVaultUpgradeable.sol#3929)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "swapTo",
+            "impact": "Low",
+            "line": 3912,
+            "line_end": 3934,
+            "message": "Reentrancy in NFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3912-3934):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3924)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\t- _distributeFees(fee) (8_NFTXVaultUpgradeable.sol#3930)\n\t\t- INFTXFeeDistributor(feeReceiver).distribute(vaultId) (8_NFTXVaultUpgradeable.sol#4054)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (8_NFTXVaultUpgradeable.sol#922)\n\t\t- _distributeFees(fee) (8_NFTXVaultUpgradeable.sol#3930)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "swapTo",
+            "impact": "Low",
+            "line": 3912,
+            "line_end": 3934,
+            "message": "Reentrancy in NFTXVaultUpgradeable.swapTo(uint256[],uint256[],uint256[],address) (8_NFTXVaultUpgradeable.sol#3912-3934):\n\tExternal calls:\n\t- count = receiveNFTs(tokenIds,amounts) (8_NFTXVaultUpgradeable.sol#3924)\n\t\t- IERC1155Upgradeable(assetAddress).safeBatchTransferFrom(msg.sender,address(this),tokenIds,amounts,) (8_NFTXVaultUpgradeable.sol#3979-3985)\n\t\t- erc721.safeTransferFrom(msg.sender,address(this),tokenId_scope_1) (8_NFTXVaultUpgradeable.sol#4002)\n\t- _distributeFees(fee) (8_NFTXVaultUpgradeable.sol#3930)\n\t\t- INFTXFeeDistributor(feeReceiver).distribute(vaultId) (8_NFTXVaultUpgradeable.sol#4054)\n\t- ids = withdrawNFTsTo(count,specificIds,to) (8_NFTXVaultUpgradeable.sol#3931)\n\t\t- IERC1155Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId,1,) (8_NFTXVaultUpgradeable.sol#4025-4031)\n\t\t- IERC721Upgradeable(_assetAddress).safeTransferFrom(address(this),to,tokenId) (8_NFTXVaultUpgradeable.sol#4038-4042)\n\tEvent emitted after the call(s):\n\t- Swapped(tokenIds,amounts,specificIds,to) (8_NFTXVaultUpgradeable.sol#3932)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Initializable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "isConstructor",
+            "impact": "Informational",
+            "line": 242,
+            "line_end": 254,
+            "message": "Initializable.isConstructor() (8_NFTXVaultUpgradeable.sol#242-254) uses assembly\n\t- INLINE ASM (8_NFTXVaultUpgradeable.sol#250-252)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 2116,
+            "line_end": 2122,
+            "message": "console._castToPure(function(bytes)) (8_NFTXVaultUpgradeable.sol#2116-2122) uses assembly\n\t- INLINE ASM (8_NFTXVaultUpgradeable.sol#2119-2121)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 2099,
+            "line_end": 2114,
+            "message": "console._sendLogPayloadImplementation(bytes) (8_NFTXVaultUpgradeable.sol#2099-2114) uses assembly\n\t- INLINE ASM (8_NFTXVaultUpgradeable.sol#2102-2113)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 287,
+            "line_end": 290,
+            "message": "ContextUpgradeable._msgData() (8_NFTXVaultUpgradeable.sol#287-290) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1761,
+            "line_end": 1763,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (8_NFTXVaultUpgradeable.sol#1761-1763) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20BurnableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20Burnable_init",
+            "impact": "Informational",
+            "line": 1020,
+            "line_end": 1023,
+            "message": "ERC20BurnableUpgradeable.__ERC20Burnable_init() (8_NFTXVaultUpgradeable.sol#1020-1023) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1765,
+            "line_end": 1767,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (8_NFTXVaultUpgradeable.sol#1765-1767) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 277,
+            "line_end": 279,
+            "message": "ContextUpgradeable.__Context_init() (8_NFTXVaultUpgradeable.sol#277-279) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20Upgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 980,
+            "line_end": 982,
+            "message": "ERC20Upgradeable._setupDecimals(uint8) (8_NFTXVaultUpgradeable.sol#980-982) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.8 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.8 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.8 (8_NFTXVaultUpgradeable.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3839,
+            "message": "Parameter NFTXVaultUpgradeable.setManager(address)._manager (8_NFTXVaultUpgradeable.sol#3839) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3681,
+            "message": "Constant NFTXVaultUpgradeable.base (8_NFTXVaultUpgradeable.sol#3681) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 4083,
+            "message": "Variable NFTXVaultUpgradeable.___gap (8_NFTXVaultUpgradeable.sol#4083) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 291,
+            "message": "Variable ContextUpgradeable.__gap (8_NFTXVaultUpgradeable.sol#291) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1765,
+            "line_end": 1767,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (8_NFTXVaultUpgradeable.sol#1765-1767) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXVaultFactory",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__NFTXVaultFactory_init",
+            "impact": "Informational",
+            "line": 41,
+            "message": "Function INFTXVaultFactory.__NFTXVaultFactory_init(address,address,address) (8_NFTXVaultUpgradeable.sol#41) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 1623,
+            "line_end": 1626,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (8_NFTXVaultUpgradeable.sol#1623-1626) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 2095,
+            "line_end": 3643,
+            "message": "Contract console (8_NFTXVaultUpgradeable.sol#2095-3643) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1670,
+            "message": "Variable OwnableUpgradeable.__gap (8_NFTXVaultUpgradeable.sol#1670) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20BurnableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20Burnable_init",
+            "impact": "Informational",
+            "line": 1020,
+            "line_end": 1023,
+            "message": "Function ERC20BurnableUpgradeable.__ERC20Burnable_init() (8_NFTXVaultUpgradeable.sol#1020-1023) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20FlashMintUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20FlashMint_init_unchained",
+            "impact": "Informational",
+            "line": 1149,
+            "line_end": 1150,
+            "message": "Function ERC20FlashMintUpgradeable.__ERC20FlashMint_init_unchained() (8_NFTXVaultUpgradeable.sol#1149-1150) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3749,
+            "message": "Parameter NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._is1155 (8_NFTXVaultUpgradeable.sol#3749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 680,
+            "line_end": 687,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (8_NFTXVaultUpgradeable.sol#680-687) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 672,
+            "line_end": 678,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (8_NFTXVaultUpgradeable.sol#672-678) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1761,
+            "line_end": 1763,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (8_NFTXVaultUpgradeable.sol#1761-1763) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3748,
+            "message": "Parameter NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._assetAddress (8_NFTXVaultUpgradeable.sol#3748) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 281,
+            "line_end": 282,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (8_NFTXVaultUpgradeable.sol#281-282) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3826,
+            "message": "Parameter NFTXVaultUpgradeable.setEligibilityStorage(address)._newEligibility (8_NFTXVaultUpgradeable.sol#3826) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20FlashMintUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20FlashMint_init",
+            "impact": "Informational",
+            "line": 1144,
+            "line_end": 1147,
+            "message": "Function ERC20FlashMintUpgradeable.__ERC20FlashMint_init() (8_NFTXVaultUpgradeable.sol#1144-1147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3791,
+            "message": "Parameter NFTXVaultUpgradeable.setFees(uint256,uint256,uint256,uint256)._swapFee (8_NFTXVaultUpgradeable.sol#3791) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3747,
+            "message": "Parameter NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._symbol (8_NFTXVaultUpgradeable.sol#3747) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1002,
+            "message": "Variable ERC20Upgradeable.__gap (8_NFTXVaultUpgradeable.sol#1002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3769,
+            "message": "Parameter NFTXVaultUpgradeable.setVaultFeatures(bool,bool,bool,bool)._enableMint (8_NFTXVaultUpgradeable.sol#3769) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1789,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (8_NFTXVaultUpgradeable.sol#1789) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1056,
+            "message": "Variable ERC20BurnableUpgradeable.__gap (8_NFTXVaultUpgradeable.sol#1056) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXLPStaking",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__NFTXLPStaking__init",
+            "impact": "Informational",
+            "line": 92,
+            "message": "Function INFTXLPStaking.__NFTXLPStaking__init(address) (8_NFTXVaultUpgradeable.sol#92) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3770,
+            "message": "Parameter NFTXVaultUpgradeable.setVaultFeatures(bool,bool,bool,bool)._enableRedeem (8_NFTXVaultUpgradeable.sol#3770) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3790,
+            "message": "Parameter NFTXVaultUpgradeable.setFees(uint256,uint256,uint256,uint256)._directRedeemFee (8_NFTXVaultUpgradeable.sol#3790) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 257,
+            "message": "Variable Initializable.______gap (8_NFTXVaultUpgradeable.sol#257) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3789,
+            "message": "Parameter NFTXVaultUpgradeable.setFees(uint256,uint256,uint256,uint256)._redeemFee (8_NFTXVaultUpgradeable.sol#3789) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 1628,
+            "line_end": 1632,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (8_NFTXVaultUpgradeable.sol#1628-1632) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXFeeDistributor",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__FeeDistributor__init__",
+            "impact": "Informational",
+            "line": 126,
+            "message": "Function INFTXFeeDistributor.__FeeDistributor__init__(address,address) (8_NFTXVaultUpgradeable.sol#126) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXEligibility",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__NFTXEligibility_init_bytes",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Function INFTXEligibility.__NFTXEligibility_init_bytes(bytes) (8_NFTXVaultUpgradeable.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1208,
+            "message": "Variable ERC20FlashMintUpgradeable.__gap (8_NFTXVaultUpgradeable.sol#1208) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3702,
+            "message": "Variable NFTXVaultUpgradeable._bool_gap (8_NFTXVaultUpgradeable.sol#3702) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3771,
+            "message": "Parameter NFTXVaultUpgradeable.setVaultFeatures(bool,bool,bool,bool)._enableDirectRedeem (8_NFTXVaultUpgradeable.sol#3771) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3772,
+            "message": "Parameter NFTXVaultUpgradeable.setVaultFeatures(bool,bool,bool,bool)._enableSwap (8_NFTXVaultUpgradeable.sol#3772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3746,
+            "message": "Parameter NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._name (8_NFTXVaultUpgradeable.sol#3746) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PausableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Pausable_init",
+            "impact": "Informational",
+            "line": 1683,
+            "line_end": 1685,
+            "message": "Function PausableUpgradeable.__Pausable_init() (8_NFTXVaultUpgradeable.sol#1683-1685) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3788,
+            "message": "Parameter NFTXVaultUpgradeable.setFees(uint256,uint256,uint256,uint256)._mintFee (8_NFTXVaultUpgradeable.sol#3788) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 277,
+            "line_end": 279,
+            "message": "Function ContextUpgradeable.__Context_init() (8_NFTXVaultUpgradeable.sol#277-279) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20BurnableUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__ERC20Burnable_init_unchained",
+            "impact": "Informational",
+            "line": 1025,
+            "line_end": 1026,
+            "message": "Function ERC20BurnableUpgradeable.__ERC20Burnable_init_unchained() (8_NFTXVaultUpgradeable.sol#1025-1026) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__NFTXVault_init",
+            "impact": "Informational",
+            "line": 3745,
+            "line_end": 3762,
+            "message": "Function NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool) (8_NFTXVaultUpgradeable.sol#3745-3762) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3750,
+            "message": "Parameter NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool)._allowAllItems (8_NFTXVaultUpgradeable.sol#3750) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1716,
+            "message": "Parameter PausableUpgradeable.setIsGuardian(address,bool)._isGuardian (8_NFTXVaultUpgradeable.sol#1716) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 288,
+            "message": "Redundant expression \"this (8_NFTXVaultUpgradeable.sol#288)\" inContextUpgradeable (8_NFTXVaultUpgradeable.sol#276-292)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 1173,
+            "message": "Redundant expression \"amount (8_NFTXVaultUpgradeable.sol#1173)\" inERC20FlashMintUpgradeable (8_NFTXVaultUpgradeable.sol#1143-1209)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 4083,
+            "message": "NFTXVaultUpgradeable.___gap (8_NFTXVaultUpgradeable.sol#4083) is never used in NFTXVaultUpgradeable (8_NFTXVaultUpgradeable.sol#3670-4084)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Informational",
+            "line": 3702,
+            "message": "NFTXVaultUpgradeable._bool_gap (8_NFTXVaultUpgradeable.sol#3702) is never used in NFTXVaultUpgradeable (8_NFTXVaultUpgradeable.sol#3670-4084)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "impact": "Optimization",
+            "line": 3704,
+            "message": "NFTXVaultUpgradeable.description (8_NFTXVaultUpgradeable.sol#3704) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC1155HolderUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "onERC1155BatchReceived",
+            "impact": "Optimization",
+            "line": 1341,
+            "line_end": 1349,
+            "message": "onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) should be declared external:\n\t- ERC1155HolderUpgradeable.onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) (8_NFTXVaultUpgradeable.sol#1341-1349)\nMoreover, the following function parameters should change its data location:\n location should be calldata\n location should be calldata\n location should be calldata\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "NFTXVaultUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "__NFTXVault_init",
+            "impact": "Optimization",
+            "line": 3745,
+            "line_end": 3762,
+            "message": "__NFTXVault_init(string,string,address,bool,bool) should be declared external:\n\t- NFTXVaultUpgradeable.__NFTXVault_init(string,string,address,bool,bool) (8_NFTXVaultUpgradeable.sol#3745-3762)\nMoreover, the following function parameters should change its data location:\n_name location should be calldata\n_symbol location should be calldata\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC1155HolderUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "onERC1155Received",
+            "impact": "Optimization",
+            "line": 1331,
+            "line_end": 1339,
+            "message": "onERC1155Received(address,address,uint256,uint256,bytes) should be declared external:\n\t- ERC1155HolderUpgradeable.onERC1155Received(address,address,uint256,uint256,bytes) (8_NFTXVaultUpgradeable.sol#1331-1339)\nMoreover, the following function parameters should change its data location:\n location should be calldata\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC721HolderUpgradeable",
+            "filename": "8_NFTXVaultUpgradeable.sol",
+            "function": "onERC721Received",
+            "impact": "Optimization",
+            "line": 1253,
+            "line_end": 1260,
+            "message": "onERC721Received(address,address,uint256,bytes) should be declared external:\n\t- ERC721HolderUpgradeable.onERC721Received(address,address,uint256,bytes) (8_NFTXVaultUpgradeable.sol#1253-1260)\nMoreover, the following function parameters should change its data location:\n location should be calldata\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,46 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "access_control\\incorrect_constructor_name3.sol",
+            "message": "Transactions Order Dependence Identified.\n\n```\nTransactions Order Dependence / Front-Running\n'''\nThe contract's `Constructor()` function is public and can be called by anyone at any time to set the owner. This creates a race condition: an attacker can monitor the mempool for a `withdraw()` transaction from the current owner, front-run it by calling `Constructor()` to become the new owner, and then execute a `withdraw()` to drain the contract's balance before the original owner's transaction is mined. This is a classic transaction ordering dependency vulnerability (front-running).\n\nTo mitigate, the contract should be rewritten to use a proper constructor (e.g., `function Missing() public { owner = msg.sender; }`) and prevent re-initialization by adding a check such as `require(owner == address(0));` inside the constructor. For deployed contracts, the only effective fix is to upgrade the contract (e.g., deploy a corrected version and migrate funds). Off-chain measures (e.g., using a private mempool or commit-reveal schemes) are not practical for this simple case.\n'''\n```\nDetector: TODDetector\nClassification: SWC-114, DASP-7",
+            "name": "Transaction Order Dependence (front-running)",
+            "severity": "medium"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name3.sol",
+            "message": "Lack of Authorization Identified.\n\nVULNERABILITY NAME: INCORRECT CONSTRUCTOR NAME (ACCESS CONTROL)\n'''\nThe contract defines a public function named `Constructor()` which is intended to act as the constructor, but in Solidity 0.4.24, a constructor must have exactly the same name as the contract (i.e., `Missing`). As a result, `Constructor()` becomes a regular, publicly callable function that any user can invoke to set themselves as `owner`. This immediately grants them control over the `withdraw()` function, allowing them to drain the contract's entire Ether balance.\n\n**Mitigation / Fix**:\n- Rename the function to match the contract name: `function Missing() public { owner = msg.sender; }` (this will be the actual constructor executed only once during deployment).\n- Alternatively, if a named constructor pattern is needed for clarity, use a modifier to restrict the constructor call to the contract deployer (e.g., require that `owner` is still the zero address before setting it). However, the simplest and most standard fix is to use the contract name as the constructor.\n'''\nDetector: LackAuthorizationDetector\nClassification: SWC-105 (approx.), DASP-2",
+            "name": "Missing Access Control / Authorization",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name3.sol",
+            "message": "Misdeclared Constructor Identified.\n\nMISDECLARED CONSTRUCTOR\n'''\nThe contract `Missing` defines a public function named `Constructor` that is intended to serve as the constructor (since it sets the `owner` variable). However, in Solidity 0.4.24, constructors must have the same name as the contract (case-sensitive). Because the function name `Constructor` does not match the contract name `Missing`, it is treated as a regular public function. This allows any external caller to invoke `Constructor()` and set themselves as `owner`, then call `withdraw()` to drain the contract's balance.\n\n**Recommended Mitigation:**\n- Rename the function to `Missing` (matching the contract name) to make it a proper constructor, which can only be called once during contract deployment.\n- Alternatively, upgrade the Solidity pragma to >=0.5.0 and replace the function with the `constructor` keyword.\n```solidity\nfunction Missing() public {\n    owner = msg.sender;\n}\n```\nOr, with Solidity 0.5.0+:\n```solidity\nconstructor() public {\n    owner = msg.sender;\n}\n```\n```\nDetector: MisdeclaredConstructorDetector\nClassification: SWC-118",
+            "name": "Incorrect Constructor Name (legacy syntax)",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name3.sol",
+            "message": "Ownership Hijacking Identify.\n\n```\nACCESS CONTROL (INCORRECT CONSTRUCTOR NAME)\n'''\nThe contract defines a function named `Constructor()` (capital C) that sets the `owner` state variable to `msg.sender`. In Solidity 0.4.24, the constructor must have the same name as the contract (i.e., `Missing`). Since `Constructor()` is not the actual constructor, it becomes a regular public function that any external caller can invoke. This allows an attacker to call `Constructor()` and arbitrarily set themselves as the owner. Once they become owner, they can call `withdraw()` to drain the entire contract balance.\n\n**Mitigation**:  \n- Rename the function to `Missing` (matching the contract name) so it acts as the actual constructor, executing only once during deployment.  \n- Alternatively, upgrade to Solidity 0.4.22 or higher and use the `constructor` keyword to define the constructor explicitly.  \n- If an initializer function is needed for post-deployment setup, restrict it with an access control modifier (e.g., `onlyowner` or a one-time flag) to prevent unauthorized re-initialization.\n'''\n```\nDetector: OwnershipHijackingDetector\nClassification: DASP-2 (no specific SWC)",
+            "name": "Unprotected Ownership Change",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name3.sol",
+            "message": "Centralization Risk Identified.\n\nACCESS CONTROL (INCORRECT CONSTRUCTOR NAME)\n'''\nThe contract defines a function named `Constructor()` (capital C) that sets the `owner` state variable to `msg.sender`. In Solidity 0.4.24, the constructor must have the same name as the contract (i.e., `Missing`). Since `Constructor()` is not the actual constructor, it becomes a regular public function that any external caller can invoke. This allows an attacker to call `Constructor()` and arbitrarily set themselves as the owner. Once they become owner, they can call `withdraw()` to drain the entire contract balance.\n\n**Centralization Implication**: The `withdraw()` function is protected by the `onlyowner` modifier, granting the owner exclusive control over contract funds. This centralization is inherently risky, but the vulnerability amplifies it by making ownership acquirable by anyone, turning the contract into a single point of failure and attack.\n\n**Mitigation**:\n- Rename the function to `Missing` (matching the contract name) so it acts as the actual constructor, executing only once during deployment.\n- Alternatively, upgrade to Solidity 0.4.22 or higher and use the `constructor` keyword to define the constructor explicitly.\n- If an initializer function is needed for post-deployment setup, restrict it with an access control modifier (e.g., `onlyowner` or a one-time flag) to prevent unauthorized re-initialization.\n'''\nDetector: CentralizationRiskDetector\nClassification: DASP-2 / governance (no standard SWC)",
+            "name": "Centralization Risk",
+            "severity": "medium"
+        }
+    ],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/deepseek-v4-flash",
+        "categories checked: 41/41",
+        "context window: 65536 tokens, smallest completion budget: 8192"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

@@ -1,0 +1,63 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/20_Pool.sol' '900' '/sb/bin' '0'",
+        "environment": {
+            "DEEPSEEK_API_KEY": "<redacted>",
+            "GPTSCAN_DRY_RUN": "<redacted>"
+        },
+        "image": "smartbugs/gptscan:1.0",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmpfehwclu6": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "samples/gptscan/_chk/20_Pool.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": 1085735529213419380,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": -3240845788593226035,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 6.190021276473999,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1783262279.5320518
+    },
+    "runid": "smoke1_dry",
+    "solc": "0.8.3",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "env": "DEEPSEEK_API_KEY, OPENAI_API_KEY, GPTSCAN_PROVIDER, GPTSCAN_MODEL, GPTSCAN_DRY_RUN",
+        "id": "gptscan",
+        "image": "smartbugs/gptscan:1.0",
+        "info": "GPTScan detects DeFi logic vulnerabilities by combining an LLM (OpenAI or DeepSeek) with program analysis. This build talks to an OpenAI-compatible backend selected at run time.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "GPTScan",
+        "network": "bridge",
+        "origin": "https://github.com/GPTScan/GPTScan",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "1.0"
+    }
+}

@@ -1,0 +1,538 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "transferOut",
+            "impact": "High",
+            "line": 304,
+            "line_end": 313,
+            "message": "Pools.transferOut(address,uint256,address) (5_Pools.sol#304-313) ignores return value by iERC20(_token).transfer(_recipient,_amount) (5_Pools.sol#311)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "isMember",
+            "impact": "High",
+            "line": 122,
+            "message": "Pools._isMember (5_Pools.sol#122) is never initialized. It is used in:\n\t- Pools.isMember(address) (5_Pools.sol#315-317)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "syncSynth",
+            "impact": "Medium",
+            "line": 267,
+            "line_end": 274,
+            "message": "Reentrancy in Pools.syncSynth(address) (5_Pools.sol#267-274):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#270)\n\tState variables written after the call(s):\n\t- mapTokenMember_Units[token][address(this)] -= _unitsToDelete (5_Pools.sol#271)\n\tPools.mapTokenMember_Units (5_Pools.sol#127) can be used in cross function reentrancies:\n\t- Pools._removeLiquidity(address,address,uint256,address) (5_Pools.sol#183-196)\n\t- Pools.addLiquidity(address,address,address) (5_Pools.sol#154-175)\n\t- Pools.burnSynth(address,address,address) (5_Pools.sol#255-265)\n\t- Pools.getMemberUnits(address,address) (5_Pools.sol#336-338)\n\t- Pools.lockUnits(uint256,address,address) (5_Pools.sol#279-282)\n\t- Pools.mapTokenMember_Units (5_Pools.sol#127)\n\t- Pools.mintSynth(address,address,address) (5_Pools.sol#243-253)\n\t- Pools.syncSynth(address) (5_Pools.sol#267-274)\n\t- Pools.unlockUnits(uint256,address,address) (5_Pools.sol#284-287)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "burnSynth",
+            "impact": "Medium",
+            "line": 255,
+            "line_end": 265,
+            "message": "Reentrancy in Pools.burnSynth(address,address,address) (5_Pools.sol#255-265):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#258)\n\tState variables written after the call(s):\n\t- mapTokenMember_Units[token][address(this)] -= _unitsToDelete (5_Pools.sol#259)\n\tPools.mapTokenMember_Units (5_Pools.sol#127) can be used in cross function reentrancies:\n\t- Pools._removeLiquidity(address,address,uint256,address) (5_Pools.sol#183-196)\n\t- Pools.addLiquidity(address,address,address) (5_Pools.sol#154-175)\n\t- Pools.burnSynth(address,address,address) (5_Pools.sol#255-265)\n\t- Pools.getMemberUnits(address,address) (5_Pools.sol#336-338)\n\t- Pools.lockUnits(uint256,address,address) (5_Pools.sol#279-282)\n\t- Pools.mapTokenMember_Units (5_Pools.sol#127)\n\t- Pools.mintSynth(address,address,address) (5_Pools.sol#243-253)\n\t- Pools.syncSynth(address) (5_Pools.sol#267-274)\n\t- Pools.unlockUnits(uint256,address,address) (5_Pools.sol#284-287)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "_removeLiquidity",
+            "impact": "Medium",
+            "line": 183,
+            "line_end": 196,
+            "message": "Reentrancy in Pools._removeLiquidity(address,address,uint256,address) (5_Pools.sol#183-196):\n\tExternal calls:\n\t- transferOut(base,outputBase,member) (5_Pools.sol#193)\n\t\t- iERC20(_token).transfer(_recipient,_amount) (5_Pools.sol#311)\n\t- transferOut(token,outputToken,member) (5_Pools.sol#194)\n\t\t- iERC20(_token).transfer(_recipient,_amount) (5_Pools.sol#311)\n\tState variables written after the call(s):\n\t- transferOut(token,outputToken,member) (5_Pools.sol#194)\n\t\t- pooledUSDV = pooledUSDV - _amount (5_Pools.sol#308)\n\tPools.pooledUSDV (5_Pools.sol#115) can be used in cross function reentrancies:\n\t- Pools.getAddedAmount(address,address) (5_Pools.sol#292-303)\n\t- Pools.pooledUSDV (5_Pools.sol#115)\n\t- Pools.transferOut(address,uint256,address) (5_Pools.sol#304-313)\n\t- transferOut(token,outputToken,member) (5_Pools.sol#194)\n\t\t- pooledVADER = pooledVADER - _amount (5_Pools.sol#306)\n\tPools.pooledVADER (5_Pools.sol#114) can be used in cross function reentrancies:\n\t- Pools.getAddedAmount(address,address) (5_Pools.sol#292-303)\n\t- Pools.pooledVADER (5_Pools.sol#114)\n\t- Pools.transferOut(address,uint256,address) (5_Pools.sol#304-313)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Pools.sol",
+            "impact": "Medium",
+            "line": 156,
+            "message": "Pools.addLiquidity(address,address,address)._actualInputBase (5_Pools.sol#156) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "deploySynth",
+            "impact": "Medium",
+            "line": 237,
+            "line_end": 240,
+            "message": "Pools.deploySynth(address) (5_Pools.sol#237-240) ignores return value by iFACTORY(FACTORY).deploySynth(token) (5_Pools.sol#239)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "mintSynth",
+            "impact": "Medium",
+            "line": 243,
+            "line_end": 253,
+            "message": "Pools.mintSynth(address,address,address) (5_Pools.sol#243-253) ignores return value by iFACTORY(FACTORY).mintSynth(getSynth(token),member,outputAmount) (5_Pools.sol#252)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Pools.sol",
+            "impact": "Low",
+            "line": 143,
+            "message": "Pools.init(address,address,address,address)._vader (5_Pools.sol#143) lacks a zero-check on :\n\t\t- VADER = _vader (5_Pools.sol#146)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Pools.sol",
+            "impact": "Low",
+            "line": 143,
+            "message": "Pools.init(address,address,address,address)._usdv (5_Pools.sol#143) lacks a zero-check on :\n\t\t- USDV = _usdv (5_Pools.sol#147)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Pools.sol",
+            "impact": "Low",
+            "line": 143,
+            "message": "Pools.init(address,address,address,address)._factory (5_Pools.sol#143) lacks a zero-check on :\n\t\t- FACTORY = _factory (5_Pools.sol#149)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Pools.sol",
+            "impact": "Low",
+            "line": 143,
+            "message": "Pools.init(address,address,address,address)._router (5_Pools.sol#143) lacks a zero-check on :\n\t\t- ROUTER = _router (5_Pools.sol#148)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "syncSynth",
+            "impact": "Low",
+            "line": 267,
+            "line_end": 274,
+            "message": "Reentrancy in Pools.syncSynth(address) (5_Pools.sol#267-274):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#270)\n\tState variables written after the call(s):\n\t- mapToken_Units[token] -= _unitsToDelete (5_Pools.sol#272)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "burnSynth",
+            "impact": "Low",
+            "line": 255,
+            "line_end": 265,
+            "message": "Reentrancy in Pools.burnSynth(address,address,address) (5_Pools.sol#255-265):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#258)\n\tState variables written after the call(s):\n\t- mapToken_Units[token] -= _unitsToDelete (5_Pools.sol#260)\n\t- mapToken_baseAmount[token] -= outputBase (5_Pools.sol#262)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "syncSynth",
+            "impact": "Low",
+            "line": 267,
+            "line_end": 274,
+            "message": "Reentrancy in Pools.syncSynth(address) (5_Pools.sol#267-274):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#270)\n\tEvent emitted after the call(s):\n\t- SynthSync(token,_actualInputSynth,_unitsToDelete) (5_Pools.sol#273)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "burnSynth",
+            "impact": "Low",
+            "line": 255,
+            "line_end": 265,
+            "message": "Reentrancy in Pools.burnSynth(address,address,address) (5_Pools.sol#255-265):\n\tExternal calls:\n\t- iERC20(getSynth(token)).burn(_actualInputSynth) (5_Pools.sol#258)\n\tEvent emitted after the call(s):\n\t- RemoveLiquidity(member,base,outputBase,token,0,_unitsToDelete,mapToken_Units[token]) (5_Pools.sol#263)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "init",
+            "impact": "Informational",
+            "line": 143,
+            "line_end": 150,
+            "message": "Pools.init(address,address,address,address) (5_Pools.sol#143-150) compares to a boolean constant:\n\t-require(bool)(inited == false) (5_Pools.sol#144)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.3 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory.\nIt is used by:\n\t- 0.8.3 (5_Pools.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 58,
+            "message": "Parameter iUTILS.calcSwapSlip(uint256,uint256).X (5_Pools.sol#58) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).Y (5_Pools.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 292,
+            "message": "Parameter Pools.getAddedAmount(address,address)._pool (5_Pools.sol#292) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iVADER",
+            "filename": "5_Pools.sol",
+            "function": "DAO",
+            "impact": "Informational",
+            "line": 73,
+            "message": "Function iVADER.DAO() (5_Pools.sol#73) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 127,
+            "message": "Variable Pools.mapTokenMember_Units (5_Pools.sol#127) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).U (5_Pools.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 71,
+            "line_end": 87,
+            "message": "Contract iVADER (5_Pools.sol#71-87) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).T (5_Pools.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 93,
+            "line_end": 98,
+            "message": "Contract iFACTORY (5_Pools.sol#93-98) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).B (5_Pools.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 129,
+            "message": "Variable Pools.mapToken_tokenAmount (5_Pools.sol#129) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 126,
+            "message": "Variable Pools.mapToken_Units (5_Pools.sol#126) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 118,
+            "message": "Variable Pools.USDV (5_Pools.sol#118) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 119,
+            "message": "Variable Pools.ROUTER (5_Pools.sol#119) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 292,
+            "message": "Parameter Pools.getAddedAmount(address,address)._token (5_Pools.sol#292) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).A (5_Pools.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 30,
+            "line_end": 65,
+            "message": "Contract iUTILS (5_Pools.sol#30-65) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 128,
+            "message": "Variable Pools.mapToken_baseAmount (5_Pools.sol#128) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).X (5_Pools.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B1 (5_Pools.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B0 (5_Pools.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).Y (5_Pools.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).T (5_Pools.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pools",
+            "filename": "5_Pools.sol",
+            "function": "UTILS",
+            "impact": "Informational",
+            "line": 345,
+            "line_end": 347,
+            "message": "Function Pools.UTILS() (5_Pools.sol#345-347) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 304,
+            "message": "Parameter Pools.transferOut(address,uint256,address)._recipient (5_Pools.sol#304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iVADER",
+            "filename": "5_Pools.sol",
+            "function": "UTILS",
+            "impact": "Informational",
+            "line": 72,
+            "message": "Function iVADER.UTILS() (5_Pools.sol#72) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 120,
+            "message": "Variable Pools.FACTORY (5_Pools.sol#120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Variable Pools.VADER (5_Pools.sol#117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Pools.init(address,address,address,address)._vader (5_Pools.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).B (5_Pools.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 304,
+            "message": "Parameter Pools.transferOut(address,uint256,address)._amount (5_Pools.sol#304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Pools.init(address,address,address,address)._factory (5_Pools.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T0 (5_Pools.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T1 (5_Pools.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Pools.init(address,address,address,address)._usdv (5_Pools.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).P (5_Pools.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Parameter Pools.init(address,address,address,address)._router (5_Pools.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).X (5_Pools.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).P (5_Pools.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 24,
+            "message": "Contract iERC20 (5_Pools.sol#9-24) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 304,
+            "message": "Parameter Pools.transferOut(address,uint256,address)._token (5_Pools.sol#304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Pools.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).B (5_Pools.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

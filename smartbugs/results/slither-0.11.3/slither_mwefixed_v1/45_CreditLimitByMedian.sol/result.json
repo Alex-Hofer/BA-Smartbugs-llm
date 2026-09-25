@@ -1,0 +1,34 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "CreditLimitByMedian",
+            "filename": "45_CreditLimitByMedian.sol",
+            "function": "setEffectNumber",
+            "impact": "Low",
+            "line": 265,
+            "line_end": 267,
+            "message": "CreditLimitByMedian.setEffectNumber(uint256) (../sb/45_CreditLimitByMedian.sol#265-267) should emit an event for: \n\t- effectiveNumber = number (../sb/45_CreditLimitByMedian.sol#266) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "45_CreditLimitByMedian.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 69,
+            "line_end": 71,
+            "message": "Context._msgData() (../sb/45_CreditLimitByMedian.sol#69-71) is never used and should be removed\n",
+            "name": "dead-code"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

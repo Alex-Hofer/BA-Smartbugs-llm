@@ -1,0 +1,24 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/70_LiquidityBasedTWAP.sol, current function: _addUSDVPair, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/70_LiquidityBasedTWAP.sol, current function: _addVaderPair, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/70_LiquidityBasedTWAP.sol, current function: _updateVaderPrice, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... icoverridereturns (uint256[] memory pastLiquidityWeights,uint256 pastTotalLiquidityWeight){ | ^^^^^^",
+        "solc rejected 70_LiquidityBasedTWAP.sol: Error: Expected ',' but got 'memory' --> /work/input/70_Liq ... icoverridereturns (uint256[] memory pastLiquidityWeights,uint256 pastTotalLiquidityWeight){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=18, est_cost_usd=0.0032",
+        "static confirmation filtered LLM candidates: 3 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

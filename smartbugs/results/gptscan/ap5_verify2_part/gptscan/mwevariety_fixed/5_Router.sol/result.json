@@ -1,0 +1,21 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/5_Router.sol, current function: removeLiquidity, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "IndexError: list index out of range",
+        "TIMEOUT_BRAKE: run cut short (brake) -- 13 LLM-Aufrufe wegen der Frist unterdrueckt: SmartBugs deadline reached (SB_DEADLINE_EPOCH=1787083163, 0s over)"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=23, est_cost_usd=0.0033",
+        "static confirmation filtered LLM candidates: 5 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

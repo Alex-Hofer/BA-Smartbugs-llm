@@ -1,0 +1,816 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "liquidateAccount",
+            "impact": "High",
+            "line": 1087,
+            "line_end": 1142,
+            "message": "Reentrancy in LendingPair.liquidateAccount(address,address,uint256,uint256) (32_LendingPair.sol#1087-1142):\n\tExternal calls:\n\t- _unwrapUniPosition(_account) (32_LendingPair.sol#1110)\n\t\t- uniManager.approve(address(uniV3Helper),uniPosition[_account]) (32_LendingPair.sol#1272)\n\t\t- (amountA,amountB) = uniV3Helper.removeLiquidity(uniPosition[_account],amount0 * uniMinOutput / 100e18,amount1 * uniMinOutput / 100e18) (32_LendingPair.sol#1273-1277)\n\t- _safeTransferFrom(_repayToken,msg.sender,_repayAmount) (32_LendingPair.sol#1138)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (32_LendingPair.sol#768)\n\t\t- IERC20(_token).safeTransferFrom(_sender,address(this),_amount) (32_LendingPair.sol#793)\n\t\t- (success,returndata) = target.call{value: value}(data) (32_LendingPair.sol#276)\n\tExternal calls sending eth:\n\t- _safeTransferFrom(_repayToken,msg.sender,_repayAmount) (32_LendingPair.sol#1138)\n\t\t- (success,returndata) = target.call{value: value}(data) (32_LendingPair.sol#276)\n\tState variables written after the call(s):\n\t- _mintSupplyAmount(supplyToken,msg.sender,supplyOutput) (32_LendingPair.sol#1139)\n\t\t- supplySharesOf[_token][_account] += shares (32_LendingPair.sol#1304)\n\tLendingPair.supplySharesOf (32_LendingPair.sol#848) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._supplyOf(address,address) (32_LendingPair.sol#1423-1425)\n\t- LendingPair.supplySharesOf (32_LendingPair.sol#848)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _mintSupplyAmount(supplyToken,msg.sender,supplyOutput) (32_LendingPair.sol#1139)\n\t\t- totalSupplyAmount[_token] += _amount (32_LendingPair.sol#1306)\n\tLendingPair.totalSupplyAmount (32_LendingPair.sol#853) can be used in cross function reentrancies:\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.accrue(address) (32_LendingPair.sol#1061-1069)\n\t- LendingPair.totalSupplyAmount (32_LendingPair.sol#853)\n\t- _mintSupplyAmount(supplyToken,msg.sender,supplyOutput) (32_LendingPair.sol#1139)\n\t\t- totalSupplyShares[_token] += shares (32_LendingPair.sol#1305)\n\tLendingPair.totalSupplyShares (32_LendingPair.sol#852) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.totalSupplyShares (32_LendingPair.sol#852)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "_convertTokenValues",
+            "impact": "Medium",
+            "line": 1503,
+            "line_end": 1515,
+            "message": "LendingPair._convertTokenValues(address,address,uint256,uint256,uint256) (32_LendingPair.sol#1503-1515) performs a multiplication on the result of a division:\n\t- priceFrom = _fromPrice * 1e18 / 10 ** decimals[_fromToken] (32_LendingPair.sol#1511)\n\t- _inputAmount * priceFrom / priceTo (32_LendingPair.sol#1514)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "_unwrapUniPosition",
+            "impact": "Medium",
+            "line": 1264,
+            "line_end": 1283,
+            "message": "Reentrancy in LendingPair._unwrapUniPosition(address) (32_LendingPair.sol#1264-1283):\n\tExternal calls:\n\t- uniManager.approve(address(uniV3Helper),uniPosition[_account]) (32_LendingPair.sol#1272)\n\t- (amountA,amountB) = uniV3Helper.removeLiquidity(uniPosition[_account],amount0 * uniMinOutput / 100e18,amount1 * uniMinOutput / 100e18) (32_LendingPair.sol#1273-1277)\n\tState variables written after the call(s):\n\t- uniPosition[_account] = 0 (32_LendingPair.sol#1278)\n\tLendingPair.uniPosition (32_LendingPair.sol#856) can be used in cross function reentrancies:\n\t- LendingPair._supplyCreditUni(address,address,uint256,uint256,uint256,uint256) (32_LendingPair.sol#1476-1500)\n\t- LendingPair._uniCollectFees(address) (32_LendingPair.sol#1296-1299)\n\t- LendingPair.depositUniPosition(address,uint256) (32_LendingPair.sol#919-928)\n\t- LendingPair.uniPosition (32_LendingPair.sol#856)\n\t- LendingPair.withdrawUniPosition() (32_LendingPair.sol#930-938)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "depositUniPosition",
+            "impact": "Medium",
+            "line": 919,
+            "line_end": 928,
+            "message": "Reentrancy in LendingPair.depositUniPosition(address,uint256) (32_LendingPair.sol#919-928):\n\tExternal calls:\n\t- uniManager.safeTransferFrom(msg.sender,address(this),_positionID) (32_LendingPair.sol#924)\n\tState variables written after the call(s):\n\t- uniPosition[_account] = _positionID (32_LendingPair.sol#925)\n\tLendingPair.uniPosition (32_LendingPair.sol#856) can be used in cross function reentrancies:\n\t- LendingPair._supplyCreditUni(address,address,uint256,uint256,uint256,uint256) (32_LendingPair.sol#1476-1500)\n\t- LendingPair._uniCollectFees(address) (32_LendingPair.sol#1296-1299)\n\t- LendingPair.depositUniPosition(address,uint256) (32_LendingPair.sol#919-928)\n\t- LendingPair.uniPosition (32_LendingPair.sol#856)\n\t- LendingPair.withdrawUniPosition() (32_LendingPair.sol#930-938)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "liquidateAccount",
+            "impact": "Medium",
+            "line": 1087,
+            "line_end": 1142,
+            "message": "Reentrancy in LendingPair.liquidateAccount(address,address,uint256,uint256) (32_LendingPair.sol#1087-1142):\n\tExternal calls:\n\t- _unwrapUniPosition(_account) (32_LendingPair.sol#1110)\n\t\t- uniManager.approve(address(uniV3Helper),uniPosition[_account]) (32_LendingPair.sol#1272)\n\t\t- (amountA,amountB) = uniV3Helper.removeLiquidity(uniPosition[_account],amount0 * uniMinOutput / 100e18,amount1 * uniMinOutput / 100e18) (32_LendingPair.sol#1273-1277)\n\tState variables written after the call(s):\n\t- _burnDebtShares(_repayToken,_account,_debtToShares(_repayToken,_repayAmount)) (32_LendingPair.sol#1129)\n\t\t- debtSharesOf[_token][_account] -= _shares (32_LendingPair.sol#1331)\n\tLendingPair.debtSharesOf (32_LendingPair.sol#849) can be used in cross function reentrancies:\n\t- LendingPair._debtOf(address,address) (32_LendingPair.sol#1419-1421)\n\t- LendingPair.accountHealth(address) (32_LendingPair.sol#1144-1165)\n\t- LendingPair.debtSharesOf (32_LendingPair.sol#849)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- debtSharesOf[_token][_account] -= _shares (32_LendingPair.sol#1331)\n\tLendingPair.debtSharesOf (32_LendingPair.sol#849) can be used in cross function reentrancies:\n\t- LendingPair._debtOf(address,address) (32_LendingPair.sol#1419-1421)\n\t- LendingPair.accountHealth(address) (32_LendingPair.sol#1144-1165)\n\t- LendingPair.debtSharesOf (32_LendingPair.sol#849)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- debtSharesOf[_token][_account] -= _shares (32_LendingPair.sol#1331)\n\tLendingPair.debtSharesOf (32_LendingPair.sol#849) can be used in cross function reentrancies:\n\t- LendingPair._debtOf(address,address) (32_LendingPair.sol#1419-1421)\n\t- LendingPair.accountHealth(address) (32_LendingPair.sol#1144-1165)\n\t- LendingPair.debtSharesOf (32_LendingPair.sol#849)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- pendingSystemFees[supplyToken] += systemFee (32_LendingPair.sol#1128)\n\tLendingPair.pendingSystemFees (32_LendingPair.sol#850) can be used in cross function reentrancies:\n\t- LendingPair.accrue(address) (32_LendingPair.sol#1061-1069)\n\t- LendingPair.pendingSystemFees (32_LendingPair.sol#850)\n\t- _burnSupplyShares(supplyToken,_account,_supplyToShares(supplyToken,supplyBurn)) (32_LendingPair.sol#1127)\n\t\t- supplySharesOf[_token][_account] -= _shares (32_LendingPair.sol#1313)\n\tLendingPair.supplySharesOf (32_LendingPair.sol#848) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._supplyOf(address,address) (32_LendingPair.sol#1423-1425)\n\t- LendingPair.supplySharesOf (32_LendingPair.sol#848)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- supplySharesOf[_token][_account] -= _shares (32_LendingPair.sol#1313)\n\tLendingPair.supplySharesOf (32_LendingPair.sol#848) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._supplyOf(address,address) (32_LendingPair.sol#1423-1425)\n\t- LendingPair.supplySharesOf (32_LendingPair.sol#848)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- supplySharesOf[_token][_account] -= _shares (32_LendingPair.sol#1313)\n\tLendingPair.supplySharesOf (32_LendingPair.sol#848) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._supplyOf(address,address) (32_LendingPair.sol#1423-1425)\n\t- LendingPair.supplySharesOf (32_LendingPair.sol#848)\n\t- LendingPair.transferLp(address,address,address,uint256) (32_LendingPair.sol#1078-1083)\n\t- _burnDebtShares(_repayToken,_account,_debtToShares(_repayToken,_repayAmount)) (32_LendingPair.sol#1129)\n\t\t- totalDebtAmount[_token] -= amount (32_LendingPair.sol#1333)\n\tLendingPair.totalDebtAmount (32_LendingPair.sol#855) can be used in cross function reentrancies:\n\t- LendingPair._accrueDebt(address) (32_LendingPair.sol#1337-1344)\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtAmount (32_LendingPair.sol#855)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- totalDebtAmount[_token] -= amount (32_LendingPair.sol#1333)\n\tLendingPair.totalDebtAmount (32_LendingPair.sol#855) can be used in cross function reentrancies:\n\t- LendingPair._accrueDebt(address) (32_LendingPair.sol#1337-1344)\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtAmount (32_LendingPair.sol#855)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- totalDebtAmount[_token] -= amount (32_LendingPair.sol#1333)\n\tLendingPair.totalDebtAmount (32_LendingPair.sol#855) can be used in cross function reentrancies:\n\t- LendingPair._accrueDebt(address) (32_LendingPair.sol#1337-1344)\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtAmount (32_LendingPair.sol#855)\n\t- _burnDebtShares(_repayToken,_account,_debtToShares(_repayToken,_repayAmount)) (32_LendingPair.sol#1129)\n\t\t- totalDebtShares[_token] -= _shares (32_LendingPair.sol#1332)\n\tLendingPair.totalDebtShares (32_LendingPair.sol#854) can be used in cross function reentrancies:\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtShares (32_LendingPair.sol#854)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- totalDebtShares[_token] -= _shares (32_LendingPair.sol#1332)\n\tLendingPair.totalDebtShares (32_LendingPair.sol#854) can be used in cross function reentrancies:\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtShares (32_LendingPair.sol#854)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- totalDebtShares[_token] -= _shares (32_LendingPair.sol#1332)\n\tLendingPair.totalDebtShares (32_LendingPair.sol#854) can be used in cross function reentrancies:\n\t- LendingPair._sharesToDebt(address,uint256) (32_LendingPair.sol#1407-1409)\n\t- LendingPair.totalDebtShares (32_LendingPair.sol#854)\n\t- _burnSupplyShares(supplyToken,_account,_supplyToShares(supplyToken,supplyBurn)) (32_LendingPair.sol#1127)\n\t\t- totalSupplyAmount[_token] -= amount (32_LendingPair.sol#1315)\n\tLendingPair.totalSupplyAmount (32_LendingPair.sol#853) can be used in cross function reentrancies:\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.accrue(address) (32_LendingPair.sol#1061-1069)\n\t- LendingPair.totalSupplyAmount (32_LendingPair.sol#853)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- totalSupplyAmount[_token] -= amount (32_LendingPair.sol#1315)\n\tLendingPair.totalSupplyAmount (32_LendingPair.sol#853) can be used in cross function reentrancies:\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.accrue(address) (32_LendingPair.sol#1061-1069)\n\t- LendingPair.totalSupplyAmount (32_LendingPair.sol#853)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- totalSupplyAmount[_token] -= amount (32_LendingPair.sol#1315)\n\tLendingPair.totalSupplyAmount (32_LendingPair.sol#853) can be used in cross function reentrancies:\n\t- LendingPair._interestRatePerBlock(address) (32_LendingPair.sol#1427-1434)\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.accrue(address) (32_LendingPair.sol#1061-1069)\n\t- LendingPair.totalSupplyAmount (32_LendingPair.sol#853)\n\t- _burnSupplyShares(supplyToken,_account,_supplyToShares(supplyToken,supplyBurn)) (32_LendingPair.sol#1127)\n\t\t- totalSupplyShares[_token] -= _shares (32_LendingPair.sol#1314)\n\tLendingPair.totalSupplyShares (32_LendingPair.sol#852) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.totalSupplyShares (32_LendingPair.sol#852)\n\t- _repayDebtFromSupply(_account,tokenA) (32_LendingPair.sol#1133)\n\t\t- totalSupplyShares[_token] -= _shares (32_LendingPair.sol#1314)\n\tLendingPair.totalSupplyShares (32_LendingPair.sol#852) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.totalSupplyShares (32_LendingPair.sol#852)\n\t- _repayDebtFromSupply(_account,tokenB) (32_LendingPair.sol#1134)\n\t\t- totalSupplyShares[_token] -= _shares (32_LendingPair.sol#1314)\n\tLendingPair.totalSupplyShares (32_LendingPair.sol#852) can be used in cross function reentrancies:\n\t- LendingPair._mintSupplyAmount(address,address,uint256) (32_LendingPair.sol#1301-1308)\n\t- LendingPair._sharesToSupply(address,uint256) (32_LendingPair.sol#1415-1417)\n\t- LendingPair._supplyToShares(address,uint256) (32_LendingPair.sol#1411-1413)\n\t- LendingPair.totalSupplyShares (32_LendingPair.sol#852)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "withdrawUniPosition",
+            "impact": "Medium",
+            "line": 930,
+            "line_end": 938,
+            "message": "Reentrancy in LendingPair.withdrawUniPosition() (32_LendingPair.sol#930-938):\n\tExternal calls:\n\t- uniManager.safeTransferFrom(address(this),msg.sender,positionID) (32_LendingPair.sol#932)\n\tState variables written after the call(s):\n\t- uniPosition[msg.sender] = 0 (32_LendingPair.sol#934)\n\tLendingPair.uniPosition (32_LendingPair.sol#856) can be used in cross function reentrancies:\n\t- LendingPair._supplyCreditUni(address,address,uint256,uint256,uint256,uint256) (32_LendingPair.sol#1476-1500)\n\t- LendingPair._uniCollectFees(address) (32_LendingPair.sol#1296-1299)\n\t- LendingPair.depositUniPosition(address,uint256) (32_LendingPair.sol#919-928)\n\t- LendingPair.uniPosition (32_LendingPair.sol#856)\n\t- LendingPair.withdrawUniPosition() (32_LendingPair.sol#930-938)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "_uniCollectFees",
+            "impact": "Medium",
+            "line": 1296,
+            "line_end": 1299,
+            "message": "LendingPair._uniCollectFees(address) (32_LendingPair.sol#1296-1299) ignores return value by uniV3Helper.collectFees(uniPosition[_account]) (32_LendingPair.sol#1298)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "32_LendingPair.sol",
+            "impact": "Low",
+            "line": 894,
+            "message": "LendingPair.initialize(address,address,address,address,address,address)._feeRecipient (32_LendingPair.sol#894) lacks a zero-check on :\n\t\t- feeRecipient = _feeRecipient (32_LendingPair.sol#903)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "uniClaimDeposit",
+            "impact": "Low",
+            "line": 941,
+            "line_end": 945,
+            "message": "Reentrancy in LendingPair.uniClaimDeposit() (32_LendingPair.sol#941-945):\n\tExternal calls:\n\t- (amountA,amountB) = _uniCollectFees(msg.sender) (32_LendingPair.sol#942)\n\t\t- uniManager.approve(address(uniV3Helper),uniPosition[_account]) (32_LendingPair.sol#1297)\n\t\t- uniV3Helper.collectFees(uniPosition[_account]) (32_LendingPair.sol#1298)\n\tState variables written after the call(s):\n\t- _mintSupplyAmount(tokenA,msg.sender,amountA) (32_LendingPair.sol#943)\n\t\t- supplySharesOf[_token][_account] += shares (32_LendingPair.sol#1304)\n\t- _mintSupplyAmount(tokenB,msg.sender,amountB) (32_LendingPair.sol#944)\n\t\t- supplySharesOf[_token][_account] += shares (32_LendingPair.sol#1304)\n\t- _mintSupplyAmount(tokenA,msg.sender,amountA) (32_LendingPair.sol#943)\n\t\t- totalSupplyAmount[_token] += _amount (32_LendingPair.sol#1306)\n\t- _mintSupplyAmount(tokenB,msg.sender,amountB) (32_LendingPair.sol#944)\n\t\t- totalSupplyAmount[_token] += _amount (32_LendingPair.sol#1306)\n\t- _mintSupplyAmount(tokenA,msg.sender,amountA) (32_LendingPair.sol#943)\n\t\t- totalSupplyShares[_token] += shares (32_LendingPair.sol#1305)\n\t- _mintSupplyAmount(tokenB,msg.sender,amountB) (32_LendingPair.sol#944)\n\t\t- totalSupplyShares[_token] += shares (32_LendingPair.sol#1305)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "_unwrapUniPosition",
+            "impact": "Low",
+            "line": 1264,
+            "line_end": 1283,
+            "message": "Reentrancy in LendingPair._unwrapUniPosition(address) (32_LendingPair.sol#1264-1283):\n\tExternal calls:\n\t- uniManager.approve(address(uniV3Helper),uniPosition[_account]) (32_LendingPair.sol#1272)\n\t- (amountA,amountB) = uniV3Helper.removeLiquidity(uniPosition[_account],amount0 * uniMinOutput / 100e18,amount1 * uniMinOutput / 100e18) (32_LendingPair.sol#1273-1277)\n\tState variables written after the call(s):\n\t- _mintSupplyAmount(tokenA,_account,amountA) (32_LendingPair.sol#1280)\n\t\t- supplySharesOf[_token][_account] += shares (32_LendingPair.sol#1304)\n\t- _mintSupplyAmount(tokenB,_account,amountB) (32_LendingPair.sol#1281)\n\t\t- supplySharesOf[_token][_account] += shares (32_LendingPair.sol#1304)\n\t- _mintSupplyAmount(tokenA,_account,amountA) (32_LendingPair.sol#1280)\n\t\t- totalSupplyAmount[_token] += _amount (32_LendingPair.sol#1306)\n\t- _mintSupplyAmount(tokenB,_account,amountB) (32_LendingPair.sol#1281)\n\t\t- totalSupplyAmount[_token] += _amount (32_LendingPair.sol#1306)\n\t- _mintSupplyAmount(tokenA,_account,amountA) (32_LendingPair.sol#1280)\n\t\t- totalSupplyShares[_token] += shares (32_LendingPair.sol#1305)\n\t- _mintSupplyAmount(tokenB,_account,amountB) (32_LendingPair.sol#1281)\n\t\t- totalSupplyShares[_token] += shares (32_LendingPair.sol#1305)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 890,
+            "line_end": 916,
+            "message": "Reentrancy in LendingPair.initialize(address,address,address,address,address,address) (32_LendingPair.sol#890-916):\n\tExternal calls:\n\t- lpToken[tokenA] = _createLpToken(_lpTokenMaster,tokenA) (32_LendingPair.sol#914)\n\t\t- newLPToken.initialize(_underlying,address(lendingController)) (32_LendingPair.sol#1383)\n\t- lpToken[tokenB] = _createLpToken(_lpTokenMaster,tokenB) (32_LendingPair.sol#915)\n\t\t- newLPToken.initialize(_underlying,address(lendingController)) (32_LendingPair.sol#1383)\n\tState variables written after the call(s):\n\t- lpToken[tokenB] = _createLpToken(_lpTokenMaster,tokenB) (32_LendingPair.sol#915)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "depositUniPosition",
+            "impact": "Low",
+            "line": 919,
+            "line_end": 928,
+            "message": "Reentrancy in LendingPair.depositUniPosition(address,uint256) (32_LendingPair.sol#919-928):\n\tExternal calls:\n\t- uniManager.safeTransferFrom(msg.sender,address(this),_positionID) (32_LendingPair.sol#924)\n\tEvent emitted after the call(s):\n\t- DepositUniPosition(_account,_positionID) (32_LendingPair.sol#927)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "32_LendingPair.sol",
+            "function": "withdrawUniPosition",
+            "impact": "Low",
+            "line": 930,
+            "line_end": 938,
+            "message": "Reentrancy in LendingPair.withdrawUniPosition() (32_LendingPair.sol#930-938):\n\tExternal calls:\n\t- uniManager.safeTransferFrom(address(this),msg.sender,positionID) (32_LendingPair.sol#932)\n\tEvent emitted after the call(s):\n\t- WithdrawUniPosition(positionID) (32_LendingPair.sol#937)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 183,
+            "line_end": 192,
+            "message": "Address.isContract(address) (32_LendingPair.sol#183-192) uses assembly\n\t- INLINE ASM (32_LendingPair.sol#190)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 328,
+            "line_end": 345,
+            "message": "Address._verifyCallResult(bool,bytes,string) (32_LendingPair.sol#328-345) uses assembly\n\t- INLINE ASM (32_LendingPair.sol#337-340)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 382,
+            "message": "Clones.clone(address) (32_LendingPair.sol#372-382) uses assembly\n\t- INLINE ASM (32_LendingPair.sol#374-380)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 391,
+            "line_end": 401,
+            "message": "Clones.cloneDeterministic(address,bytes32) (32_LendingPair.sol#391-401) uses assembly\n\t- INLINE ASM (32_LendingPair.sol#393-399)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 406,
+            "line_end": 418,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (32_LendingPair.sol#406-418) uses assembly\n\t- INLINE ASM (32_LendingPair.sol#408-417)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.6 (32_LendingPair.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 216,
+            "message": "Low level call in Address.sendValue(address,uint256) (32_LendingPair.sol#210-216):\n\t- (success,None) = recipient.call{value: amount}() (32_LendingPair.sol#214)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 271,
+            "line_end": 278,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (32_LendingPair.sol#271-278):\n\t- (success,returndata) = target.call{value: value}(data) (32_LendingPair.sol#276)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 296,
+            "line_end": 302,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (32_LendingPair.sol#296-302):\n\t- (success,returndata) = target.staticcall(data) (32_LendingPair.sol#300)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "TransferHelper",
+            "filename": "32_LendingPair.sol",
+            "function": "_wethWithdrawTo",
+            "impact": "Informational",
+            "line": 801,
+            "line_end": 808,
+            "message": "Low level call in TransferHelper._wethWithdrawTo(address,uint256) (32_LendingPair.sol#801-808):\n\t- (success,None) = _to.call{value: _amount}(new bytes(0)) (32_LendingPair.sol#806)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "32_LendingPair.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 320,
+            "line_end": 326,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (32_LendingPair.sol#320-326):\n\t- (success,returndata) = target.delegatecall(data) (32_LendingPair.sol#324)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._token (32_LendingPair.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1053,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._token (32_LendingPair.sol#1053) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 919,
+            "message": "Parameter LendingPair.depositUniPosition(address,uint256)._positionID (32_LendingPair.sol#919) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 994,
+            "message": "Parameter LendingPair.withdraw(address,uint256)._token (32_LendingPair.sol#994) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1220,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._fromToken (32_LendingPair.sol#1220) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 962,
+            "message": "Parameter LendingPair.depositRepayETH(address)._account (32_LendingPair.sol#962) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 895,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._tokenA (32_LendingPair.sol#895) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 978,
+            "message": "Parameter LendingPair.withdrawBorrow(address,uint256)._token (32_LendingPair.sol#978) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1028,
+            "message": "Parameter LendingPair.repayAll(address,address,uint256)._maxAmount (32_LendingPair.sol#1028) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1078,
+            "message": "Parameter LendingPair.transferLp(address,address,address,uint256)._amount (32_LendingPair.sol#1078) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 954,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._account (32_LendingPair.sol#954) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1020,
+            "message": "Parameter LendingPair.borrow(address,uint256)._amount (32_LendingPair.sol#1020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1180,
+            "message": "Parameter LendingPair.borrowBalanceConverted(address,address,address)._borrowedToken (32_LendingPair.sol#1180) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._account (32_LendingPair.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1078,
+            "message": "Parameter LendingPair.transferLp(address,address,address,uint256)._to (32_LendingPair.sol#1078) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1204,
+            "message": "Parameter LendingPair.supplyRatePerBlock(address)._token (32_LendingPair.sol#1204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 954,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._token (32_LendingPair.sol#954) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1214,
+            "message": "Parameter LendingPair.checkAccountHealth(address)._account (32_LendingPair.sol#1214) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1020,
+            "message": "Parameter LendingPair.borrow(address,uint256)._token (32_LendingPair.sol#1020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1167,
+            "message": "Parameter LendingPair.debtOf(address,address)._account (32_LendingPair.sol#1167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1181,
+            "message": "Parameter LendingPair.borrowBalanceConverted(address,address,address)._returnToken (32_LendingPair.sol#1181) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 970,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._amount (32_LendingPair.sol#970) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 891,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._lpTokenMaster (32_LendingPair.sol#891) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1172,
+            "message": "Parameter LendingPair.supplyOf(address,address)._token (32_LendingPair.sol#1172) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 954,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._amount (32_LendingPair.sol#954) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 986,
+            "message": "Parameter LendingPair.withdrawBorrowETH(uint256)._amount (32_LendingPair.sol#986) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1193,
+            "message": "Parameter LendingPair.supplyBalanceConverted(address,address,address)._suppliedToken (32_LendingPair.sol#1193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1078,
+            "message": "Parameter LendingPair.transferLp(address,address,address,uint256)._token (32_LendingPair.sol#1078) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1071,
+            "message": "Parameter LendingPair.collectSystemFee(address,uint256)._amount (32_LendingPair.sol#1071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1078,
+            "message": "Parameter LendingPair.transferLp(address,address,address,uint256)._from (32_LendingPair.sol#1078) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1194,
+            "message": "Parameter LendingPair.supplyBalanceConverted(address,address,address)._returnToken (32_LendingPair.sol#1194) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1144,
+            "message": "Parameter LendingPair.accountHealth(address)._account (32_LendingPair.sol#1144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1028,
+            "message": "Parameter LendingPair.repayAll(address,address,uint256)._token (32_LendingPair.sol#1028) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 978,
+            "message": "Parameter LendingPair.withdrawBorrow(address,uint256)._amount (32_LendingPair.sol#978) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1209,
+            "message": "Parameter LendingPair.borrowRatePerBlock(address)._token (32_LendingPair.sol#1209) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1167,
+            "message": "Parameter LendingPair.debtOf(address,address)._token (32_LendingPair.sol#1167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1221,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._toToken (32_LendingPair.sol#1221) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1179,
+            "message": "Parameter LendingPair.borrowBalanceConverted(address,address,address)._account (32_LendingPair.sol#1179) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 994,
+            "message": "Parameter LendingPair.withdraw(address,uint256)._amount (32_LendingPair.sol#994) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1089,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._repayToken (32_LendingPair.sol#1089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1222,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._inputAmount (32_LendingPair.sol#1222) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 894,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._feeRecipient (32_LendingPair.sol#894) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1090,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._repayAmount (32_LendingPair.sol#1090) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1037,
+            "message": "Parameter LendingPair.repayAllETH(address,uint256)._maxAmount (32_LendingPair.sol#1037) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1172,
+            "message": "Parameter LendingPair.supplyOf(address,address)._account (32_LendingPair.sol#1172) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 893,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._uniV3Helper (32_LendingPair.sol#893) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1002,
+            "message": "Parameter LendingPair.withdrawAll(address)._token (32_LendingPair.sol#1002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1091,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._minSupplyOutput (32_LendingPair.sol#1091) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1037,
+            "message": "Parameter LendingPair.repayAllETH(address,uint256)._account (32_LendingPair.sol#1037) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1053,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._account (32_LendingPair.sol#1053) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1192,
+            "message": "Parameter LendingPair.supplyBalanceConverted(address,address,address)._account (32_LendingPair.sol#1192) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 919,
+            "message": "Parameter LendingPair.depositUniPosition(address,uint256)._account (32_LendingPair.sol#919) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 842,
+            "message": "Constant LendingPair.uniManager (32_LendingPair.sol#842) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1053,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._amount (32_LendingPair.sol#1053) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1028,
+            "message": "Parameter LendingPair.repayAll(address,address,uint256)._account (32_LendingPair.sol#1028) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1088,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._account (32_LendingPair.sol#1088) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 892,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._lendingController (32_LendingPair.sol#892) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 896,
+            "message": "Parameter LendingPair.initialize(address,address,address,address,address,address)._tokenB (32_LendingPair.sol#896) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1071,
+            "message": "Parameter LendingPair.collectSystemFee(address,uint256)._token (32_LendingPair.sol#1071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "32_LendingPair.sol",
+            "impact": "Informational",
+            "line": 1061,
+            "message": "Parameter LendingPair.accrue(address)._token (32_LendingPair.sol#1061) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 382,
+            "message": "Clones.clone(address) (32_LendingPair.sol#372-382) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (32_LendingPair.sol#378)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 406,
+            "line_end": 418,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (32_LendingPair.sol#406-418) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf3ff00000000000000000000000000000000) (32_LendingPair.sol#412)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 406,
+            "line_end": 418,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (32_LendingPair.sol#406-418) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (32_LendingPair.sol#410)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 382,
+            "message": "Clones.clone(address) (32_LendingPair.sol#372-382) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (32_LendingPair.sol#376)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 391,
+            "line_end": 401,
+            "message": "Clones.cloneDeterministic(address,bytes32) (32_LendingPair.sol#391-401) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (32_LendingPair.sol#397)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "32_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 391,
+            "line_end": 401,
+            "message": "Clones.cloneDeterministic(address,bytes32) (32_LendingPair.sol#391-401) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (32_LendingPair.sol#395)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

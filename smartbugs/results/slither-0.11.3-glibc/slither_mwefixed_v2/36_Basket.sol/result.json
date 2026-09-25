@@ -1,0 +1,484 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "mintTo",
+            "impact": "High",
+            "line": 2811,
+            "line_end": 2822,
+            "message": "Reentrancy in Basket.mintTo(uint256,address) (36_Basket.sol#2811-2822):\n\tExternal calls:\n\t- pullUnderlying(amount,msg.sender) (36_Basket.sol#2817)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (36_Basket.sol#398)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\t\t- IERC20(tokens[i]).safeTransferFrom(from,address(this),tokenAmount) (36_Basket.sol#2975)\n\tExternal calls sending eth:\n\t- pullUnderlying(amount,msg.sender) (36_Basket.sol#2817)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\tState variables written after the call(s):\n\t- _mint(to,amount) (36_Basket.sol#2819)\n\t\t- _balances[account] += amount (36_Basket.sol#862)\n\tERC20Upgradeable._balances (36_Basket.sol#635) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (36_Basket.sol#879-894)\n\t- ERC20Upgradeable._mint(address,uint256) (36_Basket.sol#856-866)\n\t- ERC20Upgradeable._transfer(address,address,uint256) (36_Basket.sol#825-845)\n\t- ERC20Upgradeable.balanceOf(address) (36_Basket.sol#705-707)\n\t- _mint(to,amount) (36_Basket.sol#2819)\n\t\t- _totalSupply += amount (36_Basket.sol#861)\n\tERC20Upgradeable._totalSupply (36_Basket.sol#639) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (36_Basket.sol#879-894)\n\t- ERC20Upgradeable._mint(address,uint256) (36_Basket.sol#856-866)\n\t- ERC20Upgradeable.totalSupply() (36_Basket.sol#698-700)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "burn",
+            "impact": "High",
+            "line": 2824,
+            "line_end": 2835,
+            "message": "Reentrancy in Basket.burn(uint256) (36_Basket.sol#2824-2835):\n\tExternal calls:\n\t- pushUnderlying(amount,msg.sender) (36_Basket.sol#2831)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (36_Basket.sol#398)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\t\t- IERC20(tokens[i]).safeTransfer(to,tokenAmount) (36_Basket.sol#2968)\n\tExternal calls sending eth:\n\t- pushUnderlying(amount,msg.sender) (36_Basket.sol#2831)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,amount) (36_Basket.sol#2832)\n\t\t- _balances[account] = accountBalance - amount (36_Basket.sol#887)\n\tERC20Upgradeable._balances (36_Basket.sol#635) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (36_Basket.sol#879-894)\n\t- ERC20Upgradeable._mint(address,uint256) (36_Basket.sol#856-866)\n\t- ERC20Upgradeable._transfer(address,address,uint256) (36_Basket.sol#825-845)\n\t- ERC20Upgradeable.balanceOf(address) (36_Basket.sol#705-707)\n\t- _burn(msg.sender,amount) (36_Basket.sol#2832)\n\t\t- _totalSupply -= amount (36_Basket.sol#889)\n\tERC20Upgradeable._totalSupply (36_Basket.sol#639) can be used in cross function reentrancies:\n\t- ERC20Upgradeable._burn(address,uint256) (36_Basket.sol#879-894)\n\t- ERC20Upgradeable._mint(address,uint256) (36_Basket.sol#856-866)\n\t- ERC20Upgradeable.totalSupply() (36_Basket.sol#698-700)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "handleFees",
+            "impact": "Medium",
+            "line": 2845,
+            "line_end": 2864,
+            "message": "Basket.handleFees() (36_Basket.sol#2845-2864) performs a multiplication on the result of a division:\n\t- fee = startSupply * feePct / (BASE - feePct) (36_Basket.sol#2853)\n\t- _mint(publisher,fee * (BASE - factory.ownerSplit()) / BASE) (36_Basket.sol#2855)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "handleFees",
+            "impact": "Medium",
+            "line": 2845,
+            "line_end": 2864,
+            "message": "Basket.handleFees() (36_Basket.sol#2845-2864) performs a multiplication on the result of a division:\n\t- fee = startSupply * feePct / (BASE - feePct) (36_Basket.sol#2853)\n\t- _mint(Ownable(address(factory)).owner(),fee * factory.ownerSplit() / BASE) (36_Basket.sol#2856)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "handleFees",
+            "impact": "Medium",
+            "line": 2845,
+            "line_end": 2864,
+            "message": "Basket.handleFees() (36_Basket.sol#2845-2864) performs a multiplication on the result of a division:\n\t- feePct = timeDiff * licenseFee / ONE_YEAR (36_Basket.sol#2852)\n\t- fee = startSupply * feePct / (BASE - feePct) (36_Basket.sol#2853)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "changeLicenseFee",
+            "impact": "Medium",
+            "line": 2887,
+            "line_end": 2901,
+            "message": "Basket.changeLicenseFee(uint256) (36_Basket.sol#2887-2901) uses a dangerous strict equality:\n\t- require(bool)(pendingLicenseFee.licenseFee == newLicenseFee) (36_Basket.sol#2890)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "handleFees",
+            "impact": "Medium",
+            "line": 2845,
+            "line_end": 2864,
+            "message": "Basket.handleFees() (36_Basket.sol#2845-2864) uses a dangerous strict equality:\n\t- lastFee == 0 (36_Basket.sol#2846)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "publishNewIndex",
+            "impact": "Medium",
+            "line": 2905,
+            "line_end": 2929,
+            "message": "Reentrancy in Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929):\n\tExternal calls:\n\t- auction.killAuction() (36_Basket.sol#2917)\n\tState variables written after the call(s):\n\t- pendingWeights.tokens = _tokens (36_Basket.sol#2919)\n\tBasket.pendingWeights (36_Basket.sol#2764) can be used in cross function reentrancies:\n\t- Basket.deleteNewIndex() (36_Basket.sol#2942-2949)\n\t- Basket.getPendingWeights() (36_Basket.sol#2784-2786)\n\t- Basket.pendingWeights (36_Basket.sol#2764)\n\t- Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929)\n\t- Basket.setNewWeights() (36_Basket.sol#2931-2939)\n\t- pendingWeights.weights = _weights (36_Basket.sol#2920)\n\tBasket.pendingWeights (36_Basket.sol#2764) can be used in cross function reentrancies:\n\t- Basket.deleteNewIndex() (36_Basket.sol#2942-2949)\n\t- Basket.getPendingWeights() (36_Basket.sol#2784-2786)\n\t- Basket.pendingWeights (36_Basket.sol#2764)\n\t- Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929)\n\t- Basket.setNewWeights() (36_Basket.sol#2931-2939)\n\t- pendingWeights.block = block.number (36_Basket.sol#2921)\n\tBasket.pendingWeights (36_Basket.sol#2764) can be used in cross function reentrancies:\n\t- Basket.deleteNewIndex() (36_Basket.sol#2942-2949)\n\t- Basket.getPendingWeights() (36_Basket.sol#2784-2786)\n\t- Basket.pendingWeights (36_Basket.sol#2764)\n\t- Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929)\n\t- Basket.setNewWeights() (36_Basket.sol#2931-2939)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "approveUnderlying",
+            "impact": "Medium",
+            "line": 2959,
+            "line_end": 2963,
+            "message": "Basket.approveUnderlying(address) (36_Basket.sol#2959-2963) ignores return value by IERC20(tokens[i]).approve(spender,type()(uint256).max) (36_Basket.sol#2961)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "approveUnderlying",
+            "impact": "Low",
+            "line": 2959,
+            "line_end": 2963,
+            "message": "Basket.approveUnderlying(address) (36_Basket.sol#2959-2963) has external calls inside a loop: IERC20(tokens[i]).approve(spender,type()(uint256).max) (36_Basket.sol#2961)\n\tCalls stack containing the loop:\n\t\tBasket.initialize(IFactory.Proposal,IAuction)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "approveUnderlying",
+            "impact": "Low",
+            "line": 2959,
+            "line_end": 2963,
+            "message": "Basket.approveUnderlying(address) (36_Basket.sol#2959-2963) has external calls inside a loop: IERC20(tokens[i]).approve(spender,type()(uint256).max) (36_Basket.sol#2961)\n\tCalls stack containing the loop:\n\t\tBasket.setNewWeights()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 2771,
+            "line_end": 2782,
+            "message": "Reentrancy in Basket.initialize(IFactory.Proposal,IAuction) (36_Basket.sol#2771-2782):\n\tExternal calls:\n\t- approveUnderlying(address(auction)) (36_Basket.sol#2779)\n\t\t- IERC20(tokens[i]).approve(spender,type()(uint256).max) (36_Basket.sol#2961)\n\tState variables written after the call(s):\n\t- __ERC20_init(proposal.tokenName,proposal.tokenSymbol) (36_Basket.sol#2781)\n\t\t- _initialized = true (36_Basket.sol#555)\n\t- __ERC20_init(proposal.tokenName,proposal.tokenSymbol) (36_Basket.sol#2781)\n\t\t- _initializing = true (36_Basket.sol#554)\n\t\t- _initializing = false (36_Basket.sol#561)\n\t- __ERC20_init(proposal.tokenName,proposal.tokenSymbol) (36_Basket.sol#2781)\n\t\t- _name = name_ (36_Basket.sol#659)\n\t- __ERC20_init(proposal.tokenName,proposal.tokenSymbol) (36_Basket.sol#2781)\n\t\t- _symbol = symbol_ (36_Basket.sol#660)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "publishNewIndex",
+            "impact": "Low",
+            "line": 2905,
+            "line_end": 2929,
+            "message": "Reentrancy in Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929):\n\tExternal calls:\n\t- auction.startAuction() (36_Basket.sol#2911)\n\tEvent emitted after the call(s):\n\t- PublishedNewIndex(publisher) (36_Basket.sol#2913)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "setNewWeights",
+            "impact": "Low",
+            "line": 2931,
+            "line_end": 2939,
+            "message": "Reentrancy in Basket.setNewWeights() (36_Basket.sol#2931-2939):\n\tExternal calls:\n\t- approveUnderlying(address(auction)) (36_Basket.sol#2936)\n\t\t- IERC20(tokens[i]).approve(spender,type()(uint256).max) (36_Basket.sol#2961)\n\tEvent emitted after the call(s):\n\t- WeightsSet() (36_Basket.sol#2938)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 2824,
+            "line_end": 2835,
+            "message": "Reentrancy in Basket.burn(uint256) (36_Basket.sol#2824-2835):\n\tExternal calls:\n\t- pushUnderlying(amount,msg.sender) (36_Basket.sol#2831)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (36_Basket.sol#398)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\t\t- IERC20(tokens[i]).safeTransfer(to,tokenAmount) (36_Basket.sol#2968)\n\tExternal calls sending eth:\n\t- pushUnderlying(amount,msg.sender) (36_Basket.sol#2831)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\tEvent emitted after the call(s):\n\t- Burned(msg.sender,amount) (36_Basket.sol#2834)\n\t- Transfer(account,address(0),amount) (36_Basket.sol#891)\n\t\t- _burn(msg.sender,amount) (36_Basket.sol#2832)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "mintTo",
+            "impact": "Low",
+            "line": 2811,
+            "line_end": 2822,
+            "message": "Reentrancy in Basket.mintTo(uint256,address) (36_Basket.sol#2811-2822):\n\tExternal calls:\n\t- pullUnderlying(amount,msg.sender) (36_Basket.sol#2817)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (36_Basket.sol#398)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\t\t- IERC20(tokens[i]).safeTransferFrom(from,address(this),tokenAmount) (36_Basket.sol#2975)\n\tExternal calls sending eth:\n\t- pullUnderlying(amount,msg.sender) (36_Basket.sol#2817)\n\t\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n\tEvent emitted after the call(s):\n\t- Minted(to,amount) (36_Basket.sol#2821)\n\t- Transfer(address(0),account,amount) (36_Basket.sol#863)\n\t\t- _mint(to,amount) (36_Basket.sol#2819)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 2824,
+            "line_end": 2835,
+            "message": "Basket.burn(uint256) (36_Basket.sol#2824-2835) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(balanceOf(msg.sender) >= amount) (36_Basket.sol#2827)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "handleFees",
+            "impact": "Low",
+            "line": 2845,
+            "line_end": 2864,
+            "message": "Basket.handleFees() (36_Basket.sol#2845-2864) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastFee == 0 (36_Basket.sol#2846)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "36_Basket.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 1217,
+            "line_end": 1223,
+            "message": "console._castToPure(function(bytes)) (36_Basket.sol#1217-1223) uses assembly\n\t- INLINE ASM (36_Basket.sol#1220-1222)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 114,
+            "line_end": 124,
+            "message": "Address.isContract(address) (36_Basket.sol#114-124) uses assembly\n\t- INLINE ASM (36_Basket.sol#120-122)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 303,
+            "message": "Address.verifyCallResult(bool,bytes,string) (36_Basket.sol#283-303) uses assembly\n\t- INLINE ASM (36_Basket.sol#295-298)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "36_Basket.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 1200,
+            "line_end": 1215,
+            "message": "console._sendLogPayloadImplementation(bytes) (36_Basket.sol#1200-1215) uses assembly\n\t- INLINE ASM (36_Basket.sol#1203-1214)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "publishNewIndex",
+            "impact": "Informational",
+            "line": 2905,
+            "line_end": 2929,
+            "message": "Basket.publishNewIndex(address[],uint256[]) (36_Basket.sol#2905-2929) compares to a boolean constant:\n\t-auction.auctionOngoing() == false (36_Basket.sol#2910)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "mintTo",
+            "impact": "Informational",
+            "line": 2811,
+            "line_end": 2822,
+            "message": "Basket.mintTo(uint256,address) (36_Basket.sol#2811-2822) compares to a boolean constant:\n\t-require(bool)(auction.auctionOngoing() == false) (36_Basket.sol#2812)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "deleteNewIndex",
+            "impact": "Informational",
+            "line": 2942,
+            "line_end": 2949,
+            "message": "Basket.deleteNewIndex() (36_Basket.sol#2942-2949) compares to a boolean constant:\n\t-require(bool)(auction.auctionOngoing() == false) (36_Basket.sol#2944)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "Basket",
+            "filename": "36_Basket.sol",
+            "function": "burn",
+            "impact": "Informational",
+            "line": 2824,
+            "line_end": 2835,
+            "message": "Basket.burn(uint256) (36_Basket.sol#2824-2835) compares to a boolean constant:\n\t-require(bool)(auction.auctionOngoing() == false) (36_Basket.sol#2825)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "36_Basket.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 593,
+            "line_end": 595,
+            "message": "ContextUpgradeable._msgData() (36_Basket.sol#593-595) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "36_Basket.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 983,
+            "line_end": 985,
+            "message": "Context._msgData() (36_Basket.sol#983-985) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "36_Basket.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 583,
+            "line_end": 585,
+            "message": "ContextUpgradeable.__Context_init() (36_Basket.sol#583-585) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.7 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.7 (36_Basket.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 142,
+            "line_end": 147,
+            "message": "Low level call in Address.sendValue(address,uint256) (36_Basket.sol#142-147):\n\t- (success,None) = recipient.call{value: amount}() (36_Basket.sol#145)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 266,
+            "line_end": 275,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (36_Basket.sol#266-275):\n\t- (success,returndata) = target.delegatecall(data) (36_Basket.sol#273)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 221,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (36_Basket.sol#210-221):\n\t- (success,returndata) = target.call{value: value}(data) (36_Basket.sol#219)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "36_Basket.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 239,
+            "line_end": 248,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (36_Basket.sol#239-248):\n\t- (success,returndata) = target.staticcall(data) (36_Basket.sol#246)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 2788,
+            "message": "Parameter Basket.validateWeights(address[],uint256[])._tokens (36_Basket.sol#2788) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 596,
+            "message": "Variable ContextUpgradeable.__gap (36_Basket.sol#596) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 1196,
+            "line_end": 2744,
+            "message": "Contract console (36_Basket.sol#1196-2744) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "36_Basket.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 658,
+            "line_end": 661,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (36_Basket.sol#658-661) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "36_Basket.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 653,
+            "line_end": 656,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (36_Basket.sol#653-656) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "36_Basket.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 587,
+            "line_end": 588,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (36_Basket.sol#587-588) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 960,
+            "message": "Variable ERC20Upgradeable.__gap (36_Basket.sol#960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 2905,
+            "message": "Parameter Basket.publishNewIndex(address[],uint256[])._tokens (36_Basket.sol#2905) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 2788,
+            "message": "Parameter Basket.validateWeights(address[],uint256[])._weights (36_Basket.sol#2788) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "36_Basket.sol",
+            "impact": "Informational",
+            "line": 2905,
+            "message": "Parameter Basket.publishNewIndex(address[],uint256[])._weights (36_Basket.sol#2905) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "36_Basket.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 583,
+            "line_end": 585,
+            "message": "Function ContextUpgradeable.__Context_init() (36_Basket.sol#583-585) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

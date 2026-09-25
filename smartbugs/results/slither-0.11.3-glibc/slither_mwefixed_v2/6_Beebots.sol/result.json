@@ -1,0 +1,493 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "randomIndex",
+            "impact": "High",
+            "line": 310,
+            "line_end": 331,
+            "message": "Beebots.randomIndex() (6_Beebots.sol#310-331) uses a weak PRNG: \"index = uint256(keccak256(bytes)(abi.encodePacked(nonce,msg.sender,block.difficulty,block.timestamp))) % totalSize (6_Beebots.sol#312)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "randomIndex",
+            "impact": "Medium",
+            "line": 310,
+            "line_end": 331,
+            "message": "Beebots.randomIndex() (6_Beebots.sol#310-331) ignores return value by nonce.add(1) (6_Beebots.sol#328)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "6_Beebots.sol",
+            "impact": "Low",
+            "line": 207,
+            "message": "Beebots.constructor(address,address,address)._beta (6_Beebots.sol#207) lacks a zero-check on :\n\t\t- beta = _beta (6_Beebots.sol#213)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "6_Beebots.sol",
+            "impact": "Low",
+            "line": 207,
+            "message": "Beebots.constructor(address,address,address)._beneficiary (6_Beebots.sol#207) lacks a zero-check on :\n\t\t- beneficiary = _beneficiary (6_Beebots.sol#215)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "6_Beebots.sol",
+            "impact": "Low",
+            "line": 207,
+            "message": "Beebots.constructor(address,address,address)._alpha (6_Beebots.sol#207) lacks a zero-check on :\n\t\t- alpha = _alpha (6_Beebots.sol#214)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "getPrice",
+            "impact": "Low",
+            "line": 334,
+            "line_end": 342,
+            "message": "Beebots.getPrice() (6_Beebots.sol#334-342) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- elapsed > saleDuration (6_Beebots.sol#337)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "_addNFToken",
+            "impact": "Low",
+            "line": 411,
+            "line_end": 417,
+            "message": "Beebots._addNFToken(address,uint256) (6_Beebots.sol#411-417) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(idToOwner[_tokenId] == address(0),Cannot add, already owned.) (6_Beebots.sol#412)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "tradeValid",
+            "impact": "Low",
+            "line": 581,
+            "line_end": 612,
+            "message": "Beebots.tradeValid(address,address,uint256,uint256[],uint256,uint256[],uint256,uint256,bytes) (6_Beebots.sol#581-612) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < offer.expiry,Trade offer expired.) (6_Beebots.sol#590)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 382,
+            "line_end": 393,
+            "message": "Beebots.mint() (6_Beebots.sol#382-393) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(msg.value >= salePrice,Insufficient funds to purchase.) (6_Beebots.sol#386)\n\t- msg.value > salePrice (6_Beebots.sol#387)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 246,
+            "line_end": 250,
+            "message": "Beebots.isContract(address) (6_Beebots.sol#246-250) uses assembly\n\t- INLINE ASM (6_Beebots.sol#248)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "verify",
+            "impact": "Informational",
+            "line": 559,
+            "line_end": 579,
+            "message": "Beebots.verify(address,bytes32,bytes) (6_Beebots.sol#559-579) uses assembly\n\t- INLINE ASM (6_Beebots.sol#566-570)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "tradeValid",
+            "impact": "Informational",
+            "line": 581,
+            "line_end": 612,
+            "message": "Beebots.tradeValid(address,address,uint256,uint256[],uint256,uint256[],uint256,uint256,bytes) (6_Beebots.sol#581-612) compares to a boolean constant:\n\t-require(bool,string)(cancelledOffers[hash] == false,Trade offer was cancelled.) (6_Beebots.sol#585)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 395,
+            "line_end": 409,
+            "message": "Beebots._mint(address,uint256) (6_Beebots.sol#395-409) has costly operations inside a loop:\n\t- numTokens = numTokens + 1 (6_Beebots.sol#403)\n\tCalls stack containing the loop:\n\t\tBeebots.devMint(uint256,address)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "_clearApproval",
+            "impact": "Informational",
+            "line": 452,
+            "line_end": 456,
+            "message": "Beebots._clearApproval(uint256) (6_Beebots.sol#452-456) has costly operations inside a loop:\n\t- delete idToApproval[_tokenId] (6_Beebots.sol#454)\n\tCalls stack containing the loop:\n\t\tBeebots.acceptTrade(address,address,uint256,uint256[],uint256,uint256[],uint256,uint256,bytes)\n\t\tBeebots._transfer(address,uint256)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "_removeNFToken",
+            "impact": "Informational",
+            "line": 419,
+            "line_end": 433,
+            "message": "Beebots._removeNFToken(address,uint256) (6_Beebots.sol#419-433) has costly operations inside a loop:\n\t- delete idToOwner[_tokenId] (6_Beebots.sol#421)\n\tCalls stack containing the loop:\n\t\tBeebots.acceptTrade(address,address,uint256,uint256[],uint256,uint256[],uint256,uint256,bytes)\n\t\tBeebots._transfer(address,uint256)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.7.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.7.6 (6_Beebots.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "message": "solc-0.7.6 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 264,
+            "message": "Parameter Beebots.transferFrom(address,address,uint256)._tokenId (6_Beebots.sol#264) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 233,
+            "message": "Parameter Beebots.pauseMarket(bool)._paused (6_Beebots.sol#233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 271,
+            "message": "Parameter Beebots.approve(address,uint256)._tokenId (6_Beebots.sol#271) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 296,
+            "message": "Parameter Beebots.isApprovedForAll(address,address)._operator (6_Beebots.sol#296) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 283,
+            "message": "Parameter Beebots.balanceOf(address)._owner (6_Beebots.sol#283) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 260,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256)._tokenId (6_Beebots.sol#260) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 256,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256,bytes)._to (6_Beebots.sol#256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 358,
+            "message": "Parameter Beebots.mintWithAlphaOrBeta(uint256)._createVia (6_Beebots.sol#358) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 278,
+            "message": "Parameter Beebots.setApprovalForAll(address,bool)._operator (6_Beebots.sol#278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 296,
+            "message": "Parameter Beebots.isApprovedForAll(address,address)._owner (6_Beebots.sol#296) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 260,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256)._to (6_Beebots.sol#260) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 246,
+            "message": "Parameter Beebots.isContract(address)._addr (6_Beebots.sol#246) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 256,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256,bytes)._tokenId (6_Beebots.sol#256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 288,
+            "message": "Parameter Beebots.ownerOf(uint256)._tokenId (6_Beebots.sol#288) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 292,
+            "message": "Parameter Beebots.getApproved(uint256)._tokenId (6_Beebots.sol#292) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter Beebots.tokenURI(uint256)._tokenId (6_Beebots.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 218,
+            "message": "Parameter Beebots.startSale(uint256,uint256)._saleDuration (6_Beebots.sol#218) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 260,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256)._from (6_Beebots.sol#260) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 218,
+            "message": "Parameter Beebots.startSale(uint256,uint256)._price (6_Beebots.sol#218) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 264,
+            "message": "Parameter Beebots.transferFrom(address,address,uint256)._from (6_Beebots.sol#264) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Parameter Beebots.supportsInterface(bytes4)._interfaceID (6_Beebots.sol#252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 271,
+            "message": "Parameter Beebots.approve(address,uint256)._approved (6_Beebots.sol#271) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 256,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256,bytes)._from (6_Beebots.sol#256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 256,
+            "message": "Parameter Beebots.safeTransferFrom(address,address,uint256,bytes)._data (6_Beebots.sol#256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 264,
+            "message": "Parameter Beebots.transferFrom(address,address,uint256)._to (6_Beebots.sol#264) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 278,
+            "message": "Parameter Beebots.setApprovalForAll(address,bool)._approved (6_Beebots.sol#278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 469,
+            "message": "Parameter Beebots.tokenOfOwnerByIndex(address,uint256)._owner (6_Beebots.sol#469) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Informational",
+            "line": 469,
+            "message": "Parameter Beebots.tokenOfOwnerByIndex(address,uint256)._index (6_Beebots.sol#469) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "withdraw",
+            "impact": "Informational",
+            "line": 652,
+            "line_end": 657,
+            "message": "Reentrancy in Beebots.withdraw(uint256) (6_Beebots.sol#652-657):\n\tExternal calls:\n\t- msg.sender.transfer(amount) (6_Beebots.sol#655)\n\tEvent emitted after the call(s):\n\t- Withdraw(msg.sender,amount) (6_Beebots.sol#656)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Beebots",
+            "filename": "6_Beebots.sol",
+            "function": "mint",
+            "impact": "Informational",
+            "line": 382,
+            "line_end": 393,
+            "message": "Reentrancy in Beebots.mint() (6_Beebots.sol#382-393):\n\tExternal calls:\n\t- msg.sender.transfer(msg.value.sub(salePrice)) (6_Beebots.sol#388)\n\t- beneficiary.transfer(salePrice) (6_Beebots.sol#390)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- idToCreator[id] = _to (6_Beebots.sol#400)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- idToCreatorNft[id] = createdVia (6_Beebots.sol#401)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- idToOwner[_tokenId] = _to (6_Beebots.sol#413)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- idToOwnerIndex[_tokenId] = ownerToIds[_to].length.sub(1) (6_Beebots.sol#416)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- indices[index] = totalSize - 1 (6_Beebots.sol#323)\n\t\t- indices[index] = indices[totalSize - 1] (6_Beebots.sol#326)\n\t- numSales ++ (6_Beebots.sol#391)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- numTokens = numTokens + 1 (6_Beebots.sol#403)\n\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t\t- ownerToIds[_to].push(_tokenId) (6_Beebots.sol#415)\n\tEvent emitted after the call(s):\n\t- Mint(id,_to,createdVia) (6_Beebots.sol#406)\n\t\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n\t- Transfer(address(0),_to,id) (6_Beebots.sol#407)\n\t\t- _mint(msg.sender,0) (6_Beebots.sol#392)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 118,
+            "message": "Beebots.contentHash (6_Beebots.sol#118) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 141,
+            "message": "Beebots.nftName (6_Beebots.sol#141) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 142,
+            "message": "Beebots.nftSymbol (6_Beebots.sol#142) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 160,
+            "message": "Beebots.nonce (6_Beebots.sol#160) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 149,
+            "message": "Beebots.alpha (6_Beebots.sol#149) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 152,
+            "message": "Beebots.beneficiary (6_Beebots.sol#152) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 147,
+            "message": "Beebots.beta (6_Beebots.sol#147) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "6_Beebots.sol",
+            "impact": "Optimization",
+            "line": 151,
+            "message": "Beebots.deployer (6_Beebots.sol#151) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

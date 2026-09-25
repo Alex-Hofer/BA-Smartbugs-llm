@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... t256 inAmount, uint256 totalBalance)internalviewreturns (uint256[N_COINS] memory balances){ | ^^^^^^",
+        "solc rejected 17_Buoy3Pool.sol: Error: Expected ',' but got 'memory' --> /work/input/17_Buoy3Pool.so ... t256 inAmount, uint256 totalBalance)internalviewreturns (uint256[N_COINS] memory balances){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=1, est_cost_usd=0.0001"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

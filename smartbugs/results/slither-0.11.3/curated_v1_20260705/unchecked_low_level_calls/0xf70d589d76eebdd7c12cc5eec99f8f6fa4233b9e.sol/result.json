@@ -1,0 +1,109 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "GetFreebie",
+            "impact": "High",
+            "line": 20,
+            "line_end": 28,
+            "message": "WhaleGiveaway2.GetFreebie() (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#20-28) sends eth to arbitrary user\n\tDangerous calls:\n\t- msg.sender.transfer(this.balance) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#26)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "Command",
+            "impact": "Medium",
+            "line": 38,
+            "line_end": 45,
+            "message": "WhaleGiveaway2.Command(address,bytes) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#38-45) ignores return value by adr.call.value(msg.value)(data) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#44)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "impact": "Low",
+            "line": 38,
+            "message": "WhaleGiveaway2.Command(address,bytes).adr (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#38) lacks a zero-check on :\n\t\t- adr.call.value(msg.value)(data) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#44)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.19 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.19 (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "Command",
+            "impact": "Informational",
+            "line": 38,
+            "line_end": 45,
+            "message": "Low level call in WhaleGiveaway2.Command(address,bytes) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#38-45):\n\t- adr.call.value(msg.value)(data) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#44)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "Command",
+            "impact": "Informational",
+            "line": 38,
+            "line_end": 45,
+            "message": "Function WhaleGiveaway2.Command(address,bytes) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#38-45) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "GetFreebie",
+            "impact": "Informational",
+            "line": 20,
+            "line_end": 28,
+            "message": "Function WhaleGiveaway2.GetFreebie() (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#20-28) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "impact": "Informational",
+            "line": 11,
+            "message": "Variable WhaleGiveaway2.Owner (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#11) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "WhaleGiveaway2",
+            "filename": "unchecked_low_level_calls\\0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol",
+            "function": "Command",
+            "impact": "Optimization",
+            "line": 38,
+            "line_end": 45,
+            "message": "Command(address,bytes) should be declared external:\n\t- WhaleGiveaway2.Command(address,bytes) (../sb/0xf70d589d76eebdd7c12cc5eec99f8f6fa4233b9e.sol#38-45)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,36 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/193_Pair.sol, current function: _transferFrom, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/193_Pair.sol, current function: addQuote, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\193_Pair.sol",
+            "line": 1770,
+            "line_end": 1776,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\193_Pair.sol",
+            "line": 1782,
+            "line_end": 1794,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 193_Pair.sol:1482-1511\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=38, est_cost_usd=0.0078",
+        "static confirmation filtered LLM candidates: 7 before, 5 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

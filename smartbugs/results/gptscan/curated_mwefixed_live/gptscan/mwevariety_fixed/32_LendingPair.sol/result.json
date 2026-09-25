@@ -1,0 +1,45 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _mintSupplyAmount, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: accrue, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\32_LendingPair.sol",
+            "line": 1061,
+            "line_end": 1069,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 32_LendingPair.sol:1028-1035\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\32_LendingPair.sol",
+            "line": 1301,
+            "line_end": 1308,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 32_LendingPair.sol:1264-1283\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\32_LendingPair.sol",
+            "line": 1310,
+            "line_end": 1317,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=92, est_cost_usd=0.0202",
+        "static confirmation filtered LLM candidates: 19 before, 7 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

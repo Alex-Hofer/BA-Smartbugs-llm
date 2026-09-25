@@ -1,0 +1,1211 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "High",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) sends eth to arbitrary user\n\tDangerous calls:\n\t- Channels[_lcID].partyAddresses[0].transfer(_balances[0]) (../sb/spank_chain_payment.sol#534)\n\t- Channels[_lcID].partyAddresses[1].transfer(_balances[1]) (../sb/spank_chain_payment.sol#535)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "High",
+            "line": 756,
+            "line_end": 817,
+            "message": "Reentrancy in LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817):\n\tExternal calls:\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[0],tokenbalanceA),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#803-806)\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[1],tokenbalanceI),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#807-810)\n\tExternal calls sending eth:\n\t- channel.partyAddresses[0].transfer(ethbalanceA) (../sb/spank_chain_payment.sol#798)\n\t- channel.partyAddresses[1].transfer(ethbalanceI) (../sb/spank_chain_payment.sol#799)\n\tState variables written after the call(s):\n\t- channel.isOpen = false (../sb/spank_chain_payment.sol#813)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "High",
+            "line": 420,
+            "line_end": 437,
+            "message": "Reentrancy in LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],Channels[_lcID].erc20Balances[0]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#430)\n\tExternal calls sending eth:\n\t- Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]) (../sb/spank_chain_payment.sol#426)\n\tState variables written after the call(s):\n\t- delete Channels[_lcID] (../sb/spank_chain_payment.sol#436)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "_isContained",
+            "impact": "Medium",
+            "line": 819,
+            "line_end": 834,
+            "message": "LedgerChannel._isContained(bytes32,bytes,bytes32) (../sb/spank_chain_payment.sol#819-834) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "recoverSigner",
+            "impact": "Medium",
+            "line": 62,
+            "line_end": 88,
+            "message": "ECTools.recoverSigner(bytes32,string) (../sb/spank_chain_payment.sol#62-88) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "uintToBytes32",
+            "impact": "Medium",
+            "line": 132,
+            "line_end": 135,
+            "message": "ECTools.uintToBytes32(uint256) (../sb/spank_chain_payment.sol#132-135) is declared view but contains assembly code\n",
+            "name": "constant-function-asm"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Medium",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) uses a dangerous strict equality:\n\t- require(bool)(Channels[_lcID].isOpen == true) (../sb/spank_chain_payment.sol#506)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Medium",
+            "line": 439,
+            "line_end": 460,
+            "message": "LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460) uses a dangerous strict equality:\n\t- require(bool)(Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#441)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Medium",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) uses a dangerous strict equality:\n\t- require(bool)(totalTokenDeposit == _balances[2] + _balances[3]) (../sb/spank_chain_payment.sol#510)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Medium",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) uses a dangerous strict equality:\n\t- require(bool)(totalEthDeposit == _balances[0] + _balances[1]) (../sb/spank_chain_payment.sol#509)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "initVCstate",
+            "impact": "Medium",
+            "line": 615,
+            "line_end": 657,
+            "message": "LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657) uses a dangerous strict equality:\n\t- require(bool)(_isContained(_initState,_proof,Channels[_lcID].VCrootHash) == true) (../sb/spank_chain_payment.sol#643)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Medium",
+            "line": 420,
+            "line_end": 437,
+            "message": "LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437) uses a dangerous strict equality:\n\t- require(bool)(msg.sender == Channels[_lcID].partyAddresses[0] && Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#421)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "_isContained",
+            "impact": "Medium",
+            "line": 819,
+            "line_end": 834,
+            "message": "LedgerChannel._isContained(bytes32,bytes,bytes32) (../sb/spank_chain_payment.sol#819-834) uses a dangerous strict equality:\n\t- cursor == _root (../sb/spank_chain_payment.sol#833)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 465,
+            "line_end": 492,
+            "message": "LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492) uses a dangerous strict equality:\n\t- require(bool,string)(Channels[_lcID].isOpen == true,Tried adding funds to a closed channel) (../sb/spank_chain_payment.sol#466)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 465,
+            "line_end": 492,
+            "message": "Reentrancy in LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#473)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#483)\n\tState variables written after the call(s):\n\t- Channels[_lcID].erc20Balances[3] += _balance (../sb/spank_chain_payment.sol#484)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "createChannel",
+            "impact": "Medium",
+            "line": 380,
+            "line_end": 418,
+            "message": "Reentrancy in LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#406)\n\tState variables written after the call(s):\n\t- Channels[_lcID].erc20Balances[0] = _balances[1] (../sb/spank_chain_payment.sol#407)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].sequence = 0 (../sb/spank_chain_payment.sol#410)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].confirmTime = _confirmTime (../sb/spank_chain_payment.sol#411)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].LCopenTimeout = now + _confirmTime (../sb/spank_chain_payment.sol#414)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].initialDeposit = _balances (../sb/spank_chain_payment.sol#415)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Medium",
+            "line": 439,
+            "line_end": 460,
+            "message": "Reentrancy in LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),joinChannel: token transfer failure) (../sb/spank_chain_payment.sol#449)\n\tState variables written after the call(s):\n\t- Channels[_lcID].erc20Balances[1] = _balances[1] (../sb/spank_chain_payment.sol#450)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].initialDeposit[0] += _balances[0] (../sb/spank_chain_payment.sol#453)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].initialDeposit[1] += _balances[1] (../sb/spank_chain_payment.sol#454)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].isOpen = true (../sb/spank_chain_payment.sol#456)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 465,
+            "line_end": 492,
+            "message": "Reentrancy in LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#473)\n\tState variables written after the call(s):\n\t- Channels[_lcID].erc20Balances[2] += _balance (../sb/spank_chain_payment.sol#474)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n\t- Channels[_lcID].ethBalances[3] += msg.value (../sb/spank_chain_payment.sol#487)\n\tLedgerChannel.Channels (../sb/spank_chain_payment.sol#378) can be used in cross function reentrancies:\n\t- LedgerChannel.Channels (../sb/spank_chain_payment.sol#378)\n\t- LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437)\n\t- LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817)\n\t- LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752)\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n\t- LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492)\n\t- LedgerChannel.getChannel(bytes32) (../sb/spank_chain_payment.sol#837-866)\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "createChannel",
+            "impact": "Medium",
+            "line": 380,
+            "line_end": 418,
+            "message": "LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418) contains a tautology or contradiction:\n\t- require(bool,string)(_balances[0] >= 0 && _balances[1] >= 0,Balances cannot be negative) (../sb/spank_chain_payment.sol#392)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "substring",
+            "impact": "Medium",
+            "line": 167,
+            "line_end": 178,
+            "message": "ECTools.substring(string,uint256,uint256) (../sb/spank_chain_payment.sol#167-178) contains a tautology or contradiction:\n\t- require(bool)(_startIndex >= 0) (../sb/spank_chain_payment.sol#170)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Low",
+            "line": 439,
+            "line_end": 460,
+            "message": "Reentrancy in LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),joinChannel: token transfer failure) (../sb/spank_chain_payment.sol#449)\n\tState variables written after the call(s):\n\t- numChannels ++ (../sb/spank_chain_payment.sol#457)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Low",
+            "line": 495,
+            "line_end": 546,
+            "message": "Reentrancy in LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],_balances[2]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#539)\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[1],_balances[3]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#540)\n\tExternal calls sending eth:\n\t- Channels[_lcID].partyAddresses[0].transfer(_balances[0]) (../sb/spank_chain_payment.sol#534)\n\t- Channels[_lcID].partyAddresses[1].transfer(_balances[1]) (../sb/spank_chain_payment.sol#535)\n\tState variables written after the call(s):\n\t- numChannels -- (../sb/spank_chain_payment.sol#543)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "Low",
+            "line": 756,
+            "line_end": 817,
+            "message": "Reentrancy in LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817):\n\tExternal calls:\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[0],tokenbalanceA),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#803-806)\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[1],tokenbalanceI),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#807-810)\n\tExternal calls sending eth:\n\t- channel.partyAddresses[0].transfer(ethbalanceA) (../sb/spank_chain_payment.sol#798)\n\t- channel.partyAddresses[1].transfer(ethbalanceI) (../sb/spank_chain_payment.sol#799)\n\tState variables written after the call(s):\n\t- numChannels -- (../sb/spank_chain_payment.sol#814)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Low",
+            "line": 495,
+            "line_end": 546,
+            "message": "Reentrancy in LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],_balances[2]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#539)\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[1],_balances[3]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#540)\n\tExternal calls sending eth:\n\t- Channels[_lcID].partyAddresses[0].transfer(_balances[0]) (../sb/spank_chain_payment.sol#534)\n\t- Channels[_lcID].partyAddresses[1].transfer(_balances[1]) (../sb/spank_chain_payment.sol#535)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,_sequence,_balances[0],_balances[1],_balances[2],_balances[3]) (../sb/spank_chain_payment.sol#545)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Low",
+            "line": 420,
+            "line_end": 437,
+            "message": "Reentrancy in LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],Channels[_lcID].erc20Balances[0]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#430)\n\tExternal calls sending eth:\n\t- Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]) (../sb/spank_chain_payment.sol#426)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,0,Channels[_lcID].ethBalances[0],Channels[_lcID].erc20Balances[0],0,0) (../sb/spank_chain_payment.sol#433)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "Low",
+            "line": 756,
+            "line_end": 817,
+            "message": "Reentrancy in LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817):\n\tExternal calls:\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[0],tokenbalanceA),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#803-806)\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[1],tokenbalanceI),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#807-810)\n\tExternal calls sending eth:\n\t- channel.partyAddresses[0].transfer(ethbalanceA) (../sb/spank_chain_payment.sol#798)\n\t- channel.partyAddresses[1].transfer(ethbalanceI) (../sb/spank_chain_payment.sol#799)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,channel.sequence,ethbalanceA,ethbalanceI,tokenbalanceA,tokenbalanceI) (../sb/spank_chain_payment.sol#816)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "createChannel",
+            "impact": "Low",
+            "line": 380,
+            "line_end": 418,
+            "message": "Reentrancy in LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#406)\n\tEvent emitted after the call(s):\n\t- DidLCOpen(_lcID,msg.sender,_partyI,_balances[0],_token,_balances[1],Channels[_lcID].LCopenTimeout) (../sb/spank_chain_payment.sol#417)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Low",
+            "line": 439,
+            "line_end": 460,
+            "message": "Reentrancy in LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),joinChannel: token transfer failure) (../sb/spank_chain_payment.sol#449)\n\tEvent emitted after the call(s):\n\t- DidLCJoin(_lcID,_balances[0],_balances[1]) (../sb/spank_chain_payment.sol#459)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 465,
+            "line_end": 492,
+            "message": "Reentrancy in LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492):\n\tExternal calls:\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#473)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#483)\n\tEvent emitted after the call(s):\n\t- DidLCDeposit(_lcID,recipient,_balance,isToken) (../sb/spank_chain_payment.sol#491)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "settleVC",
+            "impact": "Low",
+            "line": 662,
+            "line_end": 723,
+            "message": "LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(Channels[_lcID].isOpen,LC is closed.) (../sb/spank_chain_payment.sol#673)\n\t- require(bool)(Channels[_lcID].updateLCtimeout < now) (../sb/spank_chain_payment.sol#689)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 465,
+            "line_end": 492,
+            "message": "LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(Channels[_lcID].isOpen == true,Tried adding funds to a closed channel) (../sb/spank_chain_payment.sol#466)\n\t- require(bool)(recipient == Channels[_lcID].partyAddresses[0] || recipient == Channels[_lcID].partyAddresses[1]) (../sb/spank_chain_payment.sol#467)\n\t- Channels[_lcID].partyAddresses[0] == recipient (../sb/spank_chain_payment.sol#471)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#473)\n\t- Channels[_lcID].partyAddresses[1] == recipient (../sb/spank_chain_payment.sol#481)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balance),deposit: token transfer failure) (../sb/spank_chain_payment.sol#483)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "initVCstate",
+            "impact": "Low",
+            "line": 615,
+            "line_end": 657,
+            "message": "LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(Channels[_lcID].isOpen,LC is closed.) (../sb/spank_chain_payment.sol#627)\n\t- require(bool,string)(Channels[_lcID].updateLCtimeout < now,LC timeout not over.) (../sb/spank_chain_payment.sol#631)\n\t- require(bool)(_isContained(_initState,_proof,Channels[_lcID].VCrootHash) == true) (../sb/spank_chain_payment.sol#643)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "updateLCstate",
+            "impact": "Low",
+            "line": 550,
+            "line_end": 612,
+            "message": "LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(channel.isOpen) (../sb/spank_chain_payment.sol#560)\n\t- require(bool)(channel.sequence < updateParams[0]) (../sb/spank_chain_payment.sol#561)\n\t- require(bool)(channel.ethBalances[0] + channel.ethBalances[1] >= updateParams[2] + updateParams[3]) (../sb/spank_chain_payment.sol#562)\n\t- require(bool)(channel.erc20Balances[0] + channel.erc20Balances[1] >= updateParams[4] + updateParams[5]) (../sb/spank_chain_payment.sol#563)\n\t- require(bool)(channel.updateLCtimeout > now) (../sb/spank_chain_payment.sol#566)\n\t- require(bool)(channel.partyAddresses[0] == ECTools.recoverSigner(_state,_sigA)) (../sb/spank_chain_payment.sol#585)\n\t- require(bool)(channel.partyAddresses[1] == ECTools.recoverSigner(_state,_sigI)) (../sb/spank_chain_payment.sol#586)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Low",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(Channels[_lcID].isOpen == true) (../sb/spank_chain_payment.sol#506)\n\t- require(bool)(totalEthDeposit == _balances[0] + _balances[1]) (../sb/spank_chain_payment.sol#509)\n\t- require(bool)(totalTokenDeposit == _balances[2] + _balances[3]) (../sb/spank_chain_payment.sol#510)\n\t- require(bool)(Channels[_lcID].partyAddresses[0] == ECTools.recoverSigner(_state,_sigA)) (../sb/spank_chain_payment.sol#528)\n\t- require(bool)(Channels[_lcID].partyAddresses[1] == ECTools.recoverSigner(_state,_sigI)) (../sb/spank_chain_payment.sol#529)\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],_balances[2]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#539)\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[1],_balances[3]),happyCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#540)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "createChannel",
+            "impact": "Low",
+            "line": 380,
+            "line_end": 418,
+            "message": "LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(Channels[_lcID].partyAddresses[0] == address(0),Channel has already been created.) (../sb/spank_chain_payment.sol#390)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#406)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "Low",
+            "line": 756,
+            "line_end": 817,
+            "message": "LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(channel.isOpen,Channel is not open) (../sb/spank_chain_payment.sol#760)\n\t- require(bool)(channel.isUpdateLCSettling == true) (../sb/spank_chain_payment.sol#761)\n\t- require(bool)(channel.numOpenVC == 0) (../sb/spank_chain_payment.sol#762)\n\t- require(bool,string)(channel.updateLCtimeout < now,LC timeout over.) (../sb/spank_chain_payment.sol#763)\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[0],tokenbalanceA),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#803-806)\n\t- require(bool,string)(channel.token.transfer(channel.partyAddresses[1],tokenbalanceI),byzantineCloseChannel: token transfer failure) (../sb/spank_chain_payment.sol#807-810)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Low",
+            "line": 420,
+            "line_end": 437,
+            "message": "LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(msg.sender == Channels[_lcID].partyAddresses[0] && Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#421)\n\t- require(bool)(now > Channels[_lcID].LCopenTimeout) (../sb/spank_chain_payment.sol#422)\n\t- Channels[_lcID].initialDeposit[0] != 0 (../sb/spank_chain_payment.sol#424)\n\t- Channels[_lcID].initialDeposit[1] != 0 (../sb/spank_chain_payment.sol#428)\n\t- require(bool,string)(Channels[_lcID].token.transfer(Channels[_lcID].partyAddresses[0],Channels[_lcID].erc20Balances[0]),CreateChannel: token transfer failure) (../sb/spank_chain_payment.sol#430)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "closeVirtualChannel",
+            "impact": "Low",
+            "line": 725,
+            "line_end": 752,
+            "message": "LedgerChannel.closeVirtualChannel(bytes32,bytes32) (../sb/spank_chain_payment.sol#725-752) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(Channels[_lcID].isOpen,LC is closed.) (../sb/spank_chain_payment.sol#727)\n\t- require(bool,string)(virtualChannels[_vcID].updateVCtimeout < now,Update vc timeout has not elapsed.) (../sb/spank_chain_payment.sol#729)\n\t- virtualChannels[_vcID].partyA == Channels[_lcID].partyAddresses[0] (../sb/spank_chain_payment.sol#737)\n\t- virtualChannels[_vcID].partyB == Channels[_lcID].partyAddresses[0] (../sb/spank_chain_payment.sol#743)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "_isContained",
+            "impact": "Low",
+            "line": 819,
+            "line_end": 834,
+            "message": "LedgerChannel._isContained(bytes32,bytes,bytes32) (../sb/spank_chain_payment.sol#819-834) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- cursor == _root (../sb/spank_chain_payment.sol#833)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Low",
+            "line": 439,
+            "line_end": 460,
+            "message": "LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#441)\n\t- require(bool)(msg.sender == Channels[_lcID].partyAddresses[1]) (../sb/spank_chain_payment.sol#442)\n\t- require(bool,string)(Channels[_lcID].token.transferFrom(msg.sender,this,_balances[1]),joinChannel: token transfer failure) (../sb/spank_chain_payment.sol#449)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "_isContained",
+            "impact": "Informational",
+            "line": 819,
+            "line_end": 834,
+            "message": "LedgerChannel._isContained(bytes32,bytes,bytes32) (../sb/spank_chain_payment.sol#819-834) uses assembly\n\t- INLINE ASM (../sb/spank_chain_payment.sol#824-826)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "recoverSigner",
+            "impact": "Informational",
+            "line": 62,
+            "line_end": 88,
+            "message": "ECTools.recoverSigner(bytes32,string) (../sb/spank_chain_payment.sol#62-88) uses assembly\n\t- INLINE ASM (../sb/spank_chain_payment.sol#76-81)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "uintToBytes32",
+            "impact": "Informational",
+            "line": 132,
+            "line_end": 135,
+            "message": "ECTools.uintToBytes32(uint256) (../sb/spank_chain_payment.sol#132-135) uses assembly\n\t- INLINE ASM (../sb/spank_chain_payment.sol#134-135)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "initVCstate",
+            "impact": "Informational",
+            "line": 615,
+            "line_end": 657,
+            "message": "LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657) compares to a boolean constant:\n\t-require(bool)(_isContained(_initState,_proof,Channels[_lcID].VCrootHash) == true) (../sb/spank_chain_payment.sol#643)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 546,
+            "message": "LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546) compares to a boolean constant:\n\t-require(bool)(Channels[_lcID].isOpen == true) (../sb/spank_chain_payment.sol#506)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Informational",
+            "line": 420,
+            "line_end": 437,
+            "message": "LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437) compares to a boolean constant:\n\t-require(bool)(msg.sender == Channels[_lcID].partyAddresses[0] && Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#421)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "deposit",
+            "impact": "Informational",
+            "line": 465,
+            "line_end": 492,
+            "message": "LedgerChannel.deposit(bytes32,address,uint256,bool) (../sb/spank_chain_payment.sol#465-492) compares to a boolean constant:\n\t-require(bool,string)(Channels[_lcID].isOpen == true,Tried adding funds to a closed channel) (../sb/spank_chain_payment.sol#466)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Informational",
+            "line": 439,
+            "line_end": 460,
+            "message": "LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460) compares to a boolean constant:\n\t-require(bool)(Channels[_lcID].isOpen == false) (../sb/spank_chain_payment.sol#441)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "Informational",
+            "line": 756,
+            "line_end": 817,
+            "message": "LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817) compares to a boolean constant:\n\t-require(bool)(channel.isUpdateLCSettling == true) (../sb/spank_chain_payment.sol#761)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "updateLCstate",
+            "impact": "Informational",
+            "line": 550,
+            "line_end": 612,
+            "message": "LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612) compares to a boolean constant:\n\t-channel.isUpdateLCSettling == true (../sb/spank_chain_payment.sol#565)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 9,
+            "message": "Version constraint ^0.4.23 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData.\nIt is used by:\n\t- ^0.4.23 (../sb/spank_chain_payment.sol#9)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "HumanStandardToken",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "approveAndCall",
+            "impact": "Informational",
+            "line": 252,
+            "line_end": 261,
+            "message": "Low level call in HumanStandardToken.approveAndCall(address,uint256,bytes) (../sb/spank_chain_payment.sol#252-261):\n\t- require(bool)(_spender.call(bytes4(bytes32(keccak256()(receiveApproval(address,uint256,address,bytes)))),msg.sender,_value,this,_extraData)) (../sb/spank_chain_payment.sol#259)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter ECTools.recoverSigner(bytes32,string)._hashedMsg (../sb/spank_chain_payment.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 619,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._partyA (../sb/spank_chain_payment.sol#619) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 666,
+            "message": "Parameter LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string)._partyA (../sb/spank_chain_payment.sol#666) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 91,
+            "message": "Parameter ECTools.isSignedBy(bytes32,string,address)._addr (../sb/spank_chain_payment.sol#91) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 667,
+            "message": "Parameter LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string)._partyB (../sb/spank_chain_payment.sol#667) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Parameter LedgerChannel.joinChannel(bytes32,uint256[2])._lcID (../sb/spank_chain_payment.sol#439) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 621,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._bond (../sb/spank_chain_payment.sol#621) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 215,
+            "message": "Parameter StandardToken.allowance(address,address)._spender (../sb/spank_chain_payment.sol#215) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 209,
+            "message": "Parameter StandardToken.approve(address,uint256)._value (../sb/spank_chain_payment.sol#209) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 551,
+            "message": "Parameter LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string)._lcID (../sb/spank_chain_payment.sol#551) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 553,
+            "message": "Parameter LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string)._VCroot (../sb/spank_chain_payment.sol#553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 617,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._vcID (../sb/spank_chain_payment.sol#617) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 383,
+            "message": "Parameter LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2])._confirmTime (../sb/spank_chain_payment.sol#383) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 756,
+            "message": "Parameter LedgerChannel.byzantineCloseChannel(bytes32)._lcID (../sb/spank_chain_payment.sol#756) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 215,
+            "message": "Parameter StandardToken.allowance(address,address)._owner (../sb/spank_chain_payment.sol#215) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 182,
+            "message": "Parameter StandardToken.transfer(address,uint256)._value (../sb/spank_chain_payment.sol#182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 384,
+            "message": "Parameter LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2])._token (../sb/spank_chain_payment.sol#384) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Parameter HumanStandardToken.approveAndCall(address,uint256,bytes)._value (../sb/spank_chain_payment.sol#252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 139,
+            "message": "Parameter ECTools.toEthereumSignedMessage(string)._msg (../sb/spank_chain_payment.sol#139) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 465,
+            "message": "Parameter LedgerChannel.deposit(bytes32,address,uint256,bool)._balance (../sb/spank_chain_payment.sol#465) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 182,
+            "message": "Parameter StandardToken.transfer(address,uint256)._to (../sb/spank_chain_payment.sol#182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Parameter HumanStandardToken.approveAndCall(address,uint256,bytes)._extraData (../sb/spank_chain_payment.sol#252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 620,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._partyB (../sb/spank_chain_payment.sol#620) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 194,
+            "message": "Parameter StandardToken.transferFrom(address,address,uint256)._from (../sb/spank_chain_payment.sol#194) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 385,
+            "message": "Parameter LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2])._balances (../sb/spank_chain_payment.sol#385) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 167,
+            "message": "Parameter ECTools.substring(string,uint256,uint256)._str (../sb/spank_chain_payment.sol#167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 496,
+            "message": "Parameter LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string)._lcID (../sb/spank_chain_payment.sol#496) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 725,
+            "message": "Parameter LedgerChannel.closeVirtualChannel(bytes32,bytes32)._vcID (../sb/spank_chain_payment.sol#725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 194,
+            "message": "Parameter StandardToken.transferFrom(address,address,uint256)._to (../sb/spank_chain_payment.sol#194) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 378,
+            "message": "Variable LedgerChannel.Channels (../sb/spank_chain_payment.sol#378) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 465,
+            "message": "Parameter LedgerChannel.deposit(bytes32,address,uint256,bool)._lcID (../sb/spank_chain_payment.sol#465) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 147,
+            "message": "Parameter ECTools.uintToString(uint256)._uint (../sb/spank_chain_payment.sol#147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 209,
+            "message": "Parameter StandardToken.approve(address,uint256)._spender (../sb/spank_chain_payment.sol#209) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 500,
+            "message": "Parameter LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string)._sigI (../sb/spank_chain_payment.sol#500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 497,
+            "message": "Parameter LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string)._sequence (../sb/spank_chain_payment.sol#497) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 98,
+            "message": "Parameter ECTools.hexstrToBytes(string)._hexstr (../sb/spank_chain_payment.sol#98) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 498,
+            "message": "Parameter LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string)._balances (../sb/spank_chain_payment.sol#498) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 116,
+            "message": "Parameter ECTools.parseInt16Char(string)._char (../sb/spank_chain_payment.sol#116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 555,
+            "message": "Parameter LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string)._sigI (../sb/spank_chain_payment.sol#555) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 616,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._lcID (../sb/spank_chain_payment.sol#616) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 664,
+            "message": "Parameter LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string)._vcID (../sb/spank_chain_payment.sol#664) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 725,
+            "message": "Parameter LedgerChannel.closeVirtualChannel(bytes32,bytes32)._lcID (../sb/spank_chain_payment.sol#725) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 622,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._balances (../sb/spank_chain_payment.sol#622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 382,
+            "message": "Parameter LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2])._partyI (../sb/spank_chain_payment.sol#382) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Parameter HumanStandardToken.approveAndCall(address,uint256,bytes)._spender (../sb/spank_chain_payment.sol#252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 420,
+            "message": "Parameter LedgerChannel.LCOpenTimeout(bytes32)._lcID (../sb/spank_chain_payment.sol#420) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter ECTools.recoverSigner(bytes32,string)._sig (../sb/spank_chain_payment.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 439,
+            "message": "Parameter LedgerChannel.joinChannel(bytes32,uint256[2])._balances (../sb/spank_chain_payment.sol#439) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 167,
+            "message": "Parameter ECTools.substring(string,uint256,uint256)._endIndex (../sb/spank_chain_payment.sol#167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 91,
+            "message": "Parameter ECTools.isSignedBy(bytes32,string,address)._sig (../sb/spank_chain_payment.sol#91) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 194,
+            "message": "Parameter StandardToken.transferFrom(address,address,uint256)._value (../sb/spank_chain_payment.sol#194) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 91,
+            "message": "Parameter ECTools.isSignedBy(bytes32,string,address)._hashedMsg (../sb/spank_chain_payment.sol#91) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 205,
+            "message": "Parameter StandardToken.balanceOf(address)._owner (../sb/spank_chain_payment.sol#205) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string)._proof (../sb/spank_chain_payment.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 663,
+            "message": "Parameter LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string)._lcID (../sb/spank_chain_payment.sol#663) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 499,
+            "message": "Parameter LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string)._sigA (../sb/spank_chain_payment.sol#499) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 167,
+            "message": "Parameter ECTools.substring(string,uint256,uint256)._startIndex (../sb/spank_chain_payment.sol#167) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 554,
+            "message": "Parameter LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string)._sigA (../sb/spank_chain_payment.sol#554) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Informational",
+            "line": 381,
+            "message": "Parameter LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2])._lcID (../sb/spank_chain_payment.sol#381) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Informational",
+            "line": 420,
+            "line_end": 437,
+            "message": "Function LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "byzantineCloseChannel",
+            "impact": "Informational",
+            "line": 756,
+            "line_end": 817,
+            "message": "Reentrancy in LedgerChannel.byzantineCloseChannel(bytes32) (../sb/spank_chain_payment.sol#756-817):\n\tExternal calls:\n\t- channel.partyAddresses[0].transfer(ethbalanceA) (../sb/spank_chain_payment.sol#798)\n\t- channel.partyAddresses[1].transfer(ethbalanceI) (../sb/spank_chain_payment.sol#799)\n\tState variables written after the call(s):\n\t- channel.isOpen = false (../sb/spank_chain_payment.sol#813)\n\t- numChannels -- (../sb/spank_chain_payment.sol#814)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,channel.sequence,ethbalanceA,ethbalanceI,tokenbalanceA,tokenbalanceI) (../sb/spank_chain_payment.sol#816)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "LCOpenTimeout",
+            "impact": "Informational",
+            "line": 420,
+            "line_end": 437,
+            "message": "Reentrancy in LedgerChannel.LCOpenTimeout(bytes32) (../sb/spank_chain_payment.sol#420-437):\n\tExternal calls:\n\t- Channels[_lcID].partyAddresses[0].transfer(Channels[_lcID].ethBalances[0]) (../sb/spank_chain_payment.sol#426)\n\tState variables written after the call(s):\n\t- delete Channels[_lcID] (../sb/spank_chain_payment.sol#436)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,0,Channels[_lcID].ethBalances[0],Channels[_lcID].erc20Balances[0],0,0) (../sb/spank_chain_payment.sol#433)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 546,
+            "message": "Reentrancy in LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546):\n\tExternal calls:\n\t- Channels[_lcID].partyAddresses[0].transfer(_balances[0]) (../sb/spank_chain_payment.sol#534)\n\t- Channels[_lcID].partyAddresses[1].transfer(_balances[1]) (../sb/spank_chain_payment.sol#535)\n\tState variables written after the call(s):\n\t- numChannels -- (../sb/spank_chain_payment.sol#543)\n\tEvent emitted after the call(s):\n\t- DidLCClose(_lcID,_sequence,_balances[0],_balances[1],_balances[2],_balances[3]) (../sb/spank_chain_payment.sol#545)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "impact": "Optimization",
+            "line": 236,
+            "message": "HumanStandardToken.version (../sb/spank_chain_payment.sol#236) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "initVCstate",
+            "impact": "Optimization",
+            "line": 615,
+            "line_end": 657,
+            "message": "initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) should be declared external:\n\t- LedgerChannel.initVCstate(bytes32,bytes32,bytes,address,address,uint256[2],uint256[4],string) (../sb/spank_chain_payment.sol#615-657)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "consensusCloseChannel",
+            "impact": "Optimization",
+            "line": 495,
+            "line_end": 546,
+            "message": "consensusCloseChannel(bytes32,uint256,uint256[4],string,string) should be declared external:\n\t- LedgerChannel.consensusCloseChannel(bytes32,uint256,uint256[4],string,string) (../sb/spank_chain_payment.sol#495-546)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "isSignedBy",
+            "impact": "Optimization",
+            "line": 91,
+            "line_end": 95,
+            "message": "isSignedBy(bytes32,string,address) should be declared external:\n\t- ECTools.isSignedBy(bytes32,string,address) (../sb/spank_chain_payment.sol#91-95)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "settleVC",
+            "impact": "Optimization",
+            "line": 662,
+            "line_end": 723,
+            "message": "settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) should be declared external:\n\t- LedgerChannel.settleVC(bytes32,bytes32,uint256,address,address,uint256[4],string) (../sb/spank_chain_payment.sol#662-723)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECTools",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "toEthereumSignedMessage",
+            "impact": "Optimization",
+            "line": 139,
+            "line_end": 144,
+            "message": "toEthereumSignedMessage(string) should be declared external:\n\t- ECTools.toEthereumSignedMessage(string) (../sb/spank_chain_payment.sol#139-144)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "joinChannel",
+            "impact": "Optimization",
+            "line": 439,
+            "line_end": 460,
+            "message": "joinChannel(bytes32,uint256[2]) should be declared external:\n\t- LedgerChannel.joinChannel(bytes32,uint256[2]) (../sb/spank_chain_payment.sol#439-460)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "updateLCstate",
+            "impact": "Optimization",
+            "line": 550,
+            "line_end": 612,
+            "message": "updateLCstate(bytes32,uint256[6],bytes32,string,string) should be declared external:\n\t- LedgerChannel.updateLCstate(bytes32,uint256[6],bytes32,string,string) (../sb/spank_chain_payment.sol#550-612)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "LedgerChannel",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "createChannel",
+            "impact": "Optimization",
+            "line": 380,
+            "line_end": 418,
+            "message": "createChannel(bytes32,address,uint256,address,uint256[2]) should be declared external:\n\t- LedgerChannel.createChannel(bytes32,address,uint256,address,uint256[2]) (../sb/spank_chain_payment.sol#380-418)\n",
+            "name": "external-function"
+        },
+        {
+            "confidence": "High",
+            "contract": "HumanStandardToken",
+            "filename": "reentrancy\\spank_chain_payment.sol",
+            "function": "approveAndCall",
+            "impact": "Optimization",
+            "line": 252,
+            "line_end": 261,
+            "message": "approveAndCall(address,uint256,bytes) should be declared external:\n\t- HumanStandardToken.approveAndCall(address,uint256,bytes) (../sb/spank_chain_payment.sol#252-261)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

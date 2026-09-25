@@ -1,0 +1,53 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: burnSynth, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: mintSynth, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: syncSynth, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "5_Pools.sol",
+            "line": 183,
+            "line_end": 196,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        },
+        {
+            "filename": "5_Pools.sol",
+            "line": 243,
+            "line_end": 253,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        },
+        {
+            "filename": "5_Pools.sol",
+            "line": 243,
+            "line_end": 253,
+            "message": "Users are required to transfer assets in advance and minting token/liquidity/earning thus could be frontrun.\nRecommendation: Put asset transfering and token minting in the same function to keep atomicity.\nGPTScan code: front-running",
+            "name": "MWE-205: Front Running",
+            "severity": "high"
+        },
+        {
+            "filename": "5_Pools.sol",
+            "line": 255,
+            "line_end": 265,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=28, est_cost_usd=0.0142",
+        "static confirmation filtered LLM candidates: 8 before, 5 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

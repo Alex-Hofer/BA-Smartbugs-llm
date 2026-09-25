@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... on constantProduct(uint256 maturity)externalviewoverridereturns (uint112 x,uint112 y,uint112 z){ | ^",
+        "solc rejected 74_TimeswapPair.sol: Error: Expected ',' but got identifier --> /work/input/74_Timeswa ... on constantProduct(uint256 maturity)externalviewoverridereturns (uint112 x,uint112 y,uint112 z){ | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=6, est_cost_usd=0.0010",
+        "static confirmation filtered LLM candidates: 1 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

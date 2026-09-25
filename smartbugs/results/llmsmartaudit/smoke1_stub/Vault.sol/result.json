@@ -1,0 +1,22 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
+        "no report produced"
+    ],
+    "fails": [
+        "exception (openai.BadRequestError: Error code: 400 - {'error': {'message': 'The supported API model names are deepseek-v4-pro or deepseek-v4-flash, but you passed STUB.', 'type': 'invalid_request_error', 'param': None, 'code': 'invalid_request_error'}})",
+        "exception (tenacity.RetryError: RetryError[<Future at 0x7ff553bdcbe0 state=finished raised BadRequestError>])"
+    ],
+    "findings": [],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/STUB",
+        "categories checked: 0/41",
+        "context window: 16384 tokens, smallest completion budget: 13550"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

@@ -1,0 +1,38 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\auction.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\auction.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.15 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector.\nIt is used by:\n\t- ^0.4.15 (../sb/auction.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DosAuction",
+            "filename": "denial_of_service\\auction.sol",
+            "function": "bid",
+            "impact": "Informational",
+            "line": 15,
+            "line_end": 28,
+            "message": "Reentrancy in DosAuction.bid() (../sb/auction.sol#15-28):\n\tExternal calls:\n\t- require(bool)(currentFrontrunner.send(currentBid)) (../sb/auction.sol#23)\n\tState variables written after the call(s):\n\t- currentBid = msg.value (../sb/auction.sol#27)\n\t- currentFrontrunner = msg.sender (../sb/auction.sol#26)\n",
+            "name": "reentrancy-unlimited-gas"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

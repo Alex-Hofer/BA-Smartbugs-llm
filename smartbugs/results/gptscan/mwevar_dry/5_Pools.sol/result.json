@@ -1,0 +1,22 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "GPTScan reported success=false: no output produced",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected primary ... 38:8506: | 38 |  ... ss){return iVADER(VADER).UTILS();}} |                                         ^",
+        "solc rejected 5_Pools.sol: Error: Expected primary expression. --> /work/input/5_Pools.sol:38:8506: | 38 |  ... ss){return iVADER(VADER).UTILS();}} | ^"
+    ],
+    "fails": [
+        "exception (TypeError: 'NoneType' object is not subscriptable)",
+        "exception (UnboundLocalError: local variable 'match_flag' referenced before assignment)"
+    ],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/0xe894d54dca59cb53fe9cbc51 55093605c7068220.sol, current function: transfer, current vul: unauthorized-transfer",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=3, est_cost_usd=0.0004",
+        "static confirmation filtered LLM candidates: 1 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

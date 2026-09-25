@@ -1,0 +1,533 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "5_DAO.sol",
+            "impact": "Medium",
+            "line": 210,
+            "message": "DAO.newGrantProposal(address,uint256).grant (5_DAO.sol#210) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_DAO.sol",
+            "impact": "Low",
+            "line": 195,
+            "message": "DAO.init(address,address,address)._vader (5_DAO.sol#195) lacks a zero-check on :\n\t\t- VADER = _vader (5_DAO.sol#198)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_DAO.sol",
+            "impact": "Low",
+            "line": 195,
+            "message": "DAO.init(address,address,address)._vault (5_DAO.sol#195) lacks a zero-check on :\n\t\t- VAULT = _vault (5_DAO.sol#200)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_DAO.sol",
+            "impact": "Low",
+            "line": 195,
+            "message": "DAO.init(address,address,address)._usdv (5_DAO.sol#195) lacks a zero-check on :\n\t\t- USDV = _usdv (5_DAO.sol#199)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "moveRewardAddress",
+            "impact": "Low",
+            "line": 299,
+            "line_end": 304,
+            "message": "Reentrancy in DAO.moveRewardAddress(uint256) (5_DAO.sol#299-304):\n\tExternal calls:\n\t- iVADER(VADER).setRewardAddress(_proposedAddress) (5_DAO.sol#302)\n\tState variables written after the call(s):\n\t- completeProposal(_proposalID) (5_DAO.sol#303)\n\t\t- mapPID_finalised[_proposalID] = true (5_DAO.sol#280)\n\t- completeProposal(_proposalID) (5_DAO.sol#303)\n\t\t- mapPID_finalising[_proposalID] = false (5_DAO.sol#281)\n\t- completeProposal(_proposalID) (5_DAO.sol#303)\n\t\t- mapPID_votes[_proposalID] = 0 (5_DAO.sol#279)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "moveUtils",
+            "impact": "Low",
+            "line": 293,
+            "line_end": 298,
+            "message": "Reentrancy in DAO.moveUtils(uint256) (5_DAO.sol#293-298):\n\tExternal calls:\n\t- iVADER(VADER).changeUTILS(_proposedAddress) (5_DAO.sol#296)\n\tState variables written after the call(s):\n\t- completeProposal(_proposalID) (5_DAO.sol#297)\n\t\t- mapPID_finalised[_proposalID] = true (5_DAO.sol#280)\n\t- completeProposal(_proposalID) (5_DAO.sol#297)\n\t\t- mapPID_finalising[_proposalID] = false (5_DAO.sol#281)\n\t- completeProposal(_proposalID) (5_DAO.sol#297)\n\t\t- mapPID_votes[_proposalID] = 0 (5_DAO.sol#279)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "moveUtils",
+            "impact": "Low",
+            "line": 293,
+            "line_end": 298,
+            "message": "Reentrancy in DAO.moveUtils(uint256) (5_DAO.sol#293-298):\n\tExternal calls:\n\t- iVADER(VADER).changeUTILS(_proposedAddress) (5_DAO.sol#296)\n\tEvent emitted after the call(s):\n\t- FinalisedProposal(msg.sender,_proposalID,mapPID_votes[_proposalID],iVAULT(VAULT).totalWeight(),_typeStr) (5_DAO.sol#278)\n\t\t- completeProposal(_proposalID) (5_DAO.sol#297)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "moveRewardAddress",
+            "impact": "Low",
+            "line": 299,
+            "line_end": 304,
+            "message": "Reentrancy in DAO.moveRewardAddress(uint256) (5_DAO.sol#299-304):\n\tExternal calls:\n\t- iVADER(VADER).setRewardAddress(_proposedAddress) (5_DAO.sol#302)\n\tEvent emitted after the call(s):\n\t- FinalisedProposal(msg.sender,_proposalID,mapPID_votes[_proposalID],iVAULT(VAULT).totalWeight(),_typeStr) (5_DAO.sol#278)\n\t\t- completeProposal(_proposalID) (5_DAO.sol#303)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "finaliseProposal",
+            "impact": "Low",
+            "line": 260,
+            "line_end": 274,
+            "message": "DAO.finaliseProposal(uint256) (5_DAO.sol#260-274) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)((block.timestamp - mapPID_timeStart[proposalID]) > coolOffPeriod,Must be after cool off) (5_DAO.sol#261)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "finaliseProposal",
+            "impact": "Informational",
+            "line": 260,
+            "line_end": 274,
+            "message": "DAO.finaliseProposal(uint256) (5_DAO.sol#260-274) compares to a boolean constant:\n\t-require(bool,string)(mapPID_finalising[proposalID] == true,Must be finalising) (5_DAO.sol#262)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "voteProposal",
+            "impact": "Informational",
+            "line": 228,
+            "line_end": 241,
+            "message": "DAO.voteProposal(uint256) (5_DAO.sol#228-241) compares to a boolean constant:\n\t-hasQuorum(proposalID) && mapPID_finalising[proposalID] == false (5_DAO.sol#231)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "DAO",
+            "filename": "5_DAO.sol",
+            "function": "init",
+            "impact": "Informational",
+            "line": 195,
+            "line_end": 202,
+            "message": "DAO.init(address,address,address) (5_DAO.sol#195-202) compares to a boolean constant:\n\t-require(bool)(inited == false) (5_DAO.sol#196)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.3 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory.\nIt is used by:\n\t- 0.8.3 (5_DAO.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 58,
+            "message": "Parameter iUTILS.calcSwapSlip(uint256,uint256).X (5_DAO.sol#58) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).Y (5_DAO.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iVADER",
+            "filename": "5_DAO.sol",
+            "function": "DAO",
+            "impact": "Informational",
+            "line": 73,
+            "message": "Function iVADER.DAO() (5_DAO.sol#73) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 314,
+            "message": "Parameter DAO.hasMajority(uint256)._proposalID (5_DAO.sol#314) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).U (5_DAO.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 178,
+            "message": "Variable DAO.mapPID_type (5_DAO.sol#178) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 71,
+            "line_end": 87,
+            "message": "Contract iVADER (5_DAO.sol#71-87) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 170,
+            "message": "Variable DAO.VADER (5_DAO.sol#170) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 182,
+            "message": "Variable DAO.mapPID_finalised (5_DAO.sol#182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 293,
+            "message": "Parameter DAO.moveUtils(uint256)._proposalID (5_DAO.sol#293) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).T (5_DAO.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 116,
+            "line_end": 147,
+            "message": "Contract iROUTER (5_DAO.sol#116-147) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 93,
+            "line_end": 110,
+            "message": "Contract iVAULT (5_DAO.sol#93-110) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).B (5_DAO.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 195,
+            "message": "Parameter DAO.init(address,address,address)._vault (5_DAO.sol#195) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).A (5_DAO.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 180,
+            "message": "Variable DAO.mapPID_timeStart (5_DAO.sol#180) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 30,
+            "line_end": 65,
+            "message": "Contract iUTILS (5_DAO.sol#30-65) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 195,
+            "message": "Parameter DAO.init(address,address,address)._vader (5_DAO.sol#195) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 195,
+            "message": "Parameter DAO.init(address,address,address)._usdv (5_DAO.sol#195) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 132,
+            "message": "Parameter iROUTER.getVADERAmount(uint256).USDVAmount (5_DAO.sol#132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).X (5_DAO.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B1 (5_DAO.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B0 (5_DAO.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 307,
+            "message": "Parameter DAO.countMemberVotes(uint256)._proposalID (5_DAO.sol#307) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 181,
+            "message": "Variable DAO.mapPID_finalising (5_DAO.sol#181) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 171,
+            "message": "Variable DAO.USDV (5_DAO.sol#171) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).Y (5_DAO.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 183,
+            "message": "Variable DAO.mapPIDMember_votes (5_DAO.sol#183) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).T (5_DAO.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 276,
+            "message": "Parameter DAO.completeProposal(uint256)._proposalID (5_DAO.sol#276) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 286,
+            "message": "Parameter DAO.grantFunds(uint256)._proposalID (5_DAO.sol#286) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 175,
+            "message": "Variable DAO.mapPID_grant (5_DAO.sol#175) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 172,
+            "message": "Variable DAO.VAULT (5_DAO.sol#172) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 323,
+            "message": "Parameter DAO.hasQuorum(uint256)._proposalID (5_DAO.sol#323) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 179,
+            "message": "Variable DAO.mapPID_votes (5_DAO.sol#179) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iVADER",
+            "filename": "5_DAO.sol",
+            "function": "UTILS",
+            "impact": "Informational",
+            "line": 72,
+            "message": "Function iVADER.UTILS() (5_DAO.sol#72) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).B (5_DAO.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 332,
+            "message": "Parameter DAO.hasMinority(uint256)._proposalID (5_DAO.sol#332) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T0 (5_DAO.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T1 (5_DAO.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 299,
+            "message": "Parameter DAO.moveRewardAddress(uint256)._proposalID (5_DAO.sol#299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).P (5_DAO.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 176,
+            "message": "Variable DAO.mapPID_address (5_DAO.sol#176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).X (5_DAO.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).P (5_DAO.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 24,
+            "message": "Contract iERC20 (5_DAO.sol#9-24) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_DAO.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).B (5_DAO.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,228 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Medium",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) ignores return value by extra[3].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#75)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Medium",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) ignores return value by extra[0].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#69)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Puppet",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fallback",
+            "impact": "Medium",
+            "line": 99,
+            "line_end": 104,
+            "message": "Puppet.fallback() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#99-104) ignores return value by target[0].call.value(msg.value).gas(600000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#102)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Medium",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) ignores return value by extra[1].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#71)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Medium",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) ignores return value by extra[2].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#73)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "High",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "newPuppet",
+            "impact": "Low",
+            "line": 48,
+            "message": "Splitter.newPuppet().newPuppet (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#48) shadows:\n\t- Splitter.newPuppet() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#48-53) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Low",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) tries to limit the gas of an external call that controls implicit decoding\n\textra[0].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#69)\n\textra[1].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#71)\n\textra[2].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#73)\n\textra[3].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#75)\n",
+            "name": "return-bomb"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.23 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData.\nIt is used by:\n\t- ^0.4.23 (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 76,
+            "message": "Low level call in Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76):\n\t- extra[0].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#69)\n\t- extra[1].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#71)\n\t- extra[2].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#73)\n\t- extra[3].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#75)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Puppet",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fallback",
+            "impact": "Informational",
+            "line": 99,
+            "line_end": 104,
+            "message": "Low level call in Puppet.fallback() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#99-104):\n\t- target[0].call.value(msg.value).gas(600000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#102)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter Splitter.setExtra(uint256,address)._newExtra (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter Splitter.setExtra(uint256,address)._id (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) uses literals with too many digits:\n\t- extra[0].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#69)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) uses literals with too many digits:\n\t- extra[1].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#71)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) uses literals with too many digits:\n\t- extra[3].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#75)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Splitter",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fundPuppets",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 76,
+            "message": "Splitter.fundPuppets() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#65-76) uses literals with too many digits:\n\t- extra[2].call.value(_share).gas(800000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#73)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Puppet",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "function": "fallback",
+            "impact": "Informational",
+            "line": 99,
+            "line_end": 104,
+            "message": "Puppet.fallback() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#99-104) uses literals with too many digits:\n\t- target[0].call.value(msg.value).gas(600000)() (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#102)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Splitter._addy (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#14) is never used in Splitter (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#9-82)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Informational",
+            "line": 16,
+            "message": "Splitter._count (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#16) is never used in Splitter (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#9-82)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Optimization",
+            "line": 14,
+            "message": "Splitter._addy (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#14) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol",
+            "impact": "Optimization",
+            "line": 16,
+            "message": "Splitter._count (../sb/0xb0510d68f210b7db66e8c7c814f22680f2b8d1d6.sol#16) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

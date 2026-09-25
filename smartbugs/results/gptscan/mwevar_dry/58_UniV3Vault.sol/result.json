@@ -1,0 +1,18 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... mounts, bytes memory options)internaloverridereturns (uint256[] memory actualTokenAmounts){ | ^^^^^^",
+        "solc rejected 58_UniV3Vault.sol: Error: Expected ',' but got 'memory' --> /work/input/58_UniV3Vault. ... mounts, bytes memory options)internaloverridereturns (uint256[] memory actualTokenAmounts){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=9, est_cost_usd=0.0012",
+        "static confirmation filtered LLM candidates: 3 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

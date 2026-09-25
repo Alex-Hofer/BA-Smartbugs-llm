@@ -1,0 +1,29 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/58_UniV3Vault.sol, current function: _pullUniV3Nft, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... mounts, bytes memory options)internaloverridereturns (uint256[] memory actualTokenAmounts){ | ^^^^^^",
+        "solc rejected 58_UniV3Vault.sol: Error: Expected ',' but got 'memory' --> /work/input/58_UniV3Vault. ... mounts, bytes memory options)internaloverridereturns (uint256[] memory actualTokenAmounts){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "mwevariety\\58_UniV3Vault.sol",
+            "line": 94,
+            "line_end": 121,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 58_UniV3Vault.sol:86-93\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=6, est_cost_usd=0.0012"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,269 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "High",
+            "line": 45,
+            "line_end": 308,
+            "message": "BlackJack (../sb/blackjack.sol#45-308) contract sets array length with a user-controlled value:\n\t- games[msg.sender].houseCards.push(newCard) (../sb/blackjack.sol#149)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "High",
+            "line": 45,
+            "line_end": 308,
+            "message": "BlackJack (../sb/blackjack.sol#45-308) contract sets array length with a user-controlled value:\n\t- games[msg.sender].playerCards.push(Deck.deal(msg.sender,nextCard)) (../sb/blackjack.sol#135)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Deck",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "deal",
+            "impact": "High",
+            "line": 15,
+            "line_end": 22,
+            "message": "Deck.deal(address,uint8) (../sb/blackjack.sol#15-22) uses a weak PRNG: \"uint8(uint256(keccak256()(block.blockhash(b),player,cardNumber,timestamp)) % 52) (../sb/blackjack.sol#21)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "High",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "getPlayerCard",
+            "impact": "Medium",
+            "line": 266,
+            "line_end": 271,
+            "message": "BlackJack.getPlayerCard(uint8) (../sb/blackjack.sol#266-271) contains a tautology or contradiction:\n\t- id < 0 || id > games[msg.sender].playerCards.length (../sb/blackjack.sol#267)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "High",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "getHouseCard",
+            "impact": "Medium",
+            "line": 273,
+            "line_end": 278,
+            "message": "BlackJack.getHouseCard(uint8) (../sb/blackjack.sol#273-278) contains a tautology or contradiction:\n\t- id < 0 || id > games[msg.sender].houseCards.length (../sb/blackjack.sol#274)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 268,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#268):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 290,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#290):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Deprecated standard detected uint8(uint256(keccak256()(block.blockhash(b),player,cardNumber,timestamp)) % 52) (../sb/blackjack.sol#21):\n\t- Usage of \"block.blockhash()\" should be replaced with \"blockhash()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 183,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#183):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 240,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#240):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 223,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#223):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 186,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#186):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 236,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#236):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 70,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#70):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 170,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#170):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 106,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#106):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 102,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#102):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 275,
+            "message": "Deprecated standard detected THROW (../sb/blackjack.sol#275):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 8,
+            "message": "Version constraint ^0.4.9 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction.\nIt is used by:\n\t- ^0.4.9 (../sb/blackjack.sol#8)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Informational",
+            "line": 51,
+            "message": "Variable BlackJack.BLACKJACK (../sb/blackjack.sol#51) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "checkGameResult",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 247,
+            "message": "Reentrancy in BlackJack.checkGameResult(BlackJack.Game,bool) (../sb/blackjack.sol#159-247):\n\tExternal calls:\n\t- ! msg.sender.send(game.bet) (../sb/blackjack.sol#236)\n\tState variables written after the call(s):\n\t- games[msg.sender].state = GameState.Tie (../sb/blackjack.sol#237)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "checkGameResult",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 247,
+            "message": "Reentrancy in BlackJack.checkGameResult(BlackJack.Game,bool) (../sb/blackjack.sol#159-247):\n\tExternal calls:\n\t- ! msg.sender.send((game.bet * 5) / 2) (../sb/blackjack.sol#183)\n\t- ! msg.sender.send(game.bet * 2) (../sb/blackjack.sol#186)\n\tState variables written after the call(s):\n\t- games[msg.sender].state = GameState.Player (../sb/blackjack.sol#188)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "checkGameResult",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 247,
+            "message": "Reentrancy in BlackJack.checkGameResult(BlackJack.Game,bool) (../sb/blackjack.sol#159-247):\n\tExternal calls:\n\t- ! msg.sender.send(game.bet * 2) (../sb/blackjack.sol#240)\n\tState variables written after the call(s):\n\t- games[msg.sender].state = GameState.Player (../sb/blackjack.sol#241)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "checkGameResult",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 247,
+            "message": "Reentrancy in BlackJack.checkGameResult(BlackJack.Game,bool) (../sb/blackjack.sol#159-247):\n\tExternal calls:\n\t- ! msg.sender.send(game.bet * 2) (../sb/blackjack.sol#223)\n\tState variables written after the call(s):\n\t- games[msg.sender].state = GameState.Player (../sb/blackjack.sol#224)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BlackJack",
+            "filename": "bad_randomness\\blackjack.sol",
+            "function": "checkGameResult",
+            "impact": "Informational",
+            "line": 159,
+            "line_end": 247,
+            "message": "Reentrancy in BlackJack.checkGameResult(BlackJack.Game,bool) (../sb/blackjack.sol#159-247):\n\tExternal calls:\n\t- ! msg.sender.send(game.bet) (../sb/blackjack.sol#170)\n\tState variables written after the call(s):\n\t- games[msg.sender].state = GameState.Tie (../sb/blackjack.sol#171)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Optimization",
+            "line": 48,
+            "message": "BlackJack.minBet (../sb/blackjack.sol#48) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Optimization",
+            "line": 49,
+            "message": "BlackJack.maxBet (../sb/blackjack.sol#49) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\blackjack.sol",
+            "impact": "Optimization",
+            "line": 51,
+            "message": "BlackJack.BLACKJACK (../sb/blackjack.sol#51) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

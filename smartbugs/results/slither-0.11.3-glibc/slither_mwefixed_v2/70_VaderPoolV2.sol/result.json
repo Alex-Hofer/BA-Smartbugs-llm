@@ -1,0 +1,787 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mintFungible",
+            "impact": "High",
+            "line": 3207,
+            "line_end": 3258,
+            "message": "VaderPoolV2.mintFungible(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#3207-3258) uses arbitrary from in transferFrom: nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#3225)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_mint",
+            "impact": "High",
+            "line": 2216,
+            "line_end": 2270,
+            "message": "BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270) uses arbitrary from in transferFrom: foreignAsset.safeTransferFrom(from,address(this),foreignDeposit) (70_VaderPoolV2.sol#2228)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_mint",
+            "impact": "High",
+            "line": 2216,
+            "line_end": 2270,
+            "message": "BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270) uses arbitrary from in transferFrom: nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#2227)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mintSynth",
+            "impact": "High",
+            "line": 3049,
+            "line_end": 3090,
+            "message": "VaderPoolV2.mintSynth(IERC20,uint256,address,address) (70_VaderPoolV2.sol#3049-3090) uses arbitrary from in transferFrom: nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#3061)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mintFungible",
+            "impact": "High",
+            "line": 3207,
+            "line_end": 3258,
+            "message": "VaderPoolV2.mintFungible(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#3207-3258) uses arbitrary from in transferFrom: foreignAsset.safeTransferFrom(from,address(this),foreignDeposit) (70_VaderPoolV2.sol#3226)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_update",
+            "impact": "High",
+            "line": 2282,
+            "line_end": 2316,
+            "message": "BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316) uses a weak PRNG: \"blockTimestamp = uint32(block.timestamp % 2 ** 32) (70_VaderPoolV2.sol#2294)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "burn",
+            "impact": "High",
+            "line": 3161,
+            "line_end": 3192,
+            "message": "Reentrancy in VaderPoolV2.burn(uint256,address) (70_VaderPoolV2.sol#3161-3192):\n\tExternal calls:\n\t- (amountNative,amountForeign) = _burn(id,to) (70_VaderPoolV2.sol#3171)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (70_VaderPoolV2.sol#1233)\n\t\t- (success,returndata) = target.call{value: value}(data) (70_VaderPoolV2.sol#460)\n\t\t- nativeAsset.safeTransfer(to,amountNative) (70_VaderPoolV2.sol#1971)\n\t\t- foreignAsset.safeTransfer(to,amountForeign) (70_VaderPoolV2.sol#1972)\n\tExternal calls sending eth:\n\t- (amountNative,amountForeign) = _burn(id,to) (70_VaderPoolV2.sol#3171)\n\t\t- (success,returndata) = target.call{value: value}(data) (70_VaderPoolV2.sol#460)\n\tState variables written after the call(s):\n\t- delete positions[id] (70_VaderPoolV2.sol#3179)\n\tBasePoolV2.positions (70_VaderPoolV2.sol#1816) can be used in cross function reentrancies:\n\t- BasePoolV2._burn(uint256,address) (70_VaderPoolV2.sol#1940-1983)\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- VaderPoolV2.burn(uint256,address) (70_VaderPoolV2.sol#3161-3192)\n\t- BasePoolV2.positionForeignAsset(uint256) (70_VaderPoolV2.sol#1866-1873)\n\t- BasePoolV2.positions (70_VaderPoolV2.sol#1816)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2394)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2391)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- l /= pow2 (70_VaderPoolV2.sol#2387)\n\t- l * r (70_VaderPoolV2.sol#2398)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2397)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2390)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2393)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "calculateLiquidityUnits",
+            "impact": "Medium",
+            "line": 1406,
+            "line_end": 1430,
+            "message": "VaderMath.calculateLiquidityUnits(uint256,uint256,uint256,uint256,uint256) (70_VaderPoolV2.sol#1406-1430) performs a multiplication on the result of a division:\n\t- ((totalPoolUnits * poolUnitFactor) / denominator) * slip (70_VaderPoolV2.sol#1429)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2395)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2396)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 2380,
+            "line_end": 2399,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_VaderPoolV2.sol#2380-2399) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_VaderPoolV2.sol#2386)\n\t- r *= 2 - d * r (70_VaderPoolV2.sol#2392)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_burn",
+            "impact": "Medium",
+            "line": 1940,
+            "line_end": 1983,
+            "message": "Reentrancy in BasePoolV2._burn(uint256,address) (70_VaderPoolV2.sol#1940-1983):\n\tExternal calls:\n\t- nativeAsset.safeTransfer(to,amountNative) (70_VaderPoolV2.sol#1971)\n\t- foreignAsset.safeTransfer(to,amountForeign) (70_VaderPoolV2.sol#1972)\n\tState variables written after the call(s):\n\t- _update(foreignAsset,reserveNative - amountNative,reserveForeign - amountForeign,reserveNative,reserveForeign) (70_VaderPoolV2.sol#1974-1980)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_mint",
+            "impact": "Medium",
+            "line": 2216,
+            "line_end": 2270,
+            "message": "Reentrancy in BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270):\n\tExternal calls:\n\t- nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#2227)\n\t- foreignAsset.safeTransferFrom(from,address(this),foreignDeposit) (70_VaderPoolV2.sol#2228)\n\tState variables written after the call(s):\n\t- pair.totalSupply = totalLiquidityUnits + liquidity (70_VaderPoolV2.sol#2249)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n\t- _update(foreignAsset,reserveNative + nativeDeposit,reserveForeign + foreignDeposit,reserveNative,reserveForeign) (70_VaderPoolV2.sol#2260-2266)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mintFungible",
+            "impact": "Medium",
+            "line": 3207,
+            "line_end": 3258,
+            "message": "Reentrancy in VaderPoolV2.mintFungible(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#3207-3258):\n\tExternal calls:\n\t- nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#3225)\n\t- foreignAsset.safeTransferFrom(from,address(this),foreignDeposit) (70_VaderPoolV2.sol#3226)\n\tState variables written after the call(s):\n\t- pair.totalSupply = totalLiquidityUnits + liquidity (70_VaderPoolV2.sol#3245)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._burn(uint256,address) (70_VaderPoolV2.sol#1940-1983)\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- VaderPoolV2.cumulativePrices(IERC20) (70_VaderPoolV2.sol#2959-2999)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n\t- VaderPoolV2.setTokenSupport(IERC20,bool,uint256,uint256,address,address) (70_VaderPoolV2.sol#3338-3370)\n\t- _update(foreignAsset,reserveNative + nativeDeposit,reserveForeign + foreignDeposit,reserveNative,reserveForeign) (70_VaderPoolV2.sol#3247-3253)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._burn(uint256,address) (70_VaderPoolV2.sol#1940-1983)\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- VaderPoolV2.cumulativePrices(IERC20) (70_VaderPoolV2.sol#2959-2999)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n\t- VaderPoolV2.setTokenSupport(IERC20,bool,uint256,uint256,address,address) (70_VaderPoolV2.sol#3338-3370)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "burnFungible",
+            "impact": "Medium",
+            "line": 3271,
+            "line_end": 3319,
+            "message": "Reentrancy in VaderPoolV2.burnFungible(IERC20,uint256,address) (70_VaderPoolV2.sol#3271-3319):\n\tExternal calls:\n\t- IERC20(lp).safeTransferFrom(msg.sender,address(this),liquidity) (70_VaderPoolV2.sol#3288)\n\t- lp.burn(liquidity) (70_VaderPoolV2.sol#3289)\n\t- nativeAsset.safeTransfer(to,amountNative) (70_VaderPoolV2.sol#3307)\n\t- foreignAsset.safeTransfer(to,amountForeign) (70_VaderPoolV2.sol#3308)\n\tState variables written after the call(s):\n\t- _update(foreignAsset,reserveNative - amountNative,reserveForeign - amountForeign,reserveNative,reserveForeign) (70_VaderPoolV2.sol#3310-3316)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._burn(uint256,address) (70_VaderPoolV2.sol#1940-1983)\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- VaderPoolV2.cumulativePrices(IERC20) (70_VaderPoolV2.sol#2959-2999)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n\t- VaderPoolV2.setTokenSupport(IERC20,bool,uint256,uint256,address,address) (70_VaderPoolV2.sol#3338-3370)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 2116,
+            "line_end": 2193,
+            "message": "Reentrancy in BasePoolV2.swap(IERC20,uint256,uint256,address) (70_VaderPoolV2.sol#2116-2193):\n\tExternal calls:\n\t- _nativeAsset.safeTransfer(to,nativeAmountOut) (70_VaderPoolV2.sol#2159)\n\t- foreignAsset.safeTransfer(to,foreignAmountOut) (70_VaderPoolV2.sol#2170)\n\tState variables written after the call(s):\n\t- _update(foreignAsset,nativeReserve - nativeAmountOut + nativeAmountIn,foreignReserve - foreignAmountOut + foreignAmountIn,nativeReserve,foreignReserve) (70_VaderPoolV2.sol#2174-2180)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n\tBasePoolV2.pairInfo (70_VaderPoolV2.sol#1806) can be used in cross function reentrancies:\n\t- BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270)\n\t- BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316)\n\t- BasePoolV2.getReserves(IERC20) (70_VaderPoolV2.sol#1845-1860)\n\t- BasePoolV2.pairInfo (70_VaderPoolV2.sol#1806)\n\t- BasePoolV2.pairSupply(IERC20) (70_VaderPoolV2.sol#1875-1882)\n\t- BasePoolV2.rescue(IERC20) (70_VaderPoolV2.sol#2200-2207)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Medium",
+            "line": 2139,
+            "message": "BasePoolV2.swap(IERC20,uint256,uint256,address).nativeAmountOut (70_VaderPoolV2.sol#2139) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Medium",
+            "line": 2140,
+            "message": "BasePoolV2.swap(IERC20,uint256,uint256,address).foreignAmountOut (70_VaderPoolV2.sol#2140) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mintSynth",
+            "impact": "Low",
+            "line": 3049,
+            "line_end": 3090,
+            "message": "Reentrancy in VaderPoolV2.mintSynth(IERC20,uint256,address,address) (70_VaderPoolV2.sol#3049-3090):\n\tExternal calls:\n\t- nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#3061)\n\t- synth = synthFactory.createSynth(IERC20Extended(address(foreignAsset))) (70_VaderPoolV2.sol#3066-3068)\n\tState variables written after the call(s):\n\t- _update(foreignAsset,reserveNative + nativeDeposit,reserveForeign,reserveNative,reserveForeign) (70_VaderPoolV2.sol#3081-3087)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "burnFungible",
+            "impact": "Low",
+            "line": 3271,
+            "line_end": 3319,
+            "message": "Reentrancy in VaderPoolV2.burnFungible(IERC20,uint256,address) (70_VaderPoolV2.sol#3271-3319):\n\tExternal calls:\n\t- IERC20(lp).safeTransferFrom(msg.sender,address(this),liquidity) (70_VaderPoolV2.sol#3288)\n\t- lp.burn(liquidity) (70_VaderPoolV2.sol#3289)\n\tState variables written after the call(s):\n\t- pair.totalSupply = _totalSupply - liquidity (70_VaderPoolV2.sol#3305)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_mint",
+            "impact": "Low",
+            "line": 2216,
+            "line_end": 2270,
+            "message": "Reentrancy in BasePoolV2._mint(IERC20,uint256,uint256,address,address) (70_VaderPoolV2.sol#2216-2270):\n\tExternal calls:\n\t- nativeAsset.safeTransferFrom(from,address(this),nativeDeposit) (70_VaderPoolV2.sol#2227)\n\t- foreignAsset.safeTransferFrom(from,address(this),foreignDeposit) (70_VaderPoolV2.sol#2228)\n\tState variables written after the call(s):\n\t- _mint(to,id) (70_VaderPoolV2.sol#2250)\n\t\t- _balances[to] += 1 (70_VaderPoolV2.sol#933)\n\t- _mint(to,id) (70_VaderPoolV2.sol#2250)\n\t\t- _owners[tokenId] = to (70_VaderPoolV2.sol#934)\n\t- id = positionId ++ (70_VaderPoolV2.sol#2247)\n\t- positions[id] = Position(foreignAsset,block.timestamp,liquidity,nativeDeposit,foreignDeposit) (70_VaderPoolV2.sol#2252-2258)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "burnSynth",
+            "impact": "Low",
+            "line": 3102,
+            "line_end": 3142,
+            "message": "Reentrancy in VaderPoolV2.burnSynth(IERC20,uint256,address) (70_VaderPoolV2.sol#3102-3142):\n\tExternal calls:\n\t- IERC20(synth).safeTransferFrom(msg.sender,address(this),synthAmount) (70_VaderPoolV2.sol#3119)\n\t- synth.burn(synthAmount) (70_VaderPoolV2.sol#3120)\n\tState variables written after the call(s):\n\t- _update(foreignAsset,reserveNative - amountNative,reserveForeign,reserveNative,reserveForeign) (70_VaderPoolV2.sol#3133-3139)\n\t\t- pair.priceCumulative.nativeLast += uint256(UQ112x112.encode(reserveForeign).uqdiv(reserveNative)) * timeElapsed (70_VaderPoolV2.sol#2300-2304)\n\t\t- pair.priceCumulative.foreignLast += uint256(UQ112x112.encode(reserveNative).uqdiv(reserveForeign)) * timeElapsed (70_VaderPoolV2.sol#2305-2309)\n\t\t- pair.reserveNative = uint112(balanceNative) (70_VaderPoolV2.sol#2312)\n\t\t- pair.reserveForeign = uint112(balanceForeign) (70_VaderPoolV2.sol#2313)\n\t\t- pair.blockTimestampLast = blockTimestamp (70_VaderPoolV2.sol#2314)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "setTokenSupport",
+            "impact": "Low",
+            "line": 3338,
+            "line_end": 3370,
+            "message": "VaderPoolV2.setTokenSupport(IERC20,bool,uint256,uint256,address,address) (70_VaderPoolV2.sol#3338-3370) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(pair.reserveNative == 0 && pair.reserveForeign == 0,VaderPoolV2::supportToken: Cannot Unsupport Token w/ Liquidity) (70_VaderPoolV2.sol#3353-3356)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_min",
+            "impact": "Low",
+            "line": 3408,
+            "line_end": 3410,
+            "message": "VaderPoolV2._min(uint256,uint256) (70_VaderPoolV2.sol#3408-3410) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- a < b (70_VaderPoolV2.sol#3409)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_update",
+            "impact": "Low",
+            "line": 2282,
+            "line_end": 2316,
+            "message": "BasePoolV2._update(IERC20,uint256,uint256,uint112,uint112) (70_VaderPoolV2.sol#2282-2316) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed > 0 && reserveNative != 0 && reserveForeign != 0 (70_VaderPoolV2.sol#2298)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "VaderPoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "cumulativePrices",
+            "impact": "Low",
+            "line": 2959,
+            "line_end": 2999,
+            "message": "VaderPoolV2.cumulativePrices(IERC20) (70_VaderPoolV2.sol#2959-2999) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- blockTimestampLast < block.timestamp (70_VaderPoolV2.sol#2974)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 355,
+            "line_end": 365,
+            "message": "Address.isContract(address) (70_VaderPoolV2.sol#355-365) uses assembly\n\t- INLINE ASM (70_VaderPoolV2.sol#361-363)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 524,
+            "line_end": 544,
+            "message": "Address.verifyCallResult(bool,bytes,string) (70_VaderPoolV2.sol#524-544) uses assembly\n\t- INLINE ASM (70_VaderPoolV2.sol#536-539)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC721",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_checkOnERC721Received",
+            "impact": "Informational",
+            "line": 1014,
+            "line_end": 1035,
+            "message": "ERC721._checkOnERC721Received(address,address,uint256,bytes) (70_VaderPoolV2.sol#1014-1035) uses assembly\n\t- INLINE ASM (70_VaderPoolV2.sol#1027-1029)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 27,
+            "message": "Context._msgData() (70_VaderPoolV2.sol#25-27) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC721",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_safeMint",
+            "impact": "Informational",
+            "line": 903,
+            "line_end": 913,
+            "message": "ERC721._safeMint(address,uint256,bytes) (70_VaderPoolV2.sol#903-913) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC721",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "_safeMint",
+            "impact": "Informational",
+            "line": 895,
+            "line_end": 897,
+            "message": "ERC721._safeMint(address,uint256) (70_VaderPoolV2.sol#895-897) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.9 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation.\nIt is used by:\n\t- 0.8.9 (70_VaderPoolV2.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 480,
+            "line_end": 489,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (70_VaderPoolV2.sol#480-489):\n\t- (success,returndata) = target.staticcall(data) (70_VaderPoolV2.sol#487)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 383,
+            "line_end": 388,
+            "message": "Low level call in Address.sendValue(address,uint256) (70_VaderPoolV2.sol#383-388):\n\t- (success,None) = recipient.call{value: amount}() (70_VaderPoolV2.sol#386)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 507,
+            "line_end": 516,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (70_VaderPoolV2.sol#507-516):\n\t- (success,returndata) = target.delegatecall(data) (70_VaderPoolV2.sol#514)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 451,
+            "line_end": 462,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (70_VaderPoolV2.sol#451-462):\n\t- (success,returndata) = target.call{value: value}(data) (70_VaderPoolV2.sol#460)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3375,
+            "message": "Parameter VaderPoolV2.setGasThrottle(bool)._gasThrottleEnabled (70_VaderPoolV2.sol#3375) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3015,
+            "message": "Parameter VaderPoolV2.initialize(ILPWrapper,ISynthFactory,address)._router (70_VaderPoolV2.sol#3015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3323,
+            "message": "Parameter VaderPoolV2.setQueue(bool)._queueActive (70_VaderPoolV2.sol#3323) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 826,
+            "message": "Parameter ERC721.safeTransferFrom(address,address,uint256,bytes)._data (70_VaderPoolV2.sol#826) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 2573,
+            "line_end": 2575,
+            "message": "Struct FixedPoint.uq112x112 (70_VaderPoolV2.sol#2573-2575) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3013,
+            "message": "Parameter VaderPoolV2.initialize(ILPWrapper,ISynthFactory,address)._wrapper (70_VaderPoolV2.sol#3013) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 3014,
+            "message": "Parameter VaderPoolV2.initialize(ILPWrapper,ISynthFactory,address)._synthFactory (70_VaderPoolV2.sol#3014) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 2579,
+            "line_end": 2581,
+            "message": "Struct FixedPoint.uq144x112 (70_VaderPoolV2.sol#2579-2581) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 2481,
+            "line_end": 2513,
+            "message": "BitMath.mostSignificantBit(uint256) (70_VaderPoolV2.sol#2481-2513) uses literals with too many digits:\n\t- x >= 0x100000000 (70_VaderPoolV2.sol#2492)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedPoint",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 2570,
+            "line_end": 2757,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (70_VaderPoolV2.sol#2570-2757) uses literals with too many digits:\n\t- Q112 = 0x10000000000000000000000000000 (70_VaderPoolV2.sol#2584)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedPoint",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 2570,
+            "line_end": 2757,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (70_VaderPoolV2.sol#2570-2757) uses literals with too many digits:\n\t- Q224 = 0x100000000000000000000000000000000000000000000000000000000 (70_VaderPoolV2.sol#2585-2586)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 2429,
+            "line_end": 2471,
+            "message": "Babylonian.sqrt(uint256) (70_VaderPoolV2.sol#2429-2471) uses literals with too many digits:\n\t- xx >= 0x100000000 (70_VaderPoolV2.sol#2443)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 2481,
+            "line_end": 2513,
+            "message": "BitMath.mostSignificantBit(uint256) (70_VaderPoolV2.sol#2481-2513) uses literals with too many digits:\n\t- x >= 0x100000000000000000000000000000000 (70_VaderPoolV2.sol#2484)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 2429,
+            "line_end": 2471,
+            "message": "Babylonian.sqrt(uint256) (70_VaderPoolV2.sol#2429-2471) uses literals with too many digits:\n\t- xx >= 0x100000000000000000000000000000000 (70_VaderPoolV2.sol#2435)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 2429,
+            "line_end": 2471,
+            "message": "Babylonian.sqrt(uint256) (70_VaderPoolV2.sol#2429-2471) uses literals with too many digits:\n\t- xx >= 0x10000000000000000 (70_VaderPoolV2.sol#2439)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 2481,
+            "line_end": 2513,
+            "message": "BitMath.mostSignificantBit(uint256) (70_VaderPoolV2.sol#2481-2513) uses literals with too many digits:\n\t- x >= 0x10000000000000000 (70_VaderPoolV2.sol#2488)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "contract": "IBasePoolV2",
+            "filename": "70_VaderPoolV2.sol",
+            "function": "supported",
+            "impact": "Informational",
+            "line": 2922,
+            "line_end": 3411,
+            "message": "VaderPoolV2 (70_VaderPoolV2.sol#2922-3411) does not implement functions:\n\t- IBasePoolV2.supported(IERC20) (70_VaderPoolV2.sol#1671)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1328,
+            "message": "ProtocolConstants._VETH_ALLOCATION (70_VaderPoolV2.sol#1328) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1325,
+            "message": "ProtocolConstants._INITIAL_VADER_SUPPLY (70_VaderPoolV2.sol#1325) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1320,
+            "message": "ProtocolConstants._MAX_BASIS_POINTS (70_VaderPoolV2.sol#1320) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1334,
+            "message": "ProtocolConstants._ECOSYSTEM_GROWTH (70_VaderPoolV2.sol#1334) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1346,
+            "message": "ProtocolConstants._MAX_FEE_BASIS_POINTS (70_VaderPoolV2.sol#1346) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1343,
+            "message": "ProtocolConstants._INITIAL_EMISSION_CURVE (70_VaderPoolV2.sol#1343) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1365,
+            "message": "ProtocolConstants._MIN_SWAPS_EXECUTED (70_VaderPoolV2.sol#1365) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1331,
+            "message": "ProtocolConstants._TEAM_ALLOCATION (70_VaderPoolV2.sol#1331) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1359,
+            "line_end": 1360,
+            "message": "ProtocolConstants._BURN (70_VaderPoolV2.sol#1359-1360) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1371,
+            "message": "ProtocolConstants._QUEUE_SIZE (70_VaderPoolV2.sol#1371) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1351,
+            "message": "ProtocolConstants._VESTING_DURATION (70_VaderPoolV2.sol#1351) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1340,
+            "message": "ProtocolConstants._EMISSION_ERA (70_VaderPoolV2.sol#1340) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1382,
+            "message": "ProtocolConstants._GRANT_DELAY (70_VaderPoolV2.sol#1382) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1356,
+            "message": "ProtocolConstants._VADER_VETHER_CONVERSION_RATE (70_VaderPoolV2.sol#1356) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1376,
+            "line_end": 1377,
+            "message": "ProtocolConstants._FAST_GAS_ORACLE (70_VaderPoolV2.sol#1376-1377) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1337,
+            "message": "ProtocolConstants._GRANT_ALLOCATION (70_VaderPoolV2.sol#1337) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1368,
+            "message": "ProtocolConstants._DEFAULT_SWAPS_EXECUTED (70_VaderPoolV2.sol#1368) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_VaderPoolV2.sol",
+            "impact": "Informational",
+            "line": 1385,
+            "message": "ProtocolConstants._MAX_GRANT_BASIS_POINTS (70_VaderPoolV2.sol#1385) is never used in VaderPoolV2 (70_VaderPoolV2.sol#2922-3411)\n",
+            "name": "unused-state"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

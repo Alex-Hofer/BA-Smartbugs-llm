@@ -1,0 +1,289 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "sweepFees",
+            "impact": "High",
+            "line": 1228,
+            "line_end": 1244,
+            "message": "Swap.sweepFees(address[]) (../sb/44_Swap.sol#1228-1244) sends eth to arbitrary user\n\tDangerous calls:\n\t- feeRecipient.transfer(address(this).balance) (../sb/44_Swap.sol#1242)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "swapByQuote",
+            "impact": "High",
+            "line": 1091,
+            "line_end": 1171,
+            "message": "Swap.swapByQuote(address,uint256,address,uint256,address,address,bytes,uint256) (../sb/44_Swap.sol#1091-1171) sends eth to arbitrary user\n\tDangerous calls:\n\t- address(msg.sender).transfer(boughtETHAmount) (../sb/44_Swap.sol#1143)\n\t- address(msg.sender).transfer(toTransfer_scope_0) (../sb/44_Swap.sol#1158)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "44_Swap.sol",
+            "impact": "Medium",
+            "line": 1201,
+            "message": "Swap.fillZrxQuote(IERC20,address,bytes,uint256).erc20Delta (../sb/44_Swap.sol#1201) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "44_Swap.sol",
+            "impact": "Low",
+            "line": 1058,
+            "message": "Swap.setFeeRecipient(address).feeRecipient_ (../sb/44_Swap.sol#1058) lacks a zero-check on :\n\t\t- feeRecipient = feeRecipient_ (../sb/44_Swap.sol#1059)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "44_Swap.sol",
+            "impact": "Low",
+            "line": 1036,
+            "message": "Swap.constructor(address,address,uint256).feeRecipient_ (../sb/44_Swap.sol#1036) lacks a zero-check on :\n\t\t- feeRecipient = feeRecipient_ (../sb/44_Swap.sol#1039)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "sweepFees",
+            "impact": "Low",
+            "line": 1228,
+            "line_end": 1244,
+            "message": "Swap.sweepFees(address[]) (../sb/44_Swap.sol#1228-1244) has external calls inside a loop: balance = IERC20(tokens[i]).balanceOf(address(this)) (../sb/44_Swap.sol#1236)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "setFeeRecipient",
+            "impact": "Low",
+            "line": 1058,
+            "line_end": 1061,
+            "message": "Reentrancy in Swap.setFeeRecipient(address) (../sb/44_Swap.sol#1058-1061):\n\tExternal calls:\n\t- onlyTimelock() (../sb/44_Swap.sol#1058)\n\t\t- require(bool,string)(msg.sender == governor().timelock(),Only governor may call this function.) (../sb/44_Swap.sol#132-135)\n\tState variables written after the call(s):\n\t- feeRecipient = feeRecipient_ (../sb/44_Swap.sol#1059)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EmergencyPausable",
+            "filename": "44_Swap.sol",
+            "function": "pause",
+            "impact": "Low",
+            "line": 268,
+            "line_end": 270,
+            "message": "Reentrancy in EmergencyPausable.pause() (../sb/44_Swap.sol#268-270):\n\tExternal calls:\n\t- onlyTimelockOrEmergencyGovernance() (../sb/44_Swap.sol#268)\n\t\t- require(bool,string)(msg.sender == governor().emergencyGovernance() || msg.sender == governor().timelock(),Only emergency governor or governor may call this function.) (../sb/44_Swap.sol#150-154)\n\tState variables written after the call(s):\n\t- super._pause() (../sb/44_Swap.sol#269)\n\t\t- _paused = true (../sb/44_Swap.sol#240)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "setSwapFee",
+            "impact": "Low",
+            "line": 1048,
+            "line_end": 1052,
+            "message": "Reentrancy in Swap.setSwapFee(uint256) (../sb/44_Swap.sol#1048-1052):\n\tExternal calls:\n\t- onlyTimelock() (../sb/44_Swap.sol#1048)\n\t\t- require(bool,string)(msg.sender == governor().timelock(),Only governor may call this function.) (../sb/44_Swap.sol#132-135)\n\tState variables written after the call(s):\n\t- swapFee = swapFee_ (../sb/44_Swap.sol#1050)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EmergencyPausable",
+            "filename": "44_Swap.sol",
+            "function": "unpause",
+            "impact": "Low",
+            "line": 275,
+            "line_end": 277,
+            "message": "Reentrancy in EmergencyPausable.unpause() (../sb/44_Swap.sol#275-277):\n\tExternal calls:\n\t- onlyTimelockOrEmergencyGovernance() (../sb/44_Swap.sol#275)\n\t\t- require(bool,string)(msg.sender == governor().emergencyGovernance() || msg.sender == governor().timelock(),Only emergency governor or governor may call this function.) (../sb/44_Swap.sol#150-154)\n\tState variables written after the call(s):\n\t- super._unpause() (../sb/44_Swap.sol#276)\n\t\t- _paused = false (../sb/44_Swap.sol#252)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "setSwapFee",
+            "impact": "Low",
+            "line": 1048,
+            "line_end": 1052,
+            "message": "Reentrancy in Swap.setSwapFee(uint256) (../sb/44_Swap.sol#1048-1052):\n\tExternal calls:\n\t- onlyTimelock() (../sb/44_Swap.sol#1048)\n\t\t- require(bool,string)(msg.sender == governor().timelock(),Only governor may call this function.) (../sb/44_Swap.sol#132-135)\n\tEvent emitted after the call(s):\n\t- NewSwapFee(swapFee) (../sb/44_Swap.sol#1051)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "setFeeRecipient",
+            "impact": "Low",
+            "line": 1058,
+            "line_end": 1061,
+            "message": "Reentrancy in Swap.setFeeRecipient(address) (../sb/44_Swap.sol#1058-1061):\n\tExternal calls:\n\t- onlyTimelock() (../sb/44_Swap.sol#1058)\n\t\t- require(bool,string)(msg.sender == governor().timelock(),Only governor may call this function.) (../sb/44_Swap.sol#132-135)\n\tEvent emitted after the call(s):\n\t- NewFeeRecipient(feeRecipient) (../sb/44_Swap.sol#1060)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EmergencyPausable",
+            "filename": "44_Swap.sol",
+            "function": "unpause",
+            "impact": "Low",
+            "line": 275,
+            "line_end": 277,
+            "message": "Reentrancy in EmergencyPausable.unpause() (../sb/44_Swap.sol#275-277):\n\tExternal calls:\n\t- onlyTimelockOrEmergencyGovernance() (../sb/44_Swap.sol#275)\n\t\t- require(bool,string)(msg.sender == governor().emergencyGovernance() || msg.sender == governor().timelock(),Only emergency governor or governor may call this function.) (../sb/44_Swap.sol#150-154)\n\tEvent emitted after the call(s):\n\t- Unpaused(_msgSender()) (../sb/44_Swap.sol#253)\n\t\t- super._unpause() (../sb/44_Swap.sol#276)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EmergencyPausable",
+            "filename": "44_Swap.sol",
+            "function": "pause",
+            "impact": "Low",
+            "line": 268,
+            "line_end": 270,
+            "message": "Reentrancy in EmergencyPausable.pause() (../sb/44_Swap.sol#268-270):\n\tExternal calls:\n\t- onlyTimelockOrEmergencyGovernance() (../sb/44_Swap.sol#268)\n\t\t- require(bool,string)(msg.sender == governor().emergencyGovernance() || msg.sender == governor().timelock(),Only emergency governor or governor may call this function.) (../sb/44_Swap.sol#150-154)\n\tEvent emitted after the call(s):\n\t- Paused(_msgSender()) (../sb/44_Swap.sol#241)\n\t\t- super._pause() (../sb/44_Swap.sol#269)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "swapByQuote",
+            "impact": "Low",
+            "line": 1091,
+            "line_end": 1171,
+            "message": "Swap.swapByQuote(address,uint256,address,uint256,address,address,bytes,uint256) (../sb/44_Swap.sol#1091-1171) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp <= deadline,Swap::swapByQuote: Deadline exceeded) (../sb/44_Swap.sol#1101-1104)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 473,
+            "line_end": 483,
+            "message": "Address.isContract(address) (../sb/44_Swap.sol#473-483) uses assembly\n\t- INLINE ASM (../sb/44_Swap.sol#479-481)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 642,
+            "line_end": 662,
+            "message": "Address.verifyCallResult(bool,bytes,string) (../sb/44_Swap.sol#642-662) uses assembly\n\t- INLINE ASM (../sb/44_Swap.sol#654-657)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "44_Swap.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 27,
+            "message": "Context._msgData() (../sb/44_Swap.sol#25-27) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 569,
+            "line_end": 580,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../sb/44_Swap.sol#569-580):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/44_Swap.sol#578)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 598,
+            "line_end": 607,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../sb/44_Swap.sol#598-607):\n\t- (success,returndata) = target.staticcall(data) (../sb/44_Swap.sol#605)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "fillZrxQuote",
+            "impact": "Informational",
+            "line": 1185,
+            "line_end": 1210,
+            "message": "Low level call in Swap.fillZrxQuote(IERC20,address,bytes,uint256) (../sb/44_Swap.sol#1185-1210):\n\t- (success,None) = zrxTo.call{value: ethAmount}(zrxData) (../sb/44_Swap.sol#1197)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 501,
+            "line_end": 506,
+            "message": "Low level call in Address.sendValue(address,uint256) (../sb/44_Swap.sol#501-506):\n\t- (success,None) = recipient.call{value: amount}() (../sb/44_Swap.sol#504)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "44_Swap.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 625,
+            "line_end": 634,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../sb/44_Swap.sol#625-634):\n\t- (success,returndata) = target.delegatecall(data) (../sb/44_Swap.sol#632)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "sweepFees",
+            "impact": "Informational",
+            "line": 1228,
+            "line_end": 1244,
+            "message": "Reentrancy in Swap.sweepFees(address[]) (../sb/44_Swap.sol#1228-1244):\n\tExternal calls:\n\t- feeRecipient.transfer(address(this).balance) (../sb/44_Swap.sol#1242)\n\tEvent emitted after the call(s):\n\t- FeesSwept(address(0),address(this).balance,feeRecipient) (../sb/44_Swap.sol#1243)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "swapByQuote",
+            "impact": "Informational",
+            "line": 1091,
+            "line_end": 1171,
+            "message": "Reentrancy in Swap.swapByQuote(address,uint256,address,uint256,address,address,bytes,uint256) (../sb/44_Swap.sol#1091-1171):\n\tExternal calls:\n\t- address(msg.sender).transfer(toTransfer_scope_0) (../sb/44_Swap.sol#1158)\n\tExternal calls sending eth:\n\t- (boughtERC20Amount,boughtETHAmount) = fillZrxQuote(IERC20(zrxBuyTokenAddress),zrxTo,zrxData,msg.value) (../sb/44_Swap.sol#1120-1125)\n\t\t- (success,None) = zrxTo.call{value: ethAmount}(zrxData) (../sb/44_Swap.sol#1197)\n\t- address(msg.sender).transfer(toTransfer_scope_0) (../sb/44_Swap.sol#1158)\n\tEvent emitted after the call(s):\n\t- SwappedTokens(zrxSellTokenAddress,zrxBuyTokenAddress,amountToSell,boughtETHAmount,boughtETHAmount.sub(toTransfer_scope_0)) (../sb/44_Swap.sol#1159-1165)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Swap",
+            "filename": "44_Swap.sol",
+            "function": "swapByQuote",
+            "impact": "Informational",
+            "line": 1091,
+            "line_end": 1171,
+            "message": "Reentrancy in Swap.swapByQuote(address,uint256,address,uint256,address,address,bytes,uint256) (../sb/44_Swap.sol#1091-1171):\n\tExternal calls:\n\t- address(msg.sender).transfer(boughtETHAmount) (../sb/44_Swap.sol#1143)\n\tExternal calls sending eth:\n\t- (boughtERC20Amount,boughtETHAmount) = fillZrxQuote(IERC20(zrxBuyTokenAddress),zrxTo,zrxData,msg.value) (../sb/44_Swap.sol#1120-1125)\n\t\t- (success,None) = zrxTo.call{value: ethAmount}(zrxData) (../sb/44_Swap.sol#1197)\n\t- address(msg.sender).transfer(boughtETHAmount) (../sb/44_Swap.sol#1143)\n\tEvent emitted after the call(s):\n\t- SwappedTokens(zrxSellTokenAddress,zrxBuyTokenAddress,amountToSell,boughtERC20Amount,boughtERC20Amount.sub(toTransfer)) (../sb/44_Swap.sol#1145-1151)\n",
+            "name": "reentrancy-unlimited-gas"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

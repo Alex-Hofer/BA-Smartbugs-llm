@@ -1,0 +1,193 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "High",
+            "line": 10,
+            "line_end": 124,
+            "message": "Government (../sb/list_dos.sol#10-124) contract sets array length with a user-controlled value:\n\t- creditorAmounts.push(amount * 110 / 100) (../sb/list_dos.sol#59)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "High",
+            "line": 10,
+            "line_end": 124,
+            "message": "Government (../sb/list_dos.sol#10-124) contract sets array length with a user-controlled value:\n\t- creditorAddresses.push(msg.sender) (../sb/list_dos.sol#58)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by corruptElite.send(this.balance) (../sb/list_dos.sol#40)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by msg.sender.send(amount) (../sb/list_dos.sol#82)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by creditorAddresses[creditorAddresses.length - 1].send(profitFromCrash) (../sb/list_dos.sol#39)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by buddy.send(amount * 5 / 100) (../sb/list_dos.sol#70)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by msg.sender.send(amount) (../sb/list_dos.sol#37)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by creditorAddresses[lastCreditorPayedOut].send(creditorAmounts[lastCreditorPayedOut]) (../sb/list_dos.sol#75)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Medium",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) ignores return value by corruptElite.send(amount * 5 / 100) (../sb/list_dos.sol#62)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "Low",
+            "line": 111,
+            "message": "Government.inheritToNextGeneration(address).nextGeneration (../sb/list_dos.sol#111) lacks a zero-check on :\n\t\t- corruptElite = nextGeneration (../sb/list_dos.sol#113)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Low",
+            "line": 31,
+            "line_end": 86,
+            "message": "Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastTimeOfNewCredit + TWELVE_HOURS < block.timestamp (../sb/list_dos.sol#35)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "Informational",
+            "line": 8,
+            "message": "Version constraint ^0.4.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction\n\t- IdentityPrecompileReturnIgnored\n\t- HighOrderByteCleanStorage\n\t- OptimizerStaleKnowledgeAboutSHA3\n\t- LibrariesNotCallableFromPayableFunctions.\nIt is used by:\n\t- ^0.4.0 (../sb/list_dos.sol#8)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 86,
+            "message": "Reentrancy in Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86):\n\tExternal calls:\n\t- corruptElite.send(amount * 5 / 100) (../sb/list_dos.sol#62)\n\t- buddy.send(amount * 5 / 100) (../sb/list_dos.sol#70)\n\tState variables written after the call(s):\n\t- buddies[msg.sender] += amount * 110 / 100 (../sb/list_dos.sol#72)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 86,
+            "message": "Reentrancy in Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86):\n\tExternal calls:\n\t- corruptElite.send(amount * 5 / 100) (../sb/list_dos.sol#62)\n\tState variables written after the call(s):\n\t- profitFromCrash += amount * 5 / 100 (../sb/list_dos.sol#65)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 86,
+            "message": "Reentrancy in Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86):\n\tExternal calls:\n\t- msg.sender.send(amount) (../sb/list_dos.sol#37)\n\t- creditorAddresses[creditorAddresses.length - 1].send(profitFromCrash) (../sb/list_dos.sol#39)\n\t- corruptElite.send(this.balance) (../sb/list_dos.sol#40)\n\tState variables written after the call(s):\n\t- creditorAddresses = new address[](0) (../sb/list_dos.sol#46)\n\t- creditorAmounts = new uint256[](0) (../sb/list_dos.sol#48)\n\t- lastCreditorPayedOut = 0 (../sb/list_dos.sol#42)\n\t- lastTimeOfNewCredit = block.timestamp (../sb/list_dos.sol#43)\n\t- profitFromCrash = 0 (../sb/list_dos.sol#44)\n\t- round += 1 (../sb/list_dos.sol#49)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Government",
+            "filename": "denial_of_service\\list_dos.sol",
+            "function": "lendGovernmentMoney",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 86,
+            "message": "Reentrancy in Government.lendGovernmentMoney(address) (../sb/list_dos.sol#31-86):\n\tExternal calls:\n\t- corruptElite.send(amount * 5 / 100) (../sb/list_dos.sol#62)\n\t- buddy.send(amount * 5 / 100) (../sb/list_dos.sol#70)\n\t- creditorAddresses[lastCreditorPayedOut].send(creditorAmounts[lastCreditorPayedOut]) (../sb/list_dos.sol#75)\n\tState variables written after the call(s):\n\t- buddies[creditorAddresses[lastCreditorPayedOut]] -= creditorAmounts[lastCreditorPayedOut] (../sb/list_dos.sol#76)\n\t- lastCreditorPayedOut += 1 (../sb/list_dos.sol#77)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\list_dos.sol",
+            "impact": "Optimization",
+            "line": 94,
+            "message": "Loop condition i < creditorAmounts.length (../sb/list_dos.sol#94) should use cached array length instead of referencing `length` member of the storage array.\n ",
+            "name": "cache-array-length"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

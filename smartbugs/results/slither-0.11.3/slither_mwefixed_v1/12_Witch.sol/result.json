@@ -1,0 +1,67 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Witch",
+            "filename": "12_Witch.sol",
+            "function": "buy",
+            "impact": "Medium",
+            "line": 619,
+            "line_end": 648,
+            "message": "Reentrancy in Witch.buy(bytes12,uint128,uint128) (../sb/12_Witch.sol#619-648):\n\tExternal calls:\n\t- ladle.settle(vaultId,msg.sender,ink.u128(),art) (../sb/12_Witch.sol#641)\n\t- cauldron.give(vaultId,vaultOwners[vaultId]) (../sb/12_Witch.sol#643)\n\tState variables written after the call(s):\n\t- delete vaultOwners[vaultId] (../sb/12_Witch.sol#644)\n\tWitch.vaultOwners (../sb/12_Witch.sol#591) can be used in cross function reentrancies:\n\t- Witch.buy(bytes12,uint128,uint128) (../sb/12_Witch.sol#619-648)\n\t- Witch.grab(bytes12) (../sb/12_Witch.sol#612-616)\n\t- Witch.vaultOwners (../sb/12_Witch.sol#591)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Witch",
+            "filename": "12_Witch.sol",
+            "function": "buy",
+            "impact": "Medium",
+            "line": 619,
+            "line_end": 648,
+            "message": "Witch.buy(bytes12,uint128,uint128) (../sb/12_Witch.sol#619-648) ignores return value by cauldron.give(vaultId,vaultOwners[vaultId]) (../sb/12_Witch.sol#643)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Witch",
+            "filename": "12_Witch.sol",
+            "function": "buy",
+            "impact": "Low",
+            "line": 619,
+            "line_end": 648,
+            "message": "Reentrancy in Witch.buy(bytes12,uint128,uint128) (../sb/12_Witch.sol#619-648):\n\tExternal calls:\n\t- ladle.settle(vaultId,msg.sender,ink.u128(),art) (../sb/12_Witch.sol#641)\n\t- cauldron.give(vaultId,vaultOwners[vaultId]) (../sb/12_Witch.sol#643)\n\tEvent emitted after the call(s):\n\t- Bought(vaultId,msg.sender,ink,art) (../sb/12_Witch.sol#647)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Witch",
+            "filename": "12_Witch.sol",
+            "function": "buy",
+            "impact": "Low",
+            "line": 619,
+            "line_end": 648,
+            "message": "Witch.buy(bytes12,uint128,uint128) (../sb/12_Witch.sol#619-648) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(ink >= min,Not enough bought) (../sb/12_Witch.sol#639)\n\t- auctionTime_ < elapsed (../sb/12_Witch.sol#633)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Witch",
+            "filename": "12_Witch.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 576,
+            "line_end": 649,
+            "message": "Witch.slitherConstructorConstantVariables() (../sb/12_Witch.sol#576-649) uses literals with too many digits:\n\t- ROOT = 0x00000000 (../sb/12_Witch.sol#52)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

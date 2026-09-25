@@ -1,0 +1,61 @@
+{
+    "debug": {
+        "sb_bin_log": [
+            "slither /sb/dos_number.sol --json /output.json"
+        ]
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/dos_number.sol' '600' '/sb/bin'",
+        "image": "smartbugs/slither:0.11.3",
+        "network": "none",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmph0_oe33x": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "denial_of_service\\dos_number.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": -2704356832373290027,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": -2875669900658002768,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 1.215674877166748,
+        "exit_code": 255,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1783334681.1847663
+    },
+    "runid": "curated_slither_v1_20260705",
+    "solc": "0.4.26",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN'",
+        "env": null,
+        "id": "slither-0.11.3",
+        "image": "smartbugs/slither:0.11.3",
+        "info": "Slither is a Solidity static analysis framework written in Python 3. It runs a suite of vulnerability detectors and prints visual information about contract details. Slither enables developers to find vulnerabilities, enhance their code comphrehension, and quickly prototype custom analyses.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "Slither",
+        "network": null,
+        "origin": "https://github.com/crytic/slither",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "0.11.3"
+    }
+}

@@ -1,0 +1,44 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/29_HybridPool.sol, current function: _mint, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\29_HybridPool.sol",
+            "line": 464,
+            "line_end": 487,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\29_HybridPool.sol",
+            "line": 491,
+            "line_end": 524,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\29_HybridPool.sol",
+            "line": 491,
+            "line_end": 524,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=31, est_cost_usd=0.0143",
+        "static confirmation filtered LLM candidates: 6 before, 5 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

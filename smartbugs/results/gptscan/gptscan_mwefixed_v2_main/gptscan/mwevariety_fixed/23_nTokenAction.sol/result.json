@@ -1,0 +1,20 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getHaircutCashClaims, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getNTokenAssetPV, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=80, est_cost_usd=0.0143",
+        "static confirmation filtered LLM candidates: 5 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

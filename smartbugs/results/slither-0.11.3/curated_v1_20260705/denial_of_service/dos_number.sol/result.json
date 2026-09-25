@@ -1,0 +1,38 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "DosNumber",
+            "filename": "denial_of_service\\dos_number.sol",
+            "function": "insertNnumbers",
+            "impact": "Informational",
+            "line": 14,
+            "line_end": 24,
+            "message": "DosNumber.insertNnumbers(uint256,uint256) (../sb/dos_number.sol#14-24) has costly operations inside a loop:\n\t- array[numElements ++] = value (../sb/dos_number.sol#22)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\dos_number.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.25 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x.\nIt is used by:\n\t- ^0.4.25 (../sb/dos_number.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "denial_of_service\\dos_number.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

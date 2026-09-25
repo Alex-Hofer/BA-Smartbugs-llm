@@ -1,0 +1,51 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _burn, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _getAddedBaseAmount, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _getAddedTokenAmount, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: _mint, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: addForMember, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: mintSynth, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/20_Pool.sol, current function: removeForMember, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... ption: The description of variable did not pass the `validate_description` validation call_arg_check",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\20_Pool.sol",
+            "line": 285,
+            "line_end": 291,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nAlso affects: 20_Pool.sol:321-331\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\20_Pool.sol",
+            "line": 321,
+            "line_end": 331,
+            "message": "No slippage limit check was performed to prevent sandwich attacks.\nRecommendation: Add slippage limit check when do liquidity-related operations.\nGPTScan code: no-slippage-limit-check",
+            "name": "MWE-206: No Slippage Limit Check",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\20_Pool.sol",
+            "line": 358,
+            "line_end": 371,
+            "message": "Users are required to transfer assets in advance and minting token/liquidity/earning thus could be frontrun.\nRecommendation: Put asset transfering and token minting in the same function to keep atomicity.\nGPTScan code: front-running",
+            "name": "MWE-205: Front Running",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=48, est_cost_usd=0.0100",
+        "static confirmation filtered LLM candidates: 11 before, 3 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

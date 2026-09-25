@@ -1,0 +1,21 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "GPTScan reported success=false: no output produced",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected type na ... 20:2784: | 20 |  ... 8 - places);return amount * bump;}} |                                         ^",
+        "solc rejected 78_FlanBackstop.sol: Error: Expected type name --> /work/input/78_FlanBackstop.sol:20:2784 : | 20 |  ... 8 - places);return amount * bump;}} | ^"
+    ],
+    "fails": [
+        "exception (UnboundLocalError: local variable 'match_flag' referenced before assignment)"
+    ],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

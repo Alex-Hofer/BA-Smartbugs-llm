@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... icoverridereturns (uint256[] memory pastLiquidityWeights,uint256 pastTotalLiquidityWeight){ | ^^^^^^",
+        "solc rejected 70_LiquidityBasedTWAP.sol: Error: Expected ',' but got 'memory' --> /work/input/70_Liq ... icoverridereturns (uint256[] memory pastLiquidityWeights,uint256 pastTotalLiquidityWeight){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=41, est_cost_usd=0.0051",
+        "static confirmation filtered LLM candidates: 15 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

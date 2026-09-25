@@ -1,0 +1,54 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "5_DAO.sol",
+            "line": 228,
+            "line_end": 241,
+            "message": "Calculating vote amount can be manipulated to cause flashloan attacks.\nRecommendation: In vote calculation, add a check for tokens that may come from a flash loan.\nGPTScan code: insecure-vote-calculation",
+            "name": "MWE-201: Insecure Vote Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "5_DAO.sol",
+            "line": 307,
+            "line_end": 312,
+            "message": "Calculating vote amount can be manipulated to cause flashloan attacks.\nRecommendation: In vote calculation, add a check for tokens that may come from a flash loan.\nGPTScan code: insecure-vote-calculation",
+            "name": "MWE-201: Insecure Vote Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "5_DAO.sol",
+            "line": 314,
+            "line_end": 322,
+            "message": "Calculating vote amount can be manipulated to cause flashloan attacks.\nRecommendation: In vote calculation, add a check for tokens that may come from a flash loan.\nGPTScan code: insecure-vote-calculation",
+            "name": "MWE-201: Insecure Vote Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "5_DAO.sol",
+            "line": 323,
+            "line_end": 331,
+            "message": "Calculating vote amount can be manipulated to cause flashloan attacks.\nRecommendation: In vote calculation, add a check for tokens that may come from a flash loan.\nGPTScan code: insecure-vote-calculation",
+            "name": "MWE-201: Insecure Vote Calculation",
+            "severity": "high"
+        },
+        {
+            "filename": "5_DAO.sol",
+            "line": 332,
+            "line_end": 340,
+            "message": "Calculating vote amount can be manipulated to cause flashloan attacks.\nRecommendation: In vote calculation, add a check for tokens that may come from a flash loan.\nAlso affects: 5_DAO.sol:251-257\nGPTScan code: insecure-vote-calculation",
+            "name": "MWE-201: Insecure Vote Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=36, est_cost_usd=0.0138"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

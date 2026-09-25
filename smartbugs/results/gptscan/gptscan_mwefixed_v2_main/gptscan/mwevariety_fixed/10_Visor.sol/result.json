@@ -1,0 +1,30 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\10_Visor.sol",
+            "line": 2059,
+            "line_end": 2080,
+            "message": "Approval is not revoked or reset after the code functionality finishes.\nRecommendation: Try to remove the approval after the code finishes its job.\nGPTScan code: approval-not-clear",
+            "name": "MWE-203: Approval Not Revoked",
+            "severity": "high"
+        },
+        {
+            "filename": "gptscan/mwevariety_fixed\\10_Visor.sol",
+            "line": 2112,
+            "line_end": 2133,
+            "message": "Approval is not revoked or reset after the code functionality finishes.\nRecommendation: Try to remove the approval after the code finishes its job.\nGPTScan code: approval-not-clear",
+            "name": "MWE-203: Approval Not Revoked",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=9, est_cost_usd=0.0010"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

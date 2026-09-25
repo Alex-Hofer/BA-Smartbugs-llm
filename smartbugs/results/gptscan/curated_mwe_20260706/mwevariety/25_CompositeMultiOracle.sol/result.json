@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Function, variab ... l:8:3835: | 8 |  ... ;emit PathSet(base, quote, path);}} |                                         ^",
+        "solc rejected 25_CompositeMultiOracle.sol : Error: Function, variable, struct or modifier declaratio ...  /work/input/25_CompositeMultiOracle.sol :8:3835: | 8 |  ... ;emit PathSet(base, quote, path);}} | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

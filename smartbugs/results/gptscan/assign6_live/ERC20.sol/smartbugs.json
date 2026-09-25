@@ -1,0 +1,62 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/ERC20.sol' '1800' '/sb/bin' '0'",
+        "environment": {
+            "DEEPSEEK_API_KEY": "<redacted>",
+            "GPTSCAN_PROVIDER": "deepseek"
+        },
+        "image": "smartbugs/gptscan:1.0",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmpqak6nfz4": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "\\Users\\Carlo\\Desktop\\Familie\\Alex\\Uni\\BACHELORARBEIT\\2. step\\Code\\smartbugs\\samples\\0.4.x\\ERC20.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": 1161234123332724706,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": -727221441049381269,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 2.6895735263824463,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1782891456.5276592
+    },
+    "runid": "assign6_live",
+    "solc": "0.4.26",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "id": "gptscan",
+        "image": "smartbugs/gptscan:1.0",
+        "info": "GPTScan detects DeFi logic vulnerabilities by combining an LLM (OpenAI or DeepSeek) with program analysis. This build talks to an OpenAI-compatible backend selected at run time.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "GPTScan",
+        "network": "bridge",
+        "origin": "https://github.com/GPTScan/GPTScan",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "1.0"
+    }
+}

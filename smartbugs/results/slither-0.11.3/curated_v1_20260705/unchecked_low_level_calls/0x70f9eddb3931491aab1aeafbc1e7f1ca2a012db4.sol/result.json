@@ -1,0 +1,109 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "GetHoneyFromJar",
+            "impact": "High",
+            "line": 14,
+            "line_end": 19,
+            "message": "HomeyJar.GetHoneyFromJar() (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#14-19) sends eth to arbitrary user\n\tDangerous calls:\n\t- msg.sender.transfer(this.balance) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#17)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "Command",
+            "impact": "Medium",
+            "line": 26,
+            "line_end": 30,
+            "message": "HomeyJar.Command(address,bytes) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#26-30) ignores return value by adr.call.value(msg.value)(data) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#29)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "impact": "Low",
+            "line": 26,
+            "message": "HomeyJar.Command(address,bytes).adr (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#26) lacks a zero-check on :\n\t\t- adr.call.value(msg.value)(data) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#29)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.19 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.19 (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "Command",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 30,
+            "message": "Low level call in HomeyJar.Command(address,bytes) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#26-30):\n\t- adr.call.value(msg.value)(data) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#29)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "impact": "Informational",
+            "line": 10,
+            "message": "Variable HomeyJar.Owner (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#10) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "GetHoneyFromJar",
+            "impact": "Informational",
+            "line": 14,
+            "line_end": 19,
+            "message": "Function HomeyJar.GetHoneyFromJar() (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#14-19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "Command",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 30,
+            "message": "Function HomeyJar.Command(address,bytes) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#26-30) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "HomeyJar",
+            "filename": "unchecked_low_level_calls\\0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol",
+            "function": "Command",
+            "impact": "Optimization",
+            "line": 26,
+            "line_end": 30,
+            "message": "Command(address,bytes) should be declared external:\n\t- HomeyJar.Command(address,bytes) (../sb/0x70f9eddb3931491aab1aeafbc1e7f1ca2a012db4.sol#26-30)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,115 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "High",
+            "line": 348,
+            "line_end": 374,
+            "message": "SushiYieldSource.redeemToken(uint256) (14_SushiYieldSource.sol#348-374) ignores return value by sushi.transfer(msg.sender,sushiBalanceDiff) (14_SushiYieldSource.sol#371)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "High",
+            "line": 329,
+            "line_end": 342,
+            "message": "SushiYieldSource.supplyTokenTo(uint256,address) (14_SushiYieldSource.sol#329-342) ignores return value by sushiAddr.transferFrom(msg.sender,address(this),amount) (14_SushiYieldSource.sol#330)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "balanceOfToken",
+            "impact": "Medium",
+            "line": 317,
+            "line_end": 324,
+            "message": "SushiYieldSource.balanceOfToken(address) (14_SushiYieldSource.sol#317-324) uses a dangerous strict equality:\n\t- balances[addr] == 0 (14_SushiYieldSource.sol#318)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "Medium",
+            "line": 348,
+            "line_end": 374,
+            "message": "SushiYieldSource.redeemToken(uint256) (14_SushiYieldSource.sol#348-374) uses a dangerous strict equality:\n\t- requiredShares == 0 (14_SushiYieldSource.sol#361)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "Medium",
+            "line": 348,
+            "line_end": 374,
+            "message": "SushiYieldSource.redeemToken(uint256) (14_SushiYieldSource.sol#348-374) uses a dangerous strict equality:\n\t- barSushiBalance == 0 (14_SushiYieldSource.sol#356)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "Medium",
+            "line": 329,
+            "line_end": 342,
+            "message": "SushiYieldSource.supplyTokenTo(uint256,address) (14_SushiYieldSource.sol#329-342) ignores return value by sushiAddr.approve(address(sushiBar),amount) (14_SushiYieldSource.sol#331)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "Low",
+            "line": 329,
+            "line_end": 342,
+            "message": "Reentrancy in SushiYieldSource.supplyTokenTo(uint256,address) (14_SushiYieldSource.sol#329-342):\n\tExternal calls:\n\t- sushiAddr.transferFrom(msg.sender,address(this),amount) (14_SushiYieldSource.sol#330)\n\t- sushiAddr.approve(address(sushiBar),amount) (14_SushiYieldSource.sol#331)\n\t- bar.enter(amount) (14_SushiYieldSource.sol#336)\n\tState variables written after the call(s):\n\t- balances[to] = balances[to].add(balanceDiff) (14_SushiYieldSource.sol#341)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SushiYieldSource",
+            "filename": "14_SushiYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "Low",
+            "line": 348,
+            "line_end": 374,
+            "message": "Reentrancy in SushiYieldSource.redeemToken(uint256) (14_SushiYieldSource.sol#348-374):\n\tExternal calls:\n\t- bar.leave(requiredSharesBalance) (14_SushiYieldSource.sol#364)\n\tState variables written after the call(s):\n\t- balances[msg.sender] = balances[msg.sender].sub(requiredSharesBalance) (14_SushiYieldSource.sol#370)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_SushiYieldSource.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_SushiYieldSource.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (14_SushiYieldSource.sol#3)\n",
+            "name": "solc-version"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,289 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "SushiToken",
+            "filename": "28_SushiToken.sol",
+            "function": "_writeCheckpoint",
+            "impact": "Medium",
+            "line": 1395,
+            "line_end": 1413,
+            "message": "SushiToken._writeCheckpoint(address,uint32,uint256,uint256) (28_SushiToken.sol#1395-1413) uses a dangerous strict equality:\n\t- nCheckpoints > 0 && checkpoints[delegatee][nCheckpoints - 1].fromBlock == blockNumber (28_SushiToken.sol#1405)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "IMisoToken",
+            "filename": "28_SushiToken.sol",
+            "function": "init",
+            "impact": "Medium",
+            "line": 1140,
+            "line_end": 1433,
+            "message": "Contract locking ether found:\n\tContract SushiToken (28_SushiToken.sol#1140-1433) has payable functions:\n\t - IMisoToken.init(bytes) (28_SushiToken.sol#614)\n\t - SushiToken.init(bytes) (28_SushiToken.sol#1154)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1147,
+            "message": "SushiToken.initToken(string,string,address,uint256)._symbol (28_SushiToken.sol#1147) shadows:\n\t- ERC20._symbol (28_SushiToken.sol#304) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1160,
+            "message": "SushiToken.initToken(bytes)._symbol (28_SushiToken.sol#1160) shadows:\n\t- ERC20._symbol (28_SushiToken.sol#304) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1147,
+            "message": "SushiToken.initToken(string,string,address,uint256)._name (28_SushiToken.sol#1147) shadows:\n\t- ERC20._name (28_SushiToken.sol#303) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1175,
+            "message": "SushiToken.getInitData(string,string,address,uint256)._name (28_SushiToken.sol#1175) shadows:\n\t- ERC20._name (28_SushiToken.sol#303) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1159,
+            "message": "SushiToken.initToken(bytes)._name (28_SushiToken.sol#1159) shadows:\n\t- ERC20._name (28_SushiToken.sol#303) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Low",
+            "line": 1176,
+            "message": "SushiToken.getInitData(string,string,address,uint256)._symbol (28_SushiToken.sol#1176) shadows:\n\t- ERC20._symbol (28_SushiToken.sol#304) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "28_SushiToken.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 419,
+            "line_end": 442,
+            "message": "ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (28_SushiToken.sol#419-442) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < deadline,ERC20: Expired) (28_SushiToken.sol#429)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SushiToken",
+            "filename": "28_SushiToken.sol",
+            "function": "delegateBySig",
+            "impact": "Low",
+            "line": 1259,
+            "line_end": 1300,
+            "message": "SushiToken.delegateBySig(address,uint256,uint256,uint8,bytes32,bytes32) (28_SushiToken.sol#1259-1300) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(now <= expiry,SUSHI::delegateBySig: signature expired) (28_SushiToken.sol#1298)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "SushiToken",
+            "filename": "28_SushiToken.sol",
+            "function": "getChainId",
+            "impact": "Informational",
+            "line": 1420,
+            "line_end": 1424,
+            "message": "SushiToken.getChainId() (28_SushiToken.sol#1420-1424) uses assembly\n\t- INLINE ASM (28_SushiToken.sol#1422)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "28_SushiToken.sol",
+            "function": "_initERC20",
+            "impact": "Informational",
+            "line": 317,
+            "line_end": 329,
+            "message": "ERC20._initERC20(string,string) (28_SushiToken.sol#317-329) uses assembly\n\t- INLINE ASM (28_SushiToken.sol#323-325)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControl",
+            "filename": "28_SushiToken.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 1107,
+            "line_end": 1110,
+            "message": "AccessControl._setRoleAdmin(bytes32,bytes32) (28_SushiToken.sol#1107-1110) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "28_SushiToken.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 553,
+            "line_end": 561,
+            "message": "ERC20._burn(address,uint256) (28_SushiToken.sol#553-561) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "28_SushiToken.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 591,
+            "line_end": 593,
+            "message": "ERC20._setupDecimals(uint8) (28_SushiToken.sol#591-593) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "28_SushiToken.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 21,
+            "line_end": 24,
+            "message": "Context._msgData() (28_SushiToken.sol#21-24) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (28_SushiToken.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1147,
+            "message": "Parameter SushiToken.initToken(string,string,address,uint256)._owner (28_SushiToken.sol#1147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 294,
+            "message": "Variable ERC20.DOMAIN_SEPARATOR (28_SushiToken.sol#294) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1176,
+            "message": "Parameter SushiToken.getInitData(string,string,address,uint256)._symbol (28_SushiToken.sol#1176) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1147,
+            "message": "Parameter SushiToken.initToken(string,string,address,uint256)._initialSupply (28_SushiToken.sol#1147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1157,
+            "message": "Parameter SushiToken.initToken(bytes)._data (28_SushiToken.sol#1157) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1188,
+            "message": "Parameter SushiToken.mint(address,uint256)._to (28_SushiToken.sol#1188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1147,
+            "message": "Parameter SushiToken.initToken(string,string,address,uint256)._symbol (28_SushiToken.sol#1147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1177,
+            "message": "Parameter SushiToken.getInitData(string,string,address,uint256)._owner (28_SushiToken.sol#1177) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1175,
+            "message": "Parameter SushiToken.getInitData(string,string,address,uint256)._name (28_SushiToken.sol#1175) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1178,
+            "message": "Parameter SushiToken.getInitData(string,string,address,uint256)._initialSupply (28_SushiToken.sol#1178) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1147,
+            "message": "Parameter SushiToken.initToken(string,string,address,uint256)._name (28_SushiToken.sol#1147) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 1188,
+            "message": "Parameter SushiToken.mint(address,uint256)._amount (28_SushiToken.sol#1188) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_SushiToken.sol",
+            "impact": "Informational",
+            "line": 22,
+            "message": "Redundant expression \"this (28_SushiToken.sol#22)\" inContext (28_SushiToken.sol#16-25)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

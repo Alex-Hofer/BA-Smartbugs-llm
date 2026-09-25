@@ -1,0 +1,196 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_joinTokenSingle",
+            "impact": "Medium",
+            "line": 983,
+            "line_end": 1037,
+            "message": "SingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2) (68_SingleTokenJoinV2.sol#983-1037) uses a dangerous strict equality:\n\t- require(bool,string)(outputAmount == _joinTokenStruct.outputAmount,FAILED_OUTPUT_AMOUNT) (68_SingleTokenJoinV2.sol#1032-1035)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_maxApprove",
+            "impact": "Medium",
+            "line": 951,
+            "line_end": 958,
+            "message": "SingleTokenJoinV2._maxApprove(IERC20,address) (68_SingleTokenJoinV2.sol#951-958) ignores return value by token.approve(spender,uint256(- 1)) (68_SingleTokenJoinV2.sol#956)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_joinTokenSingle",
+            "impact": "Medium",
+            "line": 983,
+            "line_end": 1037,
+            "message": "SingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2) (68_SingleTokenJoinV2.sol#983-1037) ignores return value by IPangolinRouter(swap_scope_1.exchange).swapExactTokensForTokens(amountIn,0,swap_scope_1.path,address(this),block.timestamp) (68_SingleTokenJoinV2.sol#1007-1013)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_joinTokenSingle",
+            "impact": "Low",
+            "line": 983,
+            "line_end": 1037,
+            "message": "SingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2) (68_SingleTokenJoinV2.sol#983-1037) has external calls inside a loop: IPangolinRouter(swap_scope_1.exchange).swapExactTokensForTokens(amountIn,0,swap_scope_1.path,address(this),block.timestamp) (68_SingleTokenJoinV2.sol#1007-1013)\n\tCalls stack containing the loop:\n\t\tSingleTokenJoinV2.joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_maxApprove",
+            "impact": "Low",
+            "line": 951,
+            "line_end": 958,
+            "message": "SingleTokenJoinV2._maxApprove(IERC20,address) (68_SingleTokenJoinV2.sol#951-958) has external calls inside a loop: token.approve(spender,uint256(- 1)) (68_SingleTokenJoinV2.sol#956)\n\tCalls stack containing the loop:\n\t\tSingleTokenJoinV2.joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n\t\tSingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_joinTokenSingle",
+            "impact": "Low",
+            "line": 983,
+            "line_end": 1037,
+            "message": "SingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2) (68_SingleTokenJoinV2.sol#983-1037) has external calls inside a loop: amounts = IPangolinRouter(swap.exchange).getAmountsIn(inputs[j],swap.path) (68_SingleTokenJoinV2.sol#998-999)\n\tCalls stack containing the loop:\n\t\tSingleTokenJoinV2.joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SingleTokenJoinV2",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_maxApprove",
+            "impact": "Low",
+            "line": 951,
+            "line_end": 958,
+            "message": "SingleTokenJoinV2._maxApprove(IERC20,address) (68_SingleTokenJoinV2.sol#951-958) has external calls inside a loop: token.allowance(address(this),spender) < token.balanceOf(address(this)) (68_SingleTokenJoinV2.sol#953-954)\n\tCalls stack containing the loop:\n\t\tSingleTokenJoinV2.joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n\t\tSingleTokenJoinV2._joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 327,
+            "line_end": 336,
+            "message": "Address.isContract(address) (68_SingleTokenJoinV2.sol#327-336) uses assembly\n\t- INLINE ASM (68_SingleTokenJoinV2.sol#334)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 472,
+            "line_end": 489,
+            "message": "Address._verifyCallResult(bool,bytes,string) (68_SingleTokenJoinV2.sol#472-489) uses assembly\n\t- INLINE ASM (68_SingleTokenJoinV2.sol#481-484)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "impact": "Informational",
+            "message": "solc-0.7.6 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.7.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.7.6 (68_SingleTokenJoinV2.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 440,
+            "line_end": 446,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (68_SingleTokenJoinV2.sol#440-446):\n\t- (success,returndata) = target.staticcall(data) (68_SingleTokenJoinV2.sol#444)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 464,
+            "line_end": 470,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (68_SingleTokenJoinV2.sol#464-470):\n\t- (success,returndata) = target.delegatecall(data) (68_SingleTokenJoinV2.sol#468)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 354,
+            "line_end": 360,
+            "message": "Low level call in Address.sendValue(address,uint256) (68_SingleTokenJoinV2.sol#354-360):\n\t- (success,None) = recipient.call{value: amount}() (68_SingleTokenJoinV2.sol#358)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 415,
+            "line_end": 422,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (68_SingleTokenJoinV2.sol#415-422):\n\t- (success,returndata) = target.call{value: value}(data) (68_SingleTokenJoinV2.sol#420)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IPangolinRouter",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "function": "WAVAX",
+            "impact": "Informational",
+            "line": 572,
+            "message": "Function IPangolinRouter.WAVAX() (68_SingleTokenJoinV2.sol#572) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "impact": "Informational",
+            "line": 960,
+            "message": "Parameter SingleTokenJoinV2.joinTokenSingle(SingleTokenJoinV2.JoinTokenStructV2)._joinTokenStruct (68_SingleTokenJoinV2.sol#960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_SingleTokenJoinV2.sol",
+            "impact": "Informational",
+            "line": 922,
+            "message": "Variable SingleTokenJoinV2.INTERMEDIATE_TOKEN (68_SingleTokenJoinV2.sol#922) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

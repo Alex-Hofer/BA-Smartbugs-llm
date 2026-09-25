@@ -1,0 +1,1344 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountSyntheticToken_toShiftAwayFrom_marketSide[marketIndex][true] (22_LongShort.sol#2819)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Medium",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982) uses a Boolean constant improperly:\n\t-marketSideValueInPaymentToken[marketIndex][false] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1979)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticTokenPrice_inPaymentTokens_long = syntheticToken_priceSnapshot[marketIndex][true][marketUpdateIndex[marketIndex]] (22_LongShort.sol#2331-2333)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Medium",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952) uses a Boolean constant improperly:\n\t-syntheticTokens[latestMarket][false] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Down ,syntheticName)),string(abi.encodePacked(fd,syntheticSymbol)),staker,latestMarket,false) (22_LongShort.sol#1927-1933)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Medium",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952) uses a Boolean constant improperly:\n\t-SyntheticMarketCreated(latestMarket,syntheticTokens[latestMarket][true],syntheticTokens[latestMarket][false],_paymentToken,assetPrice[latestMarket],syntheticName,syntheticSymbol,_oracleManager,_yieldManager) (22_LongShort.sol#1941-1951)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-marketSideValueInPaymentToken[marketIndex][true] = newLongPoolValue (22_LongShort.sol#2406)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountSyntheticToken_redeem[marketIndex][false] = 0 (22_LongShort.sol#2883)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountPaymentToken_deposit[marketIndex][true] = 0 (22_LongShort.sol#2799)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountSyntheticToken_redeem[marketIndex][true] = 0 (22_LongShort.sol#2872)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountPaymentToken_deposit[marketIndex][true] (22_LongShort.sol#2793)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountSyntheticToken_toShiftAwayFrom_marketSide[marketIndex][true] = 0 (22_LongShort.sol#2861)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticTokenPrice_inPaymentTokens_long = _getSyntheticTokenPrice(newLongPoolValue,ISyntheticToken(syntheticTokens[marketIndex][true]).totalSupply()) (22_LongShort.sol#2375-2378)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountPaymentToken_deposit[marketIndex][false] (22_LongShort.sol#2807)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-marketSideValueInPaymentToken[marketIndex][false] = newShortPoolValue (22_LongShort.sol#2407)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Medium",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982) uses a Boolean constant improperly:\n\t-ISyntheticToken(syntheticTokens[latestMarket][true]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1969-1972)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountPaymentToken_deposit[marketIndex][false] = 0 (22_LongShort.sol#2811)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Medium",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982) uses a Boolean constant improperly:\n\t-ISyntheticToken(syntheticTokens[latestMarket][false]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1973-1976)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticTokenPrice_inPaymentTokens_short = syntheticToken_priceSnapshot[marketIndex][false][marketUpdateIndex[marketIndex]] (22_LongShort.sol#2334-2336)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "initializeMarket",
+            "impact": "Medium",
+            "line": 1995,
+            "line_end": 2028,
+            "message": "LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256) (22_LongShort.sol#1995-2028) uses a Boolean constant improperly:\n\t-IStaker(staker).addNewStakingFund(latestMarket,syntheticTokens[latestMarket][true],syntheticTokens[latestMarket][false],kInitialMultiplier,kPeriod,unstakeFee_e18,balanceIncentiveCurve_exponent,balanceIncentiveCurve_equilibriumOffset) (22_LongShort.sol#2016-2025)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_claimAndDistributeYieldThenRebalanceMarket",
+            "impact": "Medium",
+            "line": 2262,
+            "line_end": 2310,
+            "message": "LongShort._claimAndDistributeYieldThenRebalanceMarket(uint32,int256,int256) (22_LongShort.sol#2262-2310) uses a Boolean constant improperly:\n\t-longValue = marketSideValueInPaymentToken[marketIndex][true] (22_LongShort.sol#2268)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticTokenPrice_inPaymentTokens_short = _getSyntheticTokenPrice(newShortPoolValue,ISyntheticToken(syntheticTokens[marketIndex][false]).totalSupply()) (22_LongShort.sol#2379-2382)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Medium",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952) uses a Boolean constant improperly:\n\t-syntheticTokens[latestMarket][true] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Up ,syntheticName)),string(abi.encodePacked(fu,syntheticSymbol)),staker,latestMarket,true) (22_LongShort.sol#1918-1924)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountSyntheticToken_toShiftAwayFrom_marketSide[marketIndex][false] (22_LongShort.sol#2841-2843)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountSyntheticToken_redeem[marketIndex][false] (22_LongShort.sol#2876)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticToken_priceSnapshot[marketIndex][false][marketUpdateIndex[marketIndex]] = syntheticTokenPrice_inPaymentTokens_short (22_LongShort.sol#2391-2393)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-amountForCurrentAction_workingVariable = batched_amountSyntheticToken_redeem[marketIndex][true] (22_LongShort.sol#2865)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) uses a Boolean constant improperly:\n\t-syntheticToken_priceSnapshot[marketIndex][true][marketUpdateIndex[marketIndex]] = syntheticTokenPrice_inPaymentTokens_long (22_LongShort.sol#2387-2389)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_batchConfirmOutstandingPendingActions",
+            "impact": "Medium",
+            "line": 2780,
+            "line_end": 2894,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894) uses a Boolean constant improperly:\n\t-batched_amountSyntheticToken_toShiftAwayFrom_marketSide[marketIndex][true] = 0 (22_LongShort.sol#2837)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Medium",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982) uses a Boolean constant improperly:\n\t-marketSideValueInPaymentToken[marketIndex][true] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1978)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_claimAndDistributeYieldThenRebalanceMarket",
+            "impact": "Medium",
+            "line": 2262,
+            "line_end": 2310,
+            "message": "LongShort._claimAndDistributeYieldThenRebalanceMarket(uint32,int256,int256) (22_LongShort.sol#2262-2310) uses a Boolean constant improperly:\n\t-shortValue = marketSideValueInPaymentToken[marketIndex][false] (22_LongShort.sol#2269)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Medium",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,true) (22_LongShort.sol#2696)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,false) (22_LongShort.sol#2697)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\tState variables written after the call(s):\n\t- userNextPrice_currentUpdateIndex[marketIndex][user] = 0 (22_LongShort.sol#2699)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,false) (22_LongShort.sol#2697)\n\t\t- userNextPrice_syntheticToken_toShiftAwayFrom_marketSide[marketIndex][isShiftFromLong][user] = 0 (22_LongShort.sol#2667)\n\tLongShort.userNextPrice_syntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1728-1729) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_syntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1728-1729)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_shiftPositionNextPrice",
+            "impact": "Medium",
+            "line": 2544,
+            "line_end": 2578,
+            "message": "Reentrancy in LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isShiftFromLong]).transferFrom(msg.sender,address(this),amountSyntheticTokensToShift)) (22_LongShort.sol#2554-2560)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2551)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- batched_amountSyntheticToken_toShiftAwayFrom_marketSide[marketIndex][isShiftFromLong] += amountSyntheticTokensToShift (22_LongShort.sol#2567-2569)\n\tLongShort.batched_amountSyntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1721) can be used in cross function reentrancies:\n\t- LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort.batched_amountSyntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1721)\n\t- userNextPrice_currentUpdateIndex[marketIndex][msg.sender] = marketUpdateIndex[marketIndex] + 1 (22_LongShort.sol#2565)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n\t- userNextPrice_syntheticToken_toShiftAwayFrom_marketSide[marketIndex][isShiftFromLong][msg.sender] += amountSyntheticTokensToShift (22_LongShort.sol#2562-2564)\n\tLongShort.userNextPrice_syntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1728-1729) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_syntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1728-1729)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_mintNextPrice",
+            "impact": "Medium",
+            "line": 2457,
+            "line_end": 2474,
+            "message": "Reentrancy in LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2464)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t\t- userNextPrice_currentUpdateIndex[marketIndex][user] = 0 (22_LongShort.sol#2699)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_shiftPositionNextPrice",
+            "impact": "Medium",
+            "line": 2544,
+            "line_end": 2578,
+            "message": "Reentrancy in LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2551)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t\t- userNextPrice_currentUpdateIndex[marketIndex][user] = 0 (22_LongShort.sol#2699)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "Reentrancy in LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419):\n\tExternal calls:\n\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- (newLongPoolValue,newShortPoolValue) = _claimAndDistributeYieldThenRebalanceMarket(marketIndex,newAssetPrice,oldAssetPrice) (22_LongShort.sol#2369-2373)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\tState variables written after the call(s):\n\t- assetPrice[marketIndex] = uint256(newAssetPrice) (22_LongShort.sol#2384)\n\tLongShort.assetPrice (22_LongShort.sol#1705) can be used in cross function reentrancies:\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.assetPrice (22_LongShort.sol#1705)\n\t- LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952)\n\t- marketUpdateIndex[marketIndex] += 1 (22_LongShort.sol#2385)\n\tLongShort.marketUpdateIndex (22_LongShort.sol#1706) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256) (22_LongShort.sol#1995-2028)\n\t- LongShort.marketUpdateIndex (22_LongShort.sol#1706)\n\t- syntheticToken_priceSnapshot[marketIndex][true][marketUpdateIndex[marketIndex]] = syntheticTokenPrice_inPaymentTokens_long (22_LongShort.sol#2387-2389)\n\tLongShort.syntheticToken_priceSnapshot (22_LongShort.sol#1717) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getAmountSyntheticTokenToMintOnTargetSide(uint32,uint256,bool,uint256) (22_LongShort.sol#2127-2145)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.syntheticToken_priceSnapshot (22_LongShort.sol#1717)\n\t- syntheticToken_priceSnapshot[marketIndex][false][marketUpdateIndex[marketIndex]] = syntheticTokenPrice_inPaymentTokens_short (22_LongShort.sol#2391-2393)\n\tLongShort.syntheticToken_priceSnapshot (22_LongShort.sol#1717) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getAmountSyntheticTokenToMintOnTargetSide(uint32,uint256,bool,uint256) (22_LongShort.sol#2127-2145)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.syntheticToken_priceSnapshot (22_LongShort.sol#1717)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_redeemNextPrice",
+            "impact": "Medium",
+            "line": 2499,
+            "line_end": 2519,
+            "message": "Reentrancy in LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transferFrom(msg.sender,address(this),tokens_redeem)) (22_LongShort.sol#2509-2511)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2506)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- batched_amountSyntheticToken_redeem[marketIndex][isLong] += tokens_redeem (22_LongShort.sol#2516)\n\tLongShort.batched_amountSyntheticToken_redeem (22_LongShort.sol#1720) can be used in cross function reentrancies:\n\t- LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort.batched_amountSyntheticToken_redeem (22_LongShort.sol#1720)\n\t- userNextPrice_currentUpdateIndex[marketIndex][msg.sender] = marketUpdateIndex[marketIndex] + 1 (22_LongShort.sol#2514)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n\t- userNextPrice_syntheticToken_redeemAmount[marketIndex][isLong][msg.sender] += tokens_redeem (22_LongShort.sol#2513)\n\tLongShort.userNextPrice_syntheticToken_redeemAmount (22_LongShort.sol#1727) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort.userNextPrice_syntheticToken_redeemAmount (22_LongShort.sol#1727)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_redeemNextPrice",
+            "impact": "Medium",
+            "line": 2499,
+            "line_end": 2519,
+            "message": "Reentrancy in LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2506)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t\t- userNextPrice_currentUpdateIndex[marketIndex][user] = 0 (22_LongShort.sol#2699)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Medium",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- userNextPrice_syntheticToken_redeemAmount[marketIndex][isLong][user] = 0 (22_LongShort.sol#2634)\n\tLongShort.userNextPrice_syntheticToken_redeemAmount (22_LongShort.sol#1727) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort.userNextPrice_syntheticToken_redeemAmount (22_LongShort.sol#1727)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Medium",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\tState variables written after the call(s):\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- userNextPrice_paymentToken_depositAmount[marketIndex][isLong][user] = 0 (22_LongShort.sol#2610)\n\tLongShort.userNextPrice_paymentToken_depositAmount (22_LongShort.sol#1726) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_paymentToken_depositAmount (22_LongShort.sol#1726)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_mintNextPrice",
+            "impact": "Medium",
+            "line": 2457,
+            "line_end": 2474,
+            "message": "Reentrancy in LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474):\n\tExternal calls:\n\t- _transferPaymentTokensFromUserToYieldManager(marketIndex,amount) (22_LongShort.sol#2467)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2464)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tState variables written after the call(s):\n\t- batched_amountPaymentToken_deposit[marketIndex][isLong] += amount (22_LongShort.sol#2469)\n\tLongShort.batched_amountPaymentToken_deposit (22_LongShort.sol#1719) can be used in cross function reentrancies:\n\t- LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256) (22_LongShort.sol#2780-2894)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort.batched_amountPaymentToken_deposit (22_LongShort.sol#1719)\n\t- userNextPrice_currentUpdateIndex[marketIndex][msg.sender] = marketUpdateIndex[marketIndex] + 1 (22_LongShort.sol#2471)\n\tLongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644)\n\t- LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703)\n\t- LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519)\n\t- LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724)\n\t- userNextPrice_paymentToken_depositAmount[marketIndex][isLong][msg.sender] += amount (22_LongShort.sol#2470)\n\tLongShort.userNextPrice_paymentToken_depositAmount (22_LongShort.sol#1726) can be used in cross function reentrancies:\n\t- LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621)\n\t- LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474)\n\t- LongShort.getUsersConfirmedButNotSettledSynthBalance(address,uint32,bool) (22_LongShort.sol#2163-2200)\n\t- LongShort.userNextPrice_paymentToken_depositAmount (22_LongShort.sol#1726)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Medium",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "Reentrancy in LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419):\n\tExternal calls:\n\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- (newLongPoolValue,newShortPoolValue) = _claimAndDistributeYieldThenRebalanceMarket(marketIndex,newAssetPrice,oldAssetPrice) (22_LongShort.sol#2369-2373)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t- (long_changeInMarketValue_inPaymentToken,short_changeInMarketValue_inPaymentToken) = _batchConfirmOutstandingPendingActions(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short) (22_LongShort.sol#2395-2402)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\tState variables written after the call(s):\n\t- marketSideValueInPaymentToken[marketIndex][true] = newLongPoolValue (22_LongShort.sol#2406)\n\tLongShort.marketSideValueInPaymentToken (22_LongShort.sol#1714) can be used in cross function reentrancies:\n\t- LongShort._claimAndDistributeYieldThenRebalanceMarket(uint32,int256,int256) (22_LongShort.sol#2262-2310)\n\t- LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.marketSideValueInPaymentToken (22_LongShort.sol#1714)\n\t- marketSideValueInPaymentToken[marketIndex][false] = newShortPoolValue (22_LongShort.sol#2407)\n\tLongShort.marketSideValueInPaymentToken (22_LongShort.sol#1714) can be used in cross function reentrancies:\n\t- LongShort._claimAndDistributeYieldThenRebalanceMarket(uint32,int256,int256) (22_LongShort.sol#2262-2310)\n\t- LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982)\n\t- LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419)\n\t- LongShort.marketSideValueInPaymentToken (22_LongShort.sol#1714)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Medium",
+            "line": 2789,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256).changeInSupply_syntheticToken_long (22_LongShort.sol#2789) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Medium",
+            "line": 2790,
+            "message": "LongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256).changeInSupply_syntheticToken_short (22_LongShort.sol#2790) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControlEnumerable",
+            "filename": "22_LongShort.sol",
+            "function": "grantRole",
+            "impact": "Medium",
+            "line": 1398,
+            "line_end": 1401,
+            "message": "AccessControlEnumerable.grantRole(bytes32,address) (22_LongShort.sol#1398-1401) ignores return value by _roleMembers[role].add(account) (22_LongShort.sol#1400)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControlEnumerable",
+            "filename": "22_LongShort.sol",
+            "function": "_setupRole",
+            "impact": "Medium",
+            "line": 1422,
+            "line_end": 1425,
+            "message": "AccessControlEnumerable._setupRole(bytes32,address) (22_LongShort.sol#1422-1425) ignores return value by _roleMembers[role].add(account) (22_LongShort.sol#1424)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControlEnumerable",
+            "filename": "22_LongShort.sol",
+            "function": "revokeRole",
+            "impact": "Medium",
+            "line": 1406,
+            "line_end": 1409,
+            "message": "AccessControlEnumerable.revokeRole(bytes32,address) (22_LongShort.sol#1406-1409) ignores return value by _roleMembers[role].remove(account) (22_LongShort.sol#1408)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControlEnumerable",
+            "filename": "22_LongShort.sol",
+            "function": "renounceRole",
+            "impact": "Medium",
+            "line": 1414,
+            "line_end": 1417,
+            "message": "AccessControlEnumerable.renounceRole(bytes32,address) (22_LongShort.sol#1414-1417) ignores return value by _roleMembers[role].remove(account) (22_LongShort.sol#1416)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "22_LongShort.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 1463,
+            "message": "ERC20PresetMinterPauser.constructor(string,string).name (22_LongShort.sol#1463) shadows:\n\t- ERC20.name() (22_LongShort.sol#260-262) (function)\n\t- IERC20Metadata.name() (22_LongShort.sol#161) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "22_LongShort.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 1463,
+            "message": "ERC20PresetMinterPauser.constructor(string,string).symbol (22_LongShort.sol#1463) shadows:\n\t- ERC20.symbol() (22_LongShort.sol#268-270) (function)\n\t- IERC20Metadata.symbol() (22_LongShort.sol#166) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1844,
+            "message": "LongShort.initialize(address,address,address,address)._treasury (22_LongShort.sol#1844) lacks a zero-check on :\n\t\t- treasury = _treasury (22_LongShort.sol#1849)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1863,
+            "message": "LongShort.changeAdmin(address)._admin (22_LongShort.sol#1863) lacks a zero-check on :\n\t\t- admin = _admin (22_LongShort.sol#1864)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1843,
+            "message": "LongShort.initialize(address,address,address,address)._admin (22_LongShort.sol#1843) lacks a zero-check on :\n\t\t- admin = _admin (22_LongShort.sol#1848)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1870,
+            "message": "LongShort.changeTreasury(address)._treasury (22_LongShort.sol#1870) lacks a zero-check on :\n\t\t- treasury = _treasury (22_LongShort.sol#1871)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1845,
+            "message": "LongShort.initialize(address,address,address,address)._tokenFactory (22_LongShort.sol#1845) lacks a zero-check on :\n\t\t- tokenFactory = _tokenFactory (22_LongShort.sol#1850)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "22_LongShort.sol",
+            "impact": "Low",
+            "line": 1846,
+            "message": "LongShort.initialize(address,address,address,address)._staker (22_LongShort.sol#1846) lacks a zero-check on :\n\t\t- staker = _staker (22_LongShort.sol#1851)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) has external calls inside a loop: newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) has external calls inside a loop: IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_handleTotalPaymentTokenValueChangeForMarketWithYieldManager",
+            "impact": "Low",
+            "line": 2730,
+            "line_end": 2743,
+            "message": "LongShort._handleTotalPaymentTokenValueChangeForMarketWithYieldManager(uint32,int256) (22_LongShort.sol#2730-2743) has external calls inside a loop: IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n\t\tLongShort._updateSystemStateInternal(uint32)\n\t\tLongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_claimAndDistributeYieldThenRebalanceMarket",
+            "impact": "Low",
+            "line": 2262,
+            "line_end": 2310,
+            "message": "LongShort._claimAndDistributeYieldThenRebalanceMarket(uint32,int256,int256) (22_LongShort.sol#2262-2310) has external calls inside a loop: marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n\t\tLongShort._updateSystemStateInternal(uint32)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_handleChangeInSyntheticTokensTotalSupply",
+            "impact": "Low",
+            "line": 2750,
+            "line_end": 2763,
+            "message": "LongShort._handleChangeInSyntheticTokensTotalSupply(uint32,bool,int256) (22_LongShort.sol#2750-2763) has external calls inside a loop: ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n\t\tLongShort._updateSystemStateInternal(uint32)\n\t\tLongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceTokenShifts",
+            "impact": "Low",
+            "line": 2651,
+            "line_end": 2683,
+            "message": "LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683) has external calls inside a loop: require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\tCalls stack containing the loop:\n\t\tLongShort.executeOutstandingNextPriceSettlementsUserMulti(address,uint32[])\n\t\tLongShort._executeOutstandingNextPriceSettlements(address,uint32)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_handleChangeInSyntheticTokensTotalSupply",
+            "impact": "Low",
+            "line": 2750,
+            "line_end": 2763,
+            "message": "LongShort._handleChangeInSyntheticTokensTotalSupply(uint32,bool,int256) (22_LongShort.sol#2750-2763) has external calls inside a loop: ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n\t\tLongShort._updateSystemStateInternal(uint32)\n\t\tLongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) has external calls inside a loop: syntheticTokenPrice_inPaymentTokens_short = _getSyntheticTokenPrice(newShortPoolValue,ISyntheticToken(syntheticTokens[marketIndex][false]).totalSupply()) (22_LongShort.sol#2379-2382)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) has external calls inside a loop: syntheticTokenPrice_inPaymentTokens_long = _getSyntheticTokenPrice(newLongPoolValue,ISyntheticToken(syntheticTokens[marketIndex][true]).totalSupply()) (22_LongShort.sol#2375-2378)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419) has external calls inside a loop: IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceMints",
+            "impact": "Low",
+            "line": 2603,
+            "line_end": 2621,
+            "message": "LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621) has external calls inside a loop: require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\tCalls stack containing the loop:\n\t\tLongShort.executeOutstandingNextPriceSettlementsUserMulti(address,uint32[])\n\t\tLongShort._executeOutstandingNextPriceSettlements(address,uint32)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceRedeems",
+            "impact": "Low",
+            "line": 2627,
+            "line_end": 2644,
+            "message": "LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644) has external calls inside a loop: IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tCalls stack containing the loop:\n\t\tLongShort.executeOutstandingNextPriceSettlementsUserMulti(address,uint32[])\n\t\tLongShort._executeOutstandingNextPriceSettlements(address,uint32)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_handleTotalPaymentTokenValueChangeForMarketWithYieldManager",
+            "impact": "Low",
+            "line": 2730,
+            "line_end": 2743,
+            "message": "LongShort._handleTotalPaymentTokenValueChangeForMarketWithYieldManager(uint32,int256) (22_LongShort.sol#2730-2743) has external calls inside a loop: IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\tCalls stack containing the loop:\n\t\tLongShort.updateSystemStateMulti(uint32[])\n\t\tLongShort._updateSystemStateInternal(uint32)\n\t\tLongShort._batchConfirmOutstandingPendingActions(uint32,uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Low",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "Reentrancy in LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952):\n\tExternal calls:\n\t- syntheticTokens[latestMarket][true] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Up ,syntheticName)),string(abi.encodePacked(fu,syntheticSymbol)),staker,latestMarket,true) (22_LongShort.sol#1918-1924)\n\t- syntheticTokens[latestMarket][false] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Down ,syntheticName)),string(abi.encodePacked(fd,syntheticSymbol)),staker,latestMarket,false) (22_LongShort.sol#1927-1933)\n\t- assetPrice[latestMarket] = uint256(IOracleManager(oracleManagers[latestMarket]).updatePrice()) (22_LongShort.sol#1939)\n\tState variables written after the call(s):\n\t- assetPrice[latestMarket] = uint256(IOracleManager(oracleManagers[latestMarket]).updatePrice()) (22_LongShort.sol#1939)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "initializeMarket",
+            "impact": "Low",
+            "line": 1995,
+            "line_end": 2028,
+            "message": "Reentrancy in LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256) (22_LongShort.sol#1995-2028):\n\tExternal calls:\n\t- IStaker(staker).addNewStakingFund(latestMarket,syntheticTokens[latestMarket][true],syntheticTokens[latestMarket][false],kInitialMultiplier,kPeriod,unstakeFee_e18,balanceIncentiveCurve_exponent,balanceIncentiveCurve_equilibriumOffset) (22_LongShort.sol#2016-2025)\n\t- _seedMarketInitially(initialMarketSeedForEachMarketSide,marketIndex) (22_LongShort.sol#2027)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(amountToLockInYieldManager) (22_LongShort.sol#1967)\n\t\t- ISyntheticToken(syntheticTokens[latestMarket][true]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1969-1972)\n\t\t- ISyntheticToken(syntheticTokens[latestMarket][false]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1973-1976)\n\tState variables written after the call(s):\n\t- _seedMarketInitially(initialMarketSeedForEachMarketSide,marketIndex) (22_LongShort.sol#2027)\n\t\t- marketSideValueInPaymentToken[marketIndex][true] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1978)\n\t\t- marketSideValueInPaymentToken[marketIndex][false] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1979)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Low",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "Reentrancy in LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982):\n\tExternal calls:\n\t- _transferPaymentTokensFromUserToYieldManager(marketIndex,amountToLockInYieldManager) (22_LongShort.sol#1966)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(amountToLockInYieldManager) (22_LongShort.sol#1967)\n\t- ISyntheticToken(syntheticTokens[latestMarket][true]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1969-1972)\n\t- ISyntheticToken(syntheticTokens[latestMarket][false]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1973-1976)\n\tState variables written after the call(s):\n\t- marketSideValueInPaymentToken[marketIndex][true] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1978)\n\t- marketSideValueInPaymentToken[marketIndex][false] = initialMarketSeedForEachMarketSide (22_LongShort.sol#1979)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Low",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "Reentrancy in LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952):\n\tExternal calls:\n\t- syntheticTokens[latestMarket][true] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Up ,syntheticName)),string(abi.encodePacked(fu,syntheticSymbol)),staker,latestMarket,true) (22_LongShort.sol#1918-1924)\n\t- syntheticTokens[latestMarket][false] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Down ,syntheticName)),string(abi.encodePacked(fd,syntheticSymbol)),staker,latestMarket,false) (22_LongShort.sol#1927-1933)\n\tState variables written after the call(s):\n\t- oracleManagers[latestMarket] = _oracleManager (22_LongShort.sol#1938)\n\t- paymentTokens[latestMarket] = _paymentToken (22_LongShort.sol#1936)\n\t- syntheticTokens[latestMarket][false] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Down ,syntheticName)),string(abi.encodePacked(fd,syntheticSymbol)),staker,latestMarket,false) (22_LongShort.sol#1927-1933)\n\t- yieldManagers[latestMarket] = _yieldManager (22_LongShort.sol#1937)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceTokenShifts",
+            "impact": "Low",
+            "line": 2651,
+            "line_end": 2683,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceTokenShifts(uint32,address,bool) (22_LongShort.sol#2651-2683):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "initializeMarket",
+            "impact": "Low",
+            "line": 1995,
+            "line_end": 2028,
+            "message": "Reentrancy in LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256) (22_LongShort.sol#1995-2028):\n\tExternal calls:\n\t- IStaker(staker).addNewStakingFund(latestMarket,syntheticTokens[latestMarket][true],syntheticTokens[latestMarket][false],kInitialMultiplier,kPeriod,unstakeFee_e18,balanceIncentiveCurve_exponent,balanceIncentiveCurve_equilibriumOffset) (22_LongShort.sol#2016-2025)\n\t- _seedMarketInitially(initialMarketSeedForEachMarketSide,marketIndex) (22_LongShort.sol#2027)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(amountToLockInYieldManager) (22_LongShort.sol#1967)\n\t\t- ISyntheticToken(syntheticTokens[latestMarket][true]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1969-1972)\n\t\t- ISyntheticToken(syntheticTokens[latestMarket][false]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1973-1976)\n\tEvent emitted after the call(s):\n\t- NewMarketLaunchedAndSeeded(marketIndex,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1981)\n\t\t- _seedMarketInitially(initialMarketSeedForEachMarketSide,marketIndex) (22_LongShort.sol#2027)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_shiftPositionNextPrice",
+            "impact": "Low",
+            "line": 2544,
+            "line_end": 2578,
+            "message": "Reentrancy in LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isShiftFromLong]).transferFrom(msg.sender,address(this),amountSyntheticTokensToShift)) (22_LongShort.sol#2554-2560)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2551)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- NextPriceSyntheticPositionShift(marketIndex,isShiftFromLong,amountSyntheticTokensToShift,msg.sender,marketUpdateIndex[marketIndex] + 1) (22_LongShort.sol#2571-2577)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_redeemNextPrice",
+            "impact": "Low",
+            "line": 2499,
+            "line_end": 2519,
+            "message": "Reentrancy in LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transferFrom(msg.sender,address(this),tokens_redeem)) (22_LongShort.sol#2509-2511)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2506)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- NextPriceRedeem(marketIndex,isLong,tokens_redeem,msg.sender,marketUpdateIndex[marketIndex] + 1) (22_LongShort.sol#2518)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_seedMarketInitially",
+            "impact": "Low",
+            "line": 1958,
+            "line_end": 1982,
+            "message": "Reentrancy in LongShort._seedMarketInitially(uint256,uint32) (22_LongShort.sol#1958-1982):\n\tExternal calls:\n\t- _transferPaymentTokensFromUserToYieldManager(marketIndex,amountToLockInYieldManager) (22_LongShort.sol#1966)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(amountToLockInYieldManager) (22_LongShort.sol#1967)\n\t- ISyntheticToken(syntheticTokens[latestMarket][true]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1969-1972)\n\t- ISyntheticToken(syntheticTokens[latestMarket][false]).mint(PERMANENT_INITIAL_LIQUIDITY_HOLDER,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1973-1976)\n\tEvent emitted after the call(s):\n\t- NewMarketLaunchedAndSeeded(marketIndex,initialMarketSeedForEachMarketSide) (22_LongShort.sol#1981)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Low",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n\t\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "createNewSyntheticMarket",
+            "impact": "Low",
+            "line": 1908,
+            "line_end": 1952,
+            "message": "Reentrancy in LongShort.createNewSyntheticMarket(string,string,address,address,address) (22_LongShort.sol#1908-1952):\n\tExternal calls:\n\t- syntheticTokens[latestMarket][true] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Up ,syntheticName)),string(abi.encodePacked(fu,syntheticSymbol)),staker,latestMarket,true) (22_LongShort.sol#1918-1924)\n\t- syntheticTokens[latestMarket][false] = ITokenFactory(tokenFactory).createSyntheticToken(string(abi.encodePacked(Float Down ,syntheticName)),string(abi.encodePacked(fd,syntheticSymbol)),staker,latestMarket,false) (22_LongShort.sol#1927-1933)\n\t- assetPrice[latestMarket] = uint256(IOracleManager(oracleManagers[latestMarket]).updatePrice()) (22_LongShort.sol#1939)\n\tEvent emitted after the call(s):\n\t- SyntheticMarketCreated(latestMarket,syntheticTokens[latestMarket][true],syntheticTokens[latestMarket][false],_paymentToken,assetPrice[latestMarket],syntheticName,syntheticSymbol,_oracleManager,_yieldManager) (22_LongShort.sol#1941-1951)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Low",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMintSettlementUser(user,marketIndex,isLong,amountSyntheticTokensToTransferToUser) (22_LongShort.sol#2619)\n\t\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceRedeems",
+            "impact": "Low",
+            "line": 2627,
+            "line_end": 2644,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceRedeems(uint32,address,bool) (22_LongShort.sol#2627-2644):\n\tExternal calls:\n\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceMints",
+            "impact": "Low",
+            "line": 2603,
+            "line_end": 2621,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceMints(uint32,address,bool) (22_LongShort.sol#2603-2621):\n\tExternal calls:\n\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMintSettlementUser(user,marketIndex,isLong,amountSyntheticTokensToTransferToUser) (22_LongShort.sol#2619)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_shiftPositionNextPrice",
+            "impact": "Low",
+            "line": 2544,
+            "line_end": 2578,
+            "message": "Reentrancy in LongShort._shiftPositionNextPrice(uint32,uint256,bool) (22_LongShort.sol#2544-2578):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2551)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t- ExecuteNextPriceMintSettlementUser(user,marketIndex,isLong,amountSyntheticTokensToTransferToUser) (22_LongShort.sol#2619)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n\t- ExecuteNextPriceSettlementsUser(user,marketIndex) (22_LongShort.sol#2701)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2552)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_redeemNextPrice",
+            "impact": "Low",
+            "line": 2499,
+            "line_end": 2519,
+            "message": "Reentrancy in LongShort._redeemNextPrice(uint32,uint256,bool) (22_LongShort.sol#2499-2519):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2506)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t- ExecuteNextPriceMintSettlementUser(user,marketIndex,isLong,amountSyntheticTokensToTransferToUser) (22_LongShort.sol#2619)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n\t- ExecuteNextPriceSettlementsUser(user,marketIndex) (22_LongShort.sol#2701)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2507)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_mintNextPrice",
+            "impact": "Low",
+            "line": 2457,
+            "line_end": 2474,
+            "message": "Reentrancy in LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474):\n\tExternal calls:\n\t- _transferPaymentTokensFromUserToYieldManager(marketIndex,amount) (22_LongShort.sol#2467)\n\t\t- require(bool)(IERC20(paymentTokens[marketIndex]).transferFrom(msg.sender,yieldManagers[marketIndex],amount)) (22_LongShort.sol#2445)\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2464)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- NextPriceDeposit(marketIndex,isLong,amount,msg.sender,marketUpdateIndex[marketIndex] + 1) (22_LongShort.sol#2473)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_mintNextPrice",
+            "impact": "Low",
+            "line": 2457,
+            "line_end": 2474,
+            "message": "Reentrancy in LongShort._mintNextPrice(uint32,uint256,bool) (22_LongShort.sol#2457-2474):\n\tExternal calls:\n\t- updateSystemStateMarket(marketIndex) (22_LongShort.sol#2464)\n\t\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t- ExecuteNextPriceMintSettlementUser(user,marketIndex,isLong,amountSyntheticTokensToTransferToUser) (22_LongShort.sol#2619)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n\t- ExecuteNextPriceSettlementsUser(user,marketIndex) (22_LongShort.sol#2701)\n\t\t- executeOutstandingNextPriceSettlements(msg.sender,marketIndex) (22_LongShort.sol#2465)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Low",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,true) (22_LongShort.sol#2696)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,false) (22_LongShort.sol#2697)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n\t\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,false) (22_LongShort.sol#2697)\n\t- ExecuteNextPriceSettlementsUser(user,marketIndex) (22_LongShort.sol#2701)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Low",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceRedeemSettlementUser(user,marketIndex,isLong,amountPaymentToken_toRedeem) (22_LongShort.sol#2642)\n\t\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_updateSystemStateInternal",
+            "impact": "Low",
+            "line": 2323,
+            "line_end": 2419,
+            "message": "Reentrancy in LongShort._updateSystemStateInternal(uint32) (22_LongShort.sol#2323-2419):\n\tExternal calls:\n\t- newAssetPrice = IOracleManager(oracleManagers[marketIndex]).updatePrice() (22_LongShort.sol#2325)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],userNextPrice_currentUpdateIndex[marketIndex][staker]) (22_LongShort.sol#2343-2351)\n\t- IStaker(staker).pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short,marketSideValueInPaymentToken[marketIndex][true],marketSideValueInPaymentToken[marketIndex][false],0) (22_LongShort.sol#2353-2360)\n\t- (newLongPoolValue,newShortPoolValue) = _claimAndDistributeYieldThenRebalanceMarket(marketIndex,newAssetPrice,oldAssetPrice) (22_LongShort.sol#2369-2373)\n\t\t- marketAmount = IYieldManager(yieldManagers[marketIndex]).distributeYieldForTreasuryAndReturnMarketAllocation(totalValueLockedInMarket,treasuryYieldPercent_e18) (22_LongShort.sol#2279-2280)\n\t- (long_changeInMarketValue_inPaymentToken,short_changeInMarketValue_inPaymentToken) = _batchConfirmOutstandingPendingActions(marketIndex,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short) (22_LongShort.sol#2395-2402)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).mint(address(this),uint256(changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2756-2759)\n\t\t- IYieldManager(yieldManagers[marketIndex]).depositPaymentToken(uint256(totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2735)\n\t\t- ISyntheticToken(syntheticTokens[marketIndex][isLong]).burn(uint256(- changeInSyntheticTokensTotalSupply)) (22_LongShort.sol#2761)\n\t\t- IYieldManager(yieldManagers[marketIndex]).removePaymentTokenFromMarket(uint256(- totalPaymentTokenValueChangeForMarket)) (22_LongShort.sol#2739-2741)\n\tEvent emitted after the call(s):\n\t- SystemStateUpdated(marketIndex,marketUpdateIndex[marketIndex],newAssetPrice,newLongPoolValue,newShortPoolValue,syntheticTokenPrice_inPaymentTokens_long,syntheticTokenPrice_inPaymentTokens_short) (22_LongShort.sol#2409-2417)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LongShort",
+            "filename": "22_LongShort.sol",
+            "function": "_executeOutstandingNextPriceSettlements",
+            "impact": "Low",
+            "line": 2689,
+            "line_end": 2703,
+            "message": "Reentrancy in LongShort._executeOutstandingNextPriceSettlements(address,uint32) (22_LongShort.sol#2689-2703):\n\tExternal calls:\n\t- _executeOutstandingNextPriceMints(marketIndex,user,true) (22_LongShort.sol#2692)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceMints(marketIndex,user,false) (22_LongShort.sol#2693)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][isLong]).transfer(user,amountSyntheticTokensToTransferToUser)) (22_LongShort.sol#2615-2617)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,true) (22_LongShort.sol#2694)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceRedeems(marketIndex,user,false) (22_LongShort.sol#2695)\n\t\t- IYieldManager(yieldManagers[marketIndex]).transferPaymentTokensToUser(user,amountPaymentToken_toRedeem) (22_LongShort.sol#2640)\n\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,true) (22_LongShort.sol#2696)\n\t\t- require(bool)(ISyntheticToken(syntheticTokens[marketIndex][! isShiftFromLong]).transfer(user,syntheticToken_toShiftTowardsTargetSide)) (22_LongShort.sol#2669-2674)\n\tEvent emitted after the call(s):\n\t- ExecuteNextPriceMarketSideShiftSettlementUser(user,marketIndex,isShiftFromLong,syntheticToken_toShiftTowardsTargetSide) (22_LongShort.sol#2676-2681)\n\t\t- _executeOutstandingNextPriceTokenShifts(marketIndex,user,true) (22_LongShort.sol#2696)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControl",
+            "filename": "22_LongShort.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 1020,
+            "line_end": 1023,
+            "message": "AccessControl._setRoleAdmin(bytes32,bytes32) (22_LongShort.sol#1020-1023) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "22_LongShort.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 194,
+            "line_end": 197,
+            "message": "Context._msgData() (22_LongShort.sol#194-197) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.3 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory.\nIt is used by:\n\t- 0.8.3 (22_LongShort.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2002,
+            "message": "Parameter LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256).balanceIncentiveCurve_equilibriumOffset (22_LongShort.sol#2002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1870,
+            "message": "Parameter LongShort.changeTreasury(address)._treasury (22_LongShort.sol#1870) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1727,
+            "message": "Variable LongShort.userNextPrice_syntheticToken_redeemAmount (22_LongShort.sol#1727) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1726,
+            "message": "Variable LongShort.userNextPrice_paymentToken_depositAmount (22_LongShort.sol#1726) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1912,
+            "message": "Parameter LongShort.createNewSyntheticMarket(string,string,address,address,address)._oracleManager (22_LongShort.sol#1912) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2524,
+            "message": "Parameter LongShort.redeemLongNextPrice(uint32,uint256).tokens_redeem (22_LongShort.sol#2524) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 679,
+            "message": "Constant Strings.alphabet (22_LongShort.sol#679) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1846,
+            "message": "Parameter LongShort.initialize(address,address,address,address)._staker (22_LongShort.sol#1846) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2531,
+            "message": "Parameter LongShort.redeemShortNextPrice(uint32,uint256).tokens_redeem (22_LongShort.sol#2531) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1719,
+            "message": "Variable LongShort.batched_amountPaymentToken_deposit (22_LongShort.sol#1719) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1547,
+            "message": "Parameter IStaker.addNewStakingFund(uint32,address,address,uint256,uint256,uint256,uint256,int256)._balanceIncentiveCurve_exponent (22_LongShort.sol#1547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1720,
+            "message": "Variable LongShort.batched_amountSyntheticToken_redeem (22_LongShort.sol#1720) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1701,
+            "message": "Variable LongShort.__globalStateGap (22_LongShort.sol#1701) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1724,
+            "message": "Variable LongShort.userNextPrice_currentUpdateIndex (22_LongShort.sol#1724) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1999,
+            "message": "Parameter LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256).unstakeFee_e18 (22_LongShort.sol#1999) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1546,
+            "message": "Parameter IStaker.addNewStakingFund(uint32,address,address,uint256,uint256,uint256,uint256,int256).unstakeFee_e18 (22_LongShort.sol#1546) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1911,
+            "message": "Parameter LongShort.createNewSyntheticMarket(string,string,address,address,address)._paymentToken (22_LongShort.sol#1911) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1728,
+            "line_end": 1729,
+            "message": "Variable LongShort.userNextPrice_syntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1728-1729) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1878,
+            "message": "Parameter LongShort.updateMarketOracle(uint32,address)._newOracleManager (22_LongShort.sol#1878) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1692,
+            "message": "Variable LongShort.__constantsGap (22_LongShort.sol#1692) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2003,
+            "message": "Parameter LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256)._marketTreasurySplitGradient_e18 (22_LongShort.sol#2003) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1548,
+            "message": "Parameter IStaker.addNewStakingFund(uint32,address,address,uint256,uint256,uint256,uint256,int256)._balanceIncentiveCurve_equilibriumOffset (22_LongShort.sol#1548) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1710,
+            "message": "Variable LongShort.marketTreasurySplitGradient_e18 (22_LongShort.sol#1710) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1843,
+            "message": "Parameter LongShort.initialize(address,address,address,address)._admin (22_LongShort.sol#1843) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2001,
+            "message": "Parameter LongShort.initializeMarket(uint32,uint256,uint256,uint256,uint256,uint256,int256,uint256).balanceIncentiveCurve_exponent (22_LongShort.sol#2001) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1913,
+            "message": "Parameter LongShort.createNewSyntheticMarket(string,string,address,address,address)._yieldManager (22_LongShort.sol#1913) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1863,
+            "message": "Parameter LongShort.changeAdmin(address)._admin (22_LongShort.sol#1863) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1557,
+            "message": "Parameter IStaker.pushUpdatedMarketPricesToUpdateFloatIssuanceCalculations(uint32,uint256,uint256,uint256,uint256,uint256).stakerTokenShiftIndex_to_longShortMarketPriceSnapshotIndex_mappingIfShiftExecuted (22_LongShort.sol#1557) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1845,
+            "message": "Parameter LongShort.initialize(address,address,address,address)._tokenFactory (22_LongShort.sol#1845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1887,
+            "message": "Parameter LongShort.changeMarketTreasurySplitGradient(uint32,uint256)._marketTreasurySplitGradient_e18 (22_LongShort.sol#1887) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 2129,
+            "message": "Parameter LongShort.getAmountSyntheticTokenToMintOnTargetSide(uint32,uint256,bool,uint256).amountSyntheticToken_redeemOnOriginSide (22_LongShort.sol#2129) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1717,
+            "message": "Variable LongShort.syntheticToken_priceSnapshot (22_LongShort.sol#1717) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1721,
+            "message": "Variable LongShort.batched_amountSyntheticToken_toShiftAwayFrom_marketSide (22_LongShort.sol#1721) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1630,
+            "message": "Parameter IYieldManager.distributeYieldForTreasuryAndReturnMarketAllocation(uint256,uint256).treasuryYieldPercent_e18 (22_LongShort.sol#1630) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1844,
+            "message": "Parameter LongShort.initialize(address,address,address,address)._treasury (22_LongShort.sol#1844) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 195,
+            "message": "Redundant expression \"this (22_LongShort.sol#195)\" inContext (22_LongShort.sol#189-198)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "contract": "ISyntheticToken",
+            "filename": "22_LongShort.sol",
+            "function": "stake",
+            "impact": "Informational",
+            "line": 1529,
+            "line_end": 1532,
+            "message": "ISyntheticToken (22_LongShort.sol#1529-1532) does not implement functions:\n\t- ISyntheticToken.stake(uint256) (22_LongShort.sol#1531)\n",
+            "name": "unimplemented-functions"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1701,
+            "message": "LongShort.__globalStateGap (22_LongShort.sol#1701) is never used in LongShort (22_LongShort.sol#1679-2895)\n",
+            "name": "unused-state"
+        },
+        {
+            "confidence": "High",
+            "filename": "22_LongShort.sol",
+            "impact": "Informational",
+            "line": 1692,
+            "message": "LongShort.__constantsGap (22_LongShort.sol#1692) is never used in LongShort (22_LongShort.sol#1679-2895)\n",
+            "name": "unused-state"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

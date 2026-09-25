@@ -1,0 +1,22 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "unchecked_low_level_calls\\0x4b71ad9c1a84b9b643aa54fdd66e2dec96e8b152.sol",
+            "line": 12,
+            "line_end": 20,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=3, est_cost_usd=0.0003"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

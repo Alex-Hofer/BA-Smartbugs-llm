@@ -1,0 +1,21 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "GPTScan reported success=false: no output produced",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected '{' but ... :12070: | 163 |  ... metersUpdated(old, newFeeParams);}} |                                         ^",
+        "solc rejected 62_Locke.sol: Error: Expected '{' but got end of source --> /work/input/62_Locke.sol:163:12070: | 163 |  ... metersUpdated(old, newFeeParams);}} | ^"
+    ],
+    "fails": [
+        "exception (TypeError: 'NoneType' object is not subscriptable)"
+    ],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

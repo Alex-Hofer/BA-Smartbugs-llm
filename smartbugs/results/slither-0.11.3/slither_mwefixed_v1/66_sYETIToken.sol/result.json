@@ -1,0 +1,451 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_burn",
+            "impact": "High",
+            "line": 696,
+            "line_end": 712,
+            "message": "sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712) ignores return value by yetiToken.transfer(to,amount) (../sb/66_sYETIToken.sol#708)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 680,
+            "line_end": 694,
+            "message": "sYETIToken.mint(uint256) (../sb/66_sYETIToken.sol#680-694) uses a dangerous strict equality:\n\t- totalSupply == 0 (../sb/66_sYETIToken.sol#683)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "mint",
+            "impact": "Medium",
+            "line": 680,
+            "line_end": 694,
+            "message": "Reentrancy in sYETIToken.mint(uint256) (../sb/66_sYETIToken.sol#680-694):\n\tExternal calls:\n\t- yetiToken.sendToSYETI(msg.sender,amount) (../sb/66_sYETIToken.sol#689)\n\tState variables written after the call(s):\n\t- effectiveYetiTokenBalance = effectiveYetiTokenBalance.add(amount) (../sb/66_sYETIToken.sol#690)\n\tsYETIToken.effectiveYetiTokenBalance (../sb/66_sYETIToken.sol#525) can be used in cross function reentrancies:\n\t- sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712)\n\t- sYETIToken.effectiveYetiTokenBalance (../sb/66_sYETIToken.sol#525)\n\t- sYETIToken.mint(uint256) (../sb/66_sYETIToken.sol#680-694)\n\t- sYETIToken.rebase() (../sb/66_sYETIToken.sol#768-791)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_burn",
+            "impact": "Medium",
+            "line": 696,
+            "line_end": 712,
+            "message": "Reentrancy in sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712):\n\tExternal calls:\n\t- yetiToken.transfer(to,amount) (../sb/66_sYETIToken.sol#708)\n\tState variables written after the call(s):\n\t- effectiveYetiTokenBalance = effectiveYetiTokenBalance.sub(amount) (../sb/66_sYETIToken.sol#709)\n\tsYETIToken.effectiveYetiTokenBalance (../sb/66_sYETIToken.sol#525) can be used in cross function reentrancies:\n\t- sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712)\n\t- sYETIToken.effectiveYetiTokenBalance (../sb/66_sYETIToken.sol#525)\n\t- sYETIToken.mint(uint256) (../sb/66_sYETIToken.sol#680-694)\n\t- sYETIToken.rebase() (../sb/66_sYETIToken.sol#768-791)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "setTransferRatio",
+            "impact": "Low",
+            "line": 802,
+            "line_end": 806,
+            "message": "sYETIToken.setTransferRatio(uint256) (../sb/66_sYETIToken.sol#802-806) should emit an event for: \n\t- transferRatio = newTransferRatio (../sb/66_sYETIToken.sol#805) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Low",
+            "line": 439,
+            "message": "BoringOwnable.transferOwnership(address,bool,bool).newOwner (../sb/66_sYETIToken.sol#439) lacks a zero-check on :\n\t\t- pendingOwner = newOwner (../sb/66_sYETIToken.sol#453)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_buyBack",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 765,
+            "message": "Reentrancy in sYETIToken._buyBack(address,uint256,uint256) (../sb/66_sYETIToken.sol#755-765):\n\tExternal calls:\n\t- require(bool)(yusdToken.approve(_routerAddress,0)) (../sb/66_sYETIToken.sol#758)\n\t- require(bool)(yusdToken.increaseAllowance(_routerAddress,_YUSDToSell)) (../sb/66_sYETIToken.sol#759)\n\tState variables written after the call(s):\n\t- lastBuybackTime = block.timestamp (../sb/66_sYETIToken.sol#760)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_buyBack",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 765,
+            "message": "Reentrancy in sYETIToken._buyBack(address,uint256,uint256) (../sb/66_sYETIToken.sol#755-765):\n\tExternal calls:\n\t- require(bool)(yusdToken.approve(_routerAddress,0)) (../sb/66_sYETIToken.sol#758)\n\t- require(bool)(yusdToken.increaseAllowance(_routerAddress,_YUSDToSell)) (../sb/66_sYETIToken.sol#759)\n\t- amounts = IsYETIRouter(_routerAddress).swap(_YUSDToSell,_YETIOutMin,address(this)) (../sb/66_sYETIToken.sol#761)\n\tState variables written after the call(s):\n\t- lastBuybackPrice = div(amounts[0].mul(1e18),amounts[1]) (../sb/66_sYETIToken.sol#763)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 696,
+            "line_end": 712,
+            "message": "Reentrancy in sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712):\n\tExternal calls:\n\t- yetiToken.transfer(to,amount) (../sb/66_sYETIToken.sol#708)\n\tEvent emitted after the call(s):\n\t- Transfer(from,address(0),shares) (../sb/66_sYETIToken.sol#711)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 680,
+            "line_end": 694,
+            "message": "Reentrancy in sYETIToken.mint(uint256) (../sb/66_sYETIToken.sol#680-694):\n\tExternal calls:\n\t- yetiToken.sendToSYETI(msg.sender,amount) (../sb/66_sYETIToken.sol#689)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),msg.sender,shares) (../sb/66_sYETIToken.sol#692)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_buyBack",
+            "impact": "Low",
+            "line": 755,
+            "line_end": 765,
+            "message": "Reentrancy in sYETIToken._buyBack(address,uint256,uint256) (../sb/66_sYETIToken.sol#755-765):\n\tExternal calls:\n\t- require(bool)(yusdToken.approve(_routerAddress,0)) (../sb/66_sYETIToken.sol#758)\n\t- require(bool)(yusdToken.increaseAllowance(_routerAddress,_YUSDToSell)) (../sb/66_sYETIToken.sol#759)\n\t- amounts = IsYETIRouter(_routerAddress).swap(_YUSDToSell,_YETIOutMin,address(this)) (../sb/66_sYETIToken.sol#761)\n\tEvent emitted after the call(s):\n\t- BuyBackExecuted(_YUSDToSell,amounts[0],amounts[1]) (../sb/66_sYETIToken.sol#764)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_burn",
+            "impact": "Low",
+            "line": 696,
+            "line_end": 712,
+            "message": "sYETIToken._burn(address,address,uint256) (../sb/66_sYETIToken.sol#696-712) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= user.lockedUntil,Locked) (../sb/66_sYETIToken.sol#703)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 658,
+            "line_end": 676,
+            "message": "sYETIToken.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/66_sYETIToken.sol#658-676) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < deadline,Expired) (../sb/66_sYETIToken.sol#668)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "rebase",
+            "impact": "Low",
+            "line": 768,
+            "line_end": 791,
+            "message": "sYETIToken.rebase() (../sb/66_sYETIToken.sol#768-791) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= lastRebaseTime + 28800,Can only rebase every 8 hours) (../sb/66_sYETIToken.sol#769)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 567,
+            "line_end": 585,
+            "message": "sYETIToken._transfer(address,address,uint256) (../sb/66_sYETIToken.sol#567-585) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= fromUser.lockedUntil,Locked) (../sb/66_sYETIToken.sol#573)\n\t- require(bool,string)(fromUser.balance >= shares,Low balance) (../sb/66_sYETIToken.sol#575)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "publicBuyBack",
+            "impact": "Low",
+            "line": 744,
+            "line_end": 752,
+            "message": "sYETIToken.publicBuyBack(address) (../sb/66_sYETIToken.sol#744-752) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(lastBuybackTime + 608400 < block.timestamp,Can only publicly buy back every 169 hours) (../sb/66_sYETIToken.sol#747)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 371,
+            "line_end": 389,
+            "message": "ERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/66_sYETIToken.sol#371-389) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp < deadline,ERC20: Expired) (../sb/66_sYETIToken.sol#381)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Domain",
+            "filename": "66_sYETIToken.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 230,
+            "line_end": 233,
+            "message": "Domain.constructor() (../sb/66_sYETIToken.sol#230-233) uses assembly\n\t- INLINE ASM (../sb/66_sYETIToken.sol#231)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Domain",
+            "filename": "66_sYETIToken.sol",
+            "function": "_domainSeparator",
+            "impact": "Informational",
+            "line": 239,
+            "line_end": 242,
+            "message": "Domain._domainSeparator() (../sb/66_sYETIToken.sol#239-242) uses assembly\n\t- INLINE ASM (../sb/66_sYETIToken.sol#240)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "_buyBack",
+            "impact": "Informational",
+            "line": 755,
+            "line_end": 765,
+            "message": "sYETIToken._buyBack(address,uint256,uint256) (../sb/66_sYETIToken.sol#755-765) compares to a boolean constant:\n\t-require(bool,string)(validRouters[_routerAddress] == true,Invalid router passed in) (../sb/66_sYETIToken.sol#757)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20WithSupply",
+            "filename": "66_sYETIToken.sol",
+            "function": "_mint",
+            "impact": "Informational",
+            "line": 395,
+            "line_end": 401,
+            "message": "ERC20WithSupply._mint(address,uint256) (../sb/66_sYETIToken.sol#395-401) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20WithSupply",
+            "filename": "66_sYETIToken.sol",
+            "function": "_burn",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 408,
+            "message": "ERC20WithSupply._burn(address,uint256) (../sb/66_sYETIToken.sol#403-408) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (../sb/66_sYETIToken.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeSymbol",
+            "impact": "Informational",
+            "line": 139,
+            "line_end": 142,
+            "message": "Low level call in BoringERC20.safeSymbol(IERC20) (../sb/66_sYETIToken.sol#139-142):\n\t- (success,data) = address(token).staticcall(abi.encodeWithSelector(SIG_SYMBOL)) (../sb/66_sYETIToken.sol#140)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeName",
+            "impact": "Informational",
+            "line": 147,
+            "line_end": 150,
+            "message": "Low level call in BoringERC20.safeName(IERC20) (../sb/66_sYETIToken.sol#147-150):\n\t- (success,data) = address(token).staticcall(abi.encodeWithSelector(SIG_NAME)) (../sb/66_sYETIToken.sol#148)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeDecimals",
+            "impact": "Informational",
+            "line": 155,
+            "line_end": 158,
+            "message": "Low level call in BoringERC20.safeDecimals(IERC20) (../sb/66_sYETIToken.sol#155-158):\n\t- (success,data) = address(token).staticcall(abi.encodeWithSelector(SIG_DECIMALS)) (../sb/66_sYETIToken.sol#156)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeBalanceOf",
+            "impact": "Informational",
+            "line": 164,
+            "line_end": 168,
+            "message": "Low level call in BoringERC20.safeBalanceOf(IERC20,address) (../sb/66_sYETIToken.sol#164-168):\n\t- (success,data) = address(token).staticcall(abi.encodeWithSelector(SIG_BALANCE_OF,to)) (../sb/66_sYETIToken.sol#165)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeTransfer",
+            "impact": "Informational",
+            "line": 175,
+            "line_end": 182,
+            "message": "Low level call in BoringERC20.safeTransfer(IERC20,address,uint256) (../sb/66_sYETIToken.sol#175-182):\n\t- (success,data) = address(token).call(abi.encodeWithSelector(SIG_TRANSFER,to,amount)) (../sb/66_sYETIToken.sol#180)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "BoringERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 190,
+            "line_end": 198,
+            "message": "Low level call in BoringERC20.safeTransferFrom(IERC20,address,address,uint256) (../sb/66_sYETIToken.sol#190-198):\n\t- (success,data) = address(token).call(abi.encodeWithSelector(SIG_TRANSFER_FROM,from,to,amount)) (../sb/66_sYETIToken.sol#196)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 732,
+            "message": "Parameter sYETIToken.buyBack(address,uint256,uint256)._YETIOutMin (../sb/66_sYETIToken.sol#732) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 744,
+            "message": "Parameter sYETIToken.publicBuyBack(address)._routerAddress (../sb/66_sYETIToken.sol#744) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter sYETIToken.setAddresses(IYETIToken,IERC20)._yeti (../sb/66_sYETIToken.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 483,
+            "message": "Parameter IsYETIRouter.swap(uint256,uint256,address)._YUSDAmount (../sb/66_sYETIToken.sol#483) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 809,
+            "message": "Parameter sYETIToken.addValidRouter(address)._routerAddress (../sb/66_sYETIToken.sol#809) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 216,
+            "message": "Variable Domain._DOMAIN_SEPARATOR (../sb/66_sYETIToken.sol#216) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 732,
+            "message": "Parameter sYETIToken.buyBack(address,uint256,uint256)._YUSDToSell (../sb/66_sYETIToken.sol#732) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 815,
+            "message": "Parameter sYETIToken.removeValidRouter(address)._routerAddress (../sb/66_sYETIToken.sol#815) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 732,
+            "message": "Parameter sYETIToken.buyBack(address,uint256,uint256)._routerAddress (../sb/66_sYETIToken.sol#732) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20",
+            "filename": "66_sYETIToken.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 359,
+            "line_end": 361,
+            "message": "Function ERC20.DOMAIN_SEPARATOR() (../sb/66_sYETIToken.sol#359-361) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 560,
+            "message": "Parameter sYETIToken.setAddresses(IYETIToken,IERC20)._yusd (../sb/66_sYETIToken.sol#560) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 217,
+            "message": "Variable Domain.DOMAIN_SEPARATOR_CHAIN_ID (../sb/66_sYETIToken.sol#217) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "sYETIToken",
+            "filename": "66_sYETIToken.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 646,
+            "line_end": 648,
+            "message": "Function sYETIToken.DOMAIN_SEPARATOR() (../sb/66_sYETIToken.sol#646-648) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_sYETIToken.sol",
+            "impact": "Informational",
+            "line": 515,
+            "line_end": 824,
+            "message": "Contract sYETIToken (../sb/66_sYETIToken.sol#515-824) is not in CapWords\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

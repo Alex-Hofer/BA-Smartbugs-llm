@@ -1,0 +1,117 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "SignatureValidator",
+            "filename": "38_Identity.sol",
+            "function": "recoverAddrImpl",
+            "impact": "Medium",
+            "line": 86,
+            "line_end": 126,
+            "message": "SignatureValidator.recoverAddrImpl(bytes32,bytes,bool) (../sb/38_Identity.sol#86-126) uses tx.origin for authorization: require(bool,string)(tx.origin == address(1),SignatureValidator: spoof must be used with specific addr) (../sb/38_Identity.sol#120)\n",
+            "name": "tx-origin"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "38_Identity.sol",
+            "impact": "Low",
+            "line": 203,
+            "message": "Identity.tryCatch(address,uint256,bytes).to (../sb/38_Identity.sol#203) lacks a zero-check on :\n\t\t- (success,returnData) = to.call{gas: gasleft()(),value: value}(data) (../sb/38_Identity.sol#207)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Identity",
+            "filename": "38_Identity.sol",
+            "function": "tryCatch",
+            "impact": "Low",
+            "line": 203,
+            "line_end": 209,
+            "message": "Reentrancy in Identity.tryCatch(address,uint256,bytes) (../sb/38_Identity.sol#203-209):\n\tExternal calls:\n\t- (success,returnData) = to.call{gas: gasleft()(),value: value}(data) (../sb/38_Identity.sol#207)\n\tEvent emitted after the call(s):\n\t- LogErr(to,value,data,returnData) (../sb/38_Identity.sol#208)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Identity",
+            "filename": "38_Identity.sol",
+            "function": "tryCatch",
+            "impact": "Low",
+            "line": 203,
+            "line_end": 209,
+            "message": "Identity.tryCatch(address,uint256,bytes) (../sb/38_Identity.sol#203-209) tries to limit the gas of an external call that controls implicit decoding\n\t(success,returnData) = to.call{gas: gasleft()(),value: value}(data) (../sb/38_Identity.sol#207)\n",
+            "name": "return-bomb"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibBytes",
+            "filename": "38_Identity.sol",
+            "function": "trimToSize",
+            "impact": "Informational",
+            "line": 14,
+            "line_end": 22,
+            "message": "LibBytes.trimToSize(bytes,uint256) (../sb/38_Identity.sol#14-22) uses assembly\n\t- INLINE ASM (../sb/38_Identity.sol#19-21)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Identity",
+            "filename": "38_Identity.sol",
+            "function": "fallback",
+            "impact": "Informational",
+            "line": 166,
+            "line_end": 180,
+            "message": "Identity.fallback() (../sb/38_Identity.sol#166-180) uses assembly\n\t- INLINE ASM (../sb/38_Identity.sol#175-178)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibBytes",
+            "filename": "38_Identity.sol",
+            "function": "readBytes32",
+            "impact": "Informational",
+            "line": 35,
+            "line_end": 53,
+            "message": "LibBytes.readBytes32(bytes,uint256) (../sb/38_Identity.sol#35-53) uses assembly\n\t- INLINE ASM (../sb/38_Identity.sol#49-51)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Identity",
+            "filename": "38_Identity.sol",
+            "function": "executeCall",
+            "impact": "Informational",
+            "line": 256,
+            "line_end": 273,
+            "message": "Identity.executeCall(address,uint256,bytes) (../sb/38_Identity.sol#256-273) uses assembly\n\t- INLINE ASM (../sb/38_Identity.sol#259-269)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Identity",
+            "filename": "38_Identity.sol",
+            "function": "tryCatch",
+            "impact": "Informational",
+            "line": 203,
+            "line_end": 209,
+            "message": "Low level call in Identity.tryCatch(address,uint256,bytes) (../sb/38_Identity.sol#203-209):\n\t- (success,returnData) = to.call{gas: gasleft()(),value: value}(data) (../sb/38_Identity.sol#207)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "38_Identity.sol",
+            "impact": "Informational",
+            "line": 135,
+            "line_end": 293,
+            "message": "Identity (../sb/38_Identity.sol#135-293) should inherit from IERC1271Wallet (../sb/38_Identity.sol#62-64)\n",
+            "name": "missing-inheritance"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

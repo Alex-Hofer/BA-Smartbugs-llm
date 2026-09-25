@@ -1,0 +1,24 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/24_SwappableYieldSource.so l, current function: _sharesToToken, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/24_SwappableYieldSource.so l, current function: _tokenToShares, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 325, in si ... ble did not pass the validation\") Exception: The description of variable did not pass the validation",
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Warning: SPDX license i ... YieldSource.sol:9:1: | 9 | import \"./access/AssetManager.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "solc rejected 24_SwappableYieldSource.sol : Warning: SPDX license identifier not provided in source  ... ieldSource.sol :9:1: | 9 | import \"./access/AssetManager.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=13, est_cost_usd=0.0022",
+        "static confirmation filtered LLM candidates: 4 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

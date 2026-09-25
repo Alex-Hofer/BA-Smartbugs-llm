@@ -1,0 +1,44 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: _burn, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: _calculateMarketStorage, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: _loadMarketStorage, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: _mint, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: addLiquidity, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: calculateIncentivesToClaim, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: calculateIntegralTotalSupply, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: changeNTokenSupply, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: claimIncentives, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: deserializeCashGroupStorage, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: finalize, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getCashClaims, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getHaircutCashClaims, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getNTokenAssetPV, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getSettlementMarket, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getStoredNTokenSupplyFactors, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: getTotalLiquidity, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: loadBalanceState, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: loadNTokenPortfolioNoCashGroup, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: reduceifCashAssetsProportional, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: removeLiquidity, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: setCashGroupStorage, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: setMarketStorage, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: setSettlementMarket, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/23_nTokenAction.sol, current function: storeAssets, current vul: first-deposit",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=230, est_cost_usd=0.0315",
+        "static confirmation filtered LLM candidates: 82 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

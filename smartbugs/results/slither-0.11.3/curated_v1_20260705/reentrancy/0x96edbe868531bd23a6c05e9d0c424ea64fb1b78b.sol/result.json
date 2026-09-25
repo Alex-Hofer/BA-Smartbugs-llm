@@ -1,0 +1,278 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "High",
+            "line": 81,
+            "line_end": 105,
+            "message": "LogFile (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#81-105) contract sets array length with a user-controlled value:\n\t- History.push(LastMsg) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#102)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Collect",
+            "impact": "High",
+            "line": 55,
+            "line_end": 69,
+            "message": "Reentrancy in PENNY_BY_PENNY.Collect(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55-69):\n\tExternal calls:\n\t- msg.sender.call.value(_am)() (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#63)\n\tState variables written after the call(s):\n\t- acc.balance -= _am (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#65)\n\tPENNY_BY_PENNY.Acc (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#17) can be used in cross function reentrancies:\n\t- PENNY_BY_PENNY.Acc (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#17)\n\t- PENNY_BY_PENNY.Collect(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55-69)\n\t- PENNY_BY_PENNY.Put(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#45-53)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Collect",
+            "impact": "Low",
+            "line": 55,
+            "line_end": 69,
+            "message": "PENNY_BY_PENNY.Collect(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55-69) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- acc.balance >= MinSum && acc.balance >= _am && now > acc.unlockTime (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#60)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Put",
+            "impact": "Low",
+            "line": 45,
+            "line_end": 53,
+            "message": "PENNY_BY_PENNY.Put(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#45-53) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- now + _lockTime > acc.unlockTime (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#51)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 28,
+            "message": "Deprecated standard detected THROW (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#28):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 35,
+            "message": "Deprecated standard detected THROW (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#35):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.19 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.19 (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 55,
+            "line_end": 69,
+            "message": "Low level call in PENNY_BY_PENNY.Collect(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55-69):\n\t- msg.sender.call.value(_am)() (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#63)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 78,
+            "message": "Contract PENNY_BY_PENNY (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#9-78) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "SetLogFile",
+            "impact": "Informational",
+            "line": 32,
+            "line_end": 37,
+            "message": "Function PENNY_BY_PENNY.SetLogFile(address) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#32-37) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 55,
+            "line_end": 69,
+            "message": "Function PENNY_BY_PENNY.Collect(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55-69) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Put",
+            "impact": "Informational",
+            "line": 45,
+            "line_end": 53,
+            "message": "Function PENNY_BY_PENNY.Put(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#45-53) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 95,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._adr (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#95) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 93,
+            "message": "Variable LogFile.LastMsg (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#93) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 95,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._val (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#95) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "Initialized",
+            "impact": "Informational",
+            "line": 39,
+            "line_end": 43,
+            "message": "Function PENNY_BY_PENNY.Initialized() (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#39-43) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 55,
+            "message": "Parameter PENNY_BY_PENNY.Collect(uint256)._am (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#55) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 17,
+            "message": "Variable PENNY_BY_PENNY.Acc (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#17) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 45,
+            "message": "Parameter PENNY_BY_PENNY.Put(uint256)._lockTime (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#45) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 95,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._data (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#95) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 91,
+            "message": "Variable LogFile.History (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#91) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LogFile",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "AddMessage",
+            "impact": "Informational",
+            "line": 95,
+            "line_end": 103,
+            "message": "Function LogFile.AddMessage(address,uint256,string) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#95-103) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 25,
+            "message": "Parameter PENNY_BY_PENNY.SetMinSum(uint256)._val (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#25) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 19,
+            "message": "Variable PENNY_BY_PENNY.MinSum (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#19) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 32,
+            "message": "Parameter PENNY_BY_PENNY.SetLogFile(address)._log (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#32) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "impact": "Informational",
+            "line": 21,
+            "message": "Variable PENNY_BY_PENNY.Log (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#21) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PENNY_BY_PENNY",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "SetMinSum",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 30,
+            "message": "Function PENNY_BY_PENNY.SetMinSum(uint256) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#25-30) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LogFile",
+            "filename": "reentrancy\\0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol",
+            "function": "AddMessage",
+            "impact": "Optimization",
+            "line": 95,
+            "line_end": 103,
+            "message": "AddMessage(address,uint256,string) should be declared external:\n\t- LogFile.AddMessage(address,uint256,string) (../sb/0x96edbe868531bd23a6c05e9d0c424ea64fb1b78b.sol#95-103)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

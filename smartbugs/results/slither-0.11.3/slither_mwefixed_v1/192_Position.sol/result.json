@@ -1,0 +1,737 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "High",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) has bitwise-xor operator ^ instead of the exponentiation operator **: \n\t - inverse = (3 * denominator) ^ 2 (../sb/192_Position.sol#626)\n",
+            "name": "incorrect-exp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) uses a Boolean constant improperly:\n\t-accInterestPerOi[_asset][_tigAsset][true] -= (int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(longOi[_asset][_tigAsset]) (../sb/192_Position.sol#1987)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) uses a Boolean constant improperly:\n\t-accInterestPerOi[_asset][_tigAsset][false] -= (int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(shortOi[_asset][_tigAsset]) (../sb/192_Position.sol#1984)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) uses a Boolean constant improperly:\n\t-accInterestPerOi[_asset][_tigAsset][false] += ((int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(shortOi[_asset][_tigAsset])) * int256(1e10 - vaultFundingPercent[_asset][_tigAsset]) / 1e10 (../sb/192_Position.sol#1989)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) uses a Boolean constant improperly:\n\t-accInterestPerOi[_asset][_tigAsset][true] += ((int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(longOi[_asset][_tigAsset])) * int256(1e10 - vaultFundingPercent[_asset][_tigAsset]) / 1e10 (../sb/192_Position.sol#1982)\n",
+            "name": "boolean-cst"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "trades",
+            "impact": "Medium",
+            "line": 1921,
+            "line_end": 1945,
+            "message": "Position.trades(uint256) (../sb/192_Position.sol#1921-1945) performs a multiplication on the result of a division:\n\t- _pendingFunding = (int256(block.timestamp - lastUpdate[_trade.asset][_trade.tigAsset]) * fundingDeltaPerSec[_trade.asset][_trade.tigAsset]) * 1e18 / int256(shortOi[_trade.asset][_trade.tigAsset]) (../sb/192_Position.sol#1935)\n\t- _pendingFunding = _pendingFunding * int256(1e10 - vaultFundingPercent[_trade.asset][_trade.tigAsset]) / 1e10 (../sb/192_Position.sol#1939)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#634)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "trades",
+            "impact": "Medium",
+            "line": 1921,
+            "line_end": 1945,
+            "message": "Position.trades(uint256) (../sb/192_Position.sol#1921-1945) performs a multiplication on the result of a division:\n\t- _pendingFunding = (int256(block.timestamp - lastUpdate[_trade.asset][_trade.tigAsset]) * fundingDeltaPerSec[_trade.asset][_trade.tigAsset]) * 1e18 / int256(longOi[_trade.asset][_trade.tigAsset]) (../sb/192_Position.sol#1928)\n\t- _pendingFunding = _pendingFunding * int256(1e10 - vaultFundingPercent[_trade.asset][_trade.tigAsset]) / 1e10 (../sb/192_Position.sol#1932)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#630)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse = (3 * denominator) ^ 2 (../sb/192_Position.sol#626)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- prod0 = prod0 / twos (../sb/192_Position.sol#614)\n\t- result = prod0 * inverse (../sb/192_Position.sol#641)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) performs a multiplication on the result of a division:\n\t- accInterestPerOi[_asset][_tigAsset][false] += ((int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(shortOi[_asset][_tigAsset])) * int256(1e10 - vaultFundingPercent[_asset][_tigAsset]) / 1e10 (../sb/192_Position.sol#1989)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#631)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#632)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "updateFunding",
+            "impact": "Medium",
+            "line": 1979,
+            "line_end": 2004,
+            "message": "Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256) (../sb/192_Position.sol#1979-2004) performs a multiplication on the result of a division:\n\t- accInterestPerOi[_asset][_tigAsset][true] += ((int256(block.timestamp - lastUpdate[_asset][_tigAsset]) * fundingDeltaPerSec[_asset][_tigAsset]) * 1e18 / int256(longOi[_asset][_tigAsset])) * int256(1e10 - vaultFundingPercent[_asset][_tigAsset]) / 1e10 (../sb/192_Position.sol#1982)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#633)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (../sb/192_Position.sol#611)\n\t- inverse *= 2 - denominator * inverse (../sb/192_Position.sol#635)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "192_Position.sol",
+            "impact": "Medium",
+            "line": 1926,
+            "message": "Position.trades(uint256)._pendingFunding (../sb/192_Position.sol#1926) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Low",
+            "line": 1956,
+            "message": "Position.constructor(string,string,string)._name (../sb/192_Position.sol#1956) shadows:\n\t- ERC721._name (../sb/192_Position.sol#983) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Low",
+            "line": 1956,
+            "message": "Position.constructor(string,string,string)._symbol (../sb/192_Position.sol#1956) shadows:\n\t- ERC721._symbol (../sb/192_Position.sol#986) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 2011,
+            "line_end": 2041,
+            "message": "Reentrancy in Position.mint(IPosition.MintTrade) (../sb/192_Position.sol#2011-2041):\n\tExternal calls:\n\t- _safeMint(_mintTrade.account,newTokenID) (../sb/192_Position.sol#2028)\n\t\t- retval = IERC721Receiver(to).onERC721Received(_msgSender(),from,tokenId,data) (../sb/192_Position.sol#1395-1406)\n\tState variables written after the call(s):\n\t- _assetOpenPositions[_mintTrade.asset].push(newTokenID) (../sb/192_Position.sol#2037)\n\t- _assetOpenPositionsIndexes[_mintTrade.asset][newTokenID] = _assetOpenPositions[_mintTrade.asset].length - 1 (../sb/192_Position.sol#2038)\n\t- _limitOrderIndexes[_mintTrade.asset][newTokenID] = _limitOrders[_mintTrade.asset].length - 1 (../sb/192_Position.sol#2031)\n\t- _limitOrders[_mintTrade.asset].push(newTokenID) (../sb/192_Position.sol#2030)\n\t- _openPositions.push(newTokenID) (../sb/192_Position.sol#2034)\n\t- _openPositionsIndexes[newTokenID] = _openPositions.length - 1 (../sb/192_Position.sol#2035)\n\t- initId[newTokenID] = accInterestPerOi[_mintTrade.asset][_mintTrade.tigAsset][_mintTrade.direction] * int256(_mintTrade.margin * _mintTrade.leverage / 1e18) / 1e18 (../sb/192_Position.sol#2033)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC721",
+            "filename": "192_Position.sol",
+            "function": "_checkOnERC721Received",
+            "impact": "Informational",
+            "line": 1388,
+            "line_end": 1410,
+            "message": "ERC721._checkOnERC721Received(address,address,uint256,bytes) (../sb/192_Position.sol#1388-1410) uses assembly\n\t- INLINE ASM (../sb/192_Position.sol#1402-1404)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "192_Position.sol",
+            "function": "_revert",
+            "impact": "Informational",
+            "line": 468,
+            "line_end": 480,
+            "message": "Address._revert(bytes,string) (../sb/192_Position.sol#468-480) uses assembly\n\t- INLINE ASM (../sb/192_Position.sol#473-476)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "MetaContext",
+            "filename": "192_Position.sol",
+            "function": "_msgSender",
+            "impact": "Informational",
+            "line": 1803,
+            "line_end": 1813,
+            "message": "MetaContext._msgSender() (../sb/192_Position.sol#1803-1813) uses assembly\n\t- INLINE ASM (../sb/192_Position.sol#1807-1809)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Strings",
+            "filename": "192_Position.sol",
+            "function": "toString",
+            "impact": "Informational",
+            "line": 874,
+            "line_end": 894,
+            "message": "Strings.toString(uint256) (../sb/192_Position.sol#874-894) uses assembly\n\t- INLINE ASM (../sb/192_Position.sol#880-882)\n\t- INLINE ASM (../sb/192_Position.sol#886-888)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Math",
+            "filename": "192_Position.sol",
+            "function": "mulDiv",
+            "impact": "Informational",
+            "line": 564,
+            "line_end": 644,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (../sb/192_Position.sol#564-644) uses assembly\n\t- INLINE ASM (../sb/192_Position.sol#575-579)\n\t- INLINE ASM (../sb/192_Position.sol#595-602)\n\t- INLINE ASM (../sb/192_Position.sol#609-618)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Position",
+            "filename": "192_Position.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 2203,
+            "line_end": 2205,
+            "message": "Position._msgData() (../sb/192_Position.sol#2203-2205) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MetaContext",
+            "filename": "192_Position.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 1815,
+            "line_end": 1821,
+            "message": "MetaContext._msgData() (../sb/192_Position.sol#1815-1821) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "192_Position.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 504,
+            "line_end": 506,
+            "message": "Context._msgData() (../sb/192_Position.sol#504-506) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC721",
+            "filename": "192_Position.sol",
+            "function": "_baseURI",
+            "impact": "Informational",
+            "line": 1064,
+            "line_end": 1066,
+            "message": "ERC721._baseURI() (../sb/192_Position.sol#1064-1066) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "192_Position.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 392,
+            "line_end": 399,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../sb/192_Position.sol#392-399):\n\t- (success,returndata) = target.staticcall(data) (../sb/192_Position.sol#397)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "192_Position.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 417,
+            "line_end": 424,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../sb/192_Position.sol#417-424):\n\t- (success,returndata) = target.delegatecall(data) (../sb/192_Position.sol#422)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "192_Position.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 297,
+            "line_end": 302,
+            "message": "Low level call in Address.sendValue(address,uint256) (../sb/192_Position.sol#297-302):\n\t- (success,None) = recipient.call{value: amount}() (../sb/192_Position.sol#300)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "192_Position.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 365,
+            "line_end": 374,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../sb/192_Position.sol#365-374):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/192_Position.sol#372)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2122,
+            "message": "Parameter Position.modifyTp(uint256,uint256)._id (../sb/192_Position.sol#2122) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2132,
+            "message": "Parameter Position.modifySl(uint256,uint256)._id (../sb/192_Position.sol#2132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2174,
+            "message": "Parameter Position.userTrades(address)._user (../sb/192_Position.sol#2174) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._asset (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1950,
+            "message": "Parameter Position.limitOrders(uint256)._asset (../sb/192_Position.sol#1950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._vaultFundingPercent (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1795,
+            "message": "Parameter MetaContext.setTrustedForwarder(address,bool)._bool (../sb/192_Position.sol#1795) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1947,
+            "message": "Parameter Position.openPositionsIndexes(uint256)._id (../sb/192_Position.sol#1947) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2077,
+            "message": "Parameter Position.modifyMargin(uint256,uint256,uint256)._newMargin (../sb/192_Position.sol#2077) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2100,
+            "message": "Parameter Position.setAccInterest(uint256)._id (../sb/192_Position.sol#2100) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1920,
+            "message": "Parameter Position.isMinter(address)._address (../sb/192_Position.sol#1920) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2048,
+            "message": "Parameter Position.executeLimitOrder(uint256,uint256,uint256)._price (../sb/192_Position.sol#2048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2048,
+            "message": "Parameter Position.executeLimitOrder(uint256,uint256,uint256)._newMargin (../sb/192_Position.sol#2048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2089,
+            "message": "Parameter Position.addToPosition(uint256,uint256,uint256)._newPrice (../sb/192_Position.sol#2089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2048,
+            "message": "Parameter Position.executeLimitOrder(uint256,uint256,uint256)._id (../sb/192_Position.sol#2048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1948,
+            "message": "Parameter Position.assetOpenPositions(uint256)._asset (../sb/192_Position.sol#1948) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2190,
+            "message": "Parameter Position.setMinter(address,bool)._minter (../sb/192_Position.sol#2190) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2089,
+            "message": "Parameter Position.addToPosition(uint256,uint256,uint256)._newMargin (../sb/192_Position.sol#2089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1951,
+            "message": "Parameter Position.limitOrderIndexes(uint256,uint256)._asset (../sb/192_Position.sol#1951) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2166,
+            "message": "Parameter Position.limitOrdersLength(uint256)._asset (../sb/192_Position.sol#2166) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2110,
+            "message": "Parameter Position.reducePosition(uint256,uint256)._percent (../sb/192_Position.sol#2110) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._shortOi (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2089,
+            "message": "Parameter Position.addToPosition(uint256,uint256,uint256)._id (../sb/192_Position.sol#2089) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2077,
+            "message": "Parameter Position.modifyMargin(uint256,uint256,uint256)._id (../sb/192_Position.sol#2077) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1795,
+            "message": "Parameter MetaContext.setTrustedForwarder(address,bool)._forwarder (../sb/192_Position.sol#1795) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2140,
+            "message": "Parameter Position.burn(uint256)._id (../sb/192_Position.sol#2140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2162,
+            "message": "Parameter Position.assetOpenPositionsLength(uint256)._asset (../sb/192_Position.sol#2162) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2190,
+            "message": "Parameter Position.setMinter(address,bool)._bool (../sb/192_Position.sol#2190) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1891,
+            "message": "Parameter Position.ownerOf(uint256)._id (../sb/192_Position.sol#1891) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2182,
+            "message": "Parameter Position.openPositionsSelection(uint256,uint256)._from (../sb/192_Position.sol#2182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1921,
+            "message": "Parameter Position.trades(uint256)._id (../sb/192_Position.sol#1921) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1949,
+            "message": "Parameter Position.assetOpenPositionsIndexes(uint256,uint256)._asset (../sb/192_Position.sol#1949) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2077,
+            "message": "Parameter Position.modifyMargin(uint256,uint256,uint256)._newLeverage (../sb/192_Position.sol#2077) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2132,
+            "message": "Parameter Position.modifySl(uint256,uint256)._slPrice (../sb/192_Position.sol#2132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2182,
+            "message": "Parameter Position.openPositionsSelection(uint256,uint256)._to (../sb/192_Position.sol#2182) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2122,
+            "message": "Parameter Position.modifyTp(uint256,uint256)._tpPrice (../sb/192_Position.sol#2122) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1949,
+            "message": "Parameter Position.assetOpenPositionsIndexes(uint256,uint256)._id (../sb/192_Position.sol#1949) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1965,
+            "message": "Parameter Position.setBaseURI(string)._newBaseURI (../sb/192_Position.sol#1965) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1951,
+            "message": "Parameter Position.limitOrderIndexes(uint256,uint256)._id (../sb/192_Position.sol#1951) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1799,
+            "message": "Parameter MetaContext.isTrustedForwarder(address)._forwarder (../sb/192_Position.sol#1799) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2012,
+            "message": "Parameter Position.mint(IPosition.MintTrade)._mintTrade (../sb/192_Position.sol#2012) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._baseFundingRate (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._longOi (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 2110,
+            "message": "Parameter Position.reducePosition(uint256,uint256)._id (../sb/192_Position.sol#2110) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "192_Position.sol",
+            "impact": "Informational",
+            "line": 1979,
+            "message": "Parameter Position.updateFunding(uint256,address,uint256,uint256,uint256,uint256)._tigAsset (../sb/192_Position.sol#1979) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

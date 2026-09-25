@@ -1,0 +1,317 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "High",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) has bitwise-xor operator ^ instead of the exponentiation operator **: \n\t - inverse = (3 * denominator) ^ 2 (19_TransactionManager.sol#844)\n",
+            "name": "incorrect-exp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#850)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#852)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- prod0 = prod0 / twos (19_TransactionManager.sol#832)\n\t- result = prod0 * inverse (19_TransactionManager.sol#859)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#851)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#849)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse = (3 * denominator) ^ 2 (19_TransactionManager.sol#844)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#853)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (19_TransactionManager.sol#829)\n\t- inverse *= 2 - denominator * inverse (19_TransactionManager.sol#848)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TransactionManager",
+            "filename": "19_TransactionManager.sol",
+            "function": "addLiquidity",
+            "impact": "Low",
+            "line": 1508,
+            "line_end": 1525,
+            "message": "Reentrancy in TransactionManager.addLiquidity(uint256,address,address) (19_TransactionManager.sol#1508-1525):\n\tExternal calls:\n\t- require(bool,string)(LibERC20.transferFrom(assetId,router,address(this),amount),addLiquidity: ERC20_TRANSFER_FAILED) (19_TransactionManager.sol#1517)\n\tState variables written after the call(s):\n\t- routerBalances[router][assetId] += amount (19_TransactionManager.sol#1521)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TransactionManager",
+            "filename": "19_TransactionManager.sol",
+            "function": "cancel",
+            "impact": "Low",
+            "line": 1872,
+            "line_end": 1972,
+            "message": "TransactionManager.cancel(ITransactionManager.TransactionData,uint256,bytes) (19_TransactionManager.sol#1872-1972) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- txData.expiry >= block.timestamp (19_TransactionManager.sol#1915)\n\t- txData.expiry >= block.timestamp (19_TransactionManager.sol#1953)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TransactionManager",
+            "filename": "19_TransactionManager.sol",
+            "function": "fulfill",
+            "impact": "Low",
+            "line": 1723,
+            "line_end": 1856,
+            "message": "TransactionManager.fulfill(ITransactionManager.TransactionData,uint256,bytes,bytes) (19_TransactionManager.sol#1723-1856) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(txData.expiry > block.timestamp,fulfill: EXPIRED) (19_TransactionManager.sol#1738)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TransactionManager",
+            "filename": "19_TransactionManager.sol",
+            "function": "prepare",
+            "impact": "Low",
+            "line": 1584,
+            "line_end": 1702,
+            "message": "TransactionManager.prepare(ITransactionManager.InvariantTransactionData,uint256,uint256,bytes,bytes,bytes) (19_TransactionManager.sol#1584-1702) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)((expiry - block.timestamp) >= MIN_TIMEOUT,prepare: TIMEOUT_TOO_LOW) (19_TransactionManager.sol#1608)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibUtils",
+            "filename": "19_TransactionManager.sol",
+            "function": "revertIfCallFailed",
+            "impact": "Informational",
+            "line": 174,
+            "line_end": 183,
+            "message": "LibUtils.revertIfCallFailed(bool,bytes) (19_TransactionManager.sol#174-183) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#179-181)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Math",
+            "filename": "19_TransactionManager.sol",
+            "function": "mulDiv",
+            "impact": "Informational",
+            "line": 783,
+            "line_end": 862,
+            "message": "Math.mulDiv(uint256,uint256,uint256) (19_TransactionManager.sol#783-862) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#790-794)\n\t- INLINE ASM (19_TransactionManager.sol#813-820)\n\t- INLINE ASM (19_TransactionManager.sol#827-836)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECDSA",
+            "filename": "19_TransactionManager.sol",
+            "function": "toTypedDataHash",
+            "impact": "Informational",
+            "line": 1398,
+            "line_end": 1407,
+            "message": "ECDSA.toTypedDataHash(bytes32,bytes32) (19_TransactionManager.sol#1398-1407) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#1400-1406)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECDSA",
+            "filename": "19_TransactionManager.sol",
+            "function": "toEthSignedMessageHash",
+            "impact": "Informational",
+            "line": 1366,
+            "line_end": 1375,
+            "message": "ECDSA.toEthSignedMessageHash(bytes32) (19_TransactionManager.sol#1366-1375) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#1370-1374)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECDSA",
+            "filename": "19_TransactionManager.sol",
+            "function": "tryRecover",
+            "impact": "Informational",
+            "line": 1256,
+            "line_end": 1273,
+            "message": "ECDSA.tryRecover(bytes32,bytes) (19_TransactionManager.sol#1256-1273) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#1264-1268)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "19_TransactionManager.sol",
+            "function": "_revert",
+            "impact": "Informational",
+            "line": 417,
+            "line_end": 429,
+            "message": "Address._revert(bytes,string) (19_TransactionManager.sol#417-429) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#422-425)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Strings",
+            "filename": "19_TransactionManager.sol",
+            "function": "toString",
+            "impact": "Informational",
+            "line": 1133,
+            "line_end": 1153,
+            "message": "Strings.toString(uint256) (19_TransactionManager.sol#1133-1153) uses assembly\n\t- INLINE ASM (19_TransactionManager.sol#1139-1141)\n\t- INLINE ASM (19_TransactionManager.sol#1145-1147)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuard",
+            "filename": "19_TransactionManager.sol",
+            "function": "_reentrancyGuardEntered",
+            "impact": "Informational",
+            "line": 723,
+            "line_end": 725,
+            "message": "ReentrancyGuard._reentrancyGuardEntered() (19_TransactionManager.sol#723-725) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "19_TransactionManager.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (19_TransactionManager.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "19_TransactionManager.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 255,
+            "message": "Low level call in Address.sendValue(address,uint256) (19_TransactionManager.sol#250-255):\n\t- (success,None) = recipient.call{value: amount}() (19_TransactionManager.sol#253)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "19_TransactionManager.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 341,
+            "line_end": 348,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (19_TransactionManager.sol#341-348):\n\t- (success,returndata) = target.staticcall(data) (19_TransactionManager.sol#346)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibERC20",
+            "filename": "19_TransactionManager.sol",
+            "function": "wrapCall",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 454,
+            "message": "Low level call in LibERC20.wrapCall(address,bytes) (19_TransactionManager.sol#446-454):\n\t- (success,returnData) = assetId.call(callData) (19_TransactionManager.sol#451)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibAsset",
+            "filename": "19_TransactionManager.sol",
+            "function": "transferEther",
+            "impact": "Informational",
+            "line": 616,
+            "line_end": 624,
+            "message": "Low level call in LibAsset.transferEther(address,uint256) (19_TransactionManager.sol#616-624):\n\t- (success,returnData) = recipient.call{value: amount}() (19_TransactionManager.sol#620-621)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "19_TransactionManager.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 366,
+            "line_end": 373,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (19_TransactionManager.sol#366-373):\n\t- (success,returndata) = target.delegatecall(data) (19_TransactionManager.sol#371)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "19_TransactionManager.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 314,
+            "line_end": 323,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (19_TransactionManager.sol#314-323):\n\t- (success,returndata) = target.call{value: value}(data) (19_TransactionManager.sol#321)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

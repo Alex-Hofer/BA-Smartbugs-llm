@@ -1,0 +1,49 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Centra4",
+            "filename": "unchecked_low_level_calls\\0x524960d55174d912768678d8c606b4d50b79d7b1.sol",
+            "function": "transfer",
+            "impact": "Medium",
+            "line": 11,
+            "line_end": 25,
+            "message": "Centra4.transfer() (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#11-25) ignores return value by contract_address.call(register,CentraToken) (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#21)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x524960d55174d912768678d8c606b4d50b79d7b1.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.13 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput.\nIt is used by:\n\t- ^0.4.13 (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x524960d55174d912768678d8c606b4d50b79d7b1.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Centra4",
+            "filename": "unchecked_low_level_calls\\0x524960d55174d912768678d8c606b4d50b79d7b1.sol",
+            "function": "transfer",
+            "impact": "Informational",
+            "line": 11,
+            "line_end": 25,
+            "message": "Low level call in Centra4.transfer() (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#11-25):\n\t- contract_address.call(register,CentraToken) (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#21)\n\t- ! contract_address.call(bytes4(keccak256()(transfer(address,uint256))),c2,k) (../sb/0x524960d55174d912768678d8c606b4d50b79d7b1.sol#22)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

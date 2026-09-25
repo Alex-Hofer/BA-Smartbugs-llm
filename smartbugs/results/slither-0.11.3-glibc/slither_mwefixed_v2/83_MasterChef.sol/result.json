@@ -1,0 +1,377 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1185,
+            "line_end": 1204,
+            "message": "MasterChef.updatePool(uint256) (83_MasterChef.sol#1185-1204) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_MasterChef.sol#1201)\n\t- pool.accConcurPerShare = pool.accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_MasterChef.sol#1202)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "pendingConcur",
+            "impact": "Medium",
+            "line": 1163,
+            "line_end": 1174,
+            "message": "MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_MasterChef.sol#1170)\n\t- accConcurPerShare = accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_MasterChef.sol#1171)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1185,
+            "line_end": 1204,
+            "message": "MasterChef.updatePool(uint256) (83_MasterChef.sol#1185-1204) uses a dangerous strict equality:\n\t- lpSupply == 0 || pool.allocPoint == 0 (83_MasterChef.sol#1191)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1207,
+            "line_end": 1230,
+            "message": "Reentrancy in MasterChef.deposit(address,uint256,uint256) (83_MasterChef.sol#1207-1230):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_MasterChef.sol#1215)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_MasterChef.sol#1256)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_MasterChef.sol#1258)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount + _amount - depositFee) (83_MasterChef.sol#1222)\n\tMasterChef.userInfo (83_MasterChef.sol#1097) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174)\n\t- MasterChef.userInfo (83_MasterChef.sol#1097)\n\t- user.amount = SafeCast.toUint128(user.amount + _amount) (83_MasterChef.sol#1224)\n\tMasterChef.userInfo (83_MasterChef.sol#1097) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174)\n\t- MasterChef.userInfo (83_MasterChef.sol#1097)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_MasterChef.sol#1228)\n\tMasterChef.userInfo (83_MasterChef.sol#1097) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174)\n\t- MasterChef.userInfo (83_MasterChef.sol#1097)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1233,
+            "line_end": 1249,
+            "message": "Reentrancy in MasterChef.withdraw(address,uint256,uint256) (83_MasterChef.sol#1233-1249):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_MasterChef.sol#1242)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_MasterChef.sol#1256)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_MasterChef.sol#1258)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount - _amount) (83_MasterChef.sol#1245)\n\tMasterChef.userInfo (83_MasterChef.sol#1097) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174)\n\t- MasterChef.userInfo (83_MasterChef.sol#1097)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_MasterChef.sol#1247)\n\tMasterChef.userInfo (83_MasterChef.sol#1097) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_MasterChef.sol#1163-1174)\n\t- MasterChef.userInfo (83_MasterChef.sol#1097)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 1136,
+            "line_end": 1151,
+            "message": "MasterChef.add(address,uint256,uint16,uint256) (83_MasterChef.sol#1136-1151) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocationPoints) (83_MasterChef.sol#1139) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1185,
+            "line_end": 1204,
+            "message": "MasterChef.updatePool(uint256) (83_MasterChef.sol#1185-1204) has external calls inside a loop: lpSupply = pool.depositToken.balanceOf(address(this)) (83_MasterChef.sol#1190)\n\tCalls stack containing the loop:\n\t\tMasterChef.massUpdatePools()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 454,
+            "line_end": 474,
+            "message": "Address.verifyCallResult(bool,bytes,string) (83_MasterChef.sol#454-474) uses assembly\n\t- INLINE ASM (83_MasterChef.sol#466-469)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 285,
+            "line_end": 295,
+            "message": "Address.isContract(address) (83_MasterChef.sol#285-295) uses assembly\n\t- INLINE ASM (83_MasterChef.sol#291-293)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "83_MasterChef.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 28,
+            "message": "Context._msgData() (83_MasterChef.sol#26-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 410,
+            "line_end": 419,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (83_MasterChef.sol#410-419):\n\t- (success,returndata) = target.staticcall(data) (83_MasterChef.sol#417)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 437,
+            "line_end": 446,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (83_MasterChef.sol#437-446):\n\t- (success,returndata) = target.delegatecall(data) (83_MasterChef.sol#444)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 381,
+            "line_end": 392,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (83_MasterChef.sol#381-392):\n\t- (success,returndata) = target.call{value: value}(data) (83_MasterChef.sol#390)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_MasterChef.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 313,
+            "line_end": 318,
+            "message": "Low level call in Address.sendValue(address,uint256) (83_MasterChef.sol#313-318):\n\t- (success,None) = recipient.call{value: amount}() (83_MasterChef.sol#316)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1128,
+            "message": "Parameter MasterChef.addDepositor(address)._depositor (83_MasterChef.sol#1128) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1207,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._recipient (83_MasterChef.sol#1207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1233,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._amount (83_MasterChef.sol#1233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._startBlock (83_MasterChef.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1185,
+            "message": "Parameter MasterChef.updatePool(uint256)._pid (83_MasterChef.sol#1185) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1207,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._amount (83_MasterChef.sol#1207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1158,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._from (83_MasterChef.sol#1158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1163,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._pid (83_MasterChef.sol#1163) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1233,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._pid (83_MasterChef.sol#1233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1252,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._amount (83_MasterChef.sol#1252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1132,
+            "message": "Parameter MasterChef.removeDepositor(address)._depositor (83_MasterChef.sol#1132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1207,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._pid (83_MasterChef.sol#1207) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._token (83_MasterChef.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._depositFee (83_MasterChef.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1233,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._recipient (83_MasterChef.sol#1233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1163,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._user (83_MasterChef.sol#1163) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1158,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._to (83_MasterChef.sol#1158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1252,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._to (83_MasterChef.sol#1252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Informational",
+            "line": 1136,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._allocationPoints (83_MasterChef.sol#1136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_MasterChef.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 1063,
+            "line_end": 1262,
+            "message": "MasterChef.slitherConstructorVariables() (83_MasterChef.sol#1063-1262) uses literals with too many digits:\n\t- concurPerBlock = 100000000000000 (83_MasterChef.sol#1100)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1106,
+            "message": "MasterChef._concurShareMultiplier (83_MasterChef.sol#1106) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1100,
+            "message": "MasterChef.concurPerBlock (83_MasterChef.sol#1100) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1107,
+            "message": "MasterChef._perMille (83_MasterChef.sol#1107) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1103,
+            "message": "MasterChef.endBlock (83_MasterChef.sol#1103) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1102,
+            "message": "MasterChef.startBlock (83_MasterChef.sol#1102) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_MasterChef.sol",
+            "impact": "Optimization",
+            "line": 1104,
+            "message": "MasterChef.concur (83_MasterChef.sol#1104) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

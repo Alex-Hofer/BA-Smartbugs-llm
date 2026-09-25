@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... (IVault vault,bytes32 poolId,IERC20[] memory amm ... |                                         ^^^^^",
+        "solc rejected 37_TempusController.sol: Error: Expected ',' but got identifier --> /work/input/37_Tem ... | 218 |  ... mpusAMM)privateviewreturns (IVault vault,bytes32 poolId,IERC20[] memory amm ... | ^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=6, est_cost_usd=0.0007"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

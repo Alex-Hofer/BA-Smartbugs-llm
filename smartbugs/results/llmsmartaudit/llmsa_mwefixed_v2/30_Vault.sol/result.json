@@ -1,0 +1,22 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "LLMSmartAudit checked 0 of 41 detector categories: the contract was not analysed",
+        "context window exceeded: the agent aborted a call with max_tokens_exceeded_by_camel; the contract was not fully analysed",
+        "no report produced"
+    ],
+    "fails": [
+        "exception (RuntimeError: error in ChatAgentResponse, info:{'id': None, 'usage': None, 'termination_reasons': ['max_tokens_exceeded_by_camel'], 'num_tokens': 76456})"
+    ],
+    "findings": [],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/deepseek-v4-flash",
+        "categories checked: 0/41",
+        "context window: 65536 tokens, smallest completion budget: 1774"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

@@ -1,0 +1,61 @@
+{
+    "debug": {
+        "sb_bin_log": [
+            "slither /sb/23_NotionalV1ToNotionalV2.sol --json /output.json"
+        ]
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/23_NotionalV1ToNotionalV2.sol' '600' '/sb/bin'",
+        "image": "smartbugs/slither:0.11.3-glibc",
+        "network": "none",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmpk8wdtzt_": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "23_NotionalV1ToNotionalV2.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": -7133064511671239219,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": 924307371343681187,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 3.2366957664489746,
+        "exit_code": 255,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1790284390.8426783
+    },
+    "runid": "slither_mwefixed_v2",
+    "solc": "0.7.6",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN'",
+        "env": null,
+        "id": "slither-0.11.3-glibc",
+        "image": "smartbugs/slither:0.11.3-glibc",
+        "info": "Slither is a Solidity static analysis framework written in Python 3. It runs a suite of vulnerability detectors and prints visual information about contract details. Slither enables developers to find vulnerabilities, enhance their code comphrehension, and quickly prototype custom analyses.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "Slither",
+        "network": null,
+        "origin": "https://github.com/crytic/slither",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "0.11.3"
+    }
+}

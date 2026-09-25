@@ -1,0 +1,37 @@
+{
+    "errors": [
+        "ERROR    analyze_pipeline: Error when parsing answer: _getFunds",
+        "ERROR    analyze_pipeline: Error when parsing answer: addLiquidity",
+        "ERROR    analyze_pipeline: Error when parsing answer: moveTokenToPools",
+        "ERROR    analyze_pipeline: Error when parsing answer: removeLiquidity",
+        "ERROR    analyze_pipeline: Error when parsing answer: updateAnchorPrice",
+        "ERROR    analyze_pipeline: Error when parsing function: _getFunds",
+        "ERROR    analyze_pipeline: Error when parsing function: addLiquidity",
+        "ERROR    analyze_pipeline: Error when parsing function: borrowForMember",
+        "ERROR    analyze_pipeline: Error when parsing function: curatePool",
+        "ERROR    analyze_pipeline: Error when parsing function: init",
+        "ERROR    analyze_pipeline: Error when parsing function: listAnchor",
+        "ERROR    analyze_pipeline: Error when parsing function: moveTokenToPools",
+        "ERROR    analyze_pipeline: Error when parsing function: payInterest",
+        "ERROR    analyze_pipeline: Error when parsing function: removeLiquidity",
+        "ERROR    analyze_pipeline: Error when parsing function: repayForMember",
+        "ERROR    analyze_pipeline: Error when parsing function: replaceAnchor",
+        "ERROR    analyze_pipeline: Error when parsing function: replacePool",
+        "ERROR    analyze_pipeline: Error when parsing function: setParams",
+        "ERROR    analyze_pipeline: Error when parsing function: swapWithSynthsWithLimit",
+        "ERROR    analyze_pipeline: Error when parsing function: updateAnchorPrice",
+        "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... e\", s, err.value) from None json.decoder.JSONDecodeErro r: Expecting value: line 1 column 1 (char 0)",
+        "TIMEOUT_BRAKE: run cut short (brake) -- 7 LLM-Aufrufe wegen der Frist unterdrueckt: SmartBugs deadline reached (SB_DEADLINE_EPOCH=1787021395, 7s over)"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=custom/custom-cheap, llm_calls=21, est_cost_usd=0.0000",
+        "static confirmation filtered LLM candidates: 2 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

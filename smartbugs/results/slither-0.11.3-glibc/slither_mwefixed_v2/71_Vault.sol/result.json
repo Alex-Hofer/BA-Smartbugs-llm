@@ -1,0 +1,526 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValue",
+            "impact": "High",
+            "line": 646,
+            "line_end": 662,
+            "message": "Vault.addValue(uint256,address,address) (71_Vault.sol#646-662) uses arbitrary from in transferFrom: IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#658)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "High",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValueBatch",
+            "impact": "High",
+            "line": 611,
+            "line_end": 636,
+            "message": "Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636) uses arbitrary from in transferFrom: IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#627)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValueBatch",
+            "impact": "Medium",
+            "line": 611,
+            "line_end": 636,
+            "message": "Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636) performs a multiplication on the result of a division:\n\t- _attributions = (_amount * totalAttributions) / _pool (71_Vault.sol#625)\n\t- _allocation = (_shares[i] * _attributions) / MAGIC_SCALE_1E6 (71_Vault.sol#632)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "utilize",
+            "impact": "Medium",
+            "line": 864,
+            "line_end": 874,
+            "message": "Reentrancy in Vault.utilize() (71_Vault.sol#864-874):\n\tExternal calls:\n\t- IERC20(token).safeTransfer(address(controller),_amount) (71_Vault.sol#870)\n\tState variables written after the call(s):\n\t- balance -= _amount (71_Vault.sol#871)\n\tVault.balance (71_Vault.sol#557) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.available() (71_Vault.sol#962-964)\n\t- Vault.balance (71_Vault.sol#557)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n\t- Vault.withdrawRedundant(address,address) (71_Vault.sol#983-1001)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValueBatch",
+            "impact": "Medium",
+            "line": 611,
+            "line_end": 636,
+            "message": "Reentrancy in Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636):\n\tExternal calls:\n\t- IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#627)\n\tState variables written after the call(s):\n\t- balance += _amount (71_Vault.sol#629)\n\tVault.balance (71_Vault.sol#557) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.available() (71_Vault.sol#962-964)\n\t- Vault.balance (71_Vault.sol#557)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n\t- Vault.withdrawRedundant(address,address) (71_Vault.sol#983-1001)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n\t- totalAttributions += _attributions (71_Vault.sol#630)\n\tVault.totalAttributions (71_Vault.sol#554) can be used in cross function reentrancies:\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.attributionAll() (71_Vault.sol#895-897)\n\t- Vault.attributionValue(uint256) (71_Vault.sol#904-915)\n\t- Vault.getPricePerFullShare() (71_Vault.sol#970-972)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.totalAttributions (71_Vault.sol#554)\n\t- Vault.transferValue(uint256,address) (71_Vault.sol#703-716)\n\t- Vault.underlyingValue(address) (71_Vault.sol#922-933)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "setController",
+            "impact": "Medium",
+            "line": 1007,
+            "line_end": 1018,
+            "message": "Reentrancy in Vault.setController(address) (71_Vault.sol#1007-1018):\n\tExternal calls:\n\t- controller.migrate(address(_controller)) (71_Vault.sol#1011)\n\tState variables written after the call(s):\n\t- controller = IController(_controller) (71_Vault.sol#1012)\n\tVault.controller (71_Vault.sol#548) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault.constructor(address,address,address,address) (71_Vault.sol#582-597)\n\t- Vault.controller (71_Vault.sol#548)\n\t- Vault.setController(address) (71_Vault.sol#1007-1018)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "_withdrawAttribution",
+            "impact": "Medium",
+            "line": 818,
+            "line_end": 838,
+            "message": "Reentrancy in Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838):\n\tExternal calls:\n\t- _unutilize(_shortage) (71_Vault.sol#833)\n\t\t- controller.withdraw(address(this),_amount) (71_Vault.sol#954)\n\tState variables written after the call(s):\n\t- balance -= _retVal (71_Vault.sol#836)\n\tVault.balance (71_Vault.sol#557) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.available() (71_Vault.sol#962-964)\n\t- Vault.balance (71_Vault.sol#557)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n\t- Vault.withdrawRedundant(address,address) (71_Vault.sol#983-1001)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "withdrawValue",
+            "impact": "Medium",
+            "line": 670,
+            "line_end": 695,
+            "message": "Reentrancy in Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695):\n\tExternal calls:\n\t- _unutilize(_shortage) (71_Vault.sol#688)\n\t\t- controller.withdraw(address(this),_amount) (71_Vault.sol#954)\n\tState variables written after the call(s):\n\t- balance -= _amount (71_Vault.sol#693)\n\tVault.balance (71_Vault.sol#557) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.available() (71_Vault.sol#962-964)\n\t- Vault.balance (71_Vault.sol#557)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n\t- Vault.withdrawRedundant(address,address) (71_Vault.sol#983-1001)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValue",
+            "impact": "Medium",
+            "line": 646,
+            "line_end": 662,
+            "message": "Reentrancy in Vault.addValue(uint256,address,address) (71_Vault.sol#646-662):\n\tExternal calls:\n\t- IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#658)\n\tState variables written after the call(s):\n\t- balance += _amount (71_Vault.sol#659)\n\tVault.balance (71_Vault.sol#557) can be used in cross function reentrancies:\n\t- Vault._unutilize(uint256) (71_Vault.sol#951-956)\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.available() (71_Vault.sol#962-964)\n\t- Vault.balance (71_Vault.sol#557)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.utilize() (71_Vault.sol#864-874)\n\t- Vault.valueAll() (71_Vault.sol#939-945)\n\t- Vault.withdrawRedundant(address,address) (71_Vault.sol#983-1001)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n\t- totalAttributions += _attributions (71_Vault.sol#660)\n\tVault.totalAttributions (71_Vault.sol#554) can be used in cross function reentrancies:\n\t- Vault._withdrawAttribution(uint256,address) (71_Vault.sol#818-838)\n\t- Vault.addValue(uint256,address,address) (71_Vault.sol#646-662)\n\t- Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636)\n\t- Vault.attributionAll() (71_Vault.sol#895-897)\n\t- Vault.attributionValue(uint256) (71_Vault.sol#904-915)\n\t- Vault.getPricePerFullShare() (71_Vault.sol#970-972)\n\t- Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752)\n\t- Vault.totalAttributions (71_Vault.sol#554)\n\t- Vault.transferValue(uint256,address) (71_Vault.sol#703-716)\n\t- Vault.underlyingValue(address) (71_Vault.sol#922-933)\n\t- Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "withdrawValue",
+            "impact": "Low",
+            "line": 670,
+            "line_end": 695,
+            "message": "Vault.withdrawValue(uint256,address) (71_Vault.sol#670-695) should emit an event for: \n\t- totalAttributions -= _attributions (71_Vault.sol#683) \n\t- balance -= _amount (71_Vault.sol#693) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "offsetDebt",
+            "impact": "Low",
+            "line": 736,
+            "line_end": 752,
+            "message": "Vault.offsetDebt(uint256,address) (71_Vault.sol#736-752) should emit an event for: \n\t- totalAttributions -= _attributions (71_Vault.sol#748) \n\t- balance -= _amount (71_Vault.sol#749) \n\t- totalDebt -= _amount (71_Vault.sol#751) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "_unutilize",
+            "impact": "Low",
+            "line": 951,
+            "line_end": 956,
+            "message": "Reentrancy in Vault._unutilize(uint256) (71_Vault.sol#951-956):\n\tExternal calls:\n\t- controller.withdraw(address(this),_amount) (71_Vault.sol#954)\n\tState variables written after the call(s):\n\t- balance += _amount (71_Vault.sol#955)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValue",
+            "impact": "Low",
+            "line": 646,
+            "line_end": 662,
+            "message": "Reentrancy in Vault.addValue(uint256,address,address) (71_Vault.sol#646-662):\n\tExternal calls:\n\t- IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#658)\n\tState variables written after the call(s):\n\t- attributions[_beneficiary] += _attributions (71_Vault.sol#661)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValueBatch",
+            "impact": "Low",
+            "line": 611,
+            "line_end": 636,
+            "message": "Reentrancy in Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636):\n\tExternal calls:\n\t- IERC20(token).safeTransferFrom(_from,address(this),_amount) (71_Vault.sol#627)\n\tState variables written after the call(s):\n\t- attributions[_beneficiaries[i]] += _allocation (71_Vault.sol#633)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "setController",
+            "impact": "Low",
+            "line": 1007,
+            "line_end": 1018,
+            "message": "Reentrancy in Vault.setController(address) (71_Vault.sol#1007-1018):\n\tExternal calls:\n\t- controller.migrate(address(_controller)) (71_Vault.sol#1011)\n\tEvent emitted after the call(s):\n\t- ControllerSet(_controller) (71_Vault.sol#1017)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 114,
+            "line_end": 124,
+            "message": "Address.isContract(address) (71_Vault.sol#114-124) uses assembly\n\t- INLINE ASM (71_Vault.sol#120-122)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 303,
+            "message": "Address.verifyCallResult(bool,bytes,string) (71_Vault.sol#283-303) uses assembly\n\t- INLINE ASM (71_Vault.sol#295-298)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.7 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.7 (71_Vault.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 266,
+            "line_end": 275,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (71_Vault.sol#266-275):\n\t- (success,returndata) = target.delegatecall(data) (71_Vault.sol#273)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 142,
+            "line_end": 147,
+            "message": "Low level call in Address.sendValue(address,uint256) (71_Vault.sol#142-147):\n\t- (success,None) = recipient.call{value: amount}() (71_Vault.sol#145)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 221,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (71_Vault.sol#210-221):\n\t- (success,returndata) = target.call{value: value}(data) (71_Vault.sol#219)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "71_Vault.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 239,
+            "line_end": 248,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (71_Vault.sol#239-248):\n\t- (success,returndata) = target.staticcall(data) (71_Vault.sol#246)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 670,
+            "message": "Parameter Vault.withdrawValue(uint256,address)._amount (71_Vault.sol#670) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 613,
+            "message": "Parameter Vault.addValueBatch(uint256,address,address[2],uint256[2])._from (71_Vault.sol#613) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 772,
+            "message": "Parameter Vault.repayDebt(uint256,address)._target (71_Vault.sol#772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 648,
+            "message": "Parameter Vault.addValue(uint256,address,address)._from (71_Vault.sol#648) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 670,
+            "message": "Parameter Vault.withdrawValue(uint256,address)._to (71_Vault.sol#670) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 904,
+            "message": "Parameter Vault.attributionValue(uint256)._attribution (71_Vault.sol#904) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Parameter Vault.withdrawAttribution(uint256,address)._attribution (71_Vault.sol#791) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 791,
+            "message": "Parameter Vault.withdrawAttribution(uint256,address)._to (71_Vault.sol#791) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 759,
+            "message": "Parameter Vault.transferDebt(uint256)._amount (71_Vault.sol#759) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 845,
+            "message": "Parameter Vault.transferAttribution(uint256,address)._destination (71_Vault.sol#845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 615,
+            "message": "Parameter Vault.addValueBatch(uint256,address,address[2],uint256[2])._shares (71_Vault.sol#615) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 1007,
+            "message": "Parameter Vault.setController(address)._controller (71_Vault.sol#1007) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 703,
+            "message": "Parameter Vault.transferValue(uint256,address)._destination (71_Vault.sol#703) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 614,
+            "message": "Parameter Vault.addValueBatch(uint256,address,address[2],uint256[2])._beneficiaries (71_Vault.sol#614) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 845,
+            "message": "Parameter Vault.transferAttribution(uint256,address)._amount (71_Vault.sol#845) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 772,
+            "message": "Parameter Vault.repayDebt(uint256,address)._amount (71_Vault.sol#772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 882,
+            "message": "Parameter Vault.attributionOf(address)._target (71_Vault.sol#882) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 723,
+            "message": "Parameter Vault.borrowValue(uint256,address)._amount (71_Vault.sol#723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 1024,
+            "message": "Parameter Vault.setKeeper(address)._keeper (71_Vault.sol#1024) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 736,
+            "message": "Parameter Vault.offsetDebt(uint256,address)._target (71_Vault.sol#736) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 649,
+            "message": "Parameter Vault.addValue(uint256,address,address)._beneficiary (71_Vault.sol#649) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 612,
+            "message": "Parameter Vault.addValueBatch(uint256,address,address[2],uint256[2])._amount (71_Vault.sol#612) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 804,
+            "message": "Parameter Vault.withdrawAllAttribution(address)._to (71_Vault.sol#804) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 736,
+            "message": "Parameter Vault.offsetDebt(uint256,address)._amount (71_Vault.sol#736) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 983,
+            "message": "Parameter Vault.withdrawRedundant(address,address)._to (71_Vault.sol#983) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 703,
+            "message": "Parameter Vault.transferValue(uint256,address)._amount (71_Vault.sol#703) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 922,
+            "message": "Parameter Vault.underlyingValue(address)._target (71_Vault.sol#922) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 647,
+            "message": "Parameter Vault.addValue(uint256,address,address)._amount (71_Vault.sol#647) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 983,
+            "message": "Parameter Vault.withdrawRedundant(address,address)._token (71_Vault.sol#983) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Informational",
+            "line": 723,
+            "message": "Parameter Vault.borrowValue(uint256,address)._to (71_Vault.sol#723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vault",
+            "filename": "71_Vault.sol",
+            "function": "addValueBatch",
+            "impact": "Informational",
+            "line": 611,
+            "line_end": 636,
+            "message": "Vault.addValueBatch(uint256,address,address[2],uint256[2]) (71_Vault.sol#611-636) uses literals with too many digits:\n\t- require(bool,string)(_shares[0] + _shares[1] == 1000000,ERROR_INCORRECT_SHARE) (71_Vault.sol#618)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Optimization",
+            "line": 549,
+            "message": "Vault.registry (71_Vault.sol#549) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Optimization",
+            "line": 550,
+            "message": "Vault.ownership (71_Vault.sol#550) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "71_Vault.sol",
+            "impact": "Optimization",
+            "line": 547,
+            "message": "Vault.token (71_Vault.sol#547) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

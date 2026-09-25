@@ -1,0 +1,18 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected '{' but ... \", \"1.0.0\"),ERC1271,OwnableERC721,Initializable,IERC721Rece iver{ |                ^^^^^^^^^^^^^^^^^",
+        "solc rejected 10_Visor.sol: Error: Expected '{' but got identifier --> /work/input/10_Visor.sol:45:1 ... \", \"1.0.0\"),ERC1271,OwnableERC721,Initiali zable,IERC721Receiver{ |                ^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=17, est_cost_usd=0.0018",
+        "static confirmation filtered LLM candidates: 6 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

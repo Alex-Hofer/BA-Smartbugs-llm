@@ -1,0 +1,219 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "High",
+            "line": 14,
+            "line_end": 145,
+            "message": "DrainMe (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#14-145) contract sets array length with a user-controlled value:\n\t- players.push(msg.sender) (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#73)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "High",
+            "line": 14,
+            "line_end": 145,
+            "message": "DrainMe (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#14-145) contract sets array length with a user-controlled value:\n\t- seed.length = _add (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#114)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "unlockSecret",
+            "impact": "High",
+            "line": 85,
+            "line_end": 95,
+            "message": "DrainMe.unlockSecret() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#85-95) uses a weak PRNG: \"secret % 5 == 0 (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#88)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "High",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "unlockSecret",
+            "impact": "Medium",
+            "line": 85,
+            "line_end": 95,
+            "message": "DrainMe.unlockSecret() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#85-95) uses a dangerous strict equality:\n\t- secret % 5 == 0 (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#88)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "callSecondTarget",
+            "impact": "Medium",
+            "line": 103,
+            "line_end": 107,
+            "message": "DrainMe.callSecondTarget() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#103-107) ignores return value by secondTarget.call.value(msg.value)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#106)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "winPrize",
+            "impact": "Medium",
+            "line": 131,
+            "line_end": 134,
+            "message": "DrainMe.winPrize() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#131-134) ignores return value by owner.call.value(1)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#133)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "callFirstTarget",
+            "impact": "Medium",
+            "line": 97,
+            "line_end": 101,
+            "message": "DrainMe.callFirstTarget() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#97-101) ignores return value by firstTarget.call.value(msg.value)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#100)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Low",
+            "line": 87,
+            "message": "DrainMe.unlockSecret().secret (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#87) shadows:\n\t- DrainMe.secret (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#26) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "setSecret",
+            "impact": "Low",
+            "line": 59,
+            "line_end": 61,
+            "message": "DrainMe.setSecret(uint256) (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#59-61) should emit an event for: \n\t- secret = _secret (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#60) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 12,
+            "message": "Version constraint ^0.4.23 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData.\nIt is used by:\n\t- ^0.4.23 (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#12)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "winPrize",
+            "impact": "Informational",
+            "line": 131,
+            "line_end": 134,
+            "message": "Low level call in DrainMe.winPrize() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#131-134):\n\t- owner.call.value(1)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#133)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "callFirstTarget",
+            "impact": "Informational",
+            "line": 97,
+            "line_end": 101,
+            "message": "Low level call in DrainMe.callFirstTarget() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#97-101):\n\t- firstTarget.call.value(msg.value)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#100)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "callSecondTarget",
+            "impact": "Informational",
+            "line": 103,
+            "line_end": 107,
+            "message": "Low level call in DrainMe.callSecondTarget() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#103-107):\n\t- secondTarget.call.value(msg.value)() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#106)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter DrainMe.setSecret(uint256)._secret (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 113,
+            "message": "Parameter DrainMe.addSeed(uint256)._add (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#113) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "DrainMe",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "function": "DranMe",
+            "impact": "Informational",
+            "line": 32,
+            "line_end": 34,
+            "message": "Function DrainMe.DranMe() (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#32-34) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 109,
+            "message": "Parameter DrainMe.setSeed(uint256,uint256)._index (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#109) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 117,
+            "message": "Parameter DrainMe.guessSeed(uint256)._seed (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Informational",
+            "line": 109,
+            "message": "Parameter DrainMe.setSeed(uint256,uint256)._value (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#109) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Optimization",
+            "line": 21,
+            "message": "DrainMe.secondTarget (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#21) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol",
+            "impact": "Optimization",
+            "line": 20,
+            "message": "DrainMe.firstTarget (../sb/0xb620cee6b52f96f3c6b253e6eea556aa2d214a99.sol#20) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

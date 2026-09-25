@@ -1,0 +1,875 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "createPromotion",
+            "impact": "Medium",
+            "line": 1890,
+            "line_end": 1928,
+            "message": "TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8) (64_TwabRewards.sol#1890-1928) uses a dangerous strict equality:\n\t- require(bool,string)(_beforeBalance + _amount == _afterBalance,TwabRewards/promo-amount-diff) (64_TwabRewards.sol#1923)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Medium",
+            "line": 2161,
+            "message": "TwabRewards._getCurrentEpochId(ITwabRewards.Promotion)._currentEpochId (64_TwabRewards.sol#2161) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Medium",
+            "line": 2017,
+            "message": "TwabRewards.claimRewards(address,uint256,uint8[])._rewardsAmount (64_TwabRewards.sol#2017) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ITicket",
+            "filename": "64_TwabRewards.sol",
+            "function": "delegate",
+            "impact": "Low",
+            "line": 1533,
+            "message": "ITicket.delegateWithSignature(address,address,uint256,uint8,bytes32,bytes32).delegate (64_TwabRewards.sol#1533) shadows:\n\t- ITicket.delegate(address) (64_TwabRewards.sol#1513) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ITicket",
+            "filename": "64_TwabRewards.sol",
+            "function": "delegate",
+            "impact": "Low",
+            "line": 1520,
+            "message": "ITicket.controllerDelegateFor(address,address).delegate (64_TwabRewards.sol#1520) shadows:\n\t- ITicket.delegate(address) (64_TwabRewards.sol#1513) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_calculateRewardAmount",
+            "impact": "Low",
+            "line": 2184,
+            "line_end": 2218,
+            "message": "TwabRewards._calculateRewardAmount(address,ITwabRewards.Promotion,uint8) (64_TwabRewards.sol#2184-2218) has external calls inside a loop: _averageBalance = ticket.getAverageBalanceBetween(_user,_epochStartTimestamp,_epochEndTimestamp) (64_TwabRewards.sol#2196-2200)\n\tCalls stack containing the loop:\n\t\tTwabRewards.claimRewards(address,uint256,uint8[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_calculateRewardAmount",
+            "impact": "Low",
+            "line": 2184,
+            "line_end": 2218,
+            "message": "TwabRewards._calculateRewardAmount(address,ITwabRewards.Promotion,uint8) (64_TwabRewards.sol#2184-2218) has external calls inside a loop: _averageTotalSupply = ticket.getAverageTotalSuppliesBetween(_epochStartTimestamps,_epochEndTimestamps)[0] (64_TwabRewards.sol#2209-2212)\n\tCalls stack containing the loop:\n\t\tTwabRewards.claimRewards(address,uint256,uint8[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_calculateRewardAmount",
+            "impact": "Low",
+            "line": 2184,
+            "line_end": 2218,
+            "message": "TwabRewards._calculateRewardAmount(address,ITwabRewards.Promotion,uint8) (64_TwabRewards.sol#2184-2218) has external calls inside a loop: _averageTotalSupply = ticket.getAverageTotalSuppliesBetween(_epochStartTimestamps,_epochEndTimestamps)[0] (64_TwabRewards.sol#2209-2212)\n\tCalls stack containing the loop:\n\t\tTwabRewards.getRewardsAmount(address,uint256,uint8[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_calculateRewardAmount",
+            "impact": "Low",
+            "line": 2184,
+            "line_end": 2218,
+            "message": "TwabRewards._calculateRewardAmount(address,ITwabRewards.Promotion,uint8) (64_TwabRewards.sol#2184-2218) has external calls inside a loop: _averageBalance = ticket.getAverageBalanceBetween(_user,_epochStartTimestamp,_epochEndTimestamp) (64_TwabRewards.sol#2196-2200)\n\tCalls stack containing the loop:\n\t\tTwabRewards.getRewardsAmount(address,uint256,uint8[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "destroyPromotion",
+            "impact": "Low",
+            "line": 1952,
+            "line_end": 1977,
+            "message": "Reentrancy in TwabRewards.destroyPromotion(uint256,address) (64_TwabRewards.sol#1952-1977):\n\tExternal calls:\n\t- _promotion.token.safeTransfer(_to,_rewardsUnclaimed) (64_TwabRewards.sol#1972)\n\tEvent emitted after the call(s):\n\t- PromotionDestroyed(_promotionId,_to,_rewardsUnclaimed) (64_TwabRewards.sol#1974)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "extendPromotion",
+            "impact": "Low",
+            "line": 1980,
+            "line_end": 2007,
+            "message": "Reentrancy in TwabRewards.extendPromotion(uint256,uint8) (64_TwabRewards.sol#1980-2007):\n\tExternal calls:\n\t- _promotion.token.safeTransferFrom(msg.sender,address(this),_amount) (64_TwabRewards.sol#2002)\n\tEvent emitted after the call(s):\n\t- PromotionExtended(_promotionId,_numberOfEpochs) (64_TwabRewards.sol#2004)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "createPromotion",
+            "impact": "Low",
+            "line": 1890,
+            "line_end": 1928,
+            "message": "Reentrancy in TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8) (64_TwabRewards.sol#1890-1928):\n\tExternal calls:\n\t- _token.safeTransferFrom(msg.sender,address(this),_amount) (64_TwabRewards.sol#1919)\n\tEvent emitted after the call(s):\n\t- PromotionCreated(_nextPromotionId) (64_TwabRewards.sol#1925)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "endPromotion",
+            "impact": "Low",
+            "line": 1931,
+            "line_end": 1949,
+            "message": "Reentrancy in TwabRewards.endPromotion(uint256,address) (64_TwabRewards.sol#1931-1949):\n\tExternal calls:\n\t- _promotion.token.safeTransfer(_to,_remainingRewards) (64_TwabRewards.sol#1944)\n\tEvent emitted after the call(s):\n\t- PromotionEnded(_promotionId,_to,_remainingRewards,_epochNumber) (64_TwabRewards.sol#1946)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "claimRewards",
+            "impact": "Low",
+            "line": 2010,
+            "line_end": 2038,
+            "message": "Reentrancy in TwabRewards.claimRewards(address,uint256,uint8[]) (64_TwabRewards.sol#2010-2038):\n\tExternal calls:\n\t- _promotion.token.safeTransfer(_user,_rewardsAmount) (64_TwabRewards.sol#2033)\n\tEvent emitted after the call(s):\n\t- RewardsClaimed(_promotionId,_epochIds,_user,_rewardsAmount) (64_TwabRewards.sol#2035)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "extendPromotion",
+            "impact": "Low",
+            "line": 1980,
+            "line_end": 2007,
+            "message": "TwabRewards.extendPromotion(uint256,uint8) (64_TwabRewards.sol#1980-2007) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_numberOfEpochs <= (type()(uint8).max - _currentNumberOfEpochs),TwabRewards/epochs-over-limit) (64_TwabRewards.sol#1992-1995)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_requirePromotionActive",
+            "impact": "Low",
+            "line": 2108,
+            "line_end": 2113,
+            "message": "TwabRewards._requirePromotionActive(ITwabRewards.Promotion) (64_TwabRewards.sol#2108-2113) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_getPromotionEndTimestamp(_promotion) > block.timestamp,TwabRewards/promotion-inactive) (64_TwabRewards.sol#2109-2112)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_calculateRewardAmount",
+            "impact": "Low",
+            "line": 2184,
+            "line_end": 2218,
+            "message": "TwabRewards._calculateRewardAmount(address,ITwabRewards.Promotion,uint8) (64_TwabRewards.sol#2184-2218) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= _epochEndTimestamp,TwabRewards/epoch-not-over) (64_TwabRewards.sol#2193)\n\t- require(bool,string)(_epochId < _promotion.numberOfEpochs,TwabRewards/invalid-epoch-id) (64_TwabRewards.sol#2194)\n\t- _averageBalance > 0 (64_TwabRewards.sol#2202)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_getRemainingRewards",
+            "impact": "Low",
+            "line": 2225,
+            "line_end": 2233,
+            "message": "TwabRewards._getRemainingRewards(ITwabRewards.Promotion) (64_TwabRewards.sol#2225-2233) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp > _getPromotionEndTimestamp(_promotion) (64_TwabRewards.sol#2226)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_getPromotion",
+            "impact": "Low",
+            "line": 2129,
+            "line_end": 2133,
+            "message": "TwabRewards._getPromotion(uint256) (64_TwabRewards.sol#2129-2133) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(_promotion.creator != address(0),TwabRewards/invalid-promotion) (64_TwabRewards.sol#2131)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "destroyPromotion",
+            "impact": "Low",
+            "line": 1952,
+            "line_end": 1977,
+            "message": "TwabRewards.destroyPromotion(uint256,address) (64_TwabRewards.sol#1952-1977) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp >= _gracePeriodEndTimestamp,TwabRewards/grace-period-active) (64_TwabRewards.sol#1967)\n\t- _promotionEndTimestamp < _promotionCreatedAt (64_TwabRewards.sol#1961-1965)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_requirePromotionCreator",
+            "impact": "Low",
+            "line": 2119,
+            "line_end": 2121,
+            "message": "TwabRewards._requirePromotionCreator(ITwabRewards.Promotion) (64_TwabRewards.sol#2119-2121) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(msg.sender == _promotion.creator,TwabRewards/only-promo-creator) (64_TwabRewards.sol#2120)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_getCurrentEpochId",
+            "impact": "Low",
+            "line": 2160,
+            "line_end": 2172,
+            "message": "TwabRewards._getCurrentEpochId(ITwabRewards.Promotion) (64_TwabRewards.sol#2160-2172) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp > _promotion.startTimestamp (64_TwabRewards.sol#2163)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 114,
+            "line_end": 124,
+            "message": "Address.isContract(address) (64_TwabRewards.sol#114-124) uses assembly\n\t- INLINE ASM (64_TwabRewards.sol#120-122)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 283,
+            "line_end": 303,
+            "message": "Address.verifyCallResult(bool,bytes,string) (64_TwabRewards.sol#283-303) uses assembly\n\t- INLINE ASM (64_TwabRewards.sol#295-298)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.6 (64_TwabRewards.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 142,
+            "line_end": 147,
+            "message": "Low level call in Address.sendValue(address,uint256) (64_TwabRewards.sol#142-147):\n\t- (success,None) = recipient.call{value: amount}() (64_TwabRewards.sol#145)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 266,
+            "line_end": 275,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (64_TwabRewards.sol#266-275):\n\t- (success,returndata) = target.delegatecall(data) (64_TwabRewards.sol#273)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "TwabRewards",
+            "filename": "64_TwabRewards.sol",
+            "function": "_requireTicket",
+            "impact": "Informational",
+            "line": 2083,
+            "line_end": 2094,
+            "message": "Low level call in TwabRewards._requireTicket(ITicket) (64_TwabRewards.sol#2083-2094):\n\t- (succeeded,data) = address(_ticket).staticcall(abi.encodePacked(_ticket.controller.selector)) (64_TwabRewards.sol#2086-2088)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 239,
+            "line_end": 248,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (64_TwabRewards.sol#239-248):\n\t- (success,returndata) = target.staticcall(data) (64_TwabRewards.sol#246)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "64_TwabRewards.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 210,
+            "line_end": 221,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (64_TwabRewards.sol#210-221):\n\t- (success,returndata) = target.call{value: value}(data) (64_TwabRewards.sol#219)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 574,
+            "message": "Parameter RingBufferLib.offset(uint256,uint256,uint256)._index (64_TwabRewards.sol#574) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1048,
+            "message": "Parameter TwabLib.decreaseBalance(TwabLib.Account,uint208,string,uint32)._revertMessage (64_TwabRewards.sol#1048) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 510,
+            "message": "Parameter OverflowSafeComparatorLib.lte(uint32,uint32,uint32)._a (64_TwabRewards.sol#510) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 904,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._oldestObservationIndex (64_TwabRewards.sol#904) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter OverflowSafeComparatorLib.lt(uint32,uint32,uint32)._timestamp (64_TwabRewards.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 511,
+            "message": "Parameter OverflowSafeComparatorLib.lte(uint32,uint32,uint32)._b (64_TwabRewards.sol#511) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1049,
+            "message": "Parameter TwabLib.decreaseBalance(TwabLib.Account,uint208,string,uint32)._currentTime (64_TwabRewards.sol#1049) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 585,
+            "message": "Parameter RingBufferLib.newestIndex(uint256,uint256)._nextIndex (64_TwabRewards.sol#585) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2013,
+            "message": "Parameter TwabRewards.claimRewards(address,uint256,uint8[])._epochIds (64_TwabRewards.sol#2013) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1952,
+            "message": "Parameter TwabRewards.destroyPromotion(uint256,address)._to (64_TwabRewards.sol#1952) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1893,
+            "message": "Parameter TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8)._tokensPerEpoch (64_TwabRewards.sol#1893) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1117,
+            "message": "Parameter TwabLib.newestTwab(ObservationLib.Observation[16777215],TwabLib.AccountDetails)._accountDetails (64_TwabRewards.sol#1117) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 903,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._newestObservationIndex (64_TwabRewards.sol#903) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 576,
+            "message": "Parameter RingBufferLib.offset(uint256,uint256,uint256)._cardinality (64_TwabRewards.sol#576) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1952,
+            "message": "Parameter TwabRewards.destroyPromotion(uint256,address)._promotionId (64_TwabRewards.sol#1952) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1082,
+            "message": "Parameter TwabLib.getAverageBalanceBetween(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32,uint32)._endTime (64_TwabRewards.sol#1082) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 468,
+            "message": "Parameter ExtendedSafeCastLib.toUint224(uint256)._value (64_TwabRewards.sol#468) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1020,
+            "message": "Parameter TwabLib.increaseBalance(TwabLib.Account,uint208,uint32)._account (64_TwabRewards.sol#1020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 512,
+            "message": "Parameter OverflowSafeComparatorLib.lte(uint32,uint32,uint32)._timestamp (64_TwabRewards.sol#512) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1046,
+            "message": "Parameter TwabLib.decreaseBalance(TwabLib.Account,uint208,string,uint32)._account (64_TwabRewards.sol#1046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 905,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._target (64_TwabRewards.sol#905) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 601,
+            "message": "Parameter RingBufferLib.nextIndex(uint256,uint256)._cardinality (64_TwabRewards.sol#601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1895,
+            "message": "Parameter TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8)._numberOfEpochs (64_TwabRewards.sol#1895) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2046,
+            "message": "Parameter TwabRewards.getCurrentEpochId(uint256)._promotionId (64_TwabRewards.sol#2046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2057,
+            "message": "Parameter TwabRewards.getRewardsAmount(address,uint256,uint8[])._user (64_TwabRewards.sol#2057) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1891,
+            "message": "Parameter TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8)._token (64_TwabRewards.sol#1891) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter TwabLib.getAverageBalanceBetween(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32,uint32)._startTime (64_TwabRewards.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 585,
+            "message": "Parameter RingBufferLib.newestIndex(uint256,uint256)._cardinality (64_TwabRewards.sol#585) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 561,
+            "message": "Parameter RingBufferLib.wrap(uint256,uint256)._index (64_TwabRewards.sol#561) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 906,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._cardinality (64_TwabRewards.sol#906) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1116,
+            "message": "Parameter TwabLib.newestTwab(ObservationLib.Observation[16777215],TwabLib.AccountDetails)._twabs (64_TwabRewards.sol#1116) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 490,
+            "message": "Parameter OverflowSafeComparatorLib.lt(uint32,uint32,uint32)._a (64_TwabRewards.sol#490) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 575,
+            "message": "Parameter RingBufferLib.offset(uint256,uint256,uint256)._amount (64_TwabRewards.sol#575) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1130,
+            "message": "Parameter TwabLib.getBalanceAt(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32)._accountDetails (64_TwabRewards.sol#1130) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1097,
+            "message": "Parameter TwabLib.oldestTwab(ObservationLib.Observation[16777215],TwabLib.AccountDetails)._twabs (64_TwabRewards.sol#1097) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1131,
+            "message": "Parameter TwabLib.getBalanceAt(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32)._targetTime (64_TwabRewards.sol#1131) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1129,
+            "message": "Parameter TwabLib.getBalanceAt(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32)._twabs (64_TwabRewards.sol#1129) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2012,
+            "message": "Parameter TwabRewards.claimRewards(address,uint256,uint8[])._promotionId (64_TwabRewards.sol#2012) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2011,
+            "message": "Parameter TwabRewards.claimRewards(address,uint256,uint8[])._user (64_TwabRewards.sol#2011) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 491,
+            "message": "Parameter OverflowSafeComparatorLib.lt(uint32,uint32,uint32)._b (64_TwabRewards.sol#491) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1931,
+            "message": "Parameter TwabRewards.endPromotion(uint256,address)._promotionId (64_TwabRewards.sol#1931) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 532,
+            "message": "Parameter OverflowSafeComparatorLib.checkedSub(uint32,uint32,uint32)._b (64_TwabRewards.sol#532) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1894,
+            "message": "Parameter TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8)._epochDuration (64_TwabRewards.sol#1894) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 902,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._observations (64_TwabRewards.sol#902) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1022,
+            "message": "Parameter TwabLib.increaseBalance(TwabLib.Account,uint208,uint32)._currentTime (64_TwabRewards.sol#1022) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 531,
+            "message": "Parameter OverflowSafeComparatorLib.checkedSub(uint32,uint32,uint32)._a (64_TwabRewards.sol#531) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 453,
+            "message": "Parameter ExtendedSafeCastLib.toUint208(uint256)._value (64_TwabRewards.sol#453) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1079,
+            "message": "Parameter TwabLib.getAverageBalanceBetween(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32,uint32)._twabs (64_TwabRewards.sol#1079) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1080,
+            "message": "Parameter TwabLib.getAverageBalanceBetween(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32,uint32)._accountDetails (64_TwabRewards.sol#1080) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1021,
+            "message": "Parameter TwabLib.increaseBalance(TwabLib.Account,uint208,uint32)._amount (64_TwabRewards.sol#1021) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1083,
+            "message": "Parameter TwabLib.getAverageBalanceBetween(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32,uint32)._currentTime (64_TwabRewards.sol#1083) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 533,
+            "message": "Parameter OverflowSafeComparatorLib.checkedSub(uint32,uint32,uint32)._timestamp (64_TwabRewards.sol#533) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 561,
+            "message": "Parameter RingBufferLib.wrap(uint256,uint256)._cardinality (64_TwabRewards.sol#561) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1931,
+            "message": "Parameter TwabRewards.endPromotion(uint256,address)._to (64_TwabRewards.sol#1931) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2041,
+            "message": "Parameter TwabRewards.getPromotion(uint256)._promotionId (64_TwabRewards.sol#2041) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1892,
+            "message": "Parameter TwabRewards.createPromotion(IERC20,uint64,uint256,uint48,uint8)._startTimestamp (64_TwabRewards.sol#1892) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1980,
+            "message": "Parameter TwabRewards.extendPromotion(uint256,uint8)._numberOfEpochs (64_TwabRewards.sol#1980) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1980,
+            "message": "Parameter TwabRewards.extendPromotion(uint256,uint8)._promotionId (64_TwabRewards.sol#1980) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1098,
+            "message": "Parameter TwabLib.oldestTwab(ObservationLib.Observation[16777215],TwabLib.AccountDetails)._accountDetails (64_TwabRewards.sol#1098) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2059,
+            "message": "Parameter TwabRewards.getRewardsAmount(address,uint256,uint8[])._epochIds (64_TwabRewards.sol#2059) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 907,
+            "message": "Parameter ObservationLib.binarySearch(ObservationLib.Observation[16777215],uint24,uint24,uint32,uint24,uint32)._time (64_TwabRewards.sol#907) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2051,
+            "message": "Parameter TwabRewards.getRemainingRewards(uint256)._promotionId (64_TwabRewards.sol#2051) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1364,
+            "message": "Parameter TwabLib.push(TwabLib.AccountDetails)._accountDetails (64_TwabRewards.sol#1364) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 2058,
+            "message": "Parameter TwabRewards.getRewardsAmount(address,uint256,uint8[])._promotionId (64_TwabRewards.sol#2058) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 438,
+            "message": "Parameter ExtendedSafeCastLib.toUint104(uint256)._value (64_TwabRewards.sol#438) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 601,
+            "message": "Parameter RingBufferLib.nextIndex(uint256,uint256)._index (64_TwabRewards.sol#601) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1047,
+            "message": "Parameter TwabLib.decreaseBalance(TwabLib.Account,uint208,string,uint32)._amount (64_TwabRewards.sol#1047) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "64_TwabRewards.sol",
+            "impact": "Informational",
+            "line": 1132,
+            "message": "Parameter TwabLib.getBalanceAt(ObservationLib.Observation[16777215],TwabLib.AccountDetails,uint32,uint32)._currentTime (64_TwabRewards.sol#1132) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

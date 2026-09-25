@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/106_NFTLoanFacilitator.sol , current function: _burn, current vul: first-deposit",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=32, est_cost_usd=0.0039",
+        "static confirmation filtered LLM candidates: 11 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

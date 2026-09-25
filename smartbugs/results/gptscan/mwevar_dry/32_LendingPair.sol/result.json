@@ -1,0 +1,26 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _unwrapUniPosition, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "IndexError: list index out of range",
+        "WARNING  static_check: Falcon is not initialized, skipping call arg check",
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check call_arg_check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Warning: SPDX license i ... nput/32_LendingPair.sol:14:1: | 14 | import './TransferHelper.sol'; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "solc rejected 32_LendingPair.sol: Warning: SPDX license identifier not provided in source file. Befo ... nput/32_LendingPair.sol:14:1: | 14 | import './TransferHelper.sol'; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=134, est_cost_usd=0.0155",
+        "static confirmation filtered LLM candidates: 53 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

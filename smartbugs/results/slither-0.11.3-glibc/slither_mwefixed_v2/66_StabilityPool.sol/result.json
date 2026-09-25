@@ -1,0 +1,1319 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "getEntireSystemColl",
+            "impact": "High",
+            "line": 1554,
+            "message": "LiquityBase.defaultPool (66_StabilityPool.sol#1554) is never initialized. It is used in:\n\t- LiquityBase.getEntireSystemColl() (66_StabilityPool.sol#1573-1578)\n\t- LiquityBase.getEntireSystemDebt() (66_StabilityPool.sol#1581-1586)\n",
+            "name": "uninitialized-state"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Medium",
+            "line": 2224,
+            "line_end": 3249,
+            "message": "StabilityPool.slitherConstructorConstantVariables() (66_StabilityPool.sol#2224-3249) performs a multiplication on the result of a division:\n\t- REDEMPTION_FEE_FLOOR = DECIMAL_PRECISION / 1000 * 5 (66_StabilityPool.sol#1550)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Medium",
+            "line": 1528,
+            "line_end": 1668,
+            "message": "LiquityBase.slitherConstructorConstantVariables() (66_StabilityPool.sol#1528-1668) performs a multiplication on the result of a division:\n\t- BORROWING_FEE_FLOOR = DECIMAL_PRECISION / 1000 * 5 (66_StabilityPool.sol#1549)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Medium",
+            "line": 1528,
+            "line_end": 1668,
+            "message": "LiquityBase.slitherConstructorConstantVariables() (66_StabilityPool.sol#1528-1668) performs a multiplication on the result of a division:\n\t- REDEMPTION_FEE_FLOOR = DECIMAL_PRECISION / 1000 * 5 (66_StabilityPool.sol#1550)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Medium",
+            "line": 2224,
+            "line_end": 3249,
+            "message": "StabilityPool.slitherConstructorConstantVariables() (66_StabilityPool.sol#2224-3249) performs a multiplication on the result of a division:\n\t- BORROWING_FEE_FLOOR = DECIMAL_PRECISION / 1000 * 5 (66_StabilityPool.sol#1549)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_computeYETIPerUnitStaked",
+            "impact": "Medium",
+            "line": 2561,
+            "line_end": 2582,
+            "message": "StabilityPool._computeYETIPerUnitStaked(uint256,uint256) (66_StabilityPool.sol#2561-2582) performs a multiplication on the result of a division:\n\t- YETIPerUnitStaked = YETINumerator.div(_totalYUSDDeposits) (66_StabilityPool.sol#2578)\n\t- lastYETIError = YETINumerator.sub(YETIPerUnitStaked.mul(_totalYUSDDeposits)) (66_StabilityPool.sol#2579)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_updateFrontEndStakeAndSnapshots",
+            "impact": "Medium",
+            "line": 3114,
+            "line_end": 3137,
+            "message": "StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137) deletes StabilityPool.Snapshots (66_StabilityPool.sol#2260-2266) which contains a mapping:\n\t-delete frontEndSnapshots[_frontEnd] (66_StabilityPool.sol#3118)\n",
+            "name": "mapping-deletion"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "offset",
+            "impact": "Medium",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuance) (66_StabilityPool.sol#2602)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _moveOffsetCollAndDebt(_tokens,_amountsAdded,_debtToOffset) (66_StabilityPool.sol#2610)\n\t\t- activePoolCached.decreaseYUSDDebt(_debtToOffset) (66_StabilityPool.sol#2744)\n\t\t- yusdToken.burn(address(this),_debtToOffset) (66_StabilityPool.sol#2748)\n\t\t- activePoolCached.sendCollaterals(address(this),_collsToAdd,_amountsToAdd) (66_StabilityPool.sol#2750)\n\tState variables written after the call(s):\n\t- _moveOffsetCollAndDebt(_tokens,_amountsAdded,_debtToOffset) (66_StabilityPool.sol#2610)\n\t\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#2756)\n\tStabilityPool.totalYUSDDeposits (66_StabilityPool.sol#2241) can be used in cross function reentrancies:\n\t- StabilityPool._decreaseYUSD(uint256) (66_StabilityPool.sol#2754-2758)\n\t- StabilityPool._sendYUSDtoStabilityPool(address,uint256) (66_StabilityPool.sol#3005-3010)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool.getTotalYUSDDeposits() (66_StabilityPool.sol#2428-2430)\n\t- StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Medium",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\tState variables written after the call(s):\n\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2467)\n\t\t- delete frontEndSnapshots[_frontEnd] (66_StabilityPool.sol#3118)\n\t\t- frontEndSnapshots[_frontEnd].P = currentP (66_StabilityPool.sol#3131)\n\t\t- frontEndSnapshots[_frontEnd].G = currentG (66_StabilityPool.sol#3132)\n\t\t- frontEndSnapshots[_frontEnd].scale = currentScaleCached (66_StabilityPool.sol#3133)\n\t\t- frontEndSnapshots[_frontEnd].epoch = currentEpochCached (66_StabilityPool.sol#3134)\n\tStabilityPool.frontEndSnapshots (66_StabilityPool.sol#2281) can be used in cross function reentrancies:\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool.frontEndSnapshots (66_StabilityPool.sol#2281)\n\t- StabilityPool.getCompoundedFrontEndStake(address) (66_StabilityPool.sol#2937-2947)\n\t- StabilityPool.getFrontEndYETIGain(address) (66_StabilityPool.sol#2868-2883)\n\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2467)\n\t\t- frontEndStakes[_frontEnd] = _newValue (66_StabilityPool.sol#3115)\n\tStabilityPool.frontEndStakes (66_StabilityPool.sol#2280) can be used in cross function reentrancies:\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool.frontEndStakes (66_StabilityPool.sol#2280)\n\t- StabilityPool.getCompoundedFrontEndStake(address) (66_StabilityPool.sol#2937-2947)\n\t- StabilityPool.getFrontEndYETIGain(address) (66_StabilityPool.sol#2868-2883)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Medium",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tState variables written after the call(s):\n\t- _setFrontEndTag(msg.sender,_frontEndTag) (66_StabilityPool.sol#2454)\n\t\t- deposits[_depositor].frontEndTag = _frontEndTag (66_StabilityPool.sol#3063)\n\tStabilityPool.deposits (66_StabilityPool.sol#2268) can be used in cross function reentrancies:\n\t- StabilityPool._requireUserHasNoDeposit(address) (66_StabilityPool.sol#3169-3172)\n\t- StabilityPool._setFrontEndTag(address,address) (66_StabilityPool.sol#3062-3065)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool.deposits (66_StabilityPool.sol#2268)\n\t- StabilityPool.getCompoundedYUSDDeposit(address) (66_StabilityPool.sol#2918-2928)\n\t- StabilityPool.getDepositorGains(address) (66_StabilityPool.sol#2768-2785)\n\t- StabilityPool.getDepositorYETIGain(address) (66_StabilityPool.sol#2836-2860)\n\t- StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481)\n\t- StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Medium",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\t- _sendYUSDtoStabilityPool(msg.sender,_amount) (66_StabilityPool.sol#2472)\n\t\t- yusdToken.sendToPool(_address,address(this),_amount) (66_StabilityPool.sol#3006)\n\tState variables written after the call(s):\n\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2475)\n\t\t- depositSnapshots[_depositor].S[colls[i]] = 0 (66_StabilityPool.sol#3078)\n\t\t- depositSnapshots[_depositor].P = 0 (66_StabilityPool.sol#3080)\n\t\t- depositSnapshots[_depositor].G = 0 (66_StabilityPool.sol#3081)\n\t\t- depositSnapshots[_depositor].epoch = 0 (66_StabilityPool.sol#3082)\n\t\t- depositSnapshots[_depositor].scale = 0 (66_StabilityPool.sol#3083)\n\t\t- depositSnapshots[_depositor].S[token] = currentSForToken (66_StabilityPool.sol#3100)\n\t\t- depositSnapshots[_depositor].P = currentP (66_StabilityPool.sol#3106)\n\t\t- depositSnapshots[_depositor].G = currentG (66_StabilityPool.sol#3107)\n\t\t- depositSnapshots[_depositor].scale = currentScaleCached (66_StabilityPool.sol#3108)\n\t\t- depositSnapshots[_depositor].epoch = currentEpochCached (66_StabilityPool.sol#3109)\n\tStabilityPool.depositSnapshots (66_StabilityPool.sol#2277) can be used in cross function reentrancies:\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool.depositSnapshots (66_StabilityPool.sol#2277)\n\t- StabilityPool.getCompoundedYUSDDeposit(address) (66_StabilityPool.sol#2918-2928)\n\t- StabilityPool.getDepositSnapshotS(address,address) (66_StabilityPool.sol#3241-3248)\n\t- StabilityPool.getDepositorGains(address) (66_StabilityPool.sol#2768-2785)\n\t- StabilityPool.getDepositorYETIGain(address) (66_StabilityPool.sol#2836-2860)\n\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2475)\n\t\t- deposits[_depositor].initialValue = _newValue (66_StabilityPool.sol#3071)\n\t\t- delete deposits[_depositor].frontEndTag (66_StabilityPool.sol#3074)\n\tStabilityPool.deposits (66_StabilityPool.sol#2268) can be used in cross function reentrancies:\n\t- StabilityPool._requireUserHasNoDeposit(address) (66_StabilityPool.sol#3169-3172)\n\t- StabilityPool._setFrontEndTag(address,address) (66_StabilityPool.sol#3062-3065)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool.deposits (66_StabilityPool.sol#2268)\n\t- StabilityPool.getCompoundedYUSDDeposit(address) (66_StabilityPool.sol#2918-2928)\n\t- StabilityPool.getDepositorGains(address) (66_StabilityPool.sol#2768-2785)\n\t- StabilityPool.getDepositorYETIGain(address) (66_StabilityPool.sol#2836-2860)\n\t- StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481)\n\t- StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531)\n\t- _sendYUSDtoStabilityPool(msg.sender,_amount) (66_StabilityPool.sol#2472)\n\t\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#3008)\n\tStabilityPool.totalYUSDDeposits (66_StabilityPool.sol#2241) can be used in cross function reentrancies:\n\t- StabilityPool._decreaseYUSD(uint256) (66_StabilityPool.sol#2754-2758)\n\t- StabilityPool._sendYUSDtoStabilityPool(address,uint256) (66_StabilityPool.sol#3005-3010)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool.getTotalYUSDDeposits() (66_StabilityPool.sol#2428-2430)\n\t- StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "withdrawFromSP",
+            "impact": "Medium",
+            "line": 2493,
+            "line_end": 2531,
+            "message": "Reentrancy in StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2502)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\tState variables written after the call(s):\n\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2518)\n\t\t- delete frontEndSnapshots[_frontEnd] (66_StabilityPool.sol#3118)\n\t\t- frontEndSnapshots[_frontEnd].P = currentP (66_StabilityPool.sol#3131)\n\t\t- frontEndSnapshots[_frontEnd].G = currentG (66_StabilityPool.sol#3132)\n\t\t- frontEndSnapshots[_frontEnd].scale = currentScaleCached (66_StabilityPool.sol#3133)\n\t\t- frontEndSnapshots[_frontEnd].epoch = currentEpochCached (66_StabilityPool.sol#3134)\n\tStabilityPool.frontEndSnapshots (66_StabilityPool.sol#2281) can be used in cross function reentrancies:\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool.frontEndSnapshots (66_StabilityPool.sol#2281)\n\t- StabilityPool.getCompoundedFrontEndStake(address) (66_StabilityPool.sol#2937-2947)\n\t- StabilityPool.getFrontEndYETIGain(address) (66_StabilityPool.sol#2868-2883)\n\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2518)\n\t\t- frontEndStakes[_frontEnd] = _newValue (66_StabilityPool.sol#3115)\n\tStabilityPool.frontEndStakes (66_StabilityPool.sol#2280) can be used in cross function reentrancies:\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool.frontEndStakes (66_StabilityPool.sol#2280)\n\t- StabilityPool.getCompoundedFrontEndStake(address) (66_StabilityPool.sol#2937-2947)\n\t- StabilityPool.getFrontEndYETIGain(address) (66_StabilityPool.sol#2868-2883)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "withdrawFromSP",
+            "impact": "Medium",
+            "line": 2493,
+            "line_end": 2531,
+            "message": "Reentrancy in StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2502)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\t- _sendYUSDToDepositor(msg.sender,YUSDtoWithdraw) (66_StabilityPool.sol#2521)\n\t\t- yusdToken.returnFromPool(address(this),_depositor,YUSDWithdrawal) (66_StabilityPool.sol#3042)\n\tState variables written after the call(s):\n\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2525)\n\t\t- depositSnapshots[_depositor].S[colls[i]] = 0 (66_StabilityPool.sol#3078)\n\t\t- depositSnapshots[_depositor].P = 0 (66_StabilityPool.sol#3080)\n\t\t- depositSnapshots[_depositor].G = 0 (66_StabilityPool.sol#3081)\n\t\t- depositSnapshots[_depositor].epoch = 0 (66_StabilityPool.sol#3082)\n\t\t- depositSnapshots[_depositor].scale = 0 (66_StabilityPool.sol#3083)\n\t\t- depositSnapshots[_depositor].S[token] = currentSForToken (66_StabilityPool.sol#3100)\n\t\t- depositSnapshots[_depositor].P = currentP (66_StabilityPool.sol#3106)\n\t\t- depositSnapshots[_depositor].G = currentG (66_StabilityPool.sol#3107)\n\t\t- depositSnapshots[_depositor].scale = currentScaleCached (66_StabilityPool.sol#3108)\n\t\t- depositSnapshots[_depositor].epoch = currentEpochCached (66_StabilityPool.sol#3109)\n\tStabilityPool.depositSnapshots (66_StabilityPool.sol#2277) can be used in cross function reentrancies:\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool.depositSnapshots (66_StabilityPool.sol#2277)\n\t- StabilityPool.getCompoundedYUSDDeposit(address) (66_StabilityPool.sol#2918-2928)\n\t- StabilityPool.getDepositSnapshotS(address,address) (66_StabilityPool.sol#3241-3248)\n\t- StabilityPool.getDepositorGains(address) (66_StabilityPool.sol#2768-2785)\n\t- StabilityPool.getDepositorYETIGain(address) (66_StabilityPool.sol#2836-2860)\n\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2525)\n\t\t- deposits[_depositor].initialValue = _newValue (66_StabilityPool.sol#3071)\n\t\t- delete deposits[_depositor].frontEndTag (66_StabilityPool.sol#3074)\n\tStabilityPool.deposits (66_StabilityPool.sol#2268) can be used in cross function reentrancies:\n\t- StabilityPool._requireUserHasNoDeposit(address) (66_StabilityPool.sol#3169-3172)\n\t- StabilityPool._setFrontEndTag(address,address) (66_StabilityPool.sol#3062-3065)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool.deposits (66_StabilityPool.sol#2268)\n\t- StabilityPool.getCompoundedYUSDDeposit(address) (66_StabilityPool.sol#2918-2928)\n\t- StabilityPool.getDepositorGains(address) (66_StabilityPool.sol#2768-2785)\n\t- StabilityPool.getDepositorYETIGain(address) (66_StabilityPool.sol#2836-2860)\n\t- StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481)\n\t- StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531)\n\t- _sendYUSDToDepositor(msg.sender,YUSDtoWithdraw) (66_StabilityPool.sol#2521)\n\t\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#2756)\n\tStabilityPool.totalYUSDDeposits (66_StabilityPool.sol#2241) can be used in cross function reentrancies:\n\t- StabilityPool._decreaseYUSD(uint256) (66_StabilityPool.sol#2754-2758)\n\t- StabilityPool._sendYUSDtoStabilityPool(address,uint256) (66_StabilityPool.sol#3005-3010)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool.getTotalYUSDDeposits() (66_StabilityPool.sol#2428-2430)\n\t- StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "offset",
+            "impact": "Medium",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuance) (66_StabilityPool.sol#2602)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tState variables written after the call(s):\n\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t\t- P = newP (66_StabilityPool.sol#2732)\n\tStabilityPool.P (66_StabilityPool.sol#2289) can be used in cross function reentrancies:\n\t- StabilityPool.P (66_StabilityPool.sol#2289)\n\t- StabilityPool._computeRewardsPerUnitStaked(address[],uint256[],uint256,uint256) (66_StabilityPool.sol#2627-2674)\n\t- StabilityPool._getCompoundedStakeFromSnapshots(uint256,StabilityPool.Snapshots) (66_StabilityPool.sol#2956-3000)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool._updateRewardSumAndProduct(address[],uint256[],uint256) (66_StabilityPool.sol#2677-2734)\n\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t\t- currentEpoch = currentEpochCached.add(1) (66_StabilityPool.sol#2716)\n\tStabilityPool.currentEpoch (66_StabilityPool.sol#2297) can be used in cross function reentrancies:\n\t- StabilityPool._getCompoundedStakeFromSnapshots(uint256,StabilityPool.Snapshots) (66_StabilityPool.sol#2956-3000)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool._updateRewardSumAndProduct(address[],uint256[],uint256) (66_StabilityPool.sol#2677-2734)\n\t- StabilityPool.currentEpoch (66_StabilityPool.sol#2297)\n\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t\t- currentScale = 0 (66_StabilityPool.sol#2718)\n\t\t- currentScale = currentScaleCached.add(1) (66_StabilityPool.sol#2725)\n\tStabilityPool.currentScale (66_StabilityPool.sol#2294) can be used in cross function reentrancies:\n\t- StabilityPool._getCompoundedStakeFromSnapshots(uint256,StabilityPool.Snapshots) (66_StabilityPool.sol#2956-3000)\n\t- StabilityPool._updateDepositAndSnapshots(address,uint256) (66_StabilityPool.sol#3070-3112)\n\t- StabilityPool._updateFrontEndStakeAndSnapshots(address,uint256) (66_StabilityPool.sol#3114-3137)\n\t- StabilityPool._updateG(uint256) (66_StabilityPool.sol#2540-2559)\n\t- StabilityPool._updateRewardSumAndProduct(address[],uint256[],uint256) (66_StabilityPool.sol#2677-2734)\n\t- StabilityPool.currentScale (66_StabilityPool.sol#2294)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Medium",
+            "line": 1340,
+            "message": "YetiCustomBase._sumColls(YetiCustomBase.newColls,YetiCustomBase.newColls).coll3 (66_StabilityPool.sol#1340) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Medium",
+            "line": 1487,
+            "message": "YetiCustomBase._subColls(YetiCustomBase.newColls,address[],uint256[]).j (66_StabilityPool.sol#1487) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Medium",
+            "line": 1369,
+            "message": "YetiCustomBase._sumColls(YetiCustomBase.newColls,YetiCustomBase.newColls).j (66_StabilityPool.sol#1369) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Medium",
+            "line": 1456,
+            "message": "YetiCustomBase._subColls(YetiCustomBase.newColls,address[],uint256[]).coll3 (66_StabilityPool.sol#1456) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_moveOffsetCollAndDebt",
+            "impact": "Medium",
+            "line": 2737,
+            "line_end": 2751,
+            "message": "StabilityPool._moveOffsetCollAndDebt(address[],uint256[],uint256) (66_StabilityPool.sol#2737-2751) ignores return value by activePoolCached.sendCollaterals(address(this),_collsToAdd,_amountsToAdd) (66_StabilityPool.sol#2750)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Low",
+            "line": 2376,
+            "message": "StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._whitelistAddress (66_StabilityPool.sol#2376) lacks a zero-check on :\n\t\t- whitelistAddress = _whitelistAddress (66_StabilityPool.sol#2397)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Low",
+            "line": 2377,
+            "message": "StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._troveManagerLiquidationsAddress (66_StabilityPool.sol#2377) lacks a zero-check on :\n\t\t- troveManagerLiquidationsAddress = _troveManagerLiquidationsAddress (66_StabilityPool.sol#2396)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: whitelist.isWrapped(thisAsset) (66_StabilityPool.sol#3024)\n\tCalls stack containing the loop:\n\t\tStabilityPool.withdrawFromSP(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: IWAsset(thisAsset).unwrapFor(address(this),_to,thisAmounts) (66_StabilityPool.sol#3028)\n\tCalls stack containing the loop:\n\t\tStabilityPool.withdrawFromSP(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: IWAsset(thisAsset).unwrapFor(address(this),_to,thisAmounts) (66_StabilityPool.sol#3028)\n\tCalls stack containing the loop:\n\t\tStabilityPool.provideToSP(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_leftSubColls",
+            "impact": "Low",
+            "line": 1428,
+            "line_end": 1442,
+            "message": "YetiCustomBase._leftSubColls(YetiCustomBase.newColls,address[],uint256[]) (66_StabilityPool.sol#1428-1442) has external calls inside a loop: tokenIndex = whitelist.getIndex(_subTokens[i]) (66_StabilityPool.sol#1438)\n\tCalls stack containing the loop:\n\t\tStabilityPool.withdrawFromSP(uint256)\n\t\tStabilityPool._sendGainsToDepositor(address,address[],uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: whitelist.isWrapped(thisAsset) (66_StabilityPool.sol#3024)\n\tCalls stack containing the loop:\n\t\tStabilityPool.provideToSP(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: IWAsset(thisAsset).endTreasuryReward(address(this),thisAmounts) (66_StabilityPool.sol#3026)\n\tCalls stack containing the loop:\n\t\tStabilityPool.withdrawFromSP(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getVCColls",
+            "impact": "Low",
+            "line": 1605,
+            "line_end": 1611,
+            "message": "LiquityBase._getVCColls(YetiCustomBase.newColls) (66_StabilityPool.sol#1605-1611) has external calls inside a loop: valueVC = whitelist.getValueVC(_colls.tokens[i],_colls.amounts[i]) (66_StabilityPool.sol#1608)\n\tCalls stack containing the loop:\n\t\tStabilityPool.getVC()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_computeRewardsPerUnitStaked",
+            "impact": "Low",
+            "line": 2627,
+            "line_end": 2674,
+            "message": "StabilityPool._computeRewardsPerUnitStaked(address[],uint256[],uint256,uint256) (66_StabilityPool.sol#2627-2674) has external calls inside a loop: tokenIDX = whitelist.getIndex(_tokens[i]) (66_StabilityPool.sol#2638)\n\tCalls stack containing the loop:\n\t\tStabilityPool.offset(uint256,address[],uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_leftSumColls",
+            "impact": "Low",
+            "line": 1409,
+            "line_end": 1424,
+            "message": "YetiCustomBase._leftSumColls(YetiCustomBase.newColls,address[],uint256[]) (66_StabilityPool.sol#1409-1424) has external calls inside a loop: tokenIndex = whitelist.getIndex(_tokens[i]) (66_StabilityPool.sol#1419)\n\tCalls stack containing the loop:\n\t\tStabilityPool.receiveCollateral(address[],uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_leftSubColls",
+            "impact": "Low",
+            "line": 1428,
+            "line_end": 1442,
+            "message": "YetiCustomBase._leftSubColls(YetiCustomBase.newColls,address[],uint256[]) (66_StabilityPool.sol#1428-1442) has external calls inside a loop: tokenIndex = whitelist.getIndex(_subTokens[i]) (66_StabilityPool.sol#1438)\n\tCalls stack containing the loop:\n\t\tStabilityPool.provideToSP(uint256,address)\n\t\tStabilityPool._sendGainsToDepositor(address,address[],uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_computeRewardsPerUnitStaked",
+            "impact": "Low",
+            "line": 2627,
+            "line_end": 2674,
+            "message": "StabilityPool._computeRewardsPerUnitStaked(address[],uint256[],uint256,uint256) (66_StabilityPool.sol#2627-2674) has external calls inside a loop: tokenIDX_scope_2 = whitelist.getIndex(_tokens[i_scope_1]) (66_StabilityPool.sol#2668)\n\tCalls stack containing the loop:\n\t\tStabilityPool.offset(uint256,address[],uint256[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034) has external calls inside a loop: IWAsset(thisAsset).endTreasuryReward(address(this),thisAmounts) (66_StabilityPool.sol#3026)\n\tCalls stack containing the loop:\n\t\tStabilityPool.provideToSP(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendYUSDToDepositor",
+            "impact": "Low",
+            "line": 3037,
+            "line_end": 3044,
+            "message": "Reentrancy in StabilityPool._sendYUSDToDepositor(address,uint256) (66_StabilityPool.sol#3037-3044):\n\tExternal calls:\n\t- yusdToken.returnFromPool(address(this),_depositor,YUSDWithdrawal) (66_StabilityPool.sol#3042)\n\tState variables written after the call(s):\n\t- _decreaseYUSD(YUSDWithdrawal) (66_StabilityPool.sol#3043)\n\t\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#2756)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_triggerYETIIssuance",
+            "impact": "Low",
+            "line": 2535,
+            "line_end": 2538,
+            "message": "Reentrancy in StabilityPool._triggerYETIIssuance(ICommunityIssuance) (66_StabilityPool.sol#2535-2538):\n\tExternal calls:\n\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tState variables written after the call(s):\n\t- _updateG(YETIIssuance) (66_StabilityPool.sol#2537)\n\t\t- epochToScaleToG[currentEpoch][currentScale] = epochToScaleToG[currentEpoch][currentScale].add(marginalYETIGain) (66_StabilityPool.sol#2555-2556)\n\t- _updateG(YETIIssuance) (66_StabilityPool.sol#2537)\n\t\t- lastYETIError = YETINumerator.sub(YETIPerUnitStaked.mul(_totalYUSDDeposits)) (66_StabilityPool.sol#2579)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "offset",
+            "impact": "Low",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuance) (66_StabilityPool.sol#2602)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tState variables written after the call(s):\n\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t\t- epochToScaleToSum[asset][currentEpochCached][currentScaleCached] = newAssetS (66_StabilityPool.sol#2710)\n\t- (AssetGainPerUnitStaked,YUSDLossPerUnitStaked) = _computeRewardsPerUnitStaked(_tokens,_amountsAdded,_debtToOffset,totalYUSD) (66_StabilityPool.sol#2604-2607)\n\t\t- lastAssetError_Offset[tokenIDX_scope_2] = CollateralNumerators[i_scope_1].sub(AssetGainPerUnitStaked[i_scope_1].mul(_totalYUSDDeposits).div(currentP)) (66_StabilityPool.sol#2669-2671)\n\t- (AssetGainPerUnitStaked,YUSDLossPerUnitStaked) = _computeRewardsPerUnitStaked(_tokens,_amountsAdded,_debtToOffset,totalYUSD) (66_StabilityPool.sol#2604-2607)\n\t\t- lastYUSDLossError_Offset = 0 (66_StabilityPool.sol#2647)\n\t\t- lastYUSDLossError_Offset = (YUSDLossPerUnitStaked.mul(_totalYUSDDeposits)).sub(YUSDLossNumerator) (66_StabilityPool.sol#2657-2659)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_moveOffsetCollAndDebt",
+            "impact": "Low",
+            "line": 2737,
+            "line_end": 2751,
+            "message": "Reentrancy in StabilityPool._moveOffsetCollAndDebt(address[],uint256[],uint256) (66_StabilityPool.sol#2737-2751):\n\tExternal calls:\n\t- activePoolCached.decreaseYUSDDebt(_debtToOffset) (66_StabilityPool.sol#2744)\n\tState variables written after the call(s):\n\t- _decreaseYUSD(_debtToOffset) (66_StabilityPool.sol#2745)\n\t\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#2756)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendYUSDtoStabilityPool",
+            "impact": "Low",
+            "line": 3005,
+            "line_end": 3010,
+            "message": "Reentrancy in StabilityPool._sendYUSDtoStabilityPool(address,uint256) (66_StabilityPool.sol#3005-3010):\n\tExternal calls:\n\t- yusdToken.sendToPool(_address,address(this),_amount) (66_StabilityPool.sol#3006)\n\tState variables written after the call(s):\n\t- totalYUSDDeposits = newTotalYUSDDeposits (66_StabilityPool.sol#3008)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendGainsToDepositor",
+            "impact": "Low",
+            "line": 3012,
+            "line_end": 3034,
+            "message": "Reentrancy in StabilityPool._sendGainsToDepositor(address,address[],uint256[]) (66_StabilityPool.sol#3012-3034):\n\tExternal calls:\n\t- IWAsset(thisAsset).endTreasuryReward(address(this),thisAmounts) (66_StabilityPool.sol#3026)\n\t- IWAsset(thisAsset).unwrapFor(address(this),_to,thisAmounts) (66_StabilityPool.sol#3028)\n\t- IERC20(thisAsset).safeTransfer(_to,thisAmounts) (66_StabilityPool.sol#3030)\n\tState variables written after the call(s):\n\t- totalColl.amounts = _leftSubColls(totalColl,assets,amounts) (66_StabilityPool.sol#3033)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "offset",
+            "impact": "Low",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuance) (66_StabilityPool.sol#2602)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _moveOffsetCollAndDebt(_tokens,_amountsAdded,_debtToOffset) (66_StabilityPool.sol#2610)\n\t\t- activePoolCached.decreaseYUSDDebt(_debtToOffset) (66_StabilityPool.sol#2744)\n\t\t- yusdToken.burn(address(this),_debtToOffset) (66_StabilityPool.sol#2748)\n\t\t- activePoolCached.sendCollaterals(address(this),_collsToAdd,_amountsToAdd) (66_StabilityPool.sol#2750)\n\tEvent emitted after the call(s):\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#2757)\n\t\t- _moveOffsetCollAndDebt(_tokens,_amountsAdded,_debtToOffset) (66_StabilityPool.sol#2610)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "withdrawFromSP",
+            "impact": "Low",
+            "line": 2493,
+            "line_end": 2531,
+            "message": "Reentrancy in StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2502)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\tEvent emitted after the call(s):\n\t- FrontEndSnapshotUpdated(_frontEnd,0,0) (66_StabilityPool.sol#3119)\n\t\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2518)\n\t- FrontEndSnapshotUpdated(_frontEnd,currentP,currentG) (66_StabilityPool.sol#3136)\n\t\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2518)\n\t- FrontEndStakeChanged(frontEnd,newFrontEndStake,msg.sender) (66_StabilityPool.sol#2519)\n\t- YETIPaidToDepositor(_depositor,depositorYETIGain) (66_StabilityPool.sol#3154)\n\t\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n\t- YETIPaidToFrontEnd(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3148)\n\t\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "offset",
+            "impact": "Low",
+            "line": 2591,
+            "line_end": 2611,
+            "message": "Reentrancy in StabilityPool.offset(uint256,address[],uint256[]) (66_StabilityPool.sol#2591-2611):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuance) (66_StabilityPool.sol#2602)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tEvent emitted after the call(s):\n\t- EpochUpdated(currentEpoch) (66_StabilityPool.sol#2717)\n\t\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t- P_Updated(newP) (66_StabilityPool.sol#2733)\n\t\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t- S_Updated(asset,newAssetS,currentEpochCached,currentScaleCached) (66_StabilityPool.sol#2711)\n\t\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t- ScaleUpdated(currentScale) (66_StabilityPool.sol#2719)\n\t\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n\t- ScaleUpdated(currentScale) (66_StabilityPool.sol#2726)\n\t\t- _updateRewardSumAndProduct(_tokens,AssetGainPerUnitStaked,YUSDLossPerUnitStaked) (66_StabilityPool.sol#2609)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "withdrawFromSP",
+            "impact": "Low",
+            "line": 2493,
+            "line_end": 2531,
+            "message": "Reentrancy in StabilityPool.withdrawFromSP(uint256) (66_StabilityPool.sol#2493-2531):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2502)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2513)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\t- _sendYUSDToDepositor(msg.sender,YUSDtoWithdraw) (66_StabilityPool.sol#2521)\n\t\t- yusdToken.returnFromPool(address(this),_depositor,YUSDWithdrawal) (66_StabilityPool.sol#3042)\n\tEvent emitted after the call(s):\n\t- DepositSnapshotUpdated(_depositor,0,0) (66_StabilityPool.sol#3084)\n\t\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2525)\n\t- DepositSnapshotUpdated(_depositor,currentP,currentG) (66_StabilityPool.sol#3111)\n\t\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2525)\n\t- GainsWithdrawn(msg.sender,assets,amounts,YUSDLoss) (66_StabilityPool.sol#2528)\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#2757)\n\t\t- _sendYUSDToDepositor(msg.sender,YUSDtoWithdraw) (66_StabilityPool.sol#2521)\n\t- UserDepositChanged(msg.sender,newDeposit) (66_StabilityPool.sol#2526)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_moveOffsetCollAndDebt",
+            "impact": "Low",
+            "line": 2737,
+            "line_end": 2751,
+            "message": "Reentrancy in StabilityPool._moveOffsetCollAndDebt(address[],uint256[],uint256) (66_StabilityPool.sol#2737-2751):\n\tExternal calls:\n\t- activePoolCached.decreaseYUSDDebt(_debtToOffset) (66_StabilityPool.sol#2744)\n\tEvent emitted after the call(s):\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#2757)\n\t\t- _decreaseYUSD(_debtToOffset) (66_StabilityPool.sol#2745)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Low",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\tEvent emitted after the call(s):\n\t- FrontEndSnapshotUpdated(_frontEnd,0,0) (66_StabilityPool.sol#3119)\n\t\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2467)\n\t- FrontEndSnapshotUpdated(_frontEnd,currentP,currentG) (66_StabilityPool.sol#3136)\n\t\t- _updateFrontEndStakeAndSnapshots(frontEnd,newFrontEndStake) (66_StabilityPool.sol#2467)\n\t- FrontEndStakeChanged(frontEnd,newFrontEndStake,msg.sender) (66_StabilityPool.sol#2468)\n\t- YETIPaidToDepositor(_depositor,depositorYETIGain) (66_StabilityPool.sol#3154)\n\t\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n\t- YETIPaidToFrontEnd(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3148)\n\t\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_payOutYETIGains",
+            "impact": "Low",
+            "line": 3139,
+            "line_end": 3155,
+            "message": "Reentrancy in StabilityPool._payOutYETIGains(ICommunityIssuance,address,address) (66_StabilityPool.sol#3139-3155):\n\tExternal calls:\n\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\tEvent emitted after the call(s):\n\t- YETIPaidToDepositor(_depositor,depositorYETIGain) (66_StabilityPool.sol#3154)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_triggerYETIIssuance",
+            "impact": "Low",
+            "line": 2535,
+            "line_end": 2538,
+            "message": "Reentrancy in StabilityPool._triggerYETIIssuance(ICommunityIssuance) (66_StabilityPool.sol#2535-2538):\n\tExternal calls:\n\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tEvent emitted after the call(s):\n\t- G_Updated(epochToScaleToG[currentEpoch][currentScale],currentEpoch,currentScale) (66_StabilityPool.sol#2558)\n\t\t- _updateG(YETIIssuance) (66_StabilityPool.sol#2537)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendYUSDtoStabilityPool",
+            "impact": "Low",
+            "line": 3005,
+            "line_end": 3010,
+            "message": "Reentrancy in StabilityPool._sendYUSDtoStabilityPool(address,uint256) (66_StabilityPool.sol#3005-3010):\n\tExternal calls:\n\t- yusdToken.sendToPool(_address,address(this),_amount) (66_StabilityPool.sol#3006)\n\tEvent emitted after the call(s):\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#3009)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Low",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\tEvent emitted after the call(s):\n\t- FrontEndTagSet(_depositor,_frontEndTag) (66_StabilityPool.sol#3064)\n\t\t- _setFrontEndTag(msg.sender,_frontEndTag) (66_StabilityPool.sol#2454)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sendYUSDToDepositor",
+            "impact": "Low",
+            "line": 3037,
+            "line_end": 3044,
+            "message": "Reentrancy in StabilityPool._sendYUSDToDepositor(address,uint256) (66_StabilityPool.sol#3037-3044):\n\tExternal calls:\n\t- yusdToken.returnFromPool(address(this),_depositor,YUSDWithdrawal) (66_StabilityPool.sol#3042)\n\tEvent emitted after the call(s):\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#2757)\n\t\t- _decreaseYUSD(YUSDWithdrawal) (66_StabilityPool.sol#3043)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "_payOutYETIGains",
+            "impact": "Low",
+            "line": 3139,
+            "line_end": 3155,
+            "message": "Reentrancy in StabilityPool._payOutYETIGains(ICommunityIssuance,address,address) (66_StabilityPool.sol#3139-3155):\n\tExternal calls:\n\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\tEvent emitted after the call(s):\n\t- YETIPaidToFrontEnd(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3148)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StabilityPool",
+            "filename": "66_StabilityPool.sol",
+            "function": "provideToSP",
+            "impact": "Low",
+            "line": 2442,
+            "line_end": 2481,
+            "message": "Reentrancy in StabilityPool.provideToSP(uint256,address) (66_StabilityPool.sol#2442-2481):\n\tExternal calls:\n\t- _triggerYETIIssuance(communityIssuanceCached) (66_StabilityPool.sol#2451)\n\t\t- YETIIssuance = _communityIssuance.issueYETI() (66_StabilityPool.sol#2536)\n\t- _payOutYETIGains(communityIssuanceCached,msg.sender,frontEnd) (66_StabilityPool.sol#2462)\n\t\t- _communityIssuance.sendYETI(_frontEnd,frontEndYETIGain) (66_StabilityPool.sol#3147)\n\t\t- _communityIssuance.sendYETI(_depositor,depositorYETIGain) (66_StabilityPool.sol#3153)\n\t- _sendYUSDtoStabilityPool(msg.sender,_amount) (66_StabilityPool.sol#2472)\n\t\t- yusdToken.sendToPool(_address,address(this),_amount) (66_StabilityPool.sol#3006)\n\tEvent emitted after the call(s):\n\t- DepositSnapshotUpdated(_depositor,0,0) (66_StabilityPool.sol#3084)\n\t\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2475)\n\t- DepositSnapshotUpdated(_depositor,currentP,currentG) (66_StabilityPool.sol#3111)\n\t\t- _updateDepositAndSnapshots(msg.sender,newDeposit) (66_StabilityPool.sol#2475)\n\t- GainsWithdrawn(msg.sender,assets,amounts,YUSDLoss) (66_StabilityPool.sol#2478)\n\t- StabilityPoolYUSDBalanceUpdated(newTotalYUSDDeposits) (66_StabilityPool.sol#3009)\n\t\t- _sendYUSDtoStabilityPool(msg.sender,_amount) (66_StabilityPool.sol#2472)\n\t- UserDepositChanged(msg.sender,newDeposit) (66_StabilityPool.sol#2476)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "CheckContract",
+            "filename": "66_StabilityPool.sol",
+            "function": "checkContract",
+            "impact": "Informational",
+            "line": 1772,
+            "line_end": 1779,
+            "message": "CheckContract.checkContract(address) (66_StabilityPool.sol#1772-1779) uses assembly\n\t- INLINE ASM (66_StabilityPool.sol#1777)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 1808,
+            "line_end": 1817,
+            "message": "Address.isContract(address) (66_StabilityPool.sol#1808-1817) uses assembly\n\t- INLINE ASM (66_StabilityPool.sol#1815)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 1953,
+            "line_end": 1970,
+            "message": "Address._verifyCallResult(bool,bytes,string) (66_StabilityPool.sol#1953-1970) uses assembly\n\t- INLINE ASM (66_StabilityPool.sol#1962-1965)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_subColls",
+            "impact": "Informational",
+            "line": 1447,
+            "line_end": 1500,
+            "message": "YetiCustomBase._subColls(YetiCustomBase.newColls,address[],uint256[]) (66_StabilityPool.sol#1447-1500) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_requireUserAcceptsFee",
+            "impact": "Informational",
+            "line": 1637,
+            "line_end": 1640,
+            "message": "LiquityBase._requireUserAcceptsFee(uint256,uint256,uint256) (66_StabilityPool.sol#1637-1640) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getUSDColls",
+            "impact": "Informational",
+            "line": 1614,
+            "line_end": 1620,
+            "message": "LiquityBase._getUSDColls(YetiCustomBase.newColls) (66_StabilityPool.sol#1614-1620) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_checkRecoveryMode",
+            "impact": "Informational",
+            "line": 1631,
+            "line_end": 1634,
+            "message": "LiquityBase._checkRecoveryMode() (66_StabilityPool.sol#1631-1634) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getTCR",
+            "impact": "Informational",
+            "line": 1623,
+            "line_end": 1628,
+            "message": "LiquityBase._getTCR() (66_StabilityPool.sol#1623-1628) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_CollsIsNonZero",
+            "impact": "Informational",
+            "line": 1643,
+            "line_end": 1651,
+            "message": "LiquityBase._CollsIsNonZero(YetiCustomBase.newColls) (66_StabilityPool.sol#1643-1651) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getNetDebt",
+            "impact": "Informational",
+            "line": 1564,
+            "line_end": 1566,
+            "message": "LiquityBase._getNetDebt(uint256) (66_StabilityPool.sol#1564-1566) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getCompositeDebt",
+            "impact": "Informational",
+            "line": 1559,
+            "line_end": 1561,
+            "message": "LiquityBase._getCompositeDebt(uint256) (66_StabilityPool.sol#1559-1561) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_checkPotentialRecoveryMode",
+            "impact": "Informational",
+            "line": 1656,
+            "line_end": 1664,
+            "message": "LiquityBase._checkPotentialRecoveryMode(uint256,uint256) (66_StabilityPool.sol#1656-1664) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sumColls",
+            "impact": "Informational",
+            "line": 1385,
+            "line_end": 1392,
+            "message": "YetiCustomBase._sumColls(YetiCustomBase.newColls,address[],uint256[]) (66_StabilityPool.sol#1385-1392) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getICRColls",
+            "impact": "Informational",
+            "line": 1589,
+            "line_end": 1592,
+            "message": "LiquityBase._getICRColls(YetiCustomBase.newColls,uint256) (66_StabilityPool.sol#1589-1592) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sumColls",
+            "impact": "Informational",
+            "line": 1335,
+            "line_end": 1381,
+            "message": "YetiCustomBase._sumColls(YetiCustomBase.newColls,YetiCustomBase.newColls) (66_StabilityPool.sol#1335-1381) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_getVC",
+            "impact": "Informational",
+            "line": 1595,
+            "line_end": 1602,
+            "message": "LiquityBase._getVC(address[],uint256[]) (66_StabilityPool.sol#1595-1602) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "YetiCustomBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_sumColls",
+            "impact": "Informational",
+            "line": 1395,
+            "line_end": 1403,
+            "message": "YetiCustomBase._sumColls(address[],uint256[],address[],uint256[]) (66_StabilityPool.sol#1395-1403) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.11 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.11 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.11 (66_StabilityPool.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 1945,
+            "line_end": 1951,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (66_StabilityPool.sol#1945-1951):\n\t- (success,returndata) = target.delegatecall(data) (66_StabilityPool.sol#1949)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 1921,
+            "line_end": 1927,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (66_StabilityPool.sol#1921-1927):\n\t- (success,returndata) = target.staticcall(data) (66_StabilityPool.sol#1925)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 1896,
+            "line_end": 1903,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (66_StabilityPool.sol#1896-1903):\n\t- (success,returndata) = target.call{value: value}(data) (66_StabilityPool.sol#1901)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "66_StabilityPool.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 1835,
+            "line_end": 1841,
+            "message": "Low level call in Address.sendValue(address,uint256) (66_StabilityPool.sol#1835-1841):\n\t- (success,None) = recipient.call{value: amount}() (66_StabilityPool.sol#1839)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "ITroveManager",
+            "filename": "66_StabilityPool.sol",
+            "function": "getL_Coll",
+            "impact": "Informational",
+            "line": 862,
+            "message": "Function ITroveManager.getL_Coll(address) (66_StabilityPool.sol#862) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 847,
+            "message": "Parameter ITroveManager.getBorrowingFee(uint256).YUSDDebt (66_StabilityPool.sol#847) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 906,
+            "message": "Parameter ITroveManager.movePendingTroveRewardsToActivePool(IActivePool,IDefaultPool,uint256,address[],uint256[],address)._YUSD (66_StabilityPool.sol#906) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 176,
+            "message": "Event IStabilityPool.P_Updated(uint256) (66_StabilityPool.sol#176) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3241,
+            "message": "Parameter StabilityPool.getDepositSnapshotS(address,address)._depositor (66_StabilityPool.sol#3241) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2372,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._activePoolAddress (66_StabilityPool.sol#2372) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3223,
+            "message": "Parameter StabilityPool.receiveCollateral(address[],uint256[])._amounts (66_StabilityPool.sol#3223) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 929,
+            "message": "Parameter ISortedTroves.setParams(uint256,address,address,address)._TroveManagerAddress (66_StabilityPool.sol#929) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LiquityBase",
+            "filename": "66_StabilityPool.sol",
+            "function": "_CollsIsNonZero",
+            "impact": "Informational",
+            "line": 1643,
+            "line_end": 1651,
+            "message": "Function LiquityBase._CollsIsNonZero(YetiCustomBase.newColls) (66_StabilityPool.sol#1643-1651) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2592,
+            "message": "Parameter StabilityPool.offset(uint256,address[],uint256[])._debtToOffset (66_StabilityPool.sol#2592) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2442,
+            "message": "Parameter StabilityPool.provideToSP(uint256,address)._frontEndTag (66_StabilityPool.sol#2442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 178,
+            "message": "Event IStabilityPool.G_Updated(uint256,uint128,uint128) (66_StabilityPool.sol#178) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2493,
+            "message": "Parameter StabilityPool.withdrawFromSP(uint256)._amount (66_StabilityPool.sol#2493) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ITroveManager",
+            "filename": "66_StabilityPool.sol",
+            "function": "getL_YUSD",
+            "impact": "Informational",
+            "line": 864,
+            "message": "Function ITroveManager.getL_YUSD(address) (66_StabilityPool.sol#864) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 106,
+            "message": "Parameter IBorrowerOperations.repayYUSD(uint256,address,address)._YUSDAmount (66_StabilityPool.sol#106) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 74,
+            "message": "Parameter IBorrowerOperations.adjustTrove(address[],uint256[],address[],uint256[],uint256,bool,address,address,uint256)._YUSDChange (66_StabilityPool.sol#74) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 800,
+            "message": "Parameter ITroveManager.redeemCollateral(uint256,uint256,address,address,address,uint256,uint256)._YUSDMaxFee (66_StabilityPool.sol#800) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2593,
+            "message": "Parameter StabilityPool.offset(uint256,address[],uint256[])._tokens (66_StabilityPool.sol#2593) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 799,
+            "message": "Parameter ITroveManager.redeemCollateral(uint256,uint256,address,address,address,uint256,uint256)._YUSDAmount (66_StabilityPool.sol#799) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2374,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._sortedTrovesAddress (66_StabilityPool.sol#2374) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2594,
+            "message": "Parameter StabilityPool.offset(uint256,address[],uint256[])._amountsAdded (66_StabilityPool.sol#2594) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3223,
+            "message": "Parameter StabilityPool.receiveCollateral(address[],uint256[])._tokens (66_StabilityPool.sol#3223) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "line_end": 1330,
+            "message": "Struct YetiCustomBase.newColls (66_StabilityPool.sol#1326-1330) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 842,
+            "message": "Parameter ITroveManager.getRedemptionFeeWithDecay(uint256)._ETHDrawn (66_StabilityPool.sol#842) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2377,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._troveManagerLiquidationsAddress (66_StabilityPool.sol#2377) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2416,
+            "message": "Parameter StabilityPool.getCollateral(address)._collateral (66_StabilityPool.sol#2416) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IPriceFeed",
+            "filename": "66_StabilityPool.sol",
+            "function": "fetchPrice_v",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Function IPriceFeed.fetchPrice_v() (66_StabilityPool.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 1643,
+            "message": "Parameter LiquityBase._CollsIsNonZero(YetiCustomBase.newColls)._colls (66_StabilityPool.sol#1643) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 1772,
+            "message": "Parameter CheckContract.checkContract(address)._account (66_StabilityPool.sol#1772) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 981,
+            "message": "Parameter ICommunityIssuance.sendYETI(address,uint256)._YETIamount (66_StabilityPool.sol#981) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3233,
+            "message": "Parameter StabilityPool.addCollateralType(address)._collateral (66_StabilityPool.sol#3233) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2373,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._yusdTokenAddress (66_StabilityPool.sol#2373) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 959,
+            "message": "Parameter ISortedTroves.findInsertPosition(uint256,address,address)._ICR (66_StabilityPool.sol#959) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2376,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._whitelistAddress (66_StabilityPool.sol#2376) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2323,
+            "message": "Variable StabilityPool.lastYUSDLossError_Offset (66_StabilityPool.sol#2323) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 177,
+            "message": "Event IStabilityPool.S_Updated(uint256,uint128,uint128) (66_StabilityPool.sol#177) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2768,
+            "message": "Parameter StabilityPool.getDepositorGains(address)._depositor (66_StabilityPool.sol#2768) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2918,
+            "message": "Parameter StabilityPool.getCompoundedYUSDDeposit(address)._depositor (66_StabilityPool.sol#2918) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2868,
+            "message": "Parameter StabilityPool.getFrontEndYETIGain(address)._frontEnd (66_StabilityPool.sol#2868) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2371,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._troveManagerAddress (66_StabilityPool.sol#2371) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 848,
+            "message": "Parameter ITroveManager.getBorrowingFeeWithDecay(uint256)._YUSDDebt (66_StabilityPool.sol#848) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 104,
+            "message": "Parameter IBorrowerOperations.withdrawYUSD(uint256,uint256,address,address)._YUSDAmount (66_StabilityPool.sol#104) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2340,
+            "message": "Event StabilityPool.S_Updated(address,uint256,uint128,uint128) (66_StabilityPool.sol#2340) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 99,
+            "message": "Parameter IBorrowerOperations.withdrawCollUnleverUp(address[],uint256[],uint256[],uint256,address,address)._YUSDAmount (66_StabilityPool.sol#99) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2289,
+            "message": "Variable StabilityPool.P (66_StabilityPool.sol#2289) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 87,
+            "message": "Parameter IBorrowerOperations.addCollLeverUp(address[],uint256[],uint256[],uint256[],uint256,address,address,uint256)._YUSDAmount (66_StabilityPool.sol#87) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2341,
+            "message": "Event StabilityPool.G_Updated(uint256,uint128,uint128) (66_StabilityPool.sol#2341) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2339,
+            "message": "Event StabilityPool.P_Updated(uint256) (66_StabilityPool.sol#2339) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 45,
+            "message": "Parameter IBorrowerOperations.openTrove(uint256,uint256,address,address,address[],uint256[])._YUSDAmount (66_StabilityPool.sol#45) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2375,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._communityIssuanceAddress (66_StabilityPool.sol#2375) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2370,
+            "message": "Parameter StabilityPool.setAddresses(address,address,address,address,address,address,address,address)._borrowerOperationsAddress (66_StabilityPool.sol#2370) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2836,
+            "message": "Parameter StabilityPool.getDepositorYETIGain(address)._depositor (66_StabilityPool.sol#2836) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 957,
+            "message": "Parameter ISortedTroves.validInsertPosition(uint256,address,address)._ICR (66_StabilityPool.sol#957) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ITroveManager",
+            "filename": "66_StabilityPool.sol",
+            "function": "updateSystemSnapshots_excludeCollRemainder",
+            "impact": "Informational",
+            "line": 901,
+            "message": "Function ITroveManager.updateSystemSnapshots_excludeCollRemainder(IActivePool,address[],uint256[]) (66_StabilityPool.sol#901) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2937,
+            "message": "Parameter StabilityPool.getCompoundedFrontEndStake(address)._frontEnd (66_StabilityPool.sol#2937) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 52,
+            "message": "Parameter IBorrowerOperations.openTroveLeverUp(uint256,uint256,address,address,address[],uint256[],uint256[],uint256[])._YUSDAmount (66_StabilityPool.sol#52) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2322,
+            "message": "Variable StabilityPool.lastAssetError_Offset (66_StabilityPool.sol#2322) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3049,
+            "message": "Parameter StabilityPool.registerFrontEnd(uint256)._kickbackRate (66_StabilityPool.sol#3049) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 3241,
+            "message": "Parameter StabilityPool.getDepositSnapshotS(address,address)._collateral (66_StabilityPool.sol#3241) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 931,
+            "message": "Parameter ISortedTroves.insert(address,uint256,address,address)._ICR (66_StabilityPool.sol#931) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Informational",
+            "line": 2442,
+            "message": "Parameter StabilityPool.provideToSP(uint256,address)._amount (66_StabilityPool.sol#2442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "66_StabilityPool.sol",
+            "impact": "Optimization",
+            "line": 1554,
+            "message": "LiquityBase.defaultPool (66_StabilityPool.sol#1554) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,322 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "redelegateUnstaked",
+            "impact": "High",
+            "line": 942,
+            "line_end": 953,
+            "message": "Reentrancy in DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953):\n\tExternal calls:\n\t- _stake(newValidatorId,amount,false) (../sb/43_DelegatedStaking.sol#947)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _stake(newValidatorId,amount,false) (../sb/43_DelegatedStaking.sol#947)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tState variables written after the call(s):\n\t- us.amount -= amount (../sb/43_DelegatedStaking.sol#948)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- us.coolDownEnd = 0 (../sb/43_DelegatedStaking.sol#951)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_redeemRewards",
+            "impact": "High",
+            "line": 811,
+            "line_end": 855,
+            "message": "Reentrancy in DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855):\n\tExternal calls:\n\t- _transferFromContract(beneficiary,amount) (../sb/43_DelegatedStaking.sol#844)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- CQT.safeTransfer(to,amount) (../sb/43_DelegatedStaking.sol#623)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferFromContract(beneficiary,amount) (../sb/43_DelegatedStaking.sol#844)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tState variables written after the call(s):\n\t- totalGlobalShares -= globalSharesRemove (../sb/43_DelegatedStaking.sol#851)\n\tDelegatedStaking.totalGlobalShares (../sb/43_DelegatedStaking.sol#558) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking._updateGlobalExchangeRate() (../sb/43_DelegatedStaking.sol#659-671)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getMetadata() (../sb/43_DelegatedStaking.sol#1012-1015)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- v.globalShares -= globalSharesRemove (../sb/43_DelegatedStaking.sol#852)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "recoverUnstaking",
+            "impact": "High",
+            "line": 799,
+            "line_end": 808,
+            "message": "Reentrancy in DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808):\n\tExternal calls:\n\t- _stake(validatorId,amount,false) (../sb/43_DelegatedStaking.sol#802)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _stake(validatorId,amount,false) (../sb/43_DelegatedStaking.sol#802)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tState variables written after the call(s):\n\t- us.amount -= amount (../sb/43_DelegatedStaking.sol#803)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- us.coolDownEnd = 0 (../sb/43_DelegatedStaking.sol#806)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "transferUnstakedOut",
+            "impact": "High",
+            "line": 956,
+            "line_end": 966,
+            "message": "Reentrancy in DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966):\n\tExternal calls:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#960)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- CQT.safeTransfer(to,amount) (../sb/43_DelegatedStaking.sol#623)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#960)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tState variables written after the call(s):\n\t- us.amount -= amount (../sb/43_DelegatedStaking.sol#961)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- us.coolDownEnd = 0 (../sb/43_DelegatedStaking.sol#964)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_stake",
+            "impact": "High",
+            "line": 712,
+            "line_end": 754,
+            "message": "Reentrancy in DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754):\n\tExternal calls:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#739)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#739)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tState variables written after the call(s):\n\t- totalGlobalShares += globalSharesToAdd (../sb/43_DelegatedStaking.sol#744)\n\tDelegatedStaking.totalGlobalShares (../sb/43_DelegatedStaking.sol#558) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking._updateGlobalExchangeRate() (../sb/43_DelegatedStaking.sol#659-671)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getMetadata() (../sb/43_DelegatedStaking.sol#1012-1015)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- v.globalShares += globalSharesToAdd (../sb/43_DelegatedStaking.sol#745)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- v.totalShares += newDelegatorSharesN (../sb/43_DelegatedStaking.sol#749)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n\t- v.delegated += amount (../sb/43_DelegatedStaking.sol#751)\n\tDelegatedStaking.validators (../sb/43_DelegatedStaking.sol#562) can be used in cross function reentrancies:\n\t- DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855)\n\t- DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754)\n\t- DelegatedStaking.addValidator(address,address,uint128) (../sb/43_DelegatedStaking.sol#869-877)\n\t- DelegatedStaking.disableValidator(uint128) (../sb/43_DelegatedStaking.sol#881-890)\n\t- DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010)\n\t- DelegatedStaking.getValidatorsDetails() (../sb/43_DelegatedStaking.sol#970-979)\n\t- DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808)\n\t- DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953)\n\t- DelegatedStaking.setValidatorCommissionRate(uint128,uint128) (../sb/43_DelegatedStaking.sol#926-932)\n\t- DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966)\n\t- DelegatedStaking.unstake(uint128,uint128) (../sb/43_DelegatedStaking.sol#757-796)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "getDelegatorDetails",
+            "impact": "Medium",
+            "line": 983,
+            "line_end": 1010,
+            "message": "DelegatedStaking.getDelegatorDetails(address) (../sb/43_DelegatedStaking.sol#983-1010) performs a multiplication on the result of a division:\n\t- newGlobalExchangeRate = uint128((uint256(allocatedTokensPerEpoch) * divider / totalGlobalShares) * (currentEpoch - lastUpdateEpoch)) + globalExchangeRate (../sb/43_DelegatedStaking.sol#988)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_redeemRewards",
+            "impact": "Medium",
+            "line": 811,
+            "line_end": 855,
+            "message": "DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855) uses a dangerous strict equality:\n\t- commissionLeftOver == 0 (../sb/43_DelegatedStaking.sol#827)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_stake",
+            "impact": "Medium",
+            "line": 712,
+            "line_end": 754,
+            "message": "DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754) uses a dangerous strict equality:\n\t- endEpoch == 0 (../sb/43_DelegatedStaking.sol#718)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_redeemRewards",
+            "impact": "Low",
+            "line": 811,
+            "line_end": 855,
+            "message": "Reentrancy in DelegatedStaking._redeemRewards(uint128,address,uint128) (../sb/43_DelegatedStaking.sol#811-855):\n\tExternal calls:\n\t- _transferFromContract(beneficiary,amount) (../sb/43_DelegatedStaking.sol#844)\n\t\t- CQT.safeTransfer(to,amount) (../sb/43_DelegatedStaking.sol#623)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferFromContract(beneficiary,amount) (../sb/43_DelegatedStaking.sol#844)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- RewardRedeemed(validatorId,beneficiary,amount) (../sb/43_DelegatedStaking.sol#854)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "takeOutRewardTokens",
+            "impact": "Low",
+            "line": 641,
+            "line_end": 656,
+            "message": "Reentrancy in DelegatedStaking.takeOutRewardTokens(uint128) (../sb/43_DelegatedStaking.sol#641-656):\n\tExternal calls:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#654)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- CQT.safeTransfer(to,amount) (../sb/43_DelegatedStaking.sol#623)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#654)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- AllocatedTokensTaken(amount) (../sb/43_DelegatedStaking.sol#655)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "recoverUnstaking",
+            "impact": "Low",
+            "line": 799,
+            "line_end": 808,
+            "message": "Reentrancy in DelegatedStaking.recoverUnstaking(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#799-808):\n\tExternal calls:\n\t- _stake(validatorId,amount,false) (../sb/43_DelegatedStaking.sol#802)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _stake(validatorId,amount,false) (../sb/43_DelegatedStaking.sol#802)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- RecoveredUnstake(validatorId,msg.sender,amount,unstakingId) (../sb/43_DelegatedStaking.sol#807)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_stake",
+            "impact": "Low",
+            "line": 712,
+            "line_end": 754,
+            "message": "Reentrancy in DelegatedStaking._stake(uint128,uint128,bool) (../sb/43_DelegatedStaking.sol#712-754):\n\tExternal calls:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#739)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#739)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- Staked(validatorId,msg.sender,amount) (../sb/43_DelegatedStaking.sol#753)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "redelegateUnstaked",
+            "impact": "Low",
+            "line": 942,
+            "line_end": 953,
+            "message": "Reentrancy in DelegatedStaking.redelegateUnstaked(uint128,uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#942-953):\n\tExternal calls:\n\t- _stake(newValidatorId,amount,false) (../sb/43_DelegatedStaking.sol#947)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _stake(newValidatorId,amount,false) (../sb/43_DelegatedStaking.sol#947)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- TransferredUnstake(oldValidatorId,newValidatorId,msg.sender,amount,unstakingId) (../sb/43_DelegatedStaking.sol#952)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "transferUnstakedOut",
+            "impact": "Low",
+            "line": 956,
+            "line_end": 966,
+            "message": "Reentrancy in DelegatedStaking.transferUnstakedOut(uint128,uint128,uint128) (../sb/43_DelegatedStaking.sol#956-966):\n\tExternal calls:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#960)\n\t\t- CQT.safeTransfer(to,amount) (../sb/43_DelegatedStaking.sol#623)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferFromContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#960)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- UnstakeRedeemed(validatorId,msg.sender,amount) (../sb/43_DelegatedStaking.sol#965)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "DelegatedStaking",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "depositRewardTokens",
+            "impact": "Low",
+            "line": 627,
+            "line_end": 638,
+            "message": "Reentrancy in DelegatedStaking.depositRewardTokens(uint128) (../sb/43_DelegatedStaking.sol#627-638):\n\tExternal calls:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#636)\n\t\t- CQT.safeTransferFrom(from,address(this),amount) (../sb/43_DelegatedStaking.sol#618)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/43_DelegatedStaking.sol#532)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tExternal calls sending eth:\n\t- _transferToContract(msg.sender,amount) (../sb/43_DelegatedStaking.sol#636)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n\tEvent emitted after the call(s):\n\t- RewardTokensDeposited(amount) (../sb/43_DelegatedStaking.sol#637)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 417,
+            "line_end": 437,
+            "message": "AddressUpgradeable.verifyCallResult(bool,bytes,string) (../sb/43_DelegatedStaking.sol#417-437) uses assembly\n\t- INLINE ASM (../sb/43_DelegatedStaking.sol#429-432)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 285,
+            "message": "AddressUpgradeable.isContract(address) (../sb/43_DelegatedStaking.sol#275-285) uses assembly\n\t- INLINE ASM (../sb/43_DelegatedStaking.sol#281-283)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 163,
+            "line_end": 165,
+            "message": "ContextUpgradeable._msgData() (../sb/43_DelegatedStaking.sol#163-165) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 153,
+            "line_end": 155,
+            "message": "ContextUpgradeable.__Context_init() (../sb/43_DelegatedStaking.sol#153-155) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 400,
+            "line_end": 409,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../sb/43_DelegatedStaking.sol#400-409):\n\t- (success,returndata) = target.staticcall(data) (../sb/43_DelegatedStaking.sol#407)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 371,
+            "line_end": 382,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../sb/43_DelegatedStaking.sol#371-382):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/43_DelegatedStaking.sol#380)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 303,
+            "line_end": 308,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../sb/43_DelegatedStaking.sol#303-308):\n\t- (success,None) = recipient.call{value: amount}() (../sb/43_DelegatedStaking.sol#306)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "43_DelegatedStaking.sol",
+            "impact": "Informational",
+            "line": 550,
+            "message": "Constant DelegatedStaking.divider (../sb/43_DelegatedStaking.sol#550) is not in UPPER_CASE_WITH_UNDERSCORES\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "43_DelegatedStaking.sol",
+            "impact": "Informational",
+            "line": 166,
+            "message": "Variable ContextUpgradeable.__gap (../sb/43_DelegatedStaking.sol#166) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 197,
+            "line_end": 200,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../sb/43_DelegatedStaking.sol#197-200) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "43_DelegatedStaking.sol",
+            "impact": "Informational",
+            "line": 246,
+            "message": "Variable OwnableUpgradeable.__gap (../sb/43_DelegatedStaking.sol#246) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 157,
+            "line_end": 158,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../sb/43_DelegatedStaking.sol#157-158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 202,
+            "line_end": 204,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../sb/43_DelegatedStaking.sol#202-204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "43_DelegatedStaking.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 153,
+            "line_end": 155,
+            "message": "Function ContextUpgradeable.__Context_init() (../sb/43_DelegatedStaking.sol#153-155) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

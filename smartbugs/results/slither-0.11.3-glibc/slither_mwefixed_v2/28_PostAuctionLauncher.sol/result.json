@@ -1,0 +1,648 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "High",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476) sends eth to arbitrary user\n\tDangerous calls:\n\t- IWETH(weth).deposit{value: launcherBalance}() (28_PostAuctionLauncher.sol#1450)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "High",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "Reentrancy in PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476):\n\tExternal calls:\n\t- market.finalize() (28_PostAuctionLauncher.sol#1438)\n\t- IWETH(weth).deposit{value: launcherBalance}() (28_PostAuctionLauncher.sol#1450)\n\t- createPool() (28_PostAuctionLauncher.sol#1462)\n\t\t- factory.createPair(address(token1),address(token2)) (28_PostAuctionLauncher.sol#1568)\n\t- _safeTransfer(address(token1),tokenPair,token1Amount) (28_PostAuctionLauncher.sol#1466)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (28_PostAuctionLauncher.sol#862-866)\n\t- _safeTransfer(address(token2),tokenPair,token2Amount) (28_PostAuctionLauncher.sol#1467)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (28_PostAuctionLauncher.sol#862-866)\n\t- liquidity = IUniswapV2Pair(tokenPair).mint(address(this)) (28_PostAuctionLauncher.sol#1468)\n\tExternal calls sending eth:\n\t- IWETH(weth).deposit{value: launcherBalance}() (28_PostAuctionLauncher.sol#1450)\n\tState variables written after the call(s):\n\t- launcherInfo.liquidityAdded = BoringMath.to128(uint256(launcherInfo.liquidityAdded).add(liquidity)) (28_PostAuctionLauncher.sol#1469)\n\tPostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305) can be used in cross function reentrancies:\n\t- PostAuctionLauncher._deposit(address,address,uint256) (28_PostAuctionLauncher.sol#1410-1417)\n\t- PostAuctionLauncher.cancelLauncher() (28_PostAuctionLauncher.sol#1551-1558)\n\t- PostAuctionLauncher.getTokenAmounts() (28_PostAuctionLauncher.sol#1479-1499)\n\t- PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256) (28_PostAuctionLauncher.sol#1330-1372)\n\t- PostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305)\n\t- PostAuctionLauncher.withdrawDeposits() (28_PostAuctionLauncher.sol#1515-1527)\n\t- PostAuctionLauncher.withdrawLPTokens() (28_PostAuctionLauncher.sol#1505-1512)\n\t- launcherInfo.unlock = BoringMath.to64(block.timestamp + uint256(launcherInfo.locktime)) (28_PostAuctionLauncher.sol#1473)\n\tPostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305) can be used in cross function reentrancies:\n\t- PostAuctionLauncher._deposit(address,address,uint256) (28_PostAuctionLauncher.sol#1410-1417)\n\t- PostAuctionLauncher.cancelLauncher() (28_PostAuctionLauncher.sol#1551-1558)\n\t- PostAuctionLauncher.getTokenAmounts() (28_PostAuctionLauncher.sol#1479-1499)\n\t- PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256) (28_PostAuctionLauncher.sol#1330-1372)\n\t- PostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305)\n\t- PostAuctionLauncher.withdrawDeposits() (28_PostAuctionLauncher.sol#1515-1527)\n\t- PostAuctionLauncher.withdrawLPTokens() (28_PostAuctionLauncher.sol#1505-1512)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "High",
+            "line": 1275,
+            "message": "PostAuctionLauncher.ETH_ADDRESS (28_PostAuctionLauncher.sol#1275) shadows:\n\t- SafeTransfer.ETH_ADDRESS (28_PostAuctionLauncher.sol#813)\n",
+            "name": "shadowing-state"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "getTokenAmounts",
+            "impact": "Medium",
+            "line": 1479,
+            "line_end": 1499,
+            "message": "PostAuctionLauncher.getTokenAmounts() (28_PostAuctionLauncher.sol#1479-1499) performs a multiplication on the result of a division:\n\t- token1Amount = getToken1Balance().mul(uint256(launcherInfo.liquidityPercent)).div(LIQUIDITY_PRECISION) (28_PostAuctionLauncher.sol#1480)\n\t- maxToken2Amount = token1Amount.mul(10 ** (d2)).div(tokenPrice) (28_PostAuctionLauncher.sol#1486-1488)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "Medium",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476) uses a dangerous strict equality:\n\t- launcherInfo.unlock == 0 (28_PostAuctionLauncher.sol#1472)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "Medium",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476) uses a dangerous strict equality:\n\t- token1Amount == 0 || token2Amount == 0 (28_PostAuctionLauncher.sol#1456)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_deposit",
+            "impact": "Medium",
+            "line": 1410,
+            "line_end": 1417,
+            "message": "PostAuctionLauncher._deposit(address,address,uint256) (28_PostAuctionLauncher.sol#1410-1417) uses a dangerous strict equality:\n\t- require(bool,string)(launcherInfo.liquidityAdded == 0,PostAuction: Liquidity already added) (28_PostAuctionLauncher.sol#1412)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransfer",
+            "impact": "Medium",
+            "line": 856,
+            "line_end": 868,
+            "message": "SafeTransfer._safeTransfer(address,address,uint256) (28_PostAuctionLauncher.sol#856-868) uses a dangerous strict equality:\n\t- require(bool)(success && (data.length == 0 || abi.decode(data,(bool)))) (28_PostAuctionLauncher.sol#867)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "Medium",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "Reentrancy in PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476):\n\tExternal calls:\n\t- market.finalize() (28_PostAuctionLauncher.sol#1438)\n\tState variables written after the call(s):\n\t- launcherInfo.launched = true (28_PostAuctionLauncher.sol#1442)\n\tPostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305) can be used in cross function reentrancies:\n\t- PostAuctionLauncher._deposit(address,address,uint256) (28_PostAuctionLauncher.sol#1410-1417)\n\t- PostAuctionLauncher.cancelLauncher() (28_PostAuctionLauncher.sol#1551-1558)\n\t- PostAuctionLauncher.getTokenAmounts() (28_PostAuctionLauncher.sol#1479-1499)\n\t- PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256) (28_PostAuctionLauncher.sol#1330-1372)\n\t- PostAuctionLauncher.launcherInfo (28_PostAuctionLauncher.sol#1305)\n\t- PostAuctionLauncher.withdrawDeposits() (28_PostAuctionLauncher.sol#1515-1527)\n\t- PostAuctionLauncher.withdrawLPTokens() (28_PostAuctionLauncher.sol#1505-1512)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "UniswapV2Library",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "getReserves",
+            "impact": "Medium",
+            "line": 1077,
+            "line_end": 1081,
+            "message": "UniswapV2Library.getReserves(address,address,address,bytes32) (28_PostAuctionLauncher.sol#1077-1081) ignores return value by (reserve0,reserve1,None) = IUniswapV2Pair(pairFor(factory,tokenA,tokenB,pairCodeHash)).getReserves() (28_PostAuctionLauncher.sol#1079)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "createPool",
+            "impact": "Medium",
+            "line": 1567,
+            "line_end": 1569,
+            "message": "PostAuctionLauncher.createPool() (28_PostAuctionLauncher.sol#1567-1569) ignores return value by factory.createPair(address(token1),address(token2)) (28_PostAuctionLauncher.sol#1568)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Low",
+            "line": 1332,
+            "message": "PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._factory (28_PostAuctionLauncher.sol#1332) lacks a zero-check on :\n\t\t- tokenPair = UniswapV2Library.pairFor(_factory,address(token1),address(token2),pairCodeHash) (28_PostAuctionLauncher.sol#1362)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Low",
+            "line": 1316,
+            "message": "PostAuctionLauncher.constructor(address)._weth (28_PostAuctionLauncher.sol#1316) lacks a zero-check on :\n\t\t- weth = _weth (28_PostAuctionLauncher.sol#1317)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "initAuctionLauncher",
+            "impact": "Low",
+            "line": 1330,
+            "line_end": 1372,
+            "message": "Reentrancy in PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256) (28_PostAuctionLauncher.sol#1330-1372):\n\tExternal calls:\n\t- _safeTransferFrom(address(token2),msg.sender,initalTokenAmount) (28_PostAuctionLauncher.sol#1369)\n\t\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,address(this),amount)) (28_PostAuctionLauncher.sol#876-880)\n\tEvent emitted after the call(s):\n\t- InitLiquidityLauncher(address(token1),address(token2),address(_factory),_admin) (28_PostAuctionLauncher.sol#1371)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "withdrawLPTokens",
+            "impact": "Low",
+            "line": 1505,
+            "line_end": 1512,
+            "message": "PostAuctionLauncher.withdrawLPTokens() (28_PostAuctionLauncher.sol#1505-1512) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(launcherInfo.launched,PostAuction: Must first launch liquidity) (28_PostAuctionLauncher.sol#1507)\n\t- require(bool,string)(block.timestamp >= uint256(launcherInfo.unlock),PostAuction: Liquidity is locked) (28_PostAuctionLauncher.sol#1508)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "finalize",
+            "impact": "Low",
+            "line": 1431,
+            "line_end": 1476,
+            "message": "PostAuctionLauncher.finalize() (28_PostAuctionLauncher.sol#1431-1476) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(! launcherInfo.launched) (28_PostAuctionLauncher.sol#1435)\n\t- launcherInfo.unlock == 0 (28_PostAuctionLauncher.sol#1472)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "cancelLauncher",
+            "impact": "Low",
+            "line": 1551,
+            "line_end": 1558,
+            "message": "PostAuctionLauncher.cancelLauncher() (28_PostAuctionLauncher.sol#1551-1558) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool)(! launcherInfo.launched) (28_PostAuctionLauncher.sol#1553)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 1410,
+            "line_end": 1417,
+            "message": "PostAuctionLauncher._deposit(address,address,uint256) (28_PostAuctionLauncher.sol#1410-1417) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(! launcherInfo.launched,PostAuction: Must first launch liquidity) (28_PostAuctionLauncher.sol#1411)\n\t- require(bool,string)(launcherInfo.liquidityAdded == 0,PostAuction: Liquidity already added) (28_PostAuctionLauncher.sol#1412)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "withdrawDeposits",
+            "impact": "Low",
+            "line": 1515,
+            "line_end": 1527,
+            "message": "PostAuctionLauncher.withdrawDeposits() (28_PostAuctionLauncher.sol#1515-1527) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(launcherInfo.launched,PostAuction: Must first launch liquidity) (28_PostAuctionLauncher.sol#1517)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeApprove",
+            "impact": "Informational",
+            "line": 844,
+            "line_end": 848,
+            "message": "SafeTransfer._safeApprove(address,address,uint256) (28_PostAuctionLauncher.sol#844-848) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "AccessControl",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_setRoleAdmin",
+            "impact": "Informational",
+            "line": 574,
+            "line_end": 577,
+            "message": "AccessControl._setRoleAdmin(bytes32,bytes32) (28_PostAuctionLauncher.sol#574-577) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransferETH",
+            "impact": "Informational",
+            "line": 890,
+            "line_end": 893,
+            "message": "SafeTransfer._safeTransferETH(address,uint256) (28_PostAuctionLauncher.sol#890-893) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTokenPayment",
+            "impact": "Informational",
+            "line": 816,
+            "line_end": 826,
+            "message": "SafeTransfer._safeTokenPayment(address,address,uint256) (28_PostAuctionLauncher.sol#816-826) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 376,
+            "line_end": 379,
+            "message": "Context._msgData() (28_PostAuctionLauncher.sol#376-379) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransferFrom",
+            "impact": "Informational",
+            "line": 884,
+            "line_end": 888,
+            "message": "SafeTransfer._safeTransferFrom(address,address,address,uint256) (28_PostAuctionLauncher.sol#884-888) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_tokenPayment",
+            "impact": "Informational",
+            "line": 830,
+            "line_end": 840,
+            "message": "SafeTransfer._tokenPayment(address,address,uint256) (28_PostAuctionLauncher.sol#830-840) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (28_PostAuctionLauncher.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransfer",
+            "impact": "Informational",
+            "line": 856,
+            "line_end": 868,
+            "message": "Low level call in SafeTransfer._safeTransfer(address,address,uint256) (28_PostAuctionLauncher.sol#856-868):\n\t- (success,data) = token.call(abi.encodeWithSelector(0xa9059cbb,to,amount)) (28_PostAuctionLauncher.sol#862-866)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransferETH",
+            "impact": "Informational",
+            "line": 890,
+            "line_end": 893,
+            "message": "Low level call in SafeTransfer._safeTransferETH(address,uint256) (28_PostAuctionLauncher.sol#890-893):\n\t- (success,None) = to.call{value: value}(new bytes(0)) (28_PostAuctionLauncher.sol#891)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeApprove",
+            "impact": "Informational",
+            "line": 844,
+            "line_end": 848,
+            "message": "Low level call in SafeTransfer._safeApprove(address,address,uint256) (28_PostAuctionLauncher.sol#844-848):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x095ea7b3,to,value)) (28_PostAuctionLauncher.sol#846)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransferFrom",
+            "impact": "Informational",
+            "line": 870,
+            "line_end": 882,
+            "message": "Low level call in SafeTransfer._safeTransferFrom(address,address,uint256) (28_PostAuctionLauncher.sol#870-882):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,address(this),amount)) (28_PostAuctionLauncher.sol#876-880)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SafeTransfer",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "_safeTransferFrom",
+            "impact": "Informational",
+            "line": 884,
+            "line_end": 888,
+            "message": "Low level call in SafeTransfer._safeTransferFrom(address,address,address,uint256) (28_PostAuctionLauncher.sol#884-888):\n\t- (success,data) = token.call(abi.encodeWithSelector(0x23b872dd,from,to,value)) (28_PostAuctionLauncher.sol#886)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1657,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._liquidityPercent (28_PostAuctionLauncher.sol#1657) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 763,
+            "message": "Parameter MISOAccessControls.removeMinterRole(address)._address (28_PostAuctionLauncher.sol#763) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 731,
+            "message": "Parameter MISOAccessControls.hasSmartContractRole(address)._address (28_PostAuctionLauncher.sol#731) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 753,
+            "message": "Parameter MISOAccessControls.addMinterRole(address)._address (28_PostAuctionLauncher.sol#753) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1335,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._liquidityPercent (28_PostAuctionLauncher.sol#1335) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 657,
+            "message": "Parameter MISOAdminAccess.removeAdminRole(address)._address (28_PostAuctionLauncher.sol#657) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2Pair",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 1002,
+            "message": "Function IUniswapV2Pair.PERMIT_TYPEHASH() (28_PostAuctionLauncher.sol#1002) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2Pair",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 1019,
+            "message": "Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (28_PostAuctionLauncher.sol#1019) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 618,
+            "message": "Parameter MISOAdminAccess.initAccessControls(address)._admin (28_PostAuctionLauncher.sol#618) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1392,
+            "message": "Parameter PostAuctionLauncher.depositToken1(uint256)._amount (28_PostAuctionLauncher.sol#1392) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 783,
+            "message": "Parameter MISOAccessControls.removeSmartContractRole(address)._address (28_PostAuctionLauncher.sol#783) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2Pair",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1001,
+            "message": "Function IUniswapV2Pair.DOMAIN_SEPARATOR() (28_PostAuctionLauncher.sol#1001) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1658,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._locktime (28_PostAuctionLauncher.sol#1658) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1333,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._admin (28_PostAuctionLauncher.sol#1333) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 740,
+            "message": "Parameter MISOAccessControls.hasOperatorRole(address)._address (28_PostAuctionLauncher.sol#740) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 634,
+            "message": "Parameter MISOAdminAccess.hasAdminRole(address)._address (28_PostAuctionLauncher.sol#634) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1654,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._factory (28_PostAuctionLauncher.sol#1654) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 793,
+            "message": "Parameter MISOAccessControls.addOperatorRole(address)._address (28_PostAuctionLauncher.sol#793) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1336,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._locktime (28_PostAuctionLauncher.sol#1336) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 803,
+            "message": "Parameter MISOAccessControls.removeOperatorRole(address)._address (28_PostAuctionLauncher.sol#803) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 647,
+            "message": "Parameter MISOAdminAccess.addAdminRole(address)._address (28_PostAuctionLauncher.sol#647) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1542,
+            "message": "Parameter PostAuctionLauncher.setWallet(address)._wallet (28_PostAuctionLauncher.sol#1542) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 722,
+            "message": "Parameter MISOAccessControls.hasMinterRole(address)._address (28_PostAuctionLauncher.sol#722) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1331,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._market (28_PostAuctionLauncher.sol#1331) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 773,
+            "message": "Parameter MISOAccessControls.addSmartContractRole(address)._address (28_PostAuctionLauncher.sol#773) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1332,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._factory (28_PostAuctionLauncher.sol#1332) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1334,
+            "message": "Parameter PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256)._wallet (28_PostAuctionLauncher.sol#1334) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1400,
+            "message": "Parameter PostAuctionLauncher.depositToken2(uint256)._amount (28_PostAuctionLauncher.sol#1400) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1655,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._admin (28_PostAuctionLauncher.sol#1655) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1656,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._wallet (28_PostAuctionLauncher.sol#1656) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1653,
+            "message": "Parameter PostAuctionLauncher.getLauncherInitData(address,address,address,address,uint256,uint256)._market (28_PostAuctionLauncher.sol#1653) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1622,
+            "message": "Parameter PostAuctionLauncher.initLauncher(bytes)._data (28_PostAuctionLauncher.sol#1622) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 377,
+            "message": "Redundant expression \"this (28_PostAuctionLauncher.sol#377)\" inContext (28_PostAuctionLauncher.sol#371-380)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PostAuctionLauncher",
+            "filename": "28_PostAuctionLauncher.sol",
+            "function": "initAuctionLauncher",
+            "impact": "Informational",
+            "line": 1330,
+            "line_end": 1372,
+            "message": "PostAuctionLauncher.initAuctionLauncher(address,address,address,address,uint256,uint256) (28_PostAuctionLauncher.sol#1330-1372) uses literals with too many digits:\n\t- require(bool,string)(_locktime < 10000000000,PostAuction: Enter an unix timestamp in seconds, not miliseconds) (28_PostAuctionLauncher.sol#1340)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "28_PostAuctionLauncher.sol",
+            "impact": "Informational",
+            "line": 1274,
+            "message": "PostAuctionLauncher.SECONDS_PER_DAY (28_PostAuctionLauncher.sol#1274) is never used in PostAuctionLauncher (28_PostAuctionLauncher.sol#1265-1673)\n",
+            "name": "unused-state"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

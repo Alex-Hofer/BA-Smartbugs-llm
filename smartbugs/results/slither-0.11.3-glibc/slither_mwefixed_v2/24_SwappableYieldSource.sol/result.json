@@ -1,0 +1,511 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_burnShares",
+            "impact": "Medium",
+            "line": 1625,
+            "line_end": 1628,
+            "message": "Reentrancy in SwappableYieldSource._burnShares(uint256) (24_SwappableYieldSource.sol#1625-1628):\n\tExternal calls:\n\t- shares = _tokenToShares(burnAmount) (24_SwappableYieldSource.sol#1626)\n\t\t- exchangeMantissa = FixedPoint.calculateMantissa(_totalSupply,yieldSource.balanceOfToken(address(this))) (24_SwappableYieldSource.sol#1585)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,shares) (24_SwappableYieldSource.sol#1627)\n\t\t- _totalSupply = _totalSupply.sub(amount) (24_SwappableYieldSource.sol#896)\n\tERC20Upgradeable._totalSupply (24_SwappableYieldSource.sol#676) can be used in cross function reentrancies:\n\t- ERC20Upgradeable.totalSupply() (24_SwappableYieldSource.sol#737-739)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_mintShares",
+            "impact": "Medium",
+            "line": 1614,
+            "line_end": 1620,
+            "message": "Reentrancy in SwappableYieldSource._mintShares(uint256,address) (24_SwappableYieldSource.sol#1614-1620):\n\tExternal calls:\n\t- shares = _tokenToShares(mintAmount) (24_SwappableYieldSource.sol#1615)\n\t\t- exchangeMantissa = FixedPoint.calculateMantissa(_totalSupply,yieldSource.balanceOfToken(address(this))) (24_SwappableYieldSource.sol#1585)\n\tState variables written after the call(s):\n\t- _mint(to,shares) (24_SwappableYieldSource.sol#1619)\n\t\t- _totalSupply = _totalSupply.add(amount) (24_SwappableYieldSource.sol#874)\n\tERC20Upgradeable._totalSupply (24_SwappableYieldSource.sol#676) can be used in cross function reentrancies:\n\t- ERC20Upgradeable.totalSupply() (24_SwappableYieldSource.sol#737-739)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Medium",
+            "line": 1507,
+            "message": "SwappableYieldSource._requireYieldSource(IYieldSource).isInvalidYieldSource (24_SwappableYieldSource.sol#1507) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_transferFunds",
+            "impact": "Medium",
+            "line": 1706,
+            "line_end": 1717,
+            "message": "SwappableYieldSource._transferFunds(IYieldSource,uint256) (24_SwappableYieldSource.sol#1706-1717) ignores return value by _yieldSource.redeemToken(_amount) (24_SwappableYieldSource.sol#1709)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1530,
+            "message": "SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._name (24_SwappableYieldSource.sol#1530) shadows:\n\t- ERC20Upgradeable._name (24_SwappableYieldSource.sol#678) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1529,
+            "message": "SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._symbol (24_SwappableYieldSource.sol#1529) shadows:\n\t- ERC20Upgradeable._symbol (24_SwappableYieldSource.sol#679) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1531,
+            "message": "SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._owner (24_SwappableYieldSource.sol#1531) shadows:\n\t- OwnableUpgradeable._owner (24_SwappableYieldSource.sol#283) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1528,
+            "message": "SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._decimals (24_SwappableYieldSource.sol#1528) shadows:\n\t- ERC20Upgradeable._decimals (24_SwappableYieldSource.sol#680) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1578,
+            "message": "SwappableYieldSource._tokenToShares(uint256)._totalSupply (24_SwappableYieldSource.sol#1578) shadows:\n\t- ERC20Upgradeable._totalSupply (24_SwappableYieldSource.sol#676) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Low",
+            "line": 1597,
+            "message": "SwappableYieldSource._sharesToToken(uint256)._totalSupply (24_SwappableYieldSource.sol#1597) shadows:\n\t- ERC20Upgradeable._totalSupply (24_SwappableYieldSource.sol#676) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "allowance",
+            "impact": "Low",
+            "line": 1567,
+            "message": "SwappableYieldSource.approveMaxAmount().allowance (24_SwappableYieldSource.sol#1567) shadows:\n\t- ERC20Upgradeable.allowance(address,address) (24_SwappableYieldSource.sol#764-766) (function)\n\t- IERC20Upgradeable.allowance(address,address) (24_SwappableYieldSource.sol#375) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_mintShares",
+            "impact": "Low",
+            "line": 1614,
+            "line_end": 1620,
+            "message": "Reentrancy in SwappableYieldSource._mintShares(uint256,address) (24_SwappableYieldSource.sol#1614-1620):\n\tExternal calls:\n\t- shares = _tokenToShares(mintAmount) (24_SwappableYieldSource.sol#1615)\n\t\t- exchangeMantissa = FixedPoint.calculateMantissa(_totalSupply,yieldSource.balanceOfToken(address(this))) (24_SwappableYieldSource.sol#1585)\n\tState variables written after the call(s):\n\t- _mint(to,shares) (24_SwappableYieldSource.sol#1619)\n\t\t- _balances[account] = _balances[account].add(amount) (24_SwappableYieldSource.sol#875)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_burnShares",
+            "impact": "Low",
+            "line": 1625,
+            "line_end": 1628,
+            "message": "Reentrancy in SwappableYieldSource._burnShares(uint256) (24_SwappableYieldSource.sol#1625-1628):\n\tExternal calls:\n\t- shares = _tokenToShares(burnAmount) (24_SwappableYieldSource.sol#1626)\n\t\t- exchangeMantissa = FixedPoint.calculateMantissa(_totalSupply,yieldSource.balanceOfToken(address(this))) (24_SwappableYieldSource.sol#1585)\n\tState variables written after the call(s):\n\t- _burn(msg.sender,shares) (24_SwappableYieldSource.sol#1627)\n\t\t- _balances[account] = _balances[account].sub(amount,ERC20: burn amount exceeds balance) (24_SwappableYieldSource.sol#895)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "transferERC20",
+            "impact": "Low",
+            "line": 1751,
+            "line_end": 1756,
+            "message": "Reentrancy in SwappableYieldSource.transferERC20(IERC20Upgradeable,address,uint256) (24_SwappableYieldSource.sol#1751-1756):\n\tExternal calls:\n\t- erc20Token.safeTransfer(to,amount) (24_SwappableYieldSource.sol#1753)\n\tEvent emitted after the call(s):\n\t- TransferredERC20(msg.sender,to,amount,erc20Token) (24_SwappableYieldSource.sol#1754)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "swapYieldSource",
+            "impact": "Low",
+            "line": 1735,
+            "line_end": 1743,
+            "message": "Reentrancy in SwappableYieldSource.swapYieldSource(IYieldSource) (24_SwappableYieldSource.sol#1735-1743):\n\tExternal calls:\n\t- balance = _currentYieldSource.balanceOfToken(address(this)) (24_SwappableYieldSource.sol#1737)\n\t- _setYieldSource(_newYieldSource) (24_SwappableYieldSource.sol#1739)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (24_SwappableYieldSource.sol#1019)\n\t\t- IERC20Upgradeable(_newYieldSource.depositToken()).safeApprove(address(_newYieldSource),type()(uint256).max) (24_SwappableYieldSource.sol#1687)\n\t\t- (success,returndata) = target.call{value: value}(data) (24_SwappableYieldSource.sol#124)\n\t- _transferFunds(_currentYieldSource,balance) (24_SwappableYieldSource.sol#1740)\n\t\t- _yieldSource.redeemToken(_amount) (24_SwappableYieldSource.sol#1709)\n\t\t- _currentYieldSource.supplyTokenTo(currentBalance,address(this)) (24_SwappableYieldSource.sol#1714)\n\tExternal calls sending eth:\n\t- _setYieldSource(_newYieldSource) (24_SwappableYieldSource.sol#1739)\n\t\t- (success,returndata) = target.call{value: value}(data) (24_SwappableYieldSource.sol#124)\n\tEvent emitted after the call(s):\n\t- FundsTransferred(_yieldSource,_amount) (24_SwappableYieldSource.sol#1716)\n\t\t- _transferFunds(_currentYieldSource,balance) (24_SwappableYieldSource.sol#1740)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_transferFunds",
+            "impact": "Low",
+            "line": 1706,
+            "line_end": 1717,
+            "message": "Reentrancy in SwappableYieldSource._transferFunds(IYieldSource,uint256) (24_SwappableYieldSource.sol#1706-1717):\n\tExternal calls:\n\t- _yieldSource.redeemToken(_amount) (24_SwappableYieldSource.sol#1709)\n\t- _currentYieldSource.supplyTokenTo(currentBalance,address(this)) (24_SwappableYieldSource.sol#1714)\n\tEvent emitted after the call(s):\n\t- FundsTransferred(_yieldSource,_amount) (24_SwappableYieldSource.sol#1716)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_setYieldSource",
+            "impact": "Low",
+            "line": 1682,
+            "line_end": 1690,
+            "message": "Reentrancy in SwappableYieldSource._setYieldSource(IYieldSource) (24_SwappableYieldSource.sol#1682-1690):\n\tExternal calls:\n\t- IERC20Upgradeable(_newYieldSource.depositToken()).safeApprove(address(_newYieldSource),type()(uint256).max) (24_SwappableYieldSource.sol#1687)\n\tEvent emitted after the call(s):\n\t- SwappableYieldSourceSet(_newYieldSource) (24_SwappableYieldSource.sol#1689)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 1526,
+            "line_end": 1558,
+            "message": "Reentrancy in SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address) (24_SwappableYieldSource.sol#1526-1558):\n\tExternal calls:\n\t- IERC20Upgradeable(_yieldSource.depositToken()).safeApprove(address(_yieldSource),type()(uint256).max) (24_SwappableYieldSource.sol#1547)\n\tEvent emitted after the call(s):\n\t- SwappableYieldSourceInitialized(_yieldSource,_decimals,_symbol,_name,_owner) (24_SwappableYieldSource.sol#1549-1555)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "swapYieldSource",
+            "impact": "Low",
+            "line": 1735,
+            "line_end": 1743,
+            "message": "Reentrancy in SwappableYieldSource.swapYieldSource(IYieldSource) (24_SwappableYieldSource.sol#1735-1743):\n\tExternal calls:\n\t- balance = _currentYieldSource.balanceOfToken(address(this)) (24_SwappableYieldSource.sol#1737)\n\t- _setYieldSource(_newYieldSource) (24_SwappableYieldSource.sol#1739)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (24_SwappableYieldSource.sol#1019)\n\t\t- IERC20Upgradeable(_newYieldSource.depositToken()).safeApprove(address(_newYieldSource),type()(uint256).max) (24_SwappableYieldSource.sol#1687)\n\t\t- (success,returndata) = target.call{value: value}(data) (24_SwappableYieldSource.sol#124)\n\tExternal calls sending eth:\n\t- _setYieldSource(_newYieldSource) (24_SwappableYieldSource.sol#1739)\n\t\t- (success,returndata) = target.call{value: value}(data) (24_SwappableYieldSource.sol#124)\n\tEvent emitted after the call(s):\n\t- SwappableYieldSourceSet(_newYieldSource) (24_SwappableYieldSource.sol#1689)\n\t\t- _setYieldSource(_newYieldSource) (24_SwappableYieldSource.sol#1739)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 31,
+            "line_end": 40,
+            "message": "AddressUpgradeable.isContract(address) (24_SwappableYieldSource.sol#31-40) uses assembly\n\t- INLINE ASM (24_SwappableYieldSource.sol#38)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 152,
+            "line_end": 169,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (24_SwappableYieldSource.sol#152-169) uses assembly\n\t- INLINE ASM (24_SwappableYieldSource.sol#161-164)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 256,
+            "line_end": 259,
+            "message": "ContextUpgradeable._msgData() (24_SwappableYieldSource.sol#256-259) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 246,
+            "line_end": 248,
+            "message": "ContextUpgradeable.__Context_init() (24_SwappableYieldSource.sol#246-248) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "message": "solc-0.7.6 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.7.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.7.6 (24_SwappableYieldSource.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 58,
+            "line_end": 64,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (24_SwappableYieldSource.sol#58-64):\n\t- (success,None) = recipient.call{value: amount}() (24_SwappableYieldSource.sol#62)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 144,
+            "line_end": 150,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (24_SwappableYieldSource.sol#144-150):\n\t- (success,returndata) = target.staticcall(data) (24_SwappableYieldSource.sol#148)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 119,
+            "line_end": 126,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (24_SwappableYieldSource.sol#119-126):\n\t- (success,returndata) = target.call{value: value}(data) (24_SwappableYieldSource.sol#124)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "SwappableYieldSource",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "_requireYieldSource",
+            "impact": "Informational",
+            "line": 1502,
+            "line_end": 1516,
+            "message": "Low level call in SwappableYieldSource._requireYieldSource(IYieldSource) (24_SwappableYieldSource.sol#1502-1516):\n\t- (None,depositTokenAddressData) = address(_yieldSource).staticcall(abi.encode(_yieldSource.depositToken.selector)) (24_SwappableYieldSource.sol#1505)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1696,
+            "message": "Parameter SwappableYieldSource.setYieldSource(IYieldSource)._newYieldSource (24_SwappableYieldSource.sol#1696) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1530,
+            "message": "Parameter SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._name (24_SwappableYieldSource.sol#1530) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 260,
+            "message": "Variable ContextUpgradeable.__gap (24_SwappableYieldSource.sol#260) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1070,
+            "line_end": 1072,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (24_SwappableYieldSource.sol#1070-1072) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1528,
+            "message": "Parameter SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._decimals (24_SwappableYieldSource.sol#1528) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1531,
+            "message": "Parameter SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._owner (24_SwappableYieldSource.sol#1531) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 290,
+            "line_end": 293,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (24_SwappableYieldSource.sol#290-293) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 337,
+            "message": "Variable OwnableUpgradeable.__gap (24_SwappableYieldSource.sol#337) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 696,
+            "line_end": 700,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (24_SwappableYieldSource.sol#696-700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1735,
+            "message": "Parameter SwappableYieldSource.swapYieldSource(IYieldSource)._newYieldSource (24_SwappableYieldSource.sol#1735) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 691,
+            "line_end": 694,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (24_SwappableYieldSource.sol#691-694) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1066,
+            "line_end": 1068,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (24_SwappableYieldSource.sol#1066-1068) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 251,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (24_SwappableYieldSource.sol#250-251) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 947,
+            "message": "Variable ERC20Upgradeable.__gap (24_SwappableYieldSource.sol#947) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1094,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (24_SwappableYieldSource.sol#1094) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1117,
+            "line_end": 1258,
+            "message": "Contract OpenZeppelinSafeMath_V3_3_0 (24_SwappableYieldSource.sol#1117-1258) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1724,
+            "message": "Parameter SwappableYieldSource.transferFunds(IYieldSource,uint256)._yieldSource (24_SwappableYieldSource.sol#1724) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 295,
+            "line_end": 299,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (24_SwappableYieldSource.sol#295-299) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1527,
+            "message": "Parameter SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._yieldSource (24_SwappableYieldSource.sol#1527) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1529,
+            "message": "Parameter SwappableYieldSource.initialize(IYieldSource,uint8,string,string,address)._symbol (24_SwappableYieldSource.sol#1529) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "24_SwappableYieldSource.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 246,
+            "line_end": 248,
+            "message": "Function ContextUpgradeable.__Context_init() (24_SwappableYieldSource.sol#246-248) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 1417,
+            "message": "Parameter AssetManager.setAssetManager(address)._newAssetManager (24_SwappableYieldSource.sol#1417) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "24_SwappableYieldSource.sol",
+            "impact": "Informational",
+            "line": 257,
+            "message": "Redundant expression \"this (24_SwappableYieldSource.sol#257)\" inContextUpgradeable (24_SwappableYieldSource.sol#245-261)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

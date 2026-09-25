@@ -1,0 +1,453 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "_transfer",
+            "impact": "Medium",
+            "line": 241,
+            "line_end": 253,
+            "message": "Vader._transfer(address,address,uint256) (5_Vader.sol#241-253) contains a tautology or contradiction:\n\t- _fee >= 0 && _fee <= amount (5_Vader.sol#246)\n",
+            "name": "tautology"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "changeDAO",
+            "impact": "Low",
+            "line": 312,
+            "line_end": 315,
+            "message": "Vader.changeDAO(address) (5_Vader.sol#312-315) should emit an event for: \n\t- DAO = newDAO (5_Vader.sol#314) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "setParams",
+            "impact": "Low",
+            "line": 298,
+            "line_end": 301,
+            "message": "Vader.setParams(uint256,uint256) (5_Vader.sol#298-301) should emit an event for: \n\t- secondsPerEra = newEra (5_Vader.sol#299) \n\t- emissionCurve = newCurve (5_Vader.sol#300) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Vader.sol",
+            "impact": "Low",
+            "line": 193,
+            "message": "Vader.init(address,address,address)._vether (5_Vader.sol#193) lacks a zero-check on :\n\t\t- VETHER = _vether (5_Vader.sol#196)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Vader.sol",
+            "impact": "Low",
+            "line": 193,
+            "message": "Vader.init(address,address,address)._utils (5_Vader.sol#193) lacks a zero-check on :\n\t\t- UTILS = _utils (5_Vader.sol#198)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Vader.sol",
+            "impact": "Low",
+            "line": 303,
+            "message": "Vader.setRewardAddress(address).newAddress (5_Vader.sol#303) lacks a zero-check on :\n\t\t- rewardAddress = newAddress (5_Vader.sol#304)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "5_Vader.sol",
+            "impact": "Low",
+            "line": 193,
+            "message": "Vader.init(address,address,address)._USDV (5_Vader.sol#193) lacks a zero-check on :\n\t\t- USDV = _USDV (5_Vader.sol#197)\n\t\t- rewardAddress = _USDV (5_Vader.sol#199)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "redeemToMember",
+            "impact": "Low",
+            "line": 356,
+            "line_end": 363,
+            "message": "Reentrancy in Vader.redeemToMember(address) (5_Vader.sol#356-363):\n\tExternal calls:\n\t- iERC20(USDV).burn(_amount) (5_Vader.sol#359)\n\tState variables written after the call(s):\n\t- _mint(member,redeemAmount) (5_Vader.sol#361)\n\t\t- _balances[account] += amount (5_Vader.sol#261)\n\t- _mint(member,redeemAmount) (5_Vader.sol#361)\n\t\t- totalSupply += amount (5_Vader.sol#260)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "upgrade",
+            "impact": "Low",
+            "line": 347,
+            "line_end": 350,
+            "message": "Reentrancy in Vader.upgrade(uint256) (5_Vader.sol#347-350):\n\tExternal calls:\n\t- require(bool)(iERC20(VETHER).transferFrom(msg.sender,burnAddress,amount)) (5_Vader.sol#348)\n\tState variables written after the call(s):\n\t- _mint(msg.sender,amount) (5_Vader.sol#349)\n\t\t- _balances[account] += amount (5_Vader.sol#261)\n\t- _mint(msg.sender,amount) (5_Vader.sol#349)\n\t\t- totalSupply += amount (5_Vader.sol#260)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "redeemToMember",
+            "impact": "Low",
+            "line": 356,
+            "line_end": 363,
+            "message": "Reentrancy in Vader.redeemToMember(address) (5_Vader.sol#356-363):\n\tExternal calls:\n\t- iERC20(USDV).burn(_amount) (5_Vader.sol#359)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (5_Vader.sol#262)\n\t\t- _mint(member,redeemAmount) (5_Vader.sol#361)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "upgrade",
+            "impact": "Low",
+            "line": 347,
+            "line_end": 350,
+            "message": "Reentrancy in Vader.upgrade(uint256) (5_Vader.sol#347-350):\n\tExternal calls:\n\t- require(bool)(iERC20(VETHER).transferFrom(msg.sender,burnAddress,amount)) (5_Vader.sol#348)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (5_Vader.sol#262)\n\t\t- _mint(msg.sender,amount) (5_Vader.sol#349)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "_checkEmission",
+            "impact": "Low",
+            "line": 323,
+            "line_end": 333,
+            "message": "Vader._checkEmission() (5_Vader.sol#323-333) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- (block.timestamp >= nextEraTime) && emitting (5_Vader.sol#324)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Vader",
+            "filename": "5_Vader.sol",
+            "function": "init",
+            "impact": "Informational",
+            "line": 193,
+            "line_end": 200,
+            "message": "Vader.init(address,address,address) (5_Vader.sol#193-200) compares to a boolean constant:\n\t-require(bool)(inited == false) (5_Vader.sol#194)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.3 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory.\nIt is used by:\n\t- 0.8.3 (5_Vader.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 58,
+            "message": "Parameter iUTILS.calcSwapSlip(uint256,uint256).X (5_Vader.sol#58) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).Y (5_Vader.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).U (5_Vader.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iUSDV",
+            "filename": "5_Vader.sol",
+            "function": "ROUTER",
+            "impact": "Informational",
+            "line": 72,
+            "message": "Function iUSDV.ROUTER() (5_Vader.sol#72) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 157,
+            "message": "Variable Vader.DAO (5_Vader.sol#157) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).T (5_Vader.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 86,
+            "line_end": 117,
+            "message": "Contract iROUTER (5_Vader.sol#86-117) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).B (5_Vader.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 154,
+            "message": "Variable Vader.UTILS (5_Vader.sol#154) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 62,
+            "message": "Parameter iUTILS.calcAsymmetricShare(uint256,uint256,uint256).A (5_Vader.sol#62) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 71,
+            "line_end": 80,
+            "message": "Contract iUSDV (5_Vader.sol#71-80) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 30,
+            "line_end": 65,
+            "message": "Contract iUTILS (5_Vader.sol#30-65) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 193,
+            "message": "Parameter Vader.init(address,address,address)._USDV (5_Vader.sol#193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 102,
+            "message": "Parameter iROUTER.getVADERAmount(uint256).USDVAmount (5_Vader.sol#102) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Parameter iUTILS.calcSwapOutput(uint256,uint256,uint256).X (5_Vader.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B1 (5_Vader.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).B0 (5_Vader.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Variable Vader._1m (5_Vader.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).Y (5_Vader.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).T (5_Vader.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).B (5_Vader.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T0 (5_Vader.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Parameter iUTILS.calcCoverage(uint256,uint256,uint256,uint256).T1 (5_Vader.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Parameter iUTILS.calcSynthUnits(uint256,uint256,uint256).P (5_Vader.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 193,
+            "message": "Parameter Vader.init(address,address,address)._utils (5_Vader.sol#193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 193,
+            "message": "Parameter Vader.init(address,address,address)._vether (5_Vader.sol#193) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 57,
+            "message": "Parameter iUTILS.calcSwapFee(uint256,uint256,uint256).X (5_Vader.sol#57) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 59,
+            "message": "Parameter iUTILS.calcLiquidityUnits(uint256,uint256,uint256,uint256,uint256).P (5_Vader.sol#59) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 153,
+            "message": "Variable Vader.USDV (5_Vader.sol#153) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 152,
+            "message": "Variable Vader.VETHER (5_Vader.sol#152) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 24,
+            "message": "Contract iERC20 (5_Vader.sol#9-24) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Informational",
+            "line": 60,
+            "message": "Parameter iUTILS.getSlipAdustment(uint256,uint256,uint256,uint256).B (5_Vader.sol#60) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Optimization",
+            "line": 143,
+            "message": "Vader._1m (5_Vader.sol#143) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Optimization",
+            "line": 155,
+            "message": "Vader.burnAddress (5_Vader.sol#155) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Optimization",
+            "line": 133,
+            "message": "Vader.decimals (5_Vader.sol#133) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Optimization",
+            "line": 146,
+            "message": "Vader.maxSupply (5_Vader.sol#146) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "5_Vader.sol",
+            "impact": "Optimization",
+            "line": 144,
+            "message": "Vader.baseline (5_Vader.sol#144) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

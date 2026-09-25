@@ -1,0 +1,302 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_handleFee",
+            "impact": "Medium",
+            "line": 767,
+            "line_end": 771,
+            "message": "HybridPool._handleFee(address,uint256) (../sb/29_HybridPool.sol#767-771) performs a multiplication on the result of a division:\n\t- fee = (amountIn * swapFee) / MAX_FEE (../sb/29_HybridPool.sol#768)\n\t- _barFee = (fee * barFee) / MAX_FEE (../sb/29_HybridPool.sol#769)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_getYD",
+            "impact": "Medium",
+            "line": 747,
+            "line_end": 765,
+            "message": "HybridPool._getYD(uint256,uint256) (../sb/29_HybridPool.sol#747-765) performs a multiplication on the result of a division:\n\t- c = (d * d) / (s * 2) (../sb/29_HybridPool.sol#751)\n\t- c = (c * d) / ((N_A * 2) / A_PRECISION) (../sb/29_HybridPool.sol#752)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_computeLiquidityFromAdjustedBalances",
+            "impact": "Medium",
+            "line": 695,
+            "line_end": 712,
+            "message": "HybridPool._computeLiquidityFromAdjustedBalances(uint256,uint256) (../sb/29_HybridPool.sol#695-712) performs a multiplication on the result of a division:\n\t- dP = (((D * D) / xp0) * D) / xp1 / 4 (../sb/29_HybridPool.sol#704)\n\t- D = (((N_A * s) / A_PRECISION + 2 * dP) * D) / ((N_A / A_PRECISION - 1) * D + 3 * dP) (../sb/29_HybridPool.sol#706)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_getY",
+            "impact": "Medium",
+            "line": 721,
+            "line_end": 735,
+            "message": "HybridPool._getY(uint256,uint256) (../sb/29_HybridPool.sol#721-735) performs a multiplication on the result of a division:\n\t- c = (D * D) / (x * 2) (../sb/29_HybridPool.sol#722)\n\t- c = (c * D) / ((N_A * 2) / A_PRECISION) (../sb/29_HybridPool.sol#723)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_computeLiquidityFromAdjustedBalances",
+            "impact": "Medium",
+            "line": 695,
+            "line_end": 712,
+            "message": "HybridPool._computeLiquidityFromAdjustedBalances(uint256,uint256) (../sb/29_HybridPool.sol#695-712) performs a multiplication on the result of a division:\n\t- dP = (((D * D) / xp0) * D) / xp1 / 4 (../sb/29_HybridPool.sol#704)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "swap",
+            "impact": "Medium",
+            "line": 527,
+            "line_end": 549,
+            "message": "Reentrancy in HybridPool.swap(bytes) (../sb/29_HybridPool.sol#527-549):\n\tExternal calls:\n\t- fee = _handleFee(tokenIn,amountIn) (../sb/29_HybridPool.sol#537)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- fee_scope_0 = _handleFee(tokenIn,amountIn) (../sb/29_HybridPool.sol#543)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_HybridPool.sol#546)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tState variables written after the call(s):\n\t- _updateReserves() (../sb/29_HybridPool.sol#547)\n\t\t- reserve0 = uint128(_reserve0) (../sb/29_HybridPool.sol#610)\n\tHybridPool.reserve0 (../sb/29_HybridPool.sol#395) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n\t- _updateReserves() (../sb/29_HybridPool.sol#547)\n\t\t- reserve1 = uint128(_reserve1) (../sb/29_HybridPool.sol#611)\n\tHybridPool.reserve1 (../sb/29_HybridPool.sol#396) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "flashSwap",
+            "impact": "Medium",
+            "line": 552,
+            "line_end": 582,
+            "message": "Reentrancy in HybridPool.flashSwap(bytes) (../sb/29_HybridPool.sol#552-582):\n\tExternal calls:\n\t- _processSwap(token1,recipient,amountOut,context,unwrapBento) (../sb/29_HybridPool.sol#566)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- ITridentCallee(msg.sender).tridentSwapCallback(data) (../sb/29_HybridPool.sol#598)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _processSwap(token0,recipient,amountOut,context,unwrapBento) (../sb/29_HybridPool.sol#575)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- ITridentCallee(msg.sender).tridentSwapCallback(data) (../sb/29_HybridPool.sol#598)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(tokenIn,fee,barFeeTo,false) (../sb/29_HybridPool.sol#579)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tState variables written after the call(s):\n\t- _updateReserves() (../sb/29_HybridPool.sol#580)\n\t\t- reserve0 = uint128(_reserve0) (../sb/29_HybridPool.sol#610)\n\tHybridPool.reserve0 (../sb/29_HybridPool.sol#395) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n\t- _updateReserves() (../sb/29_HybridPool.sol#580)\n\t\t- reserve1 = uint128(_reserve1) (../sb/29_HybridPool.sol#611)\n\tHybridPool.reserve1 (../sb/29_HybridPool.sol#396) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "burnSingle",
+            "impact": "Medium",
+            "line": 491,
+            "line_end": 524,
+            "message": "Reentrancy in HybridPool.burnSingle(bytes) (../sb/29_HybridPool.sol#491-524):\n\tExternal calls:\n\t- fee = _handleFee(token0,amount0) (../sb/29_HybridPool.sol#506)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token1,amount1,recipient,unwrapBento) (../sb/29_HybridPool.sol#508)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- fee_scope_0 = _handleFee(token1,amount1) (../sb/29_HybridPool.sol#515)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token0,amount0,recipient,unwrapBento) (../sb/29_HybridPool.sol#517)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tState variables written after the call(s):\n\t- _updateReserves() (../sb/29_HybridPool.sol#522)\n\t\t- reserve0 = uint128(_reserve0) (../sb/29_HybridPool.sol#610)\n\tHybridPool.reserve0 (../sb/29_HybridPool.sol#395) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n\t- _updateReserves() (../sb/29_HybridPool.sol#522)\n\t\t- reserve1 = uint128(_reserve1) (../sb/29_HybridPool.sol#611)\n\tHybridPool.reserve1 (../sb/29_HybridPool.sol#396) can be used in cross function reentrancies:\n\t- HybridPool._getReserves() (../sb/29_HybridPool.sol#601-605)\n\t- HybridPool._updateReserves() (../sb/29_HybridPool.sol#607-613)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_HybridPool.sol",
+            "impact": "Medium",
+            "line": 201,
+            "message": "MathUtils.difference(uint256,uint256).diff (../sb/29_HybridPool.sol#201) is written in both\n\tdiff = a - b (../sb/29_HybridPool.sol#204)\n\tdiff = b - a (../sb/29_HybridPool.sol#206)\n",
+            "name": "write-after-write"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "29_HybridPool.sol",
+            "impact": "Low",
+            "line": 408,
+            "message": "HybridPool.constructor(bytes,address)._masterDeployer (../sb/29_HybridPool.sol#408) lacks a zero-check on :\n\t\t- (None,_barFee) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_HybridPool.sol#417)\n\t\t- (None,_barFeeTo) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFeeTo.selector)) (../sb/29_HybridPool.sol#418)\n\t\t- (None,_bento) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.bento.selector)) (../sb/29_HybridPool.sol#419)\n\t\t- masterDeployer = _masterDeployer (../sb/29_HybridPool.sol#429)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 464,
+            "line_end": 487,
+            "message": "Reentrancy in HybridPool.burn(bytes) (../sb/29_HybridPool.sol#464-487):\n\tExternal calls:\n\t- _transfer(token0,amount0,recipient,unwrapBento) (../sb/29_HybridPool.sol#474)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token1,amount1,recipient,unwrapBento) (../sb/29_HybridPool.sol#475)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tState variables written after the call(s):\n\t- _updateReserves() (../sb/29_HybridPool.sol#480)\n\t\t- reserve0 = uint128(_reserve0) (../sb/29_HybridPool.sol#610)\n\t- _updateReserves() (../sb/29_HybridPool.sol#480)\n\t\t- reserve1 = uint128(_reserve1) (../sb/29_HybridPool.sol#611)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 464,
+            "line_end": 487,
+            "message": "Reentrancy in HybridPool.burn(bytes) (../sb/29_HybridPool.sol#464-487):\n\tExternal calls:\n\t- _transfer(token0,amount0,recipient,unwrapBento) (../sb/29_HybridPool.sol#474)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token1,amount1,recipient,unwrapBento) (../sb/29_HybridPool.sol#475)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,recipient) (../sb/29_HybridPool.sol#486)\n\t- Sync(_reserve0,_reserve1) (../sb/29_HybridPool.sol#612)\n\t\t- _updateReserves() (../sb/29_HybridPool.sol#480)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 527,
+            "line_end": 549,
+            "message": "Reentrancy in HybridPool.swap(bytes) (../sb/29_HybridPool.sol#527-549):\n\tExternal calls:\n\t- fee = _handleFee(tokenIn,amountIn) (../sb/29_HybridPool.sol#537)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- fee_scope_0 = _handleFee(tokenIn,amountIn) (../sb/29_HybridPool.sol#543)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_HybridPool.sol#546)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tEvent emitted after the call(s):\n\t- Swap(recipient,tokenIn,tokenOut,amountIn,amountOut) (../sb/29_HybridPool.sol#548)\n\t- Sync(_reserve0,_reserve1) (../sb/29_HybridPool.sol#612)\n\t\t- _updateReserves() (../sb/29_HybridPool.sol#547)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "burnSingle",
+            "impact": "Low",
+            "line": 491,
+            "line_end": 524,
+            "message": "Reentrancy in HybridPool.burnSingle(bytes) (../sb/29_HybridPool.sol#491-524):\n\tExternal calls:\n\t- fee = _handleFee(token0,amount0) (../sb/29_HybridPool.sol#506)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token1,amount1,recipient,unwrapBento) (../sb/29_HybridPool.sol#508)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- fee_scope_0 = _handleFee(token1,amount1) (../sb/29_HybridPool.sol#515)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(token0,amount0,recipient,unwrapBento) (../sb/29_HybridPool.sol#517)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,amount0,amount1,recipient) (../sb/29_HybridPool.sol#523)\n\t- Sync(_reserve0,_reserve1) (../sb/29_HybridPool.sol#612)\n\t\t- _updateReserves() (../sb/29_HybridPool.sol#522)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "flashSwap",
+            "impact": "Low",
+            "line": 552,
+            "line_end": 582,
+            "message": "Reentrancy in HybridPool.flashSwap(bytes) (../sb/29_HybridPool.sol#552-582):\n\tExternal calls:\n\t- _processSwap(token1,recipient,amountOut,context,unwrapBento) (../sb/29_HybridPool.sol#566)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- ITridentCallee(msg.sender).tridentSwapCallback(data) (../sb/29_HybridPool.sol#598)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _processSwap(token0,recipient,amountOut,context,unwrapBento) (../sb/29_HybridPool.sol#575)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- ITridentCallee(msg.sender).tridentSwapCallback(data) (../sb/29_HybridPool.sol#598)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\t- _transfer(tokenIn,fee,barFeeTo,false) (../sb/29_HybridPool.sol#579)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n\tEvent emitted after the call(s):\n\t- Swap(recipient,tokenIn,tokenOut,amountIn,amountOut) (../sb/29_HybridPool.sol#581)\n\t- Sync(_reserve0,_reserve1) (../sb/29_HybridPool.sol#612)\n\t\t- _updateReserves() (../sb/29_HybridPool.sol#580)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TridentERC20",
+            "filename": "29_HybridPool.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 308,
+            "line_end": 325,
+            "message": "TridentERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/29_HybridPool.sol#308-325) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (../sb/29_HybridPool.sol#317)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_getYD",
+            "impact": "Informational",
+            "line": 747,
+            "line_end": 765,
+            "message": "HybridPool._getYD(uint256,uint256) (../sb/29_HybridPool.sol#747-765) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "__balance",
+            "impact": "Informational",
+            "line": 620,
+            "line_end": 625,
+            "message": "Low level call in HybridPool.__balance(address) (../sb/29_HybridPool.sol#620-625):\n\t- (None,___balance) = bento.staticcall(abi.encodeWithSelector(IBentoBoxMinimal.balanceOf.selector,token,address(this))) (../sb/29_HybridPool.sol#622-623)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 408,
+            "line_end": 435,
+            "message": "Low level call in HybridPool.constructor(bytes,address) (../sb/29_HybridPool.sol#408-435):\n\t- (None,_barFee) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_HybridPool.sol#417)\n\t- (None,_barFeeTo) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFeeTo.selector)) (../sb/29_HybridPool.sol#418)\n\t- (None,_bento) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.bento.selector)) (../sb/29_HybridPool.sol#419)\n\t- (None,_decimals0) = _token0.staticcall(abi.encodeWithSelector(0x313ce567)) (../sb/29_HybridPool.sol#420)\n\t- (None,_decimals1) = _token1.staticcall(abi.encodeWithSelector(0x313ce567)) (../sb/29_HybridPool.sol#421)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_toAmount",
+            "impact": "Informational",
+            "line": 627,
+            "line_end": 632,
+            "message": "Low level call in HybridPool._toAmount(address,uint256) (../sb/29_HybridPool.sol#627-632):\n\t- (None,_output) = bento.staticcall(abi.encodeWithSelector(IBentoBoxMinimal.toAmount.selector,token,input,false)) (../sb/29_HybridPool.sol#629-630)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_transfer",
+            "impact": "Informational",
+            "line": 666,
+            "line_end": 683,
+            "message": "Low level call in HybridPool._transfer(address,uint256,address,bool) (../sb/29_HybridPool.sol#666-683):\n\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,amount,0)) (../sb/29_HybridPool.sol#674-675)\n\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,_toShare(token,amount))) (../sb/29_HybridPool.sol#679-680)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "_toShare",
+            "impact": "Informational",
+            "line": 634,
+            "line_end": 639,
+            "message": "Low level call in HybridPool._toShare(address,uint256) (../sb/29_HybridPool.sol#634-639):\n\t- (None,_output) = bento.staticcall(abi.encodeWithSelector(IBentoBoxMinimal.toShare.selector,token,input,false)) (../sb/29_HybridPool.sol#636-637)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "updateBarFee",
+            "impact": "Informational",
+            "line": 585,
+            "line_end": 588,
+            "message": "Low level call in HybridPool.updateBarFee() (../sb/29_HybridPool.sol#585-588):\n\t- (None,_barFee) = masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_HybridPool.sol#586)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_HybridPool.sol",
+            "impact": "Informational",
+            "line": 383,
+            "message": "Variable HybridPool.A (../sb/29_HybridPool.sol#383) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "HybridPool",
+            "filename": "29_HybridPool.sol",
+            "function": "__balance",
+            "impact": "Informational",
+            "line": 620,
+            "line_end": 625,
+            "message": "Function HybridPool.__balance(address) (../sb/29_HybridPool.sol#620-625) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_HybridPool.sol",
+            "impact": "Informational",
+            "line": 384,
+            "message": "Variable HybridPool.N_A (../sb/29_HybridPool.sol#384) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_HybridPool.sol",
+            "impact": "Informational",
+            "line": 236,
+            "message": "Variable TridentERC20.DOMAIN_SEPARATOR (../sb/29_HybridPool.sol#236) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_HybridPool.sol",
+            "impact": "Informational",
+            "line": 371,
+            "message": "HybridPool.PRECISION (../sb/29_HybridPool.sol#371) is never used in HybridPool (../sb/29_HybridPool.sol#363-820)\n",
+            "name": "unused-state"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

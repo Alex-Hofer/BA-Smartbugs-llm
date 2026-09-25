@@ -1,0 +1,290 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "High",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) has bitwise-xor operator ^ instead of the exponentiation operator **: \n\t - inv = (3 * denominator) ^ 2 (34_ConcentratedLiquidityPosition.sol#390)\n",
+            "name": "incorrect-exp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#395)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#394)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#397)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#399)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#398)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- prod0 = prod0 / twos (34_ConcentratedLiquidityPosition.sol#376)\n\t- result = prod0 * inv (34_ConcentratedLiquidityPosition.sol#406)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv *= 2 - denominator * inv (34_ConcentratedLiquidityPosition.sol#396)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Medium",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) performs a multiplication on the result of a division:\n\t- denominator = denominator / twos (34_ConcentratedLiquidityPosition.sol#372)\n\t- inv = (3 * denominator) ^ 2 (34_ConcentratedLiquidityPosition.sol#390)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 2295,
+            "line_end": 2314,
+            "message": "Reentrancy in ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314):\n\tExternal calls:\n\t- position.pool.burn(abi.encode(position.lower,position.upper,amount,recipient,unwrapBento)) (34_ConcentratedLiquidityPosition.sol#2305)\n\tState variables written after the call(s):\n\t- _burn(tokenId) (34_ConcentratedLiquidityPosition.sol#2311)\n\t\t- delete ownerOf[tokenId] (34_ConcentratedLiquidityPosition.sol#682)\n\tTridentNFT.ownerOf (34_ConcentratedLiquidityPosition.sol#453) can be used in cross function reentrancies:\n\t- TridentNFT._burn(uint256) (34_ConcentratedLiquidityPosition.sol#675-684)\n\t- TridentNFT._mint(address) (34_ConcentratedLiquidityPosition.sol#663-673)\n\t- TridentNFT.approve(address,uint256) (34_ConcentratedLiquidityPosition.sol#505-510)\n\t- ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314)\n\t- ConcentratedLiquidityPosition.collect(uint256,address,bool) (34_ConcentratedLiquidityPosition.sol#2316-2358)\n\t- TridentNFT.ownerOf (34_ConcentratedLiquidityPosition.sol#453)\n\t- TridentNFT.permit(address,uint256,uint256,uint8,bytes32,bytes32) (34_ConcentratedLiquidityPosition.sol#597-625)\n\t- TridentNFT.transfer(address,uint256) (34_ConcentratedLiquidityPosition.sol#523-535)\n\t- TridentNFT.transferFrom(address,address,uint256) (34_ConcentratedLiquidityPosition.sol#540-557)\n\t- position.liquidity -= amount (34_ConcentratedLiquidityPosition.sol#2308)\n\tConcentratedLiquidityPosition.positions (34_ConcentratedLiquidityPosition.sol#2263) can be used in cross function reentrancies:\n\t- ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314)\n\t- ConcentratedLiquidityPosition.collect(uint256,address,bool) (34_ConcentratedLiquidityPosition.sol#2316-2358)\n\t- ConcentratedLiquidityPosition.positionMintCallback(address,int24,int24,uint128,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#2280-2293)\n\t- ConcentratedLiquidityPosition.positions (34_ConcentratedLiquidityPosition.sol#2263)\n\t- delete positions[tokenId] (34_ConcentratedLiquidityPosition.sol#2310)\n\tConcentratedLiquidityPosition.positions (34_ConcentratedLiquidityPosition.sol#2263) can be used in cross function reentrancies:\n\t- ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314)\n\t- ConcentratedLiquidityPosition.collect(uint256,address,bool) (34_ConcentratedLiquidityPosition.sol#2316-2358)\n\t- ConcentratedLiquidityPosition.positionMintCallback(address,int24,int24,uint128,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#2280-2293)\n\t- ConcentratedLiquidityPosition.positions (34_ConcentratedLiquidityPosition.sol#2263)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 2295,
+            "line_end": 2314,
+            "message": "ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314) ignores return value by position.pool.burn(abi.encode(position.lower,position.upper,amount,recipient,unwrapBento)) (34_ConcentratedLiquidityPosition.sol#2305)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "_transfer",
+            "impact": "Medium",
+            "line": 2366,
+            "line_end": 2378,
+            "message": "ConcentratedLiquidityPosition._transfer(address,address,address,uint256,bool) (34_ConcentratedLiquidityPosition.sol#2366-2378) ignores return value by bento.withdraw(token,from,to,0,shares) (34_ConcentratedLiquidityPosition.sol#2374)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 2295,
+            "line_end": 2314,
+            "message": "Reentrancy in ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314):\n\tExternal calls:\n\t- position.pool.burn(abi.encode(position.lower,position.upper,amount,recipient,unwrapBento)) (34_ConcentratedLiquidityPosition.sol#2305)\n\tState variables written after the call(s):\n\t- _burn(tokenId) (34_ConcentratedLiquidityPosition.sol#2311)\n\t\t- balanceOf[owner] -- (34_ConcentratedLiquidityPosition.sol#680)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 2295,
+            "line_end": 2314,
+            "message": "Reentrancy in ConcentratedLiquidityPosition.burn(uint256,uint128,address,bool) (34_ConcentratedLiquidityPosition.sol#2295-2314):\n\tExternal calls:\n\t- position.pool.burn(abi.encode(position.lower,position.upper,amount,recipient,unwrapBento)) (34_ConcentratedLiquidityPosition.sol#2305)\n\tEvent emitted after the call(s):\n\t- Burn(address(position.pool),msg.sender,tokenId) (34_ConcentratedLiquidityPosition.sol#2313)\n\t- Transfer(owner,address(0),tokenId) (34_ConcentratedLiquidityPosition.sol#683)\n\t\t- _burn(tokenId) (34_ConcentratedLiquidityPosition.sol#2311)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TridentNFT",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "permitAll",
+            "impact": "Low",
+            "line": 634,
+            "line_end": 661,
+            "message": "TridentNFT.permitAll(address,address,uint256,uint8,bytes32,bytes32) (34_ConcentratedLiquidityPosition.sol#634-661) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (34_ConcentratedLiquidityPosition.sol#642)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TridentNFT",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 597,
+            "line_end": 625,
+            "message": "TridentNFT.permit(address,uint256,uint256,uint8,bytes32,bytes32) (34_ConcentratedLiquidityPosition.sol#597-625) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (34_ConcentratedLiquidityPosition.sol#605)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "FullMath",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "mulDiv",
+            "impact": "Informational",
+            "line": 323,
+            "line_end": 409,
+            "message": "FullMath.mulDiv(uint256,uint256,uint256) (34_ConcentratedLiquidityPosition.sol#323-409) uses assembly\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#336-340)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#344-346)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#358-360)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#362-365)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#371-373)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#375-377)\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#381-383)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 695,
+            "line_end": 710,
+            "message": "console._sendLogPayloadImplementation(bytes) (34_ConcentratedLiquidityPosition.sol#695-710) uses assembly\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#698-709)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 712,
+            "line_end": 718,
+            "message": "console._castToPure(function(bytes)) (34_ConcentratedLiquidityPosition.sol#712-718) uses assembly\n\t- INLINE ASM (34_ConcentratedLiquidityPosition.sol#715-717)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "TridentNFT",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "safeTransferFrom",
+            "impact": "Informational",
+            "line": 575,
+            "line_end": 588,
+            "message": "Low level call in TridentNFT.safeTransferFrom(address,address,uint256,bytes) (34_ConcentratedLiquidityPosition.sol#575-588):\n\t- (None,returned) = recipient.staticcall(abi.encodeWithSelector(0x150b7a02,msg.sender,address(0),tokenId,data)) (34_ConcentratedLiquidityPosition.sol#584)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "impact": "Informational",
+            "line": 691,
+            "line_end": 2239,
+            "message": "Contract console (34_ConcentratedLiquidityPosition.sol#691-2239) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "TridentNFT",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 491,
+            "line_end": 493,
+            "message": "Function TridentNFT.DOMAIN_SEPARATOR() (34_ConcentratedLiquidityPosition.sol#491-493) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "impact": "Informational",
+            "line": 465,
+            "message": "Variable TridentNFT.DOMAIN_SEPARATOR_CHAIN_ID (34_ConcentratedLiquidityPosition.sol#465) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "impact": "Informational",
+            "line": 467,
+            "message": "Variable TridentNFT._DOMAIN_SEPARATOR (34_ConcentratedLiquidityPosition.sol#467) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "collect",
+            "impact": "Informational",
+            "line": 2316,
+            "line_end": 2358,
+            "message": "ConcentratedLiquidityPosition.collect(uint256,address,bool) (34_ConcentratedLiquidityPosition.sol#2316-2358) uses literals with too many digits:\n\t- token1amount = FullMath.mulDiv(feeGrowthInside1 - position.feeGrowthInside1,position.liquidity,0x100000000000000000000000000000000) (34_ConcentratedLiquidityPosition.sol#2334-2338)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConcentratedLiquidityPosition",
+            "filename": "34_ConcentratedLiquidityPosition.sol",
+            "function": "collect",
+            "impact": "Informational",
+            "line": 2316,
+            "line_end": 2358,
+            "message": "ConcentratedLiquidityPosition.collect(uint256,address,bool) (34_ConcentratedLiquidityPosition.sol#2316-2358) uses literals with too many digits:\n\t- token0amount = FullMath.mulDiv(feeGrowthInside0 - position.feeGrowthInside0,position.liquidity,0x100000000000000000000000000000000) (34_ConcentratedLiquidityPosition.sol#2329-2333)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

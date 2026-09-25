@@ -1,0 +1,210 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "stir",
+            "impact": "Medium",
+            "line": 778,
+            "line_end": 805,
+            "message": "Reentrancy in Cauldron.stir(bytes12,bytes12,uint128,uint128) (../sb/12_Cauldron.sol#778-805):\n\tExternal calls:\n\t- require(bool,string)(_level(vaultFrom,balancesFrom,series[vaultFrom.seriesId]) >= 0,Undercollateralized at origin) (../sb/12_Cauldron.sol#800)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\t- require(bool,string)(_level(vaultTo,balancesTo,series[vaultTo.seriesId]) >= 0,Undercollateralized at destination) (../sb/12_Cauldron.sol#801)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tState variables written after the call(s):\n\t- require(bool,string)(_level(vaultTo,balancesTo,series[vaultTo.seriesId]) >= 0,Undercollateralized at destination) (../sb/12_Cauldron.sol#801)\n\t\t- ratesAtMaturity[seriesId] = rateAtMaturity (../sb/12_Cauldron.sol#938)\n\tCauldron.ratesAtMaturity (../sb/12_Cauldron.sol#572) can be used in cross function reentrancies:\n\t- Cauldron._accrual(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#955-968)\n\t- Cauldron._mature(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#933-940)\n\t- Cauldron.mature(bytes6) (../sb/12_Cauldron.sol#923-930)\n\t- Cauldron.ratesAtMaturity (../sb/12_Cauldron.sol#572)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "grab",
+            "impact": "Medium",
+            "line": 859,
+            "line_end": 873,
+            "message": "Reentrancy in Cauldron.grab(bytes12,address) (../sb/12_Cauldron.sol#859-873):\n\tExternal calls:\n\t- require(bool,string)(_level(vault_,balances_,series_) < 0,Not undercollateralized) (../sb/12_Cauldron.sol#867)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tState variables written after the call(s):\n\t- auctions[vaultId] = now_ (../sb/12_Cauldron.sol#869)\n\tCauldron.auctions (../sb/12_Cauldron.sol#578) can be used in cross function reentrancies:\n\t- Cauldron.auctions (../sb/12_Cauldron.sol#578)\n\t- Cauldron.destroy(bytes12) (../sb/12_Cauldron.sol#703-712)\n\t- Cauldron.grab(bytes12,address) (../sb/12_Cauldron.sol#859-873)\n\t- _give(vaultId,receiver) (../sb/12_Cauldron.sol#870)\n\t\t- vaults[vaultId] = vault (../sb/12_Cauldron.sol#751)\n\tCauldron.vaults (../sb/12_Cauldron.sol#576) can be used in cross function reentrancies:\n\t- Cauldron._give(bytes12,address) (../sb/12_Cauldron.sol#745-753)\n\t- Cauldron._tweak(bytes12,DataTypes.Vault) (../sb/12_Cauldron.sol#715-722)\n\t- Cauldron.build(address,bytes12,bytes6,bytes6) (../sb/12_Cauldron.sol#684-700)\n\t- Cauldron.destroy(bytes12) (../sb/12_Cauldron.sol#703-712)\n\t- Cauldron.tweak(bytes12,bytes6,bytes6) (../sb/12_Cauldron.sol#726-742)\n\t- Cauldron.vaultData(bytes12,bool) (../sb/12_Cauldron.sol#766-775)\n\t- Cauldron.vaults (../sb/12_Cauldron.sol#576)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_accrual",
+            "impact": "Medium",
+            "line": 955,
+            "line_end": 968,
+            "message": "Cauldron._accrual(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#955-968) ignores return value by (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_mature",
+            "impact": "Medium",
+            "line": 933,
+            "line_end": 940,
+            "message": "Cauldron._mature(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#933-940) ignores return value by (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_level",
+            "impact": "Medium",
+            "line": 971,
+            "line_end": 989,
+            "message": "Cauldron._level(DataTypes.Vault,DataTypes.Balances,DataTypes.Series) (../sb/12_Cauldron.sol#971-989) ignores return value by (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_mature",
+            "impact": "Low",
+            "line": 933,
+            "line_end": 940,
+            "message": "Reentrancy in Cauldron._mature(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#933-940):\n\tExternal calls:\n\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\tState variables written after the call(s):\n\t- ratesAtMaturity[seriesId] = rateAtMaturity (../sb/12_Cauldron.sol#938)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "roll",
+            "impact": "Low",
+            "line": 891,
+            "line_end": 911,
+            "message": "Reentrancy in Cauldron.roll(bytes12,bytes6,int128) (../sb/12_Cauldron.sol#891-911):\n\tExternal calls:\n\t- require(bool,string)(_level(vault_,balances_,newSeries_) >= 0,Undercollateralized) (../sb/12_Cauldron.sol#907)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tEvent emitted after the call(s):\n\t- VaultRolled(vaultId,newSeriesId,balances_.art) (../sb/12_Cauldron.sol#908)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "stir",
+            "impact": "Low",
+            "line": 778,
+            "line_end": 805,
+            "message": "Reentrancy in Cauldron.stir(bytes12,bytes12,uint128,uint128) (../sb/12_Cauldron.sol#778-805):\n\tExternal calls:\n\t- require(bool,string)(_level(vaultFrom,balancesFrom,series[vaultFrom.seriesId]) >= 0,Undercollateralized at origin) (../sb/12_Cauldron.sol#800)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\t- require(bool,string)(_level(vaultTo,balancesTo,series[vaultTo.seriesId]) >= 0,Undercollateralized at destination) (../sb/12_Cauldron.sol#801)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tEvent emitted after the call(s):\n\t- SeriesMatured(seriesId,rateAtMaturity) (../sb/12_Cauldron.sol#939)\n\t\t- require(bool,string)(_level(vaultTo,balancesTo,series[vaultTo.seriesId]) >= 0,Undercollateralized at destination) (../sb/12_Cauldron.sol#801)\n\t- VaultStirred(from,to,ink,art) (../sb/12_Cauldron.sol#803)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_mature",
+            "impact": "Low",
+            "line": 933,
+            "line_end": 940,
+            "message": "Reentrancy in Cauldron._mature(bytes6,DataTypes.Series) (../sb/12_Cauldron.sol#933-940):\n\tExternal calls:\n\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\tEvent emitted after the call(s):\n\t- SeriesMatured(seriesId,rateAtMaturity) (../sb/12_Cauldron.sol#939)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "grab",
+            "impact": "Low",
+            "line": 859,
+            "line_end": 873,
+            "message": "Reentrancy in Cauldron.grab(bytes12,address) (../sb/12_Cauldron.sol#859-873):\n\tExternal calls:\n\t- require(bool,string)(_level(vault_,balances_,series_) < 0,Not undercollateralized) (../sb/12_Cauldron.sol#867)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tEvent emitted after the call(s):\n\t- VaultGiven(vaultId,receiver) (../sb/12_Cauldron.sol#752)\n\t\t- _give(vaultId,receiver) (../sb/12_Cauldron.sol#870)\n\t- VaultLocked(vaultId,now_) (../sb/12_Cauldron.sol#872)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_level",
+            "impact": "Low",
+            "line": 971,
+            "line_end": 989,
+            "message": "Reentrancy in Cauldron._level(DataTypes.Vault,DataTypes.Balances,DataTypes.Series) (../sb/12_Cauldron.sol#971-989):\n\tExternal calls:\n\t- (inkValue,None) = spotOracle_.oracle.get(series_.baseId,vault_.ilkId,balances_.ink) (../sb/12_Cauldron.sol#981)\n\t- accrual_ = _accrual(vault_.seriesId,series_) (../sb/12_Cauldron.sol#984)\n\t\t- (rateAtMaturity,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#937)\n\t\t- (rate,None) = rateOracle.get(series_.baseId,bytes32(rate),1e18) (../sb/12_Cauldron.sol#964)\n\tEvent emitted after the call(s):\n\t- SeriesMatured(seriesId,rateAtMaturity) (../sb/12_Cauldron.sol#939)\n\t\t- accrual_ = _accrual(vault_.seriesId,series_) (../sb/12_Cauldron.sol#984)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "grab",
+            "impact": "Low",
+            "line": 859,
+            "line_end": 873,
+            "message": "Cauldron.grab(bytes12,address) (../sb/12_Cauldron.sol#859-873) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(auctions[vaultId] + auctionInterval <= now_,Vault under auction) (../sb/12_Cauldron.sol#864)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "mature",
+            "impact": "Low",
+            "line": 923,
+            "line_end": 930,
+            "message": "Cauldron.mature(bytes6) (../sb/12_Cauldron.sol#923-930) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(uint32(block.timestamp) >= series_.maturity,Only after maturity) (../sb/12_Cauldron.sol#927)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "accrual",
+            "impact": "Low",
+            "line": 944,
+            "line_end": 951,
+            "message": "Cauldron.accrual(bytes6) (../sb/12_Cauldron.sol#944-951) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(uint32(block.timestamp) >= series_.maturity,Only after maturity) (../sb/12_Cauldron.sol#949)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_level",
+            "impact": "Low",
+            "line": 971,
+            "line_end": 989,
+            "message": "Cauldron._level(DataTypes.Vault,DataTypes.Balances,DataTypes.Series) (../sb/12_Cauldron.sol#971-989) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- uint32(block.timestamp) >= series_.maturity (../sb/12_Cauldron.sol#983)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "build",
+            "impact": "Informational",
+            "line": 684,
+            "line_end": 700,
+            "message": "Cauldron.build(address,bytes12,bytes6,bytes6) (../sb/12_Cauldron.sol#684-700) compares to a boolean constant:\n\t-require(bool,string)(ilks[seriesId][ilkId] == true,Ilk not added to series) (../sb/12_Cauldron.sol#691)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "_tweak",
+            "impact": "Informational",
+            "line": 715,
+            "line_end": 722,
+            "message": "Cauldron._tweak(bytes12,DataTypes.Vault) (../sb/12_Cauldron.sol#715-722) compares to a boolean constant:\n\t-require(bool,string)(ilks[vault.seriesId][vault.ilkId] == true,Ilk not added to series) (../sb/12_Cauldron.sol#718)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Cauldron",
+            "filename": "12_Cauldron.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 533,
+            "line_end": 990,
+            "message": "Cauldron.slitherConstructorConstantVariables() (../sb/12_Cauldron.sol#533-990) uses literals with too many digits:\n\t- ROOT = 0x00000000 (../sb/12_Cauldron.sol#221)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

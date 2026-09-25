@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Compiler error: Stack too deep when compiling inline assembly: Variable headStart is 1 slot(s) too deep inside the stack.",
+        "solc rejected 58_UniV3Vault.sol: Compiler error: Stack too deep when compiling inline assembly: Variable headStart is 1 slot(s) too deep inside the stack."
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=5, est_cost_usd=0.0008"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,188 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "High",
+            "line": 11,
+            "line_end": 191,
+            "message": "LuckyDoubler (../sb/lucky_doubler.sol#11-191) contract sets array length with a user-controlled value:\n\t- unpaidEntries.push(entries.length - 1) (../sb/lucky_doubler.sol#89)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "rand",
+            "impact": "High",
+            "line": 127,
+            "line_end": 133,
+            "message": "LuckyDoubler.rand(uint256) (../sb/lucky_doubler.sol#127-133) uses a weak PRNG: \"uint256((uint256(hashVal) / factor)) % max (../sb/lucky_doubler.sol#132)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "join",
+            "impact": "Medium",
+            "line": 67,
+            "line_end": 122,
+            "message": "LuckyDoubler.join() (../sb/lucky_doubler.sol#67-122) ignores return value by msg.sender.send(msg.value - 1000000000000000000) (../sb/lucky_doubler.sol#74)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "init",
+            "impact": "Medium",
+            "line": 57,
+            "line_end": 65,
+            "message": "LuckyDoubler.init() (../sb/lucky_doubler.sol#57-65) ignores return value by msg.sender.send(msg.value) (../sb/lucky_doubler.sol#60)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "join",
+            "impact": "Medium",
+            "line": 67,
+            "line_end": 122,
+            "message": "LuckyDoubler.join() (../sb/lucky_doubler.sol#67-122) ignores return value by theEntry.entryAddress.send(payout) (../sb/lucky_doubler.sol#102)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "join",
+            "impact": "Medium",
+            "line": 67,
+            "line_end": 122,
+            "message": "LuckyDoubler.join() (../sb/lucky_doubler.sol#67-122) ignores return value by owner.send(fees) (../sb/lucky_doubler.sol#119)\n",
+            "name": "unchecked-send"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "changeOwner",
+            "impact": "Low",
+            "line": 137,
+            "line_end": 139,
+            "message": "LuckyDoubler.changeOwner(address) (../sb/lucky_doubler.sol#137-139) should emit an event for: \n\t- owner = newOwner (../sb/lucky_doubler.sol#138) \n",
+            "name": "events-access"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "changeFee",
+            "impact": "Low",
+            "line": 147,
+            "line_end": 151,
+            "message": "LuckyDoubler.changeFee(uint256) (../sb/lucky_doubler.sol#147-151) should emit an event for: \n\t- fee = newFee (../sb/lucky_doubler.sol#150) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "changeMultiplier",
+            "impact": "Low",
+            "line": 141,
+            "line_end": 145,
+            "message": "LuckyDoubler.changeMultiplier(uint256) (../sb/lucky_doubler.sol#141-145) should emit an event for: \n\t- multiplier = multi (../sb/lucky_doubler.sol#144) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Low",
+            "line": 137,
+            "message": "LuckyDoubler.changeOwner(address).newOwner (../sb/lucky_doubler.sol#137) lacks a zero-check on :\n\t\t- owner = newOwner (../sb/lucky_doubler.sol#138)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "onlyowner",
+            "impact": "Low",
+            "line": 37,
+            "message": "Modifier LuckyDoubler.onlyowner() (../sb/lucky_doubler.sol#37) does not always execute _; or revert\n",
+            "name": "incorrect-modifier"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Informational",
+            "line": 149,
+            "message": "Deprecated standard detected THROW (../sb/lucky_doubler.sol#149):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Informational",
+            "line": 130,
+            "message": "Deprecated standard detected hashVal = uint256(block.blockhash(lastBlockNumber)) (../sb/lucky_doubler.sol#130):\n\t- Usage of \"block.blockhash()\" should be replaced with \"blockhash()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Informational",
+            "line": 142,
+            "message": "Deprecated standard detected THROW (../sb/lucky_doubler.sol#142):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Informational",
+            "line": 9,
+            "message": "Version constraint ^0.4.0 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction\n\t- IdentityPrecompileReturnIgnored\n\t- HighOrderByteCleanStorage\n\t- OptimizerStaleKnowledgeAboutSHA3\n\t- LibrariesNotCallableFromPayableFunctions.\nIt is used by:\n\t- ^0.4.0 (../sb/lucky_doubler.sol#9)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "join",
+            "impact": "Informational",
+            "line": 67,
+            "line_end": 122,
+            "message": "Reentrancy in LuckyDoubler.join() (../sb/lucky_doubler.sol#67-122):\n\tExternal calls:\n\t- msg.sender.send(msg.value - 1000000000000000000) (../sb/lucky_doubler.sol#74)\n\tState variables written after the call(s):\n\t- balance += (dValue * (100 - fee)) / 100 (../sb/lucky_doubler.sol#92)\n\t- entries.push(Entry(msg.sender,dValue,(dValue * (multiplier) / 100),false)) (../sb/lucky_doubler.sol#87)\n\t- unpaidEntries.push(entries.length - 1) (../sb/lucky_doubler.sol#89)\n\t- users[msg.sender].id = msg.sender (../sb/lucky_doubler.sol#81)\n\t- users[msg.sender].deposits = 0 (../sb/lucky_doubler.sol#82)\n\t- users[msg.sender].payoutsReceived = 0 (../sb/lucky_doubler.sol#83)\n\t- users[msg.sender].deposits ++ (../sb/lucky_doubler.sol#88)\n",
+            "name": "reentrancy-unlimited-gas"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LuckyDoubler",
+            "filename": "bad_randomness\\lucky_doubler.sol",
+            "function": "join",
+            "impact": "Informational",
+            "line": 67,
+            "line_end": 122,
+            "message": "Reentrancy in LuckyDoubler.join() (../sb/lucky_doubler.sol#67-122):\n\tExternal calls:\n\t- msg.sender.send(msg.value - 1000000000000000000) (../sb/lucky_doubler.sol#74)\n\t- theEntry.entryAddress.send(payout) (../sb/lucky_doubler.sol#102)\n\tState variables written after the call(s):\n\t- balance -= payout (../sb/lucky_doubler.sol#106)\n\t- theEntry.paid = true (../sb/lucky_doubler.sol#103)\n\t- unpaidEntries[index] = unpaidEntries[unpaidEntries.length - 1] (../sb/lucky_doubler.sol#109)\n\t- unpaidEntries.length -- (../sb/lucky_doubler.sol#111)\n\t- users[theEntry.entryAddress].payoutsReceived ++ (../sb/lucky_doubler.sol#104)\n",
+            "name": "reentrancy-unlimited-gas"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

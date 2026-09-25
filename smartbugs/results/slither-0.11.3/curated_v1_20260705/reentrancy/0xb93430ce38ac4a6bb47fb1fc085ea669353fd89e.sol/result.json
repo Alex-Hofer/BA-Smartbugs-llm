@@ -1,0 +1,174 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "High",
+            "line": 50,
+            "line_end": 75,
+            "message": "Log (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#50-75) contract sets array length with a user-controlled value:\n\t- History.push(LastMsg) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#72)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrivateBank",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "CashOut",
+            "impact": "High",
+            "line": 33,
+            "line_end": 44,
+            "message": "Reentrancy in PrivateBank.CashOut(uint256) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#33-44):\n\tExternal calls:\n\t- msg.sender.call.value(_am)() (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#38)\n\tState variables written after the call(s):\n\t- balances[msg.sender] -= _am (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#40)\n\tPrivateBank.balances (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#11) can be used in cross function reentrancies:\n\t- PrivateBank.CashOut(uint256) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#33-44)\n\t- PrivateBank.Deposit() (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#22-31)\n\t- PrivateBank.balances (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#11)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.19 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.19 (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "PrivateBank",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "CashOut",
+            "impact": "Informational",
+            "line": 33,
+            "line_end": 44,
+            "message": "Low level call in PrivateBank.CashOut(uint256) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#33-44):\n\t- msg.sender.call.value(_am)() (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#38)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 61,
+            "message": "Variable Log.History (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Variable Log.LastMsg (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 15,
+            "message": "Variable PrivateBank.TransferLog (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#15) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 65,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._adr (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#65) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Log",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "AddMessage",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 73,
+            "message": "Function Log.AddMessage(address,uint256,string) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#65-73) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 65,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._data (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#65) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PrivateBank",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "Deposit",
+            "impact": "Informational",
+            "line": 22,
+            "line_end": 31,
+            "message": "Function PrivateBank.Deposit() (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#22-31) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PrivateBank",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "CashOut",
+            "impact": "Informational",
+            "line": 33,
+            "line_end": 44,
+            "message": "Function PrivateBank.CashOut(uint256) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#33-44) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 65,
+            "message": "Parameter Log.AddMessage(address,uint256,string)._val (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#65) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 13,
+            "message": "Variable PrivateBank.MinDeposit (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#13) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Informational",
+            "line": 33,
+            "message": "Parameter PrivateBank.CashOut(uint256)._am (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#33) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "impact": "Optimization",
+            "line": 13,
+            "message": "PrivateBank.MinDeposit (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#13) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "contract": "Log",
+            "filename": "reentrancy\\0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol",
+            "function": "AddMessage",
+            "impact": "Optimization",
+            "line": 65,
+            "line_end": 73,
+            "message": "AddMessage(address,uint256,string) should be declared external:\n\t- Log.AddMessage(address,uint256,string) (../sb/0xb93430ce38ac4a6bb47fb1fc085ea669353fd89e.sol#65-73)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

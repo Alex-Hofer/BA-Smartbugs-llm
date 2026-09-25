@@ -1,0 +1,224 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "High",
+            "line": 74,
+            "line_end": 98,
+            "message": "LogFile (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#74-98) contract sets array length with a user-controlled value:\n\t- History.push(LastMsg) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#95)\n",
+            "name": "controlled-array-length"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "Collect",
+            "impact": "High",
+            "line": 48,
+            "line_end": 61,
+            "message": "Reentrancy in ACCURAL_DEPOSIT.Collect(uint256) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#48-61):\n\tExternal calls:\n\t- msg.sender.call.value(_am)() (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#55)\n\tState variables written after the call(s):\n\t- balances[msg.sender] -= _am (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#57)\n\tACCURAL_DEPOSIT.balances (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#12) can be used in cross function reentrancies:\n\t- ACCURAL_DEPOSIT.Collect(uint256) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#48-61)\n\t- ACCURAL_DEPOSIT.Deposit() (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#40-46)\n\t- ACCURAL_DEPOSIT.balances (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#12)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 8,
+            "message": "Version constraint ^0.4.19 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.19 (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#8)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 48,
+            "line_end": 61,
+            "message": "Low level call in ACCURAL_DEPOSIT.Collect(uint256) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#48-61):\n\t- msg.sender.call.value(_am)() (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#55)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 27,
+            "message": "Parameter ACCURAL_DEPOSIT.SetLogFile(address)._log (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#27) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 14,
+            "message": "Variable ACCURAL_DEPOSIT.MinSum (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#14) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "Deposit",
+            "impact": "Informational",
+            "line": 40,
+            "line_end": 46,
+            "message": "Function ACCURAL_DEPOSIT.Deposit() (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#40-46) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 10,
+            "line_end": 70,
+            "message": "Contract ACCURAL_DEPOSIT (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#10-70) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 20,
+            "message": "Parameter ACCURAL_DEPOSIT.SetMinSum(uint256)._val (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#20) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 88,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._adr (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#88) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 86,
+            "message": "Variable LogFile.LastMsg (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#86) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 88,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._val (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#88) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "SetMinSum",
+            "impact": "Informational",
+            "line": 20,
+            "line_end": 25,
+            "message": "Function ACCURAL_DEPOSIT.SetMinSum(uint256) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#20-25) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "Collect",
+            "impact": "Informational",
+            "line": 48,
+            "line_end": 61,
+            "message": "Function ACCURAL_DEPOSIT.Collect(uint256) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#48-61) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 48,
+            "message": "Parameter ACCURAL_DEPOSIT.Collect(uint256)._am (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#48) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 88,
+            "message": "Parameter LogFile.AddMessage(address,uint256,string)._data (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#88) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "SetLogFile",
+            "impact": "Informational",
+            "line": 27,
+            "line_end": 32,
+            "message": "Function ACCURAL_DEPOSIT.SetLogFile(address) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#27-32) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 84,
+            "message": "Variable LogFile.History (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#84) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LogFile",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "AddMessage",
+            "impact": "Informational",
+            "line": 88,
+            "line_end": 96,
+            "message": "Function LogFile.AddMessage(address,uint256,string) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#88-96) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ACCURAL_DEPOSIT",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "Initialized",
+            "impact": "Informational",
+            "line": 34,
+            "line_end": 38,
+            "message": "Function ACCURAL_DEPOSIT.Initialized() (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#34-38) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "impact": "Informational",
+            "line": 16,
+            "message": "Variable ACCURAL_DEPOSIT.Log (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#16) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "LogFile",
+            "filename": "reentrancy\\0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol",
+            "function": "AddMessage",
+            "impact": "Optimization",
+            "line": 88,
+            "line_end": 96,
+            "message": "AddMessage(address,uint256,string) should be declared external:\n\t- LogFile.AddMessage(address,uint256,string) (../sb/0x4320e6f8c05b27ab4707cd1f6d5ce6f3e4b3a5a1.sol#88-96)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

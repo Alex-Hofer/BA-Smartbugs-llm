@@ -1,0 +1,46 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "access_control\\incorrect_constructor_name2.sol",
+            "message": "Transactions Order Dependence Identified.\n\nFront-running / Transaction Order Dependence\n'''\nThe `missing()` function is public and can be called by anyone to set the contract owner. This creates a classic front-running vulnerability: an attacker can monitor the mempool for a transaction invoking `missing()` and submit their own transaction with a higher gas price to execute first. Once the attacker becomes the owner, they can immediately call `withdraw()` to drain the contract's entire balance. This attack exploits the fact that the order of transaction execution can be influenced by gas price bidding.\n\n**Mitigation (without code upgrade):** Ensure that the owner is set only once at deployment by using a proper constructor (i.e., a function with the same name as the contract) or by adding an initialization modifier that prevents re-initialization (e.g., require(owner == address(0))). Since the contract is already deployed, users should be aware that any pending transaction to `missing()` can be front-run; recommend calling `missing()` with a high gas price or using a private transaction relay to avoid front-running. However, the safest fix is to deploy a corrected version of the contract where ownership is established in the constructor.\n'''\nDetector: TODDetector\nClassification: SWC-114, DASP-7",
+            "name": "Transaction Order Dependence (front-running)",
+            "severity": "medium"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name2.sol",
+            "message": "Lack of Authorization Identified.\n\nACCESS CONTROL - Incorrect Constructor Name\n```\nThe contract `Missing` defines a function named `missing()` (lowercase) intended to be the constructor, but due to case mismatch (the contract name is \"Missing\" with capital M), it becomes a regular public function. Any user can call `missing()` to set themselves as the owner of the contract, bypassing the intended initialization. Subsequently, the attacker can call `withdraw()` (protected by the `onlyowner` modifier) to transfer the entire contract balance to their address.\n\n**Mitigation**: Ensure the constructor function name exactly matches the contract name, or use the modern `constructor` keyword introduced in Solidity 0.4.22. For example, replace `function missing() public` with `function Missing() public` or `constructor() public`.\n```\nDetector: LackAuthorizationDetector\nClassification: SWC-105 (approx.), DASP-2",
+            "name": "Missing Access Control / Authorization",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name2.sol",
+            "message": "Misdeclared Constructor Identified.\n\n```\nIncorrect Constructor Name (Misdeclared Constructor)\n'''\nThe contract defines a public function `missing()` (lowercase) intended to be the constructor, but due to Solidity's case sensitivity, it does not match the contract name `Missing`. In Solidity versions prior to 0.4.22, constructors must be functions with exactly the same name as the contract (including case). Because the function name is different, `missing()` becomes a regular public function that any external user can call to set themselves as `owner`, bypassing access control. This allows an attacker to become the owner and then call `withdraw()` to drain the contract's balance.\n\n**Recommended Mitigation:**\n- Use the `constructor` keyword (available since Solidity 0.4.22) to declare the constructor explicitly, e.g., `constructor() public { owner = msg.sender; }`.\n- If sticking with the older syntax, rename the function to exactly match the contract name (i.e., `Missing()`) and ensure it is not public (or use `internal` visibility) to prevent external calls. However, the modern approach using `constructor` is preferred.\n```\nDetector: MisdeclaredConstructorDetector\nClassification: SWC-118",
+            "name": "Incorrect Constructor Name (legacy syntax)",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name2.sol",
+            "message": "Ownership Hijacking Identify.\n\nOwnership Hijacking (Incorrect Constructor Name)\n'''\nThe contract `Missing` has a function named `missing()` (lowercase) that is intended to be the constructor but fails to match the contract name exactly (which is `Missing` with uppercase M). In Solidity ^0.4.24, constructors must have the same name as the contract. Because of this mismatch, `missing()` becomes a regular public function, callable by anyone. Any address can invoke `missing()` to set itself as `owner`, thereby gaining unauthorized access to the `onlyowner`-protected `withdraw()` function and draining the contract balance.\n\n**Mitigation:** Ensure the constructor function is correctly named `Missing` (exactly matching the contract name) or use the modern `constructor` keyword. For example:\n```solidity\nconstructor() public {\n    owner = msg.sender;\n}\n```\nAlternatively, rename the function to `Missing` (capital M) to align with the contract name. This prevents unauthorized ownership change.\n```\nDetector: OwnershipHijackingDetector\nClassification: DASP-2 (no specific SWC)",
+            "name": "Unprotected Ownership Change",
+            "severity": "high"
+        },
+        {
+            "filename": "access_control\\incorrect_constructor_name2.sol",
+            "message": "Centralization Risk Identified.\n\nOwnership Hijacking / Incorrect Constructor Name\n'''\nThe contract `Missing` has a function named `missing()` (lowercase) that was intended to be the constructor but does not match the contract name `Missing` (uppercase). In Solidity ^0.4.24, constructors must have exactly the same name as the contract. Because of this mismatch, `missing()` becomes a regular public function callable by any external address. An attacker can call `missing()` to set themselves as the `owner`, thereby gaining control of the `onlyowner`-protected `withdraw()` function. Once the attacker is the owner, they can call `withdraw()` to drain the entire contract balance.\n\nThis introduces a critical centralization risk: the `withdraw` function is exclusively controlled by a single address (the owner), and that ownership can be hijacked by anyone. Even after fixing the constructor, the contract still has a centralization risk because the owner alone can transfer all funds. There is no multi-signature, timelock, or decentralized governance for this privileged operation, making the contract vulnerable to abuse or compromise of the owner\u2019s private key.\n\n**Mitigation:** \n1. Correct the constructor name to match the contract name (`Missing`) or use the modern `constructor` keyword:\n   ```solidity\n   constructor() public {\n       owner = msg.sender;\n   }\n   ```\n2. Reduce centralization risk by implementing multi-signature or timelock mechanisms for sensitive functions like `withdraw`, or consider using a decentralized governance model (e.g., DAO) to control critical operations. Additionally, restrict the `withdraw` function to require multiple approvals or a time delay to prevent single-point control.\n```\nDetector: CentralizationRiskDetector\nClassification: DASP-2 / governance (no standard SWC)",
+            "name": "Centralization Risk",
+            "severity": "medium"
+        }
+    ],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/deepseek-v4-flash",
+        "categories checked: 41/41",
+        "context window: 65536 tokens, smallest completion budget: 8192"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

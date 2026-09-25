@@ -1,0 +1,384 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "PnL",
+            "filename": "17_PnL.sol",
+            "function": "handleInvestGain",
+            "impact": "Medium",
+            "line": 1125,
+            "line_end": 1164,
+            "message": "PnL.handleInvestGain(uint256,uint256,uint256,address) (17_PnL.sol#1125-1164) performs a multiplication on the result of a division:\n\t- pwrdProfit = profit.mul(pwrdAssets).div(totalAssets) (17_PnL.sol#1147)\n\t- factor = pwrdAssets.mul(10000).div(gvtAssets) (17_PnL.sol#1149)\n\t- portionFromPwrdProfit = pwrdProfit.mul(factor).div(10000) (17_PnL.sol#1157)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PnL",
+            "filename": "17_PnL.sol",
+            "function": "handleInvestGain",
+            "impact": "Medium",
+            "line": 1125,
+            "line_end": 1164,
+            "message": "PnL.handleInvestGain(uint256,uint256,uint256,address) (17_PnL.sol#1125-1164) performs a multiplication on the result of a division:\n\t- factor = pwrdAssets.mul(10000).div(gvtAssets) (17_PnL.sol#1149)\n\t- factor = factor.mul(3).div(8).add(3000) (17_PnL.sol#1152)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PnL",
+            "filename": "17_PnL.sol",
+            "function": "distributeStrategyGainLoss",
+            "impact": "Medium",
+            "line": 1196,
+            "line_end": 1235,
+            "message": "Reentrancy in PnL.distributeStrategyGainLoss(uint256,uint256,address) (17_PnL.sol#1196-1235):\n\tExternal calls:\n\t- gvt.mint(reward,gvt.factor(gvtAssets),performanceBonus) (17_PnL.sol#1211)\n\tState variables written after the call(s):\n\t- lastGvtAssets = gvtAssets (17_PnL.sol#1215)\n\tPnL.lastGvtAssets (17_PnL.sol#1004) can be used in cross function reentrancies:\n\t- PnL.calcPnL() (17_PnL.sol#1099-1101)\n\t- PnL.constructor(address,address,uint256,uint256) (17_PnL.sol#1026-1034)\n\t- PnL.decreaseGTokenLastAmount(bool,uint256,uint256) (17_PnL.sol#1067-1096)\n\t- PnL.distributePriceChange(uint256) (17_PnL.sol#1237-1262)\n\t- PnL.distributeStrategyGainLoss(uint256,uint256,address) (17_PnL.sol#1196-1235)\n\t- PnL.forceDistribute() (17_PnL.sol#1185-1194)\n\t- PnL.increaseGTokenLastAmount(bool,uint256) (17_PnL.sol#1053-1061)\n\t- PnL.lastGvtAssets (17_PnL.sol#1004)\n\t- PnL.utilisationRatio() (17_PnL.sol#1104-1106)\n\t- lastPwrdAssets = pwrdAssets (17_PnL.sol#1216)\n\tPnL.lastPwrdAssets (17_PnL.sol#1005) can be used in cross function reentrancies:\n\t- PnL.calcPnL() (17_PnL.sol#1099-1101)\n\t- PnL.constructor(address,address,uint256,uint256) (17_PnL.sol#1026-1034)\n\t- PnL.decreaseGTokenLastAmount(bool,uint256,uint256) (17_PnL.sol#1067-1096)\n\t- PnL.distributePriceChange(uint256) (17_PnL.sol#1237-1262)\n\t- PnL.distributeStrategyGainLoss(uint256,uint256,address) (17_PnL.sol#1196-1235)\n\t- PnL.forceDistribute() (17_PnL.sol#1185-1194)\n\t- PnL.increaseGTokenLastAmount(bool,uint256) (17_PnL.sol#1053-1061)\n\t- PnL.lastPwrdAssets (17_PnL.sol#1005)\n\t- PnL.utilisationRatio() (17_PnL.sol#1104-1106)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_PnL.sol",
+            "impact": "Medium",
+            "line": 1204,
+            "message": "PnL.distributeStrategyGainLoss(uint256,uint256,address).performanceBonus (17_PnL.sol#1204) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_PnL.sol",
+            "impact": "Medium",
+            "line": 1207,
+            "message": "PnL.distributeStrategyGainLoss(uint256,uint256,address).investPnL (17_PnL.sol#1207) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "17_PnL.sol",
+            "impact": "Medium",
+            "line": 1139,
+            "message": "PnL.handleInvestGain(uint256,uint256,uint256,address).performanceBonus (17_PnL.sol#1139) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Low",
+            "line": 1028,
+            "message": "PnL.constructor(address,address,uint256,uint256).gvt (17_PnL.sol#1028) shadows:\n\t- FixedGTokens.gvt (17_PnL.sol#911) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Low",
+            "line": 1027,
+            "message": "PnL.constructor(address,address,uint256,uint256).pwrd (17_PnL.sol#1027) shadows:\n\t- FixedGTokens.pwrd (17_PnL.sol#910) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Low",
+            "line": 1053,
+            "message": "PnL.increaseGTokenLastAmount(bool,uint256).pwrd (17_PnL.sol#1053) shadows:\n\t- FixedGTokens.pwrd (17_PnL.sol#910) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "IToken",
+            "filename": "17_PnL.sol",
+            "function": "totalAssets",
+            "impact": "Low",
+            "line": 781,
+            "message": "IToken.factor(uint256).totalAssets (17_PnL.sol#781) shadows:\n\t- IToken.totalAssets() (17_PnL.sol#797) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Low",
+            "line": 1068,
+            "message": "PnL.decreaseGTokenLastAmount(bool,uint256,uint256).pwrd (17_PnL.sol#1068) shadows:\n\t- FixedGTokens.pwrd (17_PnL.sol#910) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PnL",
+            "filename": "17_PnL.sol",
+            "function": "distributeStrategyGainLoss",
+            "impact": "Low",
+            "line": 1196,
+            "line_end": 1235,
+            "message": "Reentrancy in PnL.distributeStrategyGainLoss(uint256,uint256,address) (17_PnL.sol#1196-1235):\n\tExternal calls:\n\t- gvt.mint(reward,gvt.factor(gvtAssets),performanceBonus) (17_PnL.sol#1211)\n\tEvent emitted after the call(s):\n\t- LogPnLExecution(0,investPnL,investPnL,0,0,performanceBonus,lastGA,lastPA,lastGvtAssets,lastPwrdAssets) (17_PnL.sol#1223-1234)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_PnL.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 305,
+            "line_end": 314,
+            "message": "Address.isContract(address) (17_PnL.sol#305-314) uses assembly\n\t- INLINE ASM (17_PnL.sol#312)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_PnL.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 426,
+            "line_end": 443,
+            "message": "Address._verifyCallResult(bool,bytes,string) (17_PnL.sol#426-443) uses assembly\n\t- INLINE ASM (17_PnL.sol#435-438)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedStablecoins",
+            "filename": "17_PnL.sol",
+            "function": "getToken",
+            "impact": "Informational",
+            "line": 882,
+            "line_end": 890,
+            "message": "FixedStablecoins.getToken(uint256) (17_PnL.sol#882-890) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedStablecoins",
+            "filename": "17_PnL.sol",
+            "function": "underlyingTokens",
+            "impact": "Informational",
+            "line": 876,
+            "line_end": 880,
+            "message": "FixedStablecoins.underlyingTokens() (17_PnL.sol#876-880) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedStablecoins",
+            "filename": "17_PnL.sol",
+            "function": "getDecimal",
+            "impact": "Informational",
+            "line": 898,
+            "line_end": 906,
+            "message": "FixedStablecoins.getDecimal(uint256) (17_PnL.sol#898-906) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedVaults",
+            "filename": "17_PnL.sol",
+            "function": "vaults",
+            "impact": "Informational",
+            "line": 948,
+            "line_end": 952,
+            "message": "FixedVaults.vaults() (17_PnL.sol#948-952) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "17_PnL.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 543,
+            "line_end": 546,
+            "message": "Context._msgData() (17_PnL.sol#543-546) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedVaults",
+            "filename": "17_PnL.sol",
+            "function": "getVault",
+            "impact": "Informational",
+            "line": 938,
+            "line_end": 946,
+            "message": "FixedVaults.getVault(uint256) (17_PnL.sol#938-946) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedGTokens",
+            "filename": "17_PnL.sol",
+            "function": "gTokens",
+            "impact": "Informational",
+            "line": 918,
+            "line_end": 924,
+            "message": "FixedGTokens.gTokens(bool) (17_PnL.sol#918-924) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedStablecoins",
+            "filename": "17_PnL.sol",
+            "function": "decimals",
+            "impact": "Informational",
+            "line": 892,
+            "line_end": 896,
+            "message": "FixedStablecoins.decimals() (17_PnL.sol#892-896) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (17_PnL.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_PnL.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 418,
+            "line_end": 424,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (17_PnL.sol#418-424):\n\t- (success,returndata) = target.staticcall(data) (17_PnL.sol#422)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_PnL.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 332,
+            "line_end": 338,
+            "message": "Low level call in Address.sendValue(address,uint256) (17_PnL.sol#332-338):\n\t- (success,None) = recipient.call{value: amount}() (17_PnL.sol#336)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "17_PnL.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 393,
+            "line_end": 400,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (17_PnL.sol#393-400):\n\t- (success,returndata) = target.call{value: value}(data) (17_PnL.sol#398)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 1038,
+            "message": "Parameter PnL.setRebase(bool)._rebase (17_PnL.sol#1038) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 860,
+            "message": "Variable FixedStablecoins.USDC (17_PnL.sol#860) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 918,
+            "message": "Parameter FixedGTokens.gTokens(bool)._pwrd (17_PnL.sol#918) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 864,
+            "message": "Variable FixedStablecoins.USDC_DECIMALS (17_PnL.sol#864) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 928,
+            "message": "Variable FixedVaults.DAI_VAULT (17_PnL.sol#928) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 930,
+            "message": "Variable FixedVaults.USDT_VAULT (17_PnL.sol#930) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 863,
+            "message": "Variable FixedStablecoins.DAI_DECIMALS (17_PnL.sol#863) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 929,
+            "message": "Variable FixedVaults.USDC_VAULT (17_PnL.sol#929) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 859,
+            "message": "Variable FixedStablecoins.DAI (17_PnL.sol#859) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 865,
+            "message": "Variable FixedStablecoins.USDT_DECIMALS (17_PnL.sol#865) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 861,
+            "message": "Variable FixedStablecoins.USDT (17_PnL.sol#861) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 1045,
+            "message": "Parameter PnL.setPerformanceFee(uint256)._performanceFee (17_PnL.sol#1045) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "17_PnL.sol",
+            "impact": "Informational",
+            "line": 544,
+            "message": "Redundant expression \"this (17_PnL.sol#544)\" inContext (17_PnL.sol#538-547)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

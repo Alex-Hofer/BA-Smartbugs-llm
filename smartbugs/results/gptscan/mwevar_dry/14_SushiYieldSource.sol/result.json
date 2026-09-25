@@ -1,0 +1,19 @@
+{
+    "errors": [
+        "WARNING  static_check: Falcon is not initialized, skipping first deposit check",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Warning: SPDX license i ... . --> /work/input/14_SushiYieldSource.sol:7:1: | 7 | import \"./ISushi.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^",
+        "solc rejected 14_SushiYieldSource.sol: Warning: SPDX license identifier not provided in source file. ...  --> /work/input/14_SushiYieldSource.sol:7:1 : | 7 | import \"./ISushi.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=13, est_cost_usd=0.0014",
+        "static confirmation filtered LLM candidates: 5 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,71 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Medium",
+            "line": 393,
+            "message": "CompoundMultiOracle._peek(bytes6,bytes6).rawPrice (25_CompoundMultiOracle.sol#393) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.1 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.8.1 (25_CompoundMultiOracle.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Informational",
+            "line": 291,
+            "message": "Variable Constants.RATE (25_CompoundMultiOracle.sol#291) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Informational",
+            "line": 290,
+            "message": "Variable Constants.CHI (25_CompoundMultiOracle.sol#290) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "CompoundMultiOracle",
+            "filename": "25_CompoundMultiOracle.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 340,
+            "line_end": 411,
+            "message": "CompoundMultiOracle.slitherConstructorConstantVariables() (25_CompoundMultiOracle.sol#340-411) uses literals with too many digits:\n\t- ROOT = 0x00000000 (25_CompoundMultiOracle.sol#52)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Optimization",
+            "line": 290,
+            "message": "Constants.CHI (25_CompoundMultiOracle.sol#290) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "25_CompoundMultiOracle.sol",
+            "impact": "Optimization",
+            "line": 291,
+            "message": "Constants.RATE (25_CompoundMultiOracle.sol#291) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

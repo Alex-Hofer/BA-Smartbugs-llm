@@ -1,0 +1,69 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Ethraffle_v4b",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "function": "endRaffle",
+            "impact": "Low",
+            "line": 143,
+            "line_end": 161,
+            "message": "Ethraffle_v4b.endRaffle() (../sb/etheraffle.sol#143-161) has external calls inside a loop: contestants[i].addr.transfer(pricePerTicket) (../sb/etheraffle.sol#150)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Ethraffle_v4b",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "function": "buyTickets",
+            "impact": "Informational",
+            "line": 64,
+            "line_end": 95,
+            "message": "Ethraffle_v4b.buyTickets() (../sb/etheraffle.sol#64-95) has costly operations inside a loop:\n\t- currTicket = nextTicket ++ (../sb/etheraffle.sol#78)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "impact": "Informational",
+            "line": 8,
+            "message": "Version constraint ^0.4.16 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector.\nIt is used by:\n\t- ^0.4.16 (../sb/etheraffle.sol#8)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "impact": "Informational",
+            "line": 10,
+            "line_end": 174,
+            "message": "Contract Ethraffle_v4b (../sb/etheraffle.sol#10-174) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Ethraffle_v4b",
+            "filename": "bad_randomness\\etheraffle.sol",
+            "function": "endRaffle",
+            "impact": "Informational",
+            "line": 143,
+            "line_end": 161,
+            "message": "Reentrancy in Ethraffle_v4b.endRaffle() (../sb/etheraffle.sol#143-161):\n\tExternal calls:\n\t- contestants[i].addr.transfer(pricePerTicket) (../sb/etheraffle.sol#150)\n\tState variables written after the call(s):\n\t- blockNumber = block.number (../sb/etheraffle.sol#158)\n\t- gaps.length = 0 (../sb/etheraffle.sol#159)\n\t- nextTicket = 0 (../sb/etheraffle.sol#156)\n\t- raffleId ++ (../sb/etheraffle.sol#155)\n\tEvent emitted after the call(s):\n\t- RaffleResult(raffleId,totalTickets,address(0),address(0),address(0),0,0) (../sb/etheraffle.sol#154)\n\t- TicketRefund(raffleId,contestants[i].addr,i) (../sb/etheraffle.sol#149)\n",
+            "name": "reentrancy-unlimited-gas"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

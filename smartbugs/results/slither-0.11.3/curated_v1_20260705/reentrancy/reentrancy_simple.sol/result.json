@@ -1,0 +1,57 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Reentrance",
+            "filename": "reentrancy\\reentrancy_simple.sol",
+            "function": "withdrawBalance",
+            "impact": "High",
+            "line": 20,
+            "line_end": 28,
+            "message": "Reentrancy in Reentrance.withdrawBalance() (../sb/reentrancy_simple.sol#20-28):\n\tExternal calls:\n\t- ! (msg.sender.call.value(userBalance[msg.sender])()) (../sb/reentrancy_simple.sol#24)\n\tState variables written after the call(s):\n\t- userBalance[msg.sender] = 0 (../sb/reentrancy_simple.sol#27)\n\tReentrance.userBalance (../sb/reentrancy_simple.sol#10) can be used in cross function reentrancies:\n\t- Reentrance.addToBalance() (../sb/reentrancy_simple.sol#16-18)\n\t- Reentrance.getBalance(address) (../sb/reentrancy_simple.sol#12-14)\n\t- Reentrance.withdrawBalance() (../sb/reentrancy_simple.sol#20-28)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\reentrancy_simple.sol",
+            "impact": "Informational",
+            "line": 25,
+            "message": "Deprecated standard detected THROW (../sb/reentrancy_simple.sol#25):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\reentrancy_simple.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.15 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector.\nIt is used by:\n\t- ^0.4.15 (../sb/reentrancy_simple.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\reentrancy_simple.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Reentrance",
+            "filename": "reentrancy\\reentrancy_simple.sol",
+            "function": "withdrawBalance",
+            "impact": "Informational",
+            "line": 20,
+            "line_end": 28,
+            "message": "Low level call in Reentrance.withdrawBalance() (../sb/reentrancy_simple.sol#20-28):\n\t- ! (msg.sender.call.value(userBalance[msg.sender])()) (../sb/reentrancy_simple.sol#24)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

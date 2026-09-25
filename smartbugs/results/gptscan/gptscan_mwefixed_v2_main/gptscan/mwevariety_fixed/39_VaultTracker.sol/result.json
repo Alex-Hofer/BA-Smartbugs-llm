@@ -1,0 +1,36 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: addNotional, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: matureVault, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: redeemInterest, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: removeNotional, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFrom, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFrom, current vul: unauthorized-transfer",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... lyze_pipeline.py\" , line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 232, in si ... ue\", s, err.value) from None json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation",
+        "TimeoutError: Timeout",
+        "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\39_VaultTracker.sol",
+            "line": 225,
+            "line_end": 263,
+            "message": "Liquidity token value/price can be manipulated to cause flashloan attacks.\nRecommendation: Do not use AMM pool or custom liquidity calculation to caculate LP token value/price.\nGPTScan code: price-manipulation",
+            "name": "MWE-200: Insecure LP Token Value Calculation",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=38, est_cost_usd=0.0133",
+        "static confirmation filtered LLM candidates: 13 before, 1 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

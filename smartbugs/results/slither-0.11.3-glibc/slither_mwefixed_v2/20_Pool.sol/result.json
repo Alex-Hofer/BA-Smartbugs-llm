@@ -1,0 +1,528 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "swapTo",
+            "impact": "High",
+            "line": 340,
+            "line_end": 355,
+            "message": "Pool.swapTo(address,address) (20_Pool.sol#340-355) ignores return value by iBEP20(token).transfer(member,outputAmount) (20_Pool.sol#353)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "removeForMember",
+            "impact": "High",
+            "line": 321,
+            "line_end": 331,
+            "message": "Pool.removeForMember(address) (20_Pool.sol#321-331) ignores return value by iBEP20(TOKEN).transfer(member,outputToken) (20_Pool.sol#328)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "High",
+            "line": 374,
+            "line_end": 386,
+            "message": "Pool.burnSynth(address,address) (20_Pool.sol#374-386) ignores return value by iBEP20(BASE).transfer(member,outputBase) (20_Pool.sol#382)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "High",
+            "line": 374,
+            "line_end": 386,
+            "message": "Pool.burnSynth(address,address) (20_Pool.sol#374-386) ignores return value by iBEP20(synthIN).transfer(synthIN,_actualInputSynth) (20_Pool.sol#379)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "removeForMember",
+            "impact": "High",
+            "line": 321,
+            "line_end": 331,
+            "message": "Pool.removeForMember(address) (20_Pool.sol#321-331) ignores return value by iBEP20(BASE).transfer(member,outputBase) (20_Pool.sol#327)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "_addPoolMetrics",
+            "impact": "Medium",
+            "line": 463,
+            "line_end": 476,
+            "message": "Pool._addPoolMetrics(uint256) (20_Pool.sol#463-476) uses a dangerous strict equality:\n\t- lastMonth == 0 (20_Pool.sol#464)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "addForMember",
+            "impact": "Medium",
+            "line": 302,
+            "line_end": 313,
+            "message": "Pool.addForMember(address) (20_Pool.sol#302-313) uses a dangerous strict equality:\n\t- baseAmount == 0 || tokenAmount == 0 (20_Pool.sol#305)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "addRevenue",
+            "impact": "Medium",
+            "line": 478,
+            "line_end": 484,
+            "message": "Pool.addRevenue(uint256) (20_Pool.sol#478-484) uses a dangerous strict equality:\n\t- ! (revenueArray.length == 2) (20_Pool.sol#479)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "swapTo",
+            "impact": "Medium",
+            "line": 142,
+            "line_end": 493,
+            "message": "Contract locking ether found:\n\tContract Pool (20_Pool.sol#142-493) has payable functions:\n\t - Pool.swapTo(address,address) (20_Pool.sol#340-355)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "Medium",
+            "line": 374,
+            "line_end": 386,
+            "message": "Reentrancy in Pool.burnSynth(address,address) (20_Pool.sol#374-386):\n\tExternal calls:\n\t- iBEP20(synthIN).transfer(synthIN,_actualInputSynth) (20_Pool.sol#379)\n\t- iSYNTH(synthIN).burnSynth() (20_Pool.sol#380)\n\tState variables written after the call(s):\n\t- _decrementPoolBalances(outputBase,0) (20_Pool.sol#381)\n\t\t- baseAmount -= _baseAmount (20_Pool.sol#457)\n\tPool.baseAmount (20_Pool.sol#152) can be used in cross function reentrancies:\n\t- Pool._decrementPoolBalances(uint256,uint256) (20_Pool.sol#456-459)\n\t- Pool._getAddedBaseAmount() (20_Pool.sol#391-399)\n\t- Pool._incrementPoolBalances(uint256,uint256) (20_Pool.sol#444-447)\n\t- Pool._setPoolAmounts(uint256,uint256) (20_Pool.sol#450-453)\n\t- Pool._swapBaseToToken(uint256) (20_Pool.sol#413-422)\n\t- Pool._swapTokenToBase(uint256) (20_Pool.sol#425-433)\n\t- Pool.addForMember(address) (20_Pool.sol#302-313)\n\t- Pool.baseAmount (20_Pool.sol#152)\n\t- Pool.burnSynth(address,address) (20_Pool.sol#374-386)\n\t- Pool.mintSynth(address,address) (20_Pool.sol#358-371)\n\t- Pool.sync() (20_Pool.sol#438-441)\n\t- _decrementPoolBalances(outputBase,0) (20_Pool.sol#381)\n\t\t- tokenAmount -= _tokenAmount (20_Pool.sol#458)\n\tPool.tokenAmount (20_Pool.sol#153) can be used in cross function reentrancies:\n\t- Pool._decrementPoolBalances(uint256,uint256) (20_Pool.sol#456-459)\n\t- Pool._getAddedTokenAmount() (20_Pool.sol#402-410)\n\t- Pool._incrementPoolBalances(uint256,uint256) (20_Pool.sol#444-447)\n\t- Pool._setPoolAmounts(uint256,uint256) (20_Pool.sol#450-453)\n\t- Pool._swapBaseToToken(uint256) (20_Pool.sol#413-422)\n\t- Pool._swapTokenToBase(uint256) (20_Pool.sol#425-433)\n\t- Pool.addForMember(address) (20_Pool.sol#302-313)\n\t- Pool.burnSynth(address,address) (20_Pool.sol#374-386)\n\t- Pool.mintSynth(address,address) (20_Pool.sol#358-371)\n\t- Pool.sync() (20_Pool.sol#438-441)\n\t- Pool.tokenAmount (20_Pool.sol#153)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "Medium",
+            "line": 374,
+            "line_end": 386,
+            "message": "Pool.burnSynth(address,address) (20_Pool.sol#374-386) ignores return value by iSYNTH(synthIN).burnSynth() (20_Pool.sol#380)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "mintSynth",
+            "impact": "Medium",
+            "line": 358,
+            "line_end": 371,
+            "message": "Pool.mintSynth(address,address) (20_Pool.sol#358-371) ignores return value by iSYNTH(synthOut).mintSynth(member,output) (20_Pool.sol#367)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "20_Pool.sol",
+            "impact": "Low",
+            "line": 172,
+            "message": "Pool.constructor(address,address)._base (20_Pool.sol#172) lacks a zero-check on :\n\t\t- BASE = _base (20_Pool.sol#173)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "20_Pool.sol",
+            "impact": "Low",
+            "line": 172,
+            "message": "Pool.constructor(address,address)._token (20_Pool.sol#172) lacks a zero-check on :\n\t\t- TOKEN = _token (20_Pool.sol#174)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "Low",
+            "line": 374,
+            "line_end": 386,
+            "message": "Reentrancy in Pool.burnSynth(address,address) (20_Pool.sol#374-386):\n\tExternal calls:\n\t- iBEP20(synthIN).transfer(synthIN,_actualInputSynth) (20_Pool.sol#379)\n\t- iSYNTH(synthIN).burnSynth() (20_Pool.sol#380)\n\t- iBEP20(BASE).transfer(member,outputBase) (20_Pool.sol#382)\n\tState variables written after the call(s):\n\t- _addPoolMetrics(fee) (20_Pool.sol#383)\n\t\t- lastMonth = block.timestamp (20_Pool.sol#465)\n\t\t- lastMonth = block.timestamp (20_Pool.sol#470)\n\t- _addPoolMetrics(fee) (20_Pool.sol#383)\n\t\t- map30DPoolRevenue = map30DPoolRevenue + (_fee) (20_Pool.sol#468)\n\t\t- map30DPoolRevenue = 0 (20_Pool.sol#473)\n\t\t- map30DPoolRevenue = map30DPoolRevenue + (_fee) (20_Pool.sol#474)\n\t- _addPoolMetrics(fee) (20_Pool.sol#383)\n\t\t- mapPast30DPoolRevenue = map30DPoolRevenue (20_Pool.sol#471)\n\t- _addPoolMetrics(fee) (20_Pool.sol#383)\n\t\t- revenueArray.push(_totalRev) (20_Pool.sol#480)\n\t\t- revenueArray[i] = revenueArray[i - 1] (20_Pool.sol#489)\n\t\t- revenueArray[0] = _rev (20_Pool.sol#491)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "mintSynth",
+            "impact": "Low",
+            "line": 358,
+            "line_end": 371,
+            "message": "Reentrancy in Pool.mintSynth(address,address) (20_Pool.sol#358-371):\n\tExternal calls:\n\t- iSYNTH(synthOut).mintSynth(member,output) (20_Pool.sol#367)\n\tState variables written after the call(s):\n\t- _addPoolMetrics(fee) (20_Pool.sol#368)\n\t\t- lastMonth = block.timestamp (20_Pool.sol#465)\n\t\t- lastMonth = block.timestamp (20_Pool.sol#470)\n\t- _addPoolMetrics(fee) (20_Pool.sol#368)\n\t\t- map30DPoolRevenue = map30DPoolRevenue + (_fee) (20_Pool.sol#468)\n\t\t- map30DPoolRevenue = 0 (20_Pool.sol#473)\n\t\t- map30DPoolRevenue = map30DPoolRevenue + (_fee) (20_Pool.sol#474)\n\t- _addPoolMetrics(fee) (20_Pool.sol#368)\n\t\t- mapPast30DPoolRevenue = map30DPoolRevenue (20_Pool.sol#471)\n\t- _addPoolMetrics(fee) (20_Pool.sol#368)\n\t\t- revenueArray.push(_totalRev) (20_Pool.sol#480)\n\t\t- revenueArray[i] = revenueArray[i - 1] (20_Pool.sol#489)\n\t\t- revenueArray[0] = _rev (20_Pool.sol#491)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "removeForMember",
+            "impact": "Low",
+            "line": 321,
+            "line_end": 331,
+            "message": "Reentrancy in Pool.removeForMember(address) (20_Pool.sol#321-331):\n\tExternal calls:\n\t- iBEP20(BASE).transfer(member,outputBase) (20_Pool.sol#327)\n\t- iBEP20(TOKEN).transfer(member,outputToken) (20_Pool.sol#328)\n\tEvent emitted after the call(s):\n\t- RemoveLiquidity(member,outputBase,outputToken,_actualInputUnits) (20_Pool.sol#329)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "mintSynth",
+            "impact": "Low",
+            "line": 358,
+            "line_end": 371,
+            "message": "Reentrancy in Pool.mintSynth(address,address) (20_Pool.sol#358-371):\n\tExternal calls:\n\t- iSYNTH(synthOut).mintSynth(member,output) (20_Pool.sol#367)\n\tEvent emitted after the call(s):\n\t- MintSynth(member,BASE,_actualInputBase,TOKEN,outputAmount) (20_Pool.sol#369)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "Low",
+            "line": 374,
+            "line_end": 386,
+            "message": "Reentrancy in Pool.burnSynth(address,address) (20_Pool.sol#374-386):\n\tExternal calls:\n\t- iBEP20(synthIN).transfer(synthIN,_actualInputSynth) (20_Pool.sol#379)\n\t- iSYNTH(synthIN).burnSynth() (20_Pool.sol#380)\n\t- iBEP20(BASE).transfer(member,outputBase) (20_Pool.sol#382)\n\tEvent emitted after the call(s):\n\t- BurnSynth(member,BASE,outputBase,TOKEN,_actualInputSynth) (20_Pool.sol#384)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "_addPoolMetrics",
+            "impact": "Low",
+            "line": 463,
+            "line_end": 476,
+            "message": "Pool._addPoolMetrics(uint256) (20_Pool.sol#463-476) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- lastMonth == 0 (20_Pool.sol#464)\n\t- block.timestamp <= lastMonth + 2592000 (20_Pool.sol#467)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "burnSynth",
+            "impact": "Informational",
+            "line": 374,
+            "line_end": 386,
+            "message": "Pool.burnSynth(address,address) (20_Pool.sol#374-386) compares to a boolean constant:\n\t-require(bool,string)(iSYNTHFACTORY(_DAO().SYNTHFACTORY()).isSynth(synthIN) == true,!synth) (20_Pool.sol#375)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "mintSynth",
+            "impact": "Informational",
+            "line": 358,
+            "line_end": 371,
+            "message": "Pool.mintSynth(address,address) (20_Pool.sol#358-371) compares to a boolean constant:\n\t-require(bool,string)(iSYNTHFACTORY(_DAO().SYNTHFACTORY()).isSynth(synthOut) == true,!synth) (20_Pool.sol#359)\n",
+            "name": "boolean-equal"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.3 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory.\nIt is used by:\n\t- 0.8.3 (20_Pool.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 145,
+            "message": "Variable Pool.DEPLOYER (20_Pool.sol#145) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "UTILS",
+            "impact": "Informational",
+            "line": 51,
+            "message": "Function iDAO.UTILS() (20_Pool.sol#51) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "BASE",
+            "impact": "Informational",
+            "line": 50,
+            "message": "Function iDAO.BASE() (20_Pool.sol#50) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "BOND",
+            "impact": "Informational",
+            "line": 54,
+            "message": "Function iDAO.BOND() (20_Pool.sol#54) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 88,
+            "line_end": 98,
+            "message": "Contract iROUTER (20_Pool.sol#88-98) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 8,
+            "line_end": 21,
+            "message": "Contract iBEP20 (20_Pool.sol#8-21) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 144,
+            "message": "Variable Pool.TOKEN (20_Pool.sol#144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "POOLFACTORY",
+            "impact": "Informational",
+            "line": 56,
+            "message": "Function iDAO.POOLFACTORY() (20_Pool.sol#56) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Pool",
+            "filename": "20_Pool.sol",
+            "function": "_DAO",
+            "impact": "Informational",
+            "line": 168,
+            "line_end": 170,
+            "message": "Function Pool._DAO() (20_Pool.sol#168-170) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 78,
+            "line_end": 83,
+            "message": "Contract iDAOVAULT (20_Pool.sol#78-83) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 115,
+            "line_end": 118,
+            "message": "Contract iSYNTHFACTORY (20_Pool.sol#115-118) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 124,
+            "line_end": 127,
+            "message": "Contract iBEP677 (20_Pool.sol#124-127) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 43,
+            "message": "Contract iUTILS (20_Pool.sol#26-43) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "SYNTHFACTORY",
+            "impact": "Informational",
+            "line": 55,
+            "message": "Function iDAO.SYNTHFACTORY() (20_Pool.sol#55) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 48,
+            "line_end": 59,
+            "message": "Contract iDAO (20_Pool.sol#48-59) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 103,
+            "line_end": 110,
+            "message": "Contract iSYNTH (20_Pool.sol#103-110) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "ROUTER",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Function iDAO.ROUTER() (20_Pool.sol#49) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 143,
+            "message": "Variable Pool.BASE (20_Pool.sol#143) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iBASE",
+            "filename": "20_Pool.sol",
+            "function": "DAO",
+            "impact": "Informational",
+            "line": 66,
+            "message": "Function iBASE.DAO() (20_Pool.sol#66) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 65,
+            "line_end": 73,
+            "message": "Contract iBASE (20_Pool.sol#65-73) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 486,
+            "message": "Parameter Pool.addFee(uint256)._rev (20_Pool.sol#486) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "RESERVE",
+            "impact": "Informational",
+            "line": 53,
+            "message": "Function iDAO.RESERVE() (20_Pool.sol#53) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Informational",
+            "line": 478,
+            "message": "Parameter Pool.addRevenue(uint256)._totalRev (20_Pool.sol#478) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iDAO",
+            "filename": "20_Pool.sol",
+            "function": "DAO",
+            "impact": "Informational",
+            "line": 52,
+            "message": "Function iDAO.DAO() (20_Pool.sol#52) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "iSYNTH",
+            "filename": "20_Pool.sol",
+            "function": "LayerONE",
+            "impact": "Informational",
+            "line": 106,
+            "message": "Function iSYNTH.LayerONE() (20_Pool.sol#106) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Optimization",
+            "line": 143,
+            "message": "Pool.BASE (20_Pool.sol#143) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Optimization",
+            "line": 156,
+            "message": "Pool.genesis (20_Pool.sol#156) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Optimization",
+            "line": 148,
+            "message": "Pool.decimals (20_Pool.sol#148) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Optimization",
+            "line": 145,
+            "message": "Pool.DEPLOYER (20_Pool.sol#145) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "20_Pool.sol",
+            "impact": "Optimization",
+            "line": 144,
+            "message": "Pool.TOKEN (20_Pool.sol#144) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

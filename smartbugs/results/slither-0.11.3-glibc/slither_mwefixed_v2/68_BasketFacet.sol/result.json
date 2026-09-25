@@ -1,0 +1,590 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "exitPool",
+            "impact": "Medium",
+            "line": 1386,
+            "line_end": 1432,
+            "message": "BasketFacet.exitPool(uint256,uint16) (68_BasketFacet.sol#1386-1432) performs a multiplication on the result of a division:\n\t- feeAmount = _amount.mul(bs.exitFee).div(10 ** 18) (68_BasketFacet.sol#1398)\n\t- feeBeneficiaryShare = feeAmount.mul(bs.exitFeeBeneficiaryShare).div(10 ** 18) (68_BasketFacet.sol#1419-1420)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LibDiamond",
+            "filename": "68_BasketFacet.sol",
+            "function": "addReplaceRemoveFacetSelectors",
+            "impact": "Medium",
+            "line": 1016,
+            "line_end": 1118,
+            "message": "LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[]) (68_BasketFacet.sol#1016-1118) performs a multiplication on the result of a division:\n\t- selectorSlotCount = _selectorCount / 8 (68_BasketFacet.sol#1062)\n\t- _selectorCount = selectorSlotCount * 8 + selectorInSlotIndex + 1 (68_BasketFacet.sol#1113)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "calcTokensForAmount",
+            "impact": "Medium",
+            "line": 1530,
+            "line_end": 1560,
+            "message": "BasketFacet.calcTokensForAmount(uint256) (68_BasketFacet.sol#1530-1560) performs a multiplication on the result of a division:\n\t- tokenAmount = tokenBalance.mul(_amount).div(totalSupply) (68_BasketFacet.sol#1549)\n\t- tokenAmount = tokenAmount.add(tokenAmount.mul(bs.entryFee).div(10 ** 18)) (68_BasketFacet.sol#1551-1553)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "calcOutStandingAnnualizedFee",
+            "impact": "Medium",
+            "line": 1434,
+            "line_end": 1461,
+            "message": "BasketFacet.calcOutStandingAnnualizedFee() (68_BasketFacet.sol#1434-1461) performs a multiplication on the result of a division:\n\t- totalSupply.mul(annualizedFee).div(10 ** 18).mul(timePassed).div(31536000) (68_BasketFacet.sol#1457-1460)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "joinPool",
+            "impact": "Medium",
+            "line": 1341,
+            "line_end": 1383,
+            "message": "BasketFacet.joinPool(uint256,uint16) (68_BasketFacet.sol#1341-1383) performs a multiplication on the result of a division:\n\t- feeAmount = _amount.mul(bs.entryFee).div(10 ** 18) (68_BasketFacet.sol#1356)\n\t- feeBeneficiaryShare = feeAmount.mul(bs.entryFeeBeneficiaryShare).div(10 ** 18) (68_BasketFacet.sol#1374-1375)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Medium",
+            "line": 989,
+            "message": "LibDiamond.diamondCut(IDiamondCut.FacetCut[],address,bytes).selectorSlot (68_BasketFacet.sol#989) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "balance",
+            "impact": "Low",
+            "line": 1511,
+            "line_end": 1513,
+            "message": "BasketFacet.balance(address) (68_BasketFacet.sol#1511-1513) has external calls inside a loop: IERC20(_token).balanceOf(address(this)) (68_BasketFacet.sol#1512)\n\tCalls stack containing the loop:\n\t\tBasketFacet.calcTokensForAmountExit(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "balance",
+            "impact": "Low",
+            "line": 1511,
+            "line_end": 1513,
+            "message": "BasketFacet.balance(address) (68_BasketFacet.sol#1511-1513) has external calls inside a loop: IERC20(_token).balanceOf(address(this)) (68_BasketFacet.sol#1512)\n\tCalls stack containing the loop:\n\t\tBasketFacet.calcTokensForAmount(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "balance",
+            "impact": "Low",
+            "line": 1511,
+            "line_end": 1513,
+            "message": "BasketFacet.balance(address) (68_BasketFacet.sol#1511-1513) has external calls inside a loop: IERC20(_token).balanceOf(address(this)) (68_BasketFacet.sol#1512)\n\tCalls stack containing the loop:\n\t\tBasketFacet.joinPool(uint256,uint16)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "balance",
+            "impact": "Low",
+            "line": 1511,
+            "line_end": 1513,
+            "message": "BasketFacet.balance(address) (68_BasketFacet.sol#1511-1513) has external calls inside a loop: IERC20(_token).balanceOf(address(this)) (68_BasketFacet.sol#1512)\n\tCalls stack containing the loop:\n\t\tBasketFacet.exitPool(uint256,uint16)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "joinPool",
+            "impact": "Low",
+            "line": 1341,
+            "line_end": 1383,
+            "message": "Reentrancy in BasketFacet.joinPool(uint256,uint16) (68_BasketFacet.sol#1341-1383):\n\tExternal calls:\n\t- token.safeTransferFrom(msg.sender,address(this),tokenAmount) (68_BasketFacet.sol#1365)\n\tEvent emitted after the call(s):\n\t- PoolJoined(msg.sender,_amount,_referral) (68_BasketFacet.sol#1382)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "exitPool",
+            "impact": "Low",
+            "line": 1386,
+            "line_end": 1432,
+            "message": "Reentrancy in BasketFacet.exitPool(uint256,uint16) (68_BasketFacet.sol#1386-1432):\n\tExternal calls:\n\t- token.safeTransfer(msg.sender,tokenAmount) (68_BasketFacet.sol#1410)\n\tEvent emitted after the call(s):\n\t- PoolExited(msg.sender,_amount,_referral) (68_BasketFacet.sol#1431)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BasketFacet",
+            "filename": "68_BasketFacet.sol",
+            "function": "chargeOutstandingAnnualizedFee",
+            "impact": "Low",
+            "line": 1463,
+            "line_end": 1477,
+            "message": "BasketFacet.chargeOutstandingAnnualizedFee() (68_BasketFacet.sol#1463-1477) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- outStandingFee != 0 (68_BasketFacet.sol#1472)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 327,
+            "line_end": 336,
+            "message": "Address.isContract(address) (68_BasketFacet.sol#327-336) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#334)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibDiamond",
+            "filename": "68_BasketFacet.sol",
+            "function": "enforceHasContractCode",
+            "impact": "Informational",
+            "line": 1140,
+            "line_end": 1146,
+            "message": "LibDiamond.enforceHasContractCode(address,string) (68_BasketFacet.sol#1140-1146) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#1142-1144)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibReentryProtectionStorage",
+            "filename": "68_BasketFacet.sol",
+            "function": "rpStorage",
+            "impact": "Informational",
+            "line": 843,
+            "line_end": 848,
+            "message": "LibReentryProtectionStorage.rpStorage() (68_BasketFacet.sol#843-848) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#845-847)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 472,
+            "line_end": 489,
+            "message": "Address._verifyCallResult(bool,bytes,string) (68_BasketFacet.sol#472-489) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#481-484)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibDiamond",
+            "filename": "68_BasketFacet.sol",
+            "function": "diamondStorage",
+            "impact": "Informational",
+            "line": 941,
+            "line_end": 946,
+            "message": "LibDiamond.diamondStorage() (68_BasketFacet.sol#941-946) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#943-945)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibBasketStorage",
+            "filename": "68_BasketFacet.sol",
+            "function": "basketStorage",
+            "impact": "Informational",
+            "line": 1190,
+            "line_end": 1195,
+            "message": "LibBasketStorage.basketStorage() (68_BasketFacet.sol#1190-1195) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#1192-1194)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibERC20Storage",
+            "filename": "68_BasketFacet.sol",
+            "function": "erc20Storage",
+            "impact": "Informational",
+            "line": 788,
+            "line_end": 793,
+            "message": "LibERC20Storage.erc20Storage() (68_BasketFacet.sol#788-793) uses assembly\n\t- INLINE ASM (68_BasketFacet.sol#790-792)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibDiamond",
+            "filename": "68_BasketFacet.sol",
+            "function": "addReplaceRemoveFacetSelectors",
+            "impact": "Informational",
+            "line": 1016,
+            "line_end": 1118,
+            "message": "LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[]) (68_BasketFacet.sol#1016-1118) has a high cyclomatic complexity (12).\n",
+            "name": "cyclomatic-complexity"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "message": "solc-0.7.6 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.7.6 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching.\nIt is used by:\n\t- 0.7.6 (68_BasketFacet.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 415,
+            "line_end": 422,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (68_BasketFacet.sol#415-422):\n\t- (success,returndata) = target.call{value: value}(data) (68_BasketFacet.sol#420)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 440,
+            "line_end": 446,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (68_BasketFacet.sol#440-446):\n\t- (success,returndata) = target.staticcall(data) (68_BasketFacet.sol#444)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 354,
+            "line_end": 360,
+            "message": "Low level call in Address.sendValue(address,uint256) (68_BasketFacet.sol#354-360):\n\t- (success,None) = recipient.call{value: amount}() (68_BasketFacet.sol#358)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "68_BasketFacet.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 464,
+            "line_end": 470,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (68_BasketFacet.sol#464-470):\n\t- (success,returndata) = target.delegatecall(data) (68_BasketFacet.sol#468)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "LibDiamond",
+            "filename": "68_BasketFacet.sol",
+            "function": "initializeDiamondCut",
+            "impact": "Informational",
+            "line": 1120,
+            "line_end": 1138,
+            "message": "Low level call in LibDiamond.initializeDiamondCut(address,bytes) (68_BasketFacet.sol#1120-1138):\n\t- (success,error) = _init.delegatecall(_calldata) (68_BasketFacet.sol#1128)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1120,
+            "message": "Parameter LibDiamond.initializeDiamondCut(address,bytes)._init (68_BasketFacet.sol#1120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "Parameter BasketFacet.setAnnualizedFee(uint256)._fee (68_BasketFacet.sol#1278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1511,
+            "message": "Parameter BasketFacet.balance(address)._token (68_BasketFacet.sol#1511) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1018,
+            "message": "Parameter LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[])._selectorSlot (68_BasketFacet.sol#1018) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1017,
+            "message": "Parameter LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[])._selectorCount (68_BasketFacet.sol#1017) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter LibDiamond.enforceHasContractCode(address,string)._contract (68_BasketFacet.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 810,
+            "message": "Parameter LibERC20.mint(address,uint256)._amount (68_BasketFacet.sol#810) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1120,
+            "message": "Parameter LibDiamond.initializeDiamondCut(address,bytes)._calldata (68_BasketFacet.sol#1120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 983,
+            "message": "Parameter LibDiamond.diamondCut(IDiamondCut.FacetCut[],address,bytes)._init (68_BasketFacet.sol#983) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1341,
+            "message": "Parameter BasketFacet.joinPool(uint256,uint16)._referral (68_BasketFacet.sol#1341) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter LibDiamond.enforceHasContractCode(address,string)._errorMessage (68_BasketFacet.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1386,
+            "message": "Parameter BasketFacet.exitPool(uint256,uint16)._referral (68_BasketFacet.sol#1386) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 810,
+            "message": "Parameter LibERC20.mint(address,uint256)._to (68_BasketFacet.sol#810) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1562,
+            "message": "Parameter BasketFacet.calcTokensForAmountExit(uint256)._amount (68_BasketFacet.sol#1562) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 821,
+            "message": "Parameter LibERC20.burn(address,uint256)._amount (68_BasketFacet.sol#821) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 982,
+            "message": "Parameter LibDiamond.diamondCut(IDiamondCut.FacetCut[],address,bytes)._diamondCut (68_BasketFacet.sol#982) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1225,
+            "message": "Parameter BasketFacet.addToken(address)._token (68_BasketFacet.sol#1225) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1322,
+            "message": "Parameter BasketFacet.setExitFeeBeneficiaryShare(uint256)._share (68_BasketFacet.sol#1322) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1258,
+            "message": "Parameter BasketFacet.setEntryFee(uint256)._fee (68_BasketFacet.sol#1258) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1021,
+            "message": "Parameter LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[])._selectors (68_BasketFacet.sol#1021) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1530,
+            "message": "Parameter BasketFacet.calcTokensForAmount(uint256)._amount (68_BasketFacet.sol#1530) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1303,
+            "message": "Parameter BasketFacet.setEntryFeeBeneficiaryShare(uint256)._share (68_BasketFacet.sol#1303) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1486,
+            "message": "Parameter BasketFacet.getTokenInPool(address)._token (68_BasketFacet.sol#1486) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1386,
+            "message": "Parameter BasketFacet.exitPool(uint256,uint16)._amount (68_BasketFacet.sol#1386) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 950,
+            "message": "Parameter LibDiamond.setContractOwner(address)._newOwner (68_BasketFacet.sol#950) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1019,
+            "message": "Parameter LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[])._newFacetAddress (68_BasketFacet.sol#1019) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1341,
+            "message": "Parameter BasketFacet.joinPool(uint256,uint16)._amount (68_BasketFacet.sol#1341) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 984,
+            "message": "Parameter LibDiamond.diamondCut(IDiamondCut.FacetCut[],address,bytes)._calldata (68_BasketFacet.sol#984) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1020,
+            "message": "Parameter LibDiamond.addReplaceRemoveFacetSelectors(uint256,bytes32,address,IDiamondCut.FacetCutAction,bytes4[])._action (68_BasketFacet.sol#1020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1500,
+            "message": "Parameter BasketFacet.setLock(uint256)._lock (68_BasketFacet.sol#1500) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1268,
+            "message": "Parameter BasketFacet.setExitFee(uint256)._fee (68_BasketFacet.sol#1268) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1239,
+            "message": "Parameter BasketFacet.removeToken(address)._token (68_BasketFacet.sol#1239) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1289,
+            "message": "Parameter BasketFacet.setFeeBeneficiary(address)._beneficiary (68_BasketFacet.sol#1289) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 1505,
+            "message": "Parameter BasketFacet.setCap(uint256)._maxCap (68_BasketFacet.sol#1505) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "68_BasketFacet.sol",
+            "impact": "Informational",
+            "line": 821,
+            "message": "Parameter LibERC20.burn(address,uint256)._from (68_BasketFacet.sol#821) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

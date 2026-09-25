@@ -1,0 +1,820 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "sponsor",
+            "impact": "High",
+            "line": 2995,
+            "line_end": 3011,
+            "message": "RCTreasury.sponsor(address,uint256) (13_RCTreasury.sol#2995-3011) uses arbitrary from in transferFrom: erc20.transferFrom(_sponsor,address(this),_amount) (13_RCTreasury.sol#3007)\n",
+            "name": "arbitrary-send-erc20"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "sponsor",
+            "impact": "High",
+            "line": 2995,
+            "line_end": 3011,
+            "message": "RCTreasury.sponsor(address,uint256) (13_RCTreasury.sol#2995-3011) ignores return value by erc20.transferFrom(_sponsor,address(this),_amount) (13_RCTreasury.sol#3007)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "deposit",
+            "impact": "High",
+            "line": 2808,
+            "line_end": 2845,
+            "message": "RCTreasury.deposit(uint256,address) (13_RCTreasury.sol#2808-2845) ignores return value by erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2827)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "topupMarketBalance",
+            "impact": "High",
+            "line": 2901,
+            "line_end": 2909,
+            "message": "RCTreasury.topupMarketBalance(uint256) (13_RCTreasury.sol#2901-2909) ignores return value by erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2902)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "withdrawDeposit",
+            "impact": "High",
+            "line": 2851,
+            "line_end": 2897,
+            "message": "RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897) ignores return value by erc20.transfer(_msgSender,_amount) (13_RCTreasury.sol#2879)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCTreasury.sol",
+            "function": "executeMetaTransaction",
+            "impact": "Medium",
+            "line": 2548,
+            "line_end": 3288,
+            "message": "Contract locking ether found:\n\tContract RCTreasury (13_RCTreasury.sol#2548-3288) has payable functions:\n\t - NativeMetaTransaction.executeMetaTransaction(address,bytes,bytes32,bytes32,uint8) (13_RCTreasury.sol#2099-2135)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 2808,
+            "line_end": 2845,
+            "message": "Reentrancy in RCTreasury.deposit(uint256,address) (13_RCTreasury.sol#2808-2845):\n\tExternal calls:\n\t- erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2827)\n\t- orderbook.removeOldBids(_user) (13_RCTreasury.sol#2830)\n\tState variables written after the call(s):\n\t- totalDeposits += _amount (13_RCTreasury.sol#2833)\n\tRCTreasury.totalDeposits (13_RCTreasury.sol#2565) can be used in cross function reentrancies:\n\t- RCTreasury._increaseMarketBalance(uint256,address) (13_RCTreasury.sol#3277-3283)\n\t- RCTreasury.balancedBooks() (13_RCTreasury.sol#2653-2661)\n\t- RCTreasury.deposit(uint256,address) (13_RCTreasury.sol#2808-2845)\n\t- RCTreasury.payout(address,uint256) (13_RCTreasury.sol#2958-2973)\n\t- RCTreasury.refundUser(address,uint256) (13_RCTreasury.sol#2976-2992)\n\t- RCTreasury.totalDeposits (13_RCTreasury.sol#2565)\n\t- RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "sponsor",
+            "impact": "Medium",
+            "line": 2995,
+            "line_end": 3011,
+            "message": "Reentrancy in RCTreasury.sponsor(address,uint256) (13_RCTreasury.sol#2995-3011):\n\tExternal calls:\n\t- erc20.transferFrom(_sponsor,address(this),_amount) (13_RCTreasury.sol#3007)\n\tState variables written after the call(s):\n\t- totalMarketPots += _amount (13_RCTreasury.sol#3009)\n\tRCTreasury.totalMarketPots (13_RCTreasury.sol#2569) can be used in cross function reentrancies:\n\t- RCTreasury.balancedBooks() (13_RCTreasury.sol#2653-2661)\n\t- RCTreasury.payRent(uint256) (13_RCTreasury.sol#2935-2953)\n\t- RCTreasury.payout(address,uint256) (13_RCTreasury.sol#2958-2973)\n\t- RCTreasury.sponsor(address,uint256) (13_RCTreasury.sol#2995-3011)\n\t- RCTreasury.totalMarketPots (13_RCTreasury.sol#2569)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "setBridgeAddress",
+            "impact": "Medium",
+            "line": 2786,
+            "line_end": 2791,
+            "message": "RCTreasury.setBridgeAddress(address) (13_RCTreasury.sol#2786-2791) ignores return value by erc20.approve(_newBridge,type()(uint256).max) (13_RCTreasury.sol#2790)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "contract": "Context",
+            "filename": "13_RCTreasury.sol",
+            "function": "_msgSender",
+            "impact": "Low",
+            "line": 2857,
+            "message": "RCTreasury.withdrawDeposit(uint256,bool)._msgSender (13_RCTreasury.sol#2857) shadows:\n\t- Context._msgSender() (13_RCTreasury.sol#21-23) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "topupMarketBalance",
+            "impact": "Low",
+            "line": 2901,
+            "line_end": 2909,
+            "message": "RCTreasury.topupMarketBalance(uint256) (13_RCTreasury.sol#2901-2909) should emit an event for: \n\t- marketBalance += _amount (13_RCTreasury.sol#2908) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "payRent",
+            "impact": "Low",
+            "line": 2935,
+            "line_end": 2953,
+            "message": "RCTreasury.payRent(uint256) (13_RCTreasury.sol#2935-2953) should emit an event for: \n\t- marketBalance -= _amount (13_RCTreasury.sol#2948) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "addToWhitelist",
+            "impact": "Low",
+            "line": 2739,
+            "line_end": 2743,
+            "message": "RCTreasury.addToWhitelist(address) (13_RCTreasury.sol#2739-2743) has external calls inside a loop: require(bool,string)(factory.isGovernor(msgSender()),Not authorised) (13_RCTreasury.sol#2741)\n\tCalls stack containing the loop:\n\t\tRCTreasury.batchAddToWhitelist(address[])\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "sponsor",
+            "impact": "Low",
+            "line": 2995,
+            "line_end": 3011,
+            "message": "Reentrancy in RCTreasury.sponsor(address,uint256) (13_RCTreasury.sol#2995-3011):\n\tExternal calls:\n\t- erc20.transferFrom(_sponsor,address(this),_amount) (13_RCTreasury.sol#3007)\n\tState variables written after the call(s):\n\t- marketPot[msgSender()] += _amount (13_RCTreasury.sol#3008)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2808,
+            "line_end": 2845,
+            "message": "Reentrancy in RCTreasury.deposit(uint256,address) (13_RCTreasury.sol#2808-2845):\n\tExternal calls:\n\t- erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2827)\n\t- orderbook.removeOldBids(_user) (13_RCTreasury.sol#2830)\n\tState variables written after the call(s):\n\t- isForeclosed[_user] = false (13_RCTreasury.sol#2841)\n\t- user[_user].deposit += SafeCast.toUint128(_amount) (13_RCTreasury.sol#2832)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "withdrawDeposit",
+            "impact": "Low",
+            "line": 2851,
+            "line_end": 2897,
+            "message": "Reentrancy in RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897):\n\tExternal calls:\n\t- erc20.transfer(_msgSender,_amount) (13_RCTreasury.sol#2879)\n\t- bridge.withdrawToMainnet(_msgSender,_amount) (13_RCTreasury.sol#2882)\n\t- isForeclosed[_msgSender] = orderbook.removeUserFromOrderbook(_msgSender) (13_RCTreasury.sol#2892-2894)\n\tState variables written after the call(s):\n\t- isForeclosed[_msgSender] = orderbook.removeUserFromOrderbook(_msgSender) (13_RCTreasury.sol#2892-2894)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "withdrawDeposit",
+            "impact": "Low",
+            "line": 2851,
+            "line_end": 2897,
+            "message": "Reentrancy in RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897):\n\tExternal calls:\n\t- erc20.transfer(_msgSender,_amount) (13_RCTreasury.sol#2879)\n\t- bridge.withdrawToMainnet(_msgSender,_amount) (13_RCTreasury.sol#2882)\n\tState variables written after the call(s):\n\t- isForeclosed[_msgSender] = true (13_RCTreasury.sol#2891)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "topupMarketBalance",
+            "impact": "Low",
+            "line": 2901,
+            "line_end": 2909,
+            "message": "Reentrancy in RCTreasury.topupMarketBalance(uint256) (13_RCTreasury.sol#2901-2909):\n\tExternal calls:\n\t- erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2902)\n\tState variables written after the call(s):\n\t- marketBalance += _amount (13_RCTreasury.sol#2908)\n\t- marketBalanceDiscrepancy = 0 (13_RCTreasury.sol#2904)\n\t- marketBalanceDiscrepancy -= _amount (13_RCTreasury.sol#2906)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 2808,
+            "line_end": 2845,
+            "message": "Reentrancy in RCTreasury.deposit(uint256,address) (13_RCTreasury.sol#2808-2845):\n\tExternal calls:\n\t- erc20.transferFrom(msgSender(),address(this),_amount) (13_RCTreasury.sol#2827)\n\t- orderbook.removeOldBids(_user) (13_RCTreasury.sol#2830)\n\tEvent emitted after the call(s):\n\t- LogAdjustDeposit(_user,_amount,true) (13_RCTreasury.sol#2834)\n\t- LogUserForeclosed(_user,false) (13_RCTreasury.sol#2842)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "withdrawDeposit",
+            "impact": "Low",
+            "line": 2851,
+            "line_end": 2897,
+            "message": "Reentrancy in RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897):\n\tExternal calls:\n\t- erc20.transfer(_msgSender,_amount) (13_RCTreasury.sol#2879)\n\t- bridge.withdrawToMainnet(_msgSender,_amount) (13_RCTreasury.sol#2882)\n\t- isForeclosed[_msgSender] = orderbook.removeUserFromOrderbook(_msgSender) (13_RCTreasury.sol#2892-2894)\n\tEvent emitted after the call(s):\n\t- LogUserForeclosed(_msgSender,isForeclosed[_msgSender]) (13_RCTreasury.sol#2895)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "withdrawDeposit",
+            "impact": "Low",
+            "line": 2851,
+            "line_end": 2897,
+            "message": "RCTreasury.withdrawDeposit(uint256,bool) (13_RCTreasury.sol#2851-2897) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(user[_msgSender].bidRate == 0 || block.timestamp - (user[_msgSender].lastRentalTime) > uint256(86400) / minRentalDayDivisor,Too soon) (13_RCTreasury.sol#2861-2866)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "depositAbleToWithdraw",
+            "impact": "Low",
+            "line": 3171,
+            "line_end": 3182,
+            "message": "RCTreasury.depositAbleToWithdraw(address) (13_RCTreasury.sol#3171-3182) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- collection >= user[_user].deposit (13_RCTreasury.sol#3177)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "collectRentUser",
+            "impact": "Low",
+            "line": 3232,
+            "line_end": 3274,
+            "message": "RCTreasury.collectRentUser(address,uint256) (13_RCTreasury.sol#3232-3274) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- assert(bool)(_timeToCollectTo != 0) (13_RCTreasury.sol#3238)\n\t- user[_user].lastRentCalc < _timeToCollectTo (13_RCTreasury.sol#3239)\n\t- rentOwedByUser > 0 && rentOwedByUser > user[_user].deposit (13_RCTreasury.sol#3242)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "rentOwedBetweenTimestmaps",
+            "impact": "Low",
+            "line": 3157,
+            "line_end": 3166,
+            "message": "RCTreasury.rentOwedBetweenTimestmaps(uint256,uint256,uint256) (13_RCTreasury.sol#3157-3166) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- _time1 < _time2 (13_RCTreasury.sol#3162)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "foreclosureTimeUser",
+            "impact": "Low",
+            "line": 3188,
+            "line_end": 3224,
+            "message": "RCTreasury.foreclosureTimeUser(address,uint256,uint256) (13_RCTreasury.sol#3188-3224) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- foreclosureTimeWithoutNewCard > _timeOfNewBid (13_RCTreasury.sol#3203)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "payRent",
+            "impact": "Low",
+            "line": 2935,
+            "line_end": 2953,
+            "message": "RCTreasury.payRent(uint256) (13_RCTreasury.sol#2935-2953) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- marketBalance < _amount (13_RCTreasury.sol#2943)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "13_RCTreasury.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 399,
+            "line_end": 414,
+            "message": "console._sendLogPayloadImplementation(bytes) (13_RCTreasury.sol#399-414) uses assembly\n\t- INLINE ASM (13_RCTreasury.sol#402-413)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "13_RCTreasury.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 416,
+            "line_end": 422,
+            "message": "console._castToPure(function(bytes)) (13_RCTreasury.sol#416-422) uses assembly\n\t- INLINE ASM (13_RCTreasury.sol#419-421)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCTreasury.sol",
+            "function": "msgSender",
+            "impact": "Informational",
+            "line": 2175,
+            "line_end": 2190,
+            "message": "NativeMetaTransaction.msgSender() (13_RCTreasury.sol#2175-2190) uses assembly\n\t- INLINE ASM (13_RCTreasury.sol#2179-2185)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "13_RCTreasury.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 28,
+            "message": "Context._msgData() (13_RCTreasury.sol#25-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.4 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables.\nIt is used by:\n\t- 0.8.4 (13_RCTreasury.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "NativeMetaTransaction",
+            "filename": "13_RCTreasury.sol",
+            "function": "executeMetaTransaction",
+            "impact": "Informational",
+            "line": 2099,
+            "line_end": 2135,
+            "message": "Low level call in NativeMetaTransaction.executeMetaTransaction(address,bytes,bytes32,bytes32,uint8) (13_RCTreasury.sol#2099-2135):\n\t- (success,returnData) = address(this).call(abi.encodePacked(functionSignature,userAddress)) (13_RCTreasury.sol#2128-2131)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2915,
+            "message": "Parameter RCTreasury.checkSponsorship(address,uint256)._amount (13_RCTreasury.sol#2915) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3070,
+            "message": "Parameter RCTreasury.updateRentalRate(address,address,uint256,uint256,uint256)._newPrice (13_RCTreasury.sol#3070) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3158,
+            "message": "Parameter RCTreasury.rentOwedBetweenTimestmaps(uint256,uint256,uint256)._time1 (13_RCTreasury.sol#3158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2698,
+            "message": "Parameter RCTreasury.setMinRental(uint256)._newDivisor (13_RCTreasury.sol#2698) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2314,
+            "message": "Parameter IRealitio.isFinalized(bytes32).question_id (13_RCTreasury.sol#2314) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2680,
+            "message": "Parameter RCTreasury.addMarket(address)._newMarket (13_RCTreasury.sol#2680) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3141,
+            "message": "Parameter RCTreasury.rentOwedUser(address,uint256)._timeOfCollection (13_RCTreasury.sol#3141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3111,
+            "message": "Parameter RCTreasury.increaseBidRate(address,uint256)._user (13_RCTreasury.sol#3111) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3120,
+            "message": "Parameter RCTreasury.decreaseBidRate(address,uint256)._price (13_RCTreasury.sol#3120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3171,
+            "message": "Parameter RCTreasury.depositAbleToWithdraw(address)._user (13_RCTreasury.sol#3171) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2786,
+            "message": "Parameter RCTreasury.setBridgeAddress(address)._newBridge (13_RCTreasury.sol#2786) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3071,
+            "message": "Parameter RCTreasury.updateRentalRate(address,address,uint256,uint256,uint256)._timeOwnershipChanged (13_RCTreasury.sol#3071) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3035,
+            "message": "Parameter RCTreasury.userTotalBids(address)._user (13_RCTreasury.sol#3035) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2304,
+            "message": "Parameter IRealitio.askQuestion(uint256,string,address,uint32,uint32,uint256).template_id (13_RCTreasury.sol#2304) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2723,
+            "message": "Parameter RCTreasury.changePauseMarket(address)._market (13_RCTreasury.sol#2723) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2976,
+            "message": "Parameter RCTreasury.refundUser(address,uint256)._refund (13_RCTreasury.sol#2976) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2995,
+            "message": "Parameter RCTreasury.sponsor(address,uint256)._sponsor (13_RCTreasury.sol#2995) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2851,
+            "message": "Parameter RCTreasury.withdrawDeposit(uint256,bool)._amount (13_RCTreasury.sol#2851) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 395,
+            "line_end": 1943,
+            "message": "Contract console (13_RCTreasury.sol#395-1943) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3069,
+            "message": "Parameter RCTreasury.updateRentalRate(address,address,uint256,uint256,uint256)._oldPrice (13_RCTreasury.sol#3069) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2808,
+            "message": "Parameter RCTreasury.deposit(uint256,address)._user (13_RCTreasury.sol#2808) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3129,
+            "message": "Parameter RCTreasury.resetUser(address)._user (13_RCTreasury.sol#3129) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3067,
+            "message": "Parameter RCTreasury.updateRentalRate(address,address,uint256,uint256,uint256)._oldOwner (13_RCTreasury.sol#3067) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3232,
+            "message": "Parameter RCTreasury.collectRentUser(address,uint256)._timeToCollectTo (13_RCTreasury.sol#3232) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3159,
+            "message": "Parameter RCTreasury.rentOwedBetweenTimestmaps(uint256,uint256,uint256)._time2 (13_RCTreasury.sol#3159) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2958,
+            "message": "Parameter RCTreasury.payout(address,uint256)._user (13_RCTreasury.sol#2958) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2780,
+            "message": "Parameter RCTreasury.setTokenAddress(address)._newToken (13_RCTreasury.sol#2780) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3232,
+            "message": "Parameter RCTreasury.collectRentUser(address,uint256)._user (13_RCTreasury.sol#3232) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2958,
+            "message": "Parameter RCTreasury.payout(address,uint256)._amount (13_RCTreasury.sol#2958) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3160,
+            "message": "Parameter RCTreasury.rentOwedBetweenTimestmaps(uint256,uint256,uint256)._price (13_RCTreasury.sol#3160) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2312,
+            "message": "Parameter IRealitio.resultFor(bytes32).question_id (13_RCTreasury.sol#2312) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3046,
+            "message": "Parameter RCTreasury.userDeposit(address)._user (13_RCTreasury.sol#3046) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3189,
+            "message": "Parameter RCTreasury.foreclosureTimeUser(address,uint256,uint256)._user (13_RCTreasury.sol#3189) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2935,
+            "message": "Parameter RCTreasury.payRent(uint256)._amount (13_RCTreasury.sol#2935) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2995,
+            "message": "Parameter RCTreasury.sponsor(address,uint256)._amount (13_RCTreasury.sol#2995) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2316,
+            "message": "Parameter IRealitio.getContentHash(bytes32).question_id (13_RCTreasury.sol#2316) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3190,
+            "message": "Parameter RCTreasury.foreclosureTimeUser(address,uint256,uint256)._newBid (13_RCTreasury.sol#3190) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2774,
+            "message": "Parameter RCTreasury.setNftHubAddress(address)._NFTHubAddress (13_RCTreasury.sol#2774) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3120,
+            "message": "Parameter RCTreasury.decreaseBidRate(address,uint256)._user (13_RCTreasury.sol#3120) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3111,
+            "message": "Parameter RCTreasury.increaseBidRate(address,uint256)._price (13_RCTreasury.sol#3111) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2851,
+            "message": "Parameter RCTreasury.withdrawDeposit(uint256,bool)._localWithdrawal (13_RCTreasury.sol#2851) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3068,
+            "message": "Parameter RCTreasury.updateRentalRate(address,address,uint256,uint256,uint256)._newOwner (13_RCTreasury.sol#3068) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2808,
+            "message": "Parameter RCTreasury.deposit(uint256,address)._amount (13_RCTreasury.sol#2808) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3016,
+            "message": "Parameter RCTreasury.updateLastRentalTime(address)._user (13_RCTreasury.sol#3016) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2762,
+            "message": "Parameter RCTreasury.setFactoryAddress(address)._newFactory (13_RCTreasury.sol#2762) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2739,
+            "message": "Parameter RCTreasury.addToWhitelist(address)._user (13_RCTreasury.sol#2739) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3141,
+            "message": "Parameter RCTreasury.rentOwedUser(address,uint256)._user (13_RCTreasury.sol#3141) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2976,
+            "message": "Parameter RCTreasury.refundUser(address,uint256)._user (13_RCTreasury.sol#2976) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2901,
+            "message": "Parameter RCTreasury.topupMarketBalance(uint256)._amount (13_RCTreasury.sol#2901) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 3191,
+            "message": "Parameter RCTreasury.foreclosureTimeUser(address,uint256,uint256)._timeOfNewBid (13_RCTreasury.sol#3191) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2308,
+            "message": "Parameter IRealitio.askQuestion(uint256,string,address,uint32,uint32,uint256).opening_ts (13_RCTreasury.sol#2308) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2793,
+            "message": "Parameter RCTreasury.changeUberOwner(address)._newUberOwner (13_RCTreasury.sol#2793) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2704,
+            "message": "Parameter RCTreasury.setMaxContractBalance(uint256)._newBalanceLimit (13_RCTreasury.sol#2704) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2768,
+            "message": "Parameter RCTreasury.setOrderbookAddress(address)._newOrderbook (13_RCTreasury.sol#2768) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 2746,
+            "message": "Parameter RCTreasury.batchAddToWhitelist(address[])._users (13_RCTreasury.sol#2746) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "13_RCTreasury.sol",
+            "impact": "Informational",
+            "line": 26,
+            "message": "Redundant expression \"this (13_RCTreasury.sol#26)\" inContext (13_RCTreasury.sol#20-29)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "RCTreasury",
+            "filename": "13_RCTreasury.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 2634,
+            "line_end": 2646,
+            "message": "RCTreasury.constructor(address) (13_RCTreasury.sol#2634-2646) uses literals with too many digits:\n\t- setMaxContractBalance(1000000000000000000000000) (13_RCTreasury.sol#2643)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

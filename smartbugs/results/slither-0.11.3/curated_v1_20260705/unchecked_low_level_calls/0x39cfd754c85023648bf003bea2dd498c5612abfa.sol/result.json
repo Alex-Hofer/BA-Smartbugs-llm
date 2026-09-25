@@ -1,0 +1,211 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "High",
+            "line": 38,
+            "message": "Token.owner (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#38) shadows:\n\t- Ownable.owner (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#12)\n",
+            "name": "shadowing-state"
+        },
+        {
+            "confidence": "High",
+            "contract": "TokenBank",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "fallback",
+            "impact": "Medium",
+            "line": 48,
+            "line_end": 105,
+            "message": "Contract locking ether found:\n\tContract TokenBank (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#48-105) has payable functions:\n\t - TokenBank.fallback() (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#61-65)\n\t - TokenBank.Deposit() (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#67-74)\n\t - TokenBank.WithdrawToHolder(address,uint256) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#87-101)\n\tBut does not have a function to withdraw the ether\n",
+            "name": "locked-ether"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Token",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "WithdrawToken",
+            "impact": "Medium",
+            "line": 39,
+            "line_end": 45,
+            "message": "Token.WithdrawToken(address,uint256,address) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#39-45) ignores return value by token.call(bytes4(sha3()(transfer(address,uint256))),to,amount) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#44)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Low",
+            "line": 39,
+            "message": "Token.WithdrawToken(address,uint256,address).to (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#39) lacks a zero-check on :\n\t\t- token.call(bytes4(sha3()(transfer(address,uint256))),to,amount) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#44)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Low",
+            "line": 14,
+            "message": "Ownable.changeOwner(address).addr (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#14) lacks a zero-check on :\n\t\t- newOwner = addr (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#18)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Low",
+            "line": 39,
+            "message": "Token.WithdrawToken(address,uint256,address).token (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#39) lacks a zero-check on :\n\t\t- token.call(bytes4(sha3()(transfer(address,uint256))),to,amount) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#44)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "contract": "Ownable",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "onlyOwner",
+            "impact": "Low",
+            "line": 30,
+            "line_end": 33,
+            "message": "Modifier Ownable.onlyOwner() (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#30-33) does not always execute _; or revert\n",
+            "name": "incorrect-modifier"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 44,
+            "message": "Deprecated standard detected token.call(bytes4(sha3()(transfer(address,uint256))),to,amount) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#44):\n\t- Usage of \"sha3()\" should be replaced with \"keccak256()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.18 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData\n\t- NestedArrayFunctionCallDecoder.\nIt is used by:\n\t- ^0.4.18 (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "Token",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "WithdrawToken",
+            "impact": "Informational",
+            "line": 39,
+            "line_end": 45,
+            "message": "Low level call in Token.WithdrawToken(address,uint256,address) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#39-45):\n\t- token.call(bytes4(sha3()(transfer(address,uint256))),to,amount) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#44)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 87,
+            "message": "Parameter TokenBank.WithdrawToHolder(address,uint256)._wei (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#87) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 87,
+            "message": "Parameter TokenBank.WithdrawToHolder(address,uint256)._addr (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#87) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 51,
+            "message": "Variable TokenBank.Holders (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#51) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "TokenBank",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "WitdrawTokenToHolder",
+            "impact": "Informational",
+            "line": 76,
+            "line_end": 85,
+            "message": "Function TokenBank.WitdrawTokenToHolder(address,address,uint256) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#76-85) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "TokenBank",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "Deposit",
+            "impact": "Informational",
+            "line": 67,
+            "line_end": 74,
+            "message": "Function TokenBank.Deposit() (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#67-74) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter TokenBank.WitdrawTokenToHolder(address,address,uint256)._to (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter TokenBank.WitdrawTokenToHolder(address,address,uint256)._token (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "TokenBank",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "WithdrawToHolder",
+            "impact": "Informational",
+            "line": 87,
+            "line_end": 101,
+            "message": "Function TokenBank.WithdrawToHolder(address,uint256) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#87-101) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "Token",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "function": "WithdrawToken",
+            "impact": "Informational",
+            "line": 39,
+            "line_end": 45,
+            "message": "Function Token.WithdrawToken(address,uint256,address) (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#39-45) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 50,
+            "message": "Variable TokenBank.MinDeposit (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#50) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x39cfd754c85023648bf003bea2dd498c5612abfa.sol",
+            "impact": "Informational",
+            "line": 76,
+            "message": "Parameter TokenBank.WitdrawTokenToHolder(address,address,uint256)._amount (../sb/0x39cfd754c85023648bf003bea2dd498c5612abfa.sol#76) is not in mixedCase\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

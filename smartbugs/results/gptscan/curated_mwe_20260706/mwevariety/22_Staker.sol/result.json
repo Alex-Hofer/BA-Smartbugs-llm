@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Function, variab ... fier declaration expected. --> /work/input/22_Staker.sol:8:1: | 8 | \u2551     VARIABLES     \u2551\u255a\u2550\u2550 ... | ^",
+        "solc rejected 22_Staker.sol: Error: Function, variable, struct or modifier declaration expected. --> /work/input/22_Staker.sol:8:1: | 8 | \u2551     VARIABLES     \u2551\u255a\u2550\u2550 ... | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,536 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Medium",
+            "line": 1101,
+            "message": "NFTXSimpleFeeDistributor.distribute(uint256).leftover (../sb/69_NFTXSimpleFeeDistributor.sol#1101) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_sendForReceiver",
+            "impact": "Medium",
+            "line": 1197,
+            "line_end": 1210,
+            "message": "NFTXSimpleFeeDistributor._sendForReceiver(INFTXSimpleFeeDistributor.FeeReceiver,uint256,address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1197-1210) ignores return value by IERC20Upgradeable(_vault).approve(_receiver.receiver,amountToSend) (../sb/69_NFTXSimpleFeeDistributor.sol#1199)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "High",
+            "contract": "PausableUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "pause",
+            "impact": "Low",
+            "line": 1180,
+            "message": "NFTXSimpleFeeDistributor.pauseFeeDistribution(bool).pause (../sb/69_NFTXSimpleFeeDistributor.sol#1180) shadows:\n\t- PausableUpgradeable.pause(uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#958-962) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXLPStaking",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "stakingToken",
+            "impact": "Low",
+            "line": 20,
+            "message": "INFTXLPStaking.rewardDistributionTokenAddr(address,address).stakingToken (../sb/69_NFTXSimpleFeeDistributor.sol#20) shadows:\n\t- INFTXLPStaking.stakingToken(address) (../sb/69_NFTXSimpleFeeDistributor.sol#15) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Low",
+            "line": 1170,
+            "message": "NFTXSimpleFeeDistributor.setInventoryStakingAddress(address)._inventoryStaking (../sb/69_NFTXSimpleFeeDistributor.sol#1170) lacks a zero-check on :\n\t\t- inventoryStaking = _inventoryStaking (../sb/69_NFTXSimpleFeeDistributor.sol#1171)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Low",
+            "line": 1175,
+            "message": "NFTXSimpleFeeDistributor.setNFTXVaultFactory(address)._factory (../sb/69_NFTXSimpleFeeDistributor.sol#1175) lacks a zero-check on :\n\t\t- nftxVaultFactory = _factory (../sb/69_NFTXSimpleFeeDistributor.sol#1176)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_sendForReceiver",
+            "impact": "Low",
+            "line": 1197,
+            "line_end": 1210,
+            "message": "NFTXSimpleFeeDistributor._sendForReceiver(INFTXSimpleFeeDistributor.FeeReceiver,uint256,address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1197-1210) has external calls inside a loop: IERC20Upgradeable(_vault).approve(_receiver.receiver,amountToSend) (../sb/69_NFTXSimpleFeeDistributor.sol#1199)\n\tCalls stack containing the loop:\n\t\tNFTXSimpleFeeDistributor.distribute(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_sendForReceiver",
+            "impact": "Low",
+            "line": 1197,
+            "line_end": 1210,
+            "message": "NFTXSimpleFeeDistributor._sendForReceiver(INFTXSimpleFeeDistributor.FeeReceiver,uint256,address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1197-1210) has external calls inside a loop: success && IERC20Upgradeable(_vault).allowance(address(this),_receiver.receiver) == 0 (../sb/69_NFTXSimpleFeeDistributor.sol#1206)\n\tCalls stack containing the loop:\n\t\tNFTXSimpleFeeDistributor.distribute(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_sendForReceiver",
+            "impact": "Low",
+            "line": 1197,
+            "line_end": 1210,
+            "message": "NFTXSimpleFeeDistributor._sendForReceiver(INFTXSimpleFeeDistributor.FeeReceiver,uint256,address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1197-1210) has external calls inside a loop: (success,None) = address(_receiver.receiver).call(payload) (../sb/69_NFTXSimpleFeeDistributor.sol#1203)\n\tCalls stack containing the loop:\n\t\tNFTXSimpleFeeDistributor.distribute(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "distribute",
+            "impact": "Low",
+            "line": 1089,
+            "line_end": 1119,
+            "message": "NFTXSimpleFeeDistributor.distribute(uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1089-1119) has external calls inside a loop: currentTokenBalance = IERC20Upgradeable(_vault).balanceOf(address(this)) (../sb/69_NFTXSimpleFeeDistributor.sol#1105)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 432,
+            "line_end": 449,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../sb/69_NFTXSimpleFeeDistributor.sol#432-449) uses assembly\n\t- INLINE ASM (../sb/69_NFTXSimpleFeeDistributor.sol#441-444)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 287,
+            "line_end": 296,
+            "message": "Address.isContract(address) (../sb/69_NFTXSimpleFeeDistributor.sol#287-296) uses assembly\n\t- INLINE ASM (../sb/69_NFTXSimpleFeeDistributor.sol#294)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 836,
+            "line_end": 839,
+            "message": "ContextUpgradeable._msgData() (../sb/69_NFTXSimpleFeeDistributor.sol#836-839) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1009,
+            "line_end": 1011,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../sb/69_NFTXSimpleFeeDistributor.sol#1009-1011) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1013,
+            "line_end": 1015,
+            "message": "ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../sb/69_NFTXSimpleFeeDistributor.sol#1013-1015) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 826,
+            "line_end": 828,
+            "message": "ContextUpgradeable.__Context_init() (../sb/69_NFTXSimpleFeeDistributor.sol#826-828) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 314,
+            "line_end": 320,
+            "message": "Low level call in Address.sendValue(address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#314-320):\n\t- (success,None) = recipient.call{value: amount}() (../sb/69_NFTXSimpleFeeDistributor.sol#318)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 400,
+            "line_end": 406,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../sb/69_NFTXSimpleFeeDistributor.sol#400-406):\n\t- (success,returndata) = target.staticcall(data) (../sb/69_NFTXSimpleFeeDistributor.sol#404)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "_sendForReceiver",
+            "impact": "Informational",
+            "line": 1197,
+            "line_end": 1210,
+            "message": "Low level call in NFTXSimpleFeeDistributor._sendForReceiver(INFTXSimpleFeeDistributor.FeeReceiver,uint256,address,uint256) (../sb/69_NFTXSimpleFeeDistributor.sol#1197-1210):\n\t- (success,None) = address(_receiver.receiver).call(payload) (../sb/69_NFTXSimpleFeeDistributor.sol#1203)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 375,
+            "line_end": 382,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../sb/69_NFTXSimpleFeeDistributor.sol#375-382):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/69_NFTXSimpleFeeDistributor.sol#380)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 424,
+            "line_end": 430,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../sb/69_NFTXSimpleFeeDistributor.sol#424-430):\n\t- (success,returndata) = target.delegatecall(data) (../sb/69_NFTXSimpleFeeDistributor.sol#428)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter NFTXSimpleFeeDistributor.__SimpleFeeDistributor__init__(address,address)._lpStaking (../sb/69_NFTXSimpleFeeDistributor.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter NFTXSimpleFeeDistributor.changeReceiverAddress(uint256,address,bool)._receiverIdx (../sb/69_NFTXSimpleFeeDistributor.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1132,
+            "message": "Parameter NFTXSimpleFeeDistributor.changeReceiverAlloc(uint256,uint256)._receiverIdx (../sb/69_NFTXSimpleFeeDistributor.sol#1132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 840,
+            "message": "Variable ContextUpgradeable.__gap (../sb/69_NFTXSimpleFeeDistributor.sol#840) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1121,
+            "message": "Parameter NFTXSimpleFeeDistributor.addReceiver(uint256,address,bool)._isContract (../sb/69_NFTXSimpleFeeDistributor.sol#1121) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 1013,
+            "line_end": 1015,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../sb/69_NFTXSimpleFeeDistributor.sol#1013-1015) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__SimpleFeeDistributor__init__",
+            "impact": "Informational",
+            "line": 58,
+            "message": "Function INFTXSimpleFeeDistributor.__SimpleFeeDistributor__init__(address,address) (../sb/69_NFTXSimpleFeeDistributor.sol#58) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1081,
+            "message": "Parameter NFTXSimpleFeeDistributor.__SimpleFeeDistributor__init__(address,address)._treasury (../sb/69_NFTXSimpleFeeDistributor.sol#1081) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 870,
+            "line_end": 873,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../sb/69_NFTXSimpleFeeDistributor.sol#870-873) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1125,
+            "message": "Parameter NFTXSimpleFeeDistributor.initializeVaultReceivers(uint256)._vaultId (../sb/69_NFTXSimpleFeeDistributor.sol#1125) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 917,
+            "message": "Variable OwnableUpgradeable.__gap (../sb/69_NFTXSimpleFeeDistributor.sol#917) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "NFTXSimpleFeeDistributor",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__SimpleFeeDistributor__init__",
+            "impact": "Informational",
+            "line": 1081,
+            "line_end": 1087,
+            "message": "Function NFTXSimpleFeeDistributor.__SimpleFeeDistributor__init__(address,address) (../sb/69_NFTXSimpleFeeDistributor.sol#1081-1087) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXVaultFactory",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__NFTXVaultFactory_init",
+            "impact": "Informational",
+            "line": 128,
+            "message": "Function INFTXVaultFactory.__NFTXVaultFactory_init(address,address) (../sb/69_NFTXSimpleFeeDistributor.sol#128) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 1009,
+            "line_end": 1011,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../sb/69_NFTXSimpleFeeDistributor.sol#1009-1011) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 830,
+            "line_end": 831,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../sb/69_NFTXSimpleFeeDistributor.sol#830-831) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1164,
+            "message": "Parameter NFTXSimpleFeeDistributor.setLPStakingAddress(address)._lpStaking (../sb/69_NFTXSimpleFeeDistributor.sol#1164) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter NFTXSimpleFeeDistributor.changeReceiverAddress(uint256,address,bool)._isContract (../sb/69_NFTXSimpleFeeDistributor.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1037,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (../sb/69_NFTXSimpleFeeDistributor.sol#1037) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXLPStaking",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__NFTXLPStaking__init",
+            "impact": "Informational",
+            "line": 23,
+            "message": "Function INFTXLPStaking.__NFTXLPStaking__init(address) (../sb/69_NFTXSimpleFeeDistributor.sol#23) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1121,
+            "message": "Parameter NFTXSimpleFeeDistributor.addReceiver(uint256,address,bool)._receiver (../sb/69_NFTXSimpleFeeDistributor.sol#1121) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1175,
+            "message": "Parameter NFTXSimpleFeeDistributor.setNFTXVaultFactory(address)._factory (../sb/69_NFTXSimpleFeeDistributor.sol#1175) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 875,
+            "line_end": 879,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../sb/69_NFTXSimpleFeeDistributor.sol#875-879) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1185,
+            "message": "Parameter NFTXSimpleFeeDistributor.rescueTokens(address)._address (../sb/69_NFTXSimpleFeeDistributor.sol#1185) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1158,
+            "message": "Parameter NFTXSimpleFeeDistributor.setTreasuryAddress(address)._treasury (../sb/69_NFTXSimpleFeeDistributor.sol#1158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1121,
+            "message": "Parameter NFTXSimpleFeeDistributor.addReceiver(uint256,address,bool)._allocPoint (../sb/69_NFTXSimpleFeeDistributor.sol#1121) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1140,
+            "message": "Parameter NFTXSimpleFeeDistributor.changeReceiverAddress(uint256,address,bool)._address (../sb/69_NFTXSimpleFeeDistributor.sol#1140) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1170,
+            "message": "Parameter NFTXSimpleFeeDistributor.setInventoryStakingAddress(address)._inventoryStaking (../sb/69_NFTXSimpleFeeDistributor.sol#1170) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1148,
+            "message": "Parameter NFTXSimpleFeeDistributor.removeReceiver(uint256)._receiverIdx (../sb/69_NFTXSimpleFeeDistributor.sol#1148) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "PausableUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Pausable_init",
+            "impact": "Informational",
+            "line": 930,
+            "line_end": 932,
+            "message": "Function PausableUpgradeable.__Pausable_init() (../sb/69_NFTXSimpleFeeDistributor.sol#930-932) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 826,
+            "line_end": 828,
+            "message": "Function ContextUpgradeable.__Context_init() (../sb/69_NFTXSimpleFeeDistributor.sol#826-828) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXInventoryStaking",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "function": "__NFTXInventoryStaking_init",
+            "impact": "Informational",
+            "line": 172,
+            "message": "Function INFTXInventoryStaking.__NFTXInventoryStaking_init(address) (../sb/69_NFTXSimpleFeeDistributor.sol#172) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 1132,
+            "message": "Parameter NFTXSimpleFeeDistributor.changeReceiverAlloc(uint256,uint256)._allocPoint (../sb/69_NFTXSimpleFeeDistributor.sol#1132) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 964,
+            "message": "Parameter PausableUpgradeable.setIsGuardian(address,bool)._isGuardian (../sb/69_NFTXSimpleFeeDistributor.sol#964) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "69_NFTXSimpleFeeDistributor.sol",
+            "impact": "Informational",
+            "line": 837,
+            "message": "Redundant expression \"this (../sb/69_NFTXSimpleFeeDistributor.sol#837)\" inContextUpgradeable (../sb/69_NFTXSimpleFeeDistributor.sol#825-841)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,18 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ';' but ... estMaxLeverage is reached */uint256 public override insurancePoolSwitchStage; |              ^^^^^^^",
+        "solc rejected 16_TracerPerpetualSwaps.sol : Error: Expected ';' but got identifier --> /work/input/1 ... estMaxLeverage is reached */uint256 public override insurancePoolSwitchStage; |              ^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=6, est_cost_usd=0.0009",
+        "static confirmation filtered LLM candidates: 1 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

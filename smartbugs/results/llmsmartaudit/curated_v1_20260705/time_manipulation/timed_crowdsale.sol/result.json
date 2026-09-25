@@ -1,0 +1,28 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "time_manipulation\\timed_crowdsale.sol",
+            "message": "Timestamp Manipulation Identified.\n\n```\nTIMESTAMP DEPENDENCE (TIME_MANIPULATION)\n'''\nThe contract uses `block.timestamp` (line 13) to determine if the sale is finished, comparing it to a fixed timestamp (1546300800). Miners have some ability to manipulate the timestamp of the block (within a few seconds) to either delay or advance the condition, potentially affecting the intended sale end time. Although the function is a `view` function, it may be used by other contract functions or off-chain consumers to make critical decisions (e.g., allowing purchases or finalizing the sale). This reliance on `block.timestamp` for a time-based condition is a common vulnerability pattern (SWC-116).\n\n**Mitigation:** Avoid relying solely on `block.timestamp` for critical state-changing logic. Use a more robust mechanism such as a block number-based cutoff (e.g., `block.number` after a certain number of blocks) or an Oracle-based timestamp. If absolute time is necessary, consider using a multi-block median or a trusted timestamp service. Additionally, ensure that the contract does not depend on exact timestamps for financial decisions.\n'''\n```\nDetector: TimeStampManipulationDetector\nClassification: SWC-116, DASP-8",
+            "name": "Timestamp Dependence",
+            "severity": "low"
+        },
+        {
+            "filename": "time_manipulation\\timed_crowdsale.sol",
+            "message": "Lack of Withdrawal Function Identified.\n\nTIME_MANIPULATION\n'''\nThe contract uses `block.timestamp` to determine the sale deadline. Miners can manipulate timestamps within a range of approximately 900 seconds, potentially causing the sale to end earlier or later than intended. This can lead to unfair advantages or financial losses. Mitigation: Avoid relying on `block.timestamp` for critical logic. Consider using block numbers (e.g., `block.number`) or a trusted oracle. If timestamp usage is unavoidable, implement a tolerance or allow an administrator to adjust the deadline within a safe range.\n```\nDetector: WithdrawalFunctionDetector\nClassification: logic (locked funds)",
+            "name": "Missing Withdrawal Function (locked funds)",
+            "severity": "medium"
+        }
+    ],
+    "infos": [
+        "LLMSmartAudit run: backend=deepseek/deepseek-v4-flash",
+        "categories checked: 41/41",
+        "context window: 65536 tokens, smallest completion budget: 8192"
+    ],
+    "parser": {
+        "id": "llmsmartaudit",
+        "mode": "solidity",
+        "version": "2026/09/21"
+    }
+}

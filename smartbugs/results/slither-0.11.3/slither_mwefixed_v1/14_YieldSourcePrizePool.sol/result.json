@@ -1,0 +1,994 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_mintTimelock",
+            "impact": "High",
+            "line": 3200,
+            "line_end": 3214,
+            "message": "Reentrancy in PrizePool._mintTimelock(address,uint256,uint256) (../sb/14_YieldSourcePrizePool.sol#3200-3214):\n\tExternal calls:\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3204)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/14_YieldSourcePrizePool.sol#536)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\t\t- underlyingToken.safeTransfer(users[i],transferAmount) (../sb/14_YieldSourcePrizePool.sol#3479)\n\tExternal calls sending eth:\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3204)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tState variables written after the call(s):\n\t- _timelockBalances[user] = _timelockBalances[user].add(amount) (../sb/14_YieldSourcePrizePool.sol#3207)\n\tPrizePool._timelockBalances (../sb/14_YieldSourcePrizePool.sol#3004) can be used in cross function reentrancies:\n\t- PrizePool.timelockBalanceOf(address) (../sb/14_YieldSourcePrizePool.sol#3837-3839)\n\t- _unlockTimestamps[user] = timestamp (../sb/14_YieldSourcePrizePool.sol#3208)\n\tPrizePool._unlockTimestamps (../sb/14_YieldSourcePrizePool.sol#3007) can be used in cross function reentrancies:\n\t- PrizePool.timelockBalanceAvailableAt(address) (../sb/14_YieldSourcePrizePool.sol#3830-3832)\n\t- timelockTotalSupply = timelockTotalSupply.add(amount) (../sb/14_YieldSourcePrizePool.sol#3206)\n\tPrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992) can be used in cross function reentrancies:\n\t- PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866)\n\t- PrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_mintTimelock",
+            "impact": "High",
+            "line": 3200,
+            "line_end": 3214,
+            "message": "Reentrancy in PrizePool._mintTimelock(address,uint256,uint256) (../sb/14_YieldSourcePrizePool.sol#3200-3214):\n\tExternal calls:\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3204)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/14_YieldSourcePrizePool.sol#536)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\t\t- underlyingToken.safeTransfer(users[i],transferAmount) (../sb/14_YieldSourcePrizePool.sol#3479)\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3212)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/14_YieldSourcePrizePool.sol#536)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\t\t- underlyingToken.safeTransfer(users[i],transferAmount) (../sb/14_YieldSourcePrizePool.sol#3479)\n\tExternal calls sending eth:\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3204)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3212)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tState variables written after the call(s):\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3212)\n\t\t- delete _timelockBalances[user] (../sb/14_YieldSourcePrizePool.sol#3459)\n\tPrizePool._timelockBalances (../sb/14_YieldSourcePrizePool.sol#3004) can be used in cross function reentrancies:\n\t- PrizePool.timelockBalanceOf(address) (../sb/14_YieldSourcePrizePool.sol#3837-3839)\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3212)\n\t\t- delete _unlockTimestamps[users[i]] (../sb/14_YieldSourcePrizePool.sol#3476)\n\tPrizePool._unlockTimestamps (../sb/14_YieldSourcePrizePool.sol#3007) can be used in cross function reentrancies:\n\t- PrizePool.timelockBalanceAvailableAt(address) (../sb/14_YieldSourcePrizePool.sol#3830-3832)\n\t- _sweepTimelockBalances(users) (../sb/14_YieldSourcePrizePool.sol#3212)\n\t\t- timelockTotalSupply = timelockTotalSupply.sub(totalWithdrawal) (../sb/14_YieldSourcePrizePool.sol#3468)\n\tPrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992) can be used in cross function reentrancies:\n\t- PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866)\n\t- PrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "timelockDepositTo",
+            "impact": "Medium",
+            "line": 3071,
+            "line_end": 3087,
+            "message": "Reentrancy in PrizePool.timelockDepositTo(address,uint256,address) (../sb/14_YieldSourcePrizePool.sol#3071-3087):\n\tExternal calls:\n\t- _mint(to,amount,controlledToken,address(0)) (../sb/14_YieldSourcePrizePool.sol#3082)\n\t\t- prizeStrategy.beforeTokenMint(to,amount,controlledToken,referrer) (../sb/14_YieldSourcePrizePool.sol#3379)\n\t\t- ControlledToken(controlledToken).controllerMint(to,amount) (../sb/14_YieldSourcePrizePool.sol#3381)\n\tState variables written after the call(s):\n\t- timelockTotalSupply = timelockTotalSupply.sub(amount) (../sb/14_YieldSourcePrizePool.sol#3084)\n\tPrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992) can be used in cross function reentrancies:\n\t- PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866)\n\t- PrizePool.timelockTotalSupply (../sb/14_YieldSourcePrizePool.sol#2992)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_sweepTimelockBalances",
+            "impact": "Medium",
+            "line": 3441,
+            "line_end": 3485,
+            "message": "Reentrancy in PrizePool._sweepTimelockBalances(address[]) (../sb/14_YieldSourcePrizePool.sol#3441-3485):\n\tExternal calls:\n\t- underlyingToken.safeTransfer(users[i],transferAmount) (../sb/14_YieldSourcePrizePool.sol#3479)\n\tState variables written after the call(s):\n\t- delete _unlockTimestamps[users[i]] (../sb/14_YieldSourcePrizePool.sol#3476)\n\tPrizePool._unlockTimestamps (../sb/14_YieldSourcePrizePool.sol#3007) can be used in cross function reentrancies:\n\t- PrizePool.timelockBalanceAvailableAt(address) (../sb/14_YieldSourcePrizePool.sol#3830-3832)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Medium",
+            "line": 2548,
+            "message": "MappedSinglyLinkedList.addressArray(MappedSinglyLinkedList.Mapping).count (../sb/14_YieldSourcePrizePool.sol#2548) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Medium",
+            "line": 3767,
+            "message": "PrizePool._calculateEarlyExitFeeLessBurnedCredit(address,address,uint256).availableCredit (../sb/14_YieldSourcePrizePool.sol#3767) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Medium",
+            "line": 3451,
+            "message": "PrizePool._sweepTimelockBalances(address[]).totalWithdrawal (../sb/14_YieldSourcePrizePool.sol#3451) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Low",
+            "line": 2406,
+            "message": "ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._name (../sb/14_YieldSourcePrizePool.sol#2406) shadows:\n\t- ERC20Upgradeable._name (../sb/14_YieldSourcePrizePool.sol#1662) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Low",
+            "line": 2408,
+            "message": "ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._decimals (../sb/14_YieldSourcePrizePool.sol#2408) shadows:\n\t- ERC20Upgradeable._decimals (../sb/14_YieldSourcePrizePool.sol#1664) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 2275,
+            "message": "ERC20PermitUpgradeable.__ERC20Permit_init(string).name (../sb/14_YieldSourcePrizePool.sol#2275) shadows:\n\t- ERC20Upgradeable.name() (../sb/14_YieldSourcePrizePool.sol#1689-1691) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Low",
+            "line": 2407,
+            "message": "ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._symbol (../sb/14_YieldSourcePrizePool.sol#2407) shadows:\n\t- ERC20Upgradeable._symbol (../sb/14_YieldSourcePrizePool.sol#1663) (state variable)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 2281,
+            "message": "ERC20PermitUpgradeable.__ERC20Permit_init_unchained(string).name (../sb/14_YieldSourcePrizePool.sol#2281) shadows:\n\t- ERC20Upgradeable.name() (../sb/14_YieldSourcePrizePool.sol#1689-1691) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_tokenTotalSupply",
+            "impact": "Low",
+            "line": 3858,
+            "line_end": 3866,
+            "message": "PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866) has external calls inside a loop: total = total.add(IERC20Upgradeable(currentToken).totalSupply()) (../sb/14_YieldSourcePrizePool.sol#3862)\n\tCalls stack containing the loop:\n\t\tPrizePool.accountedBalance()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_tokenTotalSupply",
+            "impact": "Low",
+            "line": 3858,
+            "line_end": 3866,
+            "message": "PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866) has external calls inside a loop: total = total.add(IERC20Upgradeable(currentToken).totalSupply()) (../sb/14_YieldSourcePrizePool.sol#3862)\n\tCalls stack containing the loop:\n\t\tPrizePool.timelockDepositTo(address,uint256,address)\n\t\tPrizePool.canAddLiquidity(uint256)\n\t\tPrizePool._canAddLiquidity(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "awardExternalERC721",
+            "impact": "Low",
+            "line": 3389,
+            "line_end": 3408,
+            "message": "PrizePool.awardExternalERC721(address,address,uint256[]) (../sb/14_YieldSourcePrizePool.sol#3389-3408) has external calls inside a loop: IERC721Upgradeable(externalToken).transferFrom(address(this),to,tokenIds[i]) (../sb/14_YieldSourcePrizePool.sol#3404)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_addControlledToken",
+            "impact": "Low",
+            "line": 3792,
+            "line_end": 3797,
+            "message": "PrizePool._addControlledToken(ControlledTokenInterface) (../sb/14_YieldSourcePrizePool.sol#3792-3797) has external calls inside a loop: require(bool,string)(_controlledToken.controller() == this,PrizePool/token-ctrlr-mismatch) (../sb/14_YieldSourcePrizePool.sol#3793)\n\tCalls stack containing the loop:\n\t\tYieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)\n\t\tPrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_tokenTotalSupply",
+            "impact": "Low",
+            "line": 3858,
+            "line_end": 3866,
+            "message": "PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866) has external calls inside a loop: total = total.add(IERC20Upgradeable(currentToken).totalSupply()) (../sb/14_YieldSourcePrizePool.sol#3862)\n\tCalls stack containing the loop:\n\t\tPrizePool.captureAwardBalance()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_tokenTotalSupply",
+            "impact": "Low",
+            "line": 3858,
+            "line_end": 3866,
+            "message": "PrizePool._tokenTotalSupply() (../sb/14_YieldSourcePrizePool.sol#3858-3866) has external calls inside a loop: total = total.add(IERC20Upgradeable(currentToken).totalSupply()) (../sb/14_YieldSourcePrizePool.sol#3862)\n\tCalls stack containing the loop:\n\t\tPrizePool.depositTo(address,uint256,address,address)\n\t\tPrizePool.canAddLiquidity(uint256)\n\t\tPrizePool._canAddLiquidity(uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_addControlledToken",
+            "impact": "Low",
+            "line": 3792,
+            "line_end": 3797,
+            "message": "PrizePool._addControlledToken(ControlledTokenInterface) (../sb/14_YieldSourcePrizePool.sol#3792-3797) has external calls inside a loop: require(bool,string)(_controlledToken.controller() == this,PrizePool/token-ctrlr-mismatch) (../sb/14_YieldSourcePrizePool.sol#3793)\n\tCalls stack containing the loop:\n\t\tPrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "timelockDepositTo",
+            "impact": "Low",
+            "line": 3071,
+            "line_end": 3087,
+            "message": "Reentrancy in PrizePool.timelockDepositTo(address,uint256,address) (../sb/14_YieldSourcePrizePool.sol#3071-3087):\n\tExternal calls:\n\t- _mint(to,amount,controlledToken,address(0)) (../sb/14_YieldSourcePrizePool.sol#3082)\n\t\t- prizeStrategy.beforeTokenMint(to,amount,controlledToken,referrer) (../sb/14_YieldSourcePrizePool.sol#3379)\n\t\t- ControlledToken(controlledToken).controllerMint(to,amount) (../sb/14_YieldSourcePrizePool.sol#3381)\n\tState variables written after the call(s):\n\t- _timelockBalances[operator] = _timelockBalances[operator].sub(amount) (../sb/14_YieldSourcePrizePool.sol#3083)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "award",
+            "impact": "Low",
+            "line": 3293,
+            "line_end": 3315,
+            "message": "Reentrancy in PrizePool.award(address,uint256,address) (../sb/14_YieldSourcePrizePool.sol#3293-3315):\n\tExternal calls:\n\t- _mint(to,amount,controlledToken,address(0)) (../sb/14_YieldSourcePrizePool.sol#3309)\n\t\t- prizeStrategy.beforeTokenMint(to,amount,controlledToken,referrer) (../sb/14_YieldSourcePrizePool.sol#3379)\n\t\t- ControlledToken(controlledToken).controllerMint(to,amount) (../sb/14_YieldSourcePrizePool.sol#3381)\n\tState variables written after the call(s):\n\t- _accrueCredit(to,controlledToken,IERC20Upgradeable(controlledToken).balanceOf(to),extraCredit) (../sb/14_YieldSourcePrizePool.sol#3312)\n\t\t- _tokenCreditBalances[controlledToken][user] = CreditBalance({balance:newBalance.toUint128(),timestamp:_currentTime().toUint32(),initialized:true}) (../sb/14_YieldSourcePrizePool.sol#3640-3644)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "transferExternalERC20",
+            "impact": "Low",
+            "line": 3322,
+            "line_end": 3333,
+            "message": "Reentrancy in PrizePool.transferExternalERC20(address,address,uint256) (../sb/14_YieldSourcePrizePool.sol#3322-3333):\n\tExternal calls:\n\t- _transferOut(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3330)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/14_YieldSourcePrizePool.sol#536)\n\t\t- IERC20Upgradeable(externalToken).safeTransfer(to,amount) (../sb/14_YieldSourcePrizePool.sol#3367)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tExternal calls sending eth:\n\t- _transferOut(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3330)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tEvent emitted after the call(s):\n\t- TransferredExternalERC20(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3331)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "awardExternalERC20",
+            "impact": "Low",
+            "line": 3340,
+            "line_end": 3351,
+            "message": "Reentrancy in PrizePool.awardExternalERC20(address,address,uint256) (../sb/14_YieldSourcePrizePool.sol#3340-3351):\n\tExternal calls:\n\t- _transferOut(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3348)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (../sb/14_YieldSourcePrizePool.sol#536)\n\t\t- IERC20Upgradeable(externalToken).safeTransfer(to,amount) (../sb/14_YieldSourcePrizePool.sol#3367)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tExternal calls sending eth:\n\t- _transferOut(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3348)\n\t\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n\tEvent emitted after the call(s):\n\t- AwardedExternalERC20(to,externalToken,amount) (../sb/14_YieldSourcePrizePool.sol#3349)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "withdrawReserve",
+            "impact": "Low",
+            "line": 3275,
+            "line_end": 3286,
+            "message": "Reentrancy in PrizePool.withdrawReserve(address) (../sb/14_YieldSourcePrizePool.sol#3275-3286):\n\tExternal calls:\n\t- _token().safeTransfer(address(to),redeemed) (../sb/14_YieldSourcePrizePool.sol#3281)\n\tEvent emitted after the call(s):\n\t- ReserveWithdrawal(to,amount) (../sb/14_YieldSourcePrizePool.sol#3283)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "awardExternalERC721",
+            "impact": "Low",
+            "line": 3389,
+            "line_end": 3408,
+            "message": "Reentrancy in PrizePool.awardExternalERC721(address,address,uint256[]) (../sb/14_YieldSourcePrizePool.sol#3389-3408):\n\tExternal calls:\n\t- IERC721Upgradeable(externalToken).transferFrom(address(this),to,tokenIds[i]) (../sb/14_YieldSourcePrizePool.sol#3404)\n\tEvent emitted after the call(s):\n\t- AwardedExternalERC721(to,externalToken,tokenIds) (../sb/14_YieldSourcePrizePool.sol#3407)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "award",
+            "impact": "Low",
+            "line": 3293,
+            "line_end": 3315,
+            "message": "Reentrancy in PrizePool.award(address,uint256,address) (../sb/14_YieldSourcePrizePool.sol#3293-3315):\n\tExternal calls:\n\t- _mint(to,amount,controlledToken,address(0)) (../sb/14_YieldSourcePrizePool.sol#3309)\n\t\t- prizeStrategy.beforeTokenMint(to,amount,controlledToken,referrer) (../sb/14_YieldSourcePrizePool.sol#3379)\n\t\t- ControlledToken(controlledToken).controllerMint(to,amount) (../sb/14_YieldSourcePrizePool.sol#3381)\n\tEvent emitted after the call(s):\n\t- Awarded(to,controlledToken,amount) (../sb/14_YieldSourcePrizePool.sol#3314)\n\t- CreditBurned(user,controlledToken,oldBalance.sub(newBalance)) (../sb/14_YieldSourcePrizePool.sol#3649)\n\t\t- _accrueCredit(to,controlledToken,IERC20Upgradeable(controlledToken).balanceOf(to),extraCredit) (../sb/14_YieldSourcePrizePool.sol#3312)\n\t- CreditMinted(user,controlledToken,newBalance.sub(oldBalance)) (../sb/14_YieldSourcePrizePool.sol#3647)\n\t\t- _accrueCredit(to,controlledToken,IERC20Upgradeable(controlledToken).balanceOf(to),extraCredit) (../sb/14_YieldSourcePrizePool.sol#3312)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_applyCreditLimit",
+            "impact": "Low",
+            "line": 3658,
+            "line_end": 3668,
+            "message": "PrizePool._applyCreditLimit(address,uint256,uint256) (../sb/14_YieldSourcePrizePool.sol#3658-3668) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- creditBalance > creditLimit (../sb/14_YieldSourcePrizePool.sol#3663)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_updateCreditBalance",
+            "impact": "Low",
+            "line": 3637,
+            "line_end": 3651,
+            "message": "PrizePool._updateCreditBalance(address,address,uint256) (../sb/14_YieldSourcePrizePool.sol#3637-3651) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- oldBalance < newBalance (../sb/14_YieldSourcePrizePool.sol#3646)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_sweepTimelockBalances",
+            "impact": "Low",
+            "line": 3441,
+            "line_end": 3485,
+            "message": "PrizePool._sweepTimelockBalances(address[]) (../sb/14_YieldSourcePrizePool.sol#3441-3485) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- _unlockTimestamps[user] <= _currentTime() (../sb/14_YieldSourcePrizePool.sol#3456)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "PrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_mintTimelock",
+            "impact": "Low",
+            "line": 3200,
+            "line_end": 3214,
+            "message": "PrizePool._mintTimelock(address,uint256,uint256) (../sb/14_YieldSourcePrizePool.sol#3200-3214) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timestamp <= _currentTime() (../sb/14_YieldSourcePrizePool.sol#3211)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20PermitUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 2288,
+            "line_end": 2310,
+            "message": "ERC20PermitUpgradeable.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/14_YieldSourcePrizePool.sol#2288-2310) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp <= deadline,ERC20Permit: expired deadline) (../sb/14_YieldSourcePrizePool.sol#2290)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "ECDSAUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "recover",
+            "impact": "Informational",
+            "line": 2013,
+            "line_end": 2034,
+            "message": "ECDSAUpgradeable.recover(bytes32,bytes) (../sb/14_YieldSourcePrizePool.sol#2013-2034) uses assembly\n\t- INLINE ASM (../sb/14_YieldSourcePrizePool.sol#2027-2031)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 326,
+            "line_end": 335,
+            "message": "AddressUpgradeable.isContract(address) (../sb/14_YieldSourcePrizePool.sol#326-335) uses assembly\n\t- INLINE ASM (../sb/14_YieldSourcePrizePool.sol#333)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_getChainId",
+            "impact": "Informational",
+            "line": 2210,
+            "line_end": 2216,
+            "message": "EIP712Upgradeable._getChainId() (../sb/14_YieldSourcePrizePool.sol#2210-2216) uses assembly\n\t- INLINE ASM (../sb/14_YieldSourcePrizePool.sol#2213-2215)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 447,
+            "line_end": 464,
+            "message": "AddressUpgradeable._verifyCallResult(bool,bytes,string) (../sb/14_YieldSourcePrizePool.sol#447-464) uses assembly\n\t- INLINE ASM (../sb/14_YieldSourcePrizePool.sol#456-459)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 655,
+            "line_end": 658,
+            "message": "ContextUpgradeable._msgData() (../sb/14_YieldSourcePrizePool.sol#655-658) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__EIP712_init",
+            "impact": "Informational",
+            "line": 2161,
+            "line_end": 2163,
+            "message": "EIP712Upgradeable.__EIP712_init(string,string) (../sb/14_YieldSourcePrizePool.sol#2161-2163) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_beforeTokenTransfer",
+            "impact": "Informational",
+            "line": 1930,
+            "message": "ERC20Upgradeable._beforeTokenTransfer(address,address,uint256) (../sb/14_YieldSourcePrizePool.sol#1930) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 645,
+            "line_end": 647,
+            "message": "ContextUpgradeable.__Context_init() (../sb/14_YieldSourcePrizePool.sol#645-647) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (../sb/14_YieldSourcePrizePool.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "YieldSourcePrizePool",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "initializeYieldSourcePrizePool",
+            "impact": "Informational",
+            "line": 3957,
+            "line_end": 3981,
+            "message": "Low level call in YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource) (../sb/14_YieldSourcePrizePool.sol#3957-3981):\n\t- (succeeded,None) = address(_yieldSource).staticcall(abi.encode(_yieldSource.depositToken.selector)) (../sb/14_YieldSourcePrizePool.sol#3977)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 353,
+            "line_end": 359,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../sb/14_YieldSourcePrizePool.sol#353-359):\n\t- (success,None) = recipient.call{value: amount}() (../sb/14_YieldSourcePrizePool.sol#357)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC165CheckerUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_callERC165SupportsInterface",
+            "impact": "Informational",
+            "line": 1300,
+            "line_end": 1309,
+            "message": "Low level call in ERC165CheckerUpgradeable._callERC165SupportsInterface(address,bytes4) (../sb/14_YieldSourcePrizePool.sol#1300-1309):\n\t- (success,result) = account.staticcall{gas: 30000}(encodedParams) (../sb/14_YieldSourcePrizePool.sol#1306)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 439,
+            "line_end": 445,
+            "message": "Low level call in AddressUpgradeable.functionStaticCall(address,bytes,string) (../sb/14_YieldSourcePrizePool.sol#439-445):\n\t- (success,returndata) = target.staticcall(data) (../sb/14_YieldSourcePrizePool.sol#443)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 414,
+            "line_end": 421,
+            "message": "Low level call in AddressUpgradeable.functionCallWithValue(address,bytes,uint256,string) (../sb/14_YieldSourcePrizePool.sol#414-421):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/14_YieldSourcePrizePool.sol#419)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20PermitUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ERC20Permit_init",
+            "impact": "Informational",
+            "line": 2275,
+            "line_end": 2279,
+            "message": "Function ERC20PermitUpgradeable.__ERC20Permit_init(string) (../sb/14_YieldSourcePrizePool.sol#2275-2279) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2407,
+            "message": "Parameter ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._symbol (../sb/14_YieldSourcePrizePool.sol#2407) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2433,
+            "message": "Parameter ControlledToken.controllerBurn(address,uint256)._user (../sb/14_YieldSourcePrizePool.sol#2433) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IERC20PermitUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 1984,
+            "message": "Function IERC20PermitUpgradeable.DOMAIN_SEPARATOR() (../sb/14_YieldSourcePrizePool.sol#1984) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3567,
+            "message": "Parameter PrizePool.estimateCreditAccrualTime(address,uint256,uint256)._principal (../sb/14_YieldSourcePrizePool.sol#3567) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3063,
+            "message": "Parameter PrizePool.canAwardExternal(address)._externalToken (../sb/14_YieldSourcePrizePool.sol#3063) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2237,
+            "message": "Variable EIP712Upgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#2237) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3021,
+            "message": "Parameter PrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)._controlledTokens (../sb/14_YieldSourcePrizePool.sol#3021) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2144,
+            "message": "Variable EIP712Upgradeable._HASHED_NAME (../sb/14_YieldSourcePrizePool.sol#2144) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2409,
+            "message": "Parameter ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._controller (../sb/14_YieldSourcePrizePool.sol#2409) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__EIP712_init",
+            "impact": "Informational",
+            "line": 2161,
+            "line_end": 2163,
+            "message": "Function EIP712Upgradeable.__EIP712_init(string,string) (../sb/14_YieldSourcePrizePool.sol#2161-2163) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20PermitUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ERC20Permit_init_unchained",
+            "impact": "Informational",
+            "line": 2281,
+            "line_end": 2283,
+            "message": "Function ERC20PermitUpgradeable.__ERC20Permit_init_unchained(string) (../sb/14_YieldSourcePrizePool.sol#2281-2283) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 659,
+            "message": "Variable ContextUpgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#659) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2268,
+            "message": "Variable ERC20PermitUpgradeable._PERMIT_TYPEHASH (../sb/14_YieldSourcePrizePool.sol#2268) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ReentrancyGuard_init_unchained",
+            "impact": "Informational",
+            "line": 995,
+            "line_end": 997,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init_unchained() (../sb/14_YieldSourcePrizePool.sol#995-997) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2425,
+            "message": "Parameter ControlledToken.controllerMint(address,uint256)._amount (../sb/14_YieldSourcePrizePool.sol#2425) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3958,
+            "message": "Parameter YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)._reserveRegistry (../sb/14_YieldSourcePrizePool.sol#3958) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 689,
+            "line_end": 692,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (../sb/14_YieldSourcePrizePool.sol#689-692) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3568,
+            "message": "Parameter PrizePool.estimateCreditAccrualTime(address,uint256,uint256)._interest (../sb/14_YieldSourcePrizePool.sol#3568) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 736,
+            "message": "Variable OwnableUpgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#736) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3960,
+            "message": "Parameter YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)._maxExitFeeMantissa (../sb/14_YieldSourcePrizePool.sol#3960) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2442,
+            "message": "Parameter ControlledToken.controllerBurnFrom(address,address,uint256)._operator (../sb/14_YieldSourcePrizePool.sol#2442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3962,
+            "message": "Parameter YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)._yieldSource (../sb/14_YieldSourcePrizePool.sol#3962) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3700,
+            "message": "Parameter PrizePool.setCreditPlanOf(address,uint128,uint128)._controlledToken (../sb/14_YieldSourcePrizePool.sol#3700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3959,
+            "message": "Parameter YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)._controlledTokens (../sb/14_YieldSourcePrizePool.sol#3959) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 1680,
+            "line_end": 1684,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (../sb/14_YieldSourcePrizePool.sol#1680-1684) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3023,
+            "message": "Parameter PrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)._maxTimelockDuration (../sb/14_YieldSourcePrizePool.sol#3023) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2442,
+            "message": "Parameter ControlledToken.controllerBurnFrom(address,address,uint256)._user (../sb/14_YieldSourcePrizePool.sol#2442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2442,
+            "message": "Parameter ControlledToken.controllerBurnFrom(address,address,uint256)._amount (../sb/14_YieldSourcePrizePool.sol#2442) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 1675,
+            "line_end": 1678,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (../sb/14_YieldSourcePrizePool.sol#1675-1678) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReentrancyGuardUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__ReentrancyGuard_init",
+            "impact": "Informational",
+            "line": 991,
+            "line_end": 993,
+            "message": "Function ReentrancyGuardUpgradeable.__ReentrancyGuard_init() (../sb/14_YieldSourcePrizePool.sol#991-993) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2326,
+            "message": "Variable ERC20PermitUpgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#2326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 649,
+            "line_end": 650,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../sb/14_YieldSourcePrizePool.sol#649-650) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3022,
+            "message": "Parameter PrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)._maxExitFeeMantissa (../sb/14_YieldSourcePrizePool.sol#3022) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3961,
+            "message": "Parameter YieldSourcePrizePool.initializeYieldSourcePrizePool(RegistryInterface,ControlledTokenInterface[],uint256,uint256,IYieldSource)._maxTimelockDuration (../sb/14_YieldSourcePrizePool.sol#3961) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_EIP712VersionHash",
+            "impact": "Informational",
+            "line": 2234,
+            "line_end": 2236,
+            "message": "Function EIP712Upgradeable._EIP712VersionHash() (../sb/14_YieldSourcePrizePool.sol#2234-2236) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2425,
+            "message": "Parameter ControlledToken.controllerMint(address,uint256)._user (../sb/14_YieldSourcePrizePool.sol#2425) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2145,
+            "message": "Variable EIP712Upgradeable._HASHED_VERSION (../sb/14_YieldSourcePrizePool.sol#2145) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3020,
+            "message": "Parameter PrizePool.initialize(RegistryInterface,ControlledTokenInterface[],uint256,uint256)._reserveRegistry (../sb/14_YieldSourcePrizePool.sol#3020) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 1931,
+            "message": "Variable ERC20Upgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#1931) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 1019,
+            "message": "Variable ReentrancyGuardUpgradeable.__gap (../sb/14_YieldSourcePrizePool.sol#1019) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 1332,
+            "line_end": 1473,
+            "message": "Contract OpenZeppelinSafeMath_V3_3_0 (../sb/14_YieldSourcePrizePool.sol#1332-1473) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2433,
+            "message": "Parameter ControlledToken.controllerBurn(address,uint256)._amount (../sb/14_YieldSourcePrizePool.sol#2433) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "_EIP712NameHash",
+            "impact": "Informational",
+            "line": 2224,
+            "line_end": 2226,
+            "message": "Function EIP712Upgradeable._EIP712NameHash() (../sb/14_YieldSourcePrizePool.sol#2224-2226) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3781,
+            "message": "Parameter PrizePool.setLiquidityCap(uint256)._liquidityCap (../sb/14_YieldSourcePrizePool.sol#3781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 694,
+            "line_end": 698,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (../sb/14_YieldSourcePrizePool.sol#694-698) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3566,
+            "message": "Parameter PrizePool.estimateCreditAccrualTime(address,uint256,uint256)._controlledToken (../sb/14_YieldSourcePrizePool.sol#3566) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3701,
+            "message": "Parameter PrizePool.setCreditPlanOf(address,uint128,uint128)._creditRateMantissa (../sb/14_YieldSourcePrizePool.sol#3701) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20PermitUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 2323,
+            "line_end": 2325,
+            "message": "Function ERC20PermitUpgradeable.DOMAIN_SEPARATOR() (../sb/14_YieldSourcePrizePool.sol#2323-2325) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3801,
+            "message": "Parameter PrizePool.setPrizeStrategy(TokenListenerInterface)._prizeStrategy (../sb/14_YieldSourcePrizePool.sol#3801) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 645,
+            "line_end": 647,
+            "message": "Function ContextUpgradeable.__Context_init() (../sb/14_YieldSourcePrizePool.sol#645-647) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2406,
+            "message": "Parameter ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._name (../sb/14_YieldSourcePrizePool.sol#2406) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 3702,
+            "message": "Parameter PrizePool.setCreditPlanOf(address,uint128,uint128)._creditLimitMantissa (../sb/14_YieldSourcePrizePool.sol#3702) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "EIP712Upgradeable",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "function": "__EIP712_init_unchained",
+            "impact": "Informational",
+            "line": 2165,
+            "line_end": 2170,
+            "message": "Function EIP712Upgradeable.__EIP712_init_unchained(string,string) (../sb/14_YieldSourcePrizePool.sol#2165-2170) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2408,
+            "message": "Parameter ControlledToken.initialize(string,string,uint8,TokenControllerInterface)._decimals (../sb/14_YieldSourcePrizePool.sol#2408) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 656,
+            "message": "Redundant expression \"this (../sb/14_YieldSourcePrizePool.sol#656)\" inContextUpgradeable (../sb/14_YieldSourcePrizePool.sol#644-660)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_YieldSourcePrizePool.sol",
+            "impact": "Informational",
+            "line": 2211,
+            "message": "Redundant expression \"this (../sb/14_YieldSourcePrizePool.sol#2211)\" inEIP712Upgradeable (../sb/14_YieldSourcePrizePool.sol#2142-2238)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

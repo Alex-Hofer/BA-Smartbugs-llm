@@ -1,0 +1,27 @@
+{
+    "errors": [
+        "ERROR    analyze_pipeline: Timeout when asking function transfer",
+        "ERROR    analyze_pipeline: Timeout when asking function transferFrom",
+        "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... lyze_p ipeline.py\", line 87, in ask_with_timeout raise TimeoutError(\"Timeout\") TimeoutError: Timeout",
+        "TimeoutError: Timeout"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\34_ConcentratedLiquidityPosition.sol",
+            "line": 503,
+            "line_end": 516,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=15, est_cost_usd=0.0016"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

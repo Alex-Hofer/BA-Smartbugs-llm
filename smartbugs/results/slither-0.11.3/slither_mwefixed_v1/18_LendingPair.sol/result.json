@@ -1,0 +1,1055 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repayAllETH",
+            "impact": "High",
+            "line": 766,
+            "line_end": 779,
+            "message": "Reentrancy in LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#767)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositWeth() (../sb/18_LendingPair.sol#772)\n\t\t- WETH.deposit{value: msg.value}() (../sb/18_LendingPair.sol#606)\n\tExternal calls sending eth:\n\t- _depositWeth() (../sb/18_LendingPair.sol#772)\n\t\t- WETH.deposit{value: msg.value}() (../sb/18_LendingPair.sol#606)\n\tState variables written after the call(s):\n\t- _repay(_account,address(WETH),amount) (../sb/18_LendingPair.sol#773)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _repay(_account,address(WETH),amount) (../sb/18_LendingPair.sol#773)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_convertTokenValues",
+            "impact": "Medium",
+            "line": 1129,
+            "line_end": 1139,
+            "message": "LendingPair._convertTokenValues(address,address,uint256) (../sb/18_LendingPair.sol#1129-1139) performs a multiplication on the result of a division:\n\t- priceFrom = controller.tokenPrice(_fromToken) * 1e18 / 10 ** IERC20(_fromToken).decimals() (../sb/18_LendingPair.sol#1135)\n\t- _inputAmount * priceFrom / priceTo (../sb/18_LendingPair.sol#1138)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_borrow",
+            "impact": "Medium",
+            "line": 1036,
+            "line_end": 1046,
+            "message": "LendingPair._borrow(address,uint256) (../sb/18_LendingPair.sol#1036-1046) uses a dangerous strict equality:\n\t- require(bool,string)(lpToken[address(_token)].balanceOf(msg.sender) == 0,LendingPair: cannot borrow supplied token) (../sb/18_LendingPair.sol#1038)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "liquidateAccount",
+            "impact": "Medium",
+            "line": 856,
+            "line_end": 899,
+            "message": "Reentrancy in LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899):\n\tExternal calls:\n\t- _accrueAccountInterest(_account) (../sb/18_LendingPair.sol#870)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _burnSupply(supplyToken,_account,supplyBurn) (../sb/18_LendingPair.sol#889)\n\t\t- lpToken[_token].burn(_account,_amount) (../sb/18_LendingPair.sol#982)\n\t- _mintSupply(supplyToken,feeRecipient(),systemFee) (../sb/18_LendingPair.sol#890)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _burnDebt(_repayToken,_account,_repayAmount) (../sb/18_LendingPair.sol#891)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _burnDebt(_repayToken,_account,_repayAmount) (../sb/18_LendingPair.sol#891)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawBorrowETH",
+            "impact": "Medium",
+            "line": 716,
+            "line_end": 722,
+            "message": "Reentrancy in LendingPair.withdrawBorrowETH(uint256) (../sb/18_LendingPair.sol#716-722):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#717)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tState variables written after the call(s):\n\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "borrow",
+            "impact": "Medium",
+            "line": 749,
+            "line_end": 755,
+            "message": "Reentrancy in LendingPair.borrow(address,uint256) (../sb/18_LendingPair.sol#749-755):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#751)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tState variables written after the call(s):\n\t- _borrow(_token,_amount) (../sb/18_LendingPair.sol#753)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _borrow(_token,_amount) (../sb/18_LendingPair.sol#753)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawBorrow",
+            "impact": "Medium",
+            "line": 708,
+            "line_end": 714,
+            "message": "Reentrancy in LendingPair.withdrawBorrow(address,uint256) (../sb/18_LendingPair.sol#708-714):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#710)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tState variables written after the call(s):\n\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "liquidateAccount",
+            "impact": "Medium",
+            "line": 856,
+            "line_end": 899,
+            "message": "Reentrancy in LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899):\n\tExternal calls:\n\t- _accrueAccountInterest(_account) (../sb/18_LendingPair.sol#870)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- accountInterestSnapshot[tokenA][_account] = cumulativeInterestRate[tokenA] (../sb/18_LendingPair.sol#1005)\n\t\t- accountInterestSnapshot[tokenB][_account] = cumulativeInterestRate[tokenB] (../sb/18_LendingPair.sol#1006)\n\tLendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007)\n\t- LendingPair._newInterest(uint256,address,address) (../sb/18_LendingPair.sol#1184-1186)\n\t- LendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_accrueAccountInterest",
+            "impact": "Medium",
+            "line": 996,
+            "line_end": 1007,
+            "message": "Reentrancy in LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007):\n\tExternal calls:\n\t- _accrueAccountSupply(tokenA,lpBalanceA,_account) (../sb/18_LendingPair.sol#1000)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountSupply(tokenB,lpBalanceB,_account) (../sb/18_LendingPair.sol#1001)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- accountInterestSnapshot[tokenA][_account] = cumulativeInterestRate[tokenA] (../sb/18_LendingPair.sol#1005)\n\tLendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007)\n\t- LendingPair._newInterest(uint256,address,address) (../sb/18_LendingPair.sol#1184-1186)\n\t- LendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642)\n\t- accountInterestSnapshot[tokenB][_account] = cumulativeInterestRate[tokenB] (../sb/18_LendingPair.sol#1006)\n\tLendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007)\n\t- LendingPair._newInterest(uint256,address,address) (../sb/18_LendingPair.sol#1184-1186)\n\t- LendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_withdrawBorrow",
+            "impact": "Medium",
+            "line": 949,
+            "line_end": 963,
+            "message": "Reentrancy in LendingPair._withdrawBorrow(address,uint256) (../sb/18_LendingPair.sol#949-963):\n\tExternal calls:\n\t- _withdraw(_token,withdrawAmount) (../sb/18_LendingPair.sol#955)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tState variables written after the call(s):\n\t- _borrow(_token,borrowAmount) (../sb/18_LendingPair.sol#961)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repay",
+            "impact": "Medium",
+            "line": 781,
+            "line_end": 787,
+            "message": "Reentrancy in LendingPair.repay(address,address,uint256) (../sb/18_LendingPair.sol#781-787):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#783)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tState variables written after the call(s):\n\t- _repay(_account,_token,_amount) (../sb/18_LendingPair.sol#785)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _repay(_account,_token,_amount) (../sb/18_LendingPair.sol#785)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "depositRepayETH",
+            "impact": "Medium",
+            "line": 693,
+            "line_end": 698,
+            "message": "Reentrancy in LendingPair.depositRepayETH(address) (../sb/18_LendingPair.sol#693-698):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#694)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "depositRepay",
+            "impact": "Medium",
+            "line": 685,
+            "line_end": 691,
+            "message": "Reentrancy in LendingPair.depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#685-691):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#687)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "accrueAccount",
+            "impact": "Medium",
+            "line": 797,
+            "line_end": 805,
+            "message": "Reentrancy in LendingPair.accrueAccount(address) (../sb/18_LendingPair.sol#797-805):\n\tExternal calls:\n\t- _distributeReward(_account) (../sb/18_LendingPair.sol#798)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _accrueAccountInterest(_account) (../sb/18_LendingPair.sol#800)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#803)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#803)\n\t\t- accountInterestSnapshot[tokenA][_account] = cumulativeInterestRate[tokenA] (../sb/18_LendingPair.sol#1005)\n\t\t- accountInterestSnapshot[tokenB][_account] = cumulativeInterestRate[tokenB] (../sb/18_LendingPair.sol#1006)\n\tLendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007)\n\t- LendingPair._newInterest(uint256,address,address) (../sb/18_LendingPair.sol#1184-1186)\n\t- LendingPair.accountInterestSnapshot (../sb/18_LendingPair.sol#642)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#803)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#803)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repayAll",
+            "impact": "Medium",
+            "line": 757,
+            "line_end": 764,
+            "message": "Reentrancy in LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#759)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tState variables written after the call(s):\n\t- _repay(_account,_token,amount) (../sb/18_LendingPair.sol#762)\n\t\t- debtOf[_token][_account] -= _amount (../sb/18_LendingPair.sol#992)\n\tLendingPair.debtOf (../sb/18_LendingPair.sol#641) can be used in cross function reentrancies:\n\t- LendingPair._accrueAccountDebt(address,address) (../sb/18_LendingPair.sol#1020-1025)\n\t- LendingPair._borrowBalance(address,address,address) (../sb/18_LendingPair.sol#1101-1108)\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064)\n\t- LendingPair._depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#933-947)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair._pendingBorrowInterest(address,address) (../sb/18_LendingPair.sol#1097-1099)\n\t- LendingPair.accountHealth(address) (../sb/18_LendingPair.sol#807-817)\n\t- LendingPair.debtOf (../sb/18_LendingPair.sol#641)\n\t- LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899)\n\t- LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764)\n\t- LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779)\n\t- _repay(_account,_token,amount) (../sb/18_LendingPair.sol#762)\n\t\t- totalDebt[_token] -= _amount (../sb/18_LendingPair.sol#993)\n\tLendingPair.totalDebt (../sb/18_LendingPair.sol#644) can be used in cross function reentrancies:\n\t- LendingPair._burnDebt(address,address,uint256) (../sb/18_LendingPair.sol#991-994)\n\t- LendingPair._checkBorrowLimits(address,address) (../sb/18_LendingPair.sol#1163-1174)\n\t- LendingPair._mintDebt(address,address,uint256) (../sb/18_LendingPair.sol#986-989)\n\t- LendingPair.totalDebt (../sb/18_LendingPair.sol#644)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "accrueAccount",
+            "impact": "Low",
+            "line": 797,
+            "line_end": 805,
+            "message": "Reentrancy in LendingPair.accrueAccount(address) (../sb/18_LendingPair.sol#797-805):\n\tExternal calls:\n\t- _distributeReward(_account) (../sb/18_LendingPair.sol#798)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tState variables written after the call(s):\n\t- accrue() (../sb/18_LendingPair.sol#799)\n\t\t- cumulativeInterestRate[_token] += newInterest (../sb/18_LendingPair.sol#1069)\n\t- accrue() (../sb/18_LendingPair.sol#799)\n\t\t- lastBlockAccrued = block.number (../sb/18_LendingPair.sol#793)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_withdrawBorrow",
+            "impact": "Low",
+            "line": 949,
+            "line_end": 963,
+            "message": "Reentrancy in LendingPair._withdrawBorrow(address,uint256) (../sb/18_LendingPair.sol#949-963):\n\tExternal calls:\n\t- _withdraw(_token,withdrawAmount) (../sb/18_LendingPair.sol#955)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tState variables written after the call(s):\n\t- _borrow(_token,borrowAmount) (../sb/18_LendingPair.sol#961)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_accrueAccountInterest",
+            "impact": "Low",
+            "line": 996,
+            "line_end": 1007,
+            "message": "Reentrancy in LendingPair._accrueAccountInterest(address) (../sb/18_LendingPair.sol#996-1007):\n\tExternal calls:\n\t- _accrueAccountSupply(tokenA,lpBalanceA,_account) (../sb/18_LendingPair.sol#1000)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountSupply(tokenB,lpBalanceB,_account) (../sb/18_LendingPair.sol#1001)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tState variables written after the call(s):\n\t- _accrueAccountDebt(tokenA,_account) (../sb/18_LendingPair.sol#1002)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\t- _accrueAccountDebt(tokenB,_account) (../sb/18_LendingPair.sol#1003)\n\t\t- debtOf[_token][_account] += _amount (../sb/18_LendingPair.sol#987)\n\t- _accrueAccountDebt(tokenA,_account) (../sb/18_LendingPair.sol#1002)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n\t- _accrueAccountDebt(tokenB,_account) (../sb/18_LendingPair.sol#1003)\n\t\t- totalDebt[_token] += _amount (../sb/18_LendingPair.sol#988)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "initialize",
+            "impact": "Low",
+            "line": 667,
+            "line_end": 683,
+            "message": "Reentrancy in LendingPair.initialize(address,address,IERC20,IERC20) (../sb/18_LendingPair.sol#667-683):\n\tExternal calls:\n\t- lpToken[tokenA] = _createLpToken(_lpTokenMaster) (../sb/18_LendingPair.sol#681)\n\t\t- newLPToken.initialize() (../sb/18_LendingPair.sol#1074)\n\t- lpToken[tokenB] = _createLpToken(_lpTokenMaster) (../sb/18_LendingPair.sol#682)\n\t\t- newLPToken.initialize() (../sb/18_LendingPair.sol#1074)\n\tState variables written after the call(s):\n\t- lpToken[tokenB] = _createLpToken(_lpTokenMaster) (../sb/18_LendingPair.sol#682)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawAllETH",
+            "impact": "Low",
+            "line": 741,
+            "line_end": 747,
+            "message": "Reentrancy in LendingPair.withdrawAllETH() (../sb/18_LendingPair.sol#741-747):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#742)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdraw(address(WETH),amount) (../sb/18_LendingPair.sol#745)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n\t\t- _withdraw(address(WETH),amount) (../sb/18_LendingPair.sol#745)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "depositRepay",
+            "impact": "Low",
+            "line": 685,
+            "line_end": 691,
+            "message": "Reentrancy in LendingPair.depositRepay(address,address,uint256) (../sb/18_LendingPair.sol#685-691):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#687)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#1063)\n\t\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n\t- Repay(_account,_token,_amount) (../sb/18_LendingPair.sol#1050)\n\t\t- _depositRepay(_account,_token,_amount) (../sb/18_LendingPair.sol#689)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 724,
+            "line_end": 730,
+            "message": "Reentrancy in LendingPair.withdraw(address,uint256) (../sb/18_LendingPair.sol#724-730):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#726)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdraw(_token,_amount) (../sb/18_LendingPair.sol#728)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n\t\t- _withdraw(_token,_amount) (../sb/18_LendingPair.sol#728)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "depositRepayETH",
+            "impact": "Low",
+            "line": 693,
+            "line_end": 698,
+            "message": "Reentrancy in LendingPair.depositRepayETH(address) (../sb/18_LendingPair.sol#693-698):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#694)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#1063)\n\t\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n\t- Repay(_account,_token,_amount) (../sb/18_LendingPair.sol#1050)\n\t\t- _depositRepay(_account,address(WETH),msg.value) (../sb/18_LendingPair.sol#696)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "borrow",
+            "impact": "Low",
+            "line": 749,
+            "line_end": 755,
+            "message": "Reentrancy in LendingPair.borrow(address,uint256) (../sb/18_LendingPair.sol#749-755):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#751)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tEvent emitted after the call(s):\n\t- Borrow(_token,_amount) (../sb/18_LendingPair.sol#1045)\n\t\t- _borrow(_token,_amount) (../sb/18_LendingPair.sol#753)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawBorrow",
+            "impact": "Low",
+            "line": 708,
+            "line_end": 714,
+            "message": "Reentrancy in LendingPair.withdrawBorrow(address,uint256) (../sb/18_LendingPair.sol#708-714):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#710)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Borrow(_token,_amount) (../sb/18_LendingPair.sol#1045)\n\t\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n\t\t- _withdrawBorrow(_token,_amount) (../sb/18_LendingPair.sol#712)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_withdrawBorrow",
+            "impact": "Low",
+            "line": 949,
+            "line_end": 963,
+            "message": "Reentrancy in LendingPair._withdrawBorrow(address,uint256) (../sb/18_LendingPair.sol#949-963):\n\tExternal calls:\n\t- _withdraw(_token,withdrawAmount) (../sb/18_LendingPair.sol#955)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Borrow(_token,_amount) (../sb/18_LendingPair.sol#1045)\n\t\t- _borrow(_token,borrowAmount) (../sb/18_LendingPair.sol#961)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "deposit",
+            "impact": "Low",
+            "line": 700,
+            "line_end": 706,
+            "message": "Reentrancy in LendingPair.deposit(address,address,uint256) (../sb/18_LendingPair.sol#700-706):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#702)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#704)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#1063)\n\t\t- _deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#704)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repay",
+            "impact": "Low",
+            "line": 781,
+            "line_end": 787,
+            "message": "Reentrancy in LendingPair.repay(address,address,uint256) (../sb/18_LendingPair.sol#781-787):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#783)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tEvent emitted after the call(s):\n\t- Repay(_account,_token,_amount) (../sb/18_LendingPair.sol#1050)\n\t\t- _repay(_account,_token,_amount) (../sb/18_LendingPair.sol#785)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawBorrowETH",
+            "impact": "Low",
+            "line": 716,
+            "line_end": 722,
+            "message": "Reentrancy in LendingPair.withdrawBorrowETH(uint256) (../sb/18_LendingPair.sol#716-722):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#717)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Borrow(_token,_amount) (../sb/18_LendingPair.sol#1045)\n\t\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n\t\t- _withdrawBorrow(address(WETH),_amount) (../sb/18_LendingPair.sol#719)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_withdraw",
+            "impact": "Low",
+            "line": 1027,
+            "line_end": 1034,
+            "message": "Reentrancy in LendingPair._withdraw(address,uint256) (../sb/18_LendingPair.sol#1027-1034):\n\tExternal calls:\n\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repayAllETH",
+            "impact": "Low",
+            "line": 766,
+            "line_end": 779,
+            "message": "Reentrancy in LendingPair.repayAllETH(address) (../sb/18_LendingPair.sol#766-779):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#767)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _depositWeth() (../sb/18_LendingPair.sol#772)\n\t\t- WETH.deposit{value: msg.value}() (../sb/18_LendingPair.sol#606)\n\tExternal calls sending eth:\n\t- _depositWeth() (../sb/18_LendingPair.sol#772)\n\t\t- WETH.deposit{value: msg.value}() (../sb/18_LendingPair.sol#606)\n\tEvent emitted after the call(s):\n\t- Repay(_account,_token,_amount) (../sb/18_LendingPair.sol#1050)\n\t\t- _repay(_account,address(WETH),amount) (../sb/18_LendingPair.sol#773)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "_deposit",
+            "impact": "Low",
+            "line": 1053,
+            "line_end": 1064,
+            "message": "Reentrancy in LendingPair._deposit(address,address,uint256) (../sb/18_LendingPair.sol#1053-1064):\n\tExternal calls:\n\t- _mintSupply(_token,_account,_amount) (../sb/18_LendingPair.sol#1060)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\tEvent emitted after the call(s):\n\t- Deposit(_account,_token,_amount) (../sb/18_LendingPair.sol#1063)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "liquidateAccount",
+            "impact": "Low",
+            "line": 856,
+            "line_end": 899,
+            "message": "Reentrancy in LendingPair.liquidateAccount(address,address,uint256,uint256) (../sb/18_LendingPair.sol#856-899):\n\tExternal calls:\n\t- _accrueAccountInterest(_account) (../sb/18_LendingPair.sol#870)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _accrueAccountInterest(feeRecipient()) (../sb/18_LendingPair.sol#871)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _burnSupply(supplyToken,_account,supplyBurn) (../sb/18_LendingPair.sol#889)\n\t\t- lpToken[_token].burn(_account,_amount) (../sb/18_LendingPair.sol#982)\n\t- _mintSupply(supplyToken,feeRecipient(),systemFee) (../sb/18_LendingPair.sol#890)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t- _safeTransferFrom(_repayToken,msg.sender,_repayAmount) (../sb/18_LendingPair.sol#895)\n\t\t- success = IERC20(_token).transferFrom(_sender,address(this),_amount) (../sb/18_LendingPair.sol#592)\n\t- _safeTransfer(IERC20(supplyToken),msg.sender,supplyOutput) (../sb/18_LendingPair.sol#896)\n\t\t- success = _token.transfer(_recipient,_amount) (../sb/18_LendingPair.sol#1080)\n\tEvent emitted after the call(s):\n\t- Liquidation(_account,_repayToken,supplyToken,_repayAmount,supplyOutput) (../sb/18_LendingPair.sol#898)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "repayAll",
+            "impact": "Low",
+            "line": 757,
+            "line_end": 764,
+            "message": "Reentrancy in LendingPair.repayAll(address,address) (../sb/18_LendingPair.sol#757-764):\n\tExternal calls:\n\t- accrueAccount(_account) (../sb/18_LendingPair.sol#759)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\tEvent emitted after the call(s):\n\t- Repay(_account,_token,_amount) (../sb/18_LendingPair.sol#1050)\n\t\t- _repay(_account,_token,amount) (../sb/18_LendingPair.sol#762)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LendingPair",
+            "filename": "18_LendingPair.sol",
+            "function": "withdrawAll",
+            "impact": "Low",
+            "line": 732,
+            "line_end": 739,
+            "message": "Reentrancy in LendingPair.withdrawAll(address) (../sb/18_LendingPair.sol#732-739):\n\tExternal calls:\n\t- accrueAccount(msg.sender) (../sb/18_LendingPair.sol#734)\n\t\t- lpToken[_token].mint(_account,_amount) (../sb/18_LendingPair.sol#976)\n\t\t- rewardDistribution.distributeReward(_account,tokenA) (../sb/18_LendingPair.sol#969)\n\t\t- rewardDistribution.distributeReward(_account,tokenB) (../sb/18_LendingPair.sol#970)\n\t- _withdraw(_token,amount) (../sb/18_LendingPair.sol#737)\n\t\t- lpToken[address(_token)].burn(msg.sender,_amount) (../sb/18_LendingPair.sol#1029)\n\tEvent emitted after the call(s):\n\t- Withdraw(_token,_amount) (../sb/18_LendingPair.sol#1033)\n\t\t- _withdraw(_token,amount) (../sb/18_LendingPair.sol#737)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "_verifyCallResult",
+            "impact": "Informational",
+            "line": 368,
+            "line_end": 385,
+            "message": "Address._verifyCallResult(bool,bytes,string) (../sb/18_LendingPair.sol#368-385) uses assembly\n\t- INLINE ASM (../sb/18_LendingPair.sol#377-380)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 431,
+            "line_end": 441,
+            "message": "Clones.cloneDeterministic(address,bytes32) (../sb/18_LendingPair.sol#431-441) uses assembly\n\t- INLINE ASM (../sb/18_LendingPair.sol#433-439)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 458,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (../sb/18_LendingPair.sol#446-458) uses assembly\n\t- INLINE ASM (../sb/18_LendingPair.sol#448-457)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 412,
+            "line_end": 422,
+            "message": "Clones.clone(address) (../sb/18_LendingPair.sol#412-422) uses assembly\n\t- INLINE ASM (../sb/18_LendingPair.sol#414-420)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 223,
+            "line_end": 232,
+            "message": "Address.isContract(address) (../sb/18_LendingPair.sol#223-232) uses assembly\n\t- INLINE ASM (../sb/18_LendingPair.sol#230)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 360,
+            "line_end": 366,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../sb/18_LendingPair.sol#360-366):\n\t- (success,returndata) = target.delegatecall(data) (../sb/18_LendingPair.sol#364)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 311,
+            "line_end": 318,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../sb/18_LendingPair.sol#311-318):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/18_LendingPair.sol#316)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 336,
+            "line_end": 342,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../sb/18_LendingPair.sol#336-342):\n\t- (success,returndata) = target.staticcall(data) (../sb/18_LendingPair.sol#340)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "18_LendingPair.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 250,
+            "line_end": 256,
+            "message": "Low level call in Address.sendValue(address,uint256) (../sb/18_LendingPair.sol#250-256):\n\t- (success,None) = recipient.call{value: amount}() (../sb/18_LendingPair.sol#254)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "TransferHelper",
+            "filename": "18_LendingPair.sol",
+            "function": "_wethWithdrawTo",
+            "impact": "Informational",
+            "line": 597,
+            "line_end": 602,
+            "message": "Low level call in TransferHelper._wethWithdrawTo(address,uint256) (../sb/18_LendingPair.sol#597-602):\n\t- (success,None) = _to.call{value: _amount}(new bytes(0)) (../sb/18_LendingPair.sol#600)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 700,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._token (../sb/18_LendingPair.sol#700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._token (../sb/18_LendingPair.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 724,
+            "message": "Parameter LendingPair.withdraw(address,uint256)._token (../sb/18_LendingPair.sol#724) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 922,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._fromToken (../sb/18_LendingPair.sol#922) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 693,
+            "message": "Parameter LendingPair.depositRepayETH(address)._account (../sb/18_LendingPair.sol#693) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 823,
+            "message": "Parameter LendingPair.borrowBalance(address,address,address)._returnToken (../sb/18_LendingPair.sol#823) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 670,
+            "message": "Parameter LendingPair.initialize(address,address,IERC20,IERC20)._tokenA (../sb/18_LendingPair.sol#670) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 708,
+            "message": "Parameter LendingPair.withdrawBorrow(address,uint256)._token (../sb/18_LendingPair.sol#708) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 504,
+            "message": "Parameter ERC20.approve(address,uint256)._spender (../sb/18_LendingPair.sol#504) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 668,
+            "message": "Parameter LendingPair.initialize(address,address,IERC20,IERC20)._lpTokenMaster (../sb/18_LendingPair.sol#668) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 757,
+            "message": "Parameter LendingPair.repayAll(address,address)._account (../sb/18_LendingPair.sol#757) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 685,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._account (../sb/18_LendingPair.sol#685) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 749,
+            "message": "Parameter LendingPair.borrow(address,uint256)._amount (../sb/18_LendingPair.sol#749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 700,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._account (../sb/18_LendingPair.sol#700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 844,
+            "message": "Parameter LendingPair.supplyRatePerBlock(address)._token (../sb/18_LendingPair.sol#844) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 685,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._token (../sb/18_LendingPair.sol#685) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 916,
+            "message": "Parameter LendingPair.checkAccountHealth(address)._account (../sb/18_LendingPair.sol#916) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 509,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._recipient (../sb/18_LendingPair.sol#509) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 749,
+            "message": "Parameter LendingPair.borrow(address,uint256)._token (../sb/18_LendingPair.sol#749) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 907,
+            "message": "Parameter LendingPair.pendingBorrowInterest(address,address)._token (../sb/18_LendingPair.sol#907) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 700,
+            "message": "Parameter LendingPair.deposit(address,address,uint256)._amount (../sb/18_LendingPair.sol#700) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 669,
+            "message": "Parameter LendingPair.initialize(address,address,IERC20,IERC20)._controller (../sb/18_LendingPair.sol#669) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 671,
+            "message": "Parameter LendingPair.initialize(address,address,IERC20,IERC20)._tokenB (../sb/18_LendingPair.sol#671) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 685,
+            "message": "Parameter LendingPair.depositRepay(address,address,uint256)._amount (../sb/18_LendingPair.sol#685) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IController",
+            "filename": "18_LendingPair.sol",
+            "function": "LIQ_MIN_HEALTH",
+            "impact": "Informational",
+            "line": 75,
+            "message": "Function IController.LIQ_MIN_HEALTH() (../sb/18_LendingPair.sol#75) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 716,
+            "message": "Parameter LendingPair.withdrawBorrowETH(uint256)._amount (../sb/18_LendingPair.sol#716) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 901,
+            "message": "Parameter LendingPair.pendingSupplyInterest(address,address)._account (../sb/18_LendingPair.sol#901) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 509,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._sender (../sb/18_LendingPair.sol#509) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter ERC20.burn(address,uint256)._amount (../sb/18_LendingPair.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 807,
+            "message": "Parameter LendingPair.accountHealth(address)._account (../sb/18_LendingPair.sol#807) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 834,
+            "message": "Parameter LendingPair.supplyBalance(address,address,address)._suppliedToken (../sb/18_LendingPair.sol#834) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 708,
+            "message": "Parameter LendingPair.withdrawBorrow(address,uint256)._amount (../sb/18_LendingPair.sol#708) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 849,
+            "message": "Parameter LendingPair.borrowRatePerBlock(address)._token (../sb/18_LendingPair.sol#849) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 907,
+            "message": "Parameter LendingPair.pendingBorrowInterest(address,address)._account (../sb/18_LendingPair.sol#907) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 923,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._toToken (../sb/18_LendingPair.sol#923) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 757,
+            "message": "Parameter LendingPair.repayAll(address,address)._token (../sb/18_LendingPair.sol#757) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 724,
+            "message": "Parameter LendingPair.withdraw(address,uint256)._amount (../sb/18_LendingPair.sol#724) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 858,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._repayToken (../sb/18_LendingPair.sol#858) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 504,
+            "message": "Parameter ERC20.approve(address,uint256)._amount (../sb/18_LendingPair.sol#504) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 924,
+            "message": "Parameter LendingPair.convertTokenValues(address,address,uint256)._inputAmount (../sb/18_LendingPair.sol#924) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 822,
+            "message": "Parameter LendingPair.borrowBalance(address,address,address)._borrowedToken (../sb/18_LendingPair.sol#822) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 859,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._repayAmount (../sb/18_LendingPair.sol#859) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 509,
+            "message": "Parameter ERC20.transferFrom(address,address,uint256)._amount (../sb/18_LendingPair.sol#509) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 833,
+            "message": "Parameter LendingPair.supplyBalance(address,address,address)._account (../sb/18_LendingPair.sol#833) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 499,
+            "message": "Parameter ERC20.transfer(address,uint256)._recipient (../sb/18_LendingPair.sol#499) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 797,
+            "message": "Parameter LendingPair.accrueAccount(address)._account (../sb/18_LendingPair.sol#797) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 821,
+            "message": "Parameter LendingPair.borrowBalance(address,address,address)._account (../sb/18_LendingPair.sol#821) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 499,
+            "message": "Parameter ERC20.transfer(address,uint256)._amount (../sb/18_LendingPair.sol#499) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 732,
+            "message": "Parameter LendingPair.withdrawAll(address)._token (../sb/18_LendingPair.sol#732) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 516,
+            "message": "Parameter ERC20.mint(address,uint256)._account (../sb/18_LendingPair.sol#516) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 860,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._minSupplyOutput (../sb/18_LendingPair.sol#860) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 835,
+            "message": "Parameter LendingPair.supplyBalance(address,address,address)._returnToken (../sb/18_LendingPair.sol#835) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 766,
+            "message": "Parameter LendingPair.repayAllETH(address)._account (../sb/18_LendingPair.sol#766) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._account (../sb/18_LendingPair.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 516,
+            "message": "Parameter ERC20.mint(address,uint256)._amount (../sb/18_LendingPair.sol#516) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 520,
+            "message": "Parameter ERC20.burn(address,uint256)._account (../sb/18_LendingPair.sol#520) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 781,
+            "message": "Parameter LendingPair.repay(address,address,uint256)._amount (../sb/18_LendingPair.sol#781) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 857,
+            "message": "Parameter LendingPair.liquidateAccount(address,address,uint256,uint256)._account (../sb/18_LendingPair.sol#857) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Informational",
+            "line": 901,
+            "message": "Parameter LendingPair.pendingSupplyInterest(address,address)._token (../sb/18_LendingPair.sol#901) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 412,
+            "line_end": 422,
+            "message": "Clones.clone(address) (../sb/18_LendingPair.sol#412-422) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (../sb/18_LendingPair.sol#416)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 431,
+            "line_end": 441,
+            "message": "Clones.cloneDeterministic(address,bytes32) (../sb/18_LendingPair.sol#431-441) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (../sb/18_LendingPair.sol#435)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 458,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (../sb/18_LendingPair.sol#446-458) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf3ff00000000000000000000000000000000) (../sb/18_LendingPair.sol#452)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 446,
+            "line_end": 458,
+            "message": "Clones.predictDeterministicAddress(address,bytes32,address) (../sb/18_LendingPair.sol#446-458) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (../sb/18_LendingPair.sol#450)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 412,
+            "line_end": 422,
+            "message": "Clones.clone(address) (../sb/18_LendingPair.sol#412-422) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (../sb/18_LendingPair.sol#418)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Clones",
+            "filename": "18_LendingPair.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 431,
+            "line_end": 441,
+            "message": "Clones.cloneDeterministic(address,bytes32) (../sb/18_LendingPair.sol#431-441) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (../sb/18_LendingPair.sol#437)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "18_LendingPair.sol",
+            "impact": "Optimization",
+            "line": 485,
+            "message": "ERC20.decimals (../sb/18_LendingPair.sol#485) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,14 @@
+{
+    "errors": [],
+    "fails": [
+        "SmartBugs was invoked with option 'main', but the filename did not match any contract",
+        "no tar archive collected from the container"
+    ],
+    "findings": [],
+    "infos": [],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

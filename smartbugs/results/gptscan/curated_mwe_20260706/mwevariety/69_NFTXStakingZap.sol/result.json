@@ -1,0 +1,22 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "GPTScan reported success=false: no output produced",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected primary ... 9:4335: | 189 |  ... token).balanceOf(address(this)));}} |                                         ^",
+        "solc rejected 69_NFTXStakingZap.sol: Error: Expected primary expression. --> /work/input/69_NFTXStakingZap.sol:189:4 335: | 189 |  ... token).balanceOf(address(this)));}} | ^"
+    ],
+    "fails": [
+        "exception (TypeError: 'NoneType' object is not subscriptable)",
+        "exception (UnboundLocalError: local variable 'match_flag' referenced before assignment)"
+    ],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

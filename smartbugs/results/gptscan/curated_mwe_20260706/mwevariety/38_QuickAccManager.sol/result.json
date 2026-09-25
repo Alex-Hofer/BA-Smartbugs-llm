@@ -1,0 +1,26 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Warning: SPDX license i ... ickAccManager.sol:3:1: | 3 | import \"../interfaces/IERC20.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^",
+        "solc rejected 38_QuickAccManager.sol: Warning: SPDX license identifier not provided in source file.  ... ickAccManager.sol:3:1: | 3 | import \"../interfaces/IERC20.sol\"; | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "mwevariety\\38_QuickAccManager.sol",
+            "line": 80,
+            "line_end": 91,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=3, est_cost_usd=0.0005"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

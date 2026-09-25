@@ -1,0 +1,62 @@
+{
+    "debug": {
+        "sb_bin_log": []
+    },
+    "docker": {
+        "command": null,
+        "detach": true,
+        "entrypoint": "'/sb/bin/do_solidity.sh' '/sb/ERC20.sol' '600' '/sb/bin' '0'",
+        "environment": {
+            "GPTSCAN_DRY_RUN": "1",
+            "GPTSCAN_PROVIDER": "deepseek"
+        },
+        "image": "smartbugs/gptscan:1.0",
+        "network": "bridge",
+        "user": 0,
+        "volumes": {
+            "C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmp6zfec29w": {
+                "bind": "/sb",
+                "mode": "rw"
+            }
+        }
+    },
+    "filename": "\\Users\\Carlo\\Desktop\\Familie\\Alex\\Uni\\BACHELORARBEIT\\2. step\\Code\\smartbugs\\samples\\0.8.24\\ERC20.sol",
+    "platform": {
+        "cpu": "13th Gen Intel(R) Core(TM) i5-13400F",
+        "host": 5506877062419836103,
+        "machine": "AMD64",
+        "python": "3.13.12.final.0 (64 bit)",
+        "release": "11",
+        "smartbugs": "2.1.1",
+        "system": "Windows",
+        "user": 7976531507685959524,
+        "version": "10.0.26200"
+    },
+    "result": {
+        "duration": 3.4646403789520264,
+        "exit_code": 0,
+        "logs": "result.log",
+        "output": "result.tar",
+        "start": 1782892059.590997
+    },
+    "runid": "assign6_dry_0_8_24",
+    "solc": "0.8.24",
+    "tool": {
+        "bin": "scripts",
+        "command": null,
+        "cpu_quota": null,
+        "entrypoint": "'$BIN/do_solidity.sh' '$FILENAME' '$TIMEOUT' '$BIN' '$MAIN'",
+        "id": "gptscan",
+        "image": "smartbugs/gptscan:1.0",
+        "info": "GPTScan detects DeFi logic vulnerabilities by combining an LLM (OpenAI or DeepSeek) with program analysis. This build talks to an OpenAI-compatible backend selected at run time.",
+        "mem_limit": null,
+        "mode": "solidity",
+        "name": "GPTScan",
+        "network": "bridge",
+        "origin": "https://github.com/GPTScan/GPTScan",
+        "output": "/output.json",
+        "parser": "parser.py",
+        "solc": true,
+        "version": "1.0"
+    }
+}

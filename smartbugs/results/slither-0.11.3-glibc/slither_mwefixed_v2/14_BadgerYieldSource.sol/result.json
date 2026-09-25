@@ -1,0 +1,124 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "High",
+            "line": 1881,
+            "line_end": 1890,
+            "message": "BadgerYieldSource.supplyTokenTo(uint256,address) (14_BadgerYieldSource.sol#1881-1890) ignores return value by badger.transferFrom(msg.sender,address(this),amount) (14_BadgerYieldSource.sol#1882)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "High",
+            "line": 1895,
+            "line_end": 1919,
+            "message": "BadgerYieldSource.redeemToken(uint256) (14_BadgerYieldSource.sol#1895-1919) ignores return value by badger.transfer(msg.sender,badgerBalanceDiff) (14_BadgerYieldSource.sol#1917)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "High",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "balanceOfToken",
+            "impact": "Medium",
+            "line": 1870,
+            "line_end": 1876,
+            "message": "BadgerYieldSource.balanceOfToken(address) (14_BadgerYieldSource.sol#1870-1876) uses a dangerous strict equality:\n\t- balances[addr] == 0 (14_BadgerYieldSource.sol#1871)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "Medium",
+            "line": 1881,
+            "line_end": 1890,
+            "message": "BadgerYieldSource.supplyTokenTo(uint256,address) (14_BadgerYieldSource.sol#1881-1890) ignores return value by badger.approve(address(badgerSett),amount) (14_BadgerYieldSource.sol#1883)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "redeemToken",
+            "impact": "Low",
+            "line": 1895,
+            "line_end": 1919,
+            "message": "Reentrancy in BadgerYieldSource.redeemToken(uint256) (14_BadgerYieldSource.sol#1895-1919):\n\tExternal calls:\n\t- badgerSett.withdraw(requiredSharesBalance) (14_BadgerYieldSource.sol#1911)\n\tState variables written after the call(s):\n\t- balances[msg.sender] = balances[msg.sender].sub(requiredSharesBalance) (14_BadgerYieldSource.sol#1916)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BadgerYieldSource",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "supplyTokenTo",
+            "impact": "Low",
+            "line": 1881,
+            "line_end": 1890,
+            "message": "Reentrancy in BadgerYieldSource.supplyTokenTo(uint256,address) (14_BadgerYieldSource.sol#1881-1890):\n\tExternal calls:\n\t- badger.transferFrom(msg.sender,address(this),amount) (14_BadgerYieldSource.sol#1882)\n\t- badger.approve(address(badgerSett),amount) (14_BadgerYieldSource.sol#1883)\n\t- badgerSett.deposit(amount) (14_BadgerYieldSource.sol#1886)\n\tState variables written after the call(s):\n\t- balances[to] = balances[to].add(balanceDiff) (14_BadgerYieldSource.sol#1889)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "_castToPure",
+            "impact": "Informational",
+            "line": 309,
+            "line_end": 315,
+            "message": "console._castToPure(function(bytes)) (14_BadgerYieldSource.sol#309-315) uses assembly\n\t- INLINE ASM (14_BadgerYieldSource.sol#312-314)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "console",
+            "filename": "14_BadgerYieldSource.sol",
+            "function": "_sendLogPayloadImplementation",
+            "impact": "Informational",
+            "line": 292,
+            "line_end": 307,
+            "message": "console._sendLogPayloadImplementation(bytes) (14_BadgerYieldSource.sol#292-307) uses assembly\n\t- INLINE ASM (14_BadgerYieldSource.sol#295-306)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_BadgerYieldSource.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (14_BadgerYieldSource.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_BadgerYieldSource.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "14_BadgerYieldSource.sol",
+            "impact": "Informational",
+            "line": 288,
+            "line_end": 1836,
+            "message": "Contract console (14_BadgerYieldSource.sol#288-1836) is not in CapWords\n",
+            "name": "naming-convention"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

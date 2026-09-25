@@ -1,0 +1,30 @@
+{
+    "errors": [
+        "AttributeError: 'NoneType' object has no attribute 'lower'",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _burn, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _mint, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _mintTimelock, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _sweepTimelockBalances, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: _tokenTotalSupply, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: beforeTokenTransfer, current vul: unauthorized-transfer",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: captureAwardBalance, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: timelockDepositTo, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/14_PrizePool.sol, current function: withdrawReserve, current vul: first-deposit",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 250, in si ... ower() in answer[to_exclude_key].lower(): AttributeError: 'NoneType' object has no attribute 'lower'",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=105, est_cost_usd=0.0124",
+        "static confirmation filtered LLM candidates: 41 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "OddsAndEvens",
+            "filename": "front_running\\odds_and_evens.sol",
+            "function": "andTheWinnerIs",
+            "impact": "High",
+            "line": 34,
+            "line_end": 46,
+            "message": "OddsAndEvens.andTheWinnerIs() (../sb/odds_and_evens.sol#34-46) sends eth to arbitrary user\n\tDangerous calls:\n\t- res = players[0].addr.send(1800000000000000000) (../sb/odds_and_evens.sol#38)\n\t- res = players[1].addr.send(1800000000000000000) (../sb/odds_and_evens.sol#41)\n",
+            "name": "arbitrary-send-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "front_running\\odds_and_evens.sol",
+            "impact": "Informational",
+            "line": 49,
+            "message": "Deprecated standard detected THROW (../sb/odds_and_evens.sol#49):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "front_running\\odds_and_evens.sol",
+            "impact": "Informational",
+            "line": 26,
+            "message": "Deprecated standard detected THROW (../sb/odds_and_evens.sol#26):\n\t- Usage of \"throw\" should be replaced with \"revert()\"\n",
+            "name": "deprecated-standards"
+        },
+        {
+            "confidence": "High",
+            "filename": "front_running\\odds_and_evens.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.2 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction\n\t- IdentityPrecompileReturnIgnored\n\t- HighOrderByteCleanStorage\n\t- OptimizerStaleKnowledgeAboutSHA3.\nIt is used by:\n\t- ^0.4.2 (../sb/odds_and_evens.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "front_running\\odds_and_evens.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "OddsAndEvens",
+            "filename": "front_running\\odds_and_evens.sol",
+            "function": "andTheWinnerIs",
+            "impact": "Informational",
+            "line": 34,
+            "line_end": 46,
+            "message": "Reentrancy in OddsAndEvens.andTheWinnerIs() (../sb/odds_and_evens.sol#34-46):\n\tExternal calls:\n\t- res = players[0].addr.send(1800000000000000000) (../sb/odds_and_evens.sol#38)\n\t- res = players[1].addr.send(1800000000000000000) (../sb/odds_and_evens.sol#41)\n\tState variables written after the call(s):\n\t- delete players (../sb/odds_and_evens.sol#44)\n\t- tot = 0 (../sb/odds_and_evens.sol#45)\n",
+            "name": "reentrancy-unlimited-gas"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

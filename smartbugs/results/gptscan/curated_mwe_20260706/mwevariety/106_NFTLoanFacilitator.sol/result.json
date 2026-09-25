@@ -1,0 +1,22 @@
+{
+    "errors": [
+        "EXIT_CODE_1",
+        "GPTScan reported success=false: no output produced",
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... 48: | 37 |  ... o)externaloverridereturns (uint256 id){ |                                         ^^",
+        "solc rejected 106_NFTLoanFacilitator.sol: Error: Expected ',' but got identifier --> /work/input/106_NFTLoanFacilitator.sol: 37:248: | 37 |  ... o)externaloverridereturns (uint256 id){ | ^^"
+    ],
+    "fails": [
+        "exception (TypeError: 'NoneType' object is not subscriptable)",
+        "exception (UnboundLocalError: local variable 'match_flag' referenced before assignment)"
+    ],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "no output produced"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

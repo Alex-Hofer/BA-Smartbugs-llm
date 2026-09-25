@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Function, variab ... _Vether.sol:5:3130: | 5 |  ... ddress_Excluded = true;}} |                                         ^",
+        "solc rejected 5_Vether.sol: Error: Function, variable, struct or modifier declaration expected. --> /work/input/5_Vether.sol:5:3130: | 5 |  ... ddress_Excluded[excluded] = true;}} | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

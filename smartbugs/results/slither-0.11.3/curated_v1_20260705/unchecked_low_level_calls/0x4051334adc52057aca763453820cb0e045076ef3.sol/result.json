@@ -1,0 +1,104 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "airdrop",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "function": "transfer",
+            "impact": "Medium",
+            "line": 11,
+            "line_end": 19,
+            "message": "airdrop.transfer(address,address,address[],uint256) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11-19) ignores return value by caddress.call(id,from,_tos[i],v) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#16)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Low",
+            "line": 11,
+            "message": "airdrop.transfer(address,address,address[],uint256).caddress (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11) lacks a zero-check on :\n\t\t- caddress.call(id,from,_tos[i],v) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#16)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Low",
+            "line": 11,
+            "message": "airdrop.transfer(address,address,address[],uint256).from (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11) lacks a zero-check on :\n\t\t- caddress.call(id,from,_tos[i],v) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#16)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "airdrop",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "function": "transfer",
+            "impact": "Low",
+            "line": 11,
+            "line_end": 19,
+            "message": "airdrop.transfer(address,address,address[],uint256) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11-19) has external calls inside a loop: caddress.call(id,from,_tos[i],v) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#16)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.24 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x\n\t- ExpExponentCleanup\n\t- EventStructWrongData.\nIt is used by:\n\t- ^0.4.24 (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "airdrop",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "function": "transfer",
+            "impact": "Informational",
+            "line": 11,
+            "line_end": 19,
+            "message": "Low level call in airdrop.transfer(address,address,address[],uint256) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11-19):\n\t- caddress.call(id,from,_tos[i],v) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#16)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Informational",
+            "line": 11,
+            "message": "Parameter airdrop.transfer(address,address,address[],uint256)._tos (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "impact": "Informational",
+            "line": 9,
+            "line_end": 21,
+            "message": "Contract airdrop (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#9-21) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "airdrop",
+            "filename": "unchecked_low_level_calls\\0x4051334adc52057aca763453820cb0e045076ef3.sol",
+            "function": "transfer",
+            "impact": "Optimization",
+            "line": 11,
+            "line_end": 19,
+            "message": "transfer(address,address,address[],uint256) should be declared external:\n\t- airdrop.transfer(address,address,address[],uint256) (../sb/0x4051334adc52057aca763453820cb0e045076ef3.sol#11-19)\n",
+            "name": "external-function"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

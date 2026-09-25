@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected type na ... 2:3041 : | 22 |  ... ansfer(token, from, to, shares);}}} |                                         ^",
+        "solc rejected 34_ConcentratedLiquidityPos ition.sol: Error: Expected type name --> /work/input/34_ConcentratedLiquidityPos ition.sol:22:3041: | 22 |  ... ansfer(token, from, to, shares);}}} | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

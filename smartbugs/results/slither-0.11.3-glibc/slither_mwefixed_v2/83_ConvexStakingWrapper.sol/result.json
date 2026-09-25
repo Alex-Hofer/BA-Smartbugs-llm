@@ -1,0 +1,693 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "High",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) ignores return value by IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "High",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) ignores return value by IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n",
+            "name": "unchecked-transfer"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1334,
+            "line_end": 1353,
+            "message": "MasterChef.updatePool(uint256) (83_ConvexStakingWrapper.sol#1334-1353) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_ConvexStakingWrapper.sol#1350)\n\t- pool.accConcurPerShare = pool.accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_ConvexStakingWrapper.sol#1351)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "pendingConcur",
+            "impact": "Medium",
+            "line": 1312,
+            "line_end": 1323,
+            "message": "MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_ConvexStakingWrapper.sol#1319)\n\t- accConcurPerShare = accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_ConvexStakingWrapper.sol#1320)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1334,
+            "line_end": 1353,
+            "message": "MasterChef.updatePool(uint256) (83_ConvexStakingWrapper.sol#1334-1353) uses a dangerous strict equality:\n\t- lpSupply == 0 || pool.allocPoint == 0 (83_ConvexStakingWrapper.sol#1340)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1641,
+            "line_end": 1663,
+            "message": "Reentrancy in ConvexStakingWrapper.deposit(uint256,uint256) (83_ConvexStakingWrapper.sol#1641-1663):\n\tExternal calls:\n\t- _checkpoint(_pid,msg.sender) (83_ConvexStakingWrapper.sol#1646)\n\t\t- IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\t\t- IRewardStaking(convexPool[_pid]).getReward(address(this),true) (83_ConvexStakingWrapper.sol#1629)\n\t\t- IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\t\t- claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\tState variables written after the call(s):\n\t- deposits[_pid][msg.sender].epoch = currentEpoch() (83_ConvexStakingWrapper.sol#1647)\n\tConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476) can be used in cross function reentrancies:\n\t- ConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476)\n\t- ConvexStakingWrapper.requestWithdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1699-1705)\n\t- deposits[_pid][msg.sender].amount += uint192(_amount) (83_ConvexStakingWrapper.sol#1648)\n\tConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476) can be used in cross function reentrancies:\n\t- ConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476)\n\t- ConvexStakingWrapper.requestWithdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1699-1705)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1356,
+            "line_end": 1379,
+            "message": "Reentrancy in MasterChef.deposit(address,uint256,uint256) (83_ConvexStakingWrapper.sol#1356-1379):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_ConvexStakingWrapper.sol#1364)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_ConvexStakingWrapper.sol#1405)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_ConvexStakingWrapper.sol#1407)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount + _amount - depositFee) (83_ConvexStakingWrapper.sol#1371)\n\tMasterChef.userInfo (83_ConvexStakingWrapper.sol#1246) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323)\n\t- MasterChef.userInfo (83_ConvexStakingWrapper.sol#1246)\n\t- user.amount = SafeCast.toUint128(user.amount + _amount) (83_ConvexStakingWrapper.sol#1373)\n\tMasterChef.userInfo (83_ConvexStakingWrapper.sol#1246) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323)\n\t- MasterChef.userInfo (83_ConvexStakingWrapper.sol#1246)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_ConvexStakingWrapper.sol#1377)\n\tMasterChef.userInfo (83_ConvexStakingWrapper.sol#1246) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323)\n\t- MasterChef.userInfo (83_ConvexStakingWrapper.sol#1246)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1669,
+            "line_end": 1687,
+            "message": "Reentrancy in ConvexStakingWrapper.withdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1669-1687):\n\tExternal calls:\n\t- _checkpoint(_pid,msg.sender) (83_ConvexStakingWrapper.sol#1673)\n\t\t- IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\t\t- IRewardStaking(convexPool[_pid]).getReward(address(this),true) (83_ConvexStakingWrapper.sol#1629)\n\t\t- IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\t\t- claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\t- IRewardStaking(convexPool[_pid]).withdrawAndUnwrap(_amount,false) (83_ConvexStakingWrapper.sol#1676)\n\t- lpToken.safeTransfer(msg.sender,_amount) (83_ConvexStakingWrapper.sol#1680)\n\t- masterChef.withdraw(msg.sender,pid,_amount) (83_ConvexStakingWrapper.sol#1682)\n\tState variables written after the call(s):\n\t- delete withdrawRequest[_pid][msg.sender] (83_ConvexStakingWrapper.sol#1684)\n\tConvexStakingWrapper.withdrawRequest (83_ConvexStakingWrapper.sol#1477) can be used in cross function reentrancies:\n\t- ConvexStakingWrapper.requestWithdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1699-1705)\n\t- ConvexStakingWrapper.withdrawRequest (83_ConvexStakingWrapper.sol#1477)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1382,
+            "line_end": 1398,
+            "message": "Reentrancy in MasterChef.withdraw(address,uint256,uint256) (83_ConvexStakingWrapper.sol#1382-1398):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_ConvexStakingWrapper.sol#1391)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_ConvexStakingWrapper.sol#1405)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_ConvexStakingWrapper.sol#1407)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount - _amount) (83_ConvexStakingWrapper.sol#1394)\n\tMasterChef.userInfo (83_ConvexStakingWrapper.sol#1246) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323)\n\t- MasterChef.userInfo (83_ConvexStakingWrapper.sol#1246)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_ConvexStakingWrapper.sol#1396)\n\tMasterChef.userInfo (83_ConvexStakingWrapper.sol#1246) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_ConvexStakingWrapper.sol#1312-1323)\n\t- MasterChef.userInfo (83_ConvexStakingWrapper.sol#1246)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1669,
+            "line_end": 1687,
+            "message": "Reentrancy in ConvexStakingWrapper.withdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1669-1687):\n\tExternal calls:\n\t- _checkpoint(_pid,msg.sender) (83_ConvexStakingWrapper.sol#1673)\n\t\t- IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\t\t- IRewardStaking(convexPool[_pid]).getReward(address(this),true) (83_ConvexStakingWrapper.sol#1629)\n\t\t- IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\t\t- claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\tState variables written after the call(s):\n\t- deposits[_pid][msg.sender].amount -= uint192(_amount) (83_ConvexStakingWrapper.sol#1674)\n\tConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476) can be used in cross function reentrancies:\n\t- ConvexStakingWrapper.deposits (83_ConvexStakingWrapper.sol#1476)\n\t- ConvexStakingWrapper.requestWithdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1699-1705)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Medium",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "Reentrancy in ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620):\n\tExternal calls:\n\t- IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\t- IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\t- claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\tState variables written after the call(s):\n\t- rewards[_pid][_index] = reward (83_ConvexStakingWrapper.sol#1619)\n\tConvexStakingWrapper.rewards (83_ConvexStakingWrapper.sol#1456) can be used in cross function reentrancies:\n\t- ConvexStakingWrapper.addRewards(uint256) (83_ConvexStakingWrapper.sol#1506-1553)\n\t- ConvexStakingWrapper.rewardLength(uint256) (83_ConvexStakingWrapper.sol#1555-1557)\n\t- ConvexStakingWrapper.rewards (83_ConvexStakingWrapper.sol#1456)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1641,
+            "line_end": 1663,
+            "message": "ConvexStakingWrapper.deposit(uint256,uint256) (83_ConvexStakingWrapper.sol#1641-1663) ignores return value by IConvexDeposits(convexBooster).deposit(_pid,_amount,true) (83_ConvexStakingWrapper.sol#1656)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 1285,
+            "line_end": 1300,
+            "message": "MasterChef.add(address,uint256,uint16,uint256) (83_ConvexStakingWrapper.sol#1285-1300) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocationPoints) (83_ConvexStakingWrapper.sol#1288) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Low",
+            "line": 1495,
+            "message": "ConvexStakingWrapper.changeTreasury(address)._treasury (83_ConvexStakingWrapper.sol#1495) lacks a zero-check on :\n\t\t- treasury = _treasury (83_ConvexStakingWrapper.sol#1496)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Low",
+            "line": 1482,
+            "message": "ConvexStakingWrapper.constructor(address,MasterChef)._treasury (83_ConvexStakingWrapper.sol#1482) lacks a zero-check on :\n\t\t- treasury = _treasury (83_ConvexStakingWrapper.sol#1483)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.withdraw(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: bal = IERC20(reward.token).balanceOf(address(this)) (83_ConvexStakingWrapper.sol#1588)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.withdraw(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1334,
+            "line_end": 1353,
+            "message": "MasterChef.updatePool(uint256) (83_ConvexStakingWrapper.sol#1334-1353) has external calls inside a loop: lpSupply = pool.depositToken.balanceOf(address(this)) (83_ConvexStakingWrapper.sol#1339)\n\tCalls stack containing the loop:\n\t\tMasterChef.massUpdatePools()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: claimContract.pushReward(_account,reward.token,(_balance * (reward.integral - userI)) / 1e20) (83_ConvexStakingWrapper.sol#1607-1611)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.deposit(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "addRewards",
+            "impact": "Low",
+            "line": 1506,
+            "line_end": 1553,
+            "message": "ConvexStakingWrapper.addRewards(uint256) (83_ConvexStakingWrapper.sol#1506-1553) has external calls inside a loop: extraPool = IRewardStaking(mainPool).extraRewards(i) (83_ConvexStakingWrapper.sol#1535)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: bal = IERC20(reward.token).balanceOf(address(this)) (83_ConvexStakingWrapper.sol#1588)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.deposit(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "addRewards",
+            "impact": "Low",
+            "line": 1506,
+            "line_end": 1553,
+            "message": "ConvexStakingWrapper.addRewards(uint256) (83_ConvexStakingWrapper.sol#1506-1553) has external calls inside a loop: extraToken = IRewardStaking(extraPool).rewardToken() (83_ConvexStakingWrapper.sol#1536)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.withdraw(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.deposit(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "addRewards",
+            "impact": "Low",
+            "line": 1506,
+            "line_end": 1553,
+            "message": "ConvexStakingWrapper.addRewards(uint256) (83_ConvexStakingWrapper.sol#1506-1553) has external calls inside a loop: rewards[_pid].push(RewardType({token:IRewardStaking(extraPool).rewardToken(),pool:extraPool,integral:0,remaining:0})) (83_ConvexStakingWrapper.sol#1542-1549)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.deposit(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620) has external calls inside a loop: IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\tCalls stack containing the loop:\n\t\tConvexStakingWrapper.withdraw(uint256,uint256)\n\t\tConvexStakingWrapper._checkpoint(uint256,address)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_calcRewardIntegral",
+            "impact": "Low",
+            "line": 1577,
+            "line_end": 1620,
+            "message": "Reentrancy in ConvexStakingWrapper._calcRewardIntegral(uint256,uint256,address,uint256,uint256) (83_ConvexStakingWrapper.sol#1577-1620):\n\tExternal calls:\n\t- IERC20(reward.token).transfer(treasury,d_reward / 5) (83_ConvexStakingWrapper.sol#1592)\n\t- IERC20(reward.token).transfer(address(claimContract),d_reward) (83_ConvexStakingWrapper.sol#1595)\n\tState variables written after the call(s):\n\t- userReward[_pid][_index][_account].integral = reward.integral (83_ConvexStakingWrapper.sol#1606)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ConvexStakingWrapper",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 1669,
+            "line_end": 1687,
+            "message": "ConvexStakingWrapper.withdraw(uint256,uint256) (83_ConvexStakingWrapper.sol#1669-1687) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(request.epoch < currentEpoch() && deposits[_pid][msg.sender].epoch + 1 < currentEpoch(),wait) (83_ConvexStakingWrapper.sol#1671)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 389,
+            "line_end": 409,
+            "message": "Address.verifyCallResult(bool,bytes,string) (83_ConvexStakingWrapper.sol#389-409) uses assembly\n\t- INLINE ASM (83_ConvexStakingWrapper.sol#401-404)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 220,
+            "line_end": 230,
+            "message": "Address.isContract(address) (83_ConvexStakingWrapper.sol#220-230) uses assembly\n\t- INLINE ASM (83_ConvexStakingWrapper.sol#226-228)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 26,
+            "line_end": 28,
+            "message": "Context._msgData() (83_ConvexStakingWrapper.sol#26-28) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 248,
+            "line_end": 253,
+            "message": "Low level call in Address.sendValue(address,uint256) (83_ConvexStakingWrapper.sol#248-253):\n\t- (success,None) = recipient.call{value: amount}() (83_ConvexStakingWrapper.sol#251)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 316,
+            "line_end": 327,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (83_ConvexStakingWrapper.sol#316-327):\n\t- (success,returndata) = target.call{value: value}(data) (83_ConvexStakingWrapper.sol#325)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 345,
+            "line_end": 354,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (83_ConvexStakingWrapper.sol#345-354):\n\t- (success,returndata) = target.staticcall(data) (83_ConvexStakingWrapper.sol#352)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 372,
+            "line_end": 381,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (83_ConvexStakingWrapper.sol#372-381):\n\t- (success,returndata) = target.delegatecall(data) (83_ConvexStakingWrapper.sol#379)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1669,
+            "message": "Parameter ConvexStakingWrapper.withdraw(uint256,uint256)._amount (83_ConvexStakingWrapper.sol#1669) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1699,
+            "message": "Parameter ConvexStakingWrapper.requestWithdraw(uint256,uint256)._amount (83_ConvexStakingWrapper.sol#1699) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1277,
+            "message": "Parameter MasterChef.addDepositor(address)._depositor (83_ConvexStakingWrapper.sol#1277) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1669,
+            "message": "Parameter ConvexStakingWrapper.withdraw(uint256,uint256)._pid (83_ConvexStakingWrapper.sol#1669) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1356,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._recipient (83_ConvexStakingWrapper.sol#1356) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1382,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._amount (83_ConvexStakingWrapper.sol#1382) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._startBlock (83_ConvexStakingWrapper.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1334,
+            "message": "Parameter MasterChef.updatePool(uint256)._pid (83_ConvexStakingWrapper.sol#1334) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1356,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._amount (83_ConvexStakingWrapper.sol#1356) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1307,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._from (83_ConvexStakingWrapper.sol#1307) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1312,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._pid (83_ConvexStakingWrapper.sol#1312) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1506,
+            "message": "Parameter ConvexStakingWrapper.addRewards(uint256)._pid (83_ConvexStakingWrapper.sol#1506) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1382,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._pid (83_ConvexStakingWrapper.sol#1382) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1499,
+            "message": "Parameter ConvexStakingWrapper.setRewardPool(address)._claimContract (83_ConvexStakingWrapper.sol#1499) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1401,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._amount (83_ConvexStakingWrapper.sol#1401) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1555,
+            "message": "Parameter ConvexStakingWrapper.rewardLength(uint256)._pid (83_ConvexStakingWrapper.sol#1555) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1641,
+            "message": "Parameter ConvexStakingWrapper.deposit(uint256,uint256)._pid (83_ConvexStakingWrapper.sol#1641) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1281,
+            "message": "Parameter MasterChef.removeDepositor(address)._depositor (83_ConvexStakingWrapper.sol#1281) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1495,
+            "message": "Parameter ConvexStakingWrapper.changeTreasury(address)._treasury (83_ConvexStakingWrapper.sol#1495) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1356,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._pid (83_ConvexStakingWrapper.sol#1356) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._token (83_ConvexStakingWrapper.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._depositFee (83_ConvexStakingWrapper.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1699,
+            "message": "Parameter ConvexStakingWrapper.requestWithdraw(uint256,uint256)._pid (83_ConvexStakingWrapper.sol#1699) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1382,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._recipient (83_ConvexStakingWrapper.sol#1382) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1312,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._user (83_ConvexStakingWrapper.sol#1312) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1307,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._to (83_ConvexStakingWrapper.sol#1307) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1401,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._to (83_ConvexStakingWrapper.sol#1401) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1285,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._allocationPoints (83_ConvexStakingWrapper.sol#1285) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Informational",
+            "line": 1641,
+            "message": "Parameter ConvexStakingWrapper.deposit(uint256,uint256)._amount (83_ConvexStakingWrapper.sol#1641) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 1212,
+            "line_end": 1411,
+            "message": "MasterChef.slitherConstructorVariables() (83_ConvexStakingWrapper.sol#1212-1411) uses literals with too many digits:\n\t- concurPerBlock = 100000000000000 (83_ConvexStakingWrapper.sol#1249)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1255,
+            "message": "MasterChef._concurShareMultiplier (83_ConvexStakingWrapper.sol#1255) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1249,
+            "message": "MasterChef.concurPerBlock (83_ConvexStakingWrapper.sol#1249) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1256,
+            "message": "MasterChef._perMille (83_ConvexStakingWrapper.sol#1256) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1252,
+            "message": "MasterChef.endBlock (83_ConvexStakingWrapper.sol#1252) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1251,
+            "message": "MasterChef.startBlock (83_ConvexStakingWrapper.sol#1251) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_ConvexStakingWrapper.sol",
+            "impact": "Optimization",
+            "line": 1253,
+            "message": "MasterChef.concur (83_ConvexStakingWrapper.sol#1253) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

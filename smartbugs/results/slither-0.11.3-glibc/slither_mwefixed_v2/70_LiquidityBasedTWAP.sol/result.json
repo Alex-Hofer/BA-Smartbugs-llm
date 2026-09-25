@@ -1,0 +1,589 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "UniswapV2OracleLibrary",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "currentBlockTimestamp",
+            "impact": "High",
+            "line": 746,
+            "line_end": 748,
+            "message": "UniswapV2OracleLibrary.currentBlockTimestamp() (70_LiquidityBasedTWAP.sol#746-748) uses a weak PRNG: \"uint32(block.timestamp % 2 ** 32) (70_LiquidityBasedTWAP.sol#747)\" \n",
+            "name": "weak-prng"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#364)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#368)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#371)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#366)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- l /= pow2 (70_LiquidityBasedTWAP.sol#361)\n\t- l * r (70_LiquidityBasedTWAP.sol#372)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#365)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#369)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#370)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FullMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "fullDiv",
+            "impact": "Medium",
+            "line": 354,
+            "line_end": 373,
+            "message": "FullMath.fullDiv(uint256,uint256,uint256) (70_LiquidityBasedTWAP.sol#354-373) performs a multiplication on the result of a division:\n\t- d /= pow2 (70_LiquidityBasedTWAP.sol#360)\n\t- r *= 2 - d * r (70_LiquidityBasedTWAP.sol#367)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1556,
+            "message": "LiquidityBasedTWAP.syncUSDVPrice()._totalLiquidityWeight (70_LiquidityBasedTWAP.sol#1556) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1353,
+            "message": "LiquidityBasedTWAP.syncVaderPrice()._totalLiquidityWeight (70_LiquidityBasedTWAP.sol#1353) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1622,
+            "message": "LiquidityBasedTWAP._calculateUSDVPrice(uint256[],uint256).totalUSDV (70_LiquidityBasedTWAP.sol#1622) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1427,
+            "message": "LiquidityBasedTWAP._calculateVaderPrice(uint256[],uint256).totalUSD (70_LiquidityBasedTWAP.sol#1427) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1621,
+            "message": "LiquidityBasedTWAP._calculateUSDVPrice(uint256[],uint256).totalUSD (70_LiquidityBasedTWAP.sol#1621) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Medium",
+            "line": 1428,
+            "message": "LiquidityBasedTWAP._calculateVaderPrice(uint256[],uint256).totalVader (70_LiquidityBasedTWAP.sol#1428) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Medium",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) ignores return value by (reserveNative,reserveForeign,None) = vaderPool.getReserves(foreignAsset) (70_LiquidityBasedTWAP.sol#1590-1591)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_addUSDVPair",
+            "impact": "Medium",
+            "line": 1677,
+            "line_end": 1723,
+            "message": "LiquidityBasedTWAP._addUSDVPair(IERC20,IAggregatorV3,uint256) (70_LiquidityBasedTWAP.sol#1677-1723) ignores return value by (reserveNative,reserveForeign,None) = vaderPool.getReserves(foreignAsset) (70_LiquidityBasedTWAP.sol#1709-1710)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateVaderPrice",
+            "impact": "Medium",
+            "line": 1382,
+            "line_end": 1421,
+            "message": "LiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1382-1421) ignores return value by (reserve0,reserve1,None) = pair.getReserves() (70_LiquidityBasedTWAP.sol#1389)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_addVaderPair",
+            "impact": "Medium",
+            "line": 1483,
+            "line_end": 1536,
+            "message": "LiquidityBasedTWAP._addVaderPair(IUniswapV2Pair,IAggregatorV3,uint256) (70_LiquidityBasedTWAP.sol#1483-1536) ignores return value by (reserve0,reserve1,None) = pair.getReserves() (70_LiquidityBasedTWAP.sol#1519)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Medium",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) ignores return value by (nativeTokenPriceCumulative,None,currentMeasurement) = vaderPool.cumulativePrices(foreignAsset) (70_LiquidityBasedTWAP.sol#1593-1597)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Medium",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) ignores return value by (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_addUSDVPair",
+            "impact": "Medium",
+            "line": 1677,
+            "line_end": 1723,
+            "message": "LiquidityBasedTWAP._addUSDVPair(IERC20,IAggregatorV3,uint256) (70_LiquidityBasedTWAP.sol#1677-1723) ignores return value by (nativeTokenPriceCumulative,None,None) = vaderPool.cumulativePrices(foreignAsset) (70_LiquidityBasedTWAP.sol#1703-1705)\n",
+            "name": "unused-return"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getStaleVaderPrice()\n\t\tLiquidityBasedTWAP._calculateVaderPrice(uint256[],uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateVaderPrice",
+            "impact": "Low",
+            "line": 1382,
+            "line_end": 1421,
+            "message": "LiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1382-1421) has external calls inside a loop: (reserve0,reserve1,None) = pair.getReserves() (70_LiquidityBasedTWAP.sol#1389)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getVaderPrice()\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Low",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) has external calls inside a loop: (nativeTokenPriceCumulative,None,currentMeasurement) = vaderPool.cumulativePrices(foreignAsset) (70_LiquidityBasedTWAP.sol#1593-1597)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getUSDVPrice()\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getStaleUSDVPrice()\n\t\tLiquidityBasedTWAP._calculateUSDVPrice(uint256[],uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Low",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) has external calls inside a loop: (nativeTokenPriceCumulative,None,currentMeasurement) = vaderPool.cumulativePrices(foreignAsset) (70_LiquidityBasedTWAP.sol#1593-1597)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateVaderPrice",
+            "impact": "Low",
+            "line": 1382,
+            "line_end": 1421,
+            "message": "LiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1382-1421) has external calls inside a loop: isFirst = pair.token0() == vader (70_LiquidityBasedTWAP.sol#1387)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getVaderPrice()\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateVaderPrice",
+            "impact": "Low",
+            "line": 1382,
+            "line_end": 1421,
+            "message": "LiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1382-1421) has external calls inside a loop: (reserve0,reserve1,None) = pair.getReserves() (70_LiquidityBasedTWAP.sol#1389)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n\t\tLiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Low",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) has external calls inside a loop: (reserveNative,reserveForeign,None) = vaderPool.getReserves(foreignAsset) (70_LiquidityBasedTWAP.sol#1590-1591)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getVaderPrice()\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n\t\tLiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateVaderPrice",
+            "impact": "Low",
+            "line": 1382,
+            "line_end": 1421,
+            "message": "LiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1382-1421) has external calls inside a loop: isFirst = pair.token0() == vader (70_LiquidityBasedTWAP.sol#1387)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.syncVaderPrice()\n\t\tLiquidityBasedTWAP._updateVaderPrice(IUniswapV2Pair,ILiquidityBasedTWAP.ExchangePair,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "getChainlinkPrice",
+            "impact": "Low",
+            "line": 1314,
+            "line_end": 1328,
+            "message": "LiquidityBasedTWAP.getChainlinkPrice(address) (70_LiquidityBasedTWAP.sol#1314-1328) has external calls inside a loop: (roundID,price,None,None,answeredInRound) = oracle.latestRoundData() (70_LiquidityBasedTWAP.sol#1317-1318)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getUSDVPrice()\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n\t\tLiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_updateUSDVPrice",
+            "impact": "Low",
+            "line": 1585,
+            "line_end": 1615,
+            "message": "LiquidityBasedTWAP._updateUSDVPrice(IERC20,ILiquidityBasedTWAP.ExchangePair,uint256) (70_LiquidityBasedTWAP.sol#1585-1615) has external calls inside a loop: (reserveNative,reserveForeign,None) = vaderPool.getReserves(foreignAsset) (70_LiquidityBasedTWAP.sol#1590-1591)\n\tCalls stack containing the loop:\n\t\tLiquidityBasedTWAP.getUSDVPrice()\n\t\tLiquidityBasedTWAP.syncUSDVPrice()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "syncVaderPrice",
+            "impact": "Low",
+            "line": 1345,
+            "line_end": 1380,
+            "message": "LiquidityBasedTWAP.syncVaderPrice() (70_LiquidityBasedTWAP.sol#1345-1380) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed < pairData.updatePeriod (70_LiquidityBasedTWAP.sol#1363)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "LiquidityBasedTWAP",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "syncUSDVPrice",
+            "impact": "Low",
+            "line": 1548,
+            "line_end": 1583,
+            "message": "LiquidityBasedTWAP.syncUSDVPrice() (70_LiquidityBasedTWAP.sol#1548-1583) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- timeElapsed < pairData.updatePeriod (70_LiquidityBasedTWAP.sol#1566)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "UniswapV2OracleLibrary",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "currentCumulativePrices",
+            "impact": "Low",
+            "line": 751,
+            "line_end": 783,
+            "message": "UniswapV2OracleLibrary.currentCumulativePrices(address) (70_LiquidityBasedTWAP.sol#751-783) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- blockTimestampLast != blockTimestamp (70_LiquidityBasedTWAP.sol#770)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 25,
+            "line_end": 27,
+            "message": "Context._msgData() (70_LiquidityBasedTWAP.sol#25-27) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.8.9 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- VerbatimInvalidDeduplication\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation.\nIt is used by:\n\t- 0.8.9 (70_LiquidityBasedTWAP.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2ERC20",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "DOMAIN_SEPARATOR",
+            "impact": "Informational",
+            "line": 252,
+            "message": "Function IUniswapV2ERC20.DOMAIN_SEPARATOR() (70_LiquidityBasedTWAP.sol#252) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Informational",
+            "line": 547,
+            "line_end": 549,
+            "message": "Struct FixedPoint.uq112x112 (70_LiquidityBasedTWAP.sol#547-549) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2Pair",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "MINIMUM_LIQUIDITY",
+            "impact": "Informational",
+            "line": 293,
+            "message": "Function IUniswapV2Pair.MINIMUM_LIQUIDITY() (70_LiquidityBasedTWAP.sol#293) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IUniswapV2ERC20",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "PERMIT_TYPEHASH",
+            "impact": "Informational",
+            "line": 254,
+            "message": "Function IUniswapV2ERC20.PERMIT_TYPEHASH() (70_LiquidityBasedTWAP.sol#254) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "impact": "Informational",
+            "line": 553,
+            "line_end": 555,
+            "message": "Struct FixedPoint.uq144x112 (70_LiquidityBasedTWAP.sol#553-555) is not in CapWords\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 445,
+            "message": "Babylonian.sqrt(uint256) (70_LiquidityBasedTWAP.sol#403-445) uses literals with too many digits:\n\t- xx >= 0x100000000000000000000000000000000 (70_LiquidityBasedTWAP.sol#409)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 445,
+            "message": "Babylonian.sqrt(uint256) (70_LiquidityBasedTWAP.sol#403-445) uses literals with too many digits:\n\t- xx >= 0x100000000 (70_LiquidityBasedTWAP.sol#417)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedPoint",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 544,
+            "line_end": 731,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (70_LiquidityBasedTWAP.sol#544-731) uses literals with too many digits:\n\t- Q224 = 0x100000000000000000000000000000000000000000000000000000000 (70_LiquidityBasedTWAP.sol#559-560)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 487,
+            "message": "BitMath.mostSignificantBit(uint256) (70_LiquidityBasedTWAP.sol#455-487) uses literals with too many digits:\n\t- x >= 0x10000000000000000 (70_LiquidityBasedTWAP.sol#462)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Babylonian",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "sqrt",
+            "impact": "Informational",
+            "line": 403,
+            "line_end": 445,
+            "message": "Babylonian.sqrt(uint256) (70_LiquidityBasedTWAP.sol#403-445) uses literals with too many digits:\n\t- xx >= 0x10000000000000000 (70_LiquidityBasedTWAP.sol#413)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 487,
+            "message": "BitMath.mostSignificantBit(uint256) (70_LiquidityBasedTWAP.sol#455-487) uses literals with too many digits:\n\t- x >= 0x100000000000000000000000000000000 (70_LiquidityBasedTWAP.sol#458)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "FixedPoint",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "slitherConstructorConstantVariables",
+            "impact": "Informational",
+            "line": 544,
+            "line_end": 731,
+            "message": "FixedPoint.slitherConstructorConstantVariables() (70_LiquidityBasedTWAP.sol#544-731) uses literals with too many digits:\n\t- Q112 = 0x10000000000000000000000000000 (70_LiquidityBasedTWAP.sol#558)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "BitMath",
+            "filename": "70_LiquidityBasedTWAP.sol",
+            "function": "mostSignificantBit",
+            "impact": "Informational",
+            "line": 455,
+            "line_end": 487,
+            "message": "BitMath.mostSignificantBit(uint256) (70_LiquidityBasedTWAP.sol#455-487) uses literals with too many digits:\n\t- x >= 0x100000000 (70_LiquidityBasedTWAP.sol#466)\n",
+            "name": "too-many-digits"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

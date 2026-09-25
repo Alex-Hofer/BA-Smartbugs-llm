@@ -1,0 +1,39 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _burnSupplyShares, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _checkDepositLimit, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _mintSupplyAmount, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: _unwrapUniPosition, current vul: no-slippage-limit-check",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: accountHealth, current vul: first-deposit",
+        "ERROR    tasks: Current File: /work/input/32_LendingPair.sol, current function: accrue, current vul: first-deposit",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 256, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 281, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 336, in si ... r_static_json_single return {answer_key: list(data.values())[0]} IndexError: list index out of range",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 360, in si ...  var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType call_arg_check",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 360, in si ... ar1 in text and var2 in text: TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "IndexError: list index out of range",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType",
+        "TypeError: 'in <string>' requires string as left operand, not NoneType call_arg_check"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\32_LendingPair.sol",
+            "line": 1071,
+            "line_end": 1076,
+            "message": "Users are required to transfer assets in advance and minting token/liquidity/earning thus could be frontrun.\nRecommendation: Put asset transfering and token minting in the same function to keep atomicity.\nGPTScan code: front-running",
+            "name": "MWE-205: Front Running",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=147, est_cost_usd=0.0175",
+        "static confirmation filtered LLM candidates: 58 before, 1 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

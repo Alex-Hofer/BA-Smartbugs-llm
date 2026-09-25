@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Function, variab ... 55:9734: | 55 |  ... (type(IIntegration).interfaceId);}} |                                         ^",
+        "solc rejected 67_Vault.sol: Error: Function, variable, struct or modifier declaration expected. --> /work/input/67_Vault.sol:55:9734: | 55 |  ... (type(IIntegration).interfaceId);}} | ^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=0, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

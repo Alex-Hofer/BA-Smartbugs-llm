@@ -1,0 +1,17 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... . ocktime)externalpurereturns (bytes memory _data){ |                                         ^^^^^^",
+        "solc rejected 28_PostAuctionLauncher.sol: Error: Expected ',' but got 'memory' --> /work/input/28_PostAuctionLauncher.sol: 200:165: | 200 |  ... ocktime)externalpurereturns (bytes memory _data){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=2, est_cost_usd=0.0002"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

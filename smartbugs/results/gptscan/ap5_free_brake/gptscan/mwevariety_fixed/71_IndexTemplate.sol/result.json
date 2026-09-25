@@ -1,0 +1,31 @@
+{
+    "errors": [
+        "ERROR    analyze_pipeline: Error when parsing answer: _adjustAlloc",
+        "ERROR    analyze_pipeline: Error when parsing answer: _beforeTokenTransfer",
+        "ERROR    analyze_pipeline: Error when parsing answer: _burn",
+        "ERROR    analyze_pipeline: Error when parsing answer: _mint",
+        "ERROR    analyze_pipeline: Error when parsing answer: compensate",
+        "ERROR    analyze_pipeline: Error when parsing answer: withdrawable",
+        "ERROR    analyze_pipeline: Error when parsing function: _adjustAlloc",
+        "ERROR    analyze_pipeline: Error when parsing function: _beforeTokenTransfer",
+        "ERROR    analyze_pipeline: Error when parsing function: _burn",
+        "ERROR    analyze_pipeline: Error when parsing function: _mint",
+        "ERROR    analyze_pipeline: Error when parsing function: compensate",
+        "ERROR    analyze_pipeline: Error when parsing function: deposit",
+        "ERROR    analyze_pipeline: Error when parsing function: requestWithdraw",
+        "ERROR    analyze_pipeline: Error when parsing function: valueOfUnderlying",
+        "ERROR    analyze_pipeline: Error when parsing function: withdraw",
+        "ERROR    analyze_pipeline: Error when parsing function: withdrawable",
+        "ERROR    analyze_pipeline: Traceback (most recent call last): File \"/opt/gptscan/src/analyze_p ipeli ... e\", s, err.value) from None json.decoder.JSONDecodeErro r: Expecting value: line 1 column 1 (char 0)"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan run: backend=custom/custom-cheap, llm_calls=19, est_cost_usd=0.0000"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

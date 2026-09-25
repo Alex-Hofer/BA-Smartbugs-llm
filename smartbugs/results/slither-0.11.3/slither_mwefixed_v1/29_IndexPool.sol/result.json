@@ -1,0 +1,244 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_compute",
+            "impact": "Medium",
+            "line": 571,
+            "line_end": 582,
+            "message": "IndexPool._compute(uint256,uint256) (../sb/29_IndexPool.sol#571-582) performs a multiplication on the result of a division:\n\t- whole = (exp / BASE) * BASE (../sb/29_IndexPool.sol#574)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "burn",
+            "impact": "Medium",
+            "line": 436,
+            "line_end": 458,
+            "message": "Reentrancy in IndexPool.burn(bytes) (../sb/29_IndexPool.sol#436-458):\n\tExternal calls:\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_IndexPool.sol#454)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tState variables written after the call(s):\n\t- records[tokenOut].reserve -= amountOut (../sb/29_IndexPool.sol#452)\n\tIndexPool.records (../sb/29_IndexPool.sol#371) can be used in cross function reentrancies:\n\t- IndexPool.burn(bytes) (../sb/29_IndexPool.sol#436-458)\n\t- IndexPool.burnSingle(bytes) (../sb/29_IndexPool.sol#462-487)\n\t- IndexPool.constructor(bytes,address) (../sb/29_IndexPool.sol#377-409)\n\t- IndexPool.flashSwap(bytes) (../sb/29_IndexPool.sol#513-539)\n\t- IndexPool.getReservesAndWeights() (../sb/29_IndexPool.sol#687-698)\n\t- IndexPool.mint(bytes) (../sb/29_IndexPool.sol#413-433)\n\t- IndexPool.records (../sb/29_IndexPool.sol#371)\n\t- IndexPool.swap(bytes) (../sb/29_IndexPool.sol#490-510)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "flashSwap",
+            "impact": "Medium",
+            "line": 513,
+            "line_end": 539,
+            "message": "Reentrancy in IndexPool.flashSwap(bytes) (../sb/29_IndexPool.sol#513-539):\n\tExternal calls:\n\t- ITridentCallee(msg.sender).tridentSwapCallback(context) (../sb/29_IndexPool.sol#530)\n\tState variables written after the call(s):\n\t- inRecord.reserve += uint120(amountIn) (../sb/29_IndexPool.sol#534)\n\tIndexPool.records (../sb/29_IndexPool.sol#371) can be used in cross function reentrancies:\n\t- IndexPool.burn(bytes) (../sb/29_IndexPool.sol#436-458)\n\t- IndexPool.burnSingle(bytes) (../sb/29_IndexPool.sol#462-487)\n\t- IndexPool.constructor(bytes,address) (../sb/29_IndexPool.sol#377-409)\n\t- IndexPool.flashSwap(bytes) (../sb/29_IndexPool.sol#513-539)\n\t- IndexPool.getReservesAndWeights() (../sb/29_IndexPool.sol#687-698)\n\t- IndexPool.mint(bytes) (../sb/29_IndexPool.sol#413-433)\n\t- IndexPool.records (../sb/29_IndexPool.sol#371)\n\t- IndexPool.swap(bytes) (../sb/29_IndexPool.sol#490-510)\n\t- outRecord.reserve -= uint120(amountOut) (../sb/29_IndexPool.sol#535)\n\tIndexPool.records (../sb/29_IndexPool.sol#371) can be used in cross function reentrancies:\n\t- IndexPool.burn(bytes) (../sb/29_IndexPool.sol#436-458)\n\t- IndexPool.burnSingle(bytes) (../sb/29_IndexPool.sol#462-487)\n\t- IndexPool.constructor(bytes,address) (../sb/29_IndexPool.sol#377-409)\n\t- IndexPool.flashSwap(bytes) (../sb/29_IndexPool.sol#513-539)\n\t- IndexPool.getReservesAndWeights() (../sb/29_IndexPool.sol#687-698)\n\t- IndexPool.mint(bytes) (../sb/29_IndexPool.sol#413-433)\n\t- IndexPool.records (../sb/29_IndexPool.sol#371)\n\t- IndexPool.swap(bytes) (../sb/29_IndexPool.sol#490-510)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "29_IndexPool.sol",
+            "impact": "Medium",
+            "line": 614,
+            "message": "IndexPool._powApprox(uint256,uint256,uint256).negative (../sb/29_IndexPool.sol#614) is a local variable never initialized\n",
+            "name": "uninitialized-local"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_IndexPool.sol",
+            "impact": "Medium",
+            "line": 571,
+            "message": "IndexPool._compute(uint256,uint256).output (../sb/29_IndexPool.sol#571) is written in both\n\toutput = wholePow (../sb/29_IndexPool.sol#578)\n\toutput = _mul(wholePow,partialResult) (../sb/29_IndexPool.sol#581)\n",
+            "name": "write-after-write"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "29_IndexPool.sol",
+            "impact": "Low",
+            "line": 377,
+            "message": "IndexPool.constructor(bytes,address)._masterDeployer (../sb/29_IndexPool.sol#377) lacks a zero-check on :\n\t\t- (None,_barFee) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_IndexPool.sol#399)\n\t\t- (None,_barFeeTo) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFeeTo.selector)) (../sb/29_IndexPool.sol#400)\n\t\t- (None,_bento) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.bento.selector)) (../sb/29_IndexPool.sol#401)\n\t\t- masterDeployer = _masterDeployer (../sb/29_IndexPool.sol#407)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 655,
+            "line_end": 670,
+            "message": "IndexPool._transfer(address,uint256,address,bool) (../sb/29_IndexPool.sol#655-670) has external calls inside a loop: (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\tCalls stack containing the loop:\n\t\tIndexPool.burn(bytes)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_transfer",
+            "impact": "Low",
+            "line": 655,
+            "line_end": 670,
+            "message": "IndexPool._transfer(address,uint256,address,bool) (../sb/29_IndexPool.sol#655-670) has external calls inside a loop: (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tCalls stack containing the loop:\n\t\tIndexPool.burn(bytes)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_balance",
+            "impact": "Low",
+            "line": 547,
+            "line_end": 551,
+            "message": "IndexPool._balance(address) (../sb/29_IndexPool.sol#547-551) has external calls inside a loop: (None,data) = bento.staticcall(abi.encodeWithSelector(IBentoBoxMinimal.balanceOf.selector,token,address(this))) (../sb/29_IndexPool.sol#548-549)\n\tCalls stack containing the loop:\n\t\tIndexPool.mint(bytes)\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "burn",
+            "impact": "Low",
+            "line": 436,
+            "line_end": 458,
+            "message": "Reentrancy in IndexPool.burn(bytes) (../sb/29_IndexPool.sol#436-458):\n\tExternal calls:\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_IndexPool.sol#454)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,tokenOut,amountOut,recipient) (../sb/29_IndexPool.sol#456)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "burnSingle",
+            "impact": "Low",
+            "line": 462,
+            "line_end": 487,
+            "message": "Reentrancy in IndexPool.burnSingle(bytes) (../sb/29_IndexPool.sol#462-487):\n\tExternal calls:\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_IndexPool.sol#485)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tEvent emitted after the call(s):\n\t- Burn(msg.sender,tokenOut,amountOut,recipient) (../sb/29_IndexPool.sol#486)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "swap",
+            "impact": "Low",
+            "line": 490,
+            "line_end": 510,
+            "message": "Reentrancy in IndexPool.swap(bytes) (../sb/29_IndexPool.sol#490-510):\n\tExternal calls:\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_IndexPool.sol#508)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tEvent emitted after the call(s):\n\t- Swap(recipient,tokenIn,tokenOut,amountIn,amountOut) (../sb/29_IndexPool.sol#509)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "flashSwap",
+            "impact": "Low",
+            "line": 513,
+            "line_end": 539,
+            "message": "Reentrancy in IndexPool.flashSwap(bytes) (../sb/29_IndexPool.sol#513-539):\n\tExternal calls:\n\t- ITridentCallee(msg.sender).tridentSwapCallback(context) (../sb/29_IndexPool.sol#530)\n\t- _transfer(tokenOut,amountOut,recipient,unwrapBento) (../sb/29_IndexPool.sol#537)\n\t\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n\tEvent emitted after the call(s):\n\t- Swap(recipient,tokenIn,tokenOut,amountIn,amountOut) (../sb/29_IndexPool.sol#538)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "TridentERC20",
+            "filename": "29_IndexPool.sol",
+            "function": "permit",
+            "impact": "Low",
+            "line": 276,
+            "line_end": 293,
+            "message": "TridentERC20.permit(address,address,uint256,uint256,uint8,bytes32,bytes32) (../sb/29_IndexPool.sol#276-293) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(deadline >= block.timestamp,PERMIT_DEADLINE_EXPIRED) (../sb/29_IndexPool.sol#285)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 377,
+            "line_end": 409,
+            "message": "IndexPool.constructor(bytes,address) (../sb/29_IndexPool.sol#377-409) has costly operations inside a loop:\n\t- totalWeight += _weights[i] (../sb/29_IndexPool.sol#392)\n",
+            "name": "costly-loop"
+        },
+        {
+            "confidence": "High",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "updateBarFee",
+            "impact": "Informational",
+            "line": 542,
+            "line_end": 545,
+            "message": "Low level call in IndexPool.updateBarFee() (../sb/29_IndexPool.sol#542-545):\n\t- (None,_barFee) = masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_IndexPool.sol#543)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "constructor",
+            "impact": "Informational",
+            "line": 377,
+            "line_end": 409,
+            "message": "Low level call in IndexPool.constructor(bytes,address) (../sb/29_IndexPool.sol#377-409):\n\t- (None,_barFee) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFee.selector)) (../sb/29_IndexPool.sol#399)\n\t- (None,_barFeeTo) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.barFeeTo.selector)) (../sb/29_IndexPool.sol#400)\n\t- (None,_bento) = _masterDeployer.staticcall(abi.encodeWithSelector(IMasterDeployer.bento.selector)) (../sb/29_IndexPool.sol#401)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_balance",
+            "impact": "Informational",
+            "line": 547,
+            "line_end": 551,
+            "message": "Low level call in IndexPool._balance(address) (../sb/29_IndexPool.sol#547-551):\n\t- (None,data) = bento.staticcall(abi.encodeWithSelector(IBentoBoxMinimal.balanceOf.selector,token,address(this))) (../sb/29_IndexPool.sol#548-549)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "IndexPool",
+            "filename": "29_IndexPool.sol",
+            "function": "_transfer",
+            "impact": "Informational",
+            "line": 655,
+            "line_end": 670,
+            "message": "Low level call in IndexPool._transfer(address,uint256,address,bool) (../sb/29_IndexPool.sol#655-670):\n\t- (success,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.withdraw.selector,token,address(this),to,0,shares)) (../sb/29_IndexPool.sol#662-663)\n\t- (success_scope_0,None) = bento.call(abi.encodeWithSelector(IBentoBoxMinimal.transfer.selector,token,address(this),to,shares)) (../sb/29_IndexPool.sol#666-667)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_IndexPool.sol",
+            "impact": "Informational",
+            "line": 204,
+            "message": "Variable TridentERC20.DOMAIN_SEPARATOR (../sb/29_IndexPool.sol#204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_IndexPool.sol",
+            "impact": "Optimization",
+            "line": 445,
+            "message": "Loop condition i < tokens.length (../sb/29_IndexPool.sol#445) should use cached array length instead of referencing `length` member of the storage array.\n ",
+            "name": "cache-array-length"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_IndexPool.sol",
+            "impact": "Optimization",
+            "line": 418,
+            "message": "Loop condition i < tokens.length (../sb/29_IndexPool.sol#418) should use cached array length instead of referencing `length` member of the storage array.\n ",
+            "name": "cache-array-length"
+        },
+        {
+            "confidence": "High",
+            "filename": "29_IndexPool.sol",
+            "impact": "Optimization",
+            "line": 356,
+            "message": "IndexPool.totalWeight (../sb/29_IndexPool.sol#356) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

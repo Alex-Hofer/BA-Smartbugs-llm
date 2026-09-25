@@ -1,0 +1,68 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "ReturnValue",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "function": "callnotchecked",
+            "impact": "Medium",
+            "line": 15,
+            "line_end": 18,
+            "message": "ReturnValue.callnotchecked(address) (../sb/unchecked_return_value.sol#15-18) ignores return value by callee.call() (../sb/unchecked_return_value.sol#17)\n",
+            "name": "unchecked-lowlevel"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "impact": "Low",
+            "line": 15,
+            "message": "ReturnValue.callnotchecked(address).callee (../sb/unchecked_return_value.sol#15) lacks a zero-check on :\n\t\t- callee.call() (../sb/unchecked_return_value.sol#17)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint 0.4.25 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- ImplicitConstructorCallvalueCheck\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- SignedArrayStorageCopy\n\t- ABIEncoderV2StorageArrayWithMultiSlotElement\n\t- DynamicConstructorArgumentsClippedABIV2\n\t- UninitializedFunctionPointerInConstructor_0.4.x\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ABIEncoderV2PackedStorage_0.4.x.\nIt is used by:\n\t- 0.4.25 (../sb/unchecked_return_value.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.25 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReturnValue",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "function": "callchecked",
+            "impact": "Informational",
+            "line": 11,
+            "line_end": 13,
+            "message": "Low level call in ReturnValue.callchecked(address) (../sb/unchecked_return_value.sol#11-13):\n\t- require(bool)(callee.call()) (../sb/unchecked_return_value.sol#12)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "ReturnValue",
+            "filename": "unchecked_low_level_calls\\unchecked_return_value.sol",
+            "function": "callnotchecked",
+            "impact": "Informational",
+            "line": 15,
+            "line_end": 18,
+            "message": "Low level call in ReturnValue.callnotchecked(address) (../sb/unchecked_return_value.sol#15-18):\n\t- callee.call() (../sb/unchecked_return_value.sol#17)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

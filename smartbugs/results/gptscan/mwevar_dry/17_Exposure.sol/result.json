@@ -1,0 +1,18 @@
+{
+    "errors": [
+        "falcon.exceptions.FalconError: Invalid compilation: Invalid solc compilation Error: Expected ',' but ... (SystemState calldata sysState)externalviewoverridereturns (ExposureState memory expState){ | ^^^^^^",
+        "solc rejected 17_Exposure.sol: Error: Expected ',' but got 'memory' --> /work/input/17_Exposure.sol: ... (SystemState calldata sysState)externalviewoverridereturns (ExposureState memory expState){ | ^^^^^^"
+    ],
+    "fails": [],
+    "findings": [],
+    "infos": [
+        "GPTScan analysis degraded: the contract did not compile, so the static confirmation stage never ran. Any 'no findings' result for this contract is inconclusive, not clean.",
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=3, est_cost_usd=0.0003",
+        "static confirmation filtered LLM candidates: 1 before, 0 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

@@ -1,0 +1,317 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 544,
+            "message": "ERC20Upgradeable.__ERC20_init(string,string).symbol (../sb/46_WrappedIbbtcEth.sol#544) shadows:\n\t- ERC20Upgradeable.symbol() (../sb/46_WrappedIbbtcEth.sol#566-568) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 549,
+            "message": "ERC20Upgradeable.__ERC20_init_unchained(string,string).name (../sb/46_WrappedIbbtcEth.sol#549) shadows:\n\t- ERC20Upgradeable.name() (../sb/46_WrappedIbbtcEth.sol#558-560) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "symbol",
+            "impact": "Low",
+            "line": 549,
+            "message": "ERC20Upgradeable.__ERC20_init_unchained(string,string).symbol (../sb/46_WrappedIbbtcEth.sol#549) shadows:\n\t- ERC20Upgradeable.symbol() (../sb/46_WrappedIbbtcEth.sol#566-568) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "name",
+            "impact": "Low",
+            "line": 544,
+            "message": "ERC20Upgradeable.__ERC20_init(string,string).name (../sb/46_WrappedIbbtcEth.sol#544) shadows:\n\t- ERC20Upgradeable.name() (../sb/46_WrappedIbbtcEth.sol#558-560) (function)\n",
+            "name": "shadowing-local"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Low",
+            "line": 878,
+            "message": "WrappedIbbtcEth.setPendingGovernance(address)._pendingGovernance (../sb/46_WrappedIbbtcEth.sol#878) lacks a zero-check on :\n\t\t- pendingGovernance = _pendingGovernance (../sb/46_WrappedIbbtcEth.sol#879)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Low",
+            "line": 866,
+            "message": "WrappedIbbtcEth.initialize(address,address,address)._governance (../sb/46_WrappedIbbtcEth.sol#866) lacks a zero-check on :\n\t\t- governance = _governance (../sb/46_WrappedIbbtcEth.sol#868)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "WrappedIbbtcEth",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 909,
+            "line_end": 912,
+            "message": "Reentrancy in WrappedIbbtcEth.mint(uint256) (../sb/46_WrappedIbbtcEth.sol#909-912):\n\tExternal calls:\n\t- require(bool)(ibbtc.transferFrom(_msgSender(),address(this),_shares)) (../sb/46_WrappedIbbtcEth.sol#910)\n\tState variables written after the call(s):\n\t- _mint(_msgSender(),_shares) (../sb/46_WrappedIbbtcEth.sol#911)\n\t\t- _balances[account] = _balances[account].add(amount) (../sb/46_WrappedIbbtcEth.sol#727)\n\t- _mint(_msgSender(),_shares) (../sb/46_WrappedIbbtcEth.sol#911)\n\t\t- _totalSupply = _totalSupply.add(amount) (../sb/46_WrappedIbbtcEth.sol#726)\n",
+            "name": "reentrancy-benign"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "WrappedIbbtcEth",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "mint",
+            "impact": "Low",
+            "line": 909,
+            "line_end": 912,
+            "message": "Reentrancy in WrappedIbbtcEth.mint(uint256) (../sb/46_WrappedIbbtcEth.sol#909-912):\n\tExternal calls:\n\t- require(bool)(ibbtc.transferFrom(_msgSender(),address(this),_shares)) (../sb/46_WrappedIbbtcEth.sol#910)\n\tEvent emitted after the call(s):\n\t- Transfer(address(0),account,amount) (../sb/46_WrappedIbbtcEth.sol#728)\n\t\t- _mint(_msgSender(),_shares) (../sb/46_WrappedIbbtcEth.sol#911)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 369,
+            "line_end": 378,
+            "message": "AddressUpgradeable.isContract(address) (../sb/46_WrappedIbbtcEth.sol#369-378) uses assembly\n\t- INLINE ASM (../sb/46_WrappedIbbtcEth.sol#376)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Initializable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "_isConstructor",
+            "impact": "Informational",
+            "line": 55,
+            "line_end": 66,
+            "message": "Initializable._isConstructor() (../sb/46_WrappedIbbtcEth.sol#55-66) uses assembly\n\t- INLINE ASM (../sb/46_WrappedIbbtcEth.sol#64)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 462,
+            "line_end": 483,
+            "message": "AddressUpgradeable._functionCallWithValue(address,bytes,uint256,string) (../sb/46_WrappedIbbtcEth.sol#462-483) uses assembly\n\t- INLINE ASM (../sb/46_WrappedIbbtcEth.sol#475-478)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 96,
+            "line_end": 99,
+            "message": "ContextUpgradeable._msgData() (../sb/46_WrappedIbbtcEth.sol#96-99) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 86,
+            "line_end": 88,
+            "message": "ContextUpgradeable.__Context_init() (../sb/46_WrappedIbbtcEth.sol#86-88) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "_setupDecimals",
+            "impact": "Informational",
+            "line": 780,
+            "line_end": 782,
+            "message": "ERC20Upgradeable._setupDecimals(uint8) (../sb/46_WrappedIbbtcEth.sol#780-782) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.12 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- DataLocationChangeInInternalOverride\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.12 (../sb/46_WrappedIbbtcEth.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.12 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 396,
+            "line_end": 402,
+            "message": "Low level call in AddressUpgradeable.sendValue(address,uint256) (../sb/46_WrappedIbbtcEth.sol#396-402):\n\t- (success,None) = recipient.call{value: amount}() (../sb/46_WrappedIbbtcEth.sol#400)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "AddressUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "_functionCallWithValue",
+            "impact": "Informational",
+            "line": 462,
+            "line_end": 483,
+            "message": "Low level call in AddressUpgradeable._functionCallWithValue(address,bytes,uint256,string) (../sb/46_WrappedIbbtcEth.sol#462-483):\n\t- (success,returndata) = target.call{value: weiValue}(data) (../sb/46_WrappedIbbtcEth.sol#466)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 100,
+            "message": "Variable ContextUpgradeable.__gap (../sb/46_WrappedIbbtcEth.sol#100) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 878,
+            "message": "Parameter WrappedIbbtcEth.setPendingGovernance(address)._pendingGovernance (../sb/46_WrappedIbbtcEth.sol#878) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 866,
+            "message": "Parameter WrappedIbbtcEth.initialize(address,address,address)._core (../sb/46_WrappedIbbtcEth.sol#866) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 915,
+            "message": "Parameter WrappedIbbtcEth.burn(uint256)._shares (../sb/46_WrappedIbbtcEth.sol#915) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 885,
+            "message": "Parameter WrappedIbbtcEth.setCore(address)._core (../sb/46_WrappedIbbtcEth.sol#885) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "__ERC20_init_unchained",
+            "impact": "Informational",
+            "line": 549,
+            "line_end": 553,
+            "message": "Function ERC20Upgradeable.__ERC20_init_unchained(string,string) (../sb/46_WrappedIbbtcEth.sol#549-553) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 909,
+            "message": "Parameter WrappedIbbtcEth.mint(uint256)._shares (../sb/46_WrappedIbbtcEth.sol#909) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ERC20Upgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "__ERC20_init",
+            "impact": "Informational",
+            "line": 544,
+            "line_end": 547,
+            "message": "Function ERC20Upgradeable.__ERC20_init(string,string) (../sb/46_WrappedIbbtcEth.sol#544-547) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 90,
+            "line_end": 91,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (../sb/46_WrappedIbbtcEth.sol#90-91) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 799,
+            "message": "Variable ERC20Upgradeable.__gap (../sb/46_WrappedIbbtcEth.sol#799) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 866,
+            "message": "Parameter WrappedIbbtcEth.initialize(address,address,address)._governance (../sb/46_WrappedIbbtcEth.sol#866) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 86,
+            "line_end": 88,
+            "message": "Function ContextUpgradeable.__Context_init() (../sb/46_WrappedIbbtcEth.sol#86-88) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 866,
+            "message": "Parameter WrappedIbbtcEth.initialize(address,address,address)._ibbtc (../sb/46_WrappedIbbtcEth.sol#866) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "46_WrappedIbbtcEth.sol",
+            "impact": "Informational",
+            "line": 97,
+            "message": "Redundant expression \"this (../sb/46_WrappedIbbtcEth.sol#97)\" inContextUpgradeable (../sb/46_WrappedIbbtcEth.sol#85-101)\n",
+            "name": "redundant-statements"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

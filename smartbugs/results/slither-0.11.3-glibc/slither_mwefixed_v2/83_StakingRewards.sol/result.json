@@ -1,0 +1,535 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "exit",
+            "impact": "High",
+            "line": 1483,
+            "line_end": 1486,
+            "message": "Reentrancy in StakingRewards.exit() (83_StakingRewards.sol#1483-1486):\n\tExternal calls:\n\t- withdraw(_balances[msg.sender]) (83_StakingRewards.sol#1484)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (83_StakingRewards.sol#401)\n\t\t- stakingToken.safeTransfer(msg.sender,amount) (83_StakingRewards.sol#1468)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\t\t- masterChef.withdraw(msg.sender,pid,amount) (83_StakingRewards.sol#1470)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (83_StakingRewards.sol#401)\n\t\t- rewardsToken.safeTransfer(msg.sender,reward) (83_StakingRewards.sol#1478)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\tExternal calls sending eth:\n\t- withdraw(_balances[msg.sender]) (83_StakingRewards.sol#1484)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\tState variables written after the call(s):\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- _status = _ENTERED (83_StakingRewards.sol#464)\n\t\t- _status = _NOT_ENTERED (83_StakingRewards.sol#470)\n\tReentrancyGuard._status (83_StakingRewards.sol#446) can be used in cross function reentrancies:\n\t- ReentrancyGuard.nonReentrant() (83_StakingRewards.sol#459-471)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- lastUpdateTime = lastTimeRewardApplicable() (83_StakingRewards.sol#1560)\n\tStakingRewards.lastUpdateTime (83_StakingRewards.sol#1381) can be used in cross function reentrancies:\n\t- StakingRewards.lastUpdateTime (83_StakingRewards.sol#1381)\n\t- StakingRewards.notifyRewardAmount(uint256) (83_StakingRewards.sol#1490-1520)\n\t- StakingRewards.rewardPerToken() (83_StakingRewards.sol#1420-1429)\n\t- StakingRewards.updateReward(address) (83_StakingRewards.sol#1558-1566)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- rewardPerTokenStored = rewardPerToken() (83_StakingRewards.sol#1559)\n\tStakingRewards.rewardPerTokenStored (83_StakingRewards.sol#1382) can be used in cross function reentrancies:\n\t- StakingRewards.rewardPerToken() (83_StakingRewards.sol#1420-1429)\n\t- StakingRewards.rewardPerTokenStored (83_StakingRewards.sol#1382)\n\t- StakingRewards.updateReward(address) (83_StakingRewards.sol#1558-1566)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- rewards[msg.sender] = 0 (83_StakingRewards.sol#1477)\n\t\t- rewards[account] = earned(account) (83_StakingRewards.sol#1562)\n\tStakingRewards.rewards (83_StakingRewards.sol#1385) can be used in cross function reentrancies:\n\t- StakingRewards.earned(address) (83_StakingRewards.sol#1431-1437)\n\t- StakingRewards.getReward() (83_StakingRewards.sol#1474-1481)\n\t- StakingRewards.rewards (83_StakingRewards.sol#1385)\n\t- StakingRewards.updateReward(address) (83_StakingRewards.sol#1558-1566)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- userRewardPerTokenPaid[account] = rewardPerTokenStored (83_StakingRewards.sol#1563)\n\tStakingRewards.userRewardPerTokenPaid (83_StakingRewards.sol#1384) can be used in cross function reentrancies:\n\t- StakingRewards.earned(address) (83_StakingRewards.sol#1431-1437)\n\t- StakingRewards.updateReward(address) (83_StakingRewards.sol#1558-1566)\n\t- StakingRewards.userRewardPerTokenPaid (83_StakingRewards.sol#1384)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1278,
+            "line_end": 1297,
+            "message": "MasterChef.updatePool(uint256) (83_StakingRewards.sol#1278-1297) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_StakingRewards.sol#1294)\n\t- pool.accConcurPerShare = pool.accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_StakingRewards.sol#1295)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "pendingConcur",
+            "impact": "Medium",
+            "line": 1256,
+            "line_end": 1267,
+            "message": "MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267) performs a multiplication on the result of a division:\n\t- concurReward = multiplier.mul(concurPerBlock).mul(pool.allocPoint).div(totalAllocPoint) (83_StakingRewards.sol#1263)\n\t- accConcurPerShare = accConcurPerShare.add(concurReward.mul(_concurShareMultiplier).div(lpSupply)) (83_StakingRewards.sol#1264)\n",
+            "name": "divide-before-multiply"
+        },
+        {
+            "confidence": "High",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "updatePool",
+            "impact": "Medium",
+            "line": 1278,
+            "line_end": 1297,
+            "message": "MasterChef.updatePool(uint256) (83_StakingRewards.sol#1278-1297) uses a dangerous strict equality:\n\t- lpSupply == 0 || pool.allocPoint == 0 (83_StakingRewards.sol#1284)\n",
+            "name": "incorrect-equality"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "deposit",
+            "impact": "Medium",
+            "line": 1300,
+            "line_end": 1323,
+            "message": "Reentrancy in MasterChef.deposit(address,uint256,uint256) (83_StakingRewards.sol#1300-1323):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_StakingRewards.sol#1308)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_StakingRewards.sol#1349)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_StakingRewards.sol#1351)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount + _amount - depositFee) (83_StakingRewards.sol#1315)\n\tMasterChef.userInfo (83_StakingRewards.sol#1190) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267)\n\t- MasterChef.userInfo (83_StakingRewards.sol#1190)\n\t- user.amount = SafeCast.toUint128(user.amount + _amount) (83_StakingRewards.sol#1317)\n\tMasterChef.userInfo (83_StakingRewards.sol#1190) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267)\n\t- MasterChef.userInfo (83_StakingRewards.sol#1190)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_StakingRewards.sol#1321)\n\tMasterChef.userInfo (83_StakingRewards.sol#1190) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267)\n\t- MasterChef.userInfo (83_StakingRewards.sol#1190)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "withdraw",
+            "impact": "Medium",
+            "line": 1326,
+            "line_end": 1342,
+            "message": "Reentrancy in MasterChef.withdraw(address,uint256,uint256) (83_StakingRewards.sol#1326-1342):\n\tExternal calls:\n\t- safeConcurTransfer(_recipient,pending) (83_StakingRewards.sol#1335)\n\t\t- transferSuccess = concur.transfer(_to,concurBalance) (83_StakingRewards.sol#1349)\n\t\t- transferSuccess = concur.transfer(_to,_amount) (83_StakingRewards.sol#1351)\n\tState variables written after the call(s):\n\t- user.amount = SafeCast.toUint128(user.amount - _amount) (83_StakingRewards.sol#1338)\n\tMasterChef.userInfo (83_StakingRewards.sol#1190) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267)\n\t- MasterChef.userInfo (83_StakingRewards.sol#1190)\n\t- user.rewardDebt = SafeCast.toUint128(user.amount * pool.accConcurPerShare / _concurShareMultiplier) (83_StakingRewards.sol#1340)\n\tMasterChef.userInfo (83_StakingRewards.sol#1190) can be used in cross function reentrancies:\n\t- MasterChef.pendingConcur(uint256,address) (83_StakingRewards.sol#1256-1267)\n\t- MasterChef.userInfo (83_StakingRewards.sol#1190)\n",
+            "name": "reentrancy-no-eth"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "add",
+            "impact": "Low",
+            "line": 1229,
+            "line_end": 1244,
+            "message": "MasterChef.add(address,uint256,uint16,uint256) (83_StakingRewards.sol#1229-1244) should emit an event for: \n\t- totalAllocPoint = totalAllocPoint.add(_allocationPoints) (83_StakingRewards.sol#1232) \n",
+            "name": "events-maths"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Low",
+            "line": 1395,
+            "message": "StakingRewards.constructor(address,address,address,MasterChef)._rewardsDistribution (83_StakingRewards.sol#1395) lacks a zero-check on :\n\t\t- rewardsDistribution = _rewardsDistribution (83_StakingRewards.sol#1402)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Low",
+            "line": 1544,
+            "message": "StakingRewards.setRewardsDistribution(address)._rewardsDistribution (83_StakingRewards.sol#1544) lacks a zero-check on :\n\t\t- rewardsDistribution = _rewardsDistribution (83_StakingRewards.sol#1552)\n",
+            "name": "missing-zero-check"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "updatePool",
+            "impact": "Low",
+            "line": 1278,
+            "line_end": 1297,
+            "message": "MasterChef.updatePool(uint256) (83_StakingRewards.sol#1278-1297) has external calls inside a loop: lpSupply = pool.depositToken.balanceOf(address(this)) (83_StakingRewards.sol#1283)\n\tCalls stack containing the loop:\n\t\tMasterChef.massUpdatePools()\n",
+            "name": "calls-loop"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "exit",
+            "impact": "Low",
+            "line": 1483,
+            "line_end": 1486,
+            "message": "Reentrancy in StakingRewards.exit() (83_StakingRewards.sol#1483-1486):\n\tExternal calls:\n\t- withdraw(_balances[msg.sender]) (83_StakingRewards.sol#1484)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (83_StakingRewards.sol#401)\n\t\t- stakingToken.safeTransfer(msg.sender,amount) (83_StakingRewards.sol#1468)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\t\t- masterChef.withdraw(msg.sender,pid,amount) (83_StakingRewards.sol#1470)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- returndata = address(token).functionCall(data,SafeERC20: low-level call failed) (83_StakingRewards.sol#401)\n\t\t- rewardsToken.safeTransfer(msg.sender,reward) (83_StakingRewards.sol#1478)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\tExternal calls sending eth:\n\t- withdraw(_balances[msg.sender]) (83_StakingRewards.sol#1484)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\t- getReward() (83_StakingRewards.sol#1485)\n\t\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n\tEvent emitted after the call(s):\n\t- RewardPaid(msg.sender,reward) (83_StakingRewards.sol#1479)\n\t\t- getReward() (83_StakingRewards.sol#1485)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "recoverERC20",
+            "impact": "Low",
+            "line": 1523,
+            "line_end": 1533,
+            "message": "Reentrancy in StakingRewards.recoverERC20(address,uint256) (83_StakingRewards.sol#1523-1533):\n\tExternal calls:\n\t- IERC20(tokenAddress).safeTransfer(owner(),tokenAmount) (83_StakingRewards.sol#1531)\n\tEvent emitted after the call(s):\n\t- Recovered(tokenAddress,tokenAmount) (83_StakingRewards.sol#1532)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "notifyRewardAmount",
+            "impact": "Low",
+            "line": 1490,
+            "line_end": 1520,
+            "message": "StakingRewards.notifyRewardAmount(uint256) (83_StakingRewards.sol#1490-1520) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp >= periodFinish (83_StakingRewards.sol#1499)\n\t- require(bool,string)(rewardRate <= balance / rewardsDuration,Provided reward too high) (83_StakingRewards.sol#1512-1515)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "setRewardsDistribution",
+            "impact": "Low",
+            "line": 1544,
+            "line_end": 1554,
+            "message": "StakingRewards.setRewardsDistribution(address) (83_StakingRewards.sol#1544-1554) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > periodFinish,Previous rewards period must be complete before changing the duration for the new period) (83_StakingRewards.sol#1548-1551)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "setRewardsDuration",
+            "impact": "Low",
+            "line": 1535,
+            "line_end": 1542,
+            "message": "StakingRewards.setRewardsDuration(uint256) (83_StakingRewards.sol#1535-1542) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(block.timestamp > periodFinish,Previous rewards period must be complete before changing the duration for the new period) (83_StakingRewards.sol#1536-1539)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "lastTimeRewardApplicable",
+            "impact": "Low",
+            "line": 1416,
+            "line_end": 1418,
+            "message": "StakingRewards.lastTimeRewardApplicable() (83_StakingRewards.sol#1416-1418) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- block.timestamp < periodFinish (83_StakingRewards.sol#1417)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "StakingRewards",
+            "filename": "83_StakingRewards.sol",
+            "function": "getReward",
+            "impact": "Low",
+            "line": 1474,
+            "line_end": 1481,
+            "message": "StakingRewards.getReward() (83_StakingRewards.sol#1474-1481) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- reward > 0 (83_StakingRewards.sol#1476)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 116,
+            "line_end": 126,
+            "message": "Address.isContract(address) (83_StakingRewards.sol#116-126) uses assembly\n\t- INLINE ASM (83_StakingRewards.sol#122-124)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 285,
+            "line_end": 305,
+            "message": "Address.verifyCallResult(bool,bytes,string) (83_StakingRewards.sol#285-305) uses assembly\n\t- INLINE ASM (83_StakingRewards.sol#297-300)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pausable",
+            "filename": "83_StakingRewards.sol",
+            "function": "_pause",
+            "impact": "Informational",
+            "line": 575,
+            "line_end": 578,
+            "message": "Pausable._pause() (83_StakingRewards.sol#575-578) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Pausable",
+            "filename": "83_StakingRewards.sol",
+            "function": "_unpause",
+            "impact": "Informational",
+            "line": 587,
+            "line_end": 590,
+            "message": "Pausable._unpause() (83_StakingRewards.sol#587-590) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Context",
+            "filename": "83_StakingRewards.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 495,
+            "line_end": 497,
+            "message": "Context._msgData() (83_StakingRewards.sol#495-497) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 268,
+            "line_end": 277,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (83_StakingRewards.sol#268-277):\n\t- (success,returndata) = target.delegatecall(data) (83_StakingRewards.sol#275)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 241,
+            "line_end": 250,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (83_StakingRewards.sol#241-250):\n\t- (success,returndata) = target.staticcall(data) (83_StakingRewards.sol#248)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 144,
+            "line_end": 149,
+            "message": "Low level call in Address.sendValue(address,uint256) (83_StakingRewards.sol#144-149):\n\t- (success,None) = recipient.call{value: amount}() (83_StakingRewards.sol#147)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_StakingRewards.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 212,
+            "line_end": 223,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (83_StakingRewards.sol#212-223):\n\t- (success,returndata) = target.call{value: value}(data) (83_StakingRewards.sol#221)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1221,
+            "message": "Parameter MasterChef.addDepositor(address)._depositor (83_StakingRewards.sol#1221) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1535,
+            "message": "Parameter StakingRewards.setRewardsDuration(uint256)._rewardsDuration (83_StakingRewards.sol#1535) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1300,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._recipient (83_StakingRewards.sol#1300) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._amount (83_StakingRewards.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1229,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._startBlock (83_StakingRewards.sol#1229) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1278,
+            "message": "Parameter MasterChef.updatePool(uint256)._pid (83_StakingRewards.sol#1278) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1300,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._amount (83_StakingRewards.sol#1300) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1251,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._from (83_StakingRewards.sol#1251) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1544,
+            "message": "Parameter StakingRewards.setRewardsDistribution(address)._rewardsDistribution (83_StakingRewards.sol#1544) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1256,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._pid (83_StakingRewards.sol#1256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._pid (83_StakingRewards.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1345,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._amount (83_StakingRewards.sol#1345) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1225,
+            "message": "Parameter MasterChef.removeDepositor(address)._depositor (83_StakingRewards.sol#1225) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1300,
+            "message": "Parameter MasterChef.deposit(address,uint256,uint256)._pid (83_StakingRewards.sol#1300) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1229,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._token (83_StakingRewards.sol#1229) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1229,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._depositFee (83_StakingRewards.sol#1229) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1326,
+            "message": "Parameter MasterChef.withdraw(address,uint256,uint256)._recipient (83_StakingRewards.sol#1326) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1256,
+            "message": "Parameter MasterChef.pendingConcur(uint256,address)._user (83_StakingRewards.sol#1256) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1251,
+            "message": "Parameter MasterChef.getMultiplier(uint256,uint256)._to (83_StakingRewards.sol#1251) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1345,
+            "message": "Parameter MasterChef.safeConcurTransfer(address,uint256)._to (83_StakingRewards.sol#1345) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Informational",
+            "line": 1229,
+            "message": "Parameter MasterChef.add(address,uint256,uint16,uint256)._allocationPoints (83_StakingRewards.sol#1229) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "MasterChef",
+            "filename": "83_StakingRewards.sol",
+            "function": "slitherConstructorVariables",
+            "impact": "Informational",
+            "line": 1156,
+            "line_end": 1355,
+            "message": "MasterChef.slitherConstructorVariables() (83_StakingRewards.sol#1156-1355) uses literals with too many digits:\n\t- concurPerBlock = 100000000000000 (83_StakingRewards.sol#1193)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1199,
+            "message": "MasterChef._concurShareMultiplier (83_StakingRewards.sol#1199) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1193,
+            "message": "MasterChef.concurPerBlock (83_StakingRewards.sol#1193) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1200,
+            "message": "MasterChef._perMille (83_StakingRewards.sol#1200) should be constant \n",
+            "name": "constable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1196,
+            "message": "MasterChef.endBlock (83_StakingRewards.sol#1196) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1377,
+            "message": "StakingRewards.stakingToken (83_StakingRewards.sol#1377) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1195,
+            "message": "MasterChef.startBlock (83_StakingRewards.sol#1195) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1376,
+            "message": "StakingRewards.rewardsToken (83_StakingRewards.sol#1376) should be immutable \n",
+            "name": "immutable-states"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_StakingRewards.sol",
+            "impact": "Optimization",
+            "line": 1197,
+            "message": "MasterChef.concur (83_StakingRewards.sol#1197) should be immutable \n",
+            "name": "immutable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

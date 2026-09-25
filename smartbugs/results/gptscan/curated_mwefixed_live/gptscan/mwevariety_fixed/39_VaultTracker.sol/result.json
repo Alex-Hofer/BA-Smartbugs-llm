@@ -1,0 +1,31 @@
+{
+    "errors": [
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: addNotional, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: matureVault, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: removeNotional, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFee, current vul: price-manipulation",
+        "ERROR    tasks: Current File: /work/input/39_VaultTracker.sol, current function: transferNotionalFrom, current vul: price-manipulation",
+        "ERROR    tasks: Static analysis failed: Invalid args",
+        "ERROR    tasks: Traceback (most recent call last): File \"/opt/gptscan/src/tasks.py\", line 245, in si ... lidation\") Exception: The description of variable did not pass the `validate_description` validation"
+    ],
+    "fails": [],
+    "findings": [
+        {
+            "filename": "gptscan/mwevariety_fixed\\39_VaultTracker.sol",
+            "line": 168,
+            "line_end": 220,
+            "message": "The contract allows transferring tokens from an address different from the message sender without checking the approval of the address owner.\nRecommendation: Check the business logic about the transfer and add the approval check if necessary.\nGPTScan code: unauthorized-transfer",
+            "name": "MWE-207: Unauthorized Transfer",
+            "severity": "high"
+        }
+    ],
+    "infos": [
+        "GPTScan run: backend=deepseek/deepseek-v4-flash, llm_calls=36, est_cost_usd=0.0073",
+        "static confirmation filtered LLM candidates: 12 before, 1 after (intended behaviour)"
+    ],
+    "parser": {
+        "id": "gptscan",
+        "mode": "solidity",
+        "version": "2026/08/17"
+    }
+}

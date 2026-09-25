@@ -1,0 +1,274 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "High",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 285,
+            "message": "ClonesUpgradeable.clone(address) (8_NFTXEligiblityManager.sol#275-285) uses assembly\n\t- INLINE ASM (8_NFTXEligiblityManager.sol#277-283)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 304,
+            "message": "ClonesUpgradeable.cloneDeterministic(address,bytes32) (8_NFTXEligiblityManager.sol#294-304) uses assembly\n\t- INLINE ASM (8_NFTXEligiblityManager.sol#296-302)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 309,
+            "line_end": 321,
+            "message": "ClonesUpgradeable.predictDeterministicAddress(address,bytes32,address) (8_NFTXEligiblityManager.sol#309-321) uses assembly\n\t- INLINE ASM (8_NFTXEligiblityManager.sol#311-320)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Initializable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "isConstructor",
+            "impact": "Informational",
+            "line": 121,
+            "line_end": 133,
+            "message": "Initializable.isConstructor() (8_NFTXEligiblityManager.sol#121-133) uses assembly\n\t- INLINE ASM (8_NFTXEligiblityManager.sol#129-131)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "_msgData",
+            "impact": "Informational",
+            "line": 166,
+            "line_end": 169,
+            "message": "ContextUpgradeable._msgData() (8_NFTXEligiblityManager.sol#166-169) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 156,
+            "line_end": 158,
+            "message": "ContextUpgradeable.__Context_init() (8_NFTXEligiblityManager.sol#156-158) is never used and should be removed\n",
+            "name": "dead-code"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "line": 3,
+            "message": "Version constraint 0.6.8 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- FullInlinerNonExpressionSplitArgumentEvaluationOrder\n\t- MissingSideEffectsOnSelectorAccess\n\t- AbiReencodingHeadOverflowWithStaticArrayCleanup\n\t- DirtyBytesArrayToStorage\n\t- NestedCalldataArrayAbiReencodingSizeValidation\n\t- SignedImmutables\n\t- ABIDecodeTwoDimensionalArrayMemory\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup.\nIt is used by:\n\t- 0.6.8 (8_NFTXEligiblityManager.sol#3)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "message": "solc-0.6.8 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "line": 170,
+            "message": "Variable ContextUpgradeable.__gap (8_NFTXEligiblityManager.sol#170) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXVaultFactory",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__NFTXVaultFactory_init",
+            "impact": "Informational",
+            "line": 42,
+            "message": "Function INFTXVaultFactory.__NFTXVaultFactory_init(address,address,address) (8_NFTXEligiblityManager.sol#42) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__Ownable_init",
+            "impact": "Informational",
+            "line": 201,
+            "line_end": 204,
+            "message": "Function OwnableUpgradeable.__Ownable_init() (8_NFTXEligiblityManager.sol#201-204) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "line": 248,
+            "message": "Variable OwnableUpgradeable.__gap (8_NFTXEligiblityManager.sol#248) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__Context_init_unchained",
+            "impact": "Informational",
+            "line": 160,
+            "line_end": 161,
+            "message": "Function ContextUpgradeable.__Context_init_unchained() (8_NFTXEligiblityManager.sol#160-161) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "NFTXEligibilityManager",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__NFTXEligibilityManager_init",
+            "impact": "Informational",
+            "line": 340,
+            "line_end": 342,
+            "message": "Function NFTXEligibilityManager.__NFTXEligibilityManager_init() (8_NFTXEligiblityManager.sol#340-342) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "line": 136,
+            "message": "Variable Initializable.______gap (8_NFTXEligiblityManager.sol#136) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "OwnableUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__Ownable_init_unchained",
+            "impact": "Informational",
+            "line": 206,
+            "line_end": 210,
+            "message": "Function OwnableUpgradeable.__Ownable_init_unchained() (8_NFTXEligiblityManager.sol#206-210) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "INFTXEligibility",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__NFTXEligibility_init_bytes",
+            "impact": "Informational",
+            "line": 63,
+            "message": "Function INFTXEligibility.__NFTXEligibility_init_bytes(bytes) (8_NFTXEligiblityManager.sol#63) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "ContextUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "__Context_init",
+            "impact": "Informational",
+            "line": 156,
+            "line_end": 158,
+            "message": "Function ContextUpgradeable.__Context_init() (8_NFTXEligiblityManager.sol#156-158) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Informational",
+            "line": 167,
+            "message": "Redundant expression \"this (8_NFTXEligiblityManager.sol#167)\" inContextUpgradeable (8_NFTXEligiblityManager.sol#155-171)\n",
+            "name": "redundant-statements"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 309,
+            "line_end": 321,
+            "message": "ClonesUpgradeable.predictDeterministicAddress(address,bytes32,address) (8_NFTXEligiblityManager.sol#309-321) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (8_NFTXEligiblityManager.sol#313)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 285,
+            "message": "ClonesUpgradeable.clone(address) (8_NFTXEligiblityManager.sol#275-285) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (8_NFTXEligiblityManager.sol#279)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 304,
+            "message": "ClonesUpgradeable.cloneDeterministic(address,bytes32) (8_NFTXEligiblityManager.sol#294-304) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (8_NFTXEligiblityManager.sol#300)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "clone",
+            "impact": "Informational",
+            "line": 275,
+            "line_end": 285,
+            "message": "ClonesUpgradeable.clone(address) (8_NFTXEligiblityManager.sol#275-285) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_clone_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000) (8_NFTXEligiblityManager.sol#281)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "cloneDeterministic",
+            "impact": "Informational",
+            "line": 294,
+            "line_end": 304,
+            "message": "ClonesUpgradeable.cloneDeterministic(address,bytes32) (8_NFTXEligiblityManager.sol#294-304) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_cloneDeterministic_asm_0,0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000) (8_NFTXEligiblityManager.sol#298)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "ClonesUpgradeable",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "function": "predictDeterministicAddress",
+            "impact": "Informational",
+            "line": 309,
+            "line_end": 321,
+            "message": "ClonesUpgradeable.predictDeterministicAddress(address,bytes32,address) (8_NFTXEligiblityManager.sol#309-321) uses literals with too many digits:\n\t- mstore(uint256,uint256)(ptr_predictDeterministicAddress_asm_0 + 0x28,0x5af43d82803e903d91602b57fd5bf3ff00000000000000000000000000000000) (8_NFTXEligiblityManager.sol#315)\n",
+            "name": "too-many-digits"
+        },
+        {
+            "confidence": "High",
+            "filename": "8_NFTXEligiblityManager.sol",
+            "impact": "Optimization",
+            "line": 333,
+            "message": "NFTXEligibilityManager.nftxVaultFactory (8_NFTXEligiblityManager.sol#333) should be constant \n",
+            "name": "constable-states"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3-glibc",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

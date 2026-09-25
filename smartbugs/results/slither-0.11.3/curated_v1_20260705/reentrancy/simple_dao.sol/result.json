@@ -1,0 +1,49 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "SimpleDAO",
+            "filename": "reentrancy\\simple_dao.sol",
+            "function": "withdraw",
+            "impact": "High",
+            "line": 16,
+            "line_end": 22,
+            "message": "Reentrancy in SimpleDAO.withdraw(uint256) (../sb/simple_dao.sol#16-22):\n\tExternal calls:\n\t- res = msg.sender.call.value(amount)() (../sb/simple_dao.sol#19)\n\tState variables written after the call(s):\n\t- credit[msg.sender] -= amount (../sb/simple_dao.sol#20)\n\tSimpleDAO.credit (../sb/simple_dao.sol#10) can be used in cross function reentrancies:\n\t- SimpleDAO.credit (../sb/simple_dao.sol#10)\n\t- SimpleDAO.donate(address) (../sb/simple_dao.sol#12-14)\n\t- SimpleDAO.queryCredit(address) (../sb/simple_dao.sol#24-26)\n\t- SimpleDAO.withdraw(uint256) (../sb/simple_dao.sol#16-22)\n",
+            "name": "reentrancy-eth"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\simple_dao.sol",
+            "impact": "Informational",
+            "line": 7,
+            "message": "Version constraint ^0.4.2 contains known severe issues (https://solidity.readthedocs.io/en/latest/bugs.html)\n\t- DirtyBytesArrayToStorage\n\t- KeccakCaching\n\t- EmptyByteArrayCopy\n\t- DynamicArrayCleanup\n\t- TupleAssignmentMultiStackSlotComponents\n\t- MemoryArrayCreationOverflow\n\t- privateCanBeOverridden\n\t- IncorrectEventSignatureInLibraries_0.4.x\n\t- ExpExponentCleanup\n\t- NestedArrayFunctionCallDecoder\n\t- ZeroFunctionSelector\n\t- DelegateCallReturnValue\n\t- ECRecoverMalformedInput\n\t- SkipEmptyStringLiteral\n\t- ConstantOptimizerSubtraction\n\t- IdentityPrecompileReturnIgnored\n\t- HighOrderByteCleanStorage\n\t- OptimizerStaleKnowledgeAboutSHA3.\nIt is used by:\n\t- ^0.4.2 (../sb/simple_dao.sol#7)\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "filename": "reentrancy\\simple_dao.sol",
+            "impact": "Informational",
+            "message": "solc-0.4.26 is an outdated solc version. Use a more recent version (at least 0.8.0), if possible.\n",
+            "name": "solc-version"
+        },
+        {
+            "confidence": "High",
+            "contract": "SimpleDAO",
+            "filename": "reentrancy\\simple_dao.sol",
+            "function": "withdraw",
+            "impact": "Informational",
+            "line": 16,
+            "line_end": 22,
+            "message": "Low level call in SimpleDAO.withdraw(uint256) (../sb/simple_dao.sol#16-22):\n\t- res = msg.sender.call.value(amount)() (../sb/simple_dao.sol#19)\n",
+            "name": "low-level-calls"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}

@@ -1,0 +1,181 @@
+{
+    "errors": [],
+    "fails": [],
+    "findings": [
+        {
+            "confidence": "Medium",
+            "contract": "Shelter",
+            "filename": "83_Shelter.sol",
+            "function": "deactivate",
+            "impact": "Low",
+            "line": 484,
+            "line_end": 490,
+            "message": "Reentrancy in Shelter.deactivate(IERC20) (../sb/83_Shelter.sol#484-490):\n\tExternal calls:\n\t- _token.safeTransfer(msg.sender,_token.balanceOf(address(this))) (../sb/83_Shelter.sol#488)\n\tEvent emitted after the call(s):\n\t- ShelterDeactivated(_token) (../sb/83_Shelter.sol#489)\n",
+            "name": "reentrancy-events"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Shelter",
+            "filename": "83_Shelter.sol",
+            "function": "deactivate",
+            "impact": "Low",
+            "line": 484,
+            "line_end": 490,
+            "message": "Shelter.deactivate(IERC20) (../sb/83_Shelter.sol#484-490) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(activated[_token] != 0 && activated[_token] + GRACE_PERIOD > block.timestamp,too late) (../sb/83_Shelter.sol#485)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Shelter",
+            "filename": "83_Shelter.sol",
+            "function": "withdraw",
+            "impact": "Low",
+            "line": 492,
+            "line_end": 498,
+            "message": "Shelter.withdraw(IERC20,address) (../sb/83_Shelter.sol#492-498) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(activated[_token] != 0 && activated[_token] + GRACE_PERIOD < block.timestamp,shelter not activated) (../sb/83_Shelter.sol#493)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "Medium",
+            "contract": "Shelter",
+            "filename": "83_Shelter.sol",
+            "function": "donate",
+            "impact": "Low",
+            "line": 472,
+            "line_end": 476,
+            "message": "Shelter.donate(IERC20,uint256) (../sb/83_Shelter.sol#472-476) uses timestamp for comparisons\n\tDangerous comparisons:\n\t- require(bool,string)(activated[_token] != 0,!activated) (../sb/83_Shelter.sol#473)\n",
+            "name": "timestamp"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "isContract",
+            "impact": "Informational",
+            "line": 116,
+            "line_end": 126,
+            "message": "Address.isContract(address) (../sb/83_Shelter.sol#116-126) uses assembly\n\t- INLINE ASM (../sb/83_Shelter.sol#122-124)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "verifyCallResult",
+            "impact": "Informational",
+            "line": 285,
+            "line_end": 305,
+            "message": "Address.verifyCallResult(bool,bytes,string) (../sb/83_Shelter.sol#285-305) uses assembly\n\t- INLINE ASM (../sb/83_Shelter.sol#297-300)\n",
+            "name": "assembly"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "functionStaticCall",
+            "impact": "Informational",
+            "line": 241,
+            "line_end": 250,
+            "message": "Low level call in Address.functionStaticCall(address,bytes,string) (../sb/83_Shelter.sol#241-250):\n\t- (success,returndata) = target.staticcall(data) (../sb/83_Shelter.sol#248)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "sendValue",
+            "impact": "Informational",
+            "line": 144,
+            "line_end": 149,
+            "message": "Low level call in Address.sendValue(address,uint256) (../sb/83_Shelter.sol#144-149):\n\t- (success,None) = recipient.call{value: amount}() (../sb/83_Shelter.sol#147)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "functionDelegateCall",
+            "impact": "Informational",
+            "line": 268,
+            "line_end": 277,
+            "message": "Low level call in Address.functionDelegateCall(address,bytes,string) (../sb/83_Shelter.sol#268-277):\n\t- (success,returndata) = target.delegatecall(data) (../sb/83_Shelter.sol#275)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "contract": "Address",
+            "filename": "83_Shelter.sol",
+            "function": "functionCallWithValue",
+            "impact": "Informational",
+            "line": 212,
+            "line_end": 223,
+            "message": "Low level call in Address.functionCallWithValue(address,bytes,uint256,string) (../sb/83_Shelter.sol#212-223):\n\t- (success,returndata) = target.call{value: value}(data) (../sb/83_Shelter.sol#221)\n",
+            "name": "low-level-calls"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 478,
+            "message": "Parameter Shelter.activate(IERC20)._token (../sb/83_Shelter.sol#478) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter Shelter.withdraw(IERC20,address)._token (../sb/83_Shelter.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 472,
+            "message": "Parameter Shelter.donate(IERC20,uint256)._amount (../sb/83_Shelter.sol#472) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 484,
+            "message": "Parameter Shelter.deactivate(IERC20)._token (../sb/83_Shelter.sol#484) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 492,
+            "message": "Parameter Shelter.withdraw(IERC20,address)._to (../sb/83_Shelter.sol#492) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "filename": "83_Shelter.sol",
+            "impact": "Informational",
+            "line": 472,
+            "message": "Parameter Shelter.donate(IERC20,uint256)._token (../sb/83_Shelter.sol#472) is not in mixedCase\n",
+            "name": "naming-convention"
+        },
+        {
+            "confidence": "High",
+            "contract": "IShelter",
+            "filename": "83_Shelter.sol",
+            "function": "claimed",
+            "impact": "Informational",
+            "line": 450,
+            "line_end": 499,
+            "message": "Shelter (../sb/83_Shelter.sol#450-499) does not implement functions:\n\t- IShelter.claimed(IERC20,address) (../sb/83_Shelter.sol#422)\n",
+            "name": "unimplemented-functions"
+        }
+    ],
+    "infos": [],
+    "parser": {
+        "id": "slither-0.11.3",
+        "mode": "solidity",
+        "version": "2025/09/14"
+    }
+}
