@@ -7,6 +7,14 @@ Werkzeugausgabe zu wenig deterministisch (siehe Abschnitt 8).
 
 Bedienung der Werkzeuge: `BA-WERKZEUG-BEDIENUNG.md`.
 
+> **Datierter Bericht (02./03.08.2026), nicht nachgeführt.** Die fünf
+> Demoläufe stehen mit ihrem Zweck in `eval/LAUFREGISTER.md`. Das damals
+> verwendete LLMSmartAudit-Image trug noch das eingebrannte Modell und das
+> 5,13-GB-Evaluationsverzeichnis; seit dem 24.09.2026 gilt beides nicht mehr
+> (`BA-BETRIEB.md`, Fallstrick 2; `BA-EIGENANTEIL.md` 2.4). Lokale Pfade des
+> Erhebungsrechners in den zitierten Konsolenausgaben sind zu `<repo>`
+> beziehungsweise `<benutzer>` gekürzt.
+
 Die im Text genannten Bilanzdateien `docs/errors-fails-demo_*.md` und `.csv`
 sind git-ignoriert (`.gitignore`) und liegen nur im Arbeitsbaum des
 Erhebungsrechners; ihr Inhalt ist in den Abschnitten 5 und 7 wiedergegeben.
@@ -65,7 +73,7 @@ Traceback (most recent call last):
     onexc(os.rmdir, fullname, err)
   File "...\shutil.py", line 617, in _rmtree_unsafe
     os.rmdir(fullname)
-PermissionError: [WinError 5] Zugriff verweigert: 'C:\\Users\\Carlo\\AppData\\Local\\Temp\\tmp34q1mbcp\\bin'
+PermissionError: [WinError 5] Zugriff verweigert: 'C:\\Users\\<benutzer>\\AppData\\Local\\Temp\\tmp34q1mbcp\\bin'
 ```
 
 ### Ursache
@@ -522,14 +530,14 @@ Analysis completed in 0:00:39.
 [20:54:41] GPTScan-Bilanz: 5 Tasks | 0 Compile-Failures/Timeouts (curated_compile_failures_demo_swc.csv) | 0 Review-Kandidaten (curated_review_candidates_demo_swc.csv) | Kosten gesamt ~$0,0000
 [20:54:41] Auswertung: Compile-Failures/Timeouts zaehlen NICHT als 'clean' (result.json dort still-unvollstaendig).
 [20:54:41] Review-Kandidaten sind KEIN Automatik-Ausschluss: Kandidaten-Verwurf durch die Static-Stufe ist meist GPTScans normales False-Positive-Filtering - nur manuell nachpruefen.
-[20:54:41] gptscan: 5 result.json unter C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\smartbugs\results\gptscan\curated_demo_swc
+[20:54:41] gptscan: 5 result.json unter <repo>\smartbugs\results\gptscan\curated_demo_swc
 [20:54:41] Errors/Fails-Bilanz:
 tool/run                                        tasks  clean err.tasks fail.tasks  errors  fails no-compile
 -----------------------------------------------------------------------------------------------------------
 gptscan/curated_gptscan_demo_swc                    5      5         0          0       0      0          0
 -----------------------------------------------------------------------------------------------------------
 TOTAL                                               5      5         0          0       0      0          0
-Markdown: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_swc.md
+Markdown: <repo>\docs\errors-fails-demo_swc.md
 [20:54:41] Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber.
 [20:54:41] CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_demo_swc results\llmsmartaudit\curated_demo_swc > ..\curated_results.csv
 [20:54:41] Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_demo_swc
@@ -566,7 +574,7 @@ Analysis completed in 0:16:25.
 [21:11:27] GPTScan-Bilanz: 5 Tasks | 0 Compile-Failures/Timeouts (curated_compile_failures_demo_defi.csv) | 4 Review-Kandidaten (curated_review_candidates_demo_defi.csv) | Kosten gesamt ~$0,0725
 [21:11:27] Auswertung: Compile-Failures/Timeouts zaehlen NICHT als 'clean' (result.json dort still-unvollstaendig).
 [21:11:27] Review-Kandidaten sind KEIN Automatik-Ausschluss: Kandidaten-Verwurf durch die Static-Stufe ist meist GPTScans normales False-Positive-Filtering - nur manuell nachpruefen.
-[21:11:27] gptscan: 5 result.json unter C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\smartbugs\results\gptscan\curated_demo_defi
+[21:11:27] gptscan: 5 result.json unter <repo>\smartbugs\results\gptscan\curated_demo_defi
 [21:11:27] Errors/Fails-Bilanz:
 tool/run                                        tasks  clean err.tasks fail.tasks  errors  fails no-compile
 -----------------------------------------------------------------------------------------------------------
@@ -594,8 +602,8 @@ Distinct messages: 13 (0 fails, 13 errors)
         1 contracts  [independent]  gptscan/curated_gptscan_demo_defi
            ERROR    tasks: Current File: /work/input/5_Pools.sol, current function: burnSynth, current vul: pri
 
-CSV: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_defi.csv
-Markdown: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_defi.md
+CSV: <repo>\docs\errors-fails-demo_defi.csv
+Markdown: <repo>\docs\errors-fails-demo_defi.md
 [21:11:27] Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber.
 [21:11:27] CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_demo_defi results\llmsmartaudit\curated_demo_defi > ..\curated_results.csv
 [21:11:27] Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_demo_defi
@@ -621,14 +629,14 @@ Starting task 1/1: llmsmartaudit and 20_Synth.sol
 1/1 completed, ETC 0:00:00
 Analysis completed in 0:32:54.
 [21:45:10] LLMSmartAudit beendet, ExitCode=0 (Log: smartbugs\results\logs\curated_llmsa_demo_kostenprobe.log)
-[21:45:10] llmsmartaudit: 1 result.json unter C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\smartbugs\results\llmsmartaudit\curated_demo_kostenprobe
+[21:45:10] llmsmartaudit: 1 result.json unter <repo>\smartbugs\results\llmsmartaudit\curated_demo_kostenprobe
 [21:45:10] Errors/Fails-Bilanz:
 tool/run                                        tasks  clean err.tasks fail.tasks  errors  fails no-compile
 -----------------------------------------------------------------------------------------------------------
 llmsmartaudit/curated_llmsa_demo_kostenprobe        1      1         0          0       0      0          0
 -----------------------------------------------------------------------------------------------------------
 TOTAL                                               1      1         0          0       0      0          0
-Markdown: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_kostenprobe.md
+Markdown: <repo>\docs\errors-fails-demo_kostenprobe.md
 [21:45:10] Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber.
 [21:45:10] CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_demo_kostenprobe results\llmsmartaudit\curated_demo_kostenprobe > ..\curated_results.csv
 [21:45:10] Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_demo_kostenprobe
@@ -662,14 +670,14 @@ Starting task 5/5: llmsmartaudit and bad_randomness/guess_the_random_number.sol
 5/5 completed, ETC 0:00:00
 Analysis completed in 0:16:39.
 [01:12:14] LLMSmartAudit beendet, ExitCode=0 (Log: smartbugs\results\logs\curated_llmsa_demo_swc_llm.log)
-[01:12:14] llmsmartaudit: 5 result.json unter C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\smartbugs\results\llmsmartaudit\curated_demo_swc_llm
+[01:12:14] llmsmartaudit: 5 result.json unter <repo>\smartbugs\results\llmsmartaudit\curated_demo_swc_llm
 [01:12:14] Errors/Fails-Bilanz:
 tool/run                                        tasks  clean err.tasks fail.tasks  errors  fails no-compile
 -----------------------------------------------------------------------------------------------------------
 llmsmartaudit/curated_llmsa_demo_swc_llm            5      5         0          0       0      0          0
 -----------------------------------------------------------------------------------------------------------
 TOTAL                                               5      5         0          0       0      0          0
-Markdown: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_swc_llm.md
+Markdown: <repo>\docs\errors-fails-demo_swc_llm.md
 [01:12:15] Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber.
 [01:12:15] CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_demo_swc_llm results\llmsmartaudit\curated_demo_swc_llm > ..\curated_results.csv
 [01:12:15] Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_demo_swc_llm
@@ -701,14 +709,14 @@ Starting task 4/4: llmsmartaudit and 5_Pools.sol
 4/4 completed, ETC 0:00:00
 Analysis completed in 0:29:55.
 [01:42:15] LLMSmartAudit beendet, ExitCode=0 (Log: smartbugs\results\logs\curated_llmsa_demo_defi_llm.log)
-[01:42:15] llmsmartaudit: 4 result.json unter C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\smartbugs\results\llmsmartaudit\curated_demo_defi_llm
+[01:42:15] llmsmartaudit: 4 result.json unter <repo>\smartbugs\results\llmsmartaudit\curated_demo_defi_llm
 [01:42:15] Errors/Fails-Bilanz:
 tool/run                                        tasks  clean err.tasks fail.tasks  errors  fails no-compile
 -----------------------------------------------------------------------------------------------------------
 llmsmartaudit/curated_llmsa_demo_defi_llm           4      4         0          0       0      0          0
 -----------------------------------------------------------------------------------------------------------
 TOTAL                                               4      4         0          0       0      0          0
-Markdown: C:\Users\Carlo\Desktop\Familie\Alex\Uni\BACHELORARBEIT\Github\BA\docs\errors-fails-demo_defi_llm.md
+Markdown: <repo>\docs\errors-fails-demo_defi_llm.md
 [01:42:15] Spalte 'nicht uebersetzt': dort ist ein leeres Finding-Ergebnis unbestimmt, NICHT sauber.
 [01:42:15] CSV-Auswertung: cd smartbugs; .venv\Scripts\python.exe -m sb.results2csv results\gptscan\curated_demo_defi_llm results\llmsmartaudit\curated_demo_defi_llm > ..\curated_results.csv
 [01:42:15] Parser-Vollstaendigkeit pruefen: python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_demo_defi_llm

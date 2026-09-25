@@ -9,6 +9,11 @@ Von diesem Befund hängen die späteren Aufgaben 4 und 8 ab.
 **Host:** Docker Desktop, Server 29.0.1 (Windows)
 **Geprüfte Images:** `smartbugs/gptscan:1.0`, `smartbugs/llmsmartaudit:1.0`
 
+> **Datierte Messung.** Beide Images wurden seither neu gebaut (GPTScan am
+> 18.08.2026, LLMSmartAudit zuletzt am 24.09.2026; `README.md`, „Die vier
+> Images“). Die Messung wurde an den Neubauten nicht wiederholt; der
+> Mechanismus aus AP5 läuft mit ihnen (`BA-DURCHFUEHRUNGSPROTOKOLL.md` 4.5.6).
+
 ## Schritt 1: Vorhandensein prüfen
 
 ```bash

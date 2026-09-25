@@ -3,6 +3,12 @@
 Was in dieser Sitzung tatsächlich getan wurde, in der Reihenfolge der Ausführung.
 Ergebnis: fünf Commits auf dem Initial-Commit `f85946e`.
 
+> **Datierter Bericht (02.08.2026), nicht nachgeführt.** Alle Zahlen darin
+> (19 Läufe, 930 Tasks, 1 368 Lücken, Sicherungsorte) sind der Stand jenes
+> Tages. Der heutige Stand steht in `README.md` und `BA-ARBEIT.md`; die
+> Rohdaten sind seit dem 25.09.2026 teils versioniert, teils als
+> GitHub-Release abgelegt (`README.md`, „Wo die Ergebnisse liegen“).
+
 ```
 9551734  Docstrings fuer die verbliebenen Einstiegspunkte des eigenen Codes
 98e63aa  Secret-Scan als pre-commit-Hook, gitignore-Durchsicht, WareHouse-Reste entfernt

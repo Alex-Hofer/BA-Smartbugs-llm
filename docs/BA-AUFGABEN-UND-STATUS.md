@@ -3,6 +3,11 @@
 Was zu tun war, was davon erledigt ist, und was offen bleibt.
 Stand 2026-08-02. Ausführung dokumentiert in `BA-ARBEITSBERICHT-20260802.md`.
 
+> **Datierter Bericht.** Die Zahlen und Statusangaben sind der Stand vom
+> 02.08.2026 (19 Läufe, 930 Tasks). Spätere Änderungen stehen in den
+> Nachträgen weiter unten (21.09. und 25.09.2026) und in den lebenden
+> Dokumenten, die die `README.md` unter „Dokumentation“ führt.
+
 ---
 
 ## Teil A — Die vier Hauptaufgaben aus dem Auftrag

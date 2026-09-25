@@ -8,6 +8,11 @@ getrennt daraus.
 Datum: 2026-08-17 · Status bei Erstellung: abgestimmt, Umsetzung ausstehend ·
 Umgesetzt am 18.08.2026, siehe `BA-AP5-ABSCHLUSSBERICHT.md`
 
+> **Datierter Entwurf.** Maßgeblich für das, was gebaut wurde, sind der
+> Abschlussbericht und der Code (`smartbugs/tools/*/scripts/do_solidity.sh`,
+> `GPTScan/src/llm_backend.py`, `chatdev/audit_report.py`). Wo dieser Entwurf
+> davon abweicht, gilt der Abschlussbericht.
+
 ---
 
 ## 1. Ziel
