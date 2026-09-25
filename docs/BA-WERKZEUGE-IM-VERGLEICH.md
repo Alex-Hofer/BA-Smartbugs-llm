@@ -393,6 +393,14 @@ durchschnittlich acht Detektoren je Contract muss nur einer von acht kippen,
 damit der Satz nicht mehr identisch ist — die Jaccard-Zahl von 61,4 % ist das
 fairere Maß.
 
+Auf die Kennzahlen gegen die Ground Truth schlägt das Rauschen kaum durch: Der
+zweite Lauf kommt auf 96 % Recall, 32 % Precision und 47 % F1 gegenüber 97 %,
+30 % und 45 % im ersten (aus der versionierten `findings.jsonl` gerechnet,
+`analysis_tools/metrics_from_eval.py`; Tabelle in
+[`eval/llmsa_curated_v2/README.md`](../eval/llmsa_curated_v2/README.md)). Bei
+sieben bis acht Findings je Contract kippt ein einzelnes Finding die Treffer je
+Kategorie selten.
+
 **Vier Vorbehalte, ohne die die Zahl nicht zu gebrauchen ist.**
 
 1. Die beiden Läufe unterscheiden sich nicht nur zufällig: Timeout 5 400 s gegen

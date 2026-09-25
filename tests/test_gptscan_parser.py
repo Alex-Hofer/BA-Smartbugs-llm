@@ -269,6 +269,56 @@ def test_synthetic_no_marker_means_no_timeout_message(gptscan):
     assert not contains(errors, "TIMEOUT")
 
 
+def _synthetic_result(title, start, end, extra_files=()):
+    """One entry of GPTScan's ``results`` list, shaped like the recorded reports."""
+    affected = [{"filePath": "/work/input/Vault.sol",
+                 "range": {"start": {"line": start}, "end": {"line": end}}}]
+    for name, s, e in extra_files:
+        affected.append({"filePath": name, "range": {"start": {"line": s}, "end": {"line": e}}})
+    return {"title": title, "severity": "High", "code": "unauthorized-transfer",
+            "description": "Transfer without approval check.",
+            "recommendation": "Check the approval.", "affectedFiles": affected}
+
+
+def test_synthetic_single_finding_keeps_name_position_and_message(gptscan):
+    """A report with one finding must yield exactly one finding with all fields.
+
+    Until now every synthetic payload carried an empty ``results`` list; a parser
+    that silently dropped findings was caught only by the two recorded fixtures.
+    """
+    meta = 'GPTSCAN_META {"provider":"deepseek","model":"deepseek-v4-flash","llm_calls":3}'
+    report = {"version": "1.1.0", "success": True,
+              "results": [_synthetic_result("MWE-207: Unauthorized Transfer", 9, 17)]}
+    findings, _i, errors, fails = gptscan.parse(
+        0, ["GPTScan: provider=deepseek", meta], synthetic_tar(json.dumps(report).encode("utf-8")))
+    assert not fails and not errors
+    assert len(findings) == 1
+    f = findings[0]
+    assert f["name"] == "MWE-207: Unauthorized Transfer"
+    assert f["severity"] == "high"                # normalised to lower case
+    assert (f["line"], f["line_end"]) == (9, 17)
+    assert f["filename"] == "Vault.sol"
+    assert "Transfer without approval check." in f["message"]
+    assert "Recommendation: Check the approval." in f["message"]
+    assert "GPTScan code: unauthorized-transfer" in f["message"]
+
+
+def test_synthetic_two_findings_and_secondary_files(gptscan):
+    """Two results give two findings; further affected files land in the message."""
+    meta = 'GPTSCAN_META {"provider":"deepseek","model":"deepseek-v4-flash","llm_calls":3}'
+    report = {"version": "1.1.0", "success": True, "results": [
+        _synthetic_result("MWE-207: Unauthorized Transfer", 9, 17),
+        _synthetic_result("MWE-200: Insecure LP Token Value", 40, 55,
+                          extra_files=[("/work/input/Pool.sol", 3, 4)]),
+    ]}
+    findings, _i, _e, _f = gptscan.parse(
+        0, ["GPTScan: provider=deepseek", meta], synthetic_tar(json.dumps(report).encode("utf-8")))
+    assert [f["name"] for f in findings] == ["MWE-207: Unauthorized Transfer",
+                                             "MWE-200: Insecure LP Token Value"]
+    assert findings[1]["line"] == 40
+    assert "Also affects: Pool.sol:3-4" in findings[1]["message"]
+
+
 @pytest.mark.parametrize("case", [
     "clean_with_finding", "compile_failure_silent",
     "uncaught_crash_exit1", "static_check_crash",

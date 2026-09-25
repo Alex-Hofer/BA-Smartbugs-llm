@@ -83,7 +83,7 @@ Zwei Korpora, die **Unterschiedliches messen**:
 |---|---|---|
 | Umfang | 143 Contract-Dateien | 96 Contracts |
 | Herkunft | [smartbugs/smartbugs-curated](https://github.com/smartbugs/smartbugs-curated), Commit `230e649` (16.06.2024) | aus GPTScans eigenem Benchmark-Umfeld (Web3Bugs-Contests), in dieser Arbeit rekonstruiert |
-| Ground Truth | ja: je Datei **eine** Primärschwachstelle aus den DASP-Top-10 (`dataset/vulnerabilities.json`) | **nein** |
+| Ground Truth | ja: je Datei **eine** Primärschwachstelle aus den DASP-Top-10 (`vulnerabilities.json` im Datensatz) | **nein** |
 | Was sich messen lässt | Recall, Precision, F1 je Kategorie | nur beschreiben: Findings, Abdeckung, Kosten, Ausfälle |
 | Solidity | 0.4 (142 Dateien), 0.5 (eine) | 0.6 (18), 0.7 (8), 0.8 (70); geflattet mit vollständigem Import-Closure |
 | Im Repository | nein; `run_curated.ps1` klont und pinnt den Stand | ja, `smartbugs/samples/gptscan/mwevariety_fixed/` |
@@ -421,9 +421,14 @@ Images nicht veröffentlicht werden ([`../LICENSE`](../LICENSE)).
 Dokuments stehen in den versionierten Auswertungen unter `eval/`
 (`run_meta.json`, `findings.jsonl`, `summary.md`) und lassen sich dort
 nachlesen; jede `README.md` dort sagt, was man aus dem Ordner schließen darf
-und was nicht. Die Testsuite (`python -m pytest tests -q`, 258 Tests) läuft ohne
-Docker und ohne Schlüssel gegen aufgezeichnete Rohdaten; sie enthält Tests, die
-die Tabellen der Dokumentation gegen `run_meta.json` prüfen.
+und was nicht. Recall und Precision lassen sich aus diesen Dateien allein
+nachrechnen: `python analysis_tools\metrics_from_eval.py
+eval\curated_v1_20260705__llmsmartaudit --check` bildet die Kennzahlen aus
+`findings.jsonl` und der per_contract-Tabelle und vergleicht sie mit
+`run_meta.json`. Die Testsuite (`python -m pytest tests -q`) läuft ohne Docker
+und ohne Schlüssel gegen aufgezeichnete Rohdaten; sie enthält Tests, die die
+Tabellen der Dokumentation gegen `run_meta.json` prüfen und diese Nachrechnung
+für alle drei Werkzeuge des curated-Laufs ausführen.
 
 **Mit den Rohdaten** (2,68 GB unter `smartbugs/results/`, bei den Verfassern):
 `python analysis_tools/curated_eval.py` erzeugt die `eval/`-Ordner des

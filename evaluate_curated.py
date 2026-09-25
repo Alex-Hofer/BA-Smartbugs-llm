@@ -113,6 +113,77 @@ def load_mapping(findings_yaml: Path, tool: str) -> dict:
     return mapping
 
 
+def rates(contracts: int, detected: int, flagged: int):
+    """Recall, Precision und F1 aus den drei Zaehlern einer Kategorie.
+
+    ``None`` steht fuer "nicht definiert": Recall ohne gelabelte Contracts,
+    Precision ohne geflaggte Contracts, F1 sobald eines von beiden fehlt oder
+    beide 0 sind.
+    """
+    rec = detected / contracts if contracts else None
+    prec = detected / flagged if flagged else None
+    f1 = (2 * prec * rec / (prec + rec)
+          if prec is not None and rec is not None and (prec + rec) else None)
+    return rec, prec, f1
+
+
+def evaluate_tool(tool: str, contracts: dict, resroot: Path, mapping: dict):
+    """Zaehlt einen Lauf eines Werkzeugs gegen die Ground Truth aus.
+
+    ``contracts`` bildet ``(kategorie-ordner, dateiname)`` auf die gelabelten
+    Kategorien ab, ``resroot`` ist das Laufverzeichnis
+    ``smartbugs/results/<tool>/curated_<suffix>``, ``mapping`` der Finding-Name
+    zu curated-Kategorie (``load_mapping``).
+
+    Rueckgabe: ``(per_cat, totals, densities, detail_rows)`` -- je Kategorie die
+    Zaehler ``contracts``/``detected``/``flagged`` nach der Definition im
+    Modulkopf, die Summen ueber den Lauf, die Findingzahl je ausgewertetem
+    Contract und eine Zeile je Contract fuer die Detail-CSV. Contracts ohne
+    ``result.json`` zaehlen als ``missing`` und nie als "nichts gefunden".
+    """
+    per_cat = defaultdict(lambda: {"contracts": 0, "detected": 0, "flagged": 0})
+    totals = {"results": 0, "missing": 0, "findings": 0, "mapped": 0,
+              "unmapped": 0, "extra_cat": 0}
+    densities = []
+    detail_rows = []
+
+    for (folder, fname), labeled in sorted(contracts.items()):
+        result_json = resroot / folder / fname / "result.json"
+        for cat in labeled:
+            per_cat[cat]["contracts"] += 1
+        if not result_json.exists():
+            totals["missing"] += 1
+            continue
+        totals["results"] += 1
+        data = json.loads(result_json.read_text(encoding="utf-8"))
+        findings = data.get("findings", [])
+        totals["findings"] += len(findings)
+        found_cats = set()
+        for f in findings:
+            cat = mapping.get(f.get("name"))
+            if cat:
+                totals["mapped"] += 1
+                found_cats.add(cat)
+            else:
+                totals["unmapped"] += 1
+        hit = False
+        for cat in labeled:
+            if cat in found_cats:
+                per_cat[cat]["detected"] += 1
+                hit = True
+        for cat in found_cats:
+            per_cat[cat]["flagged"] += 1
+        totals["extra_cat"] += len(found_cats - set(labeled))
+        densities.append(len(findings))
+        detail_rows.append({
+            "tool": tool, "category": folder, "contract": fname,
+            "labeled": ";".join(labeled), "detected": int(hit),
+            "n_findings": len(findings),
+            "mapped_categories": ";".join(sorted(found_cats)),
+        })
+    return per_cat, totals, densities, detail_rows
+
+
 def main() -> None:
     """Vergleicht je Werkzeug alle Ergebnisse eines Laufs mit der Ground Truth.
 
@@ -144,45 +215,8 @@ def main() -> None:
     for tool in args.tools:
         mapping = load_mapping(repo / "smartbugs" / "tools" / tool / "findings.yaml", tool)
         resroot = repo / "smartbugs" / "results" / tool / f"curated_{args.suffix}"
-        per_cat = defaultdict(lambda: {"contracts": 0, "detected": 0, "flagged": 0})
-        totals = {"results": 0, "missing": 0, "findings": 0, "mapped": 0,
-                  "unmapped": 0, "extra_cat": 0}
-        densities = []
-
-        for (folder, fname), labeled in sorted(contracts.items()):
-            result_json = resroot / folder / fname / "result.json"
-            for cat in labeled:
-                per_cat[cat]["contracts"] += 1
-            if not result_json.exists():
-                totals["missing"] += 1
-                continue
-            totals["results"] += 1
-            data = json.loads(result_json.read_text(encoding="utf-8"))
-            findings = data.get("findings", [])
-            totals["findings"] += len(findings)
-            found_cats = set()
-            for f in findings:
-                cat = mapping.get(f.get("name"))
-                if cat:
-                    totals["mapped"] += 1
-                    found_cats.add(cat)
-                else:
-                    totals["unmapped"] += 1
-            hit = False
-            for cat in labeled:
-                if cat in found_cats:
-                    per_cat[cat]["detected"] += 1
-                    hit = True
-            for cat in found_cats:
-                per_cat[cat]["flagged"] += 1
-            totals["extra_cat"] += len(found_cats - set(labeled))
-            densities.append(len(findings))
-            detail_rows.append({
-                "tool": tool, "category": folder, "contract": fname,
-                "labeled": ";".join(labeled), "detected": int(hit),
-                "n_findings": len(findings),
-                "mapped_categories": ";".join(sorted(found_cats)),
-            })
+        per_cat, totals, densities, rows = evaluate_tool(tool, contracts, resroot, mapping)
+        detail_rows.extend(rows)
 
         print(f"\n## {tool} (curated_{args.suffix})")
         print(f"{'Kategorie':<28}{'Contracts':>10}{'Erkannt':>9}{'Recall':>9}"
@@ -192,10 +226,7 @@ def main() -> None:
             c, d, fl = (per_cat[cat]["contracts"], per_cat[cat]["detected"],
                         per_cat[cat]["flagged"])
             sum_c, sum_d, sum_f = sum_c + c, sum_d + d, sum_f + fl
-            rec = d / c if c else None
-            prec = d / fl if fl else None
-            f1 = (2 * prec * rec / (prec + rec)
-                  if prec is not None and rec is not None and (prec + rec) else None)
+            rec, prec, f1 = rates(c, d, fl)
             fmt = lambda v: f"{v:>.0%}" if v is not None else "-"
             print(f"{cat:<28}{c:>10}{d:>9}{fmt(rec):>9}{fl:>10}"
                   f"{fmt(prec):>11}{fmt(f1):>7}")

@@ -26,11 +26,10 @@ mit dem seit 15.08.2026 um die Kontextzustände erweiterten Parser.
 > Gegenprüfung vom 21.09.2026 (Absatz darüber) ist der letzte Beleg für die
 > Treue der `findings.jsonl` zum Rohmaterial.
 >
-> Für diesen Arbeitsbaum bleibt die Folge dieselbe: Solange die Daten nicht
-> übertragen sind, lässt sich der Lauf **hier** weder reparsen noch in die
-> Errors/Fails-Bilanz oder das Parser-Audit aufnehmen. Beides wäre nach einer
-> Übertragung möglich; die Bilanzen in `docs/errors-fails.md` und
-> `docs/parser-audit-nachher.md` führen ihn deshalb nicht.
+> Für diesen Arbeitsbaum heißt das: Der Lauf lässt sich **hier** weder
+> reparsen noch in die Errors/Fails-Bilanz oder das Parser-Audit aufnehmen;
+> die Bilanzen in `docs/errors-fails.md` und `docs/parser-audit-nachher.md`
+> führen ihn deshalb nicht.
 >
 > **Er ist trotzdem nicht wertlos, im Gegenteil.** Er ist der zweite
 > LLMSmartAudit-Lauf über denselben Korpus und damit die einzige Grundlage, auf
@@ -85,6 +84,34 @@ Werte stimmen mit dem Protokoll `eval/_runlogs/llmsa_full_20260815-181854.log`
 | Container-Zeit (Summe) | 114 091,5 s |
 | Token | 11 119 680 prompt / 11 235 316 completion, 6 126 LLM-Aufrufe |
 | Kosten (geschätzt) | ≈ $5,16 |
+
+## Recall und Precision gegen die Ground Truth, nachgerechnet
+
+Für diesen Lauf hat kein Skript je Recall und Precision berechnet; die
+Rohdaten dafür fehlen. Aus der versionierten `findings.jsonl` und der
+Grundgesamtheit des ersten Laufs (dieselben 143 Dateien,
+`eval/per_contract/curated_v1_20260705__llmsmartaudit.csv`) lassen sie sich
+trotzdem bilden, mit derselben Zählweise wie in
+`eval/curated_v1_20260705__metriken.md`:
+
+```powershell
+python analysis_tools\metrics_from_eval.py eval\llmsa_curated_v2 `
+    --population eval\per_contract\curated_v1_20260705__llmsmartaudit.csv
+```
+
+| | zweiter Lauf (`llmsa_curated_v2`) | erster Lauf (`curated_v1_20260705`) |
+|---|---:|---:|
+| erkannte Contracts | 137 von 143 | 138 von 143 |
+| Recall | 96 % | 97 % |
+| geflaggte (Contract, Kategorie)-Paare | 434 | 464 |
+| Precision | 32 % | 30 % |
+| F1 | 47 % | 45 % |
+
+Der eine nicht analysierte Contract (`0x663e4229…`) zählt dabei als nicht
+erkannt. Die Kennzahlen sind gegenüber dem Lauf-zu-Lauf-Rauschen der
+Einzel-Findings (Jaccard 61,4 %) stabil: Auf Contract-Ebene ändert sich wenig,
+weil jeder Contract im Mittel sieben bis acht Findings trägt und ein einzelnes
+gekipptes Finding die Treffer je Kategorie selten verändert.
 
 ## Was in den Dateien steht
 
