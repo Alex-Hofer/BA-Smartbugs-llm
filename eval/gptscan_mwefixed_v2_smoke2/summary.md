@@ -1,6 +1,6 @@
 # GPTScan-Lauf `gptscan_mwefixed_v2_smoke2` -- Auswertung
 
-Erzeugt 2026-08-15T16:19:32.719613+00:00 von `analysis_tools/gptscan_eval.py`.
+Erzeugt 2026-09-25T16:18:30.730133+00:00 von `analysis_tools/gptscan_eval.py`.
 Rohergebnisse: `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2` (unveraendert).
 
 ## Eckdaten
@@ -16,7 +16,7 @@ Rohergebnisse: `smartbugs/results/gptscan/gptscan_mwefixed_v2_smoke2` (unveraend
 | Tokens | 47073 prompt / 73738 completion, 90 LLM-Calls |
 | Laufzeit | Wanduhr 352.8 s, Task-Summe 697.7 s, Median 218.1 s, max 345.8 s |
 
-Der Timeout wird derzeit nur von Docker durchgesetzt, nicht vom Werkzeug selbst (AP5, offen).
+Der Timeout wirkt seit AP5 im Container (Bremse bei GPTScan, Netz als letzte Stufe); Docker bleibt als aeusserer Fallback bestehen.
 
 ## Zustaende
 
@@ -29,6 +29,8 @@ Begriffe nach `docs/BA-ERRORS-VS-FAILS.md`.
 | Tasks mit fails | 0 | Werkzeug ausgehebelt, kein Ergebnis zustande gekommen |
 | Contract nicht uebersetzt (degraded) | 0 | Compilat gescheitert -> ein Lauf ohne Findings ist hier UNBESTIMMT, nicht sauber |
 | ohne Findings, sauber | 1 | uebersetzt, vollstaendig gelaufen, nichts gemeldet |
+
+Davon Teillaeufe (Timeout): 0 von 3. Ein durch die AP5-Deadline vorzeitig beendeter Lauf liefert weniger Findings als ein Volllauf; er bleibt dennoch in allen Zahlen oben mitgezaehlt, siehe `sb_timeout` in `docs/BA-AP5-TIMEOUT-DESIGN.md`.
 
 **Fehlerquote** (Tasks mit fails / alle Tasks): 0/3 = 0.0 %.
 **Errorquote** (Tasks mit errors / alle Tasks): 2/3 = 66.7 %.
