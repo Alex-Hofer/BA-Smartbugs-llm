@@ -5,12 +5,18 @@ Salzer. **Dieses Repository ist die Abgabe.** Es enthält den Code, die
 Auswertungen der Messläufe und die Dokumentation; eine gesonderte schriftliche
 Ausarbeitung gibt es nicht.
 
-Untersucht wird, was zwei LLM-gestützte Analysewerkzeuge für Smart Contracts
-leisten, wenn man sie als reguläre Werkzeuge unter SmartBugs betreibt, gemessen
-an einem klassischen statischen Analysator als Referenz. Fragestellung,
-Vorgehen, Ergebnisse, Grenzen und Fazit in einem Stück stehen in
-**[`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md)**; dieses README ist der
-Wegweiser durch das Repository und die Anleitung zum Betrieb.
+## Die Arbeit in einer Minute
+
+Zwei LLM-gestützte Schwachstellenscanner für Solidity, GPTScan und LLMSmartAudit, laufen
+als reguläre Werkzeuge unter SmartBugs 2.1.1 und wurden gegen Slither 0.11.3 gemessen:
+auf `smartbugs-curated` (143 gelabelte Contracts) und auf 96 rekonstruierten
+DeFi-Contracts ohne Ground Truth. Auf curated erreicht LLMSmartAudit 97 % Recall bei
+30 % Precision, Slither 67 % bei 45 % mit dem besten F1, GPTScan 0 %, weil der Datensatz
+keine DeFi-Logik enthält; auf den DeFi-Contracts meldet GPTScan 77 Findings für 28 Cent,
+und LLMSmartAudit scheiterte auf 37 von 96 an einer Kontextgrenze im Werkzeug.
+Motivation, Fragestellung, Vorgehen, Ergebnisse, Diskussion, Grenzen, Fazit und Lesepfad
+stehen in **[`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md)**, dem ersten Dokument für
+Gutachter; dieses README ist der Wegweiser durch das Repository und die Betriebsanleitung.
 
 | Werkzeug | Art | Rolle | Upstream |
 |---|---|---|---|
@@ -33,7 +39,7 @@ Einsatzgebiet.
 ## Ergebnisse in Kürze
 
 Stand 25.09.2026. Jede Zahl steht mit Quelle und Einschränkung in
-[`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md), Abschnitt 5, und in
+[`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md), Abschnitt 5, und in
 [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md),
 Abschnitt 4; die Rohwerte in `eval/`.
 
@@ -64,7 +70,7 @@ Abschnitt 4; die Rohwerte in `eval/`.
 
 | Wenn Sie wissen wollen … | lesen Sie |
 |---|---|
-| worum es geht, wie gemessen wurde, was herauskam und was das bedeutet | [`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md) |
+| worum es geht, wie gemessen wurde, was herauskam und was das bedeutet | [`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md) |
 | wie die drei Werkzeuge arbeiten und wie sie im Detail abschneiden, mit Diskussion | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md), das Ergebnis- und Diskussionskapitel |
 | die Recall-, Precision- und F1-Tabellen je Kategorie, mit Basisrate und Intervall | [`eval/curated_v1_20260705__metriken.md`](eval/curated_v1_20260705__metriken.md) |
 | was aus einem einzelnen Lauf geschlossen werden darf und was nicht | die `README.md` im jeweiligen Ordner unter [`eval/`](eval/README.md) |
@@ -734,6 +740,7 @@ Upstream-Stände per Hash abgeglichen.
 
 | Dokument | Inhalt |
 |---|---|
+| [`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md) | Die Arbeit als Ganzes: Motivation, Forschungsfrage mit Abgrenzung, Ausgangslage, Vorgehen, Ergebnisse, Diskussion, Limitationen, Fazit, Eigenleistung und Lesepfad; das erste Dokument für Gutachter |
 | [`docs/BA-UEBERBLICK.md`](docs/BA-UEBERBLICK.md) | Die Arbeit in einem Stück: Fragestellung, Daten, Vorgehen, Ergebnisse, Einordnung, Grenzen, Fazit, mit Verweisen auf die Belege |
 | [`docs/BA-WERKZEUGE-IM-VERGLEICH.md`](docs/BA-WERKZEUGE-IM-VERGLEICH.md) | Architektur der drei Werkzeuge, Gegenüberstellung anhand der Messdaten und Einordnung: das Ergebnis- und Diskussionskapitel |
 | [`docs/BA-BETRIEB.md`](docs/BA-BETRIEB.md) | Validierte Parameter, Pflichtvariablen, Kosten, 10 bekannte Fallstricke |
