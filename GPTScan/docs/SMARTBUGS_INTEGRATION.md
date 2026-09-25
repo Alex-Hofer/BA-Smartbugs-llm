@@ -101,7 +101,7 @@ a one-line cost summary, e.g.
 ## 5. Switching provider / model
 
 Provider/model selection is identical to standalone GPTScan (see the main
-[README](../README.md#choosing-the-llm-providermodel)). Under SmartBugs, set
+[README](../README.md#choosing-the-llm-provider--model)). Under SmartBugs, set
 `GPTSCAN_PROVIDER` / `GPTSCAN_MODEL` on the host; standalone, pass
 `--provider` / `--model`. The default backend is **`deepseek` /
 `deepseek-v4-flash`**; OpenAI remains fully supported via `--provider openai`.

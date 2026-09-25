@@ -336,6 +336,12 @@ zusätzlich zwei Manifeste unter `smartbugs\results\` ab:
 
 ## 8. Timeout-Verhalten und Prüfstand (AP5)
 
+Dieser Abschnitt zeigt die Bedienung; die Betriebsregeln dazu (Marken,
+Kennzeichnung eines Teilergebnisses, Prüfstand ohne Kosten) stehen in
+`BA-BETRIEB.md`, Abschnitt 8. Beide Abschnitte beschreiben denselben
+Mechanismus; der Entwurf und der Nachweis stehen in
+`BA-AP5-ABSCHLUSSBERICHT.md`.
+
 Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
 äußerer Docker-Abschuss. Der jeweilige Entrypoint rechnet aus dem übergebenen
 `TIMEOUT` drei Marken: **Bremse** bei 70 % (als `SB_DEADLINE_EPOCH` exportiert;

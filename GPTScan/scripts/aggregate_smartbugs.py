@@ -24,6 +24,7 @@ _TAXONOMY = os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "taxo
 
 
 def load_taxonomy():
+    """Return taxonomy/findings.yaml as a dict, or {} if PyYAML or the file is missing."""
     if yaml is None or not os.path.exists(_TAXONOMY):
         return {}
     with open(_TAXONOMY, encoding="utf-8") as f:
@@ -31,6 +32,7 @@ def load_taxonomy():
 
 
 def read_meta(result_log):
+    """Return the parsed ``GPTSCAN_META`` JSON of one result.log, or {} if absent."""
     try:
         with open(result_log, encoding="utf-8", errors="replace") as f:
             for line in f:
@@ -42,6 +44,7 @@ def read_meta(result_log):
 
 
 def collect(results_dir):
+    """One row per task: contract name, findings/errors/fails from result.json, meta from result.log."""
     rows = []
     for rj in glob.glob(os.path.join(results_dir, "**", "result.json"), recursive=True):
         try:
@@ -62,6 +65,7 @@ def collect(results_dir):
 
 
 def render(rows, taxonomy, dry):
+    """Render the Markdown report: per contract, per category, totals."""
     L = []
     mode = "Dry-run projection" if dry else "Live run"
     L.append(f"# GPTScan via SmartBugs — {mode} summary")
@@ -130,6 +134,7 @@ def render(rows, taxonomy, dry):
 
 
 def main():
+    """CLI: ``<results_dir> [out.md]``; writes the report and echoes it to stdout."""
     if len(sys.argv) < 2:
         print(__doc__)
         sys.exit(1)

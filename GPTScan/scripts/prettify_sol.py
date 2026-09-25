@@ -17,6 +17,7 @@ import sys
 
 
 def prettify(src: str) -> str:
+    """Return ``src`` with a newline after every ``;``, ``{`` and ``}`` outside strings and comments."""
     out = []
     i, n = 0, len(src)
     state = "normal"
@@ -67,6 +68,7 @@ def prettify(src: str) -> str:
 
 
 def main():
+    """CLI: ``OUT_DIR FILE1.sol [FILE2.sol ...]``; writes reformatted copies into OUT_DIR."""
     if len(sys.argv) < 3:
         print(__doc__)
         sys.exit(1)

@@ -2,7 +2,7 @@ name: GPTScan
 version: "1.0"
 origin: https://github.com/GPTScan/GPTScan
 info: GPTScan reports suspected DeFi logic weaknesses (10 MWE scenarios) by combining an LLM (OpenAI or DeepSeek) with program analysis; a static confirmation stage discards candidates it cannot corroborate. This build talks to an OpenAI-compatible backend selected at run time.
-# Locally-built image (see GPTScan/Dockerfile and tools/gptscan/README/Doc).
+# Locally-built image (see GPTScan/Dockerfile and GPTScan/docs/SMARTBUGS_INTEGRATION.md).
 # Not on Docker Hub: build it before use, e.g.
 #   docker build -t smartbugs/gptscan:1.0 ./GPTScan
 image: smartbugs/gptscan:1.0
