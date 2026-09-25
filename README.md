@@ -12,7 +12,8 @@ als reguläre Werkzeuge unter SmartBugs 2.1.1 und wurden gegen Slither 0.11.3 ge
 auf `smartbugs-curated` (143 gelabelte Contracts) und auf 96 rekonstruierten
 DeFi-Contracts ohne Ground Truth. Auf curated erreicht LLMSmartAudit 97 % Recall bei
 30 % Precision, Slither 67 % bei 45 % mit dem besten F1, GPTScan 0 %, weil der Datensatz
-keine DeFi-Logik enthält; auf den DeFi-Contracts meldet GPTScan 77 Findings für 28 Cent,
+die DeFi-Logik nicht enthält, für die seine Regeln gebaut sind; auf den DeFi-Contracts
+meldet GPTScan 77 Findings für 28 Cent,
 und LLMSmartAudit scheiterte auf 37 von 96 an einer Kontextgrenze im Werkzeug.
 Motivation, Fragestellung, Vorgehen, Ergebnisse, Diskussion, Grenzen, Fazit und Lesepfad
 stehen in **[`docs/BA-ARBEIT.md`](docs/BA-ARBEIT.md)**, dem ersten Dokument für
@@ -45,8 +46,9 @@ Abschnitt 4; die Rohwerte in `eval/`.
 
 * **Auf `smartbugs-curated`** (143 Contracts, Ground Truth): LLMSmartAudit
   Recall 97 %, Precision 30 %, F1 45 %; Slither 67 %, 45 %, 54 %; GPTScan 0 %
-  (6 Findings, keines themengerecht). LLMSmartAudit brauchte dafür $2,44 und
-  3 Stunden, GPTScan einen Cent und 3 Minuten, Slither nichts und 1,3 Minuten.
+  (6 Findings, keines in der gelabelten Kategorie). LLMSmartAudit brauchte
+  dafür rund $2,44 (aus Token gerechnet) und 3 Stunden, GPTScan einen Cent und
+  3 Minuten, Slither nichts und 1,3 Minuten.
 * **Auf dem DeFi-Korpus** (96 Contracts, keine Ground Truth): GPTScan meldet
   77 Findings auf 40 Contracts für $0,28. LLMSmartAudit analysierte nur 59 der
   96 Contracts; 37 scheiterten an einer Kontextgrenze von 65 536 Token, die
@@ -54,17 +56,20 @@ Abschnitt 4; die Rohwerte in `eval/`.
   angehobener Grenze liefen alle 37 durch. Slither erreichte 95 von 96
   Contracts mit 7 096 Findings, überwiegend Stilhinweise.
 * **Reproduzierbarkeit:** Zwischen zwei Läufen liefert GPTScan bei 74 % der
-  Contracts denselben Finding-Satz, LLMSmartAudit stimmt in 61 % der
-  (Contract, Detektor)-Paare überein; Slither ist deterministisch.
+  Contracts denselben Finding-Satz (27 Contracts des unreparierten Korpus; auf
+  dem reparierten 75 % der Findings bei zusätzlich gesetztem `MAIN`),
+  LLMSmartAudit stimmt in 61 % der (Contract, Detektor)-Paare überein; Slither
+  ist deterministisch.
 * **Zwei Zahlen täuschen:** GPTScans 0 % ist kein Werkzeugbefund, der
   Datensatz enthält keine DeFi-Logik. LLMSmartAudits 30 % Precision ist eine
   Untergrenze: ein Label je Datei, und 468 seiner 1 124 Findings tragen keine
   DASP-Nummer und fallen aus der Wertung.
 * **Integration:** Beide Scanner laufen als reguläre SmartBugs-Werkzeuge mit
   Parser, Taxonomie, Timeout-Durchreichung und `MAIN`. SmartBugs fehlten dafür
-  die Weitergabe von Umgebungsvariablen in den Container und deren Redaktion
-  im Ergebnis; das sind die sieben markierten Eingriffe in `smartbugs/sb/`,
-  als zwei Pull Requests an das SmartBugs-Projekt vorbereitet.
+  die Weitergabe von Umgebungsvariablen in den Container, deren Redaktion im
+  Ergebnis und ein robustes Aufräumen der Task-Verzeichnisse unter Windows;
+  das sind die sieben markierten Eingriffe in `smartbugs/sb/`, als zwei Pull
+  Requests an das SmartBugs-Projekt vorbereitet.
 
 ## Lesepfad
 

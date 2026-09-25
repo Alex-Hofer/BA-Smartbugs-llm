@@ -25,23 +25,27 @@ und auf einem in dieser Arbeit rekonstruierten Korpus von 96 realen
 DeFi-Contracts ohne Ground Truth. Gefragt war, ob sich solche Werkzeuge unter
 SmartBugs betreiben lassen und was dem Rahmenwerk dafür fehlt, wie sie gegen
 die statische Referenz abschneiden, was sie auf ihrer Zieldomäne liefern und
-was sie an Geld, Zeit und Stabilität kosten. Die Integration gelingt; SmartBugs
-fehlten die Weitergabe von Umgebungsvariablen in den Container und deren
-Redaktion im Ergebnis (sieben markierte Eingriffe, als zwei Pull Requests
-vorbereitet). Auf `smartbugs-curated` erreicht LLMSmartAudit 97 % Recall bei
-30 % Precision (F1 45 %), Slither 67 % bei 45 % (F1 54 %), GPTScan 0 %, weil
-der Datensatz keine DeFi-Logik enthält. Auf den DeFi-Contracts meldet GPTScan
+was sie an Geld, Zeit und Stabilität kosten.
+
+Die Integration gelingt; SmartBugs fehlten die Weitergabe von
+Umgebungsvariablen in den Container, deren Redaktion im Ergebnis und ein
+robustes Aufräumen unter Windows (sieben markierte Eingriffe, als zwei Pull
+Requests vorbereitet). Auf `smartbugs-curated` erreicht LLMSmartAudit 97 %
+Recall bei 30 % Precision (F1 45 %), Slither 67 % bei 45 % (F1 54 %), GPTScan
+0 %, weil der Datensatz die DeFi-Logik nicht enthält, für die seine zehn Regeln
+gebaut sind (Vorbehalte in Abschnitt 6). Auf den DeFi-Contracts meldet GPTScan
 77 Findings auf 40 Contracts für 28 Cent; LLMSmartAudit scheiterte auf 37 von
 96 an einer Kontextgrenze, die sich als Konstante im Werkzeug erwies; Slither
-meldet 7 096 überwiegend stilistische Findings. LLMSmartAudit ist rund 250-mal
-so teuer wie GPTScan und rund 140-mal so langsam wie Slither; beide
-LLM-Werkzeuge sind nicht deterministisch. Fazit: LLM-gestützte Scanner lassen
-sich in SmartBugs betreiben, wenn der Rahmen Schlüssel, Netz, Kosten, Timeout
-und Nichtdeterminismus behandelt; Slither bleibt für syntaktisch Erkennbares
-das präziseste Werkzeug, GPTScan deckt eng und billig zehn DeFi-Szenarien ab,
-LLMSmartAudit findet auf kleinen Contracts fast alles Gelabelte, aber teuer,
-ohne Zeilennummern und mit einer Precision, die die Ground Truth nur nach
-unten abschätzt.
+meldet 7 096 überwiegend stilistische Findings. Nach den aus Token gerechneten
+Kosten ist LLMSmartAudit rund 250-mal so teuer wie GPTScan, und es ist rund
+140-mal so langsam wie Slither; beide LLM-Werkzeuge sind nicht deterministisch.
+
+Fazit: LLM-gestützte Scanner lassen sich in SmartBugs betreiben, wenn der
+Rahmen Schlüssel, Netz, Kosten, Timeout und Nichtdeterminismus behandelt.
+Slither bleibt für syntaktisch Erkennbares das präziseste Werkzeug. GPTScan
+deckt eng und billig zehn DeFi-Szenarien ab. LLMSmartAudit findet auf kleinen
+Contracts fast alles Gelabelte, aber teuer, ohne Zeilennummern und mit einer
+Precision, die die Ground Truth nur nach unten abschätzt.
 
 ---
 
@@ -146,7 +150,8 @@ Unter SmartBugs läuft es mit `network: bridge` und einem lokal gebauten Image
 
 **LLMSmartAudit** ist eine Multi-Agenten-Pipeline auf ChatDev/CAMEL: Rollen wie
 Security Analyst und Solidity Programming Expert führen ein geführtes Gespräch
-über den Quelltext, in zwei Modi (BA und TA); die Veröffentlichung ist Wei et
+über den Quelltext, in zwei Modi namens `SmartContractBA` und
+`SmartContractTA`; die Veröffentlichung ist Wei et
 al., „LLM-SmartAudit: Advanced Smart Contract Vulnerability Detection“, arXiv
 2410.09381, Lizenz Apache-2.0 ([`../LLMSmartAuditTool-main/LLMSmartAuditTool-main/README.md`](../LLMSmartAuditTool-main/LLMSmartAuditTool-main/README.md)).
 Diese Arbeit verwendet den Modus `SmartContractTA` mit 41 Detektor-Prompts;
@@ -230,22 +235,26 @@ Quelltext als `BA MODIFICATION` markiert; alle übrigen Dateien unter
 | | `smartbugs-curated` | `mwevariety_fixed` |
 |---|---|---|
 | Umfang | 143 Dateien | 96 Contracts |
-| Herkunft | [smartbugs/smartbugs-curated](https://github.com/smartbugs/smartbugs-curated), Commit `230e649` | Web3Bugs-Contests, das Benchmark-Umfeld des GPTScan-Papers, in dieser Arbeit rekonstruiert |
+| Herkunft | [smartbugs/smartbugs-curated](https://github.com/smartbugs/smartbugs-curated), Commit `230e649` | Web3Bugs, eine Sammlung realer DeFi-Contracts aus Audit-Wettbewerben, die das GPTScan-Paper als Benchmark verwendet; 96 Dateien aus 49 Wettbewerben, in dieser Arbeit rekonstruiert ([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md), Abschnitt 3) |
 | Ground Truth | ja, eine Primärschwachstelle je Datei aus den DASP-Top-10 | nein |
 | Was sich messen lässt | Recall, Precision, F1 je Kategorie | nur beschreiben: Findings, Abdeckung, Kosten, Ausfälle |
 | Solidity | 0.4 (142 Dateien), 0.5 (eine) | 0.6 (18), 0.7 (8), 0.8 (70), geflattet mit vollständigem Import-Closure |
 | Im Repository | nein, wird geklont | ja, `smartbugs/samples/gptscan/mwevariety_fixed/` |
 
-Der erste Korpus misst, der zweite beschreibt. Ohne den zweiten wäre GPTScan
-nur auf einem Datensatz gemessen, der seine Domäne nicht enthält; ohne den
-ersten gäbe es keine Zahl gegen eine Ground Truth. Der zweite Korpus musste
-erst brauchbar gemacht werden: Im ursprünglichen Zustand kompilierte 1 von 96
-Dateien, GPTScans statische Bestätigungsstufe war damit inaktiv und das
-Werkzeug auf einen reinen Prompt-Scanner reduziert. Die Rekonstruktion aus den
-Originalquellen (Zuordnung per Byte-Abgleich in drei Nachweisstufen, 33/50/13
-Dateien; 1 279 eingebettete Abhängigkeiten aus 49 Contests) bringt alle 96 zum
-Übersetzen ([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md); Werkzeuge in
-[`../corpus_tools/README.md`](../corpus_tools/README.md)).
+Auf dem ersten Korpus wird gemessen, auf dem zweiten beschrieben. Ohne den
+zweiten wäre GPTScan nur auf einem Datensatz gemessen, der seine Domäne nicht
+enthält; ohne den ersten gäbe es keine Zahl gegen eine Ground Truth. Der zweite
+Korpus musste erst brauchbar gemacht werden: Im ursprünglichen Zustand
+kompilierte 1 von 96 Dateien, GPTScans statische Bestätigungsstufe war damit
+inaktiv und das Werkzeug auf einen reinen Prompt-Scanner reduziert. Die
+Rekonstruktion aus den Originalquellen ordnet jede Datei ihrem Original per
+Byte-Abgleich zu (33 Dateien identisch, 50 als exakter Präfix eines
+abgeschnittenen Originals, 13 über den gemeinsamen Dateikopf), bettet 1 279
+Abhängigkeiten ein und bringt alle 96 nativ mit `solc` zum Übersetzen; in
+GPTScans eigener Werkzeugkette scheitert `58_UniV3Vault.sol` weiterhin am
+Compilat und wird im Ergebnis als degradiert geführt
+([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md), Abschnitte 4 und 7;
+Werkzeuge in [`../corpus_tools/README.md`](../corpus_tools/README.md)).
 
 Zwei Eigenheiten des ersten Korpus prägen die Zahlen: Er labelt je Datei genau
 eine Schwachstelle, ein zutreffender Zweitbefund zählt als False Positive. Und
@@ -260,9 +269,11 @@ Jeder Lauf hat eine `runid`; SmartBugs legt je Contract ein Task-Verzeichnis
 mit `smartbugs.json` (Aufrufparameter), `result.json` (geparste Ergebnisse),
 `result.log` und `result.tar` an. Alle Läufe wurden über die vier
 PowerShell-Runner gestartet, sequenziell je Werkzeug, mit zwei bis vier
-parallelen Containern, Timeouts von 1 800 s (GPTScan) beziehungsweise 5 400 s
-(LLMSmartAudit) und, wo das Werkzeug keine Kostenbremse hat, einem Kostendeckel
-im Runner ([`BA-BETRIEB.md`](BA-BETRIEB.md), Abschnitt 2). Die Läufe, die in
+parallelen Containern und einem Timeout je Task von 600 s (Slither), 1 800 s
+(GPTScan) und 3 600 bis 7 200 s (LLMSmartAudit, je nach Lauf). LLMSmartAudit
+hat keine eigene Kostenbremse, deshalb setzen die Runner einen Kostendeckel
+([`BA-BETRIEB.md`](BA-BETRIEB.md), Abschnitte 2 und 3; die Parameter jedes
+Laufs stehen im Block `invocation` seiner `run_meta.json`). Die Läufe, die in
 die Ergebnisse eingehen:
 
 | `runid` | Werkzeug(e) | Korpus | Datum | Tasks | Modell |
@@ -271,9 +282,9 @@ die Ergebnisse eingehen:
 | `curated_mwefixed_live` | GPTScan | mwevariety_fixed | 21.07.2026 | 96 | `deepseek-v4-flash` |
 | `gptscan_mwefixed_v2_main` (+ `_nomain`) | GPTScan mit `MAIN` | mwevariety_fixed | 15.08.2026 | 96 + 3 | `deepseek-v4-flash` |
 | `llmsa_curated_v2` | LLMSmartAudit | curated | 15./16.08.2026 | 143 | `deepseek-v4-flash` |
-| `llmsa_mwefixed_v2` (+ `_retry`) | LLMSmartAudit | mwevariety_fixed | 16.08. und 15.09.2026 | 96 + 4 | `deepseek-v4-flash` |
+| `llmsa_mwefixed_v2` (+ `_retry`: vier Tasks, die im Hauptlauf am erschöpften API-Guthaben gescheitert waren) | LLMSmartAudit | mwevariety_fixed | 16.08. und 15.09.2026 | 96 + 4 | `deepseek-v4-flash` |
 | `slither_mwefixed_v1`, `_v2` | Slither, Upstream- und glibc-Image | mwevariety_fixed | 24.09.2026 | 2 × 96 | – |
-| `llmsa_mwefixed_v2_ctx1m` | LLMSmartAudit, Kontextgrenze 1 Mio. Token | die 37 Kontext-Contracts | 24.09.2026 | 37 | `deepseek-v4-flash` (vom Anbieter auf V4.1-Flash geleitet) |
+| `llmsa_mwefixed_v2_ctx1m` | LLMSmartAudit, Kontextgrenze 1 Mio. Token | die 37 Kontext-Contracts | 24.09.2026 | 37 | `deepseek-v4-flash` (der Anbieter bedient den Namen seit September 2026 mit DeepSeek-V4.1-Flash) |
 
 Insgesamt liegen 50 Laufverzeichnisse mit 1 501 Tasks vor (51 `runid`-Werte,
 weil ein Verzeichnis zwei enthält), darunter Vorphasen-, Trocken-, Stichproben-,
@@ -297,7 +308,13 @@ sind. Die Klassifikation kommt aus der `findings.yaml` des Werkzeugs; für
 Slither kommen fünf dokumentierte Zusatzzuordnungen hinzu (`timestamp`,
 `weak-prng`, drei `unchecked-*`-Detektoren), die letzten drei seit dem
 20.09.2026 ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md),
-Nachtrag 4.6). Zu jeder Precision steht die Basisrate, also die Precision eines
+Nachtrag 4.6). Die Regel dafür: ergänzt wurden nur Slither-Detektoren, die in
+der `findings.yaml` des SmartBugs-Upstreams keine Klassifikation tragen,
+obwohl ihr Name eine SWC-Klasse benennt; die Taxonomien der beiden
+LLM-Werkzeuge wurden nicht nachgebessert, ihre Zuordnungen sind je Detektor
+begründet, und zwei Grenzfälle sind ausgewiesen, ohne sie zu ändern
+([`../smartbugs/tools/llmsmartaudit/mapping.md`](../smartbugs/tools/llmsmartaudit/mapping.md)).
+Zu jeder Precision steht die Basisrate, also die Precision eines
 Werkzeugs, das die Kategorie auf jedem Contract meldet; zu jedem Recall ein
 95-%-Wilson-Intervall. Zwei Skripte rechnen dasselbe, `evaluate_curated.py`
 auf der Konsole und `analysis_tools/curated_eval.py` in die versionierten
@@ -335,7 +352,8 @@ Abschnitte 4.2 und 4.3).
 - **Parser und Parser-Audit.** Im Ausgangszustand meldete GPTScan
   Compile-Fehler nur im Log; `result.json` zeigte `errors=[]` und war von
   „sauber“ nicht zu unterscheiden. Ein Audit über die damals 930 Tasks fand
-  1 368 von 1 464 Rohmeldungen im Parser-Output nicht wieder; nach der
+  1 368 von 1 464 Rohmeldungen (Fehler-, Warn- und Traceback-Zeilen der
+  Werkzeuge im `result.log`) im Parser-Output nicht wieder; nach der
   Reparatur vom 02.08.2026 sind es 0 von heute 2 555
   ([`parser-audit-vorher.md`](parser-audit-vorher.md),
   [`parser-audit-nachher.md`](parser-audit-nachher.md),
@@ -345,9 +363,10 @@ Abschnitte 4.2 und 4.3).
 - **Korpus-Reparatur** des DeFi-Korpus (Abschnitt 4.2).
 - **Timeout ins Werkzeug durchreichen (AP5).** SmartBugs' `--timeout` wirkte
   für beide Werkzeuge nur als harter Containerabbruch. Seit dem 18.08.2026
-  rechnet der Entrypoint aus dem Timeout drei Marken: bei 70 % stellt GPTScan
-  keine neuen LLM-Aufrufe mehr ab, bei 90 % beendet ein Netz den Prozess und
-  der Entrypoint birgt den Zwischenstand, den LLMSmartAudit nach jeder
+  rechnet der Entrypoint aus dem Timeout drei Marken: bei 70 % setzt GPTScan
+  keine neuen LLM-Aufrufe mehr ab und lässt seine Pipeline zu Ende laufen, bei
+  90 % beendet ein `timeout`-Kommando als Sicherheitsnetz den Werkzeugprozess,
+  und der Entrypoint birgt den Zwischenstand, den LLMSmartAudit nach jeder
   Detektorphase schreibt; beide Wege tragen den Marker `sb_timeout`
   ([`BA-AP5-ABSCHLUSSBERICHT.md`](BA-AP5-ABSCHLUSSBERICHT.md)).
 - **`MAIN`-Parameter (AP6).** Keines der Werkzeuge kennt eine Contract-Auswahl;
@@ -383,7 +402,7 @@ Basisrate und Intervall in
 | F1 | – | 45 % | **54 %** |
 | LLM-Aufrufe | 72 | 6 174 | 0 |
 | Token (Prompt / Completion) | 25 580 / 22 302 | 12 554 710 / 3 517 916 | – |
-| Kosten gesamt | $0,0098 | $2,44 | $0 |
+| Kosten gesamt | $0,0098 (vom Werkzeug aus Token gerechnet) | ≈ $2,44 (aus Token gerechnet, keine Abbuchung belegt) | $0 |
 | Container-Zeit gesamt | 712,9 s | 42 792,5 s | 298,8 s |
 | Wanduhr, erster Task-Start bis letztes Task-Ende | 3,2 min | 182,1 min | 1,3 min |
 | Tasks mit `errors` / `fails` | 2 / 0 | 0 / 0 | 3 / 3 |
@@ -397,11 +416,12 @@ Je Kategorie: LLMSmartAudit erreicht 100 % Recall in acht der zehn Kategorien;
 die zwei verfehlten, `other` und `short_addresses`, haben unter den 41
 Detektoren kein Gegenstück. Seine Precision reicht von 79 % bei
 `unchecked_low_level_calls` (Basisrate 36 %) bis 8 % bei `denial_of_service`
-(Basisrate 4 %). Slither ist bei `reentrancy` (94 / 74) und
-`unchecked_low_level_calls` (98 / 58) stark und hat bei `arithmetic` und
-`front_running` keine passenden Detektoren (0 %). GPTScan löste auf 16 der 143
-Contracts überhaupt einen LLM-Aufruf aus; seine 6 Findings, alle `MWE-207`,
-liegen auf Contracts mit anderem Primärlabel. Sechs der zehn Kategorien haben
+(Basisrate 4 %). Slither ist bei `reentrancy` (Recall 94 %, Precision 74 %)
+und `unchecked_low_level_calls` (98 %, 58 %) stark und hat bei `arithmetic`
+und `front_running` keine passenden Detektoren (0 %). GPTScan löste auf 16 der
+143 Contracts überhaupt einen LLM-Aufruf aus; seine 6 Findings, alle zur Regel
+`MWE-207` (Unauthorized Transfer), liegen auf Contracts mit anderem
+Primärlabel. Sechs der zehn Kategorien haben
 acht oder weniger Contracts; ihre Recall-Intervalle sind breiter als 40
 Prozentpunkte ([`../eval/curated_v1_20260705__metriken.md`](../eval/curated_v1_20260705__metriken.md)).
 
@@ -418,29 +438,32 @@ Quelle: `eval/curated_mwefixed_live/run_meta.json`,
 `eval/llmsa_mwefixed_v2/run_meta.json`, `eval/llmsa_mwefixed_v2_ctx1m/run_meta.json`,
 [`../eval/slither_mwefixed_v2/README.md`](../eval/slither_mwefixed_v2/README.md).
 
-| | GPTScan (`curated_mwefixed_live`) | GPTScan mit `MAIN` (`gptscan_mwefixed_v2_main`) | LLMSmartAudit (`llmsa_mwefixed_v2`) | Slither, glibc-Image (`slither_mwefixed_v2`) | LLMSmartAudit, Grenze angehoben (`llmsa_mwefixed_v2_ctx1m`) |
+| | GPTScan (`curated_mwefixed_live`) | GPTScan mit `MAIN` (`gptscan_mwefixed_v2_main`) | LLMSmartAudit (`llmsa_mwefixed_v2` mit `_retry`) | Slither, glibc-Image (`slither_mwefixed_v2`) | LLMSmartAudit, Grenze angehoben (`llmsa_mwefixed_v2_ctx1m`) |
 |---|---:|---:|---:|---:|---:|
 | Contracts | 96 | 96 | 96 | 96 | 37 |
 | davon analysiert | 96 | 96 | **59** | 95 | 37 |
 | nicht analysiert, Grund | – | – | 37, Kontextfenster überschritten | 1, Compilerfehler | – |
+| davon ohne Compilat (degradiert, Ergebnis unbestimmt) | 1 | 1 | – | – | – |
 | Contracts mit Findings | 40 | 37 | 59 | 94 | 37 |
 | Findings gesamt | 77 | 74 | 437 | 7 096 | 317 |
 | verschiedene Regeln / Kategorien | 8 von 10 | – | 34 von 41 | 48 Detektoren | 34 von 41 |
 | LLM-Aufrufe | 1 614 | 1 518 | 2 624 | 0 | 1 625 |
 | Kosten | $0,2769 | $0,3638 | ≈ $8,37 (geschätzt) | $0 | $5,55 abgebucht ($11,42 geschätzt) |
 | Container-Zeit gesamt | 8 217 s | 11 772 s | 90 206 s | 647 s | 35 028 s |
-| Wanduhr | 36,7 min | 50,9 min | – | 2,8 min | 5,0 h in zwei Teilen |
+| Wanduhr | 36,7 min | 50,9 min | nicht ausgewiesen (Hauptlauf und Nachlauf an verschiedenen Tagen) | 2,8 min | 5,0 h in zwei Teilen |
 
 **GPTScan** liefert auf seiner Zieldomäne 77 Findings aus acht seiner zehn
 Regeln, 44 davon `MWE-200` (Insecure LP Token Value Calculation), für 28 Cent
 ([`../eval/curated_mwefixed_live/README.md`](../eval/curated_mwefixed_live/README.md)).
 Auf 56 der 96 Contracts übergab die LLM-Stufe Kandidaten an die statische
-Bestätigung, auf 39 verwarf diese welche
+Bestätigung, und auf 39 dieser 56 verwarf sie mindestens einen Kandidaten
 ([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md), Abschnitt 9). Auf 35 der
 96 Contracts endete die statische Prüfung einzelner Kandidaten mit einer
-Ausnahme (`Static analysis failed: Invalid args`), insgesamt 80 Kandidaten, 77
-davon zur Regel `MWE-200`; meist hatte die Antwort des LLM auf den
-Static-Prompt eine Validierungsregel nicht passiert. GPTScan wertet einen
+Ausnahme (`Static analysis failed: Invalid args`), insgesamt 80
+Kandidatenprüfungen, davon 77 zur Regel `MWE-200` und 3 zu `MWE-207` (dass
+77 auch die Zahl der gemeldeten Findings ist, ist Zufall); meist hatte die
+Antwort des LLM auf den Static-Prompt eine Validierungsregel nicht passiert.
+GPTScan wertet einen
 solchen Kandidaten als nicht bestätigt und verwirft ihn
 (`GPTScan/src/tasks.py`). Die Abbrüche kosten deshalb Recall, nicht Precision:
 Jedes der 77 gemeldeten Findings hat eine bestandene statische Prüfung hinter
@@ -476,9 +499,11 @@ Truth ist das ein Mengen-, kein Qualitätsvergleich.
 ### 5.3 Kosten, Zeit, Robustheit
 
 Je Contract auf curated kostet LLMSmartAudit $0,0171 und braucht 299,2 s
-Rechenzeit, GPTScan $0,0001 und 5,0 s, Slither nichts und 2,1 s (aus den
-Summen in 5.1 durch 143). LLMSmartAudit ist damit rund 250-mal so teuer wie
-GPTScan und rund 140-mal so langsam wie Slither; auf dem DeFi-Korpus kostet es
+Rechenzeit, GPTScan $0,00007 und 5,0 s, Slither nichts und 2,1 s (die Summen
+aus 5.1 geteilt durch 143 Tasks; Slithers drei gescheiterte Tasks zählen mit).
+Aus den Gesamtsummen gerechnet ist LLMSmartAudit rund 250-mal so teuer wie
+GPTScan ($2,44 gegen $0,0098, beides aus Token gerechnet) und rund 140-mal so
+langsam wie Slither (42 792,5 s gegen 298,8 s); auf dem DeFi-Korpus kostet es
 je analysiertem Contract 49-mal so viel wie GPTScan ($0,142 gegen $0,0029,
 59 gegen 96 Contracts) ([`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md),
 Abschnitte 4.1 und 4.2).
@@ -511,12 +536,12 @@ Summe ist also eine Größenordnung, keine Abrechnung.
 
 Robustheit: LLMSmartAudit lief auf curated ohne `error` oder `fail` durch; sein
 Problem ist die Kontextgrenze, nicht die Stabilität. GPTScan verliert ohne
-Compilat seinen Präzisionsschutz, und seine Grammatik lehnte in 87 der 143
-curated-Tasks Teile des Solidity-0.4-Quelltexts ab und zählte dort im Median
-nur ein Viertel der deklarierten Funktionen
+Compilat seine statische Bestätigungsstufe, und seine Grammatik lehnte in 87
+der 143 curated-Tasks Teile des Solidity-0.4-Quelltexts ab und zählte dort im
+Median nur ein Viertel der deklarierten Funktionen
 ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md), Nachtrag 4.7).
-Über rund 6 640 API-Aufrufe der Juli-Läufe trat kein Rate-Limit auf (ebenda,
-4.4).
+Über rund 6 640 API-Aufrufe der Läufe vom 05./06.07.2026 trat kein Rate-Limit
+auf (ebenda, 4.4).
 
 ### 5.4 Reproduzierbarkeit
 
@@ -524,9 +549,9 @@ Beide LLM-Werkzeuge sind nicht deterministisch, auch bei `temperature=0`:
 
 | | Messung | Ergebnis |
 |---|---|---|
-| GPTScan | 27 Contracts, zwei Läufe über den unreparierten Korpus | 20 von 27 (74 %) mit identischem Finding-Satz |
-| GPTScan | 96 Contracts, `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` | 58 von 77 Referenz-Findings reproduziert (75,3 %); vermischt mit dem Effekt von `MAIN` |
-| LLMSmartAudit | 143 Contracts, `curated_v1_20260705` gegen `llmsa_curated_v2` | 805 gemeinsame (Contract, Detektor)-Paare, Jaccard 61,4 % über 141 Contracts, 60,5 % über 142; identischer Detektor-Satz bei 7 von 141 |
+| GPTScan | 27 Contracts, zwei Läufe über den unreparierten Korpus, also im degradierten Modus ohne statische Stufe | 20 von 27 (74 %) mit identischem Finding-Satz |
+| GPTScan | 96 Contracts des reparierten Korpus, `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` | 58 von 77 Referenz-Findings reproduziert (75,3 %); vermischt mit dem Effekt von `MAIN` |
+| LLMSmartAudit | 143 Contracts, `curated_v1_20260705` gegen `llmsa_curated_v2` | 805 gemeinsame (Contract, Detektor)-Paare; Jaccard 61,4 % über die 141 Contracts mit Findings in beiden Läufen, 60,5 % über die 142 mit Findings in mindestens einem (der Unterschied ist der Contract, der im zweiten Lauf am Kontextfenster scheiterte); identischer Detektor-Satz bei 7 von 141 |
 | Slither | 51 Contracts in `slither_mwefixed_v1` und `_v2` | identisch; deterministisch |
 
 Quellen: [`BA-GPTSCAN-VERGLEICH.md`](BA-GPTSCAN-VERGLEICH.md), Abschnitt 4;
@@ -536,6 +561,11 @@ Auf die Kennzahlen gegen die Ground Truth schlägt das Rauschen kaum durch: Der
 zweite LLMSmartAudit-Lauf kommt auf 96 % Recall, 32 % Precision und 47 % F1
 gegenüber 97 / 30 / 45 im ersten
 ([`../eval/llmsa_curated_v2/README.md`](../eval/llmsa_curated_v2/README.md)).
+Im Aufwand unterscheiden sich die beiden Läufe deutlich: Bei 6 126 gegen 6 174
+Aufrufen erzeugte der zweite 11,2 Mio. Completion-Token gegenüber 3,5 Mio. und
+brauchte 114 091,5 s Container-Zeit gegenüber 42 792,5 s (mit drei statt vier
+Prozessen); die Ursache ist nicht untersucht
+(`eval/llmsa_curated_v2/run_meta.json`).
 
 ### 5.5 Integration, Timeout, `MAIN`
 
@@ -583,8 +613,9 @@ Abschnitt 5; [`BA-GPTSCAN-VERGLEICH.md`](BA-GPTSCAN-VERGLEICH.md)).
 **Die zweite: LLMSmartAudits 30 % Precision sind eine Untergrenze, seine 97 %
 Recall eine Obergrenze.** Der Datensatz kennt nur ein Label je Datei, 468 der
 1 124 Findings tragen keine DASP-Nummer, und eine Stichprobe von 19 „falschen“
-Treffern ergab 15 plausibel, 4 generisch, 0 falsch. Umgekehrt trifft, wer 7,9
-Findings je Contract meldet und auf Contract-Ebene gewertet wird, häufiger
+Treffern ergab 15 plausibel, 4 generisch, 0 falsch. Umgekehrt ist der Recall
+wohlwollend: Ein Werkzeug, das im Mittel 7,9 Findings je Contract meldet und
+auf Contract-Ebene gewertet wird, trifft die gelabelte Kategorie häufiger auch
 zufällig. Je Kategorie ist die Precision gegen die Basisrate zu lesen: Bei
 `access_control` liegen 19 % nur knapp über den 13 %, die Raten brächte; bei
 `unchecked_low_level_calls` stehen 79 % einer Basisrate von 36 % gegenüber.
@@ -623,7 +654,8 @@ Abschnitte 2 und 4.4).
 Timeout für den Lauf; GPTScan hat eine Frist je LLM-Aufruf, LLMSmartAudit
 keine. Ob sich ein Teilergebnis retten lässt, hängt daran, ob ein Werkzeug
 inkrementell festhält oder erst am Schluss zusammenführt: LLMSmartAudit hält
-nach jeder Phase einen Zwischenstand, GPTScan muss freiwillig auslaufen dürfen.
+nach jeder Phase einen Zwischenstand, GPTScan führt erst am Ende zusammen und
+muss deshalb seine Pipeline ohne neue LLM-Aufrufe zu Ende laufen lassen.
 Dieselbe Anforderung erzwang zwei verschiedene Lösungen, und ein Teillauf kann
 zwar nichts erfinden, aber bei GPTScan auf null fallen
 ([`BA-AP5-ABSCHLUSSBERICHT.md`](BA-AP5-ABSCHLUSSBERICHT.md), Abschnitt 2).
@@ -642,8 +674,8 @@ Werkzeugen dieselben Lücken gefunden: kein Lauf-Timeout, keine Kostenbremse
 (LLMSmartAudit), kein Offline-Modus, stilles Scheitern statt Fehlermeldung,
 Severity als Katalogdefault, keine Zeilennummern, ein fest im Image
 eingebranntes Modell, das vom Anbieter abgeschaltet wurde. Ein Rahmen wie
-SmartBugs muss dafür Schlüssel, Netz, Kosten und Nichtdeterminismus als
-Erstklassiges behandeln. Das Material dazu ist gesammelt, ein verallgemeinerndes
+SmartBugs muss dafür Schlüssel, Netz, Kosten und Nichtdeterminismus als feste
+Bestandteile seines Vertrags mit dem Werkzeug behandeln. Das Material dazu ist gesammelt, ein verallgemeinerndes
 Dokument nicht geschrieben ([`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md), AP7).
 
 ---
@@ -726,8 +758,10 @@ Zu den vier Fragen aus Abschnitt 2:
 4. **Betrieb.** Der Kostenunterschied zwischen den beiden LLM-Werkzeugen
    beträgt mehr als zwei Größenordnungen; Slither ist kostenlos und rund
    140-mal schneller als LLMSmartAudit. Von Lauf zu Lauf stimmen bei GPTScan
-   74 % der Contracts überein, bei LLMSmartAudit 61 % der Finding-Paare; auf
-   die Kennzahlen gegen die Ground Truth schlägt das kaum durch.
+   74 % der Contracts überein (gemessen auf dem unreparierten Korpus, auf dem
+   reparierten 75 % der Findings bei zusätzlich gesetztem `MAIN`), bei
+   LLMSmartAudit 61 % der Finding-Paare; auf die Kennzahlen gegen die Ground
+   Truth schlägt das kaum durch.
 
 Das praktische Ergebnis über die Zahlen hinaus: LLM-gestützte Scanner lassen
 sich in einen Rahmen wie SmartBugs einbinden, aber der Rahmen muss dafür
@@ -752,7 +786,7 @@ das das Material vorliegt.
 
 ## 9. Eigenleistung und Fremdanteil
 
-| Eigener Code | Fremd, verändert | Fremd, unverändert |
+| Eigen (Code, Dokumentation, Auswertungen) | Fremd, verändert | Fremd, unverändert |
 |---|---|---|
 | `analysis_tools/`, `corpus_tools/`, `testing_tools/`, `tests/`, `evaluate_curated.py`, die vier Runner, `docs/`, `eval/`, CI-Workflow | 2 Dateien in `smartbugs/sb/` (7 Blöcke `BA MODIFICATION`) und `smartbugs/.gitignore` | `smartbugs/` außer den genannten Stellen (516 Dateien byteidentisch zu `7ddaf6c`) |
 | `smartbugs/tools/gptscan/`, `smartbugs/tools/llmsmartaudit/`; in `smartbugs/tools/slither-0.11.3-glibc/` Dockerfile, Konfiguration und Entrypoint | 7 Dateien in `GPTScan/` (Anbieter- und Modellwahl, Messstelle, Budget- und Deadline-Wächter, ein entferntes `breakpoint()`) | 38 Dateien in `GPTScan/`, 212 in `LLMSmartAuditTool-main/` |
@@ -815,7 +849,7 @@ Zeitstempel identisch neu ([`../README.md`](../README.md), „Auswerten“).
 | 02./03.08.2026 | Neugründung des Repositorys ohne das 3,7-GB-Evaluationsverzeichnis; Parser-Audit und Parser-Reparatur; Herleitung der `errors`/`fails`-Semantik; Demonstrationslauf |
 | 15./16.08.2026 | GPTScan-Volllauf mit `MAIN`; LLMSmartAudit-Volläufe über beide Korpora |
 | 17./18.08.2026 | Timeout-Durchreichung (AP5) mit Prüfstand und Nachweisläufen |
-| 15.09.2026 | Nachlauf über vier unentschiedene DeFi-Contracts |
+| 15.09.2026 | Nachlauf über vier DeFi-Contracts, deren Tasks im Hauptlauf am erschöpften API-Guthaben gescheitert waren |
 | 20./21.09.2026 | Modellwahl zur Laufzeit; drei Slither-Detektoren im Zusatz-Mapping; Streuung von LLMSmartAudit beziffert |
 | 24./25.09.2026 | Zweitprüfung des Repositorys; Slither-Baseline auf dem DeFi-Korpus; Kontextgrenze einstellbar und Nachlauf über die 37 Contracts; Pull Requests vorbereitet; Rohdaten versioniert und als Release abgelegt |
 
