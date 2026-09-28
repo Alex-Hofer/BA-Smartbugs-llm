@@ -164,13 +164,25 @@ Files smartbugs/sb/tools.py and up-sb/sb/tools.py differ
 
 **`smartbugs/sb/tools.py`** (`FIELDS`, `class Tool`)
 
-*Was:* Das Feld `env` wird in das `FIELDS`-Tupel und in die `Tool`-Dataclass
-aufgenommen — eine kommaseparierte Liste von Namen von Host-Umgebungsvariablen.
+*Was:* Das Feld `env` wird in das `FIELDS`-Tupel aufgenommen (Block 1) und als
+Typangabe in die Klasse `Tool` (Block 2) — eine kommaseparierte Liste von
+Namen von Host-Umgebungsvariablen.
 
-*Warum:* SmartBugs liest nur Felder aus einer `config.yaml`, die in `FIELDS`
-stehen. Ohne diesen Patch würde das `env:` in `tools/gptscan/config.yaml` und
-`tools/llmsmartaudit/config.yaml` schlicht ignoriert, und der Patch in
-`docker.py` liefe ins Leere.
+*Warum:* SmartBugs akzeptiert in einer `config.yaml` nur Felder, die in
+`FIELDS` stehen, und bricht bei jedem anderen ab. Ohne Block 1 lädt SmartBugs
+`tools/gptscan/config.yaml` und `tools/llmsmartaudit/config.yaml` deshalb gar
+nicht erst; `Tool.__init__` meldet
+
+```
+SmartBugsError: Tool gptscan/solidity: extra field(s) env
+```
+
+(nachgeprüft am 28.09.2026 gegen den unveränderten Stand `7ddaf6c`). Frühere
+Fassungen dieses Dokuments schrieben, das `env:` würde „schlicht ignoriert“
+und der Patch in `docker.py` liefe ins Leere. Das war falsch: Das Fehlen des
+Feldes fällt laut auf, nicht still. Block 2 ist nur die Typangabe dazu und
+hat zur Laufzeit keine Wirkung; das Attribut setzt `Tool.__init__` über
+`FIELDS`.
 
 **`smartbugs/sb/docker.py`** (`__docker_args` und `execute`)
 
@@ -448,14 +460,14 @@ Konstruktion mit laufender Pflege.
 | 3 | `docker.py` 3 | `rmtree_retry()` — Löschen mit Wiederholung | Läufe unter Windows verlieren lautlos Ergebnisse | Aufräumen ganz auslassen und die Temp-Verzeichnisse dem System überlassen; oder nur unter Windows anders verfahren | **klein**, aber schlechter: Nicht-Aufräumen füllt bei 1 169 Tasks das Temp-Verzeichnis, und ein Windows-Sonderpfad ist genau dieselbe Änderung mit einer zusätzlichen Fallunterscheidung | **ja.** Ein echter Upstream-Fehler, kein Eigenheit dieses Aufbaus: Der `PermissionError` entkommt aus dem `finally`-Block, bevor die Ergebnisdateien geschrieben sind, und der Hauptprozess endet mit Status 0. Reproduziert am 02.08.2026 mit Docker Desktop 29.0.1, belegt in `BA-DEMOLAUF-ERGEBNIS.md`, abgesichert durch `tests/test_docker_cleanup.py` |
 | 4 | `docker.py` 4 | ersetzt `shutil.rmtree(sbdir)` durch `rmtree_retry(sbdir)` | dito | dito | — | mit Block 3 |
 | 5 | `docker.py` 5 | ersetzt die durchgereichten Werte vor der Rückgabe durch `<redacted>` | der Schlüssel stünde im Klartext in jeder `results/**/smartbugs.json` | nachträglich säubern (`analysis_tools/redact_results.py` tut genau das für Altläufe) | **mittel** und grundsätzlich unterlegen: Zwischen Schreiben und Säubern liegt ein Zeitfenster, in dem der Schlüssel auf der Platte steht. Genau daran lagen die 62 betroffenen Altdateien (Protokoll, Fehler #13) | **ja**, gehört untrennbar zu Block 2. Ein Durchreichen ohne Redaktion wäre eine Sicherheitslücke, die das Projekt sich nicht einhandeln will |
-| 6 | `tools.py` 1 | `"env"` in `FIELDS` | `env:` in der `config.yaml` wird ignoriert, Block 2 läuft ins Leere | keiner — `FIELDS` ist die Allowlist, die SmartBugs aus einer `config.yaml` liest | — | mit Block 2 |
-| 7 | `tools.py` 2 | Feld `env: Optional[str]` in der `Tool`-Dataclass | dito | keiner | — | mit Block 2 |
+| 6 | `tools.py` 1 | `"env"` in `FIELDS` | SmartBugs lehnt jede `config.yaml` mit `env:` ab (`SmartBugsError: … extra field(s) env`); GPTScan und LLMSmartAudit lassen sich gar nicht laden | keiner — `FIELDS` ist die Allowlist, die SmartBugs aus einer `config.yaml` liest | — | mit Block 2 |
+| 7 | `tools.py` 2 | Typangabe `env: Optional[str]` in der Klasse `Tool` | nichts zur Laufzeit — das Attribut setzt `Tool.__init__` über `FIELDS` (Block 6); die Zeile macht das Feld für Leser und Typprüfer sichtbar | weglassen | — | mit Block 2 |
 
-**Zusammengefasst.** Alle sieben verbliebenen Blöcke sind alternativlos, wenn
-man LLM-gestützte Werkzeuge überhaupt unter SmartBugs betreiben will: 2, 5, 6
-und 7 tragen den Schlüssel-Mechanismus, 1/3/4 zusammen das Aufräumen unter
-Windows. Es bleibt kein Eingriff übrig, den man ebenso gut hätte lassen
-können.
+**Zusammengefasst.** Sechs der sieben verbliebenen Blöcke sind alternativlos,
+wenn man LLM-gestützte Werkzeuge überhaupt unter SmartBugs betreiben will: 2,
+5 und 6 tragen den Schlüssel-Mechanismus, 1/3/4 zusammen das Aufräumen unter
+Windows. Block 7 ist die Typangabe zu Block 6; ohne ihn liefe alles gleich,
+er gehört aber zu einer sauberen Fassung des Mechanismus dazu.
 
 > Drei weitere Blöcke standen bis zum 21.09.2026 in `analysis.py` (2) und
 > `solidity.py` (1) und wurden hier mitbewertet. Sie waren gegenstandslos —

@@ -24,9 +24,9 @@ FIELDS = (
     "entrypoint",
     "network",
     # --- BA MODIFICATION 1: BEGIN (pure addition; delete this line to undo) ---
-    # Only fields listed here are read from a tool's config.yaml, so without
-    # this entry the "env:" key would be ignored and the passthrough in
-    # sb/docker.py would never receive anything. See docs/BA-EIGENANTEIL.md 2.1.
+    # Only fields listed here are accepted in a tool's config.yaml: without this
+    # entry SmartBugs rejects every config declaring "env:" with SmartBugsError
+    # "extra field(s) env" (see Tool.__init__). See docs/BA-EIGENANTEIL.md 2.1.
     "env",
     # --- BA MODIFICATION 1: END ---
 )

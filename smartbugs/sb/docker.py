@@ -127,8 +127,8 @@ def __docker_args(task: "sb.tasks.Task", sbdir: str) -> dict[str, Any]:
     # tools (e.g. gptscan, llmsmartaudit) receive their API key and
     # provider/model selection at run time, instead of baking secrets into
     # the image. Only variables actually set on the host are forwarded.
-    # Requires the "env" field added to sb/tools.py; without it, task.tool
-    # has no such attribute and this block silently does nothing.
+    # Requires the "env" field added to sb/tools.py; without it, SmartBugs
+    # refuses to load any tool whose config.yaml declares "env:".
     env_field = getattr(task.tool, "env", None)
     if env_field:
         names = [n.strip() for n in env_field.replace(",", " ").split() if n.strip()]
