@@ -71,8 +71,12 @@ Nachtrag 4.8; `docs/BA-VERIFIKATIONSBERICHT-20260924.md`, Abschnitt 4.1.
   der Compiler startet (95 von 96), und dass ihre Ausgabe von Stilhinweisen
   dominiert ist.
 * Für die 51 Contracts, die schon der Vorlauf `slither_mwefixed_v1` erreichte,
-  sind Findingzahl und Detektorverteilung in beiden Läufen identisch: Slither
-  ist deterministisch.
+  sind Findingzahl und Detektorverteilung in beiden Läufen identisch. Ganz
+  deterministisch ist Slither dennoch nicht: Der Detektor
+  `encode-packed-collision` schwankt bei einzelnen Contracts von Lauf zu Lauf
+  um einen Befund, etwa bei `62_Locke.sol` (67 oder 68 Findings in fünf
+  Wiederholungen am 28.09.2026). Er trägt keine DASP-Zuordnung; Einzelheiten in
+  `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.
 
 ## Was man daraus nicht schließen darf
 

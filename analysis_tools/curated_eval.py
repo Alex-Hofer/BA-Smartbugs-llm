@@ -626,7 +626,9 @@ def write_readme(path, tool, runid, meta):
     A("   ist je Detektorname konstant.")
     if tool.startswith("slither"):
         A("5. **Ein Lauf genuegt hier -- anders als bei den KI-Werkzeugen.** Slither ist")
-        A("   deterministisch: gleicher Contract, gleiche Version, gleiches Ergebnis.")
+        A("   bis auf einen Detektor deterministisch: gleicher Contract, gleiche Version,")
+        A("   gleiches Ergebnis; nur `encode-packed-collision` (ohne DASP-Zuordnung)")
+        A("   schwankt bei einzelnen Contracts um ein Finding.")
         A("   Die Streuung, die den beiden KI-Werkzeugen anhaengt (GPTScan 74 %,")
         A("   LLMSmartAudit 61,4 % Lauf-zu-Lauf-Uebereinstimmung), betrifft diese")
         A("   Baseline nicht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.")

@@ -59,7 +59,8 @@ Abschnitt 4; die Rohwerte in `eval/`.
   Contracts denselben Finding-Satz (27 Contracts des unreparierten Korpus; auf
   dem reparierten 75 % der Findings bei zusätzlich gesetztem `MAIN`),
   LLMSmartAudit stimmt in 61 % der (Contract, Detektor)-Paare überein; Slither
-  ist deterministisch.
+  ist bis auf einen Detektor ohne DASP-Zuordnung deterministisch (±1 Finding
+  bei einzelnen Contracts).
 * **Zwei Zahlen täuschen:** GPTScans 0 % ist kein Werkzeugbefund, der
   Datensatz enthält keine DeFi-Logik. LLMSmartAudits 30 % Precision ist eine
   Untergrenze: ein Label je Datei, und 468 seiner 1 124 Findings tragen keine

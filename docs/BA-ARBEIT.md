@@ -69,7 +69,8 @@ Forschungsprototypen veröffentlicht ([`../GPTScan/README.md`](../GPTScan/README
 [`../LLMSmartAuditTool-main/LLMSmartAuditTool-main/README.md`](../LLMSmartAuditTool-main/LLMSmartAuditTool-main/README.md)).
 
 Ein Vergleich gegen statische Analyse ist die Voraussetzung dafür, den Nutzen
-der LLM-Werkzeuge einzuordnen: Slither ist deterministisch, kostenlos, läuft in
+der LLM-Werkzeuge einzuordnen: Slither ist (bis auf einen Detektor, Abschnitt
+5.4) deterministisch, kostenlos, läuft in
 Sekunden und ist die etablierte Referenz für die klassischen
 Schwachstellenklassen. Erst neben ihm wird sichtbar, was ein LLM zusätzlich
 findet, was es an Geld und Zeit kostet und was es an Reproduzierbarkeit
@@ -553,7 +554,8 @@ Beide LLM-Werkzeuge sind nicht deterministisch, auch bei `temperature=0`:
 | GPTScan | 27 Contracts, zwei Läufe über den unreparierten Korpus, also im degradierten Modus ohne statische Stufe | 20 von 27 (74 %) mit identischem Finding-Satz |
 | GPTScan | 96 Contracts des reparierten Korpus, `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` | 58 von 77 Referenz-Findings reproduziert (75,3 %); vermischt mit dem Effekt von `MAIN` |
 | LLMSmartAudit | 143 Contracts, `curated_v1_20260705` gegen `llmsa_curated_v2`, Schlüssel `contract_id` | 805 gemeinsame (Contract, Detektor)-Paare; Jaccard 61,4 % über die 141 Contracts mit Findings in beiden Läufen, 60,5 % über die 142 mit Findings in mindestens einem (der Unterschied ist der Contract, der im zweiten Lauf am Kontextfenster scheiterte); identischer Detektor-Satz bei 7 von 141 |
-| Slither | 51 Contracts in `slither_mwefixed_v1` und `_v2` | identisch; deterministisch |
+| Slither | 51 Contracts in `slither_mwefixed_v1` und `_v2` | identisch |
+| Slither | Nachmessung 28.09.2026: beide Korpora vollständig, je unter Windows und Linux | alle Detektoren identisch bis auf `encode-packed-collision`, der bei einzelnen Contracts um ein Finding schwankt (ohne DASP-Zuordnung, Kennzahlen unberührt) |
 
 Quellen: [`BA-GPTSCAN-VERGLEICH.md`](BA-GPTSCAN-VERGLEICH.md), Abschnitt 4;
 [`../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md`](../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md);

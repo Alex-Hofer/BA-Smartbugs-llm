@@ -178,7 +178,8 @@ Derselbe Entrypoint-Vertrag wie bei GPTScan:
 
 Slither ist ein klassischer statischer Analysator: er kompiliert den Contract,
 baut eine Zwischendarstellung und lässt darauf rund hundert Detektoren laufen.
-Kein LLM, kein Netzzugang (`network: none`), keine Kosten, deterministisch.
+Kein LLM, kein Netzzugang (`network: none`), keine Kosten, bis auf einen
+Detektor deterministisch (Abschnitt 4.4).
 
 Slither kommt als fertiges SmartBugs-Werkzeug und wurde in dieser Arbeit **nicht
 verändert** — `smartbugs/tools/slither-0.11.3/` ist unangetastet, das Image
@@ -301,8 +302,9 @@ Contracts erreicht: SmartBugs reicht den zur `pragma` passenden Compiler als
 solc-Binaries 0.7.6 und 0.8.1 bis 0.8.12 sind gegen glibc gelinkt und dort
 nicht startbar (`BA-BETRIEB.md`, Fallstrick 10). Das eigene glibc-Image
 (Abschnitt 3) behebt das; für die 51 in beiden Läufen analysierten Contracts
-sind Findingzahl und Detektorverteilung in v1 und v2 identisch, Slither ist
-deterministisch. Die 7 096 Findings verteilen sich nach Slithers Impact-Stufe
+sind Findingzahl und Detektorverteilung in v1 und v2 identisch; zur einzigen
+beobachteten Schwankung (Detektor `encode-packed-collision`) siehe Abschnitt
+4.4. Die 7 096 Findings verteilen sich nach Slithers Impact-Stufe
 auf 4 858 Informational, 112 Optimization, 1 254 Low, 748 Medium und
 124 High; die häufigsten Detektoren sind `too-many-digits` (2 020) und
 `naming-convention` (1 886), also Stilhinweise. Im Median meldet Slither 55
@@ -432,7 +434,19 @@ Kategorie selten.
    1 028 — identisch mit der `findings.jsonl`. Ein erneuter Reparse oder eine
    Wiederholung von `build_eval.py` ist für diesen Lauf nicht mehr möglich.
 
-Slither ist deterministisch.
+**Slither ist bis auf einen Detektor deterministisch.** Nachgemessen am
+28.09.2026 mit vier vollständigen Wiederholungen der beiden Messläufe
+(curated mit `slither-0.11.3`, DeFi-Korpus mit dem glibc-Image, jeweils unter
+Windows und unter Linux) und Vergleich Contract für Contract mit den
+versionierten `result.json`: curated 143 bzw. 142 von 143 Contracts identisch,
+DeFi 96 bzw. 96 von 96. Die einzigen Abweichungen stammen vom Detektor
+`encode-packed-collision`, der bei einzelnen Contracts von Lauf zu Lauf einen
+Befund mehr oder weniger meldet, mit demselben Image und demselben Contract:
+`62_Locke.sol` ergab in fünf Wiederholungen 67, 68, 68, 67 und 67 Findings,
+`spank_chain_payment.sol` in wiederholten Läufen mal 126, mal 127. Der Detektor
+trägt keine DASP-Klassifikation; Recall und Precision sind davon nicht berührt.
+Nur die Gesamtzahl der Findings eines Laufs (2 154 bzw. 7 096) kann bei einer
+Wiederholung um einzelne Findings abweichen.
 
 ---
 
@@ -532,8 +546,9 @@ verortet werden.
    bzw. 5 % identische Detektor-Sätze, siehe Abschnitt 4.4 —, beruht aber je
    Werkzeug auf nur **zwei** Läufen. Zwei Läufe ergeben eine Spannweite, keine
    Verteilung: Streuungsmaße wie Standardabweichung oder Konfidenzintervalle
-   sind daraus nicht ableitbar. Slither ist als deterministisches Werkzeug
-   nicht betroffen.
+   sind daraus nicht ableitbar. Slither ist praktisch nicht betroffen: Dort
+   schwankt nur ein Detektor ohne DASP-Zuordnung um einzelne Findings
+   (Abschnitt 4.4).
 4. **Nur ein Modell.** Alle Messungen liefen mit `deepseek-v4-flash`, dem
    billigen Tier. Ob ein stärkeres Modell die Bilanz verschiebt, ist offen — der
    Wechsel wäre nach `README.md`, Abschnitt „Modell wählen und wechseln", ohne

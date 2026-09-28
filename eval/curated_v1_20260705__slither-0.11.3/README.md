@@ -79,7 +79,9 @@ sauber durchliefen.
 4. **`severity_doc` ist kein Urteil.** Der Wert kommt aus findings.yaml und
    ist je Detektorname konstant.
 5. **Ein Lauf genuegt hier -- anders als bei den KI-Werkzeugen.** Slither ist
-   deterministisch: gleicher Contract, gleiche Version, gleiches Ergebnis.
+   bis auf einen Detektor deterministisch: gleicher Contract, gleiche Version,
+   gleiches Ergebnis; nur `encode-packed-collision` (ohne DASP-Zuordnung)
+   schwankt bei einzelnen Contracts um ein Finding.
    Die Streuung, die den beiden KI-Werkzeugen anhaengt (GPTScan 74 %,
    LLMSmartAudit 61,4 % Lauf-zu-Lauf-Uebereinstimmung), betrifft diese
    Baseline nicht -- siehe `docs/BA-WERKZEUGE-IM-VERGLEICH.md`, Abschnitt 4.4.
