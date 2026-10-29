@@ -1,8 +1,7 @@
 # KI-gestützte Smart-Contract-Scanner im SmartBugs-Framework
 
 **Technical Report zur Bachelorarbeit**
-Alex Hofer und Alex Unterleitner · TU Wien · Betreuer: Gernot Salzer, 
-Monika di Angelo ·
+Alex Hofer und Alex Unterleitner · TU Wien · Betreuer: Gernot Salzer und Monika di Angelo ·
 Messzeitraum Juli bis September 2026
 
 ---
