@@ -1,41 +1,37 @@
 # Der Ausnahme-Defekt im LLMSmartAudit-Parser
 
-Wie am 21.09.2026 zehn Lücken im Parser-Audit sichtbar wurden, woran sie lagen
-und wie sie geschlossen wurden. Stand 21.09.2026: **1 272 Tasks, 2 417 Rohmeldungen,
-0 Lücken**; nach den Läufen vom 24.09.2026 sind es 1 501 Tasks, 2 555 Rohmeldungen,
-weiterhin 0 Lücken — siehe [`parser-audit-nachher.md`](parser-audit-nachher.md).
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Am 21.09.2026 zeigte unser Parser-Audit plötzlich zehn Lücken. Hier steht,
+woran das lag und wie wir sie geschlossen haben. Heute: 1 501 Tasks, 2 555
+Rohmeldungen, **0 Lücken** ([`parser-audit-nachher.md`](parser-audit-nachher.md)).
 
 ---
 
 ## 1. Wie die Lücken sichtbar wurden
 
-Bis zum 20.09.2026 meldete das Audit 0 Lücken. Das war keine Messung, sondern
-eine Eigenschaft des Detektor-Katalogs.
+Bis zum 20.09.2026 meldete das Audit 0 Lücken — das war aber keine Messung,
+sondern eine Schwäche des Detektor-Katalogs. Ein `TRACEBACK`-Signal entstand
+nur, wenn ein Log-Record **beides** enthielt: `Traceback (most recent call last)`
+*und* die Abschlusszeile `Modul.Fehler: Meldung`. Stand die Abschlusszeile in
+einem eigenen Record, sah das Audit sie nicht. Betroffen waren **132 Records in
+89 Tasks**; bei 46 von 92 Tasks mit Ausnahme im Parser-Output gab es gar kein
+Ausnahme-Signal.
 
-Ein `TRACEBACK`-Signal entstand nur, wenn ein Log-Record **beides** enthielt:
-die Zeichenkette `Traceback (most recent call last)` *und* die abschließende
-`Modul.Fehler: Meldung`-Zeile. Lag die Abschlusszeile in einem eigenen Record,
-sah der Katalog sie nicht — und meldete folgerichtig keine Lücke, ganz gleich,
-was der Parser mit ihr gemacht hatte. Betroffen waren **132 Records in 89
-Tasks**; von 92 Tasks, deren Parser-Ausgabe eine Ausnahme nennt, erzeugte das
-Audit bei **46** überhaupt kein Ausnahme-Signal.
+Der neue Detektor `_ORPHAN_EXC` in `analysis_tools/parser_audit.py` schließt
+das. Er greift nur, wenn ein Record **mit** der Ausnahme beginnt — ein
+Ausnahmename mitten in einer Finding-Beschreibung zählt nicht, sonst erfände
+das Audit Lücken (beide Richtungen in
+`tests/test_parser_audit_orphan_exception.py`). Mit dem schärferen Katalog
+stieg die Zahl der erkannten Rohmeldungen von 2 289 auf 2 417, und es
+erschienen **10 Lücken**, alle im Lauf `llmsa_mwefixed_v2`.
 
-Der Detektor `_ORPHAN_EXC` in `analysis_tools/parser_audit.py` schließt diese
-Stelle. Er greift nur, wenn ein Record **mit** der Ausnahme beginnt: ein
-Ausnahmename mitten in Prosa oder in einer Finding-Beschreibung zählt nicht,
-sonst erfände das Audit Lücken. Beide Richtungen sind in
-`tests/test_parser_audit_orphan_exception.py` festgehalten.
-
-Mit dem schärferen Katalog stieg die Zahl der erkannten Rohmeldungen von 2 289
-auf 2 417 — und es erschienen **10 Lücken**, alle im Lauf `llmsa_mwefixed_v2`.
-
-> Ein Audit, das nie etwas findet, belegt seine eigene Schärfe nicht. Erst der
-> strengere Katalog machte die Aussage prüfbar.
+> Ein Audit, das nie etwas findet, belegt seine eigene Schärfe nicht.
 
 ## 2. Woran sie lagen
 
-Alle zehn hatten dieselbe Ursache, und sie liegt nicht im eigenen Parser,
-sondern im Zusammenspiel zweier Fremdkomponenten.
+Alle zehn hatten dieselbe Ursache — nicht in unserem Parser, sondern im
+Zusammenspiel zweier fremder Komponenten.
 
 `sb/parse_utils.py::exceptions` nimmt nach einer Traceback-Kopfzeile die
 **erste nicht eingerückte Zeile** als Ausnahme. LLMSmartAudit schreibt seine
@@ -67,32 +63,28 @@ Zwei Klassen, keine dritte:
 In allen zehn Fällen markierte der Parser den Task korrekt als gescheitert.
 Verloren ging nicht *dass* etwas schieflief, sondern **woran**.
 
-## 3. Wie sie geschlossen wurden
+## 3. Wie wir sie geschlossen haben
 
 Die Reparatur liegt in `smartbugs/tools/llmsmartaudit/parser.py`
-(`_repair_exception_fails`), **nicht** in `sb/parse_utils.py`. Upstream bleibt
-damit unangetastet — das in `BA-EIGENANTEIL.md` ausgewiesene Prinzip hält, die
-Korrektur wandert mit `python -m sb.reparse` auf alle Altläufe und berührt
-keines der übrigen 30+ SmartBugs-Werkzeuge.
+(`_repair_exception_fails`), **nicht** in `sb/parse_utils.py`. So bleibt
+SmartBugs unangetastet ([`BA-EIGENANTEIL.md`](BA-EIGENANTEIL.md)), die Korrektur
+wandert per `python -m sb.reparse` auf alle Altläufe und berührt kein anderes
+Werkzeug. Zwei Regeln:
 
-Zwei Regeln:
+1. Ein `fails`-Eintrag, der eine Zeile der Token-Buchhaltung ist, wird
+   verworfen. Die Präfixe sind namentlich aufgezählt — ein Muster für „alles,
+   was wie eine Statuszeile aussieht“ würde auch echte Ausnahmen schlucken.
+2. Jede Abschlusszeile am Zeilenanfang wird aufgenommen; Buchhaltungszeilen
+   *innerhalb* eines Tracebacks werden übersprungen, statt die Suche zu beenden.
 
-1. Ein `fails`-Eintrag, dessen Text eine Zeile der Token-Buchhaltung ist, wird
-   verworfen. Die betroffenen Präfixe sind namentlich aufgezählt, nicht per
-   Faustregel erkannt — ein Muster, das „alles, was wie eine Statuszeile
-   aussieht" abdeckt, verschluckte auch echte Ausnahmen.
-2. Jede Abschlusszeile am Zeilenanfang wird aufgenommen. Zeilen der
-   Token-Buchhaltung *innerhalb* eines Tracebacks werden übersprungen, statt
-   die Suche zu beenden.
+Abgesichert durch `tests/test_llmsa_exception_repair.py` (8 Tests), u. a.: Ein
+in Prosa genannter Ausnahmename wird **kein** Fehlschlag, und die Reparatur ist
+tatsächlich in `parse()` verdrahtet.
 
-Abgesichert durch `tests/test_llmsa_exception_repair.py` (8 Tests), darunter
-zwei, die den Eingriff gegen die naheliegenden Fehlschläge festnageln: dass
-ein in Prosa genannter Ausnahmename **kein** Fehlschlag wird, und dass die
-Reparatur tatsächlich in `parse()` verdrahtet ist und nicht bloß definiert.
+## 4. Was sich geändert hat — und was nicht
 
-## 4. Was sich dadurch geändert hat — und was nicht
-
-Nach `python -m sb.reparse --sarif --processes 4 results` über alle damals 48 Läufe (heute 51, unverändert 0 Lücken):
+Nach `python -m sb.reparse --sarif --processes 4 results` über alle damals 48
+Läufe:
 
 | | vorher | nachher |
 |---|---|---|
@@ -104,15 +96,15 @@ Nach `python -m sb.reparse --sarif --processes 4 results` über alle damals 48 L
 | Errors/Fails-Bilanz (Summen) | 1272/780/486/98/… | **unverändert** |
 | Findings in `eval/` | 437 | **437, inhaltlich identisch** |
 
-**Null Zustandsänderungen** ist der entscheidende Wert: Alle zehn Tasks galten
-schon vorher als gescheitert. Die Reparatur ersetzt den *Text* der
-Fehlermeldung, nicht das Urteil über den Task. Deshalb bewegt sich keine Zahl
-der Arbeit; was sich ändert, ist allein die Diagnosetiefe.
+Entscheidend sind die **null Zustandsänderungen**: Alle zehn Tasks galten schon
+vorher als gescheitert. Die Reparatur ändert den *Text* der Meldung, nicht das
+Urteil über den Task — keine Zahl der Arbeit bewegt sich, nur die Diagnose wird
+genauer.
 
-Der Katalog erfasst Log-Records der Stufen ERROR und CRITICAL. WARNING-Records
-wie `Cannot find functionB or same` (`5_Pools.sol` und `70_VaderPoolV2.sol`
-im Lauf `curated_mwefixed_live`) liegen weiterhin außerhalb; „0 Lücken“ gilt
-relativ zu diesem Katalog (`BA-VERIFIKATIONSBERICHT.md` 3.2).
+Der Katalog erfasst Records der Stufen ERROR und CRITICAL. WARNING-Records wie
+`Cannot find functionB or same` (`5_Pools.sol`, `70_VaderPoolV2.sol`) liegen
+außerhalb; „0 Lücken“ gilt relativ zu diesem Katalog
+([`BA-VERIFIKATIONSBERICHT.md`](BA-VERIFIKATIONSBERICHT.md) 3.2).
 
 Vorher und nachher, an einem Beispiel:
 
@@ -128,14 +120,12 @@ Die vier 402er sind genau die vier Contracts, die der Nachlauf
 `llmsa_mwefixed_v2_retry` am 15.09.2026 wiederholt hat: `12_Witch`,
 `25_CompositeMultiOracle`, `43_DelegatedStaking`, `62_Locke`.
 
-Damit ist dieser Nachlauf erstmals **aus den Daten heraus** begründet. Bisher
-stand dort nur, er habe „vier Tasks ersetzt, die der Hauptlauf nicht
-entschieden hatte" — und ein Nachlauf über genau vier Contracts sieht ohne
-Begründung nach Auswahl nach Ergebnis aus. Jetzt steht in `run_meta.json`, was
-tatsächlich geschah: eine Störung der Infrastruktur, die mit Contract,
-Werkzeug und Modell nichts zu tun hat. Die 37 Kontext-Überschreitungen sind
-deshalb bewusst **nicht** wiederholt worden — sie sind inhaltlich, nicht
-technisch.
+Damit ist dieser Nachlauf erstmals **aus den Daten** begründet. Ohne Begründung
+sieht ein Nachlauf über genau vier Contracts nach Auswahl nach Ergebnis aus;
+jetzt steht in `run_meta.json`, was geschah: eine Störung der Infrastruktur,
+unabhängig von Contract, Werkzeug und Modell. Die 37 Kontext-Überschreitungen
+haben wir deshalb bewusst **nicht** im selben Lauf wiederholt — sie sind
+inhaltlich, nicht technisch.
 
 Der zentrale Befund des Laufs bleibt unberührt: Die vier gelten als
 `no_output`, nicht als `context_exceeded`, und waren nie in die 37
@@ -143,14 +133,11 @@ eingerechnet (55 + 4 + 37 = 96).
 
 ## 6. Was davon Upstream betrifft
 
-Der Defekt ist keine Eigenheit dieses Aufbaus. `sb/parse_utils.py::exceptions`
-unterstellt, dass zwischen Traceback-Kopf und Abschlusszeile ausschließlich
-eingerückte Rahmen stehen. Jedes Werkzeug, das nebenher auf denselben Strom
-protokolliert, bricht diese Annahme — und SmartBugs meldet dann eine beliebige
-Statuszeile als Ausnahme, ohne dass es auffällt.
-
-Eine upstream-taugliche Fassung müsste die letzte passende Abschlusszeile
-wählen statt der ersten nicht eingerückten Zeile. Das ist der naheliegendste
-eigene Beitrag an SmartBugs neben dem `env:`-Mechanismus; hier wurde er
-bewusst nur im eigenen Tool-Parser umgesetzt, um den Messaufbau nicht an einer
-fremden Stelle zu verändern.
+Der Defekt ist keine Eigenheit unseres Aufbaus. `sb/parse_utils.py::exceptions`
+unterstellt, dass zwischen Traceback-Kopf und Abschlusszeile nur eingerückte
+Zeilen stehen. Jedes Werkzeug, das nebenher in denselben Strom schreibt, bricht
+diese Annahme, und SmartBugs meldet dann unbemerkt eine Statuszeile als
+Ausnahme. Eine Upstream-Fassung müsste die letzte passende Abschlusszeile
+nehmen statt der ersten nicht eingerückten. Wir haben das bewusst nur im
+eigenen Parser umgesetzt, um den Messaufbau nicht an fremder Stelle zu
+verändern — als Beitrag an SmartBugs wäre es der nächste naheliegende Schritt.

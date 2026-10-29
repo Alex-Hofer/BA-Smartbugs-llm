@@ -1,215 +1,172 @@
-# Betriebsdoku: validierte Parameter, Pflichtvariablen, Fallstricke, Kosten
+# Betrieb: Parameter, Pflichtvariablen, Kosten, Fallstricke
 
-Alle Zahlen stammen aus den aufgezeichneten Läufen (51 Läufe, Stand
-24.09.2026) und sind gemessen, nicht geschätzt, sofern nicht ausdrücklich
-anders vermerkt.
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Was wir beim Betrieb der drei Werkzeuge gelernt haben: welche Parameter sich
+bewährt haben, welche Variablen gesetzt sein müssen, was ein Lauf kostet und wo
+wir hineingelaufen sind. Die Zahlen stammen aus unseren aufgezeichneten Läufen
+(Stand 24.09.2026) und sind gemessen, sofern nicht anders vermerkt.
 
 ## 1. Pflicht-Umgebungsvariablen
 
-| Variable | Für | Pflicht? | Bemerkung |
+| Variable | Für | Pflicht | Bemerkung |
 |---|---|---|---|
-| `DEEPSEEK_API_KEY` | beide KI-Scanner | **ja** | Wird von `run_curated.ps1` aus `GPTScan/.env` gelesen und in die Prozessumgebung gesetzt. Der gepatchte `sb/docker.py` reicht ihn in den Container durch und redigiert ihn anschließend im Task-Log. |
-| `LLM_MODEL` | LLMSmartAudit | **ja** | Muss auf `deepseek-v4-flash` stehen. Siehe Fallstrick 2. |
+| `DEEPSEEK_API_KEY` | beide LLM-Scanner | **ja** | `run_curated.ps1` liest ihn aus `GPTScan/.env`; `sb/docker.py` reicht ihn in den Container und schwärzt ihn im Ergebnis. |
+| `LLM_MODEL` | LLMSmartAudit | **ja** | `deepseek-v4-flash` (Fallstrick 2). |
 | `LLM_PROVIDER` | LLMSmartAudit | nein | Default `deepseek`. |
-| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | nein | `65536`. Setzt das Completion-Budget für Modell-IDs ohne Eintrag in `num_max_token_map`. Die Agentengrenze des Werkzeugs war bis zum 24.09.2026 davon unabhängig fest 65 536 (Ursache der 37 Kontextabbrüche); seitdem hebt die Variable auch sie an, sofern das Image nach diesem Datum gebaut wurde (README, „Modell wählen und wechseln“). |
-| `LLM_BASE_URL` | LLMSmartAudit | nein | Nur für `LLM_PROVIDER=custom`. |
-| `GPTSCAN_PROVIDER` | GPTScan | nein | Default `deepseek`. |
-| `GPTSCAN_MODEL` | GPTScan | nein | Default `deepseek-v4-flash` (der „cheap"-Tier des Providers). |
-| `GPTSCAN_DRY_RUN=1` | GPTScan | nein | Kein einziger API-Aufruf, keine Kosten, kein Schlüssel nötig. |
-| `GPTSCAN_BASE_URL` | GPTScan | nein | Nur bei `GPTSCAN_PROVIDER=custom` (AP5) — zeigt auf einen frei wählbaren, OpenAI-kompatiblen Endpunkt, etwa den lokalen Prüfstand. Siehe Abschnitt 8. |
+| `LLM_CONTEXT_TOKENS` | LLMSmartAudit | nein | `65536`. Completion-Budget für unbekannte Modell-IDs; seit 24.09.2026 hebt es auch die Agentengrenze an (Ursache der 37 Kontextabbrüche), wenn das Image danach gebaut wurde. |
+| `LLM_BASE_URL` | LLMSmartAudit | nein | nur bei `LLM_PROVIDER=custom`. |
+| `GPTSCAN_PROVIDER` / `GPTSCAN_MODEL` | GPTScan | nein | Default `deepseek` / `deepseek-v4-flash`. |
+| `GPTSCAN_DRY_RUN=1` | GPTScan | nein | kein API-Aufruf, keine Kosten, kein Schlüssel nötig. |
+| `GPTSCAN_BASE_URL` | GPTScan | nein | nur bei `GPTSCAN_PROVIDER=custom`, etwa für den lokalen Prüfstand (Abschnitt 8). |
 
-Welche Variablen überhaupt in einen Container gelangen können, steht in der
-`env:`-Zeile der jeweiligen `config.yaml` — nur diese Allowlist wird
-durchgereicht.
+In den Container gelangt nur, was in der `env:`-Zeile der jeweiligen
+`config.yaml` steht.
 
-## 2. Validierte Laufparameter
+## 2. Bewährte Laufparameter
 
 | Parameter | Wert | Grundlage |
 |---|---|---|
-| `--processes` | **4** | Über ~580 DeepSeek-Calls bei `processes=3` traten keine Rate-Limits auf; 4 ist die getestete Obergrenze. Nicht ohne eigenen Test erhöhen. |
-| `--timeout` GPTScan | **1800 s** | Längster gemessener Task: 922 s (`32_LendingPair` in `gptscan_mwefixed_v2_main`). |
-| `--timeout` LLMSmartAudit | **5400 s** | Gemessen in `curated_v1_20260705`: im Mittel 299 s je Contract, Median 264 s, Maximum 923 s — der große Puffer fängt Retry-Schleifen ab. |
-| Reihenfolge der Läufe | **sequenziell** | Erst GPTScan, dann LLMSmartAudit. Begrenzt API-Nebenläufigkeit auf demselben Schlüssel und den CPU-Druck. |
+| `--processes` | **4** | Bei rund 580 Aufrufen mit 3 Prozessen kein Rate-Limit; 4 ist die getestete Obergrenze. |
+| `--timeout` GPTScan | **1800 s** | längster Task: 922 s (`32_LendingPair`). |
+| `--timeout` LLMSmartAudit | **5400 s** | curated: Mittel 299 s, Median 264 s, Maximum 923 s; der Puffer fängt Retry-Schleifen ab. |
+| Reihenfolge | **sequenziell** | erst GPTScan, dann LLMSmartAudit — weniger parallele Last auf demselben Schlüssel. |
 
-Seit AP5 wirkt `--timeout` **innerhalb** des Containers, nicht mehr nur als
-äußerer Docker-Abschuss. Details, wie ein Teilergebnis daran zu erkennen ist
-und wie sich der Timeout-Pfad ohne Kosten testen lässt: Abschnitt 8.
+Seit AP5 wirkt `--timeout` **im** Container, nicht nur als harter Abbruch von
+außen (Abschnitt 8).
 
 ## 3. Kosten
 
 | Werkzeug | Pro Contract | Kostenbremse |
 |---|---|---|
-| GPTScan | curated_v1: Mittel $0,00007, Median $0 (127 von 143 Contracts setzen keinen LLM-Aufruf ab); DeFi-Korpus `curated_mwefixed_live`: Median $0,0013, Mittel $0,0029, Maximum $0,020 | **ja** — `MAX_COST_USD` in `GPTScan/src/config.py`, $0,50 pro Contract. Bei Erreichen stoppt der Lauf die Aufrufe, stürzt nicht ab, und vermerkt `budget_exceeded` in den Metadaten. |
-| LLMSmartAudit | im Mittel ~$0,017, Median ~$0,012 (aus den Tokens hochgerechnet), Dauer im Mittel 299 s | **nein** — das Werkzeug hat keinerlei Budgetgrenze. |
+| GPTScan | curated: Mittel $0,00007, Median $0 (127 von 143 ohne LLM-Aufruf); DeFi: Median $0,0013, Mittel $0,0029, Maximum $0,020 | **ja** — `MAX_COST_USD` in `GPTScan/src/config.py`, $0,50 je Contract; danach keine Aufrufe mehr, Vermerk `budget_exceeded` |
+| LLMSmartAudit | Mittel ≈ $0,017, Median ≈ $0,012 (aus Token gerechnet), Mittel 299 s | **nein** |
 
-Referenzwerte kompletter Läufe:
+Komplette Läufe zum Vergleich: curated GPTScan 3:19 min für ≈ $0,01, curated
+LLMSmartAudit 3:02 h für ≈ $2,44, DeFi GPTScan 36:45 min für ≈ $0,28.
 
-| Lauf | Umfang | Dauer | Kosten |
-|---|---|---|---|
-| `curated_v1_20260705` GPTScan | 143 Contracts | 3:19 min | ~$0,01 |
-| `curated_v1_20260705` LLMSmartAudit | 143 Contracts | 3:02 h | ~$2,44 (aus den Tokens hochgerechnet) |
-| `curated_mwefixed_live` GPTScan | 96 Contracts | 36:45 min | ~$0,28 |
+**Schätzung gegen Abbuchung.** Runner und `build_eval.py` rechnen mit festen
+Sätzen (0,0908 bzw. 0,3695 USD je Million Prompt- bzw. Completion-Token, aus
+`curated_v1_20260705` zurückgerechnet). Den Cache-Rabatt des Anbieters kennen
+sie nicht und liegen deshalb zu hoch:
 
-**Schätzung gegen Abrechnung.** Die Kostenschätzungen der Runner und von
-`build_eval.py` rechnen Prompt- und Completion-Token mit festen Sätzen
-(0,0908 und 0,3695 USD je Million), die aus dem Lauf `curated_v1_20260705`
-zurückgerechnet sind. Sie kennen den Cache-Rabatt des Anbieters nicht und
-liegen deshalb zu hoch, sobald ein Lauf viele gleiche Prompt-Präfixe schickt.
-Belegte Paare:
-
-| Lauf | Schätzung | Abgebucht | Quelle |
+| Lauf | Schätzung | Abgebucht | Beleg |
 |---|---:|---:|---|
-| `curated_v1_20260705` LLMSmartAudit | 2,44 USD | 2,44 USD | Sätze aus genau diesem Lauf zurückgerechnet, kein unabhängiger Beleg |
-| `llmsa_mwefixed_v2` (+ Nachlauf) | ≈ 8,37 USD | nicht erfasst | Kontostand vor/nach damals nicht protokolliert |
-| `llmsa_mwefixed_v2_ctx1m` | 11,42 USD | 5,55 USD | Kontostand 14,31 → 8,14 USD am 24.09.2026, abzüglich 0,62 USD für zwei abgebrochene Läufe (`BA-VERIFIKATIONSBERICHT-20260924.md` 4.3; der Nachlauf selbst begann bei 13,69 USD); Faktor 2,06 |
+| `curated_v1_20260705` LLMSmartAudit | 2,44 | 2,44 | Sätze aus diesem Lauf, kein unabhängiger Beleg |
+| `llmsa_mwefixed_v2` (+ Nachlauf) | ≈ 8,37 | – | Kontostand damals nicht protokolliert |
+| `llmsa_mwefixed_v2_ctx1m` | 11,42 | 5,55 | Kontostand 14,31 → 8,14 USD abzüglich 0,62 für zwei abgebrochene Läufe; Faktor 2,06 |
 
-Die Sätze bleiben, wie sie sind: Der Kostendeckel der Runner arbeitet auf der
-Schätzung und soll zu früh greifen, nie zu spät. Seit dem 24.09.2026 fragen
-alle vier Runner bei `-Provider deepseek` den Kontostand vor dem Start und nach
-dem Ende ab und schreiben die Differenz als „abgebucht“ ins Protokoll
-(`run_full_v2.ps1` zusätzlich in `run_params.json`). Maßgeblich ist diese
-Differenz, nicht die Schätzung.
+Die Sätze lassen wir bewusst so: Der Kostendeckel der Runner soll lieber zu früh
+greifen als zu spät. Seit dem 24.09.2026 fragen alle Runner bei
+`-Provider deepseek` den Kontostand vor und nach dem Lauf ab und protokollieren
+die Differenz als „abgebucht“ — die zählt.
 
-**Vor jedem Massenlauf einen Dry-Run.** `run_curated.ps1 -GptscanDry` kostet
-nichts und deckt Pipeline-Fehler auf, bevor Geld fließt. Für LLMSmartAudit gibt
-es keinen Dry-Modus (Fallstrick 3).
+**Vor jedem Massenlauf ein Dry-Run:** `run_curated.ps1 -GptscanDry` kostet
+nichts und findet Pipeline-Fehler, bevor Geld fließt. Für LLMSmartAudit gibt es
+keinen Dry-Modus (Fallstrick 3).
 
 ## 4. Bekannte Fallstricke
 
-**1 — GPTScan liefert leeren Output bei bestimmten Pfaden.**
-Enthält der Quellpfad eines der Wörter `external`, `openzeppelin`, `uniswap`,
-`pancakeswap`, `legacy` oder `test`, produziert GPTScan stillschweigend nichts.
-Der Entrypoint `tools/gptscan/scripts/do_solidity.sh` kopiert die Datei deshalb
-grundsätzlich nach `/work/input`.
+**1 — GPTScan liefert bei bestimmten Pfaden still nichts.** Enthält der Pfad
+`external`, `openzeppelin`, `uniswap`, `pancakeswap`, `legacy` oder `test`,
+ist die Ausgabe leer. Der Entrypoint kopiert die Datei deshalb immer nach
+`/work/input`.
 
-**2 — `LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit Pflicht.**
-Bis zum 24.09.2026 hatte das Image `smartbugs/llmsmartaudit:1.0` `deepseek-chat`
-eingebrannt, und `run.py` hat denselben Standardwert. Dieses Modell hat DeepSeek
-am 2026-07-24 abgeschaltet; ohne Override antwortete die API mit HTTP 400, und
-der Lauf scheiterte vollständig, aber erst nach dem Retry-Budget des Werkzeugs.
-Seit dem 24.09.2026 trägt das Image kein Modell mehr, und der Entrypoint bricht
-bei leerem `LLM_MODEL` sofort ab: Platzhalterreport mit `error: LLM_MODEL not
-set`, Exit-Code 2, im Ergebnis als `errors`, kein LLM-Aufruf
-(`tests/test_entrypoint_model_guard.py`). Am 24.09.2026 gegen den lokalen
-Prüfstand nachgestellt (Image `fe758cf6410c`): ohne Variable endet der Task
-nach 15 s mit Exit 2 und den drei `errors`, mit gesetzter Variable läuft er
-durch alle 41 Kategorien. Die Runner setzen die Variable immer; beim direkten
-`sb`-Aufruf ist sie von Hand zu setzen.
+**2 — `LLM_MODEL=deepseek-v4-flash` ist für LLMSmartAudit Pflicht.** Bis zum
+24.09.2026 hatte das Image `deepseek-chat` eingebrannt; DeepSeek hat dieses
+Modell am 24.07.2026 abgeschaltet. Ohne Override kam HTTP 400, und der Lauf
+scheiterte erst nach dem vollen Retry-Budget. Seitdem trägt das Image kein
+Modell mehr, und der Entrypoint bricht bei leerem `LLM_MODEL` sofort ab
+(Exit 2, `error: LLM_MODEL not set`, kein LLM-Aufruf;
+`tests/test_entrypoint_model_guard.py`). Gegen den Prüfstand nachgestellt
+(Image `fe758cf6410c`): ohne Variable Exit 2 nach 15 s, mit Variable alle 41
+Kategorien. Die Runner setzen die Variable immer, beim direkten `sb`-Aufruf
+muss man sie selbst setzen.
 
-**3 — LLMSmartAudit hat keinen Stub-Modus.**
-`LLM_MODEL=STUB` wird wörtlich an die API geschickt und mit HTTP 400 abgelehnt.
-Der Lauf `results/llmsmartaudit/smoke1_stub` ist genau dieser Fehlschlag und
-dient heute als Test-Fixture. Es gibt keine Möglichkeit, das Werkzeug ohne
-echte API-Aufrufe zu testen.
+**3 — LLMSmartAudit hat keinen Stub-Modus.** `LLM_MODEL=STUB` geht wörtlich an
+die API und scheitert mit HTTP 400 (`results/llmsmartaudit/smoke1_stub`, heute
+Test-Fixture). Ohne echte API — oder den Prüfstand aus Abschnitt 8 — lässt sich
+das Werkzeug nicht testen.
 
-**4 — GPTScan meldete Compile-Fehler nicht.**
-Behoben am 2026-08-02. Ein nicht übersetzbarer Contract lief mit Exit-Code 0
-durch und schrieb `{"success": true, "results": []}`. Hergeleitet und
-dokumentiert in `docs/BA-ERRORS-VS-FAILS.md`. Bei künftigen Läufen prüfen:
+**4 — GPTScan meldete Compile-Fehler nicht** (behoben 02.08.2026). Ein nicht
+übersetzbarer Contract lief mit Exit 0 und `{"success": true, "results": []}`
+durch ([`BA-ERRORS-VS-FAILS.md`](BA-ERRORS-VS-FAILS.md)). Bei neuen Läufen
+prüfen:
 
 ```powershell
 python analysis_tools\parser_audit.py smartbugs\results\gptscan\curated_<suffix>
 ```
 
-**5 — `vul_before_static > vul_after_static` ist kein Fehler.**
-Das ist GPTScans Static-Bestätigungsstufe, die LLM-Kandidaten verwirft — der
-bestimmungsgemäße False-Positive-Filter. Er greift bei etwa der Hälfte aller
-Live-Contracts und erscheint als `info`, nicht als Fehler.
+**5 — `vul_before_static > vul_after_static` ist kein Fehler**, sondern GPTScans
+gewollter False-Positive-Filter. Er greift bei etwa der Hälfte der Contracts
+und erscheint als `info`.
 
-**6 — LLMSmartAudit liefert keine Zeilennummern.**
-Das Werkzeug argumentiert über den Quelltext und gibt keine Positionen aus. Eine
-zeilengenaue Auswertung ist damit ausgeschlossen; die Arbeit wertet deshalb auf
+**6 — LLMSmartAudit liefert keine Zeilennummern.** Deshalb werten wir auf
 Contract-Ebene aus. Kein Bug.
 
-**7 — `reparse` ohne `--sarif` löscht vorhandene SARIF-Dateien.**
-`sb/reparse.py` entfernt `result.json` *und* `result.sarif`, schreibt letztere
-aber nur mit `--sarif` neu. Die Läufe dieser Arbeit wurden mit `--json --sarif`
-erzeugt, also:
+**7 — `reparse` ohne `--sarif` löscht vorhandene SARIF-Dateien.** Unsere Läufe
+sind mit `--json --sarif` erzeugt, also:
 
 ```powershell
 cd smartbugs
 .venv\Scripts\python.exe -m sb.reparse --sarif --processes 4 results
 ```
 
-**8 — Bekannt defekte Samples.**
+**8 — Defekte Samples im Altkorpus.**
 `samples/gptscan/_chk/{20_Pool,23_nTokenAction,5_Pools,67_Vault}.sol` sind zu
-einer Zeile kollabierte Blobs und nicht übersetzbar; `74_TimeswapPair.sol` hat
-einen solc-Fehler in Zeile 51. Kein Parser-Problem — der Korpus ist defekt.
-Reparierter Ersatz: `samples/gptscan/mwevariety_fixed/` (siehe
-`docs/BA-KORPUS-REPARATUR.md` und `corpus_tools/README.md`).
+einer Zeile kollabiert, `74_TimeswapPair.sol` hat einen solc-Fehler in Zeile
+51. Ersatz: `samples/gptscan/mwevariety_fixed/`
+([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md)).
 
-**9 — Im reparierten Korpus scheitern 2 von 96 Contracts.**
-`58_UniV3Vault` bräuchte `--optimize` („Stack too deep"), `19_TransactionManager`
-verliert eine Funktion an einen Falcon-IR-Konvertierungsfehler (der Contract
-selbst übersetzt). Beides ist seit dem Parser-Fix im Ergebnis sichtbar.
+**9 — Im reparierten Korpus haken 2 von 96 Contracts.** `58_UniV3Vault`
+bräuchte `--optimize` („Stack too deep“), `19_TransactionManager` verliert eine
+Funktion an einen IR-Konvertierungsfehler. Beides ist im Ergebnis sichtbar.
 
 **10 — Slither-Image und solc 0.7.6 bis 0.8.12 vertragen sich nicht.**
-SmartBugs kopiert den zur `pragma` passenden Compiler aus
-`~/.smartbugs/solc/artifacts/` als `$BIN/solc` in den Container. Das Image
-`smartbugs/slither:0.11.3` ist Alpine Linux (musl); die von solc-select
-geladenen Linux-Binaries 0.7.6 und 0.8.1 bis 0.8.12 sind gegen glibc gelinkt
-(`/lib64/ld-linux-x86-64.so.2`) und lassen sich dort nicht starten — Slither
-meldet `No such file or directory: '/sb/bin/solc'`, obwohl die Datei da ist.
-0.6.x und 0.8.36 sind statisch gelinkt und laufen. Im Lauf
-`slither_mwefixed_v1` (24.09.2026) blieben deshalb 45 von 96 DeFi-Contracts
-ohne Ergebnis; auf `smartbugs-curated` (Solidity 0.4) tritt das nicht auf. Das
-GPTScan-Image ist Debian-basiert und nicht betroffen. **Lösung (24.09.2026):**
-das eigene Werkzeugverzeichnis `smartbugs/tools/slither-0.11.3-glibc/` mit dem
-glibc-basierten Image `smartbugs/slither:0.11.3-glibc` (Bauanleitung in
-Abschnitt 5); damit lief `slither_mwefixed_v2` auf 95 von 96 Contracts durch.
-Der letzte, `58_UniV3Vault.sol`, ist ein Compilerfehler (`Stack too deep`),
-kein Image-Problem.
+SmartBugs legt den passenden Compiler als `$BIN/solc` in den Container. Das
+Image `smartbugs/slither:0.11.3` ist Alpine (musl), die Binaries 0.7.6 und
+0.8.1 bis 0.8.12 sind gegen glibc gelinkt — Slither meldet
+`No such file or directory: '/sb/bin/solc'`, obwohl die Datei da ist. In
+`slither_mwefixed_v1` blieben so 45 von 96 Contracts ohne Ergebnis; curated
+(Solidity 0.4) und GPTScan (Debian) sind nicht betroffen. **Lösung:**
+`smartbugs/tools/slither-0.11.3-glibc/` mit glibc-Image (Abschnitt 5); damit
+95 von 96. Der letzte (`58_UniV3Vault.sol`) ist ein Compilerfehler.
 
 ## 5. Images bauen
 
 ```powershell
-# GPTScan (aus dem Repo-Root)
 docker build -t smartbugs/gptscan:1.0 .\GPTScan
-
-# Slither in einem glibc-Image, nur fuer den DeFi-Korpus noetig (Fallstrick 10)
+# nur für den DeFi-Korpus nötig (Fallstrick 10)
 docker build -t smartbugs/slither:0.11.3-glibc .\smartbugs\tools\slither-0.11.3-glibc
 ```
 
 ```bash
-# LLMSmartAudit -- Git Bash, nicht PowerShell.
-# git archive liefert den Baum OHNE das entfernte evaluation/ (3,7 GB).
+# LLMSmartAudit -- in Git Bash; git archive lässt das entfernte evaluation/ weg
 git archive HEAD:LLMSmartAuditTool-main/LLMSmartAuditTool-main \
   | docker build -f Dockerfile.smartbugs -t smartbugs/llmsmartaudit:1.0 -
 ```
 
-Kein Schlüssel landet je im Image: `.dockerignore` schließt `.env` aus, und der
-Schlüssel kommt zur Laufzeit aus der Prozessumgebung.
+Kein Schlüssel landet im Image: `.dockerignore` schließt `.env` aus, der
+Schlüssel kommt zur Laufzeit.
 
-## 6. Umgebungsspezifische Stolpersteine
+## 6. Stolpersteine unter Windows
 
-* **Git-Bash-Pfadumwandlung.** MSYS wandelt führende `/` in Argumenten in
-  Windows-Pfade um (`!/foo/` wird zu `!C:/Program Files/Git/foo/`). Bei
-  Pfadmustern `MSYS_NO_PATHCONV=1` voranstellen.
-* **PowerShell-Umleitung und Kodierung.** Was `> datei.csv` in Windows
-  PowerShell 5.1 schreibt, hängt von der Sitzung ab: ohne Vorgabe UTF-16LE,
-  mit `$PSDefaultParameterValues['Out-File:Encoding'] = 'utf8'` UTF-8 mit
-  BOM. `analysis_tools/compare_csv.py` liest `utf-8-sig` und bricht auf einer
-  UTF-16-Datei ab. Deshalb Exporte ausdrücklich kodieren:
-  `... | Out-File -Encoding utf8 datei.csv` (PowerShell 5.1 schreibt dann UTF-8
-  mit BOM, das `utf-8-sig` verträgt).
-* **Windows-Pfadlänge.** `core.longpaths=true` ist **pro Clone zu setzen** — die
-  Option ist eine lokale Git-Konfiguration und wird nicht mitgeklont. Ohne sie
-  scheitern Operationen, die tiefer als der Arbeitsbaum liegen, mit
-  `Filename too long`; ein `git worktree add` etwa bricht an
-  `LLMSmartAuditTool-main/.../WareHouse/AISmartContract_…/` ab. Der längste
-  getrackte Pfad misst 129 Zeichen, das Limit greift also erst zusammen mit dem
-  Präfix des Zielverzeichnisses — was für einen Clone in einem tiefen Pfad
-  bereits reicht. Siehe Abschnitt 7.
+* **Git-Bash-Pfadumwandlung.** MSYS macht aus führenden `/` Windows-Pfade
+  (`!/foo/` → `!C:/Program Files/Git/foo/`). Bei Pfadmustern
+  `MSYS_NO_PATHCONV=1` voranstellen.
+* **PowerShell-Umleitung.** `> datei.csv` schreibt in PowerShell 5.1 je nach
+  Sitzung UTF-16LE oder UTF-8 mit BOM; `compare_csv.py` bricht auf UTF-16 ab.
+  Deshalb immer `... | Out-File -Encoding utf8 datei.csv`.
+* **Pfadlänge.** `core.longpaths=true` muss man **pro Clone** setzen, sonst
+  scheitern tiefe Pfade mit `Filename too long` (etwa ein `git worktree add`
+  an `LLMSmartAuditTool-main/.../WareHouse/…`). Der längste getrackte Pfad hat
+  129 Zeichen — in einem tief liegenden Clone reicht das schon.
 * **PowerShell 5.1 kennt kein `&&`/`||`.** Stattdessen `A; if ($?) { B }`.
 
 ## 7. Einrichtung nach dem Klonen
 
-Die Python-Umgebungen (SmartBugs-venv unter `smartbugs\.venv`, Host-Werkzeuge
-über `requirements-dev.txt`) beschreibt die README im Abschnitt „Umgebung
-anlegen“.
-
-Zwei Git-Einstellungen sind **lokal pro Clone** und werden deshalb nicht
-mitgeliefert. Beide gehören unmittelbar nach `git clone` gesetzt:
+Python-Umgebungen: README, „Umgebung anlegen“. Zwei Git-Einstellungen sind
+lokal und werden nicht mitgeklont — direkt nach `git clone` setzen:
 
 ```powershell
 git config core.longpaths true                   # sonst "Filename too long"
@@ -218,120 +175,73 @@ python analysis_tools\secret_scan.py --install    # setzt core.hooksPath auf .gi
 
 ### Der pre-commit-Hook
 
-Der Hook liegt als **getrackte Datei** unter `.githooks/pre-commit` und ruft
-`analysis_tools/secret_scan.py` im Hook-Modus auf: findet er in einer gestagten
-Datei einen Schlüssel, endet er mit Exit-Code 1 und der Commit kommt nicht
-zustande. Der Wert wird dabei nie ausgegeben — gemeldet werden Datei, Position
-und Mustername.
-
-`--install` setzt lediglich `core.hooksPath` auf `.githooks`; es kopiert nichts
-nach `.git/hooks/`. Der Unterschied ist wesentlich: `.git/` wird nie geklont, ein
-dort installierter Hook schützt genau eine Maschine. Über `core.hooksPath` wirkt
-stattdessen die versionierte Datei, und eine spätere Änderung am Hook erreicht
-alle Beteiligten über `git pull`.
-
-Kontrolle, dass der Hook aktiv ist:
-
-```powershell
-git config --get core.hooksPath     # muss .githooks ausgeben
-```
+`.githooks/pre-commit` ruft `analysis_tools/secret_scan.py` auf. Findet der
+Scan in einer gestagten Datei einen Schlüssel, scheitert der Commit; gemeldet
+werden Datei, Position und Muster, nie der Wert. `--install` setzt nur
+`core.hooksPath` — so wirkt die versionierte Datei, und Änderungen am Hook
+kommen bei allen per `git pull` an (ein Hook in `.git/hooks/` würde nur eine
+Maschine schützen). Kontrolle: `git config --get core.hooksPath` muss
+`.githooks` ausgeben.
 
 ### Was der Scan nicht sieht
 
-Der Scan öffnet gzip-Ströme und tar-/zip-Archive und durchsucht deren Inhalt
-(bis `MAX_DEPTH = 3` Schachtelungen) — ein Schlüssel in einer komprimierten
-Datei bliebe einem reinen Byte-Scan sonst verborgen. Dateien über
-`MAX_BYTES = 20 MB` werden **nicht** durchsucht, aber seit dieser Fassung
-namentlich als „could NOT be scanned" gemeldet statt stillschweigend
-übersprungen. Betroffen ist derzeit genau eine getrackte Datei:
-`GPTScan/src/jars/SolidityStaticAnalysis-1.0-SNAPSHOT-standalone.jar`
-(20.852.934 Bytes). Eine Prüfung außer der Reihe mit angehobenem Limit ergab
-dort keinen Treffer; sie dauert allerdings rund 10 Sekunden, weshalb die Grenze
-für den Hook-Betrieb bestehen bleibt.
+Der Scan öffnet gzip-, tar- und zip-Inhalte (bis zu drei Ebenen tief). Dateien
+über 20 MB durchsucht er nicht, meldet sie aber namentlich als „could NOT be
+scanned“. Betroffen ist genau eine Datei,
+`GPTScan/src/jars/SolidityStaticAnalysis-1.0-SNAPSHOT-standalone.jar`; eine
+Prüfung mit angehobenem Limit fand dort nichts, dauert aber rund 10 s, deshalb
+bleibt die Grenze.
 
-## 8. Timeout-Verhalten und Prüfstand (AP5)
+## 8. Timeout und Prüfstand (AP5)
 
-Dieser Abschnitt nennt die Betriebsregeln (Marken, Kennzeichnung eines
-Teilergebnisses, Prüfstand ohne Kosten). Die Bedienung Schritt für Schritt,
-mit Aufrufen und Beispielausgaben, steht in `BA-WERKZEUG-BEDIENUNG.md`,
-Abschnitt 8; beide Abschnitte beschreiben denselben Mechanismus.
+Hier stehen die Regeln; die Bedienung mit Beispielausgaben steht in
+[`BA-WERKZEUG-BEDIENUNG.md`](BA-WERKZEUG-BEDIENUNG.md), Abschnitt 8.
 
-**Ausgangslage.** Keines der beiden Werkzeuge bringt einen Timeout für den
-gesamten Lauf mit — GPTScan kennt nur eine Frist je einzelnem LLM-Aufruf,
-LLMSmartAudit gar keine. Ohne eigenen Mechanismus greift deshalb ausschließlich
-der äußere Docker-Timeout (`sb/docker.py`): Der Container wird von außen
-abgeschossen, das Werkzeug erfährt nichts davon und kann kein Teilergebnis
-sichern. Seit AP5 rechnet der jeweilige Entrypoint aus dem von SmartBugs
-übergebenen `TIMEOUT` drei Marken:
+**Ausgangslage.** Keines der Werkzeuge kennt einen Timeout für den ganzen Lauf
+(GPTScan nur je LLM-Aufruf, LLMSmartAudit gar keinen). Ohne Gegenmaßnahme
+schießt SmartBugs den Container von außen ab, und kein Teilergebnis bleibt
+übrig. Seit AP5 rechnet der Entrypoint aus `TIMEOUT` drei Marken:
 
-| Marke | Anteil von `TIMEOUT` | Wirkung |
+| Marke | Anteil | Wirkung |
 |---|---|---|
-| Bremse | 70 %, mind. 1 s | Als absoluter Zeitstempel `SB_DEADLINE_EPOCH` exportiert. Nur **GPTScan** liest die Marke: Es stellt beim Erreichen keine neuen LLM-Aufrufe mehr und läuft danach regulär aus. **LLMSmartAudit liest `SB_DEADLINE_EPOCH` nicht** — der Export ist dort absichtlich wirkungslos, exportiert nur, damit beide Entrypoints dieselbe Marken-Rechnung teilen (Vergleichstest, siehe unten). |
-| Netz | 90 %, mind. 1 s | `timeout` beendet den Werkzeugprozess hart, falls die Bremse nicht gegriffen hat (bei LLMSmartAudit: immer, da es keine Bremse kennt). Der Entrypoint normalisiert den Exit-Code danach einheitlich auf **124** — auch wenn `timeout` selbst 143 oder 137 meldete. Bei LLMSmartAudit ist das Netz damit die **einzige** wirksame Stufe; der Entrypoint birgt danach den Zwischenstand, den `audit_report.record()` nach jeder Detektor-Phase abgelegt hat. |
-| Rest | verbleibende Zeit | Für den Entrypoint reserviert: Zwischenstand bergen, `sb_timeout` stempeln, `/output.json` garantieren. |
+| Bremse | 70 % | exportiert als `SB_DEADLINE_EPOCH`. Nur **GPTScan** liest sie: keine neuen LLM-Aufrufe, danach reguläres Auslaufen. LLMSmartAudit ignoriert sie; der Export hält nur beide Entrypoints gleich. |
+| Netz | 90 % | `timeout` beendet den Prozess hart, Exit-Code wird auf **124** normalisiert. Bei LLMSmartAudit die einzige wirksame Stufe; danach birgt der Entrypoint den letzten Zwischenstand. |
+| Rest | bis 100 % | Zwischenstand bergen, `sb_timeout` setzen, `/output.json` garantieren. |
 
-`--timeout 0` (kein `--timeout` gesetzt) schaltet den gesamten Mechanismus ab —
-das Verhalten bleibt dann verhaltensgleich zu vor AP5, damit die bereits
-gefahrenen Messläufe vergleichbar bleiben. Nicht ganz Byte für Byte: GPTScans
-`tasks.py` schreibt `llm_calls_skipped_deadline` und `deadline_exceeded`
-bedingungslos in die Metadaten, die `GPTSCAN_META`-Zeile hat also unabhängig
-von `--timeout` immer zwei Schlüssel mehr als vor AP5. Kein Parser stört sich
+`--timeout 0` schaltet alles ab; das Verhalten entspricht dann dem vor AP5.
+Einzige Ausnahme: GPTScans `GPTSCAN_META` enthält immer die zwei Felder
+`llm_calls_skipped_deadline` und `deadline_exceeded` — kein Parser stört sich
 daran.
 
-**Ein Teilergebnis erkennen.** Drei Stellen im Ergebnis zeigen es an:
+**Teilergebnis erkennen:**
 
-* Das Feld `sb_timeout` auf oberster Ebene des Reports —
-  `{"hit": true, "stage": "brake"|"net", "detail": "..."}`. Fehlt es, war der
-  Lauf vollständig.
-* In `result.json` erscheint ein Eintrag in `errors` mit dem Präfix
-  `TIMEOUT_` (`TIMEOUT_BRAKE` bzw. `TIMEOUT_NET`) — nie in `fails`, denn der
-  Lauf wurde absichtlich beendet, nicht ausgehebelt.
-* Bei LLMSmartAudit zusätzlich `categories_checked < categories_total` im
-  Report: wie viele der 41 Detektor-Phasen tatsächlich liefen. `checked == 0`
-  wird selbst ohne `sb_timeout` als `errors` gemeldet, damit eine leere
-  Findings-Liste nie stillschweigend als „sauber" gelesen wird.
+* Feld `sb_timeout` im Report (`{"hit": true, "stage": "brake"|"net", …}`);
+  fehlt es, war der Lauf vollständig.
+* Eintrag `TIMEOUT_BRAKE` oder `TIMEOUT_NET` in `errors` — nie in `fails`.
+* Bei LLMSmartAudit `categories_checked < categories_total`. `checked == 0`
+  wird auch ohne Timeout als `errors` gemeldet, damit eine leere Liste nie als
+  „sauber“ durchgeht.
 
-**Prüfstand ohne echte API-Kosten.** Da keines der beiden Werkzeuge einen
-Offline- oder Stub-Modus kennt (bei LLMSmartAudit geht selbst `LLM_MODEL=STUB`
-wörtlich an die API), gibt es seit AP5 einen lokalen, OpenAI-kompatiblen
-Ersatz-Endpunkt, der absichtlich langsam antwortet und damit den Timeout-Pfad
-kostenlos und deterministisch auslöst:
+**Prüfstand ohne API-Kosten.** Ein lokaler, OpenAI-kompatibler Endpunkt
+antwortet absichtlich langsam und löst den Timeout-Pfad kostenlos und
+reproduzierbar aus:
 
 ```powershell
 python -m testing_tools.fake_llm_endpoint --port 8099 --delay 30
 ```
 
-Aus dem Container ist der Host unter `host.docker.internal` erreichbar. Beide
-Werkzeuge lassen sich darauf umleiten:
-
 | Werkzeug | Umgebungsvariablen |
 |---|---|
-| GPTScan | `GPTSCAN_PROVIDER=custom` und `GPTSCAN_BASE_URL=http://host.docker.internal:8099` |
-| LLMSmartAudit | `LLM_PROVIDER=custom` und `LLM_BASE_URL=http://host.docker.internal:8099` |
+| GPTScan | `GPTSCAN_PROVIDER=custom`, `GPTSCAN_BASE_URL=http://host.docker.internal:8099` |
+| LLMSmartAudit | `LLM_PROVIDER=custom`, `LLM_BASE_URL=http://host.docker.internal:8099` |
 
-Der Provider `custom` ist bei beiden Werkzeugen mit Preis `0` hinterlegt — ein
-Lauf gegen den Prüfstand kann keine Kosten erzeugen, auch nicht versehentlich.
-`LLM_PROVIDER=custom` existierte für LLMSmartAudit bereits vor AP5 und ist über
-`smartbugs/tools/llmsmartaudit/config.yaml`s `env:`-Allowlist bereits
-containertauglich. `GPTSCAN_PROVIDER=custom`/`GPTSCAN_BASE_URL` sind mit AP5 neu
-in `GPTScan/src/llm_backend.py` hinzugekommen und für sich getestet (siehe
-`tests/test_gptscan_deadline.py`).
+Der Provider `custom` hat bei beiden Werkzeugen Preis 0 — auch versehentlich
+entstehen keine Kosten. Beide Variablenpaare stehen in der `env:`-Allowlist der
+jeweiligen `config.yaml` (für GPTScan nachgezogen in Commit `a2611ea`).
 
-> **Nachgetragen (Commit `a2611ea`):** `smartbugs/tools/gptscan/config.yaml`s
-> `env:`-Zeile führte `GPTSCAN_BASE_URL` zunächst nicht — nur
-> `GPTSCAN_PROVIDER`. Das ist behoben: die `env:`-Zeile führt inzwischen auch
-> `GPTSCAN_BASE_URL` und `GPTSCAN_API_KEY` (Mechanismus: Abschnitt 2 in
-> `docs/BA-WERKZEUG-BEDIENUNG.md`), ein `sb -t gptscan`-Lauf über SmartBugs
-> bekommt die Basis-URL damit in den Container gereicht. Belegt ist damit die
-> Durchreichung der Variablen bis an den Container; ein tatsächlicher
-> `sb -t gptscan`-Lauf gegen den Prüfstand-Endpunkt aus dem Container heraus
-> ist mit dem scharfen Lauf in Abschnitt 4.5 von
-> `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md` inzwischen belegt (siehe unten).
-
-**Was das nicht ersetzt.** Der Prüfstand belegt den Mechanismus in 32 eigenen Tests innerhalb einer
-grünen Suite und in einer Vorprüfung des `timeout`-Kommandos in beiden Images
-(`docs/BA-AP5-VORPRUEFUNG.md`). Der Nachweis im scharfen Betrieb — gegen einen
-echten, tatsächlich ablaufenden Endpunkt — ist erledigt (Commit `43c3f32`,
-Abschnitt 4.5 in `docs/BA-DURCHFUEHRUNGSPROTOKOLL.md`): je ein Contract pro
-Werkzeug zeigt, dass ein Teillauf nichts erfindet — nicht, wie viel ein
-Teillauf im Mittel verpasst (dortige Limitation 7).
+**Was belegt ist.** 32 Tests, eine Vorprüfung des `timeout`-Kommandos in beiden
+Images ([`BA-AP5-VORPRUEFUNG.md`](BA-AP5-VORPRUEFUNG.md)) und scharfe Läufe gegen
+einen echten Endpunkt (Commit `43c3f32`,
+[`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md), 4.5). Je ein
+Contract pro Werkzeug zeigt, dass ein Teillauf nichts erfindet — nicht, wie viel
+er im Mittel verpasst.

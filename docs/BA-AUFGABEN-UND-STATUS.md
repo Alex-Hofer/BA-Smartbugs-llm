@@ -1,7 +1,10 @@
 # Aufgaben und Status
 
-Was zu tun war, was davon erledigt ist, und was offen bleibt.
-Stand 2026-08-02. Ausführung dokumentiert in `BA-ARBEITSBERICHT-20260802.md`.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Was zu tun war, was wir davon erledigt haben und was offen bleibt.
+Stand 2026-08-02. Die Ausführung steht in
+[`BA-ARBEITSBERICHT-20260802.md`](BA-ARBEITSBERICHT-20260802.md).
 
 > **Datierter Bericht.** Die Zahlen und Statusangaben sind der Stand vom
 > 02.08.2026 (19 Läufe, 930 Tasks). Spätere Änderungen stehen in den
@@ -156,7 +159,7 @@ verworfen wird nichts.
 
 ---
 
-## Teil C — Was offen bleibt
+## Teil C — Was wir offen lassen
 
 > **Nachtrag 21.09.2026.** Teil C beschreibt den Stand vom 02.08.2026. Vier
 > Angaben sind seitdem überholt und unten an Ort und Stelle richtiggestellt:

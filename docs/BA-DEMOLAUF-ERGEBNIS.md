@@ -1,11 +1,14 @@
 # Demonstrationslauf GPTScan + LLMSmartAudit
 
-Datum: 2026-08-02. Zweck: Funktionsnachweis der Werkzeugkette an zwei
-Contract-Sätzen, mit sichtbarem inhaltlichem Kontrast. **Kein neuer Messwert
-für die Bachelorarbeit** — dafür ist die Stichprobe zu klein und die
-Werkzeugausgabe zu wenig deterministisch (siehe Abschnitt 8).
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
-Bedienung der Werkzeuge: `BA-WERKZEUG-BEDIENUNG.md`.
+Datum: 2026-08-02. Wir wollten zeigen, dass die Werkzeugkette funktioniert — an
+zwei Contract-Sätzen mit sichtbarem inhaltlichem Kontrast. **Als Messwert zählt
+das nicht:** dafür ist die Stichprobe zu klein und die Werkzeugausgabe zu wenig
+deterministisch (Abschnitt 8).
+
+Bedienung der Werkzeuge:
+[`BA-WERKZEUG-BEDIENUNG.md`](BA-WERKZEUG-BEDIENUNG.md).
 
 > **Datierter Bericht (02./03.08.2026), nicht nachgeführt.** Die fünf
 > Demoläufe stehen mit ihrem Zweck in `eval/LAUFREGISTER.md`. Das damals
@@ -22,7 +25,7 @@ Die Dateilisten `demolauf_satz*.sbd` im Wurzelverzeichnis sind versioniert.
 
 ---
 
-## 1. Was gelaufen ist
+## 1. Was wir laufen ließen
 
 | Satz | Datensatz | Contracts | Werkzeuge |
 |---|---|---:|---|
@@ -747,7 +750,7 @@ TOTAL                                             10       17     0
 
 ---
 
-## 8. Was das Ergebnis heißt — und was nicht
+## 8. Was wir daraus ablesen — und was nicht
 
 ### Was es zeigt
 

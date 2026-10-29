@@ -1,99 +1,68 @@
-# Errors und Fails in SmartBugs: Semantik und Herleitung
+# Errors und Fails in SmartBugs: Bedeutung und Herleitung
+
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
 SmartBugs schreibt in jede `result.json` vier Gruppen: `findings`, `infos`,
-`errors` und `fails`. Die beiden letzten werden oft in einen Topf geworfen. Sie
-bedeuten Verschiedenes, und für die Auswertung dieses Benchmarks ist der
-Unterschied entscheidend. Dieses Dokument leitet die Trennung aus dem Code her,
-statt sie zu behaupten.
+`errors` und `fails`. Die letzten beiden werden oft in einen Topf geworfen,
+bedeuten aber Verschiedenes — und für unsere Auswertung ist der Unterschied
+entscheidend. Deshalb leiten wir ihn aus dem Code her.
 
-## Wortwahl in dieser Arbeit
+## Begriffe
 
-Ein Scanner stellt keinen Fehler fest. Er äußert einen Verdacht. Diese Arbeit
-hält das sprachlich auseinander, weil sonst die zentrale Aussage des Benchmarks
-verschwimmt: gemessen wird nicht, wie viele Fehler ein Werkzeug findet, sondern
-wie gut seine Verdachtsfälle mit einer unabhängig festgestellten Ground Truth
-übereinstimmen.
+Ein Scanner stellt keinen Fehler fest, er äußert einen Verdacht. Wir halten das
+sprachlich auseinander:
 
-Maßgeblich ist, wer im Satz das Subjekt ist:
-
-| Subjekt | Wort | Beispiel |
+| Wer spricht | Wort | Beispiel |
 |---|---|---|
-| Ein **Werkzeug** meldet etwas über einen Contract | **Finding**, Verdachtsfall, Kandidat | „GPTScan meldet 77 Findings auf 40 Contracts" |
-| **Ground Truth oder Literatur** stellt etwas fest | Schwachstelle, Fehler | „curated annotiert eine Primär-Schwachstelle je Contract" |
-| Die **Ausführung** eines Werkzeugs geht schief | Fehler | „solc bricht mit einem Compile-Fehler ab" |
+| ein **Werkzeug** über einen Contract | **Finding**, Verdachtsfall, Kandidat | „GPTScan meldet 77 Findings auf 40 Contracts“ |
+| **Ground Truth oder Literatur** | Schwachstelle, Fehler | „curated labelt eine Schwachstelle je Contract“ |
+| die **Ausführung** eines Werkzeugs | Fehler | „solc bricht mit einem Compile-Fehler ab“ |
 
-Ein Finding wird erst durch den Abgleich mit der Ground Truth zum True oder
-False Positive. Vorher ist es keines von beidem, und die Sprache darf das nicht
-vorwegnehmen.
+Erst der Abgleich mit der Ground Truth macht ein Finding zum True oder False
+Positive. Um die dritte Zeile — Fehler des *Werkzeugs*, nicht des Contracts —
+geht es im Rest dieses Dokuments.
 
-Die dritte Zeile ist der Grund, warum das Wort „Fehler" hier nicht verschwindet:
-Compile-Fehler, Exit-Codes und Tracebacks sind echte Fehler. Sie betreffen den
-Zustand des *Werkzeugs*, nie den des Contracts. Genau davon handelt der Rest
-dieses Dokuments.
-
-### Was nicht umbenannt wird
-
-`findings`, `infos`, `errors` und `fails` sind Feldnamen von SmartBugs — in
-`result.json`, in SARIF und in den CSV-Spalten von `results2csv`. Sie bleiben
-unverändert; eine Umbenennung machte die Ausgabe dieses Repositorys
-inkompatibel zu dem Rahmenwerk, in das es sich einfügt. Aus demselben Grund
-heißt `analysis_tools/errors_fails_report.py` weiterhin so: „errors/fails" ist
-dort kein umgangssprachliches „Fehler", sondern der Name der beiden Felder.
+Die Feldnamen `findings`, `infos`, `errors` und `fails` lassen wir unverändert;
+sonst wäre unsere Ausgabe nicht mehr mit SmartBugs kompatibel. Deshalb heißt
+auch `analysis_tools/errors_fails_report.py` so.
 
 ## Die Quelle: `errors_fails()`
 
-Maßgeblich ist `smartbugs/sb/parse_utils.py:66-90`. Der Kommentar dort im
-Original benennt die Absicht:
+Maßgeblich ist `smartbugs/sb/parse_utils.py:66-90`. Der Kommentar im Original:
 
 ```python
 errors = set()  # errors detected and handled by the tool
 fails  = set()  # exceptions not caught by the tool, or outside events leading to abortion
 ```
 
-Daraus die Definition, die in dieser Arbeit durchgehend verwendet wird:
-
 | Klasse | Bedeutung |
 |---|---|
-| **error** | Das Werkzeug hat das Problem bemerkt, behandelt und weitergearbeitet. Das Ergebnis existiert, ist aber möglicherweise unvollständig. |
-| **fail** | Eine Exception ist dem Werkzeug entkommen, oder der Lauf wurde von außen abgebrochen. Das Ergebnis ist nicht zustande gekommen. |
+| **error** | Das Werkzeug hat das Problem bemerkt, behandelt und weitergearbeitet. Ein Ergebnis existiert, ist aber womöglich unvollständig. |
+| **fail** | Eine Exception ist entkommen, oder der Lauf wurde von außen abgebrochen. Ein Ergebnis gibt es nicht. |
 
-Eine dritte, oft übersehene Eigenschaft: **beides sind Mengen** (`set`). Zwei
-identische Meldungen in einem Task erscheinen nur einmal. Die Spalten
-`errors`/`fails` in `results2csv` zählen also *verschiedene Meldungen*, nicht
+Beides sind **Mengen**: Zwei gleiche Meldungen in einem Task zählen einmal. Die
+Spalten in `results2csv` zählen also *verschiedene Meldungen*, nicht
 *Vorkommen*.
 
-## Was `errors_fails()` konkret einordnet
-
-### Nach Exit-Code
-
-`parse_utils.py:71-85`:
+### Einordnung nach Exit-Code (`parse_utils.py:71-85`)
 
 | Exit-Code | Klasse | Meldung |
 |---|---|---|
 | `None` | fail | `DOCKER_TIMEOUT` — SmartBugs hat den Container abgebrochen |
 | `0` | — | nichts |
-| `127` | fail | Dateiname passte zu keinem Contract (Option `main`) |
-| `125`, `126`, `137`, `139`, `143` | fail | `DOCKER_*` aus der Tabelle `DOCKER_CODES` (`parse_utils.py:8-15`), u. a. `DOCKER_KILL_OOM` und `DOCKER_SEGV` |
+| `127` | fail | Dateiname passt zu keinem Contract (Option `main`) |
+| `125`, `126`, `137`, `139`, `143` | fail | `DOCKER_*`, u. a. `DOCKER_KILL_OOM`, `DOCKER_SEGV` |
 | `128`–`192` | fail | `DOCKER_RECEIVED_SIGNAL_<n>` |
 | alles andere | **error** | `EXIT_CODE_<n>` |
 
-Der letzte Fall ist die wichtige Feinheit: ein beliebiger Exit-Code ungleich
-null gilt als *error*, nicht als *fail*. Die Begründung steht als Kommentar im
-Upstream-Code (`parse_utils.py:84`): ein Werkzeug darf einen Exit-Code als
-Ergebniskanal benutzen. Genau das tut slither — es liefert 255, sobald es etwas
-gefunden hat. `smartbugs/tools/slither-0.11.3/parser.py:126` verwirft den Code
-deshalb ausdrücklich:
+Wichtig ist die letzte Zeile: Ein beliebiger Exit-Code ≠ 0 ist ein *error*, kein
+*fail*, weil ein Werkzeug den Exit-Code als Ergebniskanal nutzen darf
+(Kommentar in `parse_utils.py:84`). Slither tut genau das und liefert 255,
+sobald es etwas findet; sein Parser verwirft den Code deshalb
+(`errors.discard("EXIT_CODE_255")`). Daher gelten die 140 Slither-Tasks mit
+Exit 255 als sauber.
 
-```python
-errors.discard("EXIT_CODE_255")  # this code seems to be returned in any case
-```
-
-Das erklärt die 140 Tasks im slither-Lauf, die trotz Exit-Code 255 als sauber
-gelten. Es ist kein Fehler, sondern gewollt.
-
-### Nach Log-Inhalt
-
-`parse_utils.py:86-89` ergänzt anschließend:
+### Einordnung nach Log-Inhalt (`parse_utils.py:86-89`)
 
 ```python
 if log:
@@ -102,21 +71,16 @@ elif log_expected and not fails:
     fails.add("execution failed")
 ```
 
-`exceptions()` (`parse_utils.py:40-54`) erkennt
-
-* Python-Tracebacks — eine Zeile, die auf `Traceback (most recent call last):`
-  **endet**, danach gilt die erste *nicht eingerückte* Zeile als die Exception;
-* Shell-Abbrüche (`Segmentation fault`, `Killed`), Java-Exceptions und
-  Rust-Panics über die Muster in `parse_utils.py:32-37`.
-
-Alles, was `exceptions()` findet, landet in **fails**. Die Annahme dahinter: ein
-Traceback im Log heißt, die Exception ist entkommen.
+`exceptions()` erkennt Python-Tracebacks (eine Zeile, die auf
+`Traceback (most recent call last):` **endet**; danach gilt die erste *nicht
+eingerückte* Zeile als Exception), außerdem Shell-Abbrüche, Java-Exceptions und
+Rust-Panics. Alles davon landet in **fails** — die Annahme: Ein Traceback im Log
+heißt, die Exception ist entkommen.
 
 ## Warum GPTScan diese Annahme bricht
 
-GPTScan loggt über `rich`. Das rendert jeden Log-Record als hart umbrochenen,
-auf Konsolenbreite aufgefüllten Block und setzt rechtsbündig eine
-`quelle.py:ZEILE`-Marke an die erste Zeile:
+GPTScan loggt über `rich`, das jeden Eintrag hart umbricht und rechts eine
+`quelle.py:ZEILE`-Marke anhängt:
 
 ```
 [07:13:59] Traceback (most recent call last):                       tasks.py:177
@@ -125,95 +89,80 @@ auf Konsolenbreite aufgefüllten Block und setzt rechtsbündig eine
            platform/solc.py", line 575, in _run_solc
 ```
 
-Für `exceptions()` ist das unsichtbar: Die erste Zeile *endet* nicht auf
-`Traceback (most recent call last):`, und jede Folgezeile ist eingerückt, so
-dass die Abbruchbedingung nie greift.
+Für `exceptions()` ist das unsichtbar: Die Zeile endet nicht auf
+`Traceback (most recent call last):`, und alle Folgezeilen sind eingerückt.
 
-Erschwerend kommt hinzu, dass GPTScan ein gescheitertes Compilat **abfängt**:
-Ohne Falcon-IR wird die Static-Bestätigungsstufe übersprungen, der Lauf endet
-mit Exit-Code 0, und `output.json` enthält `{"success": true, "results": []}`.
-Vor der Parser-Überarbeitung vom 2026-08-02 war ein nicht übersetzbarer Contract
-damit von einem sauberen nicht zu unterscheiden — über die damals 19 Läufe betraf das
-**246 Tasks**, entsprechend **98 verschiedenen Contracts in 9 Läufen**. Der
-Hauptlauf `curated_v1_20260705` (143 Contracts) ist davon **nicht** betroffen:
-dort ist kein einziges Compilat gescheitert.
+Dazu kommt: GPTScan **fängt** ein gescheitertes Compilat ab, überspringt die
+statische Stufe, endet mit Exit 0 und schreibt `{"success": true, "results": []}`.
+Vor unserer Parser-Überarbeitung (02.08.2026) war ein nicht übersetzbarer
+Contract damit von einem sauberen nicht zu unterscheiden — betroffen waren
+**246 Tasks** (98 Contracts in 9 Läufen). Der Hauptlauf `curated_v1_20260705`
+nicht: Dort ist kein Compilat gescheitert.
 
-### Die Auflösung
+### Unsere Lösung
 
-`smartbugs/tools/gptscan/parser.py` entzerrt die `rich`-Umbrüche und benutzt das
-Rendering selbst als Unterscheidungsmerkmal:
+`smartbugs/tools/gptscan/parser.py` setzt die `rich`-Umbrüche wieder zusammen
+und nutzt das Rendering als Merkmal:
 
 | Traceback im Log | Klasse | Begründung |
 |---|---|---|
-| `rich`-gerendert (Zeitstempel bzw. Quellmarke vorhanden) | **error** | GPTScans eigener Logger hat es geschrieben, also hat GPTScan es abgefangen |
-| roh auf stderr | **fail** | dem Prozess entkommen; bleibt bei `errors_fails()` |
+| von `rich` gerendert (Zeitstempel bzw. Quellmarke) | **error** | GPTScans eigener Logger hat ihn geschrieben, also abgefangen |
+| roh auf stderr | **fail** | dem Prozess entkommen |
 
-Das Kriterium ist nicht erfunden, sondern am Material abgelesen: die 44 Tasks
-mit Exit-Code 1 tragen ihr Traceback roh auf stderr, während jedes abgefangene
-Compile-Problem durch den `rich`-Logger läuft.
+Das Kriterium haben wir am Material abgelesen: Die 44 Tasks mit Exit 1 tragen
+ihren Traceback roh auf stderr, jedes abgefangene Compile-Problem läuft durch
+`rich`.
 
-## Was ausdrücklich *kein* Fehler ist
+## Was *kein* Fehler ist
 
-Drei Beobachtungen sehen nach Defekten aus und sind keine. Weder das Audit
-(`analysis_tools/parser_audit.py`) noch die Parser werten sie als Fehler:
-
-1. **`vul_before_static > vul_after_static`** in `GPTSCAN_META`. Das ist
-   GPTScans Static-Bestätigungsstufe, die LLM-Kandidaten verwirft — der
-   bestimmungsgemäße False-Positive-Filter. Er greift bei etwa der Hälfte aller
-   Live-Contracts. Der Parser macht ihn als `info` sichtbar, damit er nicht mit
-   einem Defekt verwechselt wird.
-2. **Reine solc-Warnungen** in den `CryticCompile`-Records. Warnungen halten die
-   Analyse nicht auf. Umgekehrt gilt allerdings *nicht*, dass eine Warnung
-   harmlos wäre: mit `--combined-json` schreibt älteres solc Warnungen nach
-   stdout, was das JSON zerstört und crytic-compile abbrechen lässt. Ob das
-   Compilat gescheitert ist, entscheidet daher die geworfene Exception, nicht
-   das Wort „Warning".
-3. **slithers Exit-Code 255** (siehe oben).
+1. **`vul_before_static > vul_after_static`** in `GPTSCAN_META` — GPTScans
+   gewollter False-Positive-Filter, bei etwa der Hälfte der Contracts aktiv. Der
+   Parser zeigt ihn als `info`.
+2. **Reine solc-Warnungen.** Sie halten die Analyse nicht auf. Aber Vorsicht:
+   Älteres solc schreibt mit `--combined-json` Warnungen nach stdout, was das
+   JSON zerstört. Ob das Compilat gescheitert ist, entscheidet deshalb die
+   geworfene Exception, nicht das Wort „Warning“.
+3. **Slithers Exit-Code 255** (siehe oben).
 
 ## Ursache und Folgefehler
 
-Ein gescheitertes Compilat zieht eine Kette von Folgefehlern nach sich: ohne
-Falcon-IR laufen die Codepfade der Static-Stufe ins Leere und werfen
+Ein gescheitertes Compilat zieht Folgefehler nach sich, etwa
 `TypeError: 'NoneType' object is not subscriptable` oder
 `UnboundLocalError: local variable 'match_flag' referenced before assignment`.
-Diese Meldungen sind irreführend — sie benennen ein Symptom, nicht die Ursache.
-
-**Sie werden trotzdem unverändert ausgegeben.** Kein Filtern, kein Umschreiben.
-Die Einordnung geschieht in einer eigenen Spalte, die
-`analysis_tools/errors_fails_report.py` erzeugt:
+Sie benennen das Symptom, nicht die Ursache. **Wir geben sie trotzdem
+unverändert aus** und ordnen sie nur in einer eigenen Spalte von
+`errors_fails_report.py` ein:
 
 | Klassifikation | Bedeutung |
 |---|---|
-| `root_cause` | Die Meldung benennt das Compilat selbst |
-| `consequence` | Jede andere Meldung in einem Task, dessen Compilat gescheitert ist |
-| `independent` | Der Contract wurde übersetzt; die Meldung steht für sich |
+| `root_cause` | Meldung betrifft das Compilat selbst |
+| `consequence` | jede andere Meldung in einem Task mit gescheitertem Compilat |
+| `independent` | Contract wurde übersetzt; die Meldung steht für sich |
 
-Die Grundlage dafür liefert der Parser als `info`:
-„GPTScan analysis degraded: the contract did not compile, so the static
-confirmation stage never ran. Any 'no findings' result for this contract is
-inconclusive, not clean."
+Grundlage ist der `info`-Eintrag des Parsers: „GPTScan analysis degraded: the
+contract did not compile, so the static confirmation stage never ran. Any 'no
+findings' result for this contract is inconclusive, not clean.“
 
-## Konsequenz für die Auswertung
+## Folge für die Auswertung
 
-Ein Task ohne Findings ist nur dann *sauber*, wenn er auch weder Errors noch
-Fails trägt **und** sein Contract übersetzt wurde. Die Spalte
-*nicht übersetzt* in `docs/errors-fails.md` weist diese Tasks getrennt aus.
-`evaluate_curated.py` wertet ausschließlich die Spalte `findings` aus und bleibt
-von der Trennung unberührt — die Recall/Precision-Werte des Hauptlaufs
+Ein Task ohne Findings ist nur dann *sauber*, wenn er weder errors noch fails
+trägt **und** sein Contract übersetzt wurde; die Spalte *nicht übersetzt* in
+[`errors-fails.md`](errors-fails.md) weist diese Tasks getrennt aus.
+`evaluate_curated.py` wertet nur `findings` aus — Recall und Precision von
 `curated_v1_20260705` haben sich durch die Parser-Überarbeitung nicht geändert
-(Beleg: `docs/parser-fix-vorher-nachher.md`).
+([`parser-fix-vorher-nachher.md`](parser-fix-vorher-nachher.md)).
 
 ## Werkzeuge
 
 ```powershell
-# Bilanz über alle Läufe, als Markdown und CSV
+# Bilanz über alle Läufe
 python analysis_tools\errors_fails_report.py --md docs\errors-fails.md --csv docs\errors-fails.csv
 
-# Nur ein Lauf
+# ein einzelner Lauf
 python analysis_tools\errors_fails_report.py smartbugs\results\gptscan\curated_mwefixed_live
 
-# Prüfen, ob Rohsignal im Parser verlorengeht
+# geht Rohsignal im Parser verloren?
 python analysis_tools\parser_audit.py
 ```
 
-`run_curated.ps1` ruft den Report am Ende jedes Massenlaufs automatisch auf.
+`run_curated.ps1` ruft den Report nach jedem Massenlauf selbst auf.

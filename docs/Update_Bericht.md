@@ -1,5 +1,7 @@
 # Update-Bericht zum Arbeitsstand
 
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
 **Bachelorarbeit: KI-gestützte Smart-Contract-Scanner im SmartBugs-Framework**
 
 | | |
@@ -623,10 +625,10 @@ gescheiterte Angriffe sagt nichts über seine eigene Strenge aus. In vier Fälle
 erwies sich der Verdacht als unbegründet und die Dokumentation als richtig; das
 ist protokolliert.
 
-Elf bestätigte Befunde wurden nach Schwere geordnet; sieben davon sind behoben
-(Abschnitt 6.4), sechs bewusst offen geblieben (Abschnitt 9 und 10) — jeweils
-mit Begründung, warum die Entscheidung den Verfassern der Arbeit vorbehalten
-bleibt.
+Elf bestätigte Befunde haben wir nach Schwere geordnet; sieben davon sind
+behoben (Abschnitt 6.4), sechs haben wir bewusst offen gelassen (Abschnitte 9
+und 10) — jeweils mit Begründung, warum wir uns diese Entscheidung
+vorbehalten.
 
 ---
 

@@ -1,11 +1,12 @@
 # Die Werkzeugkette als Abbildung
 
-Stand 24.09.2026. Zwei Diagramme in Mermaid-Notation, damit sie im Repository
-versioniert bleiben und GitHub sie direkt darstellt. Sie zeigen nichts Neues,
-sondern fassen zusammen, was `README.md` („Docker: was im Container läuft und
-was nicht“), [`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](../GPTScan/docs/SMARTBUGS_INTEGRATION.md)
-und [`BA-AP5-TIMEOUT-DESIGN.md`](BA-AP5-TIMEOUT-DESIGN.md) im Text beschreiben.
-Es kommen keine neuen Zahlen vor.
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Zwei Diagramme in Mermaid-Notation (GitHub stellt sie direkt dar). Sie fassen
+zusammen, was `README.md` („Docker: was im Container läuft und was nicht“),
+[`GPTScan/docs/SMARTBUGS_INTEGRATION.md`](../GPTScan/docs/SMARTBUGS_INTEGRATION.md)
+und [`BA-AP5-TIMEOUT-DESIGN.md`](BA-AP5-TIMEOUT-DESIGN.md) im Text beschreiben —
+ohne neue Inhalte oder Zahlen. Stand 24.09.2026.
 
 ## 1. Weg eines Tasks: vom Runner bis zur Auswertung
 
@@ -109,20 +110,11 @@ Nachgewiesen ist die Mechanik in `BA-DURCHFUEHRUNGSPROTOKOLL.md` Abschnitt 4.5
 
 ## Diagramme exportieren
 
-Das Repository enthält bewusst keine Bilddateien; die Diagramme werden aus den
-Mermaid-Blöcken gerendert. Wer sie als Bild braucht, etwa für einen Vortrag,
-hat drei Wege, alle ohne Binärdatei hier:
+Wir legen bewusst keine Bilddateien ab. Wer die Diagramme als Bild braucht:
 
-1. **GitHub-Ansicht:** Die Datei im Browser öffnen; GitHub rendert die
-   Mermaid-Blöcke. Ein Rechtsklick auf das Diagramm erlaubt „Bild speichern“
-   (PNG in Bildschirmauflösung).
-2. **mermaid-cli:** Den Codeblock in eine Datei `kette.mmd` kopieren und
-   `mmdc -i kette.mmd -o kette.pdf` (oder `.svg`) ausführen. `mmdc` kommt aus
-   dem npm-Paket `@mermaid-js/mermaid-cli` und braucht Node.js; PDF und SVG
-   sind vektorbasiert und für LaTeX geeignet (`\includegraphics` für PDF,
-   `svg`-Paket für SVG).
-3. **mermaid.live:** Den Codeblock in den Online-Editor einfügen und als SVG
-   oder PNG herunterladen; im Repository landet nichts davon.
-
-Ändert sich die Kette, ist diese Datei nachzuführen; exportierte Bilder sind
-dann neu zu erzeugen.
+1. **GitHub:** Datei im Browser öffnen, Rechtsklick auf das Diagramm, „Bild
+   speichern“.
+2. **mermaid-cli:** Codeblock nach `kette.mmd` kopieren,
+   `mmdc -i kette.mmd -o kette.pdf` (oder `.svg`); `mmdc` stammt aus
+   `@mermaid-js/mermaid-cli` (Node.js).
+3. **mermaid.live:** Codeblock einfügen, als SVG oder PNG herunterladen.

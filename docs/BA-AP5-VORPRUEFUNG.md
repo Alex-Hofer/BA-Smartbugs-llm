@@ -1,9 +1,11 @@
 # AP5 Vorprüfung: `timeout`-Kommando in den Docker-Images
 
-Diagnostische Prüfung für AP5 (Timeout-Mechanismus für die LLM-gestützten
-Analysewerkzeuge). Klärt, ob das POSIX-Kommando `timeout` in beiden
-Tool-Images vorhanden ist und mit welchem Exit-Code es bei Ablauf meldet.
-Von diesem Befund hängen die späteren Aufgaben 4 und 8 ab.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Bevor wir AP5 (Timeout-Mechanismus für die LLM-gestützten Analysewerkzeuge)
+gebaut haben, mussten wir eines wissen: Ist das POSIX-Kommando `timeout` in
+beiden Tool-Images überhaupt vorhanden, und mit welchem Exit-Code meldet es bei
+Ablauf? Davon hängen unsere späteren Aufgaben 4 und 8 ab.
 
 **Datum der Messung:** 2026-08-17
 **Host:** Docker Desktop, Server 29.0.1 (Windows)

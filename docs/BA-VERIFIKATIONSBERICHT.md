@@ -1,12 +1,16 @@
 # Verifikationsbericht
 
-Unabhängige Überprüfung der Arbeit vom 2026-08-02, dokumentiert in
-`BA-ARBEITSBERICHT-20260802.md` und `BA-AUFGABEN-UND-STATUS.md`.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
-**Maßstab:** Jede Behauptung wurde mit dem Ziel geprüft, sie zu *widerlegen*.
-Jede Aussage in diesem Bericht ist mit dem tatsächlich ausgeführten Befehl
-belegt. Befunde aus der ersten Durchsicht sind nur dann als bestätigt
-geführt, wenn sie anschließend selbst nachgerechnet wurden.
+Wir haben unsere Arbeit vom 2026-08-02 — dokumentiert in
+[`BA-ARBEITSBERICHT-20260802.md`](BA-ARBEITSBERICHT-20260802.md) und
+[`BA-AUFGABEN-UND-STATUS.md`](BA-AUFGABEN-UND-STATUS.md) — noch einmal
+unabhängig überprüft.
+
+**Unser Maßstab:** Jede Behauptung haben wir mit dem Ziel geprüft, sie zu
+*widerlegen*, und jede Aussage hier mit dem tatsächlich ausgeführten Befehl
+belegt. Befunde aus der ersten Durchsicht führen wir nur dann als bestätigt,
+wenn wir sie anschließend selbst nachgerechnet haben.
 
 Stand: 2026-08-02. Rohdaten und Prüfskripte lagen in einem temporären
 Arbeitsverzeichnis; die verwendeten Befehle stehen bei jedem Punkt.

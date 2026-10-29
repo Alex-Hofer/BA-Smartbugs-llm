@@ -1,5 +1,7 @@
 # KI-Scanner im SmartBugs-Framework — Auswertung der v2-Läufe über `mwevariety_fixed` (Stand 18.08.2026)
 
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
 **Werkzeuge:** GPTScan · LLMSmartAudit (llmaudit)
 **Korpus:** `mwevariety_fixed`, 96 DeFi-Contracts
 **Modell (beide):** deepseek / deepseek-v4-flash
@@ -15,13 +17,13 @@
 
 ---
 
-## 1. Was ist passiert? (Vorgehen)
+## 1. Was wir gemacht haben
 
 **Ausgangslage.** Beide Werkzeuge sind in SmartBugs als Docker-Integration
-eingebunden und wurden über denselben, zuvor rekonstruierten Korpus von 96
-Contracts geschickt (`mwevariety_fixed`: 96/96 nativ kompilierbar). Ziel war ein
-Volllauf beider Scanner mit gesetztem **MAIN-Parameter**, um Findings, Kosten,
-Laufzeit und Fehlerverhalten unter Realbedingungen zu erheben.
+eingebunden, und wir haben sie über denselben, zuvor rekonstruierten Korpus von
+96 Contracts geschickt (`mwevariety_fixed`: 96/96 nativ kompilierbar). Unser
+Ziel war ein Volllauf beider Scanner mit gesetztem **MAIN-Parameter**, um
+Findings, Kosten, Laufzeit und Fehlerverhalten unter Realbedingungen zu erheben.
 
 ### GPTScan-Lauf (`gptscan_mwefixed_v2_main`)
 
@@ -31,7 +33,7 @@ Laufzeit und Fehlerverhalten unter Realbedingungen zu erheben.
   unverändert belassen.
 - Besonderheit im Vorgehen: Drei Contracts scheiterten im Hauptlauf mit
   **Exit 127** (Dateiname benennt keinen im File enthaltenen Contract → `--main`
-  hat kein Reduktionsziel). Sie wurden in einem **Nachlauf ohne MAIN** aufgelöst
+  hat kein Reduktionsziel). Wir haben sie in einem **Nachlauf ohne MAIN** aufgelöst
   und sind in der Spalte `function_source` als „voll" erkennbar.
 
 ### LLMSmartAudit-Lauf (`llmsa_mwefixed_v2`)
@@ -49,7 +51,7 @@ Laufzeit und Fehlerverhalten unter Realbedingungen zu erheben.
 
 ### Relabeling / einheitliche Zustandssemantik
 
-Beide Läufe wurden nach derselben, aus dem SmartBugs-Quelltext hergeleiteten
+Beide Läufe haben wir nach derselben, aus dem SmartBugs-Quelltext hergeleiteten
 Terminologie ausgewertet (`docs/BA-ERRORS-VS-FAILS.md`):
 
 - **Finding** – das Werkzeug äußert einen Verdacht über den Contract (noch kein
@@ -61,7 +63,7 @@ Terminologie ausgewertet (`docs/BA-ERRORS-VS-FAILS.md`):
 
 ---
 
-## 2. Was war das Outcome? (Ergebnisse)
+## 2. Was dabei herauskam
 
 ### 2.1 GPTScan — `gptscan_mwefixed_v2_main`
 
@@ -101,7 +103,7 @@ Terminologie ausgewertet (`docs/BA-ERRORS-VS-FAILS.md`):
 | Kosten (geschätzt) | ≈ **$8,00** — das Werkzeug meldet $0,0000 (keine Preistabelle für `deepseek-v4-flash`); maßgeblich bleibt die DeepSeek-Rechnung |
 | Summe Task-Laufzeit | 88.440 s (≈ 24,6 h) |
 
-- Auf den 55 analysierten Contracts wurden Findings breit gestreut gemeldet;
+- Auf den 55 analysierten Contracts meldete das Werkzeug Findings breit gestreut;
   häufigste Kategorien: **Centralization Risk (43)**, **Precision Loss /
   Integer-Division Truncation (30)**, **Missing Access Control (24)**, **Single
   External Oracle Dependency (24)**. Contracts mit den meisten Findings:
@@ -131,7 +133,7 @@ analysiert wurde.
 
 ---
 
-## 3. Offene Präzisierung
+## 3. Was wir noch präzisieren müssen
 
 Das Token-Problem erscheint in den Daten als *pro-Contract-Kontextüberschreitung*
 (37 Contracts). Falls zusätzlich ein **globaler Quota-/Budget-Stopp** vorlag

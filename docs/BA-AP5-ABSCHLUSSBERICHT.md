@@ -1,26 +1,22 @@
 # AP5 — Timeout ins Werkzeug durchreichen: Abschlussbericht
 
-Gesamtdarstellung des Arbeitspakets AP5: was gebaut wurde, wie es funktioniert,
-was belegt ist und was nicht, wie es entstand, und was offen bleibt.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
-Branch `ap5-timeout`, abgezweigt von `main` bei `f03fe98` · Stand: 2026-08-18
+Alles zum Arbeitspaket AP5: was wir gebaut haben, wie es funktioniert, was
+belegt ist und was nicht, und was offen bleibt. Stand 18.08.2026 (Branch
+`ap5-timeout`, inzwischen in `main` aufgegangen).
 
-> **Nachtrag 25.09.2026.** Datierter Bericht. Der Branch ist in `main`
-> aufgegangen; AP5 ist seit dem 18.08.2026 im Einsatz (`README.md`,
-> `BA-BETRIEB.md` 8). Die Zeile „SmartBugs `sb/` 5“ in Abschnitt 6 zählt gegen
-> den Tag `v2.1.1`; gegen den tatsächlich geklonten Upstream-Stand `7ddaf6c`
-> sind es 2 Dateien (`BA-EIGENANTEIL.md` 2.1). Von den offenen Punkten in
-> Abschnitt 8 ist der Merge erledigt; eine Kostenzahl aus dem
-> Anbieter-Dashboard liegt für die Altläufe weiterhin nicht vor, für neue
-> Läufe protokollieren die Runner seit dem 24.09.2026 die Abbuchung
-> (`BA-BETRIEB.md` 3); ob der Schlüssel getauscht wurde, ist im Repository
-> nicht dokumentiert.
+> **Nachtrag 25.09.2026.** AP5 ist seit dem 18.08.2026 im Einsatz
+> ([`BA-BETRIEB.md`](BA-BETRIEB.md) 8). Die Zahl „SmartBugs `sb/` 5“ in
+> Abschnitt 3.5 zählt gegen den Tag `v2.1.1`; gegen den tatsächlich geklonten
+> Stand `7ddaf6c` sind es 2 Dateien ([`BA-EIGENANTEIL.md`](BA-EIGENANTEIL.md)
+> 2.1). Seit dem 24.09.2026 protokollieren die Runner die tatsächliche
+> Abbuchung je Lauf.
 
-Zugehörige Dokumente: `BA-AP5-TIMEOUT-DESIGN.md` (Entwurf),
-`BA-AP5-VORPRUEFUNG.md` (Vorprüfung), `BA-DURCHFUEHRUNGSPROTOKOLL.md`
-(Messläufe). Der Schritt-für-Schritt-Arbeitsplan, nach dem die 14 Aufgaben
-umgesetzt wurden, ist am 25.09.2026 aus dem Repository entfernt worden; was er
-festlegte, steht in diesem Bericht und im Code.
+Dazu gehören [`BA-AP5-TIMEOUT-DESIGN.md`](BA-AP5-TIMEOUT-DESIGN.md) (Entwurf),
+[`BA-AP5-VORPRUEFUNG.md`](BA-AP5-VORPRUEFUNG.md) (Vorprüfung) und
+[`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md) 4.5
+(Messläufe).
 
 ---
 
@@ -206,7 +202,7 @@ keinem Lauf wirksam. Nach dem Neubau erneut gefahren:
 * **GPTScan scharf**, Voll- und Teillauf — bestätigt die beabsichtigte Wirkung
   (Abschnitt 4), Kosten $0,0124.
 
-**Nicht** erneut gefahren wurde der scharfe LLMSmartAudit-Lauf: die Korrektur
+Den scharfen LLMSmartAudit-Lauf haben wir **nicht** erneut gefahren: die Korrektur
 betrifft ausschließlich GPTScan-Quelltext, LLMSmartAudits Netz-Pfad ist am
 Prüfstand verifiziert, und ein Wiederholungslauf hätte rund $0,03 gekostet, ohne
 eine geänderte Codezeile zu berühren. Der Teilmengen-Nachweis in 3.3 bleibt damit
@@ -215,8 +211,8 @@ die Erstmessung. Zahlen zu allem in Abschnitt 4.5.6 von
 
 ### 3.3 Der Teilmengen-Nachweis
 
-Die zentrale Frage lautete: **Erfindet ein Teilergebnis Findings?** Sie wurde in
-zwei Tests zerlegt, weil nur einer den Mechanismus prüft:
+Unsere zentrale Frage lautete: **Erfindet ein Teilergebnis Findings?** Wir haben
+sie in zwei Tests zerlegt, weil nur einer den Mechanismus prüft:
 
 * **Kein Finding aus einem Detektor, der nie lief** — ausnahmslos bestanden. Das
   ist die eigentliche Zusage.
@@ -286,7 +282,7 @@ Nein, Static-Prompts unverändert. Der Budget-Zweig behält `dry_sentinel` — e
 ein Kostenstopp, kein Zeitablauf, und seine Oberschranken-Antwort ist dort
 gewollt. Zwei Tests halten das fest; beide fallen gegen die Fassung davor.
 
-**Die Wirkung ist gemessen, nicht nur begründet.** Voll- und Teillauf wurden mit
+**Die Wirkung ist gemessen, nicht nur begründet.** Voll- und Teillauf haben wir mit
 dem korrigierten Code wiederholt (`5_Router.sol`, DeepSeek `deepseek-v4-flash`,
 $0,0124):
 
@@ -305,158 +301,83 @@ historischer Messwert stehen, mit der Gegenprobe daneben (Abschnitt 4.5.6).
 
 ---
 
-## 5. Korrekturen an Projektangaben
+## 5. Was wir nebenbei richtiggestellt haben
 
-Die Umsetzung hat drei Angaben berichtigt, die anderswo im Repository stehen:
-
-1. **Die „rund 76 s je Contract" sind falsch verstanden worden.** Der Wert ist
-   Wall-Clock geteilt durch 143 bei `--processes 4` (10 935 s / 143), also
-   Durchsatz, keine Bearbeitungszeit. Aus den 143 `smartbugs.json` des
-   Referenzlaufs ergibt sich: **Mittel 299,2 s, Median 264,1 s, Spanne
-   150,8–923,2 s**. Der Volllauf dieses Arbeitspakets (719,9 s) liegt darin —
-   gegen 76 s gehalten hätte er wie eine neunfache Regression ausgesehen.
-2. **Die dokumentierte Image-Reduktion stimmt.** Der Neubau des
-   LLMSmartAudit-Images landet bei **586 MB**. `BA-EIGENANTEIL.md` nannte zum
-   Zeitpunkt dieses Berichts 590 MB und nennt seit dem Neubau vom 20.09.2026
-   **587 MB**; die Spanne 586–590 MB ist Messrauschen zwischen einzelnen
-   Builds, nicht ein Widerspruch. Das lokal vorliegende 5,13-GB-Image war
-   ein Stand vor dieser Arbeit.
-3. **`BA-EIGENANTEIL.md:47` („je vier Dateien nach dem SmartBugs-Schema") ist
-   überholt.** Der gptscan-Skriptordner hatte schon vor AP5 fünf Dateien und hat
-   jetzt sechs. Die Randbedingung bleibt eingehalten, weil derselbe Abschnitt den
-   Ordner als vollständig selbst geschrieben führt.
+1. **„Rund 76 s je Contract“ war Durchsatz, keine Bearbeitungszeit** (10 935 s
+   Wanduhr / 143 Contracts bei 4 Prozessen). Tatsächlich: **Mittel 299,2 s,
+   Median 264,1 s, Spanne 150,8–923,2 s**. Gegen 76 s gehalten hätte unser
+   Volllauf (719,9 s) wie eine neunfache Verschlechterung ausgesehen.
+2. **Die Image-Verkleinerung stimmt.** Der Neubau landet bei 586 MB; die
+   Spanne 586–590 MB zwischen einzelnen Builds ist Rauschen. Das
+   5,13-GB-Image war ein Stand vor unserer Arbeit.
+3. **„Je vier Dateien nach dem SmartBugs-Schema“ war überholt** — der
+   GPTScan-Skriptordner hat inzwischen sechs Dateien, alle selbst geschrieben.
 
 ---
 
-## 6. Material für AP7 (Meta-Findings)
+## 6. Was wir daraus über LLM-Werkzeuge gelernt haben (für AP7)
 
-Fünf belegte Punkte, alle in dieser Umsetzung entstanden:
-
-1. **Kein Werkzeug bringt einen Timeout für den Lauf mit.** GPTScan kennt eine
-   Frist je LLM-Aufruf, LLMSmartAudit gar keine.
-2. **Ob ein Teilergebnis rettbar ist, hängt an der Ablageform** — inkrementell
-   gegen Endaggregation. Dieselbe Anforderung erzwang zwei verschiedene Lösungen.
-3. **Die Host/Container-Grenze verläuft entlang des LLM-SDK-Stacks.** Alles, was
-   `openai` oder `tiktoken` anfasst, ist nur im Container ladbar; Konfiguration,
-   Parser und Auswertung laufen auf dem Host. Das begrenzt, was sich ohne
-   Container prüfen lässt, und hat hier zweimal die Testform bestimmt.
-4. **`errors` gegen `fails` lässt sich am Timeout anschaulich zeigen.** In
-   `tests/test_llmsmartaudit_parser.py` stehen nun zwei Fälle nebeneinander:
-   `exit_code=None` (von außen abgeschossen, nichts geborgen) → `fails`;
-   `exit_code=124` mit geborgenem Zwischenstand → `errors`.
-5. **Kein Offline-Modus in den Werkzeugen — jetzt behoben.** Bisher kostete jeder
-   Test, der einen Timeout auslösen sollte, echtes Geld. Der lokale
-   Ersatz-Endpunkt (`testing_tools/fake_llm_endpoint.py`) schließt das und nützt
-   auch AP4 (Nachbaubarkeit ohne API-Schlüssel).
+1. **Kein Werkzeug bringt einen Lauf-Timeout mit** — GPTScan nur eine Frist je
+   Aufruf, LLMSmartAudit gar keine.
+2. **Ob ein Teilergebnis zu retten ist, hängt an der Ablageform** —
+   Zwischenstand je Phase oder Zusammenführen am Ende. Dieselbe Anforderung
+   brauchte zwei Lösungen.
+3. **Die Grenze Host/Container verläuft entlang des LLM-SDKs.** Alles, was
+   `openai` oder `tiktoken` braucht, läuft nur im Container; Konfiguration,
+   Parser und Auswertung auf dem Host. Das hat zweimal bestimmt, wie wir testen
+   konnten.
+4. **`errors` gegen `fails` zeigt sich am Timeout besonders klar:** von außen
+   abgeschossen (`exit_code=None`, nichts geborgen) → `fails`; Exit 124 mit
+   geborgenem Zwischenstand → `errors`.
+5. **Ohne Offline-Modus kostet jeder Test Geld.** Unser Prüfstand
+   (`testing_tools/fake_llm_endpoint.py`) schließt diese Lücke.
 
 ---
 
 ## 7. Wie es entstanden ist
 
-14 Aufgaben, jede einzeln umgesetzt, gegen den Plan durchgesehen und abgenommen;
-an vier Stellen war eine Nachbesserungsrunde nötig. Bei den Durchsichten kamen
-**ein schwerwiegender und vier gewichtige Mängel** zutage; keiner davon im
-Produktivcode.
+Wir haben AP5 in 14 kleine Aufgaben zerlegt und jede einzeln umgesetzt und
+gegengelesen. Dabei fielen ein schwerer und vier gewichtige Mängel auf — keiner
+im eigentlichen Code, alle in Tests oder Dokumentation, die schwächer waren als
+die Behauptung, die sie stützen sollten:
 
-**Alle fünf betrafen Tests oder Dokumentation, die schwächer waren als die
-Behauptung, die sie stützen sollten** — und alle fünf standen so bereits im
-Arbeitsplan, entstanden also nicht erst bei der Umsetzung:
-
-| Fund | Was daran falsch war |
+| Aufgabe | Mangel |
 |---|---|
-| Aufgabe 2 | Ein Test importierte ein Modul, das auf dem Host nicht ladbar ist |
-| Aufgabe 5 | Der Test des häufigeren Falls lief per `or`-Kurzschluss am geprüften Zweig vorbei |
-| Aufgabe 7 (a) | Der Fehlertest konnte gar nicht fehlschlagen — er war schon vor der Implementierung grün |
-| Aufgabe 7 (b) | Der Zwischenstand wurde nicht atomar geschrieben; ein Kill im Schreibfenster hätte den letzten guten Stand vernichtet |
-| Aufgabe 12 | Die Dokumentation behauptete einen Test, den es nicht gibt |
+| 2 | Ein Test importierte ein Modul, das auf dem Host nicht ladbar ist |
+| 5 | Der Test des häufigeren Falls lief per `or`-Kurzschluss am geprüften Zweig vorbei |
+| 7 (a) | Ein Fehlertest war schon vor der Implementierung grün, konnte also nie fehlschlagen |
+| 7 (b) | Der Zwischenstand wurde nicht atomar geschrieben; ein Abbruch im falschen Moment hätte den letzten guten Stand zerstört |
+| 12 | Die Doku nannte einen Test, den es nicht gab |
 
-Bemerkenswert an der Verteilung: Der Produktivcode war durchgehend in Ordnung.
-Was fehlte, war die Strenge der Belege. An zwei Stellen haben wir deshalb
-zusätzlich mit Mutationstests nachgesetzt — die eigenen Tests gegen absichtlich
-kaputte Fassungen des Codes laufen lassen, um zu zeigen, dass sie dort auch
-wirklich fehlschlagen.
+An zwei Stellen haben wir deshalb Mutationstests nachgeschoben — die Tests
+gegen absichtlich kaputten Code laufen lassen, um zu sehen, dass sie dort
+wirklich rot werden.
 
-**Eine Lücke fiel bei keiner Aufgabe auf:** `GPTSCAN_BASE_URL` und
-`GPTSCAN_API_KEY` fehlten in der `env:`-Zeile der `config.yaml`, wodurch der frei
-wählbare Endpunkt aus einem SmartBugs-Lauf unerreichbar gewesen wäre. Sie lag
-außerhalb dessen, was Auftrag und Diff abdecken — neue Konfiguration, die sich
-auf Verrohrung an anderer Stelle verlässt. Das ist die systematische Blindstelle
-einer Durchsicht, die sich an den geänderten Zeilen orientiert.
+Bei der abschließenden Durchsicht des ganzen Branchs (Commit `a34f3067`) kamen
+noch Fehler an den Nähten dazu, u. a.: Zwei Dokumente und ein Kommentar im
+Entrypoint behaupteten, LLMSmartAudit lese die Bremse — tut es nicht.
+`run_full_v2.ps1` schrieb „AP5 offen“ in die `run_meta.json` jedes künftigen
+Laufs. Drei Dokumente führten den scharfen Lauf noch als ausstehend. Und im
+LLMSmartAudit-Timeout-Test fehlte ausgerechnet `assert fails == set()`.
+Außerdem fehlten `GPTSCAN_BASE_URL` und `GPTSCAN_API_KEY` in der `env:`-Zeile
+der `config.yaml`, sodass der Prüfstand aus einem SmartBugs-Lauf heraus nicht
+erreichbar gewesen wäre (nachgezogen in `a2611ea`).
+
+Was wir daraus mitnehmen:
+
+1. **Nur den Diff zu lesen reicht nicht.** Zwei Aussagen wurden durch unsere
+   Änderungen *falsch*, ohne dass jemand sie angefasst hätte.
+2. **Wer Doku vor dem Nachweis schreibt, muss sie danach gegen das Ergebnis
+   prüfen** — sonst steht „ausstehend“ neben einem längst gelieferten Lauf.
+3. **Wenn eine Korrektur mit „bricht Test X“ abgelehnt wird, Test X öffnen.**
+   Bei einer der Falschaussagen oben war genau so ein Test nie vorhanden.
 
 ---
 
-## 8. Offene Punkte
+## 8. Offen
 
-| Punkt | Wem gehört die Entscheidung |
+| Punkt | Stand |
 |---|---|
-| `ap5-timeout` nach `main` mergen und pushen? | Projektinhaber |
-| DeepSeek-Schlüssel tauschen (war zwischenzeitlich im Klartext außerhalb der Schlüsseldatei sichtbar) | Projektinhaber |
-| Belastbare Kostenzahl für LLMSmartAudit aus dem DeepSeek-Dashboard | optional |
-
-Erledigt, seit die Abschluss-Durchsicht sie aufgeworfen hat: der eigene neutrale
-Platzhalter für den Deadline-Pfad (Abschnitt 4), das fehlende
-`assert fails == set()` im LLMSmartAudit-Timeout-Test, und der Commit der drei
-AP5-Dokumente — ohne ihn zeigten nach einem Merge sieben Verweise ins Leere,
-darunter einer in `BA-BETREUERGESPRAECH-AUFGABEN.md`.
-
----
-
-## 9. Ergebnis der Abschluss-Durchsicht
-
-Zum Schluss haben wir den Branch als Ganzes durchgesehen, nicht mehr Aufgabe für
-Aufgabe. **Urteil zu diesem Zeitpunkt: noch nicht merge-reif** — ein
-schwerwiegender Punkt, sechs gewichtige, sieben neue geringfügige. Der
-Mechanismus selbst war solide; sämtliche Mängel lagen an den Nähten und in der
-Dokumentation.
-
-**Als tragfähig bestätigt**, jeweils am Quelltext nachgeprüft statt aus den
-Aufgabenberichten übernommen:
-
-* der Deadline-Wächter als exakter Zwilling des Budget-Wächters, an derselben
-  Messstelle,
-* der absolute Zeitstempel als richtige Wahl für die Prozessgrenze,
-* die Fehlerrichtung: ein unlesbarer Wert schaltet den Wächter ab, statt ihn
-  auszulösen,
-* das `custom`-Gate, das keinen bezahlten Anbieter umleiten kann,
-* der atomare Flush samt einer Testfassung, die die Invariante wirklich belegt,
-* die Exit-Code-Normalisierung, geprüft gegen die echte `DOCKER_CODES`-Tabelle,
-* die automatische Redaktion des neuen Schlüsselnamens durch `sb/docker.py`,
-* die Randbedingung 7 / 9 / 5.
-
-**Behoben mit Commit `a34f3067`:**
-
-| Punkt | Was falsch war |
-|---|---|
-| I1 | Zwei Dokumente behaupteten, LLMSmartAudit prüfe die Bremse zwischen den Phasen. Es liest `SB_DEADLINE_EPOCH` nicht. |
-| I2 | Dieselbe Falschaussage an ihrer Quelle — im wörtlich gespiegelten Kommentar des LLMSmartAudit-Entrypoints. |
-| I3 | `run_full_v2.ps1` stempelte `timeout_enforced_by = 'docker only (AP5 offen…)'` in die `run_meta.json` **jedes künftigen** Laufs: eine maschinenlesbare Falschaussage in der Provenienz, auf die AP4 sich stützt. |
-| I4 | `gptscan_eval.py` schrieb in dasselbe erzeugte `summary.md` sowohl „AP5 offen" als auch die neue Teillauf-Zeile. |
-| I5 | Drei Dokumente führten den scharfen Lauf noch als ausstehend, obwohl er geliefert war. |
-| I6 | Fehlendes `assert fails == set()` im LLMSmartAudit-Timeout-Test — ausgerechnet bei der Kernaussage „`errors` statt `fails`". |
-| M1/M2 | Fehlendes `str()` um `stage` im LLMSmartAudit-Parser (ein Nicht-String hätte über `sb/parsing.py` einen Task verloren) und „None of None" bei fehlenden Deckungsfeldern. |
-| M3 | „Byte für Byte" → „verhaltensgleich": `tasks.py` schreibt zwei Metadatenschlüssel bedingungslos. |
-| M4 | Der wirkungslose `SB_DEADLINE_EPOCH`-Export im LLMSmartAudit-Entrypoint ist jetzt als absichtlich wirkungslos kommentiert. |
-| M6 | Limitation ergänzt: `evaluate_curated.py` kennt den Timeout-Marker nicht. |
-
-Bemerkenswert an **I2**: Eine frühere Durchsicht hatte diese Korrektur mit der
-Begründung abgelehnt, sie breche „den Gleichheitstest aus Aufgabe 10". Diesen
-Test gibt es nicht — der Vergleichstest prüft geparste Zahlen, keinen Text. Eine
-erfundene Begründung hat den Fehler durch zwei Dokumente getragen.
-
-**Danach erledigt:** der neutrale Platzhalter für den Deadline-Pfad
-(Abschnitt 4) und der Commit der drei AP5-Dokumente.
-
-**Zwölf geringfügige Punkte bleiben bewusst liegen**, jeder einzeln begründet.
-
-### Drei Beobachtungen zum Vorgehen
-
-1. **Der Diff ist die falsche Grenze für eine Durchsicht.** Zwei Befunde
-   betrafen Aussagen, die durch den Branch *falsch geworden* sind, ohne dass sie
-   jemand angefasst hätte — einer außerhalb jeder geänderten Datei, einer
-   innerhalb einer geänderten Datei außerhalb der geänderten Zeilen.
-2. **Dokumentation vor Nachweis erzeugt I5 strukturell.** Liegt die
-   Dokumentationsaufgabe vor dem Messlauf, muss der Messlauf einen eigenen Punkt
-   tragen: „Aussagen der Dokumentation gegen das Ergebnis prüfen".
-3. **Wird eine Korrektur mit „bricht Test X" abgelehnt, ist Test X zu öffnen.**
-   Bei I2 hat das niemand getan, und der Fehler stand danach in zwei weiteren
-   Dokumenten.
+| `ap5-timeout` nach `main` mergen | erledigt |
+| DeepSeek-Schlüssel tauschen (er war zwischenzeitlich außerhalb der Schlüsseldatei im Klartext sichtbar) | im Repository nicht dokumentiert |
+| belastbare Kostenzahl für LLMSmartAudit aus dem Anbieter-Dashboard | für Altläufe nicht vorhanden; neue Läufe protokollieren die Abbuchung |

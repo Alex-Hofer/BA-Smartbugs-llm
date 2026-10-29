@@ -1,15 +1,17 @@
 # Zweitprüfung des Repositorys, Stand 24.09.2026
 
-Geprüfter Stand: `main` bei `7562bde` (Push vom 21.09.2026). Die Prüfung las
-das Repository vollständig, führte alle Auswertungsskripte und Tests aus,
-rechnete jede Zahl der Dokumentation gegen die Rohdaten unter
-`smartbugs/results/` nach und verglich die Fremdbäume per Datei-Hash mit den
-echten Upstream-Ständen. Danach wurden die Befunde in thematisch getrennten
-Commits behoben; Abschnitt 3 nennt zu jedem Befund den Commit. Der erste
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Geprüfter Stand: `main` bei `7562bde` (Push vom 21.09.2026). Wir haben das
+Repository vollständig gelesen, alle Auswertungsskripte und Tests ausgeführt,
+jede Zahl der Dokumentation gegen die Rohdaten unter `smartbugs/results/`
+nachgerechnet und die Fremdbäume per Datei-Hash mit den echten
+Upstream-Ständen verglichen. Die Befunde haben wir danach in thematisch
+getrennten Commits behoben; Abschnitt 3 nennt zu jedem Befund den Commit. Der erste
 Verifikationsbericht vom 02.08.2026 ([`BA-VERIFIKATIONSBERICHT.md`](BA-VERIFIKATIONSBERICHT.md))
 bleibt als datierter Stand stehen und trägt einen Nachtrag.
 
-**Nachtrag 25.09.2026:** Die Empfehlungen aus Abschnitt 5 wurden in einem
+**Nachtrag 25.09.2026:** Die Empfehlungen aus Abschnitt 5 haben wir in einem
 zweiten Teil umgesetzt (Commits `d4860b1` bis `7fda8e0`). Abschnitte 3.3 (M8),
 3.4 (A3), 4.1 und 5 tragen den Stand danach; die Tabelle in Abschnitt 1 bleibt
 der Stand vor allen Korrekturen.
@@ -109,9 +111,9 @@ schreibe „die tatsächlich installierten Versionen fest“. Text korrigiert in
 | M2 | ANTLR-Frage seit 02.08. offen | Protokoll Nachtrag 4.7 und Limitation 9: 87 von 143 Tasks mit Grammatik-Ablehnungen, alle Solidity 0.4, `functions` im Median ein Viertel der Deklarationen; Vorbehalt in `WERKZEUGE` 5 und `GPTSCAN-VERGLEICH` 2 | `dc8516f` |
 | M3 | WARNING-Records außerhalb des Parser-Audit-Katalogs | in `BA-PARSER-AUDIT-LUECKEN.md` 4 benannt (`Cannot find functionB`, zwei Tasks); Katalog nicht erweitert | `bfa30f7` |
 | M4 | Kein Test verlangte, dass ein Treffer die gelabelte Kategorie trifft; Zeilennummern des GPTScan-Parsers ungetestet | zwei Tests; dazu Link-Test über alle Dokumente und Abgleich der Tabelle 4.1 mit `run_meta.json` | `4520f3b`, `7acb55a` |
-| M5 | Rohdaten von `llmsa_curated_v2` fehlen | Der zweite Verfasser hat sie nicht mehr (Auskunft vom 24.09.2026). Die Auswertung unter `eval/llmsa_curated_v2/` ist die einzige erhaltene Fassung; so in README, `eval/_runlogs/README.md`, `eval/llmsa_curated_v2/README.md` und `WERKZEUGE` 4.4 vermerkt | Abschlusscommit |
+| M5 | Rohdaten von `llmsa_curated_v2` fehlen | Der Lauf lief auf dem Rechner eines von uns beiden, der sie nicht mehr hat (Stand 24.09.2026). Die Auswertung unter `eval/llmsa_curated_v2/` ist die einzige erhaltene Fassung; so in README, `eval/_runlogs/README.md`, `eval/llmsa_curated_v2/README.md` und `WERKZEUGE` 4.4 vermerkt | Abschlusscommit |
 | M6 | Formulierungen aus einem Arbeitsprozess in `BA-VERIFIKATIONSBERICHT.md:8,11` | neutral formuliert | `bfa30f7` |
-| M7 | `LICENSE` ordnete eigene Dateien in den Fremdbäumen nicht zu | Zuordnung ergänzt: eigene Dateien im LLMSmartAudit-Baum unter MIT, eigene Dateien im GPTScan-Baum als Teil des bearbeiteten GPTScan unter AGPL-3.0; am 24.09.2026 vom Verfasser bestätigt | `603d511` |
+| M7 | `LICENSE` ordnete eigene Dateien in den Fremdbäumen nicht zu | Zuordnung ergänzt: eigene Dateien im LLMSmartAudit-Baum unter MIT, eigene Dateien im GPTScan-Baum als Teil des bearbeiteten GPTScan unter AGPL-3.0; am 24.09.2026 von uns bestätigt | `603d511` |
 | M8 | Was der Fließtext braucht | Slither-Spalte für den DeFi-Korpus ergänzt (4.2), seit `d4860b1` mit vollständiger Baseline; Wanduhr-Begriffe benannt; Spannen an Einzelzahlen weiterhin nur in 4.4; Werkzeugkette und Timeout-Mechanik als Mermaid-Diagramme in `BA-WERKZEUGKETTE.md` (`7fda8e0`) | erledigt |
 
 ### 3.4 Angreifbar
@@ -265,13 +267,16 @@ in `BA-EIGENANTEIL.md` 2.5). Eingereicht sind sie noch nicht.
 
 Offen bleiben:
 
-* Fork, Push und Öffnen der beiden Pull Requests durch die Verfasser.
+* Fork, Push und Öffnen der Pull Requests — das müssen wir selbst tun.
+  *(Inzwischen erledigt: als ein Pull Request
+  [smartbugs/smartbugs#222](https://github.com/smartbugs/smartbugs/pull/222)
+  eingereicht und am 14.10.2026 übernommen.)*
 * `58_UniV3Vault.sol` in der Slither-Baseline: Compilerfehler ohne
   `--optimize`; ein Lauf mit `--solc-args` wäre der nächste Schritt.
 * Die zwei Grenzfälle der DASP-Zuordnung (`Centralization Risk` mit DASP-2,
   `Incorrect Constructor Name` ohne). Eine Änderung bewegt die Precision um
-  etwa einen Prozentpunkt (`mapping.md`, „Offene Punkte“) und ist Sache der
-  Verfasser.
+  etwa einen Prozentpunkt (`mapping.md`, „Offene Punkte“); diese Entscheidung
+  liegt bei uns.
 * Die Rohdaten von `llmsa_curated_v2` (endgültig verloren, M5).
 
 Erledigt seit der ersten Fassung dieses Abschnitts: Rohdaten von
@@ -302,9 +307,8 @@ war als `dataset/vulnerabilities.json` angegeben (berichtigt). Offen bleiben
 zusätzlich: Die Eingriffe in `GPTScan/` und `LLMSmartAuditTool-main/` sind im
 Code nicht als solche markiert, nur in `BA-EIGENANTEIL.md` aufgeführt; für
 die Rohdaten der Läufe nach dem 02.08.2026 nennt das Repository keinen
-Sicherungsort. Eine Aufteilung des Beitrags nach Personen wird nicht
-ausgewiesen; beide Verfasser haben nach eigener Angabe zu gleichen Teilen
-beigetragen (`BA-ARBEIT.md`).
+Sicherungsort. Den Beitrag weisen wir nicht nach Personen aus — wir haben zu
+gleichen Teilen beigetragen (`BA-ARBEIT.md`).
 
 ---
 

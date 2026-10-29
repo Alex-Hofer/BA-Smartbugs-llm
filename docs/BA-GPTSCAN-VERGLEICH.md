@@ -1,83 +1,63 @@
-# GPTScan im Direktvergleich: Warum „0 %" und trotzdem treffsicher
+# GPTScan: warum „0 %“ und trotzdem treffsicher
 
-**Zwei Contract-Läufe gegenübergestellt** · Auszug zur Bachelorarbeit
-**Durchführung:** 05.–06.07.2026
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
-GPTScan wurde in *zwei* getrennten Läufen über *zwei* unterschiedliche
-Contract-Mengen evaluiert. Auf dem einen Datensatz erreicht das Werkzeug
-**0 % Recall**, auf dem anderen liefert es **verwertbare Treffer**. Dieses
-Dokument stellt ausschließlich diese Differenz dar und erklärt ihre Ursache.
-Beide Läufe nutzten dieselbe Konfiguration (SmartBugs-Integration, DeepSeek
-`deepseek-v4-flash`, `--processes 4`); der einzige Unterschied ist der
-Contract-Korpus.
+Auf `smartbugs-curated` erreicht GPTScan **0 % Recall**, auf DeFi-Contracts
+liefert es **verwertbare Treffer** — bei gleicher Konfiguration (SmartBugs,
+DeepSeek `deepseek-v4-flash`, 4 Prozesse). Hier geht es nur um diesen
+Unterschied und seine Ursache. Die Läufe A und B stammen vom 05./06.07.2026,
+Lauf C vom 21.07.2026.
 
 ---
 
-## 1. Die Gegenüberstellung auf einen Blick
+## 1. Auf einen Blick
 
-| | **Lauf A — curated** | **Lauf B — mwevariety** |
-|---|---|---|
-| Korpus | smartbugs-curated | GPTScans Benchmark-Umfeld |
-| Contracts | 143 (klassische SWC/DASP) | 96 (DeFi-Logik) |
-| Contracts mit Findings | 6 roh / **0 themengerecht** | **7** |
-| Findings gesamt | 6 (alle MWE-207) | **11** (alle Severity *high*) |
-| Recall vs. Ground Truth | **0 %** \* | **treffsicher** † |
-| Vorfilter passiert | nur 16 / 143 | Korpus ist bereits Zieldomäne |
-| Static-Bestätigung | aktiv (kompilierbar) | überwiegend inaktiv (degradiert) |
-| Kosten / Laufzeit | $0.01 / 3:19 min | $0.046 / 13:17 min |
+| | **A — curated** | **B — DeFi, unrepariert** | **C — DeFi, repariert** |
+|---|---|---|---|
+| Lauf | `curated_v1_20260705` | `curated_mwe_20260706` | `curated_mwefixed_live` |
+| Contracts | 143 (SWC/DASP) | 96 (DeFi-Logik) | 96 (dieselben, kompilierbar) |
+| Contracts mit Findings | 6 / **0 themengerecht** | 7 | **40** |
+| Findings | 6 (alle `MWE-207`) | 11 | **77** (8 von 10 Regeln) |
+| Recall gegen Ground Truth | **0 %** | keine Ground Truth | keine Ground Truth |
+| Statische Bestätigung | aktiv | fast nie (kein Compilat) | aktiv (95 von 96) |
+| Kosten / Laufzeit | $0,01 / 3:19 min | $0,046 / 13:17 min | $0,28 / 36:45 min |
 
-\* *by design*, siehe Abschnitt 2. † Ohne vendorte Ground Truth →
-deskriptiv/qualitativ statt Recall-Zahl, siehe Abschnitt 3.
+**Kernaussage:** Die 0 % sind kein Werkzeugfehler, sondern die richtige
+Antwort auf einen Datensatz außerhalb von GPTScans Zuständigkeit. Auf seiner
+Zieldomäne liefert es einschlägige Findings — und sobald die Pipeline
+vollständig läuft (Lauf C), deutlich mehr.
 
-**Kernaussage:** Die 0 % sind *kein* Werkzeugfehler, sondern die korrekte Antwort
-auf einen Datensatz außerhalb von GPTScans Zuständigkeit. Sobald das Werkzeug auf
-seiner Zieldomäne läuft, produziert es einschlägige Findings.
+## 2. Warum 0 % auf curated
 
-## 2. Warum GPTScan auf „curated" 0 % erreicht
+GPTScan sucht nicht nach klassischen Schwachstellenklassen, sondern nach **10
+DeFi-Logik-Szenarien** (`MWE-200` … `MWE-209`): manipulierbare Preis-Orakel,
+LP-Token-Bewertung, fehlerhafte Reward-Berechnung. `smartbugs-curated` labelt
+genau diese Szenarien *nicht* — seine Kategorien sind Reentrancy, Arithmetik,
+Access Control, `unchecked_low_level_calls` usw. Es gibt keine Überschneidung.
 
-GPTScan bildet nicht die klassischen Schwachstellenklassen ab, sondern
-**10 DeFi-Logik-Szenarien** (`MWE-200` … `MWE-209`) — etwa manipulierbare
-Preis-Orakel, LP-Token-Bewertung oder fehlerhafte Reward-Berechnung. Der Datensatz
-`smartbugs-curated` annotiert dagegen genau *diese* Szenarien *nicht*: seine zehn
-DASP-Kategorien sind Reentrancy, Arithmetik, Access Control,
-`unchecked_low_level_calls` usw. Es gibt schlicht keine Überschneidung zwischen
-dem, was GPTScan sucht, und dem, was curated labelt.
+**Vorfilter.** Nur **16 von 143** Contracts enthielten Schlüsselbegriffe eines
+DeFi-Szenarios und lösten einen LLM-Aufruf aus; für die übrigen 127 *kann* kein
+Finding entstehen. Einschränkung: Bei 87 Contracts (Solidity 0.4) lehnte
+GPTScans ANTLR-Grammatik Teile des Codes ab, vor allem `constant`-Konstrukte,
+und sah im Median nur ein Viertel der Funktionen
+([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md), Nachtrag
+4.7). Ob dort ein Schlüsselwort fehlte oder nie gesehen wurde, lässt sich nicht
+trennen — die Schlussfolgerung bleibt, die Zahl 127 ist unscharf.
 
-**Stufe 1 — Keyword-/Szenario-Vorfilter.**
-Nur **16 von 143** Contracts enthielten überhaupt Schlüsselbegriffe eines
-DeFi-Szenarios und lösten damit einen LLM-Aufruf aus. Die übrigen 127 werden ohne
-LLM-Aufruf verworfen — für sie *kann* definitionsgemäß kein Finding entstehen.
+**LLM und statische Bestätigung.** Aus den 16 Kandidaten wurden **6 Findings,
+alle `MWE-207`**, auf Contracts mit anderem Primärlabel. Gegen die
+Single-Label-Ground-Truth zählen sie nicht. Die statische Stufe arbeitete wie
+vorgesehen: Wir haben alle 4 Review-Kandidaten am Quellcode geprüft; sie
+verwarf **5 LLM-Kandidaten zu Recht** als False Positives.
 
-*Vorbehalt (24.09.2026):* Bei 87 der 143 Contracts, alle Solidity 0.4, lehnte
-GPTScans ANTLR-Grammatik Teile des Quelltexts ab, vor allem
-`constant`-Konstrukte, und zählte im Median nur ein Viertel der deklarierten
-Funktionen. Der Vorfilter prüfte dort eine unvollständige Funktionsliste; ob
-ein Schlüsselwort fehlte oder nie gesehen wurde, lässt sich für diese Contracts
-nicht trennen (`BA-DURCHFUEHRUNGSPROTOKOLL.md`, Nachtrag 4.7). An der
-Schlussfolgerung dieses Abschnitts ändert das nichts, an der Schärfe der
-Zahl 127 schon.
+## 3. Warum Findings auf dem DeFi-Korpus
 
-**Stufe 2 — LLM und statische Bestätigung.**
-Aus den 16 Kandidaten resultierten **6 Findings, alle vom Typ `MWE-207`**. Diese
-lagen auf Real-World-Contracts, deren *Primär*-Label im curated-Ground-Truth ein
-*anderes* war. Gegen die Single-Label-Ground-Truth gemessen zählen sie daher nicht
-als Treffer → Recall 0 %.
+Der Korpus besteht aus **96 DeFi-Contracts aus GPTScans eigenem
+Benchmark-Umfeld** (Web3Bugs) — genau die Art Contract (Liquidity Pools,
+Orakel, LP-Token, NFT-Approvals), für die die Regeln gebaut sind. Hier
+passieren die Contracts den Vorfilter, und die Regeln greifen.
 
-**Die Static-Stufe arbeitete bestimmungsgemäß.**
-Alle 4 Review-Kandidaten wurden am Quellcode geprüft. Die statische
-Bestätigungsstufe lief und verwarf **5 LLM-Kandidaten korrekt** als False
-Positives — also gewolltes Präzisions-Filtering, kein Datenproblem.
-
-**Fazit Lauf A:** 0 % ist die *erwartete* Zahl. Ein Werkzeug für DeFi-Logik auf
-einem Datensatz klassischer SWC-Bugs kann per Konstruktion nichts Themengerechtes
-finden.
-
-## 3. Warum GPTScan auf „mwevariety" Findings liefert
-
-`mwevariety` besteht aus **96 DeFi-Contracts aus GPTScans eigenem
-Benchmark-Umfeld** — also exakt der Contract-Art (Liquidity Pools, Preis-Orakel,
-LP-Token, NFT-Approvals), für die die Szenario-Regeln entworfen wurden. Hier
-passieren die Contracts den Vorfilter, und die Muster der `MWE`-Regeln greifen.
+Im unreparierten Lauf B:
 
 | Regel | Beschreibung | Findings |
 |---|---|---:|
@@ -85,148 +65,98 @@ passieren die Contracts den Vorfilter, und die Muster der `MWE`-Regeln greifen.
 | `MWE-207` | Unauthorized Transfer | 2 |
 | `MWE-209` | Wrong Order for Interest or ExchangeRate | 2 |
 | `MWE-203` | Approval Not Revoked | 1 |
-| **Gesamt** (auf 7 Contracts, alle Severity *high*) | | **11** |
+| **Gesamt** (7 Contracts, alle *high*) | | **11** |
 
-Im Kontrast dazu: 0 themengerechte Findings auf curated.
+Zwei am Quellcode bestätigte Beispiele:
 
-**Warum gerade diese Contracts?** Weil ihre Logik die von GPTScan gesuchten
-Angriffsmuster tatsächlich enthält. Zwei am Quellcode verifizierte Beispiele aus
-der qualitativen Stichprobe:
+* **`slot0`-Spotpreis als Flashloan-Vektor** — die Preisbewertung stützt sich
+  auf einen im selben Block manipulierbaren Spotpreis (klassisch `MWE-200`).
+* **Nie zurückgesetzte NFT-Approval** — eine Freigabe bleibt dauerhaft und
+  ermöglicht späteren Missbrauch.
 
-* **`slot0`-Spotpreis als Flashloan-Vektor** — LP-Token-/Preisbewertung stützt
-  sich auf einen unmittelbar manipulierbaren Spotpreis (klassischer
-  `MWE-200`-Fall).
-* **Nie zurückgesetzte NFT-Approval** — eine erteilte Freigabe bleibt dauerhaft
-  bestehen und eröffnet einen späteren Missbrauch.
+Unsere Bewertung von 6 gezogenen Findings: **4 plausibel, 1 generisch,
+1 falsch.**
 
-Qualitative Bewertung der 6 gezogenen Findings: **4 plausibel, 1 generisch,
-1 falsch**. GPTScan trifft auf seiner Zieldomäne also nicht nur *irgendetwas*,
-sondern überwiegend inhaltlich Nachvollziehbares.
+Nach der Korpus-Reparatur ([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md))
+lief in Lauf C die statische Stufe auf 56 Contracts mit Kandidaten und verwarf
+auf 39 davon mindestens einen; übrig blieben 77 Findings
+([`../eval/curated_mwefixed_live/README.md`](../eval/curated_mwefixed_live/README.md)).
+Diese Zahlen nennen [`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md)
+4.2 und [`BA-ARBEIT.md`](BA-ARBEIT.md) 5.2. Der Sprung von 11 auf 77 heißt
+nicht, dass das Werkzeug besser wurde, sondern dass seine Pipeline zum ersten
+Mal vollständig lief.
 
-## 4. Einschränkungen des mwevariety-Laufs
+## 4. Einschränkungen
 
-Damit der Vergleich nicht überinterpretiert wird, gehören folgende Caveats
-zwingend dazu:
+1. **Keine Ground Truth** für den DeFi-Korpus — also bewusst keine
+   Recall-/Precision-Zahl, nur Beschreibung und Stichproben.
+2. **Lauf B lief degradiert.** 95 von 96 Contracts waren nicht kompilierbar;
+   die Findings stammen fast nur aus der LLM-Stufe. Erst Lauf C hat die
+   statische Stufe.
+3. **Nichtdeterminismus.** Ein Wiederholungslauf über 27 Contracts des
+   unreparierten Korpus ergab **20 von 27 (74 %)** mit identischem Finding-Satz
+   (3 Findings weg, 2 neu, 2 verändert) — trotz `temperature=0`. Auf dem
+   reparierten Korpus gibt es nur den Vergleich `gptscan_mwefixed_v2_main` gegen
+   Lauf C: 58 von 77 Findings wiedergefunden (75,3 %), vermischt mit dem Effekt
+   von `MAIN`
+   ([`comparison_curated_mwefixed_live.md`](../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md)).
 
-1. **Keine vendorte Ground Truth.** Für mwevariety existiert kein annotierter
-   Referenzstand → es gibt bewusst *keine* Recall/Precision-Zahl, nur eine
-   deskriptive und qualitative Auswertung.
-2. **Degradierter LLM-only-Modus.** 95 von 96 Contracts waren einzeln extrahiert
-   und nicht kompilierbar (`InvalidCompilation`); GPTScans statische
-   Bestätigungsstufe — der Präzisions-Schutz — lief daher überwiegend *nicht*. Die
-   Findings entstammen fast ausschließlich der LLM-Stufe. Dieser Defekt wurde
-   später behoben, siehe [`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md).
-3. **Nicht-Determinismus.** Ein Wiederholungslauf über dieselben 27 Contracts
-   ergab nur **74 % identische Ergebnisse** (3 Findings verschwunden, 2 neu,
-   2 verändert) — *trotz* `temperature=0`. Zentrale Limitation LLM-basierter
-   Scanner.
+## 5. Exkurs: Was sind DeFi-Logik-Schwachstellen?
 
-## 5. Exkurs: Was sind DeFi-Logik-Szenarien?
+**Klassische Schwachstellen** (die SWC/DASP-Klassen) sind generische
+Code-Defekte: Reentrancy, Integer-Overflow, ungeprüfter `call`-Rückgabewert.
+Sie hängen nicht davon ab, was der Contract wirtschaftlich tun soll, und lassen
+sich syntaktisch erkennen — daher ist Slither hier stark.
 
-### Logik-Schwachstellen im Allgemeinen
+Eine **Logik-Schwachstelle** liegt eine Ebene höher: Der Code tut genau, was
+dort steht, aber dieses Verhalten ist *ökonomisch ausnutzbar*. Es gibt keinen
+„kaputten“ Befehl; der Fehler steckt im Finanzmodell. Beispiel: Ein Preis wird
+korrekt berechnet — nur aus einer Quelle, die ein Angreifer im selben Block
+manipulieren kann.
 
-Klassische Schwachstellen (die SWC/DASP-Klassen aus Abschnitt 2) sind *generische
-Code-Defekte*: Reentrancy, Integer-Overflow, ein nicht geprüfter
-`call`-Rückgabewert. Sie hängen nicht davon ab, *was* der Contract wirtschaftlich
-tun soll — ein Overflow ist ein Overflow, egal ob im Token oder im Spiel. Solche
-Muster lassen sich syntaktisch erkennen, weshalb statische Analysewerkzeuge wie
-Slither hier stark sind.
+**Warum ein LLM?** DeFi-Contracts (Swaps, Kredite, Staking, Liquidity Pools)
+bewegen direkt Geld. Ihre Fehler zu erkennen heißt zu verstehen, *was* der
+Contract erreichen will. Statischen Werkzeugen fehlt jeder Begriff von
+beabsichtigtem Verhalten. GPTScan koppelt deshalb ein LLM, das die Absicht aus
+Code, Namen und Kommentaren erschließt, mit einer statischen Stufe, die den
+Verdacht am Datenfluss gegenprüft.
 
-Eine **Logik-Schwachstelle** liegt dagegen *eine Ebene höher*: Der Code ist
-technisch fehlerfrei und tut exakt das, was dort steht — aber dieses beabsichtigte
-Verhalten ist *ökonomisch ausnutzbar*. Es gibt keinen „kaputten" Befehl, den man
-markieren könnte; der Fehler steckt in der *Absicht* bzw. im Finanzmodell des
-Contracts. Beispiel: Ein Preis wird völlig korrekt berechnet — nur aus einer
-Quelle, die ein Angreifer im selben Block manipulieren kann.
+**Die zehn Szenarien** haben die GPTScan-Autoren aus realen Audit-Reports
+destilliert; jedes besteht aus *Szenario* und *Eigenschaft*. Typische Vertreter:
 
-### Warum gerade DeFi, und warum ein LLM?
+* **Manipulierbare Preisbildung** — Spotpreis oder `balanceOf` als Orakel,
+  per Flashloan verzerrbar (`MWE-200`).
+* **Riskante Erst-Einzahlung** — der erste Einzahler verzerrt das Verhältnis
+  von Anteilen zu Guthaben („Share-Inflation“).
+* **Fehlender Slippage-Schutz** — ein Tausch akzeptiert jeden Preis und ist
+  sandwich-bar (`MWE-206`).
+* **Falsche Reward-/Zinsberechnung** — falsche Reihenfolge oder Basis
+  (`MWE-209`).
+* **Approval-Missbrauch** — eine Freigabe wird nie zurückgesetzt (`MWE-203`).
 
-DeFi-Contracts (Decentralized Finance — Swaps, Kreditvergabe, Staking, Liquidity
-Pools, LP-Token) bewegen unmittelbar Werte. Ihre typischen Fehler sind deshalb
-**contract-spezifisch und semantisch**: Um sie zu erkennen, muss man verstehen,
-*was* der Contract erreichen will und *wie* sein ökonomisches Modell funktioniert
-— nicht bloß, welche Opcodes vorkommen. Genau das können rein statische Werkzeuge
-nicht, weil ihnen jeder Begriff von „beabsichtigtem" Verhalten fehlt. Deshalb
-koppelt GPTScan ein **LLM** (das Absicht aus Code, Bezeichnern und Kommentaren
-erschließt) mit einer **statischen Bestätigungsstufe** (die den LLM-Verdacht am
-Datenfluss gegenprüft und False Positives verwirft).
-
-### Die „10 Szenarien" konkret
-
-Die GPTScan-Autoren haben aus realen Audit-Reports **zehn wiederkehrende,
-maschinell prüfbare Logik-Fehlermuster** destilliert. Jedes davon ist als
-*Szenario* („wonach in der Funktion gesucht wird") plus *Eigenschaft* („welche
-Bedingung es verdächtig macht") formuliert; in dieser Integration tragen sie die
-Kennungen `MWE-200` … `MWE-209`. Repräsentative Vertreter dieses Katalogs:
-
-* **Manipulierbare Preisbildung** — ein Spot-/Momentanpreis oder `balanceOf` dient
-  direkt als Orakel und lässt sich per Flashloan verzerren. (GPTScans Regel
-  `MWE-200` „Insecure LP Token Value Calculation".)
-* **Riskante Erst-Einzahlung** — der erste Einzahler in einen Vault kann das
-  Verhältnis von Anteilen zu Guthaben verzerren („Share-Inflation").
-* **Fehlender Slippage-/Front-Running-Schutz** — ein Tausch akzeptiert jeden
-  Ausführungspreis und ist damit sandwich-bar.
-* **Fehlerhafte Reward-/Zins-/Accounting-Berechnung** — Belohnungen, Zinsen oder
-  Guthaben werden in falscher Reihenfolge oder mit falscher Basis verrechnet.
-* **Approval-Missbrauch** — eine erteilte Token-Freigabe wird nie zurückgesetzt
-  und bleibt dauerhaft ausnutzbar.
-
-**Namensherkunft.** Die Regelnamen stammen unmittelbar aus GPTScans eigener
-Ausgabe (dem `name`-Feld jedes Findings), sind also belegt und nicht
-rekonstruiert: `MWE-200` Insecure LP Token Value Calculation, `MWE-203` Approval
-Not Revoked, `MWE-207` Unauthorized Transfer, `MWE-209` Wrong Order for Interest
-or ExchangeRate. Weitere Regeln desselben Katalogs treten im erweiterten Lauf über
-den reparierten Korpus auf — u. a. `MWE-201` Insecure Vote Calculation, `MWE-202`
-Insecure Token Buying Behavior, `MWE-205` Front Running und `MWE-206` No Slippage
-Limit Check (siehe [`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md)).
-
-**Quelle aller Zahlen:** Durchführungsprotokoll der Tool-Evaluation
-([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md)), Abschnitte 4.1
-und 4.3 sowie Fehler #12; Rohdaten unter
-`smartbugs/results/gptscan/{curated_v1_20260705, curated_mwe_20260706}`.
+Die Regelnamen stammen direkt aus GPTScans Ausgabe (Feld `name`). Im
+reparierten Korpus treten außerdem u. a. `MWE-201` (Insecure Vote
+Calculation), `MWE-202` (Insecure Token Buying Behavior) und `MWE-205` (Front
+Running) auf.
 
 ---
 
-## Nachprüfung am Repository (20.09.2026)
+## Belege
 
-Diese Fassung ersetzt die frühere `.tex`/`.pdf`-Ausarbeitung gleichen Namens sowie
-deren Vorfassung `BA_OnlyGPTScan.pdf`. Alle Kennzahlen wurden gegen die
-Rohergebnisse gegengeprüft; präzisiert wurde dabei nur, *woran* eine Zahl
-gemessen ist — die Werte selbst sind unverändert.
+Zahlen aus [`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md)
+(4.1, 4.3, Fehler #12) und den Rohdaten unter
+`smartbugs/results/gptscan/{curated_v1_20260705, curated_mwe_20260706}`. Am
+20.09.2026 haben wir alle Angaben gegen die Rohergebnisse geprüft:
 
 | Angabe | Beleg | Ergebnis |
 |---|---|---|
-| Lauf A: 143 Tasks, 6 Findings, alle MWE-207 | alle `result.json` in `smartbugs/results/gptscan/curated_v1_20260705/` | bestätigt |
-| Lauf A: $0.01 / 3:19 min / 72 LLM-Calls | `GPTSCAN_META` je `result.log` ($0,0098; 72 Calls) und `smartbugs.json` (3,22 min Task-Spanne; SmartBugs meldet 3:19) | bestätigt |
-| Lauf A: 16 / 143 passierten den Vorfilter | `GPTSCAN_META`, Feld `llm_calls` > 0 bei genau 16 Contracts | bestätigt — gemeint ist der Keyword-Vorfilter, nach dem *ersten* LLM-Schritt bleiben 12 Contracts übrig |
-| Lauf A: 4 Review-Kandidaten, 5 verworfene LLM-Kandidaten | `GPTSCAN_META`: Summe `vul_before_static` = 11, `vul_after_static` = 6, Verwurf bei 4 Contracts | bestätigt |
-| Lauf B: 11 Findings auf 7 Contracts, Regelverteilung 6/2/2/1 | alle `result.json` in `smartbugs/results/gptscan/curated_mwe_20260706/` | bestätigt |
-| Lauf B: $0.046 / 257 LLM-Calls | `GPTSCAN_META` je `result.log` ($0,0461; 257 Calls) | bestätigt |
-| 74 % Lauf-zu-Lauf-Übereinstimmung | `mwevar_live` (27 Contracts) gegen dieselben 27 aus `curated_mwe_20260706` | bestätigt — 20 von 27 Contracts mit identischem Finding-Satz (74,1 %); die Einheit ist der **Contract**, nicht das einzelne Finding |
+| A: 143 Tasks, 6 Findings, alle `MWE-207` | alle `result.json` | bestätigt |
+| A: $0,0098, 72 Aufrufe, 3:19 min | `GPTSCAN_META`, `smartbugs.json` | bestätigt |
+| A: 16 von 143 nach dem Vorfilter | `llm_calls > 0` bei genau 16 Contracts | bestätigt; nach dem ersten LLM-Schritt bleiben 12 |
+| A: 4 Review-Kandidaten, 5 verworfen | Summe `vul_before_static` = 11, `vul_after_static` = 6 | bestätigt |
+| B: 11 Findings auf 7 Contracts, 6/2/2/1 | alle `result.json` | bestätigt |
+| B: $0,0461, 257 Aufrufe | `GPTSCAN_META` | bestätigt |
+| 74 % Übereinstimmung | `mwevar_live` gegen dieselben 27 aus Lauf B | bestätigt; Einheit ist der Contract, nicht das Finding |
 
----
-
-## Nachtrag (25.09.2026): der reparierte Korpus
-
-Die Abschnitte 3 und 4 beschreiben den Lauf über den **unreparierten** Korpus
-vom 06.07.2026, in dem GPTScans statische Bestätigungsstufe mangels Compilat
-überwiegend nicht lief. Nach der Korpus-Reparatur
-([`BA-KORPUS-REPARATUR.md`](BA-KORPUS-REPARATUR.md)) ergab der Referenzlauf
-`curated_mwefixed_live` vom 21.07.2026 über dieselben 96 Contracts 77 Findings
-auf 40 Contracts aus acht der zehn Regeln, für $0,2769; auf 56 Contracts lief
-die statische Stufe und verwarf auf 39 davon Kandidaten
-([`../eval/curated_mwefixed_live/README.md`](../eval/curated_mwefixed_live/README.md);
-`BA-KORPUS-REPARATUR.md`, Abschnitt 9). Das sind die Zahlen, die
-[`BA-WERKZEUGE-IM-VERGLEICH.md`](BA-WERKZEUGE-IM-VERGLEICH.md) 4.2 und
-[`BA-ARBEIT.md`](BA-ARBEIT.md) 5.2 für GPTScan auf seiner Zieldomäne nennen.
-Der Anstieg von 11 auf 77 misst nicht, dass das Werkzeug besser wurde, sondern
-dass seine Pipeline erstmals vollständig lief.
-
-Die 74 % Lauf-zu-Lauf-Übereinstimmung aus Abschnitt 4 stammen aus den zwei
-Läufen über den unreparierten Korpus, also aus dem degradierten Modus ohne
-statische Stufe. Auf dem reparierten Korpus liegt als zweiter Messpunkt nur der
-Vergleich `gptscan_mwefixed_v2_main` gegen `curated_mwefixed_live` vor: 58 von
-77 Referenz-Findings wiedergefunden (75,3 %), vermischt mit dem Effekt von
-`MAIN` ([`../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md`](../eval/gptscan_mwefixed_v2_main/comparison_curated_mwefixed_live.md)).
-Die Schlussfolgerung dieses Dokuments bleibt: Die 0 % auf curated sind eine
-Frage der Domäne, nicht des Werkzeugs.
+Dieses Dokument ersetzt die frühere `.tex`/`.pdf`-Fassung gleichen Namens und
+`BA_OnlyGPTScan.pdf`.

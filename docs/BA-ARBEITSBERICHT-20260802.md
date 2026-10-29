@@ -1,7 +1,9 @@
 # Arbeitsbericht 2026-08-02
 
-Was in dieser Sitzung tatsächlich getan wurde, in der Reihenfolge der Ausführung.
-Ergebnis: fünf Commits auf dem Initial-Commit `f85946e`.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Was wir in dieser Sitzung tatsächlich getan haben, in der Reihenfolge der
+Ausführung. Ergebnis: fünf Commits auf dem Initial-Commit `f85946e`.
 
 > **Datierter Bericht (02.08.2026), nicht nachgeführt.** Alle Zahlen darin
 > (19 Läufe, 930 Tasks, 1 368 Lücken, Sicherungsorte) sind der Stand jenes
@@ -33,7 +35,7 @@ f85946e  Initialer Stand (unverändert)
   (das `sk-` steckt in „ta**sk-**list"). Fundstelle jeweils exakt ein Feld:
   `.docker.environment.DEEPSEEK_API_KEY` in `smartbugs.json`.
 
-## 2. Backup vor dem ersten Eingriff
+## 2. Erst sichern, dann eingreifen
 
 `smartbugs/results/` vollständig gesichert nach
 `…\BACHELORARBEIT\BA-results-raw-backup-20260802\` — **4.461 Dateien, 258,40 MB,
@@ -41,7 +43,7 @@ f85946e  Initialer Stand (unverändert)
 Grundlage, auf der der Vorher/Nachher-Vergleich unter identischen Regeln
 gerechnet werden konnte.
 
-## 3. Audit-Werkzeug gebaut
+## 3. Wir bauen ein Audit-Werkzeug
 
 `analysis_tools/parser_audit.py` liest je Task das Rohmaterial (`result.log`,
 `result.tar`, `smartbugs.json`, Exit-Code), extrahiert jede Meldung und prüft, ob
@@ -109,7 +111,7 @@ Nachkontrolle: **alle 930 Task-Logs** gegen das Backup verglichen — identisch 
 auf das redigierte Feld. Der echte Key existiert danach nur noch in der
 git-ignorierten `GPTScan/.env`.
 
-## 6. Parser repariert
+## 6. Wir reparieren den Parser
 
 ### `tools/gptscan/parser.py`
 
@@ -140,7 +142,7 @@ statt einer. Neu als error: „checked 0 of 41 detector categories".
 
 Nach `reparse --sarif --processes 4` über alle 930 Tasks: **0 Lücken**.
 
-## 7. Auswirkung gemessen
+## 7. Wir messen die Auswirkung
 
 | Prüfung | Ergebnis |
 |---|---|

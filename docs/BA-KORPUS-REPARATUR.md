@@ -1,138 +1,121 @@
-# Rekonstruktion eines kompilierbaren Zieldomänen-Korpus für GPTScan
+# Rekonstruktion eines kompilierbaren DeFi-Korpus für GPTScan
 
-**Von 1/96 zu 94/96 analysierbaren DeFi-Contracts** · Anhang zur Bachelorarbeit
-**Durchführung:** 21.07.2026
+> Teil der Bachelorarbeit · zurück zum Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
 
-Der in der Evaluation genutzte GPTScan-Zieldomänen-Korpus `mwevariety`
-(96 DeFi-Contracts) war zu **95/96 nicht kompilierbar**; GPTScan lief dort nur im
-degradierten LLM-only-Modus ohne statische Bestätigung. Dieses Dokument beschreibt
-die vollständige, reproduzierbare Rekonstruktion eines kompilierbaren Korpus
-`mwevariety_fixed` aus den Originalquellen des Web3Bugs-Benchmarks. Ergebnis:
-**96/96** Contracts kompilieren nativ, **94/96** kompilieren *und* parsen in
-GPTScans echter Analyse-Toolchain, und die statische Bestätigungsstufe — GPTScans
-Präzisions-Schutzmechanismus — ist erstmals auf diesem Korpus aktiv.
+**Von 1 zu 94 analysierbaren DeFi-Contracts** · durchgeführt am 21.07.2026
+
+GPTScans Zieldomänen-Korpus `mwevariety` (96 DeFi-Contracts) war zu **95 von
+96 nicht kompilierbar**; GPTScan lief dort nur im LLM-only-Modus ohne statische
+Bestätigung. Hier beschreiben wir, wie wir daraus `mwevariety_fixed` aus den
+Originalquellen des Web3Bugs-Benchmarks rekonstruiert haben. Ergebnis: **96 von
+96** kompilieren mit `solc`, **94 von 96** laufen durch GPTScans eigene
+Toolchain, und die statische Bestätigungsstufe ist auf diesem Korpus erstmals
+aktiv.
 
 ---
 
-## 1. Motivation: Warum der alte Korpus GPTScan blockierte
+## 1. Warum der alte Korpus GPTScan blockierte
 
-Im Durchführungsprotokoll (Fehler #12) waren **95 von 96** mwevariety-Contracts
-`InvalidCompilation`; 22 lösten tool-interne Python-Crashes aus. GPTScan besteht
-aus zwei Stufen: einer LLM-Stufe, die Schwachstellen-*Kandidaten* vorschlägt, und
-einer **statischen Bestätigungsstufe**, die diese Kandidaten am kompilierten
-Daten- und Kontrollfluss gegenprüft und False Positives verwirft. Die zweite Stufe
-**setzt eine erfolgreiche Kompilierung voraus.** War die Kompilierung nicht
-möglich, degradierte GPTScan auf LLM-only — ohne Präzisionsfilter. Die im Protokoll
-berichteten 11 mwevariety-Findings entstanden praktisch alle in diesem degradierten
-Modus. Ziel war daher, den Korpus so zu reparieren, dass GPTScans *vollständige*
-Pipeline läuft.
+95 von 96 Contracts endeten mit `InvalidCompilation`, 22 davon zusätzlich mit
+Python-Crashes im Werkzeug ([`BA-DURCHFUEHRUNGSPROTOKOLL.md`](BA-DURCHFUEHRUNGSPROTOKOLL.md),
+Fehler #12). GPTScan hat zwei Stufen: Das LLM schlägt Kandidaten vor, eine
+**statische Stufe** prüft sie am kompilierten Daten- und Kontrollfluss und
+verwirft False Positives. Die zweite Stufe **braucht ein Compilat**. Ohne
+Compilat bleibt ein reiner Prompt-Scanner ohne Präzisionsfilter — und genau so
+entstanden die 11 Findings des ersten DeFi-Laufs. Unser Ziel war deshalb, dass
+GPTScans *vollständige* Pipeline läuft.
 
-## 2. Ursachenanalyse
+## 2. Ursachen
 
-Die Diagnose (Werkzeug `corpus_tools/build_fixed.py`) ergab zwei kombinierte
-Defekte:
+Die Diagnose mit `corpus_tools/build_fixed.py` ergab zwei Defekte:
 
-1. **Fehlender Dependency-Baum.** Die Dateien sind einzeln aus größeren
-   Wettbewerbsprojekten extrahierte Fragmente. Ihre `import`-Ziele — Interfaces,
-   Basis-Contracts, Libraries und npm-Pakete (OpenZeppelin, solmate, prb-math …) —
-   liegen nicht bei, sodass `solc` die Imports nicht auflösen kann. Ein
-   Import-Closure-Scan über alle 96 Dateien fand 62 Samples mit Lücken, darunter
-   245 unaufgelöste Referenzen auf `@openzeppelin/contracts` sowie zahlreiche
-   projekteigene Interfaces (Aufschlüsselung im Anhang unten).
-2. **Zerstörte Integrität.** Der Extraktor entfernte Kommentare und Zeilenumbrüche
-   und schnitt viele Dateien mitten im Code ab (Truncation). Für die Kompilierung
-   ist das irrelevant, weil ausschließlich die *vollständigen Originale* verwendet
-   werden — es erklärt aber, warum der Zuordnungsnachweis (Abschnitt 4) mehrstufig
-   sein muss.
+1. **Fehlende Abhängigkeiten.** Die Dateien sind einzeln aus größeren
+   Projekten herausgelöst. Ihre Importe (Interfaces, Basis-Contracts, Libraries,
+   npm-Pakete wie OpenZeppelin, solmate, prb-math) fehlen. 62 Dateien hatten
+   Lücken, darunter 245 unaufgelöste Verweise auf `@openzeppelin/contracts`
+   (Aufschlüsselung im Anhang).
+2. **Beschädigte Dateien.** Der Extraktor hatte Kommentare und Zeilenumbrüche
+   entfernt und viele Dateien mitten im Code abgeschnitten. Für die
+   Kompilierung ist das egal, weil wir die vollständigen Originale nehmen — es
+   erklärt aber, warum die Zuordnung (Abschnitt 4) mehrstufig sein muss.
 
-## 3. Herkunft der Originale
+## 3. Herkunft und Pipeline
 
-Die mwevariety-Contracts stammen aus **Web3Bugs**
-(<https://github.com/ZhangZhuoSJTU/Web3Bugs>), dem im GPTScan-Paper verwendeten
-Benchmark. Die Verzeichnis-Präfixe der Samples (`5_`, `13_`, `106_` …) sind die
+Die Contracts stammen aus **Web3Bugs** (<https://github.com/ZhangZhuoSJTU/Web3Bugs>),
+dem Benchmark des GPTScan-Papers. Die Präfixe (`5_`, `13_`, `106_` …) sind
 Web3Bugs-**Contest-IDs**: 96 Dateien aus 49 Contests.
-
-### Rekonstruktions-Pipeline
 
 | Schritt | Zweck | Ergebnis |
 |---|---|---|
-| `map` | Original je Sample lokalisieren und Byte-Abgleich *beweisen* | 96/96 |
-| `scan` | Import-Closure auflösen, fehlende Pakete/Dateien listen | Lückenliste |
-| `vendor` | npm-Pakete je (Contest, Solidity-Ära) laden (Lockfile → Fallback) | `vendor/` |
-| `fetch` | Dateien holen, die selbst das Snapshot nicht enthält | Gap-Füllung |
-| `flatten` | Import-Closure zu *einer* selbstständigen Datei je Sample | `mwevariety_fixed/` |
-| `check` | jede geflattete Datei mit pragma-passendem `solc` kompilieren | 96/96 |
+| `map` | Original je Datei finden und per Byte-Abgleich belegen | 96/96 |
+| `scan` | Importe auflösen, Lücken auflisten | Lückenliste |
+| `vendor` | npm-Pakete je Contest und Solidity-Ära laden | `vendor/` |
+| `fetch` | Dateien holen, die im Snapshot fehlen | Lücken gefüllt |
+| `flatten` | alle Importe zu *einer* Datei je Contract zusammenführen | `mwevariety_fixed/` |
+| `check` | jede Datei mit passendem `solc` kompilieren | 96/96 |
 
-Sechsstufige Pipeline in `build_fixed.py`. Insgesamt wurden 1 279
-Dependency-Dateien aufgelöst und eingebettet.
+Insgesamt haben wir 1 279 Abhängigkeiten aufgelöst und eingebettet.
 
-## 4. Zuordnungs-Beweis: Ist das rekonstruierte File wirklich *dieses* Sample?
+## 4. Ist die rekonstruierte Datei wirklich *dieses* Sample?
 
-Ein Sample gilt nur als zugeordnet, wenn sein **kommentar- und
-whitespace-normalisierter** Bytestrom mit dem des Originals übereinstimmt. Drei
-abgestufte Nachweise (Feld `verified` in `corpus_tools/mapping.json`):
+Eine Datei gilt als zugeordnet, wenn ihr kommentar- und whitespace-bereinigter
+Bytestrom zum Original passt. Drei Stufen (Feld `verified` in
+`corpus_tools/mapping.json`):
 
 | Stufe | Dateien | Bedeutung |
 |---|---:|---|
-| `equal` | 33 | Normalform *identisch* — eindeutig dieselbe Datei. |
-| `truncated-prefix` | 50 | Das Sample ist ein exakter *Präfix* des Originals (der Extraktor hat abgeschnitten); im Mittel enthielt das Sample noch ≈ 14 % des Originals. |
-| `header-prefix` | 13 | Zusätzliche Korruption im Sample-Rumpf; es matcht der gemeinsame Header (≥ 200 B: Pragma, Imports, Contract-Kopf). Basename und Contest-ID fixieren die Identität zusätzlich. |
+| `equal` | 33 | identisch |
+| `truncated-prefix` | 50 | exakter *Präfix* des Originals (abgeschnitten; im Mittel noch ≈ 14 % des Originals) |
+| `header-prefix` | 13 | Rumpf zusätzlich beschädigt; Übereinstimmung im Kopf (≥ 200 Byte: Pragma, Importe, Contract-Kopf), dazu Dateiname und Contest-ID |
 
-In allen Fällen wird das *vollständige, unbeschädigte Original* eingesetzt — die
-Rekonstruktion ist also nicht nur kompilierbar, sondern auch *inhaltlich
-vollständiger* als das Sample.
+Eingesetzt wird immer das vollständige Original — die Rekonstruktion ist also
+nicht nur kompilierbar, sondern auch inhaltlich vollständiger als das Sample.
 
-## 5. Nicht-triviale Fälle (Transparenz)
+## 5. Sonderfälle
 
-* **Contest-ID-Korrekturen.** Zwei IDs waren im Extrakt um 1 verschoben:
-  Trident-Contracts (`34_*`) liegen in Web3Bugs unter Contest 35,
-  `46_WrappedIbbtcEth` unter 47 — per Baum-Suche verifiziert.
-* **Gap-Quellen.** Das Web3Bugs-Snapshot verflachte den Verzeichnisbaum einiger
-  Contests, wodurch Interfaces fehlten. Nachgeladen aus dem LLM4SMAPR-Spiegel
-  desselben Datensatzes, den PoolTogether-Protokoll-Repos und npm.
-* **Eine rekonstruierte Datei.** `17/.../IChainlinkAggregator.sol` existiert in
-  *keiner* Quelle (auch nicht upstream). Rekonstruiert aus der in `Buoy3Pool.sol`
-  verwendeten Aufrufform (`latestAnswer()`); entspricht Chainlinks
-  Legacy-`AggregatorInterface` und ist als einzige nicht-originale Datei im
-  Dateikopf gekennzeichnet.
-* **Zwei Kompilier-Repairs.** `8_NFTXEligiblityManager`: `pragma experimental
-  ABIEncoderV2;` injiziert (das Projekt aktivierte ABIEncoderV2 global in der
-  Build-Config, nicht per Quell-Pragma). `58_UniV3Vault`: benötigt `--optimize`
-  (Uniswap-V3-Inline-Assembly, „stack too deep").
+* **Contest-IDs korrigiert.** Trident (`34_*`) liegt in Web3Bugs unter Contest
+  35, `46_WrappedIbbtcEth` unter 47.
+* **Lückenquellen.** Das Web3Bugs-Snapshot hat bei einigen Contests den
+  Verzeichnisbaum flachgeklopft, Interfaces fehlten. Nachgeladen aus dem
+  LLM4SMAPR-Spiegel, den PoolTogether-Repos und npm.
+* **Eine nachgebaute Datei.** `17/.../IChainlinkAggregator.sol` gibt es in
+  keiner Quelle. Wir haben sie aus der Aufrufform in `Buoy3Pool.sol`
+  (`latestAnswer()`) rekonstruiert; sie entspricht Chainlinks
+  Legacy-`AggregatorInterface` und ist als einzige nicht originale Datei im Kopf
+  gekennzeichnet.
+* **Zwei Eingriffe für die Kompilierung.** `8_NFTXEligiblityManager` bekam
+  `pragma experimental ABIEncoderV2;` (das Projekt hatte es global in der
+  Build-Konfiguration). `58_UniV3Vault` braucht `--optimize` („stack too deep“).
 
-## 6. Flattening-Regeln
+## 6. Regeln fürs Flattening
 
-* Genau **ein** exaktes `pragma solidity <version>;` — die maximale Version, die
-  alle Quell-Constraints erfüllt (identisch zu SmartBugs' Auswahlstrategie). Ein
-  geflattetes File darf nur ein Versions-Pragma tragen.
-* `abicoder`/`experimental`-Pragmas dedupliziert erhalten, `SMTChecker` verworfen.
-* **Content-Dedup:** dieselbe Quelldatei, über mehrere Pfade erreichbar (Snapshot
-  + nachgeladene Kopie), wird nur *einmal* eingebettet — sonst „Identifier already
-  declared".
-* Genau *eine* SPDX-Zeile im Kopf; alle weiteren SPDX-Tags (auch in
-  Blockkommentaren) neutralisiert.
+* Genau **ein** `pragma solidity <version>;` — die höchste Version, die alle
+  Quellen erfüllt (wie SmartBugs auswählt).
+* `abicoder`/`experimental`-Pragmas dedupliziert behalten, `SMTChecker` raus.
+* Dieselbe Quelldatei, über mehrere Pfade erreichbar, wird nur einmal
+  eingebettet — sonst „Identifier already declared“.
+* Genau eine SPDX-Zeile im Kopf; alle weiteren werden neutralisiert.
 
 ## 7. Ergebnis I: Kompilierbarkeit
 
 | | alt (`mwevariety`) | neu (`mwevariety_fixed`) |
 |---|---|---|
-| `solc` nativ kompilierbar | 1 / 96 | **96 / 96** |
-| in GPTScans Toolchain kompiliert + geparst | 1 / 96 | **94 / 96** |
-| Statische Bestätigungsstufe | inaktiv (degradiert) | **aktiv** |
+| mit `solc` kompilierbar | 1 / 96 | **96 / 96** |
+| in GPTScans Toolchain kompiliert und geparst | 1 / 96 | **94 / 96** |
+| statische Bestätigung | inaktiv | **aktiv** |
 
-Die zwei verbleibenden Fälle sind *tool-intern*, kein Korpus-Defekt; sie träfen
-die Originalquellen gleichermaßen:
+Die zwei Restfälle liegen im Werkzeug, nicht im Korpus, und träfen die
+Originale genauso:
 
-* `58_UniV3Vault` — crytic-compile (GPTScans Compiler-Frontend) setzt kein
-  `--optimize`, daher „stack too deep" in Uniswap-V3-Inline-Assembly.
+* `58_UniV3Vault` — crytic-compile setzt kein `--optimize`, daher „stack too
+  deep“.
 * `19_TransactionManager` — `ContractSolcParsing` im Falcon/Slither-IR-Parser;
-  `solc` selbst kompiliert die Datei fehlerfrei.
+  `solc` selbst kompiliert fehlerfrei.
 
-## 8. Ergebnis II: Die statische Bestätigungsstufe läuft wieder
+## 8. Ergebnis II: Die statische Stufe arbeitet
 
-Der entscheidende Nachweis stammt aus GPTScans Lauf-Metadaten (`GPTSCAN_META` im
-`result.log` jedes Tasks): Die statische Stufe reduziert die Zahl der
-LLM-Kandidaten *nachweislich* — genau das war auf dem kaputten Korpus unmöglich.
+Beleg aus GPTScans Metadaten (`GPTSCAN_META` im `result.log`): Die statische
+Stufe reduziert die LLM-Kandidaten — auf dem alten Korpus war das unmöglich.
 
 | Contract | LLM-Kandidaten | nach Static | Vuln vor → nach |
 |---|---:|---:|---|
@@ -140,31 +123,22 @@ LLM-Kandidaten *nachweislich* — genau das war auf dem kaputten Korpus unmögli
 | `14_SushiYieldSource` | 2 | 1 | 2 → 1 |
 | `14_YieldSourcePrizePool` | 7 | 1 | 6 → 1 |
 
-Auszug aus dem Lauf `curated_mwefixed_live`. „LLM-Kandidaten" und „nach Static"
-sind die Felder `functions_after_step_2` und `functions_after_static`, die letzte
-Spalte `vul_before_static` → `vul_after_static`. `vul_before_static >
-vul_after_static` belegt: der Präzisions-Schutzmechanismus arbeitet.
+(Lauf `curated_mwefixed_live`; Felder `functions_after_step_2`,
+`functions_after_static`, `vul_before_static` → `vul_after_static`.)
 
-## 9. Ergebnis III: Findings auf reparierter Zieldomäne
+## 9. Ergebnis III: Findings auf dem reparierten Korpus
 
-Der Live-Lauf über alle 96 Contracts (`--processes 4`, DeepSeek
-`deepseek-v4-flash`) lief 36:45 min für ≈ $0.28. Alle Findings sind
-*static-bestätigt* (wo die statische Stufe lief) — im Gegensatz zu den
-ungefilterten LLM-only-Ausgaben des alten Laufs.
+Live-Lauf über alle 96 Contracts (4 Prozesse, `deepseek-v4-flash`): 36:45 min,
+≈ $0,28.
 
-| | alt (degradiert) | neu (`_fixed`) |
+| | alt (degradiert) | neu |
 |---|---|---|
-| Findings gesamt | 11 | **77** |
+| Findings | 11 | **77** |
 | Contracts mit Findings | 7 | **40** |
-| Verschiedene MWE-Regeln | 4 | **8** |
-| Contracts mit aktiver Static-Stufe | 0 | **56** |
-| Contracts, deren Kandidaten Static verwarf | 0 | **39** |
-| Kosten / Laufzeit | $0.046 / 13 min | $0.28 / 37 min |
-| Statische Bestätigung | inaktiv | aktiv |
-
-Alle 77 Findings haben Severity *high*. „Contracts mit aktiver Static-Stufe"
-zählt die Contracts, für die die LLM-Stufe überhaupt Kandidaten an die statische
-Stufe übergab (`vul_before_static > 0`).
+| verschiedene Regeln | 4 | **8** |
+| Contracts mit Kandidaten für die statische Stufe | 0 | **56** |
+| … davon mit verworfenen Kandidaten | 0 | **39** |
+| Kosten / Laufzeit | $0,046 / 13 min | $0,28 / 37 min |
 
 | Regel | Beschreibung | Findings |
 |---|---|---:|
@@ -176,45 +150,38 @@ Stufe übergab (`vul_before_static > 0`).
 | `MWE-207` | Unauthorized Transfer | 4 |
 | `MWE-201` | Insecure Vote Calculation | 4 |
 | `MWE-202` | Insecure Token Buying Behavior | 1 |
-| **Gesamt** (auf 40 Contracts, alle Severity *high*) | | **77** |
+| **Gesamt** (40 Contracts, alle *high*) | | **77** |
 
-Der reparierte Korpus aktiviert **8** statt 4 Regeltypen. Alle Regelnamen stammen
-unmittelbar aus GPTScans eigener Ausgabe (`name`-Feld je Finding).
+**Einordnung.** Der Sprung von 11 auf 77 heißt nicht, dass GPTScan besser
+wurde, sondern dass seine Pipeline erstmals vollständig läuft: Mehr Contracts
+kommen durch die Kompilierung, und die geflatteten Dateien geben der LLM-Stufe
+den vollen Kontext. Wichtiger als die Menge ist die Qualität: Die 77 Findings
+sind statisch bestätigt, die alten 11 kamen ungefiltert aus dem degradierten
+Modus. Die 39 Contracts mit verworfenen Kandidaten zeigen, dass der Filter
+greift.
 
-**Einordnung (wissenschaftliche Ehrlichkeit).** Der Anstieg von 11 auf 77 Findings
-misst *nicht*, dass GPTScan „besser" wurde, sondern dass seine Pipeline erstmals
-vollständig läuft: mehr Contracts passieren den Compile-Gate, und die geflatteten
-Dateien enthalten den vollen Kontext, den die LLM-Stufe auswerten kann.
-Entscheidend ist die *Qualität*: die 77 Findings sind static-bestätigt, während
-die alten 11 ungefiltert aus dem degradierten Modus stammten. Die 39 Contracts mit
-verworfenen Kandidaten belegen, dass der Präzisionsfilter tatsächlich greift.
+## 10. Grenzen
 
-## 10. Limitationen
+1. **Keine Ground Truth** — die Auswertung bleibt beschreibend.
+2. **Compiler-Version.** Offene Pragmas (`^0.8.0`) bauen wir wie SmartBugs mit
+   der neuesten passenden `solc`-Version.
+3. **Zwei werkzeuginterne Restfälle** (Abschnitt 7).
+4. **Nichtdeterminismus** bleibt (74 % Lauf-zu-Lauf-Übereinstimmung auf dem
+   alten Korpus).
 
-1. **Keine vendorte Ground Truth.** mwevariety besitzt keinen annotierten
-   Referenzstand; die Auswertung bleibt deskriptiv/qualitativ (kein
-   Recall/Precision).
-2. **Compiler-Version.** Contracts mit offenem Pragma (`^0.8.0`) werden mit der
-   neuesten kompatiblen `solc`-Version gebaut (wie in SmartBugs); die Analyse
-   erfolgt am Quelltext, die Kompilierung dient der statischen Bestätigung.
-3. **Zwei tool-interne Grenzfälle** (`58_UniV3Vault`, `19_TransactionManager`)
-   bleiben bestehen und sind dokumentiert.
-4. **Nicht-Determinismus** LLM-basierter Scanner bleibt bestehen (im Protokoll mit
-   74 % Lauf-zu-Lauf-Übereinstimmung quantifiziert).
-
-## 11. Reproduktion
+## 11. Selbst nachbauen
 
 ```
-# Voraussetzung: git, gh (authentifiziert), Web3Bugs sparse unter ~/w3b
-python corpus_tools/build_fixed.py map      # Zuordnung + Beweis
-python corpus_tools/build_fixed.py vendor   # npm-Pakete je Contest/Aera
-python corpus_tools/build_fixed.py fetch    # fehlende Dateien aus Gap-Quellen
+# Voraussetzung: git, gh (angemeldet), Web3Bugs sparse unter ~/w3b
+python corpus_tools/build_fixed.py map      # Zuordnung + Nachweis
+python corpus_tools/build_fixed.py vendor   # npm-Pakete je Contest/Ära
+python corpus_tools/build_fixed.py fetch    # fehlende Dateien nachladen
 python corpus_tools/build_fixed.py flatten  # -> smartbugs/samples/gptscan/mwevariety_fixed/
 python corpus_tools/build_fixed.py check    # 96/96 kompilieren
 ```
 
 ```powershell
-# GPTScan auf dem reparierten Korpus (dry = $0, live = ~$0.4):
+# GPTScan auf dem reparierten Korpus (dry = $0, live ≈ $0,40)
 .\run_curated.ps1 -Tool gptscan -SkipClone -GptscanDry `
     -FilePattern 'samples:gptscan/mwevariety_fixed/**/*.sol' -RunIdSuffix mwefixed_dry
 .\run_curated.ps1 -Tool gptscan -SkipClone `
@@ -222,45 +189,38 @@ python corpus_tools/build_fixed.py check    # 96/96 kompilieren
 python corpus_tools/analyze_run.py smartbugs/results/gptscan/curated_mwefixed_live
 ```
 
-**Artefakte:** `corpus_tools/{build_fixed.py, README.md, mapping.json,
-flatten_stats.json, check_results.json, BUILD_REPORT.json}`; reparierter Korpus
-unter `smartbugs/samples/gptscan/mwevariety_fixed/`.
+Artefakte: `corpus_tools/{build_fixed.py, README.md, mapping.json,
+flatten_stats.json, check_results.json, BUILD_REPORT.json}`
+([`../corpus_tools/README.md`](../corpus_tools/README.md)).
 
 ---
 
-## Nachprüfung am Repository (20.09.2026)
-
-Diese Fassung ersetzt die frühere `.tex`/`.pdf`-Ausarbeitung gleichen Namens. Alle
-Kennzahlen wurden dabei gegen die im Repository liegenden Artefakte gegengeprüft.
+## Anhang: Belege (geprüft am 20.09.2026)
 
 | Angabe | Beleg | Ergebnis |
 |---|---|---|
-| 33 / 50 / 13 Nachweisstufen | `corpus_tools/mapping.json`, Feld `verified` | bestätigt |
-| 96/96 nativ kompilierbar, 1 279 eingebettete Dateien | `corpus_tools/BUILD_REPORT.json` (`compiled_ok`, `total_flattened_files`) | bestätigt |
-| 49 Contests | Präfixe in `corpus_tools/mapping.json` | bestätigt |
-| 94/96 in GPTScans Toolchain | `result.json`/`result.log` von `58_UniV3Vault` (InvalidCompilation) und `19_TransactionManager` (ContractSolcParsing) im Lauf `curated_mwefixed_live` | bestätigt |
-| 77 Findings auf 40 Contracts, 8 Regeln, alle *high* | alle `result.json` in `smartbugs/results/gptscan/curated_mwefixed_live/` | bestätigt |
-| 56 mit aktiver Static-Stufe, 39 mit verworfenen Kandidaten | `eval/per_contract/curated_mwefixed_live__gptscan.csv`, Spalten `vul_before_static`, `vul_after_static` | bestätigt |
-| $0.28 / 36:45 min | ebd., Spalten `cost_usd` ($0,2769) und `start_unix` + `duration_s` (36,7 min Wanduhr) | bestätigt |
-| Static-Auszug 2→1, 2→1, 6→1 | `GPTSCAN_META` in den jeweiligen `result.log` | bestätigt |
-| 245 fehlende OpenZeppelin-Referenzen | `corpus_tools/build_fixed.py`, Schritt `scan` — nachgerechnet mit auf ein leeres Verzeichnis gesetztem `VENDOR` | bestätigt (siehe Anmerkung unten) |
+| 33 / 50 / 13 Nachweisstufen | `mapping.json`, Feld `verified` | bestätigt |
+| 96/96 kompilierbar, 1 279 eingebettete Dateien | `BUILD_REPORT.json` | bestätigt |
+| 49 Contests | Präfixe in `mapping.json` | bestätigt |
+| 94/96 in GPTScans Toolchain | `result.json`/`result.log` der beiden Restfälle in `curated_mwefixed_live` | bestätigt |
+| 77 Findings, 40 Contracts, 8 Regeln | alle `result.json` des Laufs | bestätigt |
+| 56 / 39 Contracts mit Static-Stufe / Verwurf | `eval/per_contract/curated_mwefixed_live__gptscan.csv` | bestätigt |
+| $0,2769, 36,7 min | ebd., `cost_usd`, `start_unix` + `duration_s` | bestätigt |
+| Static-Auszug 2→1, 2→1, 6→1 | `GPTSCAN_META` | bestätigt |
+| 245 fehlende OpenZeppelin-Verweise | Schritt `scan` mit leerem `VENDOR` nachgerechnet | bestätigt |
 
-**Anmerkung zu den 245.** `corpus_tools/scan_missing.json` ist git-ignoriert und
-enthält heute `{}` — das ist kein Datenverlust, sondern der Zustand *nach* der
-Reparatur: Mit den vendorten Paketen daneben löst sich jeder Import auf. Die 245
-stammen aus dem Zustand *davor*. Setzt man `VENDOR` im `scan`-Schritt auf ein
-leeres Verzeichnis, stellt sich dieser Zustand wieder her; die Zählung ergibt
-dann:
+`corpus_tools/scan_missing.json` ist git-ignoriert und enthält heute `{}` — der
+Zustand *nach* der Reparatur. Mit leerem `VENDOR` stellt sich der Zustand davor
+wieder her:
 
-| Paket | fehlende Referenzen |
+| Paket | fehlende Verweise |
 |---|---:|
 | `@openzeppelin/contracts` | **245** |
 | `@openzeppelin/contracts-upgradeable` | 43 |
 | `prb-math` | 33 |
 | `hardhat` | 20 |
 | `solmate` | 7 |
-| übrige (PoolTogether, Uniswap, Chainlink, …) | je ≤ 4 |
+| übrige (PoolTogether, Uniswap, Chainlink …) | je ≤ 4 |
 
-Vollständig auflösbar waren in diesem Zustand 34 von 96 Closures, 62 hatten
-Lücken. Gezählt wird wie in `cmd_scan`: je Sample die *verschiedenen*
-unaufgelösten Import-Spezifikationen.
+34 von 96 Dateien waren in diesem Zustand vollständig auflösbar, 62 hatten
+Lücken (gezählt je Datei die *verschiedenen* unaufgelösten Importe).

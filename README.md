@@ -69,8 +69,11 @@ Abschnitt 4; die Rohwerte in `eval/`.
   Parser, Taxonomie, Timeout-Durchreichung und `MAIN`. SmartBugs fehlten dafür
   die Weitergabe von Umgebungsvariablen in den Container, deren Redaktion im
   Ergebnis und ein robustes Aufräumen der Task-Verzeichnisse unter Windows;
-  das sind die sieben markierten Eingriffe in `smartbugs/sb/`, als zwei Pull
-  Requests an das SmartBugs-Projekt vorbereitet.
+  das sind die sieben markierten Eingriffe in `smartbugs/sb/`. Sie sind
+  zusammen mit beiden Werkzeug-Integrationen per Pull Request in SmartBugs
+  übernommen
+  ([smartbugs/smartbugs#222](https://github.com/smartbugs/smartbugs/pull/222),
+  eingereicht 12.10.2026, in `develop` übernommen 14.10.2026).
 
 ## Lesepfad
 
@@ -191,8 +194,8 @@ Datei `smartbugs-results-20260925.zip`, 360 MiB (377 491 386 Byte), SHA-256
 `03528a36ef7f41e2917a246ba37641ae47c86d40ddc3ae699c7dc0def7ea9b92`. Entpackt
 nach `smartbugs/` ergibt sie das Verzeichnis `results/` mit allen 7 494
 Dateien; API-Schlüssel sind darin redigiert (Prüfung mit den Mustern von
-`analysis_tools/secret_scan.py` vor dem Hochladen). Daneben halten die
-Verfasser zwei Sicherungen außerhalb des Repositorys (Stand 02.08.2026 und
+`analysis_tools/secret_scan.py` vor dem Hochladen). Daneben halten wir
+zwei Sicherungen außerhalb des Repositorys (Stand 02.08.2026 und
 21.09.2026). Die Läufe selbst sind ohne neue, kostenpflichtige LLM-Aufrufe
 nicht reproduzierbar; welcher Lauf wozu diente und wo er ausgewertet ist,
 steht für alle Laufverzeichnisse in [`eval/LAUFREGISTER.md`](eval/LAUFREGISTER.md).
@@ -740,8 +743,9 @@ reicht die Allowlist durch und redigiert die Werte anschließend im Task-Log.
 Die eigenen Eingriffe in `smartbugs/sb/` beschränken sich auf genau diese
 beiden Dateien — sieben Blöcke, im Quelltext als `BA MODIFICATION`
 gekennzeichnet und in [`docs/BA-EIGENANTEIL.md`](docs/BA-EIGENANTEIL.md)
-begründet; als zwei Pull Requests an `smartbugs/smartbugs` vorbereitet
-(ebendort, Abschnitt 2.5). Alle übrigen Dateien unter `smartbugs/sb/` sind byte-identisch zum
+begründet; zusammen mit beiden Werkzeug-Integrationen über den Pull Request
+[smartbugs/smartbugs#222](https://github.com/smartbugs/smartbugs/pull/222)
+am 14.10.2026 in SmartBugs übernommen (ebendort, Abschnitt 2.5). Alle übrigen Dateien unter `smartbugs/sb/` sind byte-identisch zum
 Upstream-Stand `7ddaf6c`; nachprüfbar mit einem `diff -r` gegen einen frischen
 Klon (Befehl ebendort).
 

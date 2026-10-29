@@ -1,14 +1,16 @@
 # AP5 — Timeout ins Werkzeug durchreichen: Entwurf
 
-Umsetzungsentwurf zu **AP5** aus `docs/BA-BETREUERGESPRAECH-AUFGABEN.md`. Dieses
-Dokument legt fest, *wie* der SmartBugs-Timeout in GPTScan und LLMSmartAudit
-ankommt und was beim Ablaufen herauskommt. Der ausführbare Arbeitsplan entsteht
-getrennt daraus.
+> Datierte Momentaufnahme · aktueller Stand im Überblick: [`BA-ARBEIT.md`](BA-ARBEIT.md)
+
+Unser Umsetzungsentwurf zu **AP5** aus
+[`BA-BETREUERGESPRAECH-AUFGABEN.md`](BA-BETREUERGESPRAECH-AUFGABEN.md). Hier
+legen wir fest, *wie* der SmartBugs-Timeout in GPTScan und LLMSmartAudit ankommt
+und was beim Ablaufen herauskommt.
 
 Datum: 2026-08-17 · Status bei Erstellung: abgestimmt, Umsetzung ausstehend ·
 Umgesetzt am 18.08.2026, siehe `BA-AP5-ABSCHLUSSBERICHT.md`
 
-> **Datierter Entwurf.** Maßgeblich für das, was gebaut wurde, sind der
+> **Datierter Entwurf.** Maßgeblich für das, was wir gebaut haben, sind der
 > Abschlussbericht und der Code (`smartbugs/tools/*/scripts/do_solidity.sh`,
 > `GPTScan/src/llm_backend.py`, `chatdev/audit_report.py`). Wo dieser Entwurf
 > davon abweicht, gilt der Abschlussbericht.
