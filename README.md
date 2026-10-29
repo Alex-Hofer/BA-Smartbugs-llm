@@ -1,7 +1,7 @@
 # KI-gestützte Smart-Contract-Scanner im SmartBugs-Framework
 
 Bachelorarbeit von Alex Hofer und Alex Unterleitner, TU Wien, Betreuer Gernot
-Salzer. **Dieses Repository ist die Abgabe.** Es enthält den Code, die
+Salzer und Monika di Angelo. **Dieses Repository ist die Abgabe.** Es enthält den Code, die
 Auswertungen der Messläufe und die Dokumentation; eine gesonderte schriftliche
 Ausarbeitung gibt es nicht.
 
